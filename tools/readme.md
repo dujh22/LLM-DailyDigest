@@ -14,9 +14,16 @@
 2. arx_to_ch.py: 用于将arxiv论文转换为中文。
 3. arx_batch_to_ch.py: 批量将arxiv论文转换为中文。
 
-### 3. 其他
+### 3. 日报生成
 
 1. paper_summarizer.py: 用于论文摘要。
+
+   ```
+   python paper_summarizer.py /Users/djh/Documents/GitHub/LLM-DailyDigest/tools/arxiv_papers_ch.csv --date 2025-02-05
+
+   其中，第二个参数是中文的csv路径，第三个参数是日期。
+   ```
+2. 其他
 
 ### 4. 数据文件
 

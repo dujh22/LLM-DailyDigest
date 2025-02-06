@@ -13,6 +13,23 @@ def turn_to_jsonl(input_str, request_id):
     input_str: 输入字符串
     request_id: 请求id,字符串, 每个请求必须包含custom_id且是唯一的，用来将结果和输入进行匹配
     '''
+    prompt = '''您是一位精通「源文本语言」与「目标语言」文化和语言的翻译专家。
+# User prompt
+源本文 
+""" 
+{input1} 
+""" 
+## 翻译要求:
+1.忠实于"源文本"，确保每个句子都得到准确且流畅的翻译。
+2.大额数字的翻译需准确无误，符合简体中文的表达习惯。
+
+##任务:
+1.仔细研究并深入理解"源文本"的内容、上下文、语境、情感以及和目标语言的文化细微差异。
+2.根据「翻译要求」将"源文本"准确翻译为{{input 2}}。
+3.确保翻译对目标受众来说准确、自然、流畅，必要时可以根据需要调整表达方式以符合文化和语言习惯。
+
+注意:不要输出任何额外的内容，只能输出翻译内容。这一点非常关键。'''
+
     output_jsonl = {
         "custom_id": request_id,
         "method": "POST",
@@ -21,7 +38,7 @@ def turn_to_jsonl(input_str, request_id):
             "model": "glm-4-flash", 
             "messages": [
                 {"role": "system","content": "你是一个翻译家，你擅长把英文翻译成中文。现在开始， 每次你收到一个英文句子或者段落，都把它翻译成地道的中文。"},
-                {"role": "user", "content": input_str}
+                {"role": "user", "content": prompt.format(input1=input_str, input2="中文")}
             ],
             "temperature": 0.1 # 温度，0-1之间，越高越随机
         }
@@ -123,9 +140,9 @@ def jsonl_to_csv(raw_csv, return_jsonl, output_csv):
 
 def arx_batch_to_ch():
     # 时间戳
-    current_time = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+    # current_time = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
     # 如果调用的文件的时间戳不是上面这个，需要手动输出
-    # current_time = '2023_08_26_15_31_45'
+    current_time = '2025_02_06_16_27_52'
 
     input_csv = 'arxiv_papers_' + current_time + '.csv'
     upload_jsonl = 'arxiv_papers_' + current_time + '_upload.jsonl'
