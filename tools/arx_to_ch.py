@@ -36,6 +36,6 @@ def translate_csv(input_file, output_file):
                 writer.writerow(row)
 
 # 使用示例
-input_csv = 'arxiv_papers_raw.csv'
+input_csv = 'arxiv_papers.csv'
 output_csv = 'arxiv_papers_ch.csv'
 translate_csv(input_csv, output_csv)
