@@ -68,6 +68,7 @@ def fetch_and_save_arxiv_data(query="Large Language Models", max_results=1000):
             ])
         
         # Use tqdm for progress tracking
+        paper_count = 0  # Initialize a counter for the number of processed papers
         for result in tqdm(arxiv_search.results(), total=1000, desc="Fetching Papers"):
             paper_id = result.get_short_id()
             
@@ -95,8 +96,11 @@ def fetch_and_save_arxiv_data(query="Large Language Models", max_results=1000):
             # Flush the file buffer to ensure data is written
             file.flush()
 
-            # Delay to avoid rate-limiting
-            time.sleep(1)
+            # Increment the paper count
+            paper_count += 1
+
+            # Delay to avoid rate-limiting, adjust based on paper count
+            time.sleep(paper_count/100)
     
     print(f"Data saved to {filename}")
 
