@@ -77,7 +77,7 @@ def fetch_and_save_arxiv_data(query="Large Language Models", max_results=1000):
             # Skip if paper has already been processed
             if paper_id in existing_ids:
                 continue
-            
+            print(result)
             paper_title = result.title
             paper_url = result.entry_id
             paper_summary = result.summary.replace("\n", "")

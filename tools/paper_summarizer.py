@@ -147,6 +147,11 @@ def generate_daily_report(target_date, df):
         content.append("**最新进展**:")
         # 添加摘要的第一行
         content.append(textwrap.wrap(papers[0]['Summary'], width=200)[0] + "...\n")
+        # 全部论文标题
+        content.append("**全部论文**:")
+        for paper in papers:
+            # 格式化主题论文信息
+            content.append(f"- {paper['Title']} ({paper['First Author']}) [跳转]({paper['URL']})")
     
     # 将内容列表转换为字符串并返回
     return "\n".join(content)

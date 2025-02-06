@@ -37,8 +37,8 @@ def turn_to_jsonl(input_str, request_id):
         "body": {
             "model": "glm-4-flash", 
             "messages": [
-                {"role": "system","content": "你是一个翻译家，你擅长把英文翻译成中文。现在开始， 每次你收到一个英文句子或者段落，都把它翻译成地道的中文。"},
-                {"role": "user", "content": prompt.format(input1=input_str, input2="中文")}
+                {"role": "system","content": "你是一个翻译家，你擅长把英文翻译成中文。现在开始， 每次你收到一个英文短语、句子或者段落，都把它翻译成地道的中文。"},
+                {"role": "user", "content": input_str}
             ],
             "temperature": 0.1 # 温度，0-1之间，越高越随机
         }
