@@ -12,7 +12,14 @@
 
 1. arx.py 用于下载arxiv上的相关论文。
 2. arx_to_ch.py: 用于将arxiv论文转换为中文。
+3. arx_batch_to_ch.py: 批量将arxiv论文转换为中文。
 
 ### 3. 其他
 
 1. paper_summarizer.py: 用于论文摘要。
+
+### 4. 数据文件
+
+1. arxiv_papers_ch.csv: 存储已转换为中文的arxiv论文数据。
+2. arxiv_papers.csv: 存储原始的arxiv论文数据。
+3. arxiv_papersVbatch.jsonl: 存储批量处理的arxiv论文数据。
