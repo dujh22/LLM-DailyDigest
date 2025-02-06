@@ -1,0 +1,7 @@
+arxiv
+tqdm
+requests
+pandas
+beautifulsoup4
+openai
+python-dotenv
