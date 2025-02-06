@@ -2,3 +2,5 @@ tools/config2.py
 tools/arxiv_papers.csv
 *.pyc
 *.csv
+*.jsonl
+*.json
