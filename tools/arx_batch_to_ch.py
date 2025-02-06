@@ -41,10 +41,10 @@ def translate_csv_to_jsonl(input_csv, output_jsonl):
                 outfile.write(json.dumps(turn_to_jsonl(row['First Author'], str(row_num)+'_First Author'), ensure_ascii=False) + '\n')
 
 # 2. 上传文件并创建batch任务
-def upload_file_and_create_batch(file_path):
+def upload_file_and_create_batch(upload_jsonl, return_jsonl):
     client = ZhipuAI(api_key=api_key)
     result = client.files.create(
-        file=open(file_path, "rb"),
+        file=open(upload_jsonl, "rb"),
         purpose="batch"
     )
     print("批处理文件ID: ", result.id)
@@ -73,7 +73,7 @@ def upload_file_and_create_batch(file_path):
 
     # 3. 下载批处理任务结果
     content = client.files.content(output_file_id)
-    content.write_to_file(file_path.replace('.jsonl', 'Vbatch.jsonl'))
+    content.write_to_file(return_jsonl)
     print("--------------------------------")
 
     # 4. 删除文件
@@ -83,10 +83,10 @@ def upload_file_and_create_batch(file_path):
     print("--------------------------------")
 
 # 3. 将jsonl文件转换为csv文件
-def jsonl_to_csv(raw_csv, input_jsonl, output_csv):
+def jsonl_to_csv(raw_csv, return_jsonl, output_csv):
     # 首先解析jsonl中的相关文件
     jsonl_dict = {}
-    with open(input_jsonl, mode='r', encoding='utf-8') as infile:
+    with open(return_jsonl, mode='r', encoding='utf-8') as infile:
         for line in infile:
             temp = json.loads(line)
             id = temp['custom_id'].split('_')[0]
@@ -122,12 +122,17 @@ def jsonl_to_csv(raw_csv, input_jsonl, output_csv):
 
 
 def arx_batch_to_ch():
-    input_csv = 'arxiv_papers.csv'
-    output_jsonl = 'arxiv_papers.jsonl'
-    return_jsonl = 'arxiv_papersVbatch.jsonl'
-    output_csv = 'arxiv_papers_ch.csv'
-    translate_csv_to_jsonl(input_csv, output_jsonl)
-    upload_file_and_create_batch(output_jsonl)
+    # 时间戳
+    current_time = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+    # 如果调用的文件的时间戳不是上面这个，需要手动输出
+    # current_time = '2023_08_26_15_31_45'
+
+    input_csv = 'arxiv_papers_' + current_time + '.csv'
+    upload_jsonl = 'arxiv_papers_' + current_time + '_upload.jsonl'
+    return_jsonl = 'arxiv_papers_' + current_time + '_return.jsonl'
+    output_csv = 'arxiv_papers_ch_' + current_time + '.csv'
+    translate_csv_to_jsonl(input_csv, upload_jsonl)
+    upload_file_and_create_batch(upload_jsonl, return_jsonl)
     jsonl_to_csv(input_csv, return_jsonl, output_csv)
 
 

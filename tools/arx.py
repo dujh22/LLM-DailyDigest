@@ -43,7 +43,9 @@ def load_existing_paper_ids(filename):
 # Perform the arXiv search and save results to CSV
 def fetch_and_save_arxiv_data(query="Large Language Models", max_results=1000):
     # File where results are saved
-    filename = "arxiv_papers.csv"
+    # 获取当前时间戳：年_月_日_时_分_秒
+    current_time = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
+    filename = "arxiv_papers_" + current_time + ".csv"
     
     # Load existing paper IDs to support resuming
     existing_ids = load_existing_paper_ids(filename)
