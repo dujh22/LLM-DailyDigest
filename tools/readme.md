@@ -54,6 +54,21 @@
          tools/arxiv_papers_$timestamp.csv
          tools/arxiv_papers_ch_$timestamp.csv
          updates/arxiv_daily_report_$yesterday.md
+
+         上传的命令可以参考如下：
+
+         如果你已经初始化和添加过远程仓库，可以跳过这几行：
+         git init
+         git remote add origin https://github.com/dujh22/LLM-DailyDigest.git
+
+         你可以通过git remote -v来检查是否有远程仓库
+
+         你可以继续执行如下操作：
+         git add tools/arxiv_papers_$timestamp.csv
+         git add tools/arxiv_papers_ch_$timestamp.csv
+         git add updates/arxiv_daily_report_$yesterday.md
+         git commit -m "添加了三个文件"
+         git push origin main
          ```
 5. 其他
 
