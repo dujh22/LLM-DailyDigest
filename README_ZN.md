@@ -48,7 +48,12 @@
 
 如果只是基本的使用，你可以通过：`git clone https://github.com/dujh22/LLM-DailyDigest.git`
 
-你可以通过：`git fetch origin` ，在不提交本地修改的情况上，新增远程以及修改的部分代码。
+你可以通过：`git fetch origin` ，在不提交本地修改的情况上，新增远程以及修改的部分代码。如果需要直接覆盖本地代码，可使用 
+
+```
+git fetch origin
+git reset --hard origin/main
+```
 
 1. 浏览 `updates/` 文件夹查看每日更新。
 2. 使用 `tools/` 文件夹中的脚本进行总结或处理任务。
