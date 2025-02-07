@@ -66,15 +66,19 @@ TO DO LIST:
    5. 修改arxiv检索传入参数可以自定义✅ 11min
    6. 优化arxiv数据下载流程，保证自动完成检验，确保全部下载，尝试看是否需要等待时间✅ 1h30min
    7. 日报中支持根据arxiv自行的分类和用户本身自己的分类两种 ✅
-   8. 连接arxiv下载流程和汉化生成日报流程 334-
-2. 自动新增1.27～2.6arxiv日报，⚠️ 1.27可能不全✅
-3. 新增公众号自动日报构建程序
-4. 新增对外可以访问程序
-5. 新增每日可以自动执行程序
-6. 优化arx.py中代码链接获取函数
-7. 优化arx.py中代码星星数量获取函数
-8. 优化tools/arx_batch_to_ch.py中的翻译准确性
-9. 支持tools/arx_batch_to_ch.py中支持ACM分类，比如I.2.7 之类的，详见https://arxiv.org/category_taxonomy
+   8. 连接arxiv下载流程和汉化生成日报流程 1h52min✅
+   9. 连接arxiv下载流程和汉化生成日报流程+上传github项目中 533-
+2. 自动新增1.27～2.6arxiv日报✅，1.27可能不全❌
+3. 支持更换不同的查询quert
+4. 支持历史未形成日报的补充
+5. 支持历史截止所有日报的数据汇总⭕️
+6. 新增公众号自动日报构建程序
+7. 新增对外可以访问程序，比如部署在github上
+8. 新增每日可以自动执行程序
+9. 优化arx.py中代码链接获取函数
+10. 优化arx.py中代码星星数量获取函数
+11. 优化tools/arx_batch_to_ch.py中的翻译准确性
+12. 支持tools/arx_batch_to_ch.py中支持ACM分类，比如I.2.7 之类的，详见https://arxiv.org/category_taxonomy
 
 FINISH:
 

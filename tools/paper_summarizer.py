@@ -9,7 +9,7 @@ import csv
 
 # 配置参数
 DAILY_REPORT_DIR = "/Users/djh/Documents/GitHub/LLM-DailyDigest/updates"
-TOP_N_TRENDING = 5
+TOP_N_TRENDING = 5 # 显示最热门论文的数量
 THEME_KEYWORDS_OR = {
     "大模型": [
         "大模型", "语言模型", "LLM", "生成式模型", "自监督学习", "Transformer", 
@@ -249,23 +249,24 @@ def arxiv_to_daily_report():
     parser.add_argument("--data_file", help="输入数据文件路径", required=True)
     parser.add_argument("--date", help="指定日期 (YYYY-MM-DD)", default=datetime.today().date())
     parser.add_argument("--is_summary", help="是否总结之前的日报", default=False)
+    parser.add_argument("--dairy_report_dir", help="日报保存目录", default=DAILY_REPORT_DIR)
     args = parser.parse_args()
 
     df = load_data(args.data_file)
     report_content = generate_daily_report(pd.to_datetime(args.date), df, args.is_summary)
     
     # 创建输出目录
-    os.makedirs(DAILY_REPORT_DIR, exist_ok=True)
+    os.makedirs(args.dairy_report_dir, exist_ok=True)
     
     # 保存文件
     if args.is_summary:
         filename = f"arxiv_daily_report_summary_{args.date}.md"
     else:
         filename = f"arxiv_daily_report_{args.date}.md"
-    with open(os.path.join(DAILY_REPORT_DIR, filename), 'w', encoding='utf-8') as f:
+    with open(os.path.join(args.dairy_report_dir, filename), 'w', encoding='utf-8') as f:
         f.write(report_content)
     
-    print(f"日报已生成：{os.path.join(DAILY_REPORT_DIR, filename)}")
+    print(f"日报已生成：{os.path.join(args.dairy_report_dir, filename)}")
 
 if __name__ == "__main__":
     arxiv_to_daily_report()

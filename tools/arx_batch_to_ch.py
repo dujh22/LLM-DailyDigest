@@ -107,17 +107,24 @@ def upload_file_and_create_batch(upload_jsonl, return_jsonl, error_jsonl):
     print("下载批处理任务结果-----------------")
 
     # 4. 下载批处理任务错误结果
-    error = client.files.content(error_file_id)
-    error.write_to_file(error_jsonl)
-    print("下载批处理任务错误结果-----------------")
+    if error_file_id != "":
+        error = client.files.content(error_file_id)
+        error.write_to_file(error_jsonl)
+        print("下载批处理任务错误结果-----------------")
+    else:
+        # 生成一个空的错误文件
+        with open(error_jsonl, mode='w', encoding='utf-8') as outfile:
+            outfile.write('')
+        print("无错误结果-------------------------")
 
     # 5. 删除文件
     result = client.files.delete(
         file_id = output_file_id      
     )
-    result = client.files.delete(
-        file_id = error_file_id
-    )
+    if error_file_id != "":
+        result = client.files.delete(
+            file_id = error_file_id
+        )
     print("删除文件-------------------------")
 
 # 3. 将jsonl文件转换为csv文件
