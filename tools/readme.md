@@ -33,11 +33,15 @@
    注意⚠️：你需要确保在传递日期参数时，使用正确的短破折号。在日期格式中，应该使用标准的短破折号来分隔年、月、日。而不是长破折号。
 2. 自动执行日报生成脚本tools/arx_dairy_summarizer.sh。
 
+   ⚠️ 这里是按照mac开发的脚本，注意如果是linux系统，打开和屏蔽该脚本中提示的行。
+
    ```
    chmod a+x arx_dairy_summarizer.sh
    ./arx_dairy_summarizer.sh
    ```
 3. 自动执行日报生成并提交到github的脚本tools/arx_dairy_summarizer_and_to_github.sh。
+
+   ⚠️ 这里是按照mac开发的脚本，注意如果是linux系统，打开和屏蔽该脚本中提示的行。
 
    ```
    chmod a+x arx_dairy_summarizer.sh

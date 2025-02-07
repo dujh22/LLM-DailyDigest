@@ -19,8 +19,9 @@ python arx_batch_to_ch.py --time $timestamp
 # 处理结束后打印
 echo "Processed data"
 
-# 获取前一天的时间戳 (YYYY-MM-DD)
+# 获取前一天的时间戳 (YYYY-MM-DD) Mac 版本
 yesterday=$(date -v-1d +'%Y-%m-%d')
+# yesterday=$(date -d "yesterday" +'%Y-%m-%d') # Linux 版本
 dairy_report_dir="$project_dir/updates"
 # 生成日报
 python paper_summarizer.py --data_file "arxiv_papers_ch_$timestamp.csv" --date $yesterday --dairy_report_dir $dairy_report_dir
