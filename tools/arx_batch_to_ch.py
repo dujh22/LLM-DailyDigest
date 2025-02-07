@@ -3,9 +3,18 @@ import csv
 import json
 from zhipuai import ZhipuAI
 import time
+import ast
+import os
+import argparse
 
 from config2 import api_key # 注意，这里的实现只支持glm系列，如果是你可以把config2换为config
 
+# 预先读入分类
+categories = {}
+with open('category.csv', mode='r', encoding='utf-8') as infile:
+    reader = csv.DictReader(infile)
+    for row in reader:
+        categories[row['字段']] = row['学科（中文）']
 
 # 工具：按照指定格式构造jsonl文件
 def turn_to_jsonl(input_str, request_id):
@@ -78,26 +87,28 @@ def upload_file_and_create_batch(upload_jsonl, return_jsonl):
     print("批处理任务: ", create)
     print("--------------------------------")
     output_file_id = ""
+    used_time = 0
     while True:
         batch_job = client.batches.retrieve(create.id)
-        print(batch_job)
+        print("当前批处理任务状态: ",batch_job.status, "已用时间: ", used_time, "秒")
         if batch_job.status == "completed":
             output_file_id = batch_job.output_file_id
             break
         time.sleep(1)
+        used_time += 1
     print("批处理任务完成")
     print("--------------------------------")
 
     # 3. 下载批处理任务结果
     content = client.files.content(output_file_id)
     content.write_to_file(return_jsonl)
-    print("--------------------------------")
+    print("下载批处理任务结果-----------------")
 
     # 4. 删除文件
     result = client.files.delete(
         file_id = output_file_id      
     )
-    print("--------------------------------")
+    print("删除文件-------------------------")
 
 # 3. 将jsonl文件转换为csv文件
 def jsonl_to_csv(raw_csv, return_jsonl, output_csv):
@@ -132,7 +143,12 @@ def jsonl_to_csv(raw_csv, return_jsonl, output_csv):
                     row['Title'] = jsonl_dict[str(row_num)]['Title']
                     row['Summary'] = jsonl_dict[str(row_num)]['Summary']
                     row['First Author'] = jsonl_dict[str(row_num)]['First Author']
-
+                    # 字符串转list，比如['astro-ph.CO', 'astro-ph.GA']
+                    temp_categories = ast.literal_eval(row['Categories'])
+                    row['Categories'] = []
+                    for category in temp_categories:
+                        row['Categories'].append(categories[category])
+                
                     # 将翻译结果写入新CSV文件
                     writer.writerow(row)
 
@@ -142,17 +158,23 @@ def arx_batch_to_ch():
     # 时间戳
     # current_time = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
     # 如果调用的文件的时间戳不是上面这个，需要手动输出
-    current_time = '2025_02_06_16_27_52'
+    parser = argparse.ArgumentParser(description="批量翻译arxiv论文")
+    parser.add_argument("--time", help="指定时间戳", default='2025_02_07_11_10_39')
+    args = parser.parse_args()
 
-    input_csv = 'arxiv_papers_' + current_time + '.csv'
-    upload_jsonl = 'arxiv_papers_' + current_time + '_upload.jsonl'
-    return_jsonl = 'arxiv_papers_' + current_time + '_return.jsonl'
-    output_csv = 'arxiv_papers_ch_' + current_time + '.csv'
+    input_csv = 'arxiv_papers_' + args.time + '.csv'
+    upload_jsonl = 'arxiv_papers_' + args.time + '_upload.jsonl'
+    return_jsonl = 'arxiv_papers_' + args.time + '_return.jsonl'
+    output_csv = 'arxiv_papers_ch_' + args.time + '.csv'
     translate_csv_to_jsonl(input_csv, upload_jsonl)
     upload_file_and_create_batch(upload_jsonl, return_jsonl)
     jsonl_to_csv(input_csv, return_jsonl, output_csv)
+    # 删除upload_jsonl和return_jsonl
+    os.remove(upload_jsonl)
+    os.remove(return_jsonl)
 
 
 if __name__ == "__main__":
     arx_batch_to_ch()
+            
     
