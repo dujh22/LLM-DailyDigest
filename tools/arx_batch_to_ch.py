@@ -7,7 +7,7 @@ import ast
 import os
 import argparse
 
-from config2 import api_key # 注意，这里的实现只支持glm系列，如果是你可以把config2换为config
+from config2 import api_key # 注意，这里的实现只支持glm系列，如果是你可以把config2换为config,最直接的办法是复制一个config.py文件,重命名为config2.py，然后把里面的api_key改为你的api_key
 
 # 预先读入分类
 categories = {}

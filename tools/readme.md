@@ -2,12 +2,14 @@
 
 这里将汇总一些用于科研的常用脚本。
 
-为了充分利用本项目的工具，请先行构建好python环境（推荐采用conda构建，python使用3.10.0)。具体见requirements.txt。
+为了充分利用本项目的工具，请先行构建好python环境（推荐采用conda构建，python使用3.10.0)。具体见requirements.txt。同时注意完成下述配置config。
 
 ### 1.  配置与聊天
 
 * llm_chat.py: 包含与大型语言模型（LLM）聊天相关的代码。
 * config2.py 和 config.py: 存储基本配置参数。
+  * 这里只提供了config.py
+  * 最直接的办法是复制一个config.py文件,重命名为config2.py，然后把里面的api_key改为你的api_key
 * requirements.txt: 列出项目所需的Python包及其版本。
 
 ### 2. 下载工具
@@ -45,6 +47,14 @@
 
    1. 详细说明参见tools/arx_dairy_summarizer_tmux.md
    2. 具体会用到tools/arx_dairy_summarizer_tmux.sh，注意调整其中相关的参数。
+   3. 注意：
+      1. 如果github网络连接有问题，你在arx_dairy_summarizer_tmux.sh中调用的脚本可以是arx_dairy_summarizer.sh，也就是不进行自动的上传github。
+      2. 针对其中新增的如下三个文件，可以手动上传到github逐日，我们后续会优化这个问题：
+         ```
+         tools/arxiv_papers_$timestamp.csv
+         tools/arxiv_papers_ch_$timestamp.csv
+         updates/arxiv_daily_report_$yesterday.md
+         ```
 5. 其他
 
 ### 4. 数据文件

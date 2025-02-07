@@ -2,7 +2,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 # import config
-import config2 as config # 导入配置文件,注意这里的config2是一个文件名，你可以改为config
+import config2 as config # 导入配置文件,注意这里的config2是一个文件名，你可以改为config,最直接的办法是复制一个config.py文件,重命名为config2.py，然后把里面的api_key改为你的api_key
 
 # 加载 .env 文件
 load_dotenv()
