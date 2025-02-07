@@ -1,4 +1,4 @@
-# LLM-DailyDigest
+# LLM-DailyDigest 大模型日报
 
 Stay up-to-date with the latest developments, news, and insights about Large Language Models (LLM). This repository is updated daily with curated content to help enthusiasts, researchers, and developers stay informed about the rapidly evolving field of LLMs.
 
