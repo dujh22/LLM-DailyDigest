@@ -2,6 +2,8 @@
 
 这里将汇总一些用于科研的常用脚本。
 
+为了充分利用本项目的工具，请先行构建好python环境（推荐采用conda构建，python使用3.10.0)。具体见requirements.txt。
+
 ### 1.  配置与聊天
 
 * llm_chat.py: 包含与大型语言模型（LLM）聊天相关的代码。
@@ -27,7 +29,23 @@
    ```
 
    注意⚠️：你需要确保在传递日期参数时，使用正确的短破折号。在日期格式中，应该使用标准的短破折号来分隔年、月、日。而不是长破折号。
-2. 其他
+2. 自动执行日报生成脚本tools/arx_dairy_summarizer.sh。
+
+   ```
+   chmod a+x arx_dairy_summarizer.sh
+   ./arx_dairy_summarizer.sh
+   ```
+3. 自动执行日报生成并提交到github的脚本tools/arx_dairy_summarizer_and_to_github.sh。
+
+   ```
+   chmod a+x arx_dairy_summarizer.sh
+   ./arx_dairy_summarizer.sh
+   ```
+4. 每日在凌晨1点自动执行arx_dairy_summarizer_and_to_github.sh脚本。
+
+   1. 详细说明参见tools/arx_dairy_summarizer_tmux.md
+   2. 具体会用到tools/arx_dairy_summarizer_tmux.sh，注意调整其中相关的参数。
+5. 其他
 
 ### 4. 数据文件
 
