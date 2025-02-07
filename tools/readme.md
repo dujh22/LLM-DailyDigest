@@ -19,10 +19,14 @@
 1. paper_summarizer.py: 用于论文摘要。
 
    ```
-   python paper_summarizer.py /Users/djh/Documents/GitHub/LLM-DailyDigest/tools/arxiv_papers_ch.csv --date 2025-02-05
+   python paper_summarizer.py --data_file /Users/djh/Documents/GitHub/LLM-DailyDigest/tools/arxiv_papers_ch.csv --date 2025-02-05  --is_summary True
 
-   其中，第二个参数是中文的csv路径，第三个参数是日期。
+   其中，第二个参数是中文的csv路径，第三个参数是日期，第四个参数是是否总结之前的文献。
+
+
    ```
+
+   注意⚠️：你需要确保在传递日期参数时，使用正确的短破折号。在日期格式中，应该使用标准的短破折号来分隔年、月、日。而不是长破折号。
 2. 其他
 
 ### 4. 数据文件

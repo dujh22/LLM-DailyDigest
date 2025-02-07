@@ -4,11 +4,13 @@ import argparse
 import os
 from collections import defaultdict
 import textwrap
+import ast
+import csv
 
 # 配置参数
 DAILY_REPORT_DIR = "/Users/djh/Documents/GitHub/LLM-DailyDigest/updates"
 TOP_N_TRENDING = 5
-THEME_KEYWORDS = {
+THEME_KEYWORDS_OR = {
     "大模型": [
         "大模型", "语言模型", "LLM", "生成式模型", "自监督学习", "Transformer", 
         "预训练", "微调", "强化学习", "多模态"
@@ -33,6 +35,43 @@ THEME_KEYWORDS = {
         "多模态", "视觉", "语音", "图像", "视频", "音频", "图谱"
     ]
 }
+THEME_KEYWORDS_AND = {
+    "大模型推理": [
+        {"大模型", "推理"}, 
+        {"语言模型", "推理"}, 
+        {"LLM", "推理"},
+    ],
+    "大模型数学推理": [
+        {"大模型", "数学", "推理"},
+        {"语言模型", "数学", "推理"},
+        {"LLM", "数学", "推理"}
+    ],
+    "大模型代码推理": [
+        {"大模型", "代码", "推理"},
+        {"语言模型", "代码", "推理"},
+        {"LLM", "代码", "推理"}
+    ],
+    "大模型类o1推理": [
+        {"大模型", "o1", "推理"},
+        {"语言模型", "o1", "推理"},
+        {"LLM", "o1", "推理"}
+    ],
+    "大模型数学推理的泛化性": [
+        {"大模型", "数学", "推理", "泛化"},
+        {"语言模型", "数学", "推理", "泛化"},
+        {"LLM", "数学", "推理", "泛化"}
+    ],
+}
+
+# 预先读入分类
+father_categories = {}
+with open('category.csv', mode='r', encoding='utf-8') as infile:
+    reader = csv.DictReader(infile)
+    for row in reader:
+        if row['所属学科'] not in father_categories:
+            father_categories[row['所属学科']] = [row['学科（中文）']]
+        else:
+            father_categories[row['所属学科']].append(row['学科（中文）'])
 
 def load_data(file_path):
     """
@@ -55,13 +94,22 @@ def load_data(file_path):
 
 def classify_theme(summary):
     """通过关键词匹配进行主题分类"""
+    # 定义一个空列表，用于存储匹配到的主题
     themes = []
-    for theme, keywords in THEME_KEYWORDS.items():
+    # 遍历THEME_KEYWORDS_OR字典，获取主题和关键词
+    for theme, keywords in THEME_KEYWORDS_OR.items():
+        # 如果summary中包含任意一个关键词，则将主题添加到themes列表中
         if any(kw in summary for kw in keywords):
             themes.append(theme)
+    # 遍历THEME_KEYWORDS_AND字典，获取主题和关键词对
+    for theme, keyword_pairs in THEME_KEYWORDS_AND.items():
+        # 如果summary中包含所有关键词对中的关键词，则将主题添加到themes列表中
+        if any(all(kw in summary for kw in pair) for pair in keyword_pairs):
+            themes.append(theme)
+    # 如果themes列表为空，则返回["其他"]
     return themes if themes else ["其他"]
 
-def generate_daily_report(target_date, df):
+def generate_daily_report(target_date, df, is_summary=False):
     """生成日报核心内容"""
     # 将目标日期格式化为字符串
     date_str = target_date.strftime("%Y-%m-%d")
@@ -73,18 +121,26 @@ def generate_daily_report(target_date, df):
         (df['Update Date'].dt.date == target_date.date()) & 
         (df['Publish Date'].dt.date != target_date.date())
     ]
+    if is_summary == False:
+        # df = new_papers + updated_papers
+        df = pd.concat([new_papers, updated_papers], ignore_index=True)
     
     # 生成趋势分析，按星星数和更新日期排序，取前TOP_N_TRENDING篇
     trending = df.sort_values(by=['Stars', 'Update Date'], ascending=False).head(TOP_N_TRENDING)
     
-    # 主题分类统计
-    theme_dist = defaultdict(list)
+    # 主题分类统计和arxiv分类统计
+    theme_dist = defaultdict(list) # 数据结构：{主题: [论文1, 论文2, ...]}
+    arxiv_theme_dist = defaultdict(list)
     for _, row in df.iterrows():
         # 对每篇论文的摘要进行主题分类
         themes = classify_theme(row['Summary'])
+        arxiv_themes = ast.literal_eval(row['Categories'])
         for theme in themes:
             # 将论文添加到对应的主题列表中
             theme_dist[theme].append(row)
+        for arxiv_theme in arxiv_themes:
+            # 将论文添加到对应的arxiv分类列表中
+            arxiv_theme_dist[arxiv_theme].append(row)
     
     # 构建Markdown内容
     content = []
@@ -99,7 +155,64 @@ def generate_daily_report(target_date, df):
     content.append(f"- 更新论文: {len(updated_papers)} 篇")
     # 添加最热门论文标题和星星数
     content.append(f"- 最热门论文: {trending.iloc[0]['Title'][:30]}... (⭐{trending.iloc[0]['Stars']})\n")
-    
+
+    # 获取最早的时间
+    earliest_date = df['Publish Date'].min().date()
+    # 获取最晚的时间
+    latest_date = df['Publish Date'].max().date()
+    # 添加总结信息
+    content.append(f"## 📅 总结 {earliest_date} 至 {latest_date}")
+
+    # 主题分布
+    content.append("## 🧩 主题分布")
+    # 获取这一句话的序号
+    seq = content.index("## 🧩 主题分布")
+    for theme, papers in sorted(theme_dist.items(), key=lambda x: len(x[1]), reverse=True):
+        # 添加主题标题和论文数量
+        content.append(f"### {theme} ({len(papers)}篇)")
+        # 同时插入到seq之前
+        content.insert(seq, f"  -- {theme} ({len(papers)}篇)")
+
+        # 添加代表性论文标题
+        content.append(f"**代表性论文**: {papers[0]['Title'][:50]}...")
+        # 添加最新进展
+        content.append("**最新进展**:")
+        # 添加摘要的第一行
+        content.append(textwrap.wrap(papers[0]['Summary'], width=200)[0] + "...\n")
+        # 全部论文标题
+        content.append("**全部论文**:")
+        for paper in papers:
+            # 格式化主题论文信息
+            content.append(f"- {paper['Title']} ({paper['First Author']}) [跳转]({paper['URL']})")
+
+    # arXiv分类分布
+    content.append("## 🗂 arXiv分类分布")
+    for arxiv_father_theme in father_categories.keys():
+        content.append(f"### {arxiv_father_theme}")
+        for arxiv_theme in father_categories[arxiv_father_theme]:
+            papers = arxiv_theme_dist.get(arxiv_theme, [])
+            if not papers:
+                continue
+            # 添加arXiv分类标题和论文数量
+            content.append(f"#### {arxiv_theme} ({len(papers)}篇)")
+            # 添加代表性论文标题
+            content.append(f"**代表性论文**: {papers[0]['Title'][:50]}...")
+            # 添加最新进展
+            content.append("**最新进展**:")
+            # 添加摘要的第一行
+            content.append(textwrap.wrap(papers[0]['Summary'], width=200)[0] + "...\n")
+            # 全部论文标题
+            content.append("**全部论文**:")
+            for paper in papers:
+                # 格式化arXiv分类论文信息
+                content.append(f"- {paper['Title']} ({paper['First Author']}) [跳转]({paper['URL']})")
+
+    # 趋势论文
+    content.append("## 📈 趋势论文")
+    for _, paper in trending.iterrows():
+        # 格式化趋势论文信息
+        content.append(format_paper(paper, "热门"))
+
     # 新增论文
     if not new_papers.empty:
         # 添加新增论文标题
@@ -114,31 +227,8 @@ def generate_daily_report(target_date, df):
         content.append("## 🔄 更新论文")
         for _, paper in updated_papers.iterrows():
             # 格式化更新论文信息
-            content.append(format_paper(paper, "更新"))
-    
-    # 趋势论文
-    content.append("## 📈 趋势论文")
-    for _, paper in trending.iterrows():
-        # 格式化趋势论文信息
-        content.append(format_paper(paper, "热门"))
-    
-    # 主题分布
-    content.append("## 🧩 主题分布")
-    for theme, papers in sorted(theme_dist.items(), key=lambda x: len(x[1]), reverse=True):
-        # 添加主题标题和论文数量
-        content.append(f"### {theme} ({len(papers)}篇)")
-        # 添加代表性论文标题
-        content.append(f"**代表性论文**: {papers[0]['Title'][:50]}...")
-        # 添加最新进展
-        content.append("**最新进展**:")
-        # 添加摘要的第一行
-        content.append(textwrap.wrap(papers[0]['Summary'], width=200)[0] + "...\n")
-        # 全部论文标题
-        content.append("**全部论文**:")
-        for paper in papers:
-            # 格式化主题论文信息
-            content.append(f"- {paper['Title']} ({paper['First Author']}) [跳转]({paper['URL']})")
-    
+            content.append(format_paper(paper, "更新")) 
+
     # 将内容列表转换为字符串并返回
     return "\n".join(content)
 
@@ -156,18 +246,22 @@ def format_paper(paper, badge):
 def arxiv_to_daily_report():
     """主函数，生成学术日报"""
     parser = argparse.ArgumentParser(description="生成学术日报")
-    parser.add_argument("data_file", help="输入数据文件路径")
+    parser.add_argument("--data_file", help="输入数据文件路径", required=True)
     parser.add_argument("--date", help="指定日期 (YYYY-MM-DD)", default=datetime.today().date())
+    parser.add_argument("--is_summary", help="是否总结之前的日报", default=False)
     args = parser.parse_args()
 
     df = load_data(args.data_file)
-    report_content = generate_daily_report(pd.to_datetime(args.date), df)
+    report_content = generate_daily_report(pd.to_datetime(args.date), df, args.is_summary)
     
     # 创建输出目录
     os.makedirs(DAILY_REPORT_DIR, exist_ok=True)
     
     # 保存文件
-    filename = f"arxiv_daily_report_{args.date}.md"
+    if args.is_summary:
+        filename = f"arxiv_daily_report_summary_{args.date}.md"
+    else:
+        filename = f"arxiv_daily_report_{args.date}.md"
     with open(os.path.join(DAILY_REPORT_DIR, filename), 'w', encoding='utf-8') as f:
         f.write(report_content)
     

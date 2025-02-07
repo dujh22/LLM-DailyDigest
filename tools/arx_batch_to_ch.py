@@ -67,7 +67,7 @@ def translate_csv_to_jsonl(input_csv, output_jsonl):
                 outfile.write(json.dumps(turn_to_jsonl(row['First Author'], str(row_num)+'_First Author'), ensure_ascii=False) + '\n')
 
 # 2. 上传文件并创建batch任务
-def upload_file_and_create_batch(upload_jsonl, return_jsonl):
+def upload_file_and_create_batch(upload_jsonl, return_jsonl, error_jsonl):
     client = ZhipuAI(api_key=api_key)
     result = client.files.create(
         file=open(upload_jsonl, "rb"),
@@ -87,12 +87,14 @@ def upload_file_and_create_batch(upload_jsonl, return_jsonl):
     print("批处理任务: ", create)
     print("--------------------------------")
     output_file_id = ""
+    error_file_id = ""
     used_time = 0
     while True:
         batch_job = client.batches.retrieve(create.id)
         print("当前批处理任务状态: ",batch_job.status, "已用时间: ", used_time, "秒")
         if batch_job.status == "completed":
             output_file_id = batch_job.output_file_id
+            error_file_id = batch_job.error_file_id
             break
         time.sleep(1)
         used_time += 1
@@ -104,22 +106,39 @@ def upload_file_and_create_batch(upload_jsonl, return_jsonl):
     content.write_to_file(return_jsonl)
     print("下载批处理任务结果-----------------")
 
-    # 4. 删除文件
+    # 4. 下载批处理任务错误结果
+    error = client.files.content(error_file_id)
+    error.write_to_file(error_jsonl)
+    print("下载批处理任务错误结果-----------------")
+
+    # 5. 删除文件
     result = client.files.delete(
         file_id = output_file_id      
+    )
+    result = client.files.delete(
+        file_id = error_file_id
     )
     print("删除文件-------------------------")
 
 # 3. 将jsonl文件转换为csv文件
-def jsonl_to_csv(raw_csv, return_jsonl, output_csv):
+def jsonl_to_csv(raw_csv, return_jsonl, error_jsonl, output_csv):
     # 首先解析jsonl中的相关文件
     jsonl_dict = {}
-    with open(return_jsonl, mode='r', encoding='utf-8') as infile:
+    with open(return_jsonl, mode='r', encoding='utf-8') as infile, open(error_jsonl, mode='r', encoding='utf-8') as errorfile:
         for line in infile:
             temp = json.loads(line)
             id = temp['custom_id'].split('_')[0]
             type = temp['custom_id'].split('_')[1]
             value = temp['response']['body']['choices'][0]['message']['content']
+            if id not in jsonl_dict:
+                jsonl_dict[id] = {}
+            jsonl_dict[id][type] = value
+
+        for line in errorfile:
+            temp = json.loads(line)
+            id = temp['custom_id'].split('_')[0]
+            type = temp['custom_id'].split('_')[1]
+            value = "None"
             if id not in jsonl_dict:
                 jsonl_dict[id] = {}
             jsonl_dict[id][type] = value
@@ -140,14 +159,15 @@ def jsonl_to_csv(raw_csv, return_jsonl, output_csv):
                     # 获取行数
                     row_num = reader.line_num - 1
                     # 翻译Title, Summary, First Author等需要翻译的字段
-                    row['Title'] = jsonl_dict[str(row_num)]['Title']
-                    row['Summary'] = jsonl_dict[str(row_num)]['Summary']
-                    row['First Author'] = jsonl_dict[str(row_num)]['First Author']
+                    row['Title'] = jsonl_dict[str(row_num)]['Title'] if jsonl_dict[str(row_num)]['Title'] != 'None' else row['Title']
+                    row['Summary'] = jsonl_dict[str(row_num)]['Summary'] if jsonl_dict[str(row_num)]['Summary'] != 'None' else row['Summary']
+                    row['First Author'] = jsonl_dict[str(row_num)]['First Author'] if jsonl_dict[str(row_num)]['First Author'] != 'None' else row['First Author']
                     # 字符串转list，比如['astro-ph.CO', 'astro-ph.GA']
                     temp_categories = ast.literal_eval(row['Categories'])
                     row['Categories'] = []
                     for category in temp_categories:
-                        row['Categories'].append(categories[category])
+                        if category in categories.keys():
+                            row['Categories'].append(categories[category])
                 
                     # 将翻译结果写入新CSV文件
                     writer.writerow(row)
@@ -165,13 +185,15 @@ def arx_batch_to_ch():
     input_csv = 'arxiv_papers_' + args.time + '.csv'
     upload_jsonl = 'arxiv_papers_' + args.time + '_upload.jsonl'
     return_jsonl = 'arxiv_papers_' + args.time + '_return.jsonl'
+    error_jsonl = 'arxiv_papers_' + args.time + '_error.jsonl'
     output_csv = 'arxiv_papers_ch_' + args.time + '.csv'
     translate_csv_to_jsonl(input_csv, upload_jsonl)
-    upload_file_and_create_batch(upload_jsonl, return_jsonl)
-    jsonl_to_csv(input_csv, return_jsonl, output_csv)
+    upload_file_and_create_batch(upload_jsonl, return_jsonl, error_jsonl)
+    jsonl_to_csv(input_csv, return_jsonl, error_jsonl, output_csv)
     # 删除upload_jsonl和return_jsonl
     os.remove(upload_jsonl)
     os.remove(return_jsonl)
+    os.remove(error_jsonl)
 
 
 if __name__ == "__main__":

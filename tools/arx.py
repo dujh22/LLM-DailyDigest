@@ -152,13 +152,18 @@ def arxiv_search():
     parser = argparse.ArgumentParser(description="爬取arxiv数据")
     parser.add_argument("--query", type=str, default="Large Language Models", help="搜索关键词")
     parser.add_argument("--max_results", type=int, default=10, help="最大结果数量") # 定义最大结果数：需要注意的是，由于 API 的限制，在多次调用 API 的情况下，建议每次调用的时间间隔为 3 秒。每次调用返回的最大数量为 4000 个。arXiv的硬限制约为 50,000 条记录； 对于与 50,000 多个原稿匹配的查询，无法接收全部结果. 解决这个问题的最简单的解决方案是将中断查询成小块，例如使用的时间片，与一系列日期的submittedDate或lastUpdatedDate 。
+    parser.add_argument("--wish_offset", type=int, default=0, help="希望的起始位置") # 定义起始位置
+    parser.add_argument("--filename", type=str, default=filename, help="保存结果的CSV文件名") # 定义保存结果的文件名
     args = parser.parse_args()
+
+    global pub_start
+    pub_start = args.wish_offset
         
     # 调用函数，获取arxiv数据并保存到csv文件中
     # 确保任务完成，如果中途发生错误，可以重新运行而不会重复获取相同的数据
     while True:
         try:
-            fetch_and_save_arxiv_data(query=args.query, max_results=args.max_results, filename=filename)
+            fetch_and_save_arxiv_data(query=args.query, max_results=args.max_results, filename=args.filename)
             if pub_start >= args.max_results:
                 print("All papers have been fetched.")
                 break
