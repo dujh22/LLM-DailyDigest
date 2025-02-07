@@ -46,17 +46,14 @@ if [ $? -ne 0 ]; then
   git remote set-url origin https://github.com/dujh22/LLM-DailyDigest.git
 fi
 
-# 将新增的文件添加到 Git
-git add tools/arxiv_papers_$timestamp.csv tools/arxiv_papers_ch_$timestamp.csv updates/arxiv_daily_report_$yesterday.md
+# 强制将新增的文件添加到 Git
+git add -f tools/arxiv_papers_$timestamp.csv tools/arxiv_papers_ch_$timestamp.csv updates/arxiv_daily_report_$yesterday.md
 
 # 提交更新
 git commit -m "Update daily digest for $yesterday"
 
 # 推送到 GitHub
-while ! git push origin main; do
-  echo "Push failed, retrying in 5 seconds..."
-  sleep 5
-done
+git push origin main
 
 # 打印成功消息
 echo "Successfully pushed new files to GitHub."
