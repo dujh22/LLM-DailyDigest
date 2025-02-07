@@ -11,6 +11,14 @@ apt-get update
 apt-get install tmux
 ```
 
+你需要确保你已经安装了cron：
+
+```
+apt-get update
+apt-get install cron
+service cron start
+```
+
 你需要确保你已经安装好了conda环境：
 
 ```
@@ -42,8 +50,6 @@ pip install -r requirements.txt
 
 ---
 
-
-
 #### **步骤2：定期自动执行脚本** ⏰
 
 可以将这个脚本与 cron 配合使用，定期运行它。下面是如何设置 cron 来每天自动启动 tmux 会话并执行任务：
@@ -63,8 +69,6 @@ crontab -e
 这行表示每天凌晨1点（即01:00）执行 arx_dairy_summarizer_tmux.sh 脚本。
 
 ---
-
-
 
 #### **步骤3：验证设置** ✅
 
