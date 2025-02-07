@@ -13,11 +13,6 @@ apt-get install tmux
 
 你需要确保你已经安装了cron：
 
-```
-apt-get update
-apt-get install cron
-service cron start
-```
 
 你需要确保你已经安装好了conda环境：
 
@@ -48,6 +43,13 @@ pip install -r requirements.txt
 
 • **tmux attach -t session_name**：如果没有错误，附加到会话，这样你可以看到脚本的输出。
 
+
+注意要给这个脚本赋权：
+
+```
+chmod a+x arx_dairy_summarizer_tmux.sh
+```
+
 ---
 
 #### **步骤2：定期自动执行脚本** ⏰
@@ -60,13 +62,17 @@ pip install -r requirements.txt
 crontab -e
 ```
 
-2. 添加以下行来设置每天在凌晨1点自动运行：
+    如果出现选择，可以选1:/bin/nano
+
+3. 添加以下行来设置每天在凌晨1点自动运行：
 
 ```
 0 1 * * * /bin/bash /path/to/arx_dairy_summarizer_tmux.sh
 ```
 
 这行表示每天凌晨1点（即01:00）执行 arx_dairy_summarizer_tmux.sh 脚本。
+
+请按 `Ctrl + O` 保存文件，然后按 `Enter` 确认文件名。接着按 `Ctrl + X` 退出编辑器。这样就完成了定时任务的设置。
 
 ---
 
