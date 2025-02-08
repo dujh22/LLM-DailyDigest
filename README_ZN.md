@@ -71,18 +71,20 @@ TO DO LIST:
 
    1. 可参考 https://github.com/captainChaozi/wx-ai-collect/blob/main/app/msg_process/llm_chains.py
    2. 可参考 https://miracleplus.feishu.cn/wiki/LLQewHYx1ilmlpkxHUqc42L8nzf
-3. 支持更换不同的查询quert
-4. 支持历史未形成日报的补充
-5. 支持历史截止所有日报的数据汇总⭕️
-6. 新增对外可以访问程序，比如部署在github上
+2. 支持更换不同的查询quert
+3. 支持历史未形成日报的补充
+4. 支持历史截止所有日报的数据汇总⭕️
+5. 新增对外可以访问程序，比如部署在github上
 
    1. 可参考https://github.com/Estelle925/SmartBrief
-7. 优化arx.py中代码链接获取函数
-8. 优化arx.py中代码星星数量获取函数
-9. 优化tools/arx_batch_to_ch.py中的翻译准确性
-10. 支持tools/arx_batch_to_ch.py中支持ACM分类，比如I.2.7 之类的，详见https://arxiv.org/category_taxonomy
+6. 优化arx.py中代码链接获取函数
+7. 优化arx.py中代码星星数量获取函数
+8. 优化tools/arx_batch_to_ch.py中的翻译准确性
+9. 支持tools/arx_batch_to_ch.py中支持ACM分类，比如I.2.7 之类的，详见https://arxiv.org/category_taxonomy
 
 FINISH:
+
+[2025-02-08] 修改自动运行脚本的潜在bug✅ 25min
 
 [2025-02-07] 优化arxiv完成构建pipeline ｜ 自动新增1.27～2.6arxiv日报
 

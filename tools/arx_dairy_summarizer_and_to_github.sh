@@ -2,6 +2,10 @@
 
 # 设置项目路径
 project_dir="/Users/djh/Documents/GitHub/LLM-DailyDigest"
+# 进入项目路径
+cd $project_dir
+# 进入/tools路径
+cd tools
 
 # 获取时间戳,格式为2025_02_07_11_10_39
 timestamp=$(date +'%Y_%m_%d_%H_%M_%S')
