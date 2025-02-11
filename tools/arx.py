@@ -120,10 +120,14 @@ def fetch_and_save_arxiv_data(query="Large Language Models", max_results=1000, f
             paper_first_author = result.authors[0]
             publish_time = result.published.date()
             update_time = result.updated.date()
+
+            print("start_date:", start_date, "end_date:", end_date, "publish_time:", publish_time, "update_time:", update_time)
             # 如果发布时间或者更新时间比终止时间晚，则跳过；如果发布时间或者更新时间比起始时间早，则跳出循环
             if (end_date and publish_time > end_date) or (end_date and update_time > end_date):
+                print("发布时间或者更新时间比终止时间晚")
                 continue
             if start_date and publish_time < start_date:
+                print("发布时间比起始时间早")
                 break
 
             # Get the code URL and stars if available
@@ -181,7 +185,7 @@ def arxiv_search():
     # 确保任务完成，如果中途发生错误，可以重新运行而不会重复获取相同的数据
     while True:
         try:
-            if fetch_and_save_arxiv_data(query=args.query, max_results=args.max_results, filename=args.filename, start_date=args.start_date, end_date=args.end_date):
+            if fetch_and_save_arxiv_data(query=args.query, max_results=args.max_results, start_date=args.start_date, end_date=args.end_date):
                 break
             if pub_start >= args.max_results:
                 print("All papers have been fetched.")
@@ -189,6 +193,13 @@ def arxiv_search():
         except Exception as e:
             print(f"An error occurred: {e}")
             time.sleep(3)
+
+    # 如果用户提供了文件名，则将文件拷贝到用户提供的文件名
+    if args.filename:
+        filename = args.filename
+    # 结束后将文件拷贝到filename，上述逻辑会生成一个临时文件，最后将其保存到filename中
+    os.rename("arxiv_papers.csv", filename)
+
 
 if __name__ == "__main__":
     arxiv_search()

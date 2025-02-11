@@ -13,7 +13,6 @@ apt-get install tmux
 
 你需要确保你已经安装了cron：
 
-
 你需要确保你已经安装好了conda环境：
 
 ```
@@ -42,7 +41,6 @@ pip install -r requirements.txt
 • **tmux send-keys -t session_name**：将命令发送到指定的 tmux 会话中执行。这里我们首先激活 conda 环境，然后运行脚本。
 
 • **tmux attach -t session_name**：如果没有错误，附加到会话，这样你可以看到脚本的输出。
-
 
 注意要给这个脚本赋权：
 
@@ -87,3 +85,16 @@ crontab -e
 • **灵活性**：可以在会话中查看输出，进行调试，或停止/重启会话等。
 
 通过 tmux，可以更灵活地管理脚本的运行状态，并避免一些 cron 可能会遇到的问题，尤其是与环境变量相关的问题。
+
+
+## 3. 手动尝试
+
+目前可能还存在bug，导致无法完成自动执行。可以参照对应的sh脚本进行手动执行，比如：
+
+```
+tmux new -s arx_dairy_session
+conda activate llm
+cd /workspace/dujh22/LLM-DailyDigest/tools
+python arx.py --start_date "2025-02-07" --end_date "2025-02-12"
+
+```
