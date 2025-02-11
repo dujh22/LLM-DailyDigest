@@ -123,7 +123,7 @@ def fetch_and_save_arxiv_data(query="Large Language Models", max_results=1000, f
             # 如果发布时间或者更新时间比终止时间晚，则跳过；如果发布时间或者更新时间比起始时间早，则跳出循环
             if (end_date and publish_time > end_date) or (end_date and update_time > end_date):
                 continue
-            if (start_date and publish_time < start_date) or (start_date and update_time < start_date):
+            if start_date and publish_time < start_date:
                 break
 
             # Get the code URL and stars if available
