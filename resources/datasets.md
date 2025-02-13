@@ -134,3 +134,67 @@
 | 73                 | NLP            | ExamQA 数据集                                        | https://github.com/ai-benchmark/ai-benchmarks                      |
 | 74                 | NLP            | Amazon QA 数据集                                     | https://registry.opendata.aws/                                     |
 | 75                 | NLP            | OpenAI                                               |                                                                    |
+
+## 4. 未分类
+
+1、DataSearch ：[https://datasetsearch.research.google.com](https://link.zhihu.com/?target=https%3A//datasetsearch.research.google.com/)
+
+2、OpenDatalab : [https://**opendatalab.com/**](https://link.zhihu.com/?target=https%3A//opendatalab.com/)
+
+3、Kaggle ：[https://www.**kaggle.com/**](https://link.zhihu.com/?target=https%3A//www.kaggle.com/)
+
+4、github:[https ://github.com/Bio-Datasets/bio-datasets](https://link.zhihu.com/?target=https%3A//github.com/Bio-Datasets/bio-datasets)
+
+5、huggingface :[https://**huggingface.co/datasets**/arcee-ai/EvolKit-20k-vi](https://link.zhihu.com/?target=https%3A//huggingface.co/datasets/arcee-ai/EvolKit-20k-vi)
+
+6、arXiv : [https://**arxiv.org/**](https://link.zhihu.com/?target=https%3A//arxiv.org/)
+
+7、魔搭社区：[https://**modelscope.cn/datasets**](https://link.zhihu.com/?target=https%3A//modelscope.cn/datasets)
+
+8、FindData：[https://www.**findata.cn/**](https://link.zhihu.com/?target=https%3A//www.findata.cn/)
+
+9、DataCite Commons : [https://**commons.datacite.org/do**i.org](https://link.zhihu.com/?target=https%3A//commons.datacite.org/doi.org)
+
+10、MendeleyData: [https://**data.mendeley.com/**](https://link.zhihu.com/?target=https%3A//data.mendeley.com/)
+
+11、[超神经](https://zhida.zhihu.com/search?content_id=250140717&content_type=Article&match_order=1&q=%E8%B6%85%E7%A5%9E%E7%BB%8F&zhida_source=entity)：[https://**hyper.ai/cn**](https://link.zhihu.com/?target=https%3A//hyper.ai/cn)
+
+12、DataONE : [https://**search.dataone.org/data**](https://link.zhihu.com/?target=https%3A//search.dataone.org/data)
+
+13、Harvard Dataverse: [https://**dataverse.harvard.edu/**](https://link.zhihu.com/?target=https%3A//dataverse.harvard.edu/)
+
+14、MagicHub[开源社区](https://zhida.zhihu.com/search?content_id=250140717&content_type=Article&match_order=1&q=%E5%BC%80%E6%BA%90%E7%A4%BE%E5%8C%BA&zhida_source=entity)：[MagicHub - Datasets Download](https://link.zhihu.com/?target=https%3A//magichub.com/)
+
+15、DataCite Commons：[https://**commons.datacite.org/do**i.org](https://link.zhihu.com/?target=https%3A//commons.datacite.org/doi.org)
+
+16、Papers with Code ：[https://**paperswithcode.com/**](https://link.zhihu.com/?target=https%3A//paperswithcode.com/)
+
+17、DataHub ：[DataHub](https://link.zhihu.com/?target=https%3A//datahub.io/)
+
+18：**data.public.lu**：[https://**data.public.lu/**](https://link.zhihu.com/?target=https%3A//data.public.lu/)
+
+19、[帕依提提](https://zhida.zhihu.com/search?content_id=250140717&content_type=Article&match_order=1&q=%E5%B8%95%E4%BE%9D%E6%8F%90%E6%8F%90&zhida_source=entity)：[https://www.**payititi.com/**](https://link.zhihu.com/?target=https%3A//www.payititi.com/)
+
+20、**http://data.gov**：[https://**catalog.data.gov/datase**t](https://link.zhihu.com/?target=https%3A//catalog.data.gov/dataset)
+
+21、和鲸社区：[https://www.**heywhale.com/**](https://link.zhihu.com/?target=https%3A//www.heywhale.com/)
+
+22、data.europa：[https://**data.europa.eu/data/dat**asets?locale=en&amp;minScoring=0](https://link.zhihu.com/?target=https%3A//data.europa.eu/data/datasets%3Flocale%3Den%26minScoring%3D0)
+
+23、AI_Studio：[https://**aistudio.baidu.com/**](https://link.zhihu.com/?target=https%3A//aistudio.baidu.com/)
+
+24、Opendata cern：[opendata.cern.ch](https://link.zhihu.com/?target=https%3A//opendata.cern.ch/search%3Fq%3D%26f%3Dtype%253ADataset%26l%3Dlist%26order%3Ddesc%26p%3D1%26s%3D10%26sort%3Dmostrecent)
+
+25、PANGAEA：[https://www.**pangaea.de/**](https://link.zhihu.com/?target=https%3A//www.pangaea.de/)
+
+26、极市：[https://www.**cvmart.net/**](https://link.zhihu.com/?target=https%3A//www.cvmart.net/)
+
+27、Roboflow：[https://**universe.roboflow.com/**](https://link.zhihu.com/?target=https%3A//universe.roboflow.com/)
+
+28、IEEE：[https://**ieee-dataport.org/datas**ets](https://link.zhihu.com/?target=https%3A//ieee-dataport.org/datasets)
+
+29、Stanford：[http://**snap.stanford.edu/data/**](https://link.zhihu.com/?target=http%3A//snap.stanford.edu/data/)
+
+30、GBIF： [https://www.**gbif.org/dataset/search**](https://link.zhihu.com/?target=https%3A//www.gbif.org/dataset/search)
+
+31、[阿里云天池](https://zhida.zhihu.com/search?content_id=250140717&content_type=Article&match_order=1&q=%E9%98%BF%E9%87%8C%E4%BA%91%E5%A4%A9%E6%B1%A0&zhida_source=entity)：[https://**tianchi.aliyun.com/**](https://link.zhihu.com/?target=https%3A//tianchi.aliyun.com/)
