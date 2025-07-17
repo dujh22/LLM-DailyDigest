@@ -1,0 +1,29 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650923209&idx=2&sn=1d5f4df7efcd7f4cda09b8adb591e713&chksm=84e424b7b393ada16516c052ccb625c850b46705519ce5e896fadc166e302c5b70b57151c0a0#rd",
+    "title": "从RLHF到DPO再到TDPO，大模型对齐算法已经是「token-level」",
+    "summary": "这篇文章介绍了人工智能领域的一个新发展，即Token-level Direct Preference Optimization (TDPO)算法。该算法旨在更好地控制和优化大语言模型（LLM）的行为，确保其安全性和人类友好性。早期的方法如RLHF（强化学习人类反馈）虽有效，但资源消耗大。DPO（直接偏好优化）作为RLHF的简化版，减少了复杂度，但可能降低生成的多样性。TDPO由中科院和伦敦大学学院的研究团队提出，通过从token-level（单词级别）角度建模，引入细粒度的KL散度约束，解决了DPO的多样性问题。相比于DPO，TDPO能实现更好的对齐性能和生成多样性，并在多个数据集上的实验中显示出优势。",
+    "user_summary": "这篇文章介绍了人工智能领域的一个新发展，即Token-level Direct Preference Optimization (TDPO)算法。该算法旨在更好地控制和优化大语言模型（LLM）的行为，确保其安全性和人类友好性。早期的方法如RLHF（强化学习人类反馈）虽有效，但资源消耗大。DPO（直接偏好优化）作为RLHF的简化版，减少了复杂度，但可能降低生成的多样性。TDPO由中科院和伦敦大学学院的研究团队提出，通过从token-level（单词级别）角度建模，引入细粒度的KL散度约束，解决了DPO的多样性问题。相比于DPO，TDPO能实现更好的对齐性能和生成多样性，并在多个数据集上的实验中显示出优势。",
+    "keywords": [
+        "人工智能",
+        "优化算法",
+        "Token-level",
+        "Direct",
+        "Preference",
+        "Optimization",
+        "(TDPO)",
+        "大语言模型",
+        "(LLM)",
+        "安全性",
+        "人类友好性",
+        "RLHF",
+        "(强化学习人类反馈)",
+        "DPO",
+        "(直接偏好优化)",
+        "KL散度约束",
+        "对齐性能",
+        "生成多样性",
+        "实验",
+        "数据集"
+    ],
+    "timestamp": "2024-10-27T07:30:33.016180"
+}

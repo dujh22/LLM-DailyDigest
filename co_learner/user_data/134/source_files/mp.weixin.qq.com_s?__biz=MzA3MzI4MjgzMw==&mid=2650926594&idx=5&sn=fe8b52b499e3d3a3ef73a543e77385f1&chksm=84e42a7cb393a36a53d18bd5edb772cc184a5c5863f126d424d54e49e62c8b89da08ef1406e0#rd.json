@@ -1,0 +1,30 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650926594&idx=5&sn=fe8b52b499e3d3a3ef73a543e77385f1&chksm=84e42a7cb393a36a53d18bd5edb772cc184a5c5863f126d424d54e49e62c8b89da08ef1406e0#rd",
+    "title": "无损加速最高5x，EAGLE-2让RTX 3060的生成速度超过A100",
+    "summary": "研究人员提出了EAGLE-2，一种新的动态草稿树投机采样方法，用于加速大语言模型（LLMs）的推理，最高可将速度提高5倍，同时保持输出质量。EAGLE-2通过根据草稿模型的置信度动态调整草稿树结构，优化了静态草稿树的效率问题。实验表明，EAGLE-2在多项任务和大语言模型上均表现出最佳的加速效果和平均接受长度。该方法已经在工业界得到应用，例如在Intel/intel-extension-for-transformers中集成。",
+    "user_summary": "研究人员提出了EAGLE-2，一种新的动态草稿树投机采样方法，用于加速大语言模型（LLMs）的推理，最高可将速度提高5倍，同时保持输出质量。EAGLE-2通过根据草稿模型的置信度动态调整草稿树结构，优化了静态草稿树的效率问题。实验表明，EAGLE-2在多项任务和大语言模型上均表现出最佳的加速效果和平均接受长度。该方法已经在工业界得到应用，例如在Intel/intel-extension-for-transformers中集成。",
+    "keywords": [
+        "EAGLE-2",
+        "大语言模型",
+        "LLMs",
+        "推理",
+        "速度",
+        "提升",
+        "5倍",
+        "置信度",
+        "草稿树",
+        "结构",
+        "优化",
+        "实验",
+        "任务",
+        "加速",
+        "效果",
+        "平均接受长度",
+        "工业界",
+        "应用",
+        "Intel",
+        "intel-extension-for-transformers",
+        "集成"
+    ],
+    "timestamp": "2024-10-27T07:25:27.374475"
+}

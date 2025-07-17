@@ -1,0 +1,33 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650925512&idx=5&sn=988c6e2099c10c75f72fdbc577e3b136&chksm=84e42db6b393a4a0bdd099f45eacc49fc1c723b9f8148f19ee94132b5f8f7c4854937a595916#rd",
+    "title": "深度解析RAG大模型知识冲突，清华西湖大学港中文联合发布",
+    "summary": "这篇文章是关于检索增强生成（Retrieval-Augmented Generation, RAG）中知识冲突问题的综述，该问题在大型语言模型中日益突出。知识冲突主要分为三种类型：Context-Memory Conflict（上下文与参数知识冲突）、Inter-Context Conflict（上下文知识内部冲突）和Intra-Memory Conflict（参数化知识内部冲突）。这些冲突可能导致模型在处理知识密集型任务时表现下降，尤其是在准确性要求高的场景中。\n\n时间错位和信息污染是导致Context-Memory Conflict的主要原因，而错误信息和过时信息是Inter-Context Conflict的来源。Intra-Memory Conflict源于模型内部知识的不一致性，可能由于训练数据偏差、解码策略和知识编辑导致。针对这三种冲突，研究者提出了各种解决方案，如持续学习、知识编辑、微调模型、提示语技术和解码技术等。\n\n该综述强调了知识冲突研究的重要性，并提供了未来研究的多个方向，包括在实际环境中的知识冲突研究、更精细的解决方案、下游任务评估、冲突之间的相互作用、可解释性、多语言性和多模态性。这些研究有助于提高大模型在处理知识冲突时的准确性和鲁棒性。",
+    "user_summary": "这篇文章是关于检索增强生成（Retrieval-Augmented Generation, RAG）中知识冲突问题的综述，该问题在大型语言模型中日益突出。知识冲突主要分为三种类型：Context-Memory Conflict（上下文与参数知识冲突）、Inter-Context Conflict（上下文知识内部冲突）和Intra-Memory Conflict（参数化知识内部冲突）。这些冲突可能导致模型在处理知识密集型任务时表现下降，尤其是在准确性要求高的场景中。\n\n时间错位和信息污染是导致Context-Memory Conflict的主要原因，而错误信息和过时信息是Inter-Context Conflict的来源。Intra-Memory Conflict源于模型内部知识的不一致性，可能由于训练数据偏差、解码策略和知识编辑导致。针对这三种冲突，研究者提出了各种解决方案，如持续学习、知识编辑、微调模型、提示语技术和解码技术等。\n\n该综述强调了知识冲突研究的重要性，并提供了未来研究的多个方向，包括在实际环境中的知识冲突研究、更精细的解决方案、下游任务评估、冲突之间的相互作用、可解释性、多语言性和多模态性。这些研究有助于提高大模型在处理知识冲突时的准确性和鲁棒性。",
+    "keywords": [
+        "Retrieval-Augmented",
+        "Generation",
+        "RAG",
+        "知识冲突",
+        "Context-Memory",
+        "Conflict",
+        "Inter-Context",
+        "Conflict",
+        "Intra-Memory",
+        "Conflict",
+        "时间错位",
+        "信息污染",
+        "持续学习",
+        "知识编辑",
+        "微调模型",
+        "提示语技术",
+        "解码技术",
+        "准确性",
+        "鲁棒性",
+        "下游任务评估",
+        "冲突相互作用",
+        "可解释性",
+        "多语言性",
+        "多模态性"
+    ],
+    "timestamp": "2024-10-27T07:27:02.973394"
+}

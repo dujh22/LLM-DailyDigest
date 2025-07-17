@@ -1,0 +1,32 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650922111&idx=1&sn=df42c1d07e5896c1510eea673c7dd2b3&chksm=84e41801b39391173d3d4fa8e59ae31ab0ccdffa736c319b89dc697e94f5598257874b8c1e0d#rd",
+    "title": "3D 版 SORA 来了！DreamTech 推出全球首个原生 3D-DiT 大模型 Direct3D",
+    "summary": "DreamTech公司发布了其创新的3D生成大模型Direct3D，该模型利用3D Diffusion Transformer (3D-DiT) 技术解决了高质量三维内容生成的挑战。Direct3D是首个公开的原生三维生成模型，避免了2D-to-3D lifting方法的局限性，如多头多面和空腔问题。3D-DiT架构和D3D-VAE技术的使用大大降低了3D数据的复杂性，提高了模型训练和生成的效率。此外，DreamTech的数据合成引擎为模型训练提供了大量高质量3D数据。Direct3D的推出标志着3D内容生成进入商用级别，其生成的3D模型质量高，适用于3D打印和其他商业应用。DreamTech还推出了基于Direct3D的两款产品，包括面向C端用户的Animeit!和面向创作者的3D内容创作平台。",
+    "user_summary": "DreamTech公司发布了其创新的3D生成大模型Direct3D，该模型利用3D Diffusion Transformer (3D-DiT) 技术解决了高质量三维内容生成的挑战。Direct3D是首个公开的原生三维生成模型，避免了2D-to-3D lifting方法的局限性，如多头多面和空腔问题。3D-DiT架构和D3D-VAE技术的使用大大降低了3D数据的复杂性，提高了模型训练和生成的效率。此外，DreamTech的数据合成引擎为模型训练提供了大量高质量3D数据。Direct3D的推出标志着3D内容生成进入商用级别，其生成的3D模型质量高，适用于3D打印和其他商业应用。DreamTech还推出了基于Direct3D的两款产品，包括面向C端用户的Animeit!和面向创作者的3D内容创作平台。",
+    "keywords": [
+        "DreamTech",
+        "Direct3D",
+        "3D",
+        "Diffusion",
+        "Transformer",
+        "3D-DiT",
+        "2D-to-3D",
+        "lifting",
+        "多头多面",
+        "空腔问题",
+        "3D数据复杂性",
+        "模型训练",
+        "生成效率",
+        "数据合成引擎",
+        "高质量3D数据",
+        "3D内容生成",
+        "商用级别",
+        "3D打印",
+        "商业应用",
+        "Animeit!",
+        "3D内容创作平台",
+        "创作者",
+        "C端用户"
+    ],
+    "timestamp": "2024-10-27T07:31:52.763597"
+}

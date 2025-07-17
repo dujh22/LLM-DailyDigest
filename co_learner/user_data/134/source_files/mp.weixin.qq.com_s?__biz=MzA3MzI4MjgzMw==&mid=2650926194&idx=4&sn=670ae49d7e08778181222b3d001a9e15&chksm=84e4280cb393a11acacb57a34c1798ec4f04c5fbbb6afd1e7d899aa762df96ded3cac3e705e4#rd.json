@@ -1,0 +1,29 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650926194&idx=4&sn=670ae49d7e08778181222b3d001a9e15&chksm=84e4280cb393a11acacb57a34c1798ec4f04c5fbbb6afd1e7d899aa762df96ded3cac3e705e4#rd",
+    "title": "登顶开源AI软件工程师榜首，UIUC无Agent方案轻松解决SWE-bench真实编程问题",
+    "summary": "伊利诺伊大学香槟分校（UIUC）张令明老师团队提出了 OpenAutoCoder-Agentless，一个简单高效的无 Agent 方案，用于自动解决软件开发问题。该框架使用两阶段方法定位和修复代码库中的错误，成本低且完全开源。Agentless 在 GitHub 上获得广泛关注，并在与现有 AI Software Agent 的比较中展现出优越性能，解决了 27.33% 的问题，超越所有开源方案。此外，研究者还对 SWE-bench Lite 数据集进行了分析，提出严格的问题子集 SWE-bench Lite-S，以更准确地评估自动软件开发工具的能力。研究团队认为，Agentless 可能成为现有工具的补充，并呼吁社区重新考虑软件工程 Agent 的设计和评估标准。",
+    "user_summary": "伊利诺伊大学香槟分校（UIUC）张令明老师团队提出了 OpenAutoCoder-Agentless，一个简单高效的无 Agent 方案，用于自动解决软件开发问题。该框架使用两阶段方法定位和修复代码库中的错误，成本低且完全开源。Agentless 在 GitHub 上获得广泛关注，并在与现有 AI Software Agent 的比较中展现出优越性能，解决了 27.33% 的问题，超越所有开源方案。此外，研究者还对 SWE-bench Lite 数据集进行了分析，提出严格的问题子集 SWE-bench Lite-S，以更准确地评估自动软件开发工具的能力。研究团队认为，Agentless 可能成为现有工具的补充，并呼吁社区重新考虑软件工程 Agent 的设计和评估标准。",
+    "keywords": [
+        "UIUC",
+        "张令明",
+        "OpenAutoCoder-Agentless",
+        "代码库",
+        "错误",
+        "定位",
+        "修复",
+        "GitHub",
+        "AI",
+        "Software",
+        "Agent",
+        "SWE-bench",
+        "Lite",
+        "SWE-bench",
+        "Lite-S",
+        "自动软件开发",
+        "工具",
+        "补充",
+        "设计",
+        "评估标准"
+    ],
+    "timestamp": "2024-10-27T07:25:52.951034"
+}

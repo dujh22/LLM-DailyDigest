@@ -1,0 +1,30 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650920390&idx=1&sn=46a34c9edf886e58b6d18f28c8ec438a&chksm=84e411b8b39398aeb969f90b4a22821325c8974c1846ee91b853c0fa77b9f404b9f08b2a0e57#rd",
+    "title": "再战Transformer！原作者带队的Mamba 2来了，新架构训练效率大幅提升",
+    "summary": "Mamba-2，一种新的序列模型架构，由Albert Gu和Tri Dao提出，解决了Transformer模型中自注意力机制计算量随上下文长度平方级增长的问题。Mamba-2通过状态空间对偶性（SSD）框架实现了线性扩展，速度提高了2-8倍，同时在语言建模任务上与Transformer竞争。相较于Mamba，Mamba-2具有更快的训练速度和更大的状态维度，且在MQAR任务上表现出显著改进。论文中提出的SSD框架为序列模型的理解和改进提供了新途径，并且Mamba-2的架构设计允许利用现有的Transformer生态系统进行扩展和优化。实验结果显示，Mamba-2在多个基准上与或超过了Mamba和Transformer++。",
+    "user_summary": "Mamba-2，一种新的序列模型架构，由Albert Gu和Tri Dao提出，解决了Transformer模型中自注意力机制计算量随上下文长度平方级增长的问题。Mamba-2通过状态空间对偶性（SSD）框架实现了线性扩展，速度提高了2-8倍，同时在语言建模任务上与Transformer竞争。相较于Mamba，Mamba-2具有更快的训练速度和更大的状态维度，且在MQAR任务上表现出显著改进。论文中提出的SSD框架为序列模型的理解和改进提供了新途径，并且Mamba-2的架构设计允许利用现有的Transformer生态系统进行扩展和优化。实验结果显示，Mamba-2在多个基准上与或超过了Mamba和Transformer++。",
+    "keywords": [
+        "Mamba-2序列模型",
+        "Transformer",
+        "自注意力机制",
+        "SSD",
+        "线性扩展",
+        "速度",
+        "提升",
+        "语言建模",
+        "MQAR",
+        "论文",
+        "框架",
+        "理解",
+        "改进",
+        "架构",
+        "设计",
+        "生态系统",
+        "扩展",
+        "优化",
+        "基准",
+        "Mamba",
+        "Transformer++"
+    ],
+    "timestamp": "2024-10-27T07:34:59.376371"
+}

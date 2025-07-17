@@ -1,0 +1,27 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650926083&idx=5&sn=ac0ac7beb851f0916d08a886867b18ea&chksm=84e4287db393a16b4d4e58bf2df88c4c0e696c6a9a7953cb0789b8ac2eb35270176dbc73c059#rd",
+    "title": "7B最强长视频模型！ LongVA视频理解超千帧，霸榜多个榜单",
+    "summary": "LMMs-Lab和新加坡南洋理工大学的研究团队推出了一种名为LongVA的新型长视频模型，能够处理超过2000帧的视频数据，解决了现有模型在处理长视频时面临的视觉token数量过多的问题。研究团队提出了“长上下文迁移”技术，通过扩展语言模型的上下文长度，无需长视频训练即可处理和理解超长视频。LongVA在Video-MME和MLVU基准测试中表现出色，分别达到7B规模的SoTA和仅次于GPT-4o的性能。研究团队还创建了Visual Needle-In-A-Haystack (V-NIAH)基准测试来评估长视频视觉上下文长度。",
+    "user_summary": "LMMs-Lab和新加坡南洋理工大学的研究团队推出了一种名为LongVA的新型长视频模型，能够处理超过2000帧的视频数据，解决了现有模型在处理长视频时面临的视觉token数量过多的问题。研究团队提出了“长上下文迁移”技术，通过扩展语言模型的上下文长度，无需长视频训练即可处理和理解超长视频。LongVA在Video-MME和MLVU基准测试中表现出色，分别达到7B规模的SoTA和仅次于GPT-4o的性能。研究团队还创建了Visual Needle-In-A-Haystack (V-NIAH)基准测试来评估长视频视觉上下文长度。",
+    "keywords": [
+        "LongVA",
+        "LMMs-Lab",
+        "南洋理工大学",
+        "视频模型",
+        "2000帧",
+        "视觉token",
+        "长上下文迁移",
+        "语言模型",
+        "上下文长度",
+        "长视频",
+        "Video-MME",
+        "MLVU",
+        "基准测试",
+        "SoTA",
+        "GPT-4o",
+        "Visual",
+        "Needle-In-A-Haystack",
+        "V-NIAH"
+    ],
+    "timestamp": "2024-10-27T07:26:07.359375"
+}

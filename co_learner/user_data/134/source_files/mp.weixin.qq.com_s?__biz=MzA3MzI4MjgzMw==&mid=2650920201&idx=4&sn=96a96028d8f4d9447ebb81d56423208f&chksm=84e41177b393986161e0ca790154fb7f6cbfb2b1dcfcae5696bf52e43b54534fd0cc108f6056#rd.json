@@ -1,0 +1,27 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650920201&idx=4&sn=96a96028d8f4d9447ebb81d56423208f&chksm=84e41177b393986161e0ca790154fb7f6cbfb2b1dcfcae5696bf52e43b54534fd0cc108f6056#rd",
+    "title": "物理传热启发的视觉表征模型vHeat来了，尝试突破注意力机制，兼具低复杂度、全局感受野",
+    "summary": "中国科学院大学和鹏城实验室的研究人员提出了一种新的视觉表征模型vHeat，该模型基于热传导原理，用以替代Transformer中的Attention机制。vHeat将图片特征视为热源，通过预测热传导率来提取图像特征，从而在保持较低计算复杂度（1.5次方）的同时，实现了全局感受野和物理可解释性。相比Swin Transformer，vHeat在高分辨率图像处理时具有更高的吞吐量、更低的GPU显存占用和更少的FLOPs。在ImageNet-1K图像分类、COCO目标检测和ADE20K语义/实例分割等任务上，vHeat展现了先进的性能。论文和代码已开源。",
+    "user_summary": "中国科学院大学和鹏城实验室的研究人员提出了一种新的视觉表征模型vHeat，该模型基于热传导原理，用以替代Transformer中的Attention机制。vHeat将图片特征视为热源，通过预测热传导率来提取图像特征，从而在保持较低计算复杂度（1.5次方）的同时，实现了全局感受野和物理可解释性。相比Swin Transformer，vHeat在高分辨率图像处理时具有更高的吞吐量、更低的GPU显存占用和更少的FLOPs。在ImageNet-1K图像分类、COCO目标检测和ADE20K语义/实例分割等任务上，vHeat展现了先进的性能。论文和代码已开源。",
+    "keywords": [
+        "中国科学院大学",
+        "鹏城实验室",
+        "vHeat",
+        "热传导原理",
+        "Transformer",
+        "注意力机制",
+        "图像特征",
+        "热源",
+        "计算复杂度",
+        "GPU",
+        "显存",
+        "FLOPs",
+        "ImageNet-1K",
+        "COCO",
+        "ADE20K",
+        "论文",
+        "代码",
+        "开源"
+    ],
+    "timestamp": "2024-10-27T07:35:25.102550"
+}

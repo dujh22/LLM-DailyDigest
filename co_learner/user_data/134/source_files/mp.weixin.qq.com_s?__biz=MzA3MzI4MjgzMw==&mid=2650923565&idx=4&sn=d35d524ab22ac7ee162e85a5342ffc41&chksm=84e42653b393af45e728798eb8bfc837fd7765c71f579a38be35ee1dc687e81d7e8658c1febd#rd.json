@@ -1,0 +1,27 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650923565&idx=4&sn=d35d524ab22ac7ee162e85a5342ffc41&chksm=84e42653b393af45e728798eb8bfc837fd7765c71f579a38be35ee1dc687e81d7e8658c1febd#rd",
+    "title": "史上最快AI芯片「Sohu」，速度10倍于B200，哈佛辍学生打造",
+    "summary": "美国芯片创业公司Etched推出首款专门用于Transformer计算的ASIC芯片Sohu，该芯片运行大模型的速度比英伟达H100快20倍，比B200快10倍。Sohu服务器在运行Llama 70B时每秒可输出超过50万个token，远超H100和B200。作为Transformer ASIC，Sohu无法运行非Transformer架构的传统AI模型，但对Transformer模型的处理速度达到前所未有的水平，FLOPS利用率超过90%。Etched表示，由于大模型对算力的需求，专用芯片将成为趋势。公司已获得1.2亿美元A轮融资，计划在今年三季度将Sohu推向市场。",
+    "user_summary": "美国芯片创业公司Etched推出首款专门用于Transformer计算的ASIC芯片Sohu，该芯片运行大模型的速度比英伟达H100快20倍，比B200快10倍。Sohu服务器在运行Llama 70B时每秒可输出超过50万个token，远超H100和B200。作为Transformer ASIC，Sohu无法运行非Transformer架构的传统AI模型，但对Transformer模型的处理速度达到前所未有的水平，FLOPS利用率超过90%。Etched表示，由于大模型对算力的需求，专用芯片将成为趋势。公司已获得1.2亿美元A轮融资，计划在今年三季度将Sohu推向市场。",
+    "keywords": [
+        "Etched",
+        "Sohu",
+        "ASIC",
+        "芯片",
+        "Transformer",
+        "计算",
+        "英伟达",
+        "H100",
+        "B200",
+        "Llama",
+        "70B",
+        "服务器",
+        "FLOPS",
+        "利用率",
+        "专用芯片",
+        "趋势",
+        "A轮融资",
+        "市场"
+    ],
+    "timestamp": "2024-10-27T07:30:00.188557"
+}

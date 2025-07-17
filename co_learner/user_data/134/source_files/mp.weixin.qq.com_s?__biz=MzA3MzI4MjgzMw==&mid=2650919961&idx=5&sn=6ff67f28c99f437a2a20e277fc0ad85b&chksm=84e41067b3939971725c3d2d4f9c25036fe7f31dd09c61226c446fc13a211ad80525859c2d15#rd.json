@@ -1,0 +1,32 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650919961&idx=5&sn=6ff67f28c99f437a2a20e277fc0ad85b&chksm=84e41067b3939971725c3d2d4f9c25036fe7f31dd09c61226c446fc13a211ad80525859c2d15#rd",
+    "title": "神笔马良画出三维世界，基于线稿的3D生成编辑方法SketchDream来了",
+    "summary": "中国科学院计算技术研究所、香港城市大学和卡迪夫大学的研究人员发表了一篇名为《SketchDream: Sketch-based Text-to-3D Generation and Editing》的论文，该论文提出了一种基于线稿和文本的三维内容生成和编辑方法，发表在SIGGRAPH 2024，并被收录于ACM Transactions on Graphics。SketchDream允许用户通过简单的线稿和文本描述来生成和编辑高质量的三维模型，无需复杂的三维建模软件。该系统支持对真实模型的修改和编辑，提高了用户对三维内容创建的可控性。线稿和文本输入使得用户可以生成多样化和定制化的三维模型，具有广泛的应用前景，如AR/VR、工业设计和游戏影视等领域。",
+    "user_summary": "中国科学院计算技术研究所、香港城市大学和卡迪夫大学的研究人员发表了一篇名为《SketchDream: Sketch-based Text-to-3D Generation and Editing》的论文，该论文提出了一种基于线稿和文本的三维内容生成和编辑方法，发表在SIGGRAPH 2024，并被收录于ACM Transactions on Graphics。SketchDream允许用户通过简单的线稿和文本描述来生成和编辑高质量的三维模型，无需复杂的三维建模软件。该系统支持对真实模型的修改和编辑，提高了用户对三维内容创建的可控性。线稿和文本输入使得用户可以生成多样化和定制化的三维模型，具有广泛的应用前景，如AR/VR、工业设计和游戏影视等领域。",
+    "keywords": [
+        "中国科学院计算技术研究所",
+        "香港城市大学",
+        "卡迪夫大学",
+        "SketchDream",
+        "Sketch-based",
+        "Text-to-3D",
+        "Generation",
+        "and",
+        "Editing",
+        "SIGGRAPH",
+        "2024",
+        "ACM",
+        "Transactions",
+        "on",
+        "Graphics",
+        "三维内容生成",
+        "三维内容编辑",
+        "线稿",
+        "文本描述",
+        "三维模型",
+        "AR/VR",
+        "工业设计",
+        "游戏影视"
+    ],
+    "timestamp": "2024-10-27T07:36:13.891603"
+}

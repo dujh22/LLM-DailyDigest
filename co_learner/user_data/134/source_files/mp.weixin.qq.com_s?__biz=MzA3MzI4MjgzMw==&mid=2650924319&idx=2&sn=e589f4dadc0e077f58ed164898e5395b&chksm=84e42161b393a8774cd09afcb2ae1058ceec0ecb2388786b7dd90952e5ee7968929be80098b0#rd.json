@@ -1,0 +1,26 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650924319&idx=2&sn=e589f4dadc0e077f58ed164898e5395b&chksm=84e42161b393a8774cd09afcb2ae1058ceec0ecb2388786b7dd90952e5ee7968929be80098b0#rd",
+    "title": "73年前，香农已经给大模型发展埋下一颗种子",
+    "summary": "普林斯顿大学教授Sebastian Seung提出，大语言模型（LLM）的原理可以追溯到1951年克劳德·香农在贝尔实验室的工作。香农的论文《Prediction and Entropy of Printed English》探讨了如何预测英文中的下一个单词，这一问题成为了当前LLM的基础。论文中，香农研究了语言的熵和冗余度，并提出了估算方法，包括使用N-gram和考虑人类对语言的预测能力。这一观点引发了讨论，强调了历史上很多现代AI概念的根源。",
+    "user_summary": "普林斯顿大学教授Sebastian Seung提出，大语言模型（LLM）的原理可以追溯到1951年克劳德·香农在贝尔实验室的工作。香农的论文《Prediction and Entropy of Printed English》探讨了如何预测英文中的下一个单词，这一问题成为了当前LLM的基础。论文中，香农研究了语言的熵和冗余度，并提出了估算方法，包括使用N-gram和考虑人类对语言的预测能力。这一观点引发了讨论，强调了历史上很多现代AI概念的根源。",
+    "keywords": [
+        "普林斯顿大学",
+        "Sebastian",
+        "Seung",
+        "大语言模型",
+        "LLM",
+        "克劳德·香农",
+        "贝尔实验室",
+        "论文",
+        "预测",
+        "下一个单词",
+        "语言熵",
+        "冗余度",
+        "N-gram",
+        "人类预测能力",
+        "AI概念",
+        "历史",
+        "根源"
+    ],
+    "timestamp": "2024-10-27T07:28:37.586490"
+}

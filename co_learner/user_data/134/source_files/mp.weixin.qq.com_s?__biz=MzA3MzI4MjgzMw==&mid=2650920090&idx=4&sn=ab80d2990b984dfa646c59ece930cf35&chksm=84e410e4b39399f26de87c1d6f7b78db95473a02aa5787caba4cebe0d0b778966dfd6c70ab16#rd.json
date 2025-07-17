@@ -1,0 +1,23 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650920090&idx=4&sn=ab80d2990b984dfa646c59ece930cf35&chksm=84e410e4b39399f26de87c1d6f7b78db95473a02aa5787caba4cebe0d0b778966dfd6c70ab16#rd",
+    "title": "开源模型进展盘点：最新Mixtral、Llama 3、Phi-3、OpenELM到底有多好？",
+    "summary": "这篇文章总结了4月份发布的四个主要的人工智能大模型：Mixtral 8x22B、Llama 3、Phi-3和苹果的OpenELM。Mixtral 8x22B是一个大规模的混合专家模型，表现出色。Llama 3在数据量大幅增加后性能显著提升，而Phi-3则强调数据质量而非数量。OpenELM是苹果发布的高效语言模型系列，专为移动设备设计。此外，文章还探讨了DPO和PPO两种强化学习方法在对齐大模型时的比较，以及4月份其他值得关注的AI研究进展。",
+    "user_summary": "这篇文章总结了4月份发布的四个主要的人工智能大模型：Mixtral 8x22B、Llama 3、Phi-3和苹果的OpenELM。Mixtral 8x22B是一个大规模的混合专家模型，表现出色。Llama 3在数据量大幅增加后性能显著提升，而Phi-3则强调数据质量而非数量。OpenELM是苹果发布的高效语言模型系列，专为移动设备设计。此外，文章还探讨了DPO和PPO两种强化学习方法在对齐大模型时的比较，以及4月份其他值得关注的AI研究进展。",
+    "keywords": [
+        "人工智能",
+        "大模型",
+        "Mixtral",
+        "8x22B",
+        "Llama",
+        "3",
+        "Phi-3",
+        "苹果",
+        "OpenELM",
+        "强化学习",
+        "DPO",
+        "PPO",
+        "对齐",
+        "研究进展"
+    ],
+    "timestamp": "2024-10-27T07:35:40.480605"
+}

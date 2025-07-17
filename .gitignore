@@ -1,2 +1,3 @@
 tools/config2.py
 *.pyc
+.env

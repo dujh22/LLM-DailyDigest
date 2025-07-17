@@ -1,0 +1,31 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650925868&idx=3&sn=fae16a9ac8df3d922cdd4ff5d3674c7d&chksm=84e42f52b393a644207a12fddec0614db520ed6a26deb5fc5a87643ffcfdd3a46c68da61207f#rd",
+    "title": "英伟达又赚到了！FlashAttention3来了：H100利用率飙升至75%",
+    "summary": "研究者推出了FlashAttention-3，这是一种快速且内存高效的注意力算法，旨在加速大型语言模型（LLM）的注意力计算。FlashAttention-3利用了加速Hopper GPU的三种技术，包括warp-specialization、交错分块matmul和softmax运算以及硬件支持的FP8低精度处理。相较于FlashAttention-2，其速度提高了1.5-2.0倍，达到740 TFLOPS，理论最大FLOPS利用率提升到75%。在FP8精度下，速度接近1.2 PFLOPS。这些改进使得LLM可以处理更长的上下文，提高GPU利用率，并在低精度下保持性能，有望加速训练和运行速度，降低成本。",
+    "user_summary": "研究者推出了FlashAttention-3，这是一种快速且内存高效的注意力算法，旨在加速大型语言模型（LLM）的注意力计算。FlashAttention-3利用了加速Hopper GPU的三种技术，包括warp-specialization、交错分块matmul和softmax运算以及硬件支持的FP8低精度处理。相较于FlashAttention-2，其速度提高了1.5-2.0倍，达到740 TFLOPS，理论最大FLOPS利用率提升到75%。在FP8精度下，速度接近1.2 PFLOPS。这些改进使得LLM可以处理更长的上下文，提高GPU利用率，并在低精度下保持性能，有望加速训练和运行速度，降低成本。",
+    "keywords": [
+        "FlashAttention-3",
+        "GPU",
+        "注意力算法",
+        "大型语言模型",
+        "LLM",
+        "加速",
+        "warp-specialization",
+        "交错分块matmul",
+        "softmax",
+        "FP8低精度处理",
+        "速度提高",
+        "740",
+        "TFLOPS",
+        "FLOPS利用率",
+        "FP8精度",
+        "1.2",
+        "PFLOPS",
+        "长上下文",
+        "GPU利用率",
+        "性能训练",
+        "运行速度",
+        "成本降低"
+    ],
+    "timestamp": "2024-10-27T07:26:26.997632"
+}

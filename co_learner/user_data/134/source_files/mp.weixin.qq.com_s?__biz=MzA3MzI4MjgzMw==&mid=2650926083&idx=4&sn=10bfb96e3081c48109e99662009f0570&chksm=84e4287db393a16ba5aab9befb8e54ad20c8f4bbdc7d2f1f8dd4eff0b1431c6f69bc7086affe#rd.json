@@ -1,0 +1,27 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650926083&idx=4&sn=10bfb96e3081c48109e99662009f0570&chksm=84e4287db393a16ba5aab9befb8e54ad20c8f4bbdc7d2f1f8dd4eff0b1431c6f69bc7086affe#rd",
+    "title": "Meta开发System 2蒸馏技术，Llama 2对话模型任务准确率接近100%",
+    "summary": "Meta FAIR的研究者探索了一种将AI模型的深思熟虑（System 2）推理编译到自动化（System 1）的方法，称为System 2蒸馏。该方法无监督地测量预测质量，并在System 2方法足够一致时将其添加到蒸馏池中，然后微调System 1以匹配这些预测，但不生成中间步骤。实验表明，这种方法可以在多种设置下将System 2推理蒸馏回System 1，有时甚至超越System 2教师的结果，同时降低了推理成本和响应延迟。然而，对于需要复杂思维链的数学任务，某些任务可能无法有效地蒸馏到System 1。",
+    "user_summary": "Meta FAIR的研究者探索了一种将AI模型的深思熟虑（System 2）推理编译到自动化（System 1）的方法，称为System 2蒸馏。该方法无监督地测量预测质量，并在System 2方法足够一致时将其添加到蒸馏池中，然后微调System 1以匹配这些预测，但不生成中间步骤。实验表明，这种方法可以在多种设置下将System 2推理蒸馏回System 1，有时甚至超越System 2教师的结果，同时降低了推理成本和响应延迟。然而，对于需要复杂思维链的数学任务，某些任务可能无法有效地蒸馏到System 1。",
+    "keywords": [
+        "Meta",
+        "FAIR",
+        "System",
+        "2",
+        "蒸馏",
+        "AI",
+        "模型",
+        "推理",
+        "自动化",
+        "预测质量",
+        "微调",
+        "中间步骤",
+        "实验",
+        "设置",
+        "运算成本",
+        "响应延迟",
+        "数学任务",
+        "思维链"
+    ],
+    "timestamp": "2024-10-27T07:26:05.658355"
+}

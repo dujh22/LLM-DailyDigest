@@ -1,0 +1,31 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650923183&idx=1&sn=20294bcece727ec6b6439109daa3aa3b&chksm=84e424d1b393adc7ccb7842ae29cdae6ef262e20875161fbd7ffd6b87cc5a29e69d5f365a403#rd",
+    "title": "导师爆料：这篇CVPR最佳学生论文，从想法到成稿只用一个月，源自业余灵感",
+    "summary": "CVPR 2024 最佳学生论文“Mip-Splatting: Alias-free 3D Gaussian Splatting”仅用一个月时间完成。该论文由Zehao Yu撰写，他通过业余时间对高斯泼溅技术产生兴趣并进行研究，解决了3D图像渲染中的抗锯齿和缩放伪影问题。Zehao Yu的导师Andreas Geiger强调了研究的非线性和好奇心在科研中的重要性。这篇论文提出了一种用于3D图像渲染的抗锯齿方法，有助于提高图像质量。Zehao Yu是图宾根大学的博士生，此前已参与过多个项目并在NeurIPS 2022上发表过论文。",
+    "user_summary": "CVPR 2024 最佳学生论文“Mip-Splatting: Alias-free 3D Gaussian Splatting”仅用一个月时间完成。该论文由Zehao Yu撰写，他通过业余时间对高斯泼溅技术产生兴趣并进行研究，解决了3D图像渲染中的抗锯齿和缩放伪影问题。Zehao Yu的导师Andreas Geiger强调了研究的非线性和好奇心在科研中的重要性。这篇论文提出了一种用于3D图像渲染的抗锯齿方法，有助于提高图像质量。Zehao Yu是图宾根大学的博士生，此前已参与过多个项目并在NeurIPS 2022上发表过论文。",
+    "keywords": [
+        "CVPR",
+        "2024",
+        "最佳学生论文",
+        "Mip-Splatting",
+        "3D",
+        "Gaussian",
+        "Splatting",
+        "Zehao",
+        "Yu",
+        "高斯泼溅技术",
+        "3D图像渲染",
+        "抗锯齿",
+        "缩放伪影",
+        "研究",
+        "非线性",
+        "好奇心",
+        "图像质量",
+        "图宾根大学",
+        "博士生",
+        "NeurIPS",
+        "2022",
+        "论文"
+    ],
+    "timestamp": "2024-10-27T07:30:41.628707"
+}

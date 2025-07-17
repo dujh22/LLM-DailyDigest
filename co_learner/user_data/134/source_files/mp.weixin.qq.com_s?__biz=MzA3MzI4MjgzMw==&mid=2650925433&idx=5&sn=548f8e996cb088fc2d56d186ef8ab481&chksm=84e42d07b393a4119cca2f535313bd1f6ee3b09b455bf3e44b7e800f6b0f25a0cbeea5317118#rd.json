@@ -1,0 +1,29 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650925433&idx=5&sn=548f8e996cb088fc2d56d186ef8ab481&chksm=84e42d07b393a4119cca2f535313bd1f6ee3b09b455bf3e44b7e800f6b0f25a0cbeea5317118#rd",
+    "title": "又遇到「GPT写的review」了？看看北大&密歇根的这个研究工作",
+    "summary": "这篇论文介绍了北京大学和密歇根大学的研究团队合作发表在ACM Conference on Economics and Computation (EC'24)上的工作，该研究关注如何利用大型语言模型（LLMs）提高审稿质量。论文提出了两种机制——Generative Peer Prediction Mechanism (GPPM)和Generative Synopsis Peer Prediction Mechanism (GSPPM)，旨在激励审稿人提供更高质量的反馈。通过对审稿意见的信息量进行量化，研究者发现GPPM和GSPPM能够有效区分人类审稿和LLM生成的审稿，并且在检测低质量评论方面表现出色。此外，论文讨论了大模型在审稿过程中的应用及其可能带来的问题，并提出了未来的研究方向。",
+    "user_summary": "这篇论文介绍了北京大学和密歇根大学的研究团队合作发表在ACM Conference on Economics and Computation (EC'24)上的工作，该研究关注如何利用大型语言模型（LLMs）提高审稿质量。论文提出了两种机制——Generative Peer Prediction Mechanism (GPPM)和Generative Synopsis Peer Prediction Mechanism (GSPPM)，旨在激励审稿人提供更高质量的反馈。通过对审稿意见的信息量进行量化，研究者发现GPPM和GSPPM能够有效区分人类审稿和LLM生成的审稿，并且在检测低质量评论方面表现出色。此外，论文讨论了大模型在审稿过程中的应用及其可能带来的问题，并提出了未来的研究方向。",
+    "keywords": [
+        "北京大学",
+        "密歇根大学",
+        "LLM",
+        "审稿质量",
+        "Generative",
+        "Peer",
+        "Prediction",
+        "Mechanism",
+        "(GPPM)",
+        "Generative",
+        "Synopsis",
+        "Peer",
+        "Prediction",
+        "Mechanism",
+        "(GSPPM)",
+        "信息量",
+        "低质量评论",
+        "应用",
+        "问题",
+        "研究方向"
+    ],
+    "timestamp": "2024-10-27T07:27:12.952855"
+}

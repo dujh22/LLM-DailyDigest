@@ -1,0 +1,24 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650920070&idx=2&sn=f88e78fbc290823d62a8680aefd31adb&chksm=84e410f8b39399ee00a150570dfb2c6b160ba63ff8c44443b9e31ca48ad0350dceb0fc5a50fe#rd",
+    "title": "Yann LeCun：ViT慢且效率低，实时图像处理还得看卷积",
+    "summary": "图灵奖得主、Meta 首席科学家 Yann LeCun 近日加入了一场关于 Vision Transformer（ViT）与卷积神经网络（CNN）的讨论。起因是 Comma.ai CTO 展示了纯 ViT 在压缩器中的成功应用，但 LeCun 表示，虽然 ViT 很流行，但它在实时处理高分辨率图像和视频任务时效率低下。他主张在低级别使用卷积/步幅/池化，在高级别使用自注意力循环。LeCun 认为特斯拉的全自动驾驶（FSD）可能仍采用卷积，并认为在低级别 patch 嵌入上使用 Transformer 是浪费。这场争论反映了 ViT 和 CNN 在计算机视觉领域的持续竞争。",
+    "user_summary": "图灵奖得主、Meta 首席科学家 Yann LeCun 近日加入了一场关于 Vision Transformer（ViT）与卷积神经网络（CNN）的讨论。起因是 Comma.ai CTO 展示了纯 ViT 在压缩器中的成功应用，但 LeCun 表示，虽然 ViT 很流行，但它在实时处理高分辨率图像和视频任务时效率低下。他主张在低级别使用卷积/步幅/池化，在高级别使用自注意力循环。LeCun 认为特斯拉的全自动驾驶（FSD）可能仍采用卷积，并认为在低级别 patch 嵌入上使用 Transformer 是浪费。这场争论反映了 ViT 和 CNN 在计算机视觉领域的持续竞争。",
+    "keywords": [
+        "Yann",
+        "LeCun",
+        "Vision",
+        "Transformer",
+        "ViT",
+        "卷积神经网络",
+        "CNN",
+        "Comma.ai",
+        "CTO",
+        "自注意力循环",
+        "全自动驾驶",
+        "FSD",
+        "patch",
+        "嵌入",
+        "计算机视觉"
+    ],
+    "timestamp": "2024-10-27T07:35:46.828956"
+}

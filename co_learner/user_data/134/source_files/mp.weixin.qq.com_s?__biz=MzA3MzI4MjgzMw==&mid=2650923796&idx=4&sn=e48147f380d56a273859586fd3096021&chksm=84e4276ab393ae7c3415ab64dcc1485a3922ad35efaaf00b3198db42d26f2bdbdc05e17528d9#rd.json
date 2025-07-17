@@ -1,0 +1,30 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650923796&idx=4&sn=e48147f380d56a273859586fd3096021&chksm=84e4276ab393ae7c3415ab64dcc1485a3922ad35efaaf00b3198db42d26f2bdbdc05e17528d9#rd",
+    "title": "ICML 2024 | 揭示非线形Transformer在上下文学习中学习和泛化的机制",
+    "summary": "这篇文章是关于深度学习理论的研究，特别是上下文学习（in-context learning, ICL）在大语言模型（LLM）中的能力。作者李宏康是美国伦斯勒理工大学的博士生，研究团队包括伦斯勒理工大学和IBM研究院的成员。他们从优化和泛化理论角度分析了带有非线性注意力模块（attention）和多层感知机（MLP）的Transformer在ICL中的表现。论文证明了单层Transformer如何通过attention层选择上下文示例，然后在MLP层进行预测的ICL机制，并探讨了ICL的泛化能力。研究成果发表在ICML 2024，有助于理解Transformer在ICL中的工作原理。",
+    "user_summary": "这篇文章是关于深度学习理论的研究，特别是上下文学习（in-context learning, ICL）在大语言模型（LLM）中的能力。作者李宏康是美国伦斯勒理工大学的博士生，研究团队包括伦斯勒理工大学和IBM研究院的成员。他们从优化和泛化理论角度分析了带有非线性注意力模块（attention）和多层感知机（MLP）的Transformer在ICL中的表现。论文证明了单层Transformer如何通过attention层选择上下文示例，然后在MLP层进行预测的ICL机制，并探讨了ICL的泛化能力。研究成果发表在ICML 2024，有助于理解Transformer在ICL中的工作原理。",
+    "keywords": [
+        "深度学习",
+        "理论",
+        "上下文学习",
+        "ICL",
+        "大语言模型",
+        "LLM",
+        "李宏康",
+        "伦斯勒理工大学",
+        "IBM研究院",
+        "优化",
+        "泛化理论",
+        "注意力模块",
+        "MLP",
+        "Transformer",
+        "ICL",
+        "机制",
+        "泛化能力",
+        "ICML",
+        "2024",
+        "Transformer",
+        "工作原理"
+    ],
+    "timestamp": "2024-10-27T07:29:46.932868"
+}

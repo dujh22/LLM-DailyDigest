@@ -1,0 +1,31 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650920913&idx=5&sn=19aa437e137e5d10dc5ef56f0f4f77e2&chksm=84e413afb3939ab9430168c45c7649f16b7f57f712f8e0f36c0cbc580d0762bc9ab136eab0dc#rd",
+    "title": "大模型时代，学习动手做AI Agent",
+    "summary": "这篇文章提到人工智能行业的焦点已转向AI Agent，它们是能够理解和回应自然语言并执行任务的智能体。OpenAI的GPTs引发了对AI Agent的关注，而比尔·盖茨认为它们代表着AI的未来。黄佳，一位新加坡科技研究局的人工智能研究员，出版了新书《大模型应用开发—动手做AI Agent》，探讨了AI Agent的设计和实现，并将在6月11日的直播中分享如何利用大模型优化Agent的认知框架选型和应用。直播将介绍最新认知框架，如Function Calling、CoT、ToT、ReAct、Plan-and-Execute以及Self-ask，并通过案例和Demo展示其应用。这本书面向研究人员、开发人员、产品经理等对AI Agent感兴趣的人群。",
+    "user_summary": "这篇文章提到人工智能行业的焦点已转向AI Agent，它们是能够理解和回应自然语言并执行任务的智能体。OpenAI的GPTs引发了对AI Agent的关注，而比尔·盖茨认为它们代表着AI的未来。黄佳，一位新加坡科技研究局的人工智能研究员，出版了新书《大模型应用开发—动手做AI Agent》，探讨了AI Agent的设计和实现，并将在6月11日的直播中分享如何利用大模型优化Agent的认知框架选型和应用。直播将介绍最新认知框架，如Function Calling、CoT、ToT、ReAct、Plan-and-Execute以及Self-ask，并通过案例和Demo展示其应用。这本书面向研究人员、开发人员、产品经理等对AI Agent感兴趣的人群。",
+    "keywords": [
+        "AI",
+        "Agent",
+        "GPTs",
+        "人工智能",
+        "未来",
+        "黄佳",
+        "大模型",
+        "应用开发",
+        "认知框架",
+        "Function",
+        "Calling",
+        "CoT",
+        "ToT",
+        "ReAct",
+        "Plan-and-Execute",
+        "Self-ask",
+        "研究人员",
+        "开发人员",
+        "产品经理",
+        "直播",
+        "案例",
+        "Demo"
+    ],
+    "timestamp": "2024-10-27T07:34:30.763317"
+}

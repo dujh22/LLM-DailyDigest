@@ -1,0 +1,21 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650921189&idx=2&sn=7a8722741819f7cbbd711985f64869f3&chksm=84e41c9bb393958db1f186620e0be750cbc42150a5ff468738a9b3716152b8039569ceec30d9#rd",
+    "title": "Karpathy最新四小时视频教程：从零复现GPT-2，通宵运行即搞定",
+    "summary": "AI大牛Andrej Karpathy发布了一部长达四个小时的视频，详细讲解如何从零开始复现GPT-2（1.24亿参数）模型。视频内容包括构建GPT-2网络、优化训练速度、设置训练运行和超参数，以及模型评估。Karpathy提供了完整的GitHub存储库“build-nanogpt”来辅助学习。视频分为建立网络、加快训练速度、设置运行和结果四部分，涵盖了从基础实现到优化技巧的全过程。",
+    "user_summary": "AI大牛Andrej Karpathy发布了一部长达四个小时的视频，详细讲解如何从零开始复现GPT-2（1.24亿参数）模型。视频内容包括构建GPT-2网络、优化训练速度、设置训练运行和超参数，以及模型评估。Karpathy提供了完整的GitHub存储库“build-nanogpt”来辅助学习。视频分为建立网络、加快训练速度、设置运行和结果四部分，涵盖了从基础实现到优化技巧的全过程。",
+    "keywords": [
+        "Andrej",
+        "Karpathy",
+        "GPT-2",
+        "1.24亿参数",
+        "视频教程",
+        "GitHub",
+        "存储库",
+        "建立网络",
+        "加快训练速度",
+        "设置运行",
+        "结果",
+        "优化技巧"
+    ],
+    "timestamp": "2024-10-27T07:33:33.204923"
+}

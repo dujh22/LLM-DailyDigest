@@ -1,0 +1,20 @@
+{
+    "link": "http://mp.weixin.qq.com/s?__biz=MzA3MzI4MjgzMw==&mid=2650922111&idx=5&sn=2d419d85ff827fb03aeb26cbe133d98e&chksm=84e41801b39391177a659fbe56f28ea18bb12188093319eb1fa9bb898d4e9c8d292409519174#rd",
+    "title": "答案抽取正确率达96.88%，xFinder断了大模型「作弊」的小心思",
+    "summary": "上海算法创新研究院和中国人民大学的研究团队针对大语言模型（LLM）评估框架中的答案抽取器组件的可靠性和一致性问题，发表了一篇名为《xFinder: Robust and Pinpoint Answer Extraction for Large Language Models》的论文。研究发现，现有的评估框架主要依赖正则表达式（RegEx）抽取答案，但这种方法准确率低且易被拟合，影响评估可靠性。为此，他们开发了xFinder模型，该模型答案抽取准确率高达95.18%，优于RegEx方法，并支持多样化题型，降低了拟合题型的可能性。xFinder通过关键答案查找（KAF）数据集进行训练，提高了评估的准确性和一致性。实验表明，xFinder在不同任务和现实世界场景中的评估中表现出色，显示出高鲁棒性和泛化能力。",
+    "user_summary": "上海算法创新研究院和中国人民大学的研究团队针对大语言模型（LLM）评估框架中的答案抽取器组件的可靠性和一致性问题，发表了一篇名为《xFinder: Robust and Pinpoint Answer Extraction for Large Language Models》的论文。研究发现，现有的评估框架主要依赖正则表达式（RegEx）抽取答案，但这种方法准确率低且易被拟合，影响评估可靠性。为此，他们开发了xFinder模型，该模型答案抽取准确率高达95.18%，优于RegEx方法，并支持多样化题型，降低了拟合题型的可能性。xFinder通过关键答案查找（KAF）数据集进行训练，提高了评估的准确性和一致性。实验表明，xFinder在不同任务和现实世界场景中的评估中表现出色，显示出高鲁棒性和泛化能力。",
+    "keywords": [
+        "xFinder",
+        "大语言模型（LLM）",
+        "答案抽取器",
+        "可靠性",
+        "一致性",
+        "正则表达式（RegEx）",
+        "准确率",
+        "KAF",
+        "数据集",
+        "鲁棒性",
+        "泛化能力"
+    ],
+    "timestamp": "2024-10-27T07:32:02.613531"
+}
