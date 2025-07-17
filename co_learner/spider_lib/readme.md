@@ -14,4 +14,3 @@
    2. 在上级目录的config.py中配置模型名称
    3. 测试上级目录中的llm_chat.py确保可以正常运行
    4. 配置input和output文件名
-3.
