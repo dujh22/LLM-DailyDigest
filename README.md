@@ -27,6 +27,8 @@ Stay up-to-date with the latest developments, news, and insights about Large Lan
 
 ## 🏗️ Project Architecture
 
+Analysis of this project for reference: [https://deepwiki.com/dujh22/LLM-DailyDigest](https://deepwiki.com/dujh22/LLM-DailyDigest)
+
 ```
 LLM-DailyDigest/
 ├── 📁 co_learner/           # Core automation system

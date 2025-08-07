@@ -27,6 +27,8 @@
 
 ## 🏗️ 项目架构
 
+可供参考的本项目解析：[https://deepwiki.com/dujh22/LLM-DailyDigest](https://deepwiki.com/dujh22/LLM-DailyDigest)
+
 ```
 LLM-DailyDigest/
 ├── 📁 co_learner/           # 核心自动化系统
