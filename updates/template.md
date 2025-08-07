@@ -20,9 +20,13 @@
 
 **From：**[https:// /arxiv/cs.CL](https://papers.cool/arxiv/cs.CL)
 
+From：https://arxiv.org/list/cs.CL/recent
+
 # 1.2.2 Artificial Intelligence
 
-**From：**https://papers.cool/arxiv/cs.AI
+**From**：https://papers.cool/arxiv/cs.AI
+
+From：https://arxiv.org/list/cs.AI/recenthttps://arxiv.org/list/cs.CL/recent
 
 # 1.3 Huggingface
 
@@ -32,6 +36,10 @@
 
 # 2. 感兴趣研究
 
-\[PDF\d*\] \[Copy\d*\] \[Kimi\d*\] \[REL\d*\] 正则表达式删除无关字符串
+正则表达式删除无关字符串
 
-**[**PDF( \d+)? ][**复制**][**Kimi( \d+)? **][**(?:REL|相关)**]** 正则表达式删除无关字符串**
+```
+\[PDF\d*\] \[Copy\d*\] \[Kimi\d*\] \[REL\d*\]
+
+\[PDF( \d+)? \] \[复制\] \[Kimi( \d+)? \] \[(?:REL|相关)\]
+```
