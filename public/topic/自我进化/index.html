@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>自我进化 Self-Evolve - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="Self-Evolve
+2025-08-07
+SEAgent：具备自主经验学习的自我进化计算机使用代理
+#68SEAgent: Self-Evolving Computer Use Agent with Autonomous Learning from Experience  #68
+
+将大型视觉语言模型（LVLMs）重新用作计算机使用代理（CUAs）已带来重大突破，这主要依赖于人工标注数据。然而，这些模型在处理新颖和专业的软件时常常表现不佳，尤其是在缺乏人工注释的场景中。为了解决这一挑战，我们提出了 SEAgent，一种代理自我进化框架，使 CUAs 能够通过与陌生软件的交互自主进化。具体而言，SEAgent 使计算机使用代理能够通过体验式学习自主掌握新软件环境，代理通过探索新软件、反复试错学习，并逐步完成从简单到复杂自动生成的任务。
+
+为实现这一目标，我们设计了一个用于逐步轨迹评估的世界状态模型，以及一个生成日益多样且具有挑战性任务的课程生成器。代理的策略通过体验式学习进行更新，包括对失败动作的对抗模仿和对成功动作的群体相对策略优化（GRPO）。
+
+此外，我们引入了一种专家到通才的训练策略，该策略整合了专家代理的个体经验见解，促进了更强大的通才 CUA 的开发，使其能够持续自主进化。该统一代理最终在其专门的软件上实现了超越单个专家代理集成的性能。
+我们在 OS-World 中的五个新颖软件环境中验证了 SEAgent 的有效性。我们的方法在成功率上相较于一个具有竞争力的开源 CUA（即 UI-TARS）实现了显著提升，成功率从 11.3%提升至 34.5%，提高了 23.2%。
+
+
+
+
+
+发布时间：2025-08-06 17:58:46 UTC
+SEA：带有逐步奖励的自我进化代理用于计算机使用
+#24SEA: Self-Evolution Agent with Step-wise Reward for Computer Use
+
+计算机使用代理是人工智能中的一个新兴领域，旨在操作计算机以完成用户任务，吸引了工业界和学术界的广泛关注。然而，目前的代理性能距离实际应用仍有较大差距。本文提出了用于计算机使用的自我进化代理（Self-Evolution Agent，SEA），并在数据生成、强化学习和模型增强方面提出了创新方法。
+
+具体来说，我们首先提出了一个自动化流程来生成可验证的训练轨迹。
+随后，提出了高效的逐步强化学习方法，以缓解长时间训练所需的巨大计算资源。
+最后，提出了一种增强方法，将基础能力和规划能力合并到一个模型中，无需额外训练。
+基于我们提出的数据生成、训练策略和增强创新，获得了仅有 7B 参数的自我进化代理（SEA），其性能优于同参数规模的模型，并且与更大规模模型的性能相当。 我们将在未来开源模型权重和相关代码。
+
+
+
+发布时间：2025-08-06 02:57:22 UTC" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="自我进化 Self-Evolve">
+  <meta itemprop="description" content="Self-Evolve 2025-08-07 SEAgent：具备自主经验学习的自我进化计算机使用代理 #68SEAgent: Self-Evolving Computer Use Agent with Autonomous Learning from Experience #68
+将大型视觉语言模型（LVLMs）重新用作计算机使用代理（CUAs）已带来重大突破，这主要依赖于人工标注数据。然而，这些模型在处理新颖和专业的软件时常常表现不佳，尤其是在缺乏人工注释的场景中。为了解决这一挑战，我们提出了 SEAgent，一种代理自我进化框架，使 CUAs 能够通过与陌生软件的交互自主进化。具体而言，SEAgent 使计算机使用代理能够通过体验式学习自主掌握新软件环境，代理通过探索新软件、反复试错学习，并逐步完成从简单到复杂自动生成的任务。 为实现这一目标，我们设计了一个用于逐步轨迹评估的世界状态模型，以及一个生成日益多样且具有挑战性任务的课程生成器。代理的策略通过体验式学习进行更新，包括对失败动作的对抗模仿和对成功动作的群体相对策略优化（GRPO）。 此外，我们引入了一种专家到通才的训练策略，该策略整合了专家代理的个体经验见解，促进了更强大的通才 CUA 的开发，使其能够持续自主进化。该统一代理最终在其专门的软件上实现了超越单个专家代理集成的性能。 我们在 OS-World 中的五个新颖软件环境中验证了 SEAgent 的有效性。我们的方法在成功率上相较于一个具有竞争力的开源 CUA（即 UI-TARS）实现了显著提升，成功率从 11.3%提升至 34.5%，提高了 23.2%。 发布时间：2025-08-06 17:58:46 UTC
+SEA：带有逐步奖励的自我进化代理用于计算机使用 #24SEA: Self-Evolution Agent with Step-wise Reward for Computer Use
+计算机使用代理是人工智能中的一个新兴领域，旨在操作计算机以完成用户任务，吸引了工业界和学术界的广泛关注。然而，目前的代理性能距离实际应用仍有较大差距。本文提出了用于计算机使用的自我进化代理（Self-Evolution Agent，SEA），并在数据生成、强化学习和模型增强方面提出了创新方法。 具体来说，我们首先提出了一个自动化流程来生成可验证的训练轨迹。 随后，提出了高效的逐步强化学习方法，以缓解长时间训练所需的巨大计算资源。 最后，提出了一种增强方法，将基础能力和规划能力合并到一个模型中，无需额外训练。 基于我们提出的数据生成、训练策略和增强创新，获得了仅有 7B 参数的自我进化代理（SEA），其性能优于同参数规模的模型，并且与更大规模模型的性能相当。 我们将在未来开源模型权重和相关代码。 发布时间：2025-08-06 02:57:22 UTC">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="628"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E8%87%AA%E6%88%91%E8%BF%9B%E5%8C%96/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="自我进化 Self-Evolve">
+  <meta property="og:description" content="Self-Evolve 2025-08-07 SEAgent：具备自主经验学习的自我进化计算机使用代理 #68SEAgent: Self-Evolving Computer Use Agent with Autonomous Learning from Experience #68
+将大型视觉语言模型（LVLMs）重新用作计算机使用代理（CUAs）已带来重大突破，这主要依赖于人工标注数据。然而，这些模型在处理新颖和专业的软件时常常表现不佳，尤其是在缺乏人工注释的场景中。为了解决这一挑战，我们提出了 SEAgent，一种代理自我进化框架，使 CUAs 能够通过与陌生软件的交互自主进化。具体而言，SEAgent 使计算机使用代理能够通过体验式学习自主掌握新软件环境，代理通过探索新软件、反复试错学习，并逐步完成从简单到复杂自动生成的任务。 为实现这一目标，我们设计了一个用于逐步轨迹评估的世界状态模型，以及一个生成日益多样且具有挑战性任务的课程生成器。代理的策略通过体验式学习进行更新，包括对失败动作的对抗模仿和对成功动作的群体相对策略优化（GRPO）。 此外，我们引入了一种专家到通才的训练策略，该策略整合了专家代理的个体经验见解，促进了更强大的通才 CUA 的开发，使其能够持续自主进化。该统一代理最终在其专门的软件上实现了超越单个专家代理集成的性能。 我们在 OS-World 中的五个新颖软件环境中验证了 SEAgent 的有效性。我们的方法在成功率上相较于一个具有竞争力的开源 CUA（即 UI-TARS）实现了显著提升，成功率从 11.3%提升至 34.5%，提高了 23.2%。 发布时间：2025-08-06 17:58:46 UTC
+SEA：带有逐步奖励的自我进化代理用于计算机使用 #24SEA: Self-Evolution Agent with Step-wise Reward for Computer Use
+计算机使用代理是人工智能中的一个新兴领域，旨在操作计算机以完成用户任务，吸引了工业界和学术界的广泛关注。然而，目前的代理性能距离实际应用仍有较大差距。本文提出了用于计算机使用的自我进化代理（Self-Evolution Agent，SEA），并在数据生成、强化学习和模型增强方面提出了创新方法。 具体来说，我们首先提出了一个自动化流程来生成可验证的训练轨迹。 随后，提出了高效的逐步强化学习方法，以缓解长时间训练所需的巨大计算资源。 最后，提出了一种增强方法，将基础能力和规划能力合并到一个模型中，无需额外训练。 基于我们提出的数据生成、训练策略和增强创新，获得了仅有 7B 参数的自我进化代理（SEA），其性能优于同参数规模的模型，并且与更大规模模型的性能相当。 我们将在未来开源模型权重和相关代码。 发布时间：2025-08-06 02:57:22 UTC">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="topic">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="自我进化 Self-Evolve">
+  <meta name="twitter:description" content="Self-Evolve 2025-08-07 SEAgent：具备自主经验学习的自我进化计算机使用代理 #68SEAgent: Self-Evolving Computer Use Agent with Autonomous Learning from Experience #68
+将大型视觉语言模型（LVLMs）重新用作计算机使用代理（CUAs）已带来重大突破，这主要依赖于人工标注数据。然而，这些模型在处理新颖和专业的软件时常常表现不佳，尤其是在缺乏人工注释的场景中。为了解决这一挑战，我们提出了 SEAgent，一种代理自我进化框架，使 CUAs 能够通过与陌生软件的交互自主进化。具体而言，SEAgent 使计算机使用代理能够通过体验式学习自主掌握新软件环境，代理通过探索新软件、反复试错学习，并逐步完成从简单到复杂自动生成的任务。 为实现这一目标，我们设计了一个用于逐步轨迹评估的世界状态模型，以及一个生成日益多样且具有挑战性任务的课程生成器。代理的策略通过体验式学习进行更新，包括对失败动作的对抗模仿和对成功动作的群体相对策略优化（GRPO）。 此外，我们引入了一种专家到通才的训练策略，该策略整合了专家代理的个体经验见解，促进了更强大的通才 CUA 的开发，使其能够持续自主进化。该统一代理最终在其专门的软件上实现了超越单个专家代理集成的性能。 我们在 OS-World 中的五个新颖软件环境中验证了 SEAgent 的有效性。我们的方法在成功率上相较于一个具有竞争力的开源 CUA（即 UI-TARS）实现了显著提升，成功率从 11.3%提升至 34.5%，提高了 23.2%。 发布时间：2025-08-06 17:58:46 UTC
+SEA：带有逐步奖励的自我进化代理用于计算机使用 #24SEA: Self-Evolution Agent with Step-wise Reward for Computer Use
+计算机使用代理是人工智能中的一个新兴领域，旨在操作计算机以完成用户任务，吸引了工业界和学术界的广泛关注。然而，目前的代理性能距离实际应用仍有较大差距。本文提出了用于计算机使用的自我进化代理（Self-Evolution Agent，SEA），并在数据生成、强化学习和模型增强方面提出了创新方法。 具体来说，我们首先提出了一个自动化流程来生成可验证的训练轨迹。 随后，提出了高效的逐步强化学习方法，以缓解长时间训练所需的巨大计算资源。 最后，提出了一种增强方法，将基础能力和规划能力合并到一个模型中，无需额外训练。 基于我们提出的数据生成、训练策略和增强创新，获得了仅有 7B 参数的自我进化代理（SEA），其性能优于同参数规模的模型，并且与更大规模模型的性能相当。 我们将在未来开源模型权重和相关代码。 发布时间：2025-08-06 02:57:22 UTC">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E8%87%AA%E6%88%91%E8%BF%9B%E5%8C%96/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E8%A7%84%E5%88%92/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E7%A0%94%E7%A9%B6%E6%96%B9%E5%90%91/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "自我进化 Self-Evolve",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E8%87%AA%E6%88%91%E8%BF%9B%E5%8C%96\/"
+    },"genre": "topic","wordcount":  628 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E8%87%AA%E6%88%91%E8%BF%9B%E5%8C%96\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>自我进化 Self-Evolve</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="628 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 700 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>3 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#2025-08-07">2025-08-07</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#seagent具备自主经验学习的自我进化计算机使用代理">SEAgent：具备自主经验学习的自我进化计算机使用代理</a></li>
+            <li><a href="#sea带有逐步奖励的自我进化代理用于计算机使用">SEA：带有逐步奖励的自我进化代理用于计算机使用</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#2025-08-06">2025-08-06</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#eoh-s利用-llms-进化启发式集合以实现自动化启发式设计">EoH-S：利用 LLMs 进化启发式集合以实现自动化启发式设计</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#2025-08-05">2025-08-05</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#1-deepmind哈萨比斯ai能建模所有进化而来的事物">1. <a href="https://mp.weixin.qq.com/s/4vuQrBPHZvjFHiKZhSHFnw">DeepMind哈萨比斯：AI能建模所有进化而来的事物</a></a></li>
+            <li><a href="#2-一篇自进化agents技术最新综述迈向人工超级智能">2. <a href="https://mp.weixin.qq.com/s/7YiTpBuLtCqOeGn4YyIARA">一篇自进化Agents技术最新综述：迈向人工超级智能</a></a></li>
+            <li><a href="#3-108k-star一个能够随你不断成长进化的超级ai助手">3. <a href="https://mp.weixin.qq.com/s/Ug9g8P5RlFZ_t1fsAp55_w?scene=1&amp;click_id=43">10.8k Star！一个能够随你不断成长、进化的超级AI助手！</a></a></li>
+            <li><a href="#4-ai彻底不当人了anthropic这波自我进化骚操作看得我人已麻">4. <a href="https://mp.weixin.qq.com/s/nd-yYr9VOW2AMShvffBe_g?scene=1&amp;click_id=45">AI彻底不当人了？Anthropic这波“自我进化”骚操作，看得我人已麻</a></a></li>
+            <li><a href="#5-自主进化的多智能体evoagentx自动工作流生成多种进化算法任务调度mcp支持">5. <a href="https://mp.weixin.qq.com/s/7H8xCIUxm3DTgalVlwRB8g?scene=1&amp;click_id=46">自主进化的多智能体！EvoAgentX：自动工作流生成、多种进化算法、任务调度、MCP支持！</a></a></li>
+            <li><a href="#主要功能">主要功能</a></li>
+            <li><a href="#6-这一天真的来了谷歌让ai实现自我进化-alphaevolve-a-coding-agent-for-scientific-and-algorithmic-discovery">6. <a href="https://mp.weixin.qq.com/s/j91-BLE5gUYYPum22HCMTQ?scene=1&amp;click_id=47">这一天真的来了？谷歌让AI实现自我进化！</a> AlphaEvolve: A coding agent for scientific and algorithmic discovery</a></li>
+            <li><a href="#7-uc伯克利新作颠覆认知llm靠自信爆表学会推理无需外部奖励超进化">7. <a href="https://mp.weixin.qq.com/s/uEJY6sn_MQUovuMewY51Ow">UC伯克利新作颠覆认知：LLM靠「自信爆表」学会推理？无需外部奖励超进化</a></a></li>
+            <li><a href="#8-metaagent通过工具元学习走向自我进化的代理">8. <a href="https://papers.cool/arxiv/2508.00271">MetaAgent：通过工具元学习走向自我进化的代理</a></a></li>
+            <li><a href="#9-ai学会自我进化">9. AI学会自我进化</a></li>
+            <li><a href="#10-元代理通过自我进化的代理元学习工具">10. 元代理：通过自我进化的代理元学习工具</a></li>
+            <li><a href="#11-ai界重磅突破llm终于学会自我进化了">11. AI界重磅突破！LLM终于学会”自我进化”了</a></li>
+            <li><a href="#12-darwin-gödel-machine自我进化智能体">12. Darwin Gödel Machine:自我进化智能体</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#2025-07-01">2025-07-01</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#谷歌的alphaevolve">谷歌的AlphaEvolve</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#2025-06-14">2025-06-14</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#llm已能自我更新权重自适应知识整合能力大幅提升ai醒了">LLM已能自我更新权重，自适应、知识整合能力大幅提升，AI醒了？</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#2025-06-02">2025-06-02</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#lstm之父22年前构想将成真一周内ai自我进化论文集中发布新趋势涌现">LSTM之父22年前构想将成真？一周内AI「自我进化」论文集中发布，新趋势涌现</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="self-evolve">Self-Evolve</h1>
+<h2 id="2025-08-07">2025-08-07</h2>
+<h4 id="seagent具备自主经验学习的自我进化计算机使用代理">SEAgent：具备自主经验学习的自我进化计算机使用代理</h4>
+<p><a href="https://arxiv.org/abs/2508.04700"target="_blank" rel="external nofollow noopener noreferrer">#68</a><a href="https://papers.cool/arxiv/2508.04700"target="_blank" rel="external nofollow noopener noreferrer">SEAgent: Self-Evolving Computer Use Agent with Autonomous Learning from Experience</a>  #68</p>
+<ol>
+<li>将大型视觉语言模型（LVLMs）重新用作计算机使用代理（CUAs）已带来重大突破，这主要依赖于人工标注数据。然而，这些模型在处理新颖和专业的软件时常常表现不佳，尤其是在缺乏人工注释的场景中。为了解决这一挑战，我们提出了 SEAgent，一种代理自我进化框架，使 CUAs 能够通过与陌生软件的交互自主进化。具体而言，SEAgent 使计算机使用代理能够通过体验式学习自主掌握新软件环境，代理通过探索新软件、反复试错学习，并逐步完成从简单到复杂自动生成的任务。
+<ol>
+<li>为实现这一目标，我们设计了一个用于逐步轨迹评估的世界状态模型，以及一个生成日益多样且具有挑战性任务的课程生成器。代理的策略通过体验式学习进行更新，包括对失败动作的对抗模仿和对成功动作的群体相对策略优化（GRPO）。
+<ol>
+<li>此外，我们引入了一种专家到通才的训练策略，该策略整合了专家代理的个体经验见解，促进了更强大的通才 CUA 的开发，使其能够持续自主进化。该统一代理最终在其专门的软件上实现了超越单个专家代理集成的性能。</li>
+<li>我们在 OS-World 中的五个新颖软件环境中验证了 SEAgent 的有效性。我们的方法在成功率上相较于一个具有竞争力的开源 CUA（即 UI-TARS）实现了显著提升，成功率从 11.3%提升至 34.5%，提高了 23.2%。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>发布时间：2025-08-06 17:58:46 UTC</p>
+<h4 id="sea带有逐步奖励的自我进化代理用于计算机使用">SEA：带有逐步奖励的自我进化代理用于计算机使用</h4>
+<p><a href="https://arxiv.org/abs/2508.04037"target="_blank" rel="external nofollow noopener noreferrer">#24</a><a href="https://papers.cool/arxiv/2508.04037"target="_blank" rel="external nofollow noopener noreferrer">SEA: Self-Evolution Agent with Step-wise Reward for Computer Use</a></p>
+<ol>
+<li>计算机使用代理是人工智能中的一个新兴领域，旨在操作计算机以完成用户任务，吸引了工业界和学术界的广泛关注。然而，目前的代理性能距离实际应用仍有较大差距。本文提出了用于计算机使用的自我进化代理（Self-Evolution Agent，SEA），并在数据生成、强化学习和模型增强方面提出了创新方法。
+<ol>
+<li>具体来说，我们首先提出了一个自动化流程来生成可验证的训练轨迹。</li>
+<li>随后，提出了高效的逐步强化学习方法，以缓解长时间训练所需的巨大计算资源。</li>
+<li>最后，提出了一种增强方法，将基础能力和规划能力合并到一个模型中，无需额外训练。</li>
+<li>基于我们提出的数据生成、训练策略和增强创新，获得了仅有 7B 参数的自我进化代理（SEA），其性能优于同参数规模的模型，并且与更大规模模型的性能相当。 我们将在未来开源模型权重和相关代码。</li>
+</ol>
+</li>
+</ol>
+<p>发布时间：2025-08-06 02:57:22 UTC</p>
+<h2 id="2025-08-06">2025-08-06</h2>
+<h4 id="eoh-s利用-llms-进化启发式集合以实现自动化启发式设计">EoH-S：利用 LLMs 进化启发式集合以实现自动化启发式设计</h4>
+<p><a href="https://arxiv.org/abs/2508.03082"target="_blank" rel="external nofollow noopener noreferrer">#30</a> <a href="https://papers.cool/arxiv/2508.03082"target="_blank" rel="external nofollow noopener noreferrer">EoH-S: Evolution of Heuristic Set using LLMs for Automated Heuristic Design</a></p>
+<p>近年来，利用大型语言模型（LLMs）进行自动启发式设计（AHD）取得了显著成功。尽管现有方法效果显著，但它们仅设计单一启发式以服务所有问题实例，往往导致在不同分布或设置下泛化能力较差。为了解决这一问题，我们提出了自动启发式集合设计（AHSD），这是一种基于 LLM 驱动的 AHD 的新型表述。AHSD 的目标是自动生成一个小规模的互补启发式集合，以服务多样化的问题实例，使得每个问题实例至少能被该集合中的一个启发式优化。我们证明了 AHSD 的目标函数是单调且超模的。随后，我们提出了启发式集合进化（EoH-S）方法，将 AHSD 表述应用于 LLM 驱动的 AHD。通过互补种群管理和互补感知的混合搜索两种新机制，EoH-S 能够有效生成一组高质量且互补的启发式。 在涵盖不同规模和分布的多样实例的三项 AHD 任务上的全面实验结果表明，EoH-S 始终优于现有的最先进 AHD 方法，性能提升高达 60%。</p>
+<p>发布时间：2025-08-05 04:55:03 UTC</p>
+<h2 id="2025-08-05">2025-08-05</h2>
+<h4 id="1-deepmind哈萨比斯ai能建模所有进化而来的事物">1. <a href="https://mp.weixin.qq.com/s/4vuQrBPHZvjFHiKZhSHFnw"target="_blank" rel="external nofollow noopener noreferrer">DeepMind哈萨比斯：AI能建模所有进化而来的事物</a></h4>
+<ol>
+<li>任何能够通过进化形成的事物，都能被AI<strong>高效建模</strong>。
+<ol>
+<li>在自然界中，自然系统经历了塑造蛋白质结构的进化过程，如果我们也做了类似的事情，也许就能了解那个结构是什么了。</li>
+<li>如果退后一步审视我们所做的所有工作，尤其是AlphaGo和AlphaFold这类“Alpha X”系列的项目，可以发现，我们正在构建非常高维组合空间的模型。如果你试图用穷举法来求解，找到围棋的最佳落子点，或者找到蛋白质的确切形状……如果要列举出所有的可能性，宇宙存在的所有时间都不够用——所以你必须做一些更明智的事情。在这两种情况下，我们所做的都是构建这些环境的模型，以一种巧妙的方式去引导搜索，使问题变得容易处理。</li>
+</ol>
+</li>
+<li>游戏的伟大之处在于它将艺术与最前沿的编程融合在一起
+<ol>
+<li>进化，但涉及算法的是谷歌DeepMind系统。这种类似进化的技术作为未来超级智能系统的一个组成部分是否有前景？对于不了解的人来说，将它可以描述为**“由大语言模型（LLM）引导的进化搜索**”。LLMs负责提出可能的解决方案，而进化计算则用于在搜索空间中发现新颖的部分。这揭示了一个极具前景的方向，即把LLMs或基础模型与其他计算技术相结合。进化算法是其中一种方法，但也可以考虑蒙特卡洛树搜索等各类搜索或推理算法。这些算法可以构建在基础模型之上，或利用基础模型作为探索的起点。我认为，在这类混合系统（姑且这么称呼它们）中会有相当多有趣的东西亟待发现。</li>
+<li>如果你想发现一些新的、前所未见的事物，那么你就需要某种搜索过程来带你进入搜索空间中一个全新的区域。进化计算就是实现这一目标的途径之一。</li>
+</ol>
+</li>
+<li>如果我们真的理解了底层的运行机制，就可以对其进行学习
+<ol>
+<li>“宇宙是什么”和“P是否等于NP”，其实是在问同一个问题。<strong>信息是宇宙中最基本的单位，比能量和物质更为基本，我认为它们都可以相互转换</strong>。宇宙是一个巨大的信息系统。当你将宇宙视为一个信息系统，P对NP问题就成了一个物理学问题，而一旦从信息的视角看待物理学，P对NP问题就成了最根本的问题之一。我相信，这个问题的答案会非常具有启发性。</li>
+<li>模型正在提取这些材料如何表现的潜在逻辑结构，也许存在某种低维流形。如果我们真的完全理解了底层的运行机制，就可以对其进行学习，这个概念可能适用于现实世界的大部分领域。</li>
+</ol>
+</li>
+<li>进化系统可能生成新的模式、新的能力和涌现属性。
+<ol>
+<li>这不仅仅是蒙特卡罗树搜索，在这种搜索中，你偶尔可以将各种事物组合起来，像子组件一样进行更改，就像一个更大事物的组成部分。</li>
+<li>进化真正擅长的不只是自然选择，而是将事物组合起来，构建日益复杂的层级系统。这一点，特别是在Alpha Evolve所探索的程序空间中，会非常有趣。</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-一篇自进化agents技术最新综述迈向人工超级智能">2. <a href="https://mp.weixin.qq.com/s/7YiTpBuLtCqOeGn4YyIARA"target="_blank" rel="external nofollow noopener noreferrer">一篇自进化Agents技术最新综述：迈向人工超级智能</a></h4>
+<ol>
+<li>A Survey of Self-Evolving Agents: On Path to Artificial Super Intelligence
+<ol>
+<li><a href="https://arxiv.org/abs/2507.21046"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2507.21046</a></li>
+<li>Github Repo: <a href="https://github.com/CharlesQ9/Self-Evolving-Agents"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/CharlesQ9/Self-Evolving-Agents</a></li>
+<li>首次系统地回顾了自进化智能体（<strong>Self-Evolving Agents</strong>）的研究进展。围绕“<strong>什么要进化</strong>”“<strong>何时进化</strong>”“<strong>如何进化</strong>”三个核心问题展开，为AI领域中从静态模型向动态、自适应智能体系统的发展提供理论框架和实践指导。</li>
+</ol>
+</li>
+<li>【自我进化agent！普林斯顿王梦迪团队新综述 - 大模型知识分享 | 小红书 - 你的生活兴趣社区】 😆 UmKNhR6TrJrnV0I 😆 <a href="https://www.xiaohongshu.com/discovery/item/688c6ad300000000220224db?source=webshare&amp;xhsshare=pc_web&amp;xsec_token=CB2UhBnXfvzR0e27jac2hdP7wE8J9Y_4kWRrXWM3i3D5k=&amp;xsec_source=pc_share"target="_blank" rel="external nofollow noopener noreferrer">https://www.xiaohongshu.com/discovery/item/688c6ad300000000220224db?source=webshare&xhsshare=pc_web&xsec_token=CB2UhBnXfvzR0e27jac2hdP7wE8J9Y_4kWRrXWM3i3D5k=&xsec_source=pc_share</a>
+<ol>
+<li>主要内容：本质上，大语言模型（LLM）是静态的，无法根据新任务、不断发展的知识领域或动态交互环境调整其内部参数。随着 LLM 越来越多地被部署在开放式、交互式环境中，这种静态特性已成为关键瓶颈，迫切需要能够<strong>实时适应性推理、行动和进化</strong>的智能体（agent）。</li>
+<li>这一范式转变——从扩展静态模型转向开发自我进化 agent——引发了对能够从数据、交互和经验中实现持续学习与适应的架构和方法的日益关注。</li>
+<li>在这篇综述中首次对自我进化 agent 进行了系统、全面的回顾，围绕**“哪方面需要进化”、“何时进化”以及“如何进化”**展开。
+<ol>
+<li>他们探讨了 agent 组件（如<strong>模型、记忆、工具、架构</strong>）中的进化机制，按阶段（如 intra-test-time、inter-test-time）对适应方法进行分类，并分析了指导进化适应的算法和架构设计（如标量奖励、文本反馈、单 agent 和多 agent 系统）。</li>
+<li>此外，他们分析了针对自我进化 agent 的评估指标和基准，强调了在编程、教育和医疗等领域的应用，并识别了安全、可扩展性和协同进化动力学等关键挑战和研究方向。</li>
+<li>通过提供一个结构化的框架来理解和设计自我进化 agent，本综述为在研究和实际部署中推进适应性 agent 系统提供了路线图，最终为推动实现超级人工智能（ASI），其中 agent 能够自主进化，并在广泛的任务中达到或超越人类智能水平。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="3-108k-star一个能够随你不断成长进化的超级ai助手">3. <a href="https://mp.weixin.qq.com/s/Ug9g8P5RlFZ_t1fsAp55_w?scene=1&amp;click_id=43"target="_blank" rel="external nofollow noopener noreferrer">10.8k Star！一个能够随你不断成长、进化的超级AI助手！</a></h4>
+<ol>
+<li><strong>Agent Zero</strong>，一款独具特色的开源 AI 框架。</li>
+<li>Agent Zero 并非针对特定任务预先编程，而是作为通用个人助手存在。用户给它分配任务后，它会<strong>收集信息</strong>、<strong>执行命令和代码</strong>、<strong>与其他代理实例协作</strong>，尽力完成任务。</li>
+<li>每个代理都可以创建下级代理来帮助分解和解决子任务，这样有助于保持所有代理的上下文清晰和专注。</li>
+</ol>
+<h4 id="4-ai彻底不当人了anthropic这波自我进化骚操作看得我人已麻">4. <a href="https://mp.weixin.qq.com/s/nd-yYr9VOW2AMShvffBe_g?scene=1&amp;click_id=45"target="_blank" rel="external nofollow noopener noreferrer">AI彻底不当人了？Anthropic这波“自我进化”骚操作，看得我人已麻</a></h4>
+<ol>
+<li>**AI学会了自己教自己，还能自己给自己打分、自己纠错，彻底把人类导师给踹了！**这不就是武侠小说里的“左脚踩右脚上天”的现实版
+<ol>
+<li>先随便蒙几个答案：一开始，AI会随便给一些问题打上临时的标签，不管对错，先整上再说。</li>
+<li>快速纠错，保持队形：然后，它会快速检查这些临时答案有没有明显的逻辑错误，比如不能同时说太阳是热的又是冷的。</li>
+<li>循环“修炼”，不断升级：接下来就是关键的“修炼”环节了：
+<ol>
+<li>降低“兴奋度”：一开始让AI大胆尝试，后面就让它越来越谨慎。</li>
+<li>互相“印证”：AI会拿一个新的问题，让已经“学过”的知识来预测这个新问题的答案。</li>
+<li>逻辑自洽是王道：如果新的答案能让整体知识体系更“和谐”，就保留；不然就看情况决定要不要。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="5-自主进化的多智能体evoagentx自动工作流生成多种进化算法任务调度mcp支持">5. <a href="https://mp.weixin.qq.com/s/7H8xCIUxm3DTgalVlwRB8g?scene=1&amp;click_id=46"target="_blank" rel="external nofollow noopener noreferrer">自主进化的多智能体！EvoAgentX：自动工作流生成、多种进化算法、任务调度、MCP支持！</a></h4>
+<ol>
+<li>
+<p>工具：<strong>EvoAgentX</strong>，一个具备自我进化能力的多智能体自动化系统！ GitHub 项目地址：https://github.com/EvoAgentX/EvoAgentX</p>
+</li>
+<li>
+<p>集成了自动工作流生成、任务调度、模型上下文协议（MCP）支持等功能，最硬核的是它的自进化能力，能自动优化智能体参数和工作流结构，让AI在重复任务中越用越聪明。</p>
+</li>
+<li>
+<h4 id="主要功能">主要功能</h4>
+<ul>
+<li><strong>自动工作流生成</strong>：基于任务意图自动生成多 Agent 协作结构。</li>
+<li><strong>自我进化机制</strong>：内置多种进化算法，能自动优化智能体的提示（prompt）、参数和工作流结构。</li>
+<li><strong>MCP协议支持</strong>：可与 Claude Desktop、Cursor、AutoAgent 等 MCP 客户端无缝对接。</li>
+<li><strong>支持多种AI模型</strong>：可集成OpenAI、DeepSeek等模型。</li>
+<li><strong>任务调度引擎</strong>：支持异步、并发、多轮调度的任务调控系统。</li>
+<li><strong>多 Agent 协作</strong>：每个智能体有独立目标和执行模块，支持并行/串行交互。</li>
+</ul>
+</li>
+</ol>
+<h4 id="6-这一天真的来了谷歌让ai实现自我进化-alphaevolve-a-coding-agent-for-scientific-and-algorithmic-discovery">6. <a href="https://mp.weixin.qq.com/s/j91-BLE5gUYYPum22HCMTQ?scene=1&amp;click_id=47"target="_blank" rel="external nofollow noopener noreferrer">这一天真的来了？谷歌让AI实现自我进化！</a> AlphaEvolve: A coding agent for scientific and algorithmic discovery</h4>
+<ol>
+<li>一句话概括，谷歌把大语言模型塞进进化算法里搞出个赛博炼丹炉，让AI在代码层面开启自我迭代，最终完成&quot;内卷式进化&quot;。</li>
+<li>研究动机
+<ol>
+<li>研究者们希望利用大型语言模型（LLMs）强大的内容生成能力，并结合能够自动评估结果好坏的计算机程序，来让机器自己不断尝试和改进，从而在算法设计或科学问题上找到全新的解决方案或更优的方案。</li>
+<li>通过把大语言模型生成的“新想法”与机器能自动执行并打分的流程结合起来，AlphaEvolve系统期望能在一种“自我进化”的循环中，逐步发现以前人们没有找到过的更优结果或全新的算法。</li>
+<li>**核心问题是：**我们能不能找到一种通用的方法，把最先进的语言模型和自动化的评估工具有效地结合起来？通过这种方法，机器可以在很少需要人帮忙的情况下，持续地迭代和改写复杂的代码或算法，最终帮助我们做出真正的科学发现，或者显著提升现有工程系统的性能。</li>
+</ol>
+</li>
+<li>主要贡献
+<ol>
+<li><strong>提出了一个通用的自动化进化框架“AlphaEvolve”</strong>:这个框架能让计算机程序自我进化。使用一个或多个强大的大语言模型作为“变异引擎”。这个引擎不仅仅是小修小补，而是能对现有的代码进行大规模、富有创意的修改，就像一个经验丰富的程序员在重构代码一样。</li>
+<li><strong>在数学和计算机科学领域取得了突破性成果</strong>:AlphaEvolve成功发现了一些新的算法或优化方案。</li>
+<li><strong>展示了广泛的适用场景，覆盖理论研究与工业应用</strong>:AlphaEvolve不仅能用于理论探索，也能解决实际的工业问题。</li>
+<li><strong>提供了高可扩展性与高可解释度的进化式策略</strong>:论文解释了如何根据不同的问题灵活地调整进化策略，比如可以针对整个代码文件进行进化，也可以分模块进化，或者同时优化多个目标（比如既要快又要省资源）。
+<ol>
+<li>在实际应用中，大语言模型输出的修改方案是以“代码差异对比”（diff）的形式展示的，这方便人类工程师在关键时候检查和理解机器做了哪些改动，增强了整个过程的可信度和可控性。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="7-uc伯克利新作颠覆认知llm靠自信爆表学会推理无需外部奖励超进化">7. <a href="https://mp.weixin.qq.com/s/uEJY6sn_MQUovuMewY51Ow"target="_blank" rel="external nofollow noopener noreferrer">UC伯克利新作颠覆认知：LLM靠「自信爆表」学会推理？无需外部奖励超进化</a></h4>
+<ol>
+<li>Learning to Reason without External Rewards 论文地址：https://arxiv.org/pdf/2505.19590</li>
+<li>在考试中，人们往往对自己有信心的问题，回答得更准确。这种「信心≈正确性」的模型，对LLM是否也适用呢？
+<ol>
+<li>他们探讨了如何有效扩展「n选一最优」的选择策略。</li>
+</ol>
+</li>
+<li>衡量每个token的分布距离均匀分布有多远。KL散度KL(U‖P) ，可以量化模型在预测每个token时的「自信程度」。可以将这一度量称为「自我确定性」。而它，正是熵的反面——不是覆盖多种可能，而是倾向于聚焦在最可能的结果上。 论文地址：https://arxiv.org/abs/2502.18581</li>
+<li>如果人类可以通过探索和反思建立起自己的信心，那LLM也能做到同样的事吗？这就启发了研究者们的新范式——RLIF。Reinforcement Learning from Internal Feedback (RLIF) 他们采用的新方法，使用自我确定性作为强化学习的奖励信号，而不需要外部监督。
+<ol>
+<li>在RLIF范式下，研究团队提出了INTUITOR，这是一种新的强化学习方法，利用模型自身的置信度作为一种内在奖励。INTUITOR的实现方式简单、高效且有效：团队用自我确定性得分取代了现有RLVR框架（特别是GRPO）中的可验证奖励信号，并沿用了相同的策略梯度算法。</li>
+</ol>
+</li>
+</ol>
+<h4 id="8-metaagent通过工具元学习走向自我进化的代理">8. <a href="https://papers.cool/arxiv/2508.00271"target="_blank" rel="external nofollow noopener noreferrer">MetaAgent：通过工具元学习走向自我进化的代理</a></h4>
+<ol>
+<li>在这项工作中，我们提出了 MetaAgent，这是一种受<strong>边做边学</strong>原则启发的代理范式，其中专业知识是通过实践和持续的自我完善来发展的。</li>
+<li>MetaAgent 从最小的工作流程开始，仅配备基本推理和自适应寻求帮助的能力。当遇到知识差距时，MetaAgent 会生成自然语言帮助请求，这些请求由专用工具路由器路由到最合适的外部工具。当 MetaAgent 解决任务时，它会不断进行自我反思和答案验证，将可作的经验提炼成简洁的文本，并动态地融入到未来的任务环境中。此外，MetaAgent 通过组织其工具使用历史记录，自主构建内部工具和持久的知识库，进一步增强其检索和整合相关信息的能力我们将这种持续的、数据驱动的过程称为 \textit{<strong>meta tool learning</strong>}，通过该过程，MetaAgent 可以逐步完善其推理和工具使用策略，而无需更改模型参数或需要进一步的后训练。</li>
+<li>在具有挑战性的知识发现基准（包括 GAIA、WebWalkerQA 和 BrowseCamp）上进行评估后，MetaAgent 的性能始终优于基于工作流程的基线，并匹配或超过端到端训练的代理，展示了自我进化的代理系统在强大的通用知识发现方面的前景。</li>
+<li>我们以 <a href="https://github.com/qhjqhj00/MetaAgent"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/qhjqhj00/MetaAgent</a> 提供源代码。</li>
+</ol>
+<h4 id="9-ai学会自我进化">9. AI学会自我进化</h4>
+<p>【新热文，AI学会自我进化！潜在的领域大突破 - 老陆起来了 | 小红书 - 你的生活兴趣社区】 😆 pOsxmIW03oolYEc 😆 <a href="https://www.xiaohongshu.com/discovery/item/688610a50000000013012e9f?source=webshare&amp;xhsshare=pc_web&amp;xsec_token=CBSAuqZOOotQ5DP4g119NA0xcgcZLdEm1yDhgXf3JMwcg=&amp;xsec_source=pc_share"target="_blank" rel="external nofollow noopener noreferrer">https://www.xiaohongshu.com/discovery/item/688610a50000000013012e9f?source=webshare&xhsshare=pc_web&xsec_token=CBSAuqZOOotQ5DP4g119NA0xcgcZLdEm1yDhgXf3JMwcg=&xsec_source=pc_share</a></p>
+<ol>
+<li>AlphaGo Moment for Model Architecture Discovery
+<ol>
+<li><a href="https://github.com/GAIR-NLP/ASI-Arch"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/GAIR-NLP/ASI-Arch</a></li>
+<li><a href="https://arxiv.org/abs/2507.18074"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2507.18074</a></li>
+</ol>
+</li>
+<li>传统的神经网络架构搜索（NAS）主要是在人类预先定义的空间里寻找最优解，就好比在一个给定形状的乐高盒子里搭出最好的模型。  而 ASI-ARCH 实现了，自动化创新，它能像真正的科学家一样，自主提出新颖的架构概念，将它们编码实现，然后进行严谨的实验验证。这就像它能自己设计新的乐高积木，甚至发明新的拼搭规则，并找出这些新积木和新规则能搭出什么更好的东西。这是 AI 领域的一大范式转变，从简单的优化走向了更深层次的创造。</li>
+<li>作者指出，这是首次展示人工智能用于AI研究（ASI4AI）在神经网络架构发现领域的具体应用。  发现了“科学发现的规模法则”，这是文章中一个极其重要的发现。研究表明，在架构设计领域，科学突破是可以计算规模化的。简单来说，你投入的计算资源越多（GPU 小时数），系统发现的最新（SOTA）架构就越多。  这意味着 AI 研究的进展不再仅仅受限于人类的认知能力，而是可以像计算能力一样进行扩展。这为实现 AI 的自我加速发展提供了一条具体的路径。</li>
+<li>自主发现了大量超越人类设计的顶尖架构： ASI-ARCH 进行了大量自主实验（1,773 次，超过 20,000 GPU 小时），成功发现了 106 种创新的、最新的线性注意力架构。  系统还通过分析发现，虽然它探索了许多新颖组件，但表现最好的模型倾向于收敛于一套经过验证且有效的核心技术。这与人类科学家的研究方法不谋而合。</li>
+<li>构建了自我加速 AI 系统的蓝图：这项工作为自我加速的AI系统奠定了蓝图。通过开源完整的框架、发现的架构以及“认知轨迹”（即 AI 的研究过程记录），该项目旨在民主化 AI 驱动的研究，让更多人能够使用这些强大的工具和洞察。</li>
+<li>一些局限： 1. 整个发现过程耗费了大量的计算资源（超过 20,000 GPU 小时），这表明这类研究需要强大的计算支持。 2. 尽管成果显著，但目前主要集中在线性注意力架构领域 3. 文章提到，他们目前没有投入大量工作去为新发现的架构编写定制的加速内核（如使用 Triton）。</li>
+</ol>
+<h4 id="10-元代理通过自我进化的代理元学习工具">10. 元代理：通过自我进化的代理元学习工具</h4>
+<p>【元代理：通过自我进化的代理元学习工具 - 搬砖小牛马 | 小红书 - 你的生活兴趣社区】 😆 O6Y2LYjbq9n8lJB 😆 <a href="https://www.xiaohongshu.com/discovery/item/689020cd00000000230272af?source=webshare&amp;xhsshare=pc_web&amp;xsec_token=CBzadlrcDTMxPZL3qy16EkiiNKvR1ap5n_BADi3h3lzSY=&amp;xsec_source=pc_share"target="_blank" rel="external nofollow noopener noreferrer">https://www.xiaohongshu.com/discovery/item/689020cd00000000230272af?source=webshare&xhsshare=pc_web&xsec_token=CBzadlrcDTMxPZL3qy16EkiiNKvR1ap5n_BADi3h3lzSY=&xsec_source=pc_share</a></p>
+<ol>
+<li>MetaAgent: Toward Self-Evolving Agent via Tool Meta-Learning
+<ol>
+<li><a href="https://arxiv.org/abs/2508.00271"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2508.00271</a></li>
+<li><a href="https://github.com/qhjqhj00/MetaAgent"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/qhjqhj00/MetaAgent</a></li>
+</ol>
+</li>
+<li>这篇论文提出了一个名为 MetaAgent 的新型代理（agent）范式，旨在解决大型语言模型（LLMs）在处理复杂任务时面临的挑战，特别是在需要多步推理和动态工具使用的情境下。具体来说，它试图解决以下几个关键问题：
+<ol>
+<li>复杂任务的动态工具使用： 当前的 LLMs 在处理需要跨多步推理和整合多个信息源的任务时表现不佳，尤其是在需要与外部工具（如搜索引擎、代码执行器等）交互时。例如，对于需要先搜索信息、再进行计算和比较的复杂查询，标准的 LLMs 往往无法有效地管理这种顺序推理和工具使用。</li>
+<li>缺乏灵活性和适应性： 现有的代理系统主要分为两类：基于工作流的方法和端到端训练的方法。基于工作流的方法依赖于人类专家预定义的任务规划和工具使用策略，缺乏灵活性；而端到端训练的方法则需要大量的任务特定数据，并且在训练后对其他任务的泛化能力有限。</li>
+<li>持续自我改进的能力： 人类通过不断积累经验从新手成长为专家，但现有的代理系统缺乏这种自我进化的能力。一旦模型被训练或设计完成，其性能很难在没有额外训练的情况下得到提升。</li>
+<li>为了解决这些问题，MetaAgent 采用了一种从最小化工作流程开始，并通过数据驱动的任务完成自然进化的范式。它通过自我反思、验证反思、动态上下文工程和内部工具构建等机制，逐步提升其推理和工具使用策略，而无需改变模型参数或依赖大规模的后续训练。</li>
+</ol>
+</li>
+</ol>
+<h4 id="11-ai界重磅突破llm终于学会自我进化了">11. AI界重磅突破！LLM终于学会”自我进化”了</h4>
+<p>【AI界重磅突破！LLM终于学会”自我进化”了 - 宇宙幻想Oscar | 小红书 - 你的生活兴趣社区】 😆 wGVuZrvWH7PEygf 😆 <a href="https://www.xiaohongshu.com/discovery/item/684bd83f000000000f03ab1e?source=webshare&amp;xhsshare=pc_web&amp;xsec_token=CBUG1vzUlF1rW0Z8oNl-MMg_V0nvFE_VO9qqDogj4vhhc=&amp;xsec_source=pc_share"target="_blank" rel="external nofollow noopener noreferrer">https://www.xiaohongshu.com/discovery/item/684bd83f000000000f03ab1e?source=webshare&xhsshare=pc_web&xsec_token=CBUG1vzUlF1rW0Z8oNl-MMg_V0nvFE_VO9qqDogj4vhhc=&xsec_source=pc_share</a></p>
+<ol>
+<li>Self-Adapting Language Models
+<ol>
+<li><a href="https://arxiv.org/abs/2506.10943"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2506.10943</a></li>
+<li><a href="https://jyopari.github.io/posts/seal"target="_blank" rel="external nofollow noopener noreferrer">https://jyopari.github.io/posts/seal</a></li>
+</ol>
+</li>
+<li>MIT最新研究SEAL让我眼前一亮！传统大语言模型就像是”死记硬背”的学霸，遇到新知识只能重新训练，成本巨大。 而SEAL框架实现了真正的”<strong>举一反三</strong>”——模型能根据新输入自动生成训练数据，然后<strong>更新自己的权重参数</strong>。就像人类学习新技能时会自我反思和调整一样。 最巧妙的是，它用强化学习让模型以自己的表现作为”老师”，不断优化自我编辑能力。这意味着未来AI助手能更快适应你的个人需求，而不需要每次都从零开始。 <a href="https://www.xiaohongshu.com/search_result?keyword=AI%E6%8A%80%E6%9C%AF&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#AI技术</a> <a href="https://www.xiaohongshu.com/search_result?keyword=%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#机器学习</a> <a href="https://www.xiaohongshu.com/search_result?keyword=%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#人工智能</a> <a href="https://www.xiaohongshu.com/search_result?keyword=%E7%A7%91%E6%8A%80%E5%89%8D%E6%B2%BF&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#科技前沿</a> <a href="https://www.xiaohongshu.com/search_result?keyword=MIT%E7%A0%94%E7%A9%B6&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#MIT研究</a> <a href="https://www.xiaohongshu.com/search_result?keyword=%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#大语言模型</a> <a href="https://www.xiaohongshu.com/search_result?keyword=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#深度学习</a> <a href="https://www.xiaohongshu.com/search_result?keyword=%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#技术分享</a> <a href="https://www.xiaohongshu.com/search_result?keyword=AI%E5%8F%91%E5%B1%95&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#AI发展</a> <a href="https://www.xiaohongshu.com/search_result?keyword=%E7%A7%91%E6%8A%80%E5%88%9B%E6%96%B0&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#科技创新</a> <a href="https://www.xiaohongshu.com/search_result?keyword=%E8%87%AA%E9%80%82%E5%BA%94%E5%AD%A6%E4%B9%A0&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#自适应学习</a> <a href="https://www.xiaohongshu.com/search_result?keyword=%E6%99%BA%E8%83%BD%E8%BF%9B%E5%8C%96&amp;type=54&amp;source=web_note_detail_r10"target="_blank" rel="external nofollow noopener noreferrer">#智能进化</a></li>
+</ol>
+<h4 id="12-darwin-gödel-machine自我进化智能体">12. Darwin Gödel Machine:自我进化智能体</h4>
+<p>【Darwin Gödel Machine:自我进化智能体 - 无影寺 | 小红书 - 你的生活兴趣社区】 😆 xr8PKkHY4kEQFD4 😆 <a href="https://www.xiaohongshu.com/discovery/item/683d989b0000000023011be8?source=webshare&amp;xhsshare=pc_web&amp;xsec_token=CBdhZvj0hBWK2jIolVAn_QBy4B2zccgAgWdZ_-h8v2I0Q=&amp;xsec_source=pc_share"target="_blank" rel="external nofollow noopener noreferrer">https://www.xiaohongshu.com/discovery/item/683d989b0000000023011be8?source=webshare&xhsshare=pc_web&xsec_token=CBdhZvj0hBWK2jIolVAn_QBy4B2zccgAgWdZ_-h8v2I0Q=&xsec_source=pc_share</a></p>
+<ol>
+<li>Darwin Godel Machine: Open-Ended Evolution of Self-Improving Agents
+<ol>
+<li><a href="https://arxiv.org/abs/2505.22954"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2505.22954</a></li>
+</ol>
+</li>
+<li>Darwin Gödel Machine:自我进化智能体
+<ol>
+<li>AI系统能否无限地自我改进？</li>
+<li>这项工作展示了自我改进AI的潜力，灵感来源于生物进化和开放式探索。</li>
+<li>总体概况 这项工作提出了<strong>达尔文哥德尔机器（DGM）</strong>，该系统通过结合自指代码修改和开放式进化搜索，推进了自我改进AI的愿景&hellip; 与原始哥德尔机器不同（它要求代码更改具有可证明的益处，这是一个实际上难以处理的约束条件），DGM采用了经验方法：它修改自己的代码库，并在编程基准测试上评估改进效果。
+<ol>
+<li>自指自我改进循环 DGM从单个编程智能体开始，该智能体编辑自己基于Python的代码库，以提高使用冻结基础模型（FMs）读取、编写和执行代码的能力。 每次修改都在SWE-bench和Polyglot等基准测试上进行评估，只有成功的智能体才会被保留用于进一步迭代。</li>
+<li>无需元智能体的递归自举 与其他方法（如ADAS）将元智能体与工作智能体分离不同，DGM是单体且自包含的；它使用自身来改进自身。 含义：这消除了扩展智能体系统的关键瓶颈，表明未来的智能体可能根本不需要人类设计的元学习基础设施，从而可能加速自主创新。</li>
+<li>通过进化档案进行开放式探索 受达尔文进化论启发，该系统维护了所有先前智能体的档案，并基于性能和新颖性对父代进行采样。 这使得探索能够超越局部最优解，支持持续创新，包括重新审视之前次优但后来成为有价值踏脚石的变体。 这反映了科学思想或自然界中的突变可能只有在许多步骤之后才有价值的情况，使得未来AI系统在搜索策略中融入好奇心、多样性和记忆变得至关重要。</li>
+<li>经验性能提升 经过80次迭代，DGM将SWE-bench上的编程成功率从20.0%提升至50.0%，将Polyglot上的成功率从14.2%提升至30.7%，超越了缺乏自我改进或开放性的强基线方法。 其最佳智能体达到或超越了领先的人类设计的开源编程智能体。</li>
+<li>涌现的工具和工作流程改进 通过自我改进，DGM通过进化出更精细的编辑工具、重试和评估机制、历史感知的补丁生成以及长上下文的代码摘要来增强其能力。 DGM让我们glimpse了未来AI系统如何可能发明自己的软件开发实践，潜在地超越当前的人类惯例。  跨模型和任务的泛化 DGM发现的智能体在跨基础模型（如Claude 3.5到3.7、o3-mini）和编程语言转移时表现出良好的泛化能力，展示了不过拟合特定设置的稳健改进。</li>
+</ol>
+</li>
+<li>代码也已开源。 代码链接：https://github.com/jennyzzt/dgm</li>
+</ol>
+</li>
+</ol>
+<h2 id="2025-07-01">2025-07-01</h2>
+<h4 id="谷歌的alphaevolve">谷歌的AlphaEvolve</h4>
+<p>在5月中旬，谷歌扔出的这个炸弹（号称是数学界AlphaGo的「第37步」时刻），就在不断冲击人们的认知——AI，已经拥有了自我进化能力！——史诗时刻！AlphaGo神之一手突现，谷歌AI颠覆科研极限？ <a href="https://mp.weixin.qq.com/s/aHfHSrx3Iz1tKnOd0oqg6g"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/aHfHSrx3Iz1tKnOd0oqg6g</a></p>
+<p>随后，不断有开发者用代码证实，AlphaEvolve的矩阵乘法突破为真！一个开发者成功证明，它仅用了48次乘法，就正确完成了4×4矩阵的乘法运算。 ——震撼全网，AlphaEvolve矩阵乘法突破被证明为真！开发者用代码证实 <a href="https://mp.weixin.qq.com/s/fOOyNSCqxFYp_g3oqDBLOg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/fOOyNSCqxFYp_g3oqDBLOg</a></p>
+<p>最新，用基于AlphaEvolve论文的开源实现OpenEvolve，成功自动发现了高性能的GPU内核算法 <a href="https://mp.weixin.qq.com/s/WMxnoWgz37V16_McpVo2zg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/WMxnoWgz37V16_McpVo2zg</a> 具体来说，通过自我进化代码，它自动发现了一套在Apple Silicon上远超手动优化的GPU Metal核函数。</p>
+<h2 id="2025-06-14">2025-06-14</h2>
+<h4 id="llm已能自我更新权重自适应知识整合能力大幅提升ai醒了">LLM已能自我更新权重，自适应、知识整合能力大幅提升，AI醒了？</h4>
+<p>🔗：https://mp.weixin.qq.com/s/WvC7kX1_XfNO218YBsAa8g</p>
+<p>MIT 昨日发布的《Self-Adapting Language Models》就是最新的例证之一，其中提出了一种可让 LLM 更新自己的权重的方法： <strong>SEAL🦭</strong> ，即 Self-Adapting LLMs。在该框架中，LLM 可以生成自己的训练数据（自编辑 /self-editing），并根据新输入对权重进行更新。而这个自编辑可通过强化学习学习实现，使用的奖励是更新后的模型的下游性能。</p>
+<p>论文标题：Self-Adapting Language Models</p>
+<p>论文地址：https://arxiv.org/pdf/2506.10943</p>
+<p>项目页面：https://jyopari.github.io/posts/seal</p>
+<p>代码地址：https://github.com/Continual-Intelligence/SEAL</p>
+<p>SEAL 框架可以让语言模型在遇到新数据时，通过生成自己的合成数据并优化参数（ <strong>自编辑</strong> ），进而实现自我提升。</p>
+<p>该模型的训练目标是：可以使用模型上下文中提供的数据，通过生成 token 来直接生成这些自编辑（SE）。</p>
+<p>自编辑生成需要通过强化学习来学习实现，其中当模型生成的自编辑在应用后可以提升模型在目标任务上的性能时，就会给予模型奖励。</p>
+<p>因此，可以将 SEAL 理解为一个包含两个嵌套循环的算法：一个外部 RL 循环，用于优化自编辑生成；以及一个内部更新循环，它使用生成的自编辑通过梯度下降更新模型。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY2MGZhZmJkMDAxMTdiZGU4NGMxZmI3ZTRjYzgwYTZfbFZLMkhYM0R1cXlzSERyd0VIRHVnbGpmWXVaN05KNHJfVG9rZW46WmdmbmJLM0dFb0lGb1J4alA4WGM5eFZTbmhOXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY2MGZhZmJkMDAxMTdiZGU4NGMxZmI3ZTRjYzgwYTZfbFZLMkhYM0R1cXlzSERyd0VIRHVnbGpmWXVaN05KNHJfVG9rZW46WmdmbmJLM0dFb0lGb1J4alA4WGM5eFZTbmhOXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY2MGZhZmJkMDAxMTdiZGU4NGMxZmI3ZTRjYzgwYTZfbFZLMkhYM0R1cXlzSERyd0VIRHVnbGpmWXVaN05KNHJfVG9rZW46WmdmbmJLM0dFb0lGb1J4alA4WGM5eFZTbmhOXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY2MGZhZmJkMDAxMTdiZGU4NGMxZmI3ZTRjYzgwYTZfbFZLMkhYM0R1cXlzSERyd0VIRHVnbGpmWXVaN05KNHJfVG9rZW46WmdmbmJLM0dFb0lGb1J4alA4WGM5eFZTbmhOXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY2MGZhZmJkMDAxMTdiZGU4NGMxZmI3ZTRjYzgwYTZfbFZLMkhYM0R1cXlzSERyd0VIRHVnbGpmWXVaN05KNHJfVG9rZW46WmdmbmJLM0dFb0lGb1J4alA4WGM5eFZTbmhOXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YmY2MGZhZmJkMDAxMTdiZGU4NGMxZmI3ZTRjYzgwYTZfbFZLMkhYM0R1cXlzSERyd0VIRHVnbGpmWXVaN05KNHJfVG9rZW46WmdmbmJLM0dFb0lGb1J4alA4WGM5eFZTbmhOXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>该团队尝试了各种在线策略方法，例如组相对策略优化 (GRPO) 和近端策略优化 (PPO) ，但发现训练不稳定。</p>
+<p>最终，他们选择了来自 DeepMind 论文《Beyond human data: Scaling self-training for problem-solving with language models.》的  <strong>ReST^EM</strong> ，这是一种基于已过滤行为克隆的更简单的方法 —— 也就是「 <strong>拒绝采样 + SFT</strong> 」。</p>
+<h2 id="2025-06-02">2025-06-02</h2>
+<h4 id="lstm之父22年前构想将成真一周内ai自我进化论文集中发布新趋势涌现">LSTM之父22年前构想将成真？一周内AI「自我进化」论文集中发布，新趋势涌现</h4>
+<p>🔗：https://mp.weixin.qq.com/s/0PPw4t2YCwu-7zrxpjglcA</p>
+<ol>
+<li>
+<p>早在 2003 年，AI 先驱、LSTM 之父 Jürgen Schmidhuber 就提出过一种名为「哥德尔机（Gödel Machine）」的构想——它使用一种递归的自我改进协议，如果能够证明新代码的策略较佳，就会重写自己的代码</p>
+</li>
+<li>
+<p><strong>Sakana AI 与不列颠哥伦比亚大学等机构合作的「达尔文哥德尔机（DGM）」</strong>：DGM 利用基础模型和开放式算法来创建和评估新的 AI 智能体，并能够读取和修改自身的 Python 代码库以进行自我改进，还通过评估在编码基准上的性能来判断更改是否有效。实验表明，DGM 可以持续自我改进，并能在不同模型和编程语言之间实现迁移。</p>
+<ol>
+<li>论文标题：Darwin Gödel Machine: Open-Ended Evolution of Self-Improving Agents</li>
+<li>论文链接：https://arxiv.org/abs/2505.22954</li>
+<li>博客：https://sakana.ai/dgm/</li>
+</ol>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTk3MzhjZjc0MjkxODAxNWQ1NDA3YWE2MzM4MmZlM2ZfZjQ5UGs3R2JJSDhhR1lWUEtWNTRoNktOZVAwNnNOOUZfVG9rZW46WWxxUGJVMDY4b0FIckl4dlJBSmNxaGpxbkViXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTk3MzhjZjc0MjkxODAxNWQ1NDA3YWE2MzM4MmZlM2ZfZjQ5UGs3R2JJSDhhR1lWUEtWNTRoNktOZVAwNnNOOUZfVG9rZW46WWxxUGJVMDY4b0FIckl4dlJBSmNxaGpxbkViXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTk3MzhjZjc0MjkxODAxNWQ1NDA3YWE2MzM4MmZlM2ZfZjQ5UGs3R2JJSDhhR1lWUEtWNTRoNktOZVAwNnNOOUZfVG9rZW46WWxxUGJVMDY4b0FIckl4dlJBSmNxaGpxbkViXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTk3MzhjZjc0MjkxODAxNWQ1NDA3YWE2MzM4MmZlM2ZfZjQ5UGs3R2JJSDhhR1lWUEtWNTRoNktOZVAwNnNOOUZfVG9rZW46WWxxUGJVMDY4b0FIckl4dlJBSmNxaGpxbkViXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTk3MzhjZjc0MjkxODAxNWQ1NDA3YWE2MzM4MmZlM2ZfZjQ5UGs3R2JJSDhhR1lWUEtWNTRoNktOZVAwNnNOOUZfVG9rZW46WWxxUGJVMDY4b0FIckl4dlJBSmNxaGpxbkViXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTk3MzhjZjc0MjkxODAxNWQ1NDA3YWE2MzM4MmZlM2ZfZjQ5UGs3R2JJSDhhR1lWUEtWNTRoNktOZVAwNnNOOUZfVG9rZW46WWxxUGJVMDY4b0FIckl4dlJBSmNxaGpxbkViXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>达尔文哥德尔机是一种通过重写自身代码来提升编程任务性能的自我改进型编程智能体。它能实现多种自我改进，包括：增加补丁验证步骤、优化文件查看功能、增强编辑工具、生成并排序多个解决方案以选择最优选项，以及在实施新修改时记录历史尝试记录（包括失败原因）。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQ5NDYwYTc3MDdjMTA2ZWMxMmNiZGU1ZDI0YWJkMDdfSjlnYWZBcmxLNVAxRjFwZE93dWl4NENmR0dmUzhMeG5fVG9rZW46WE5KQWJsbFdub1ExTW14Y1JJSGNVVEp3bk9iXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQ5NDYwYTc3MDdjMTA2ZWMxMmNiZGU1ZDI0YWJkMDdfSjlnYWZBcmxLNVAxRjFwZE93dWl4NENmR0dmUzhMeG5fVG9rZW46WE5KQWJsbFdub1ExTW14Y1JJSGNVVEp3bk9iXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQ5NDYwYTc3MDdjMTA2ZWMxMmNiZGU1ZDI0YWJkMDdfSjlnYWZBcmxLNVAxRjFwZE93dWl4NENmR0dmUzhMeG5fVG9rZW46WE5KQWJsbFdub1ExTW14Y1JJSGNVVEp3bk9iXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQ5NDYwYTc3MDdjMTA2ZWMxMmNiZGU1ZDI0YWJkMDdfSjlnYWZBcmxLNVAxRjFwZE93dWl4NENmR0dmUzhMeG5fVG9rZW46WE5KQWJsbFdub1ExTW14Y1JJSGNVVEp3bk9iXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQ5NDYwYTc3MDdjMTA2ZWMxMmNiZGU1ZDI0YWJkMDdfSjlnYWZBcmxLNVAxRjFwZE93dWl4NENmR0dmUzhMeG5fVG9rZW46WE5KQWJsbFdub1ExTW14Y1JJSGNVVEp3bk9iXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQ5NDYwYTc3MDdjMTA2ZWMxMmNiZGU1ZDI0YWJkMDdfSjlnYWZBcmxLNVAxRjFwZE93dWl4NENmR0dmUzhMeG5fVG9rZW46WE5KQWJsbFdub1ExTW14Y1JJSGNVVEp3bk9iXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>达尔文哥德尔机通过运用开放式探索原则，逐步构建起一个不断扩增的智能体库。该系统通过交替执行自我修改与下游任务评估的方式，持续创建新智能体并对其进行评分。</p>
+</li>
+<li>
+<p><strong>CMU 的「自我奖励训练（SRT）」</strong>：提出了一种名为「自我奖励训练」的在线自我训练强化学习算法，旨在让大型语言模型通过自身的判断信号进行自我监督和训练，从而在没有外部标签的情况下提升性能。
+论文标题：Can Large Reasoning Models Self-Train?</p>
+<p>论文链接：https://arxiv.org/abs/2505.21444</p>
+<p>项目地址：https://self-rewarding-llm-training.github.io/</p>
+<p>代码地址：https://github.com/tajwarfahim/srt</p>
+<p>数据集：https://huggingface.co/collections/ftajwar/self-rewarding-llm-training-6835218091832c3664176553</p>
+<p>受先前基于一致性自我提升研究的启发，研究团队引入了一种简单而有效的自我训练强化学习方法论，称为自我奖励训练（Self-Rewarded Training，SRT）。<strong>该方法在强化学习训练期间，通过模型生成的多个解决方案之间的一致性来评估正确性，从而在没有标注数据的情况下提供自监督信号。</strong></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2RjYTZlNmFjMjc1ZmE1MThhMzhiZmYyZWM2ODRmMmFfbHRoTjVKNXNrWXhZeURkZXEzZ0FZRFNOREhQMDllSEZfVG9rZW46SHJLUWIzbmV0b2JEczd4UXlqSGNhNkVabk5nXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2RjYTZlNmFjMjc1ZmE1MThhMzhiZmYyZWM2ODRmMmFfbHRoTjVKNXNrWXhZeURkZXEzZ0FZRFNOREhQMDllSEZfVG9rZW46SHJLUWIzbmV0b2JEczd4UXlqSGNhNkVabk5nXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2RjYTZlNmFjMjc1ZmE1MThhMzhiZmYyZWM2ODRmMmFfbHRoTjVKNXNrWXhZeURkZXEzZ0FZRFNOREhQMDllSEZfVG9rZW46SHJLUWIzbmV0b2JEczd4UXlqSGNhNkVabk5nXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2RjYTZlNmFjMjc1ZmE1MThhMzhiZmYyZWM2ODRmMmFfbHRoTjVKNXNrWXhZeURkZXEzZ0FZRFNOREhQMDllSEZfVG9rZW46SHJLUWIzbmV0b2JEczd4UXlqSGNhNkVabk5nXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2RjYTZlNmFjMjc1ZmE1MThhMzhiZmYyZWM2ODRmMmFfbHRoTjVKNXNrWXhZeURkZXEzZ0FZRFNOREhQMDllSEZfVG9rZW46SHJLUWIzbmV0b2JEczd4UXlqSGNhNkVabk5nXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2RjYTZlNmFjMjc1ZmE1MThhMzhiZmYyZWM2ODRmMmFfbHRoTjVKNXNrWXhZeURkZXEzZ0FZRFNOREhQMDllSEZfVG9rZW46SHJLUWIzbmV0b2JEczd4UXlqSGNhNkVabk5nXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+</li>
+</ol>
+<p>SRT 概览。在 RLVR 方法中，系统通过真实验证器生成用于强化学习训练的奖励信号。与之相反，SRT 方法并不依赖真实验证器，而是通过模型自身生成结果的多数投票机制来估算真实值，并利用这一替代性奖励信号来训练模型。</p>
+<ol start="4">
+<li>
+<p><strong>上海交通大学等机构提出的多模态大模型的持续自我改进框架「MM-UPT」</strong>：在完全无监督场景下，通过强化学习框架 GRPO 实现多模态大模型的持续自我改进。他们提出了一种简洁而高效的框架：MM-UPT（Multi-Modal Unsupervised Post-Training），并在多个图文数学推理 benchmarks 上验证了其有效性。
+论文标题：Unsupervised Post-Training for Multi-Modal LLM Reasoning via GRPO</p>
+<p>论文链接：https://arxiv.org/abs/2505.22453</p>
+<p>项目代码：https://github.com/waltonfuture/MM-UPT</p>
+</li>
+<li>
+<p><strong>香港中文大学联合 vivo 等机构的自改进框架「UI-Genie」</strong>：旨在解决 GUI 智能体中的两大核心挑战：一是轨迹结果的验证十分困难，二是高质量训练数据的规模化获取不易。针对这两个挑战，研究团队分别提出了一种奖励模型和一个自改进流水线。
+论文标题：UI-Genie: A Self-Improving Approach for Iteratively Boosting MLLM-based Mobile GUI Agents</p>
+<p>论文链接：https://arxiv.org/abs/2505.21496</p>
+<p>项目地址：https://github.com/Euphoria16/UI-Genie</p>
+</li>
+</ol>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdlYmQ3YzJjZjJkY2QyM2E4MzQ3ZDkxOGZhMTQwYTVfeFRFMTE2VkhUN29JR2prMndQYUYzRlUwNERhQmM3OGdfVG9rZW46VUVIN2Jiamt0bzJqS1J4ZEU0SWN5QmVablZmXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdlYmQ3YzJjZjJkY2QyM2E4MzQ3ZDkxOGZhMTQwYTVfeFRFMTE2VkhUN29JR2prMndQYUYzRlUwNERhQmM3OGdfVG9rZW46VUVIN2Jiamt0bzJqS1J4ZEU0SWN5QmVablZmXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdlYmQ3YzJjZjJkY2QyM2E4MzQ3ZDkxOGZhMTQwYTVfeFRFMTE2VkhUN29JR2prMndQYUYzRlUwNERhQmM3OGdfVG9rZW46VUVIN2Jiamt0bzJqS1J4ZEU0SWN5QmVablZmXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdlYmQ3YzJjZjJkY2QyM2E4MzQ3ZDkxOGZhMTQwYTVfeFRFMTE2VkhUN29JR2prMndQYUYzRlUwNERhQmM3OGdfVG9rZW46VUVIN2Jiamt0bzJqS1J4ZEU0SWN5QmVablZmXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdlYmQ3YzJjZjJkY2QyM2E4MzQ3ZDkxOGZhMTQwYTVfeFRFMTE2VkhUN29JR2prMndQYUYzRlUwNERhQmM3OGdfVG9rZW46VUVIN2Jiamt0bzJqS1J4ZEU0SWN5QmVablZmXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdlYmQ3YzJjZjJkY2QyM2E4MzQ3ZDkxOGZhMTQwYTVfeFRFMTE2VkhUN29JR2prMndQYUYzRlUwNERhQmM3OGdfVG9rZW46VUVIN2Jiamt0bzJqS1J4ZEU0SWN5QmVablZmXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><strong>该奖励模型，即 UI-Genie-RM，采用了一种图文交错的架构，能够高效处理历史上下文信息，并统一了动作级别和任务级别的奖励：</strong></p>
+<ul>
+<li>通过迭代式合成轨迹生成，消除人工标注</li>
+<li>通过自改进循环，共同演进智能体和奖励模型</li>
+<li>无需人工干预即可生成高质量数据集</li>
+</ul>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY0ODczNGE4NWIwNTQ5NzEyYTY4ZDBhMGJhN2QzMDdfeUZQUXVuZ3JUbTR4SFF3NFBCcW5vY0Ywa1BHSXpzTEFfVG9rZW46VmNsRWJMS3VBb1dncWh4TXEwSGNxY0JibmpXXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY0ODczNGE4NWIwNTQ5NzEyYTY4ZDBhMGJhN2QzMDdfeUZQUXVuZ3JUbTR4SFF3NFBCcW5vY0Ywa1BHSXpzTEFfVG9rZW46VmNsRWJMS3VBb1dncWh4TXEwSGNxY0JibmpXXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY0ODczNGE4NWIwNTQ5NzEyYTY4ZDBhMGJhN2QzMDdfeUZQUXVuZ3JUbTR4SFF3NFBCcW5vY0Ywa1BHSXpzTEFfVG9rZW46VmNsRWJMS3VBb1dncWh4TXEwSGNxY0JibmpXXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY0ODczNGE4NWIwNTQ5NzEyYTY4ZDBhMGJhN2QzMDdfeUZQUXVuZ3JUbTR4SFF3NFBCcW5vY0Ywa1BHSXpzTEFfVG9rZW46VmNsRWJMS3VBb1dncWh4TXEwSGNxY0JibmpXXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY0ODczNGE4NWIwNTQ5NzEyYTY4ZDBhMGJhN2QzMDdfeUZQUXVuZ3JUbTR4SFF3NFBCcW5vY0Ywa1BHSXpzTEFfVG9rZW46VmNsRWJMS3VBb1dncWh4TXEwSGNxY0JibmpXXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGY0ODczNGE4NWIwNTQ5NzEyYTY4ZDBhMGJhN2QzMDdfeUZQUXVuZ3JUbTR4SFF3NFBCcW5vY0Ywa1BHSXpzTEFfVG9rZW46VmNsRWJMS3VBb1dncWh4TXEwSGNxY0JibmpXXzE3NTQ0NjMzMDI6MTc1NDQ2NjkwMl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

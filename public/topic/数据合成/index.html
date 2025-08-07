@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>数据合成 - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="数据合成
+结语：合成任务的新时代
+ViGaL 的成功揭示了一个潜在的新趋势：当高质量人类数据枯竭，简单任务性能饱和的时候，精心设计的游戏，作为一种合成任务，可能为多模态推理能力的发展开辟新道路。
+与传统的直接训练方法相比，这种游戏化的训练范式展现出独特的优势：
+
+成本极低：无需人工标注，可无限扩展
+效果显著：零数学样本超越数学专训模型
+拓展性强：可以组合多个任务进一步提升性能
+通用性好：不会造成 &ldquo;偏科&rdquo; 问题，保持模型的全面能力
+
+更重要的是，ViGaL 可能揭示了一个朴素但深刻的道理：在直接学习目标任务之外，培养底层的通用推理能力，也许同样有助于模型性能的提升。就像我们不只是通过死记硬背数学公式来培养数学思维，而是通过各种思维训练来发展抽象推理能力一样。
+在 Scaling Law 可能逐渐面临困境的今天，ViGaL 用一个简单而优雅的想法提醒我们：有时候，让 AI&quot;玩游戏&quot; 可能比让它 &ldquo;刷题&rdquo; 更有效。
+通用框架
+🌈 🌈 🌈  Synthetic Data RL: Task Definition Is All You Need
+2025-06-25 10:31:10 Wednesday ｜ Synthetic Data RL: Task Definition Is All You Need （可以参考一下其中的实验部分）https://mp.weixin.qq.com/s/rjNQdHUCZ4YmvRNVveMQ8w
+传统上，为了让这些模型适应特定领域，最直接的方法是使用大规模的人类标注数据进行微调。然而，这一过程不仅成本高昂、耗时漫长，而且在许多实际应用场景中并不可行。
+为了解决上述挑战，北京大学、MIT等机构的研究人员提出了「合成数据强化学习」（Synthetic Data RL）框架。这是一个简单而通用的框架，仅从一个任务定义出发，合成大量多样的领域特定样本，然后利用强化学习（RL）对模型进行微调。
+论文链接：https://arxiv.org/pdf/2505.17063
+代码仓库：https://github.com/gydpku/Data_Synthesis_RL
+这种方式实现了参数化的自适应，将领域知识直接嵌入到模型的参数中，并且完全无需任何人类标注的数据。
+" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="数据合成">
+  <meta itemprop="description" content="数据合成 结语：合成任务的新时代
+ViGaL 的成功揭示了一个潜在的新趋势：当高质量人类数据枯竭，简单任务性能饱和的时候，精心设计的游戏，作为一种合成任务，可能为多模态推理能力的发展开辟新道路。
+与传统的直接训练方法相比，这种游戏化的训练范式展现出独特的优势：
+成本极低：无需人工标注，可无限扩展 效果显著：零数学样本超越数学专训模型 拓展性强：可以组合多个任务进一步提升性能 通用性好：不会造成 “偏科” 问题，保持模型的全面能力 更重要的是，ViGaL 可能揭示了一个朴素但深刻的道理：在直接学习目标任务之外，培养底层的通用推理能力，也许同样有助于模型性能的提升。就像我们不只是通过死记硬背数学公式来培养数学思维，而是通过各种思维训练来发展抽象推理能力一样。
+在 Scaling Law 可能逐渐面临困境的今天，ViGaL 用一个简单而优雅的想法提醒我们：有时候，让 AI&#34;玩游戏&#34; 可能比让它 “刷题” 更有效。
+通用框架 🌈 🌈 🌈 Synthetic Data RL: Task Definition Is All You Need 2025-06-25 10:31:10 Wednesday ｜ Synthetic Data RL: Task Definition Is All You Need （可以参考一下其中的实验部分）https://mp.weixin.qq.com/s/rjNQdHUCZ4YmvRNVveMQ8w
+传统上，为了让这些模型适应特定领域，最直接的方法是使用大规模的人类标注数据进行微调。然而，这一过程不仅成本高昂、耗时漫长，而且在许多实际应用场景中并不可行。
+为了解决上述挑战，北京大学、MIT等机构的研究人员提出了「合成数据强化学习」（Synthetic Data RL）框架。这是一个简单而通用的框架，仅从一个任务定义出发，合成大量多样的领域特定样本，然后利用强化学习（RL）对模型进行微调。
+论文链接：https://arxiv.org/pdf/2505.17063
+代码仓库：https://github.com/gydpku/Data_Synthesis_RL
+这种方式实现了参数化的自适应，将领域知识直接嵌入到模型的参数中，并且完全无需任何人类标注的数据。">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="1189"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="数据合成">
+  <meta property="og:description" content="数据合成 结语：合成任务的新时代
+ViGaL 的成功揭示了一个潜在的新趋势：当高质量人类数据枯竭，简单任务性能饱和的时候，精心设计的游戏，作为一种合成任务，可能为多模态推理能力的发展开辟新道路。
+与传统的直接训练方法相比，这种游戏化的训练范式展现出独特的优势：
+成本极低：无需人工标注，可无限扩展 效果显著：零数学样本超越数学专训模型 拓展性强：可以组合多个任务进一步提升性能 通用性好：不会造成 “偏科” 问题，保持模型的全面能力 更重要的是，ViGaL 可能揭示了一个朴素但深刻的道理：在直接学习目标任务之外，培养底层的通用推理能力，也许同样有助于模型性能的提升。就像我们不只是通过死记硬背数学公式来培养数学思维，而是通过各种思维训练来发展抽象推理能力一样。
+在 Scaling Law 可能逐渐面临困境的今天，ViGaL 用一个简单而优雅的想法提醒我们：有时候，让 AI&#34;玩游戏&#34; 可能比让它 “刷题” 更有效。
+通用框架 🌈 🌈 🌈 Synthetic Data RL: Task Definition Is All You Need 2025-06-25 10:31:10 Wednesday ｜ Synthetic Data RL: Task Definition Is All You Need （可以参考一下其中的实验部分）https://mp.weixin.qq.com/s/rjNQdHUCZ4YmvRNVveMQ8w
+传统上，为了让这些模型适应特定领域，最直接的方法是使用大规模的人类标注数据进行微调。然而，这一过程不仅成本高昂、耗时漫长，而且在许多实际应用场景中并不可行。
+为了解决上述挑战，北京大学、MIT等机构的研究人员提出了「合成数据强化学习」（Synthetic Data RL）框架。这是一个简单而通用的框架，仅从一个任务定义出发，合成大量多样的领域特定样本，然后利用强化学习（RL）对模型进行微调。
+论文链接：https://arxiv.org/pdf/2505.17063
+代码仓库：https://github.com/gydpku/Data_Synthesis_RL
+这种方式实现了参数化的自适应，将领域知识直接嵌入到模型的参数中，并且完全无需任何人类标注的数据。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="topic">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="数据合成">
+  <meta name="twitter:description" content="数据合成 结语：合成任务的新时代
+ViGaL 的成功揭示了一个潜在的新趋势：当高质量人类数据枯竭，简单任务性能饱和的时候，精心设计的游戏，作为一种合成任务，可能为多模态推理能力的发展开辟新道路。
+与传统的直接训练方法相比，这种游戏化的训练范式展现出独特的优势：
+成本极低：无需人工标注，可无限扩展 效果显著：零数学样本超越数学专训模型 拓展性强：可以组合多个任务进一步提升性能 通用性好：不会造成 “偏科” 问题，保持模型的全面能力 更重要的是，ViGaL 可能揭示了一个朴素但深刻的道理：在直接学习目标任务之外，培养底层的通用推理能力，也许同样有助于模型性能的提升。就像我们不只是通过死记硬背数学公式来培养数学思维，而是通过各种思维训练来发展抽象推理能力一样。
+在 Scaling Law 可能逐渐面临困境的今天，ViGaL 用一个简单而优雅的想法提醒我们：有时候，让 AI&#34;玩游戏&#34; 可能比让它 “刷题” 更有效。
+通用框架 🌈 🌈 🌈 Synthetic Data RL: Task Definition Is All You Need 2025-06-25 10:31:10 Wednesday ｜ Synthetic Data RL: Task Definition Is All You Need （可以参考一下其中的实验部分）https://mp.weixin.qq.com/s/rjNQdHUCZ4YmvRNVveMQ8w
+传统上，为了让这些模型适应特定领域，最直接的方法是使用大规模的人类标注数据进行微调。然而，这一过程不仅成本高昂、耗时漫长，而且在许多实际应用场景中并不可行。
+为了解决上述挑战，北京大学、MIT等机构的研究人员提出了「合成数据强化学习」（Synthetic Data RL）框架。这是一个简单而通用的框架，仅从一个任务定义出发，合成大量多样的领域特定样本，然后利用强化学习（RL）对模型进行微调。
+论文链接：https://arxiv.org/pdf/2505.17063
+代码仓库：https://github.com/gydpku/Data_Synthesis_RL
+这种方式实现了参数化的自适应，将领域知识直接嵌入到模型的参数中，并且完全无需任何人类标注的数据。">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%96%B0%E6%A8%A1%E5%9E%8B/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%8E%A8%E7%90%86/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "数据合成",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90\/"
+    },"genre": "topic","wordcount":  1189 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>数据合成</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="1189 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 1200 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>6 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#----synthetic-data-rl-task-definition-is-all-you-need">🌈 🌈 🌈  Synthetic Data RL: Task Definition Is All You Need</a></li>
+            <li><a href="#-agentsynth通用计算机使用代理的可扩展任务生成">🌈🌈🌈 AgentSynth：通用计算机使用代理的可扩展任务生成</a></li>
+            <li><a href="#taskcraftai任务自动化新突破-41k数据集开源">TaskCraft：AI任务自动化新突破 41k数据集开源</a></li>
+            <li><a href="#不用千亿参数也能合成高质量数据这个开源框架让小模型组团逆袭7b性能直追72b">不用千亿参数也能合成高质量数据！这个开源框架让小模型“组团逆袭”，7B性能直追72B</a></li>
+            <li><a href="#定义任务--合成数据智能训练的高效引擎--synthetic-data-rl万字"><a href="https://mp.weixin.qq.com/s/JhV7VqnViVAPUnIwUbcikQ">定义任务 + 合成数据：智能训练的高效引擎 —— Synthetic Data RL（万字）</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#思维链数据">思维链数据</a>
+      <ul>
+        <li><a href="#synadapt通过合成连续思维链学习大型语言模型中的自适应推理"><a href="https://papers.cool/arxiv/2508.00574">SynAdapt：通过合成连续思维链学习大型语言模型中的自适应推理</a></a>
+          <ul>
+            <li><a href="#corgi经过验证的思维链推理与视觉基础"><a href="https://papers.cool/arxiv/2508.00378">CoRGI：经过验证的思维链推理与视觉基础</a></a></li>
+            <li><a href="#json-bag通用游戏轨迹表示"><a href="https://papers.cool/arxiv/2508.00712">JSON-Bag：通用游戏轨迹表示</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#推理数据">推理数据</a></li>
+    <li><a href="#数学数据">数学数据</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#通过可验证的合成数据生成迈向可信的优化建模代理">通过可验证的合成数据生成迈向可信的优化建模代理</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#复杂指令数据">复杂指令数据</a></li>
+    <li><a href="#评估数据">评估数据</a></li>
+    <li><a href="#对话数据">对话数据</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#llms-能生成高质量的特定任务对话吗">LLMs 能生成高质量的特定任务对话吗？</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="数据合成"><strong>数据合成</strong></h1>
+<p><strong>结语：合成任务的新时代</strong></p>
+<p>ViGaL 的成功揭示了一个潜在的新趋势：当高质量人类数据枯竭，简单任务性能饱和的时候，精心设计的游戏，作为一种合成任务，可能为多模态推理能力的发展开辟新道路。</p>
+<p>与传统的直接训练方法相比，这种游戏化的训练范式展现出独特的优势：</p>
+<ul>
+<li>成本极低：无需人工标注，可无限扩展</li>
+<li>效果显著：零数学样本超越数学专训模型</li>
+<li>拓展性强：可以组合多个任务进一步提升性能</li>
+<li>通用性好：不会造成 &ldquo;偏科&rdquo; 问题，保持模型的全面能力</li>
+</ul>
+<p>更重要的是，ViGaL 可能揭示了一个朴素但深刻的道理：在直接学习目标任务之外，培养底层的通用推理能力，也许同样有助于模型性能的提升。就像我们不只是通过死记硬背数学公式来培养数学思维，而是通过各种思维训练来发展抽象推理能力一样。</p>
+<p>在 Scaling Law 可能逐渐面临困境的今天，ViGaL 用一个简单而优雅的想法提醒我们：有时候，让 AI&quot;玩游戏&quot; 可能比让它 &ldquo;刷题&rdquo; 更有效。</p>
+<h1 id="通用框架">通用框架</h1>
+<h4 id="----synthetic-data-rl-task-definition-is-all-you-need">🌈 🌈 🌈  Synthetic Data RL: Task Definition Is All You Need</h4>
+<p>2025-06-25 10:31:10 Wednesday ｜ Synthetic Data RL: Task Definition Is All You Need （可以参考一下其中的实验部分）https://mp.weixin.qq.com/s/rjNQdHUCZ4YmvRNVveMQ8w</p>
+<p>传统上，为了让这些模型适应特定领域，最直接的方法是使用大规模的人类标注数据进行微调。然而，这一过程不仅成本高昂、耗时漫长，而且在许多实际应用场景中并不可行。</p>
+<p>为了解决上述挑战，北京大学、MIT等机构的研究人员提出了「合成数据强化学习」（Synthetic Data RL）框架。这是一个简单而通用的框架，仅从一个任务定义出发，合成大量多样的领域特定样本，然后利用强化学习（RL）对模型进行微调。</p>
+<p>论文链接：https://arxiv.org/pdf/2505.17063</p>
+<p>代码仓库：https://github.com/gydpku/Data_Synthesis_RL</p>
+<p>这种方式实现了参数化的自适应，将领域知识直接嵌入到模型的参数中，并且完全无需任何人类标注的数据。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmRkMGJkYmJkODkwODI2ZmZhMjRlNjMzNjJhZWIyM2NfYUlCNWxUMGRSMkFhWWQxbFp3VVVPbXRTemZNcEFaWjhfVG9rZW46QndPeWIwN21Ub3hnbUR4aThTbGMzMDlrbmtkXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmRkMGJkYmJkODkwODI2ZmZhMjRlNjMzNjJhZWIyM2NfYUlCNWxUMGRSMkFhWWQxbFp3VVVPbXRTemZNcEFaWjhfVG9rZW46QndPeWIwN21Ub3hnbUR4aThTbGMzMDlrbmtkXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmRkMGJkYmJkODkwODI2ZmZhMjRlNjMzNjJhZWIyM2NfYUlCNWxUMGRSMkFhWWQxbFp3VVVPbXRTemZNcEFaWjhfVG9rZW46QndPeWIwN21Ub3hnbUR4aThTbGMzMDlrbmtkXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmRkMGJkYmJkODkwODI2ZmZhMjRlNjMzNjJhZWIyM2NfYUlCNWxUMGRSMkFhWWQxbFp3VVVPbXRTemZNcEFaWjhfVG9rZW46QndPeWIwN21Ub3hnbUR4aThTbGMzMDlrbmtkXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmRkMGJkYmJkODkwODI2ZmZhMjRlNjMzNjJhZWIyM2NfYUlCNWxUMGRSMkFhWWQxbFp3VVVPbXRTemZNcEFaWjhfVG9rZW46QndPeWIwN21Ub3hnbUR4aThTbGMzMDlrbmtkXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmRkMGJkYmJkODkwODI2ZmZhMjRlNjMzNjJhZWIyM2NfYUlCNWxUMGRSMkFhWWQxbFp3VVVPbXRTemZNcEFaWjhfVG9rZW46QndPeWIwN21Ub3hnbUR4aThTbGMzMDlrbmtkXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>（1）首先，使用一个基础模型对初始数据集进行全面评估。根据模型能否正确解答，样本被分为两类：已解决样本集：这个集合包含了所有基础模型能够正确解答的样本。未解决样本集：这个集合包含了所有基础模型未能正确解答的样本。</p>
+<p>（2）接下来，利用一个大语言模型改写器对已分类的样本进行难度调整，以扩充数据集。改写器会分析已解决样本集中的内容，并在此基础上创造出更具挑战性的新样本，形成一个更难的样本集。同样地，改写器会分析未解决样本集的内容，并创造出难度更低的新样本，形成一个「更容易的样本集」。</p>
+<p>最后，将三个部分的数据合并在一起，包括原始的初始样本集、新生成的更难样本集、新生成的更容易样本集。</p>
+<h4 id="-agentsynth通用计算机使用代理的可扩展任务生成">🌈🌈🌈 AgentSynth：通用计算机使用代理的可扩展任务生成</h4>
+<p>2025-06-19 20:39:39 Thursday ｜</p>
+<p>AgentSynth: Scalable Task Generation for Generalist Computer-Use Agents
+<strong>标题</strong> ： AgentSynth：通用计算机使用代理的可扩展任务生成
+<strong>链接</strong> ：https://arxiv.org/abs/2506.14205</p>
+<p><strong>作者</strong> ： Jingxu Xie,  Dylan Xu,  Xuandong Zhao,  Dawn Song
+<strong>摘要</strong> ：我们介绍了AgentSynth，一个可扩展的和具有成本效益的管道，用于自动合成高质量的任务和轨迹数据集的通才计算机使用代理。利用信息不对称，AgentSynth构建子任务，这些子任务在生成过程中很简单，但在组成长期任务时更具挑战性，从而能够创建6，000多个多样化和现实的任务。我们的管道从基于LLM的任务提议者开始，由角色引导，然后是完成任务并记录轨迹的执行代理。这个过程反复重复，形成一系列子任务，然后由一个单独的代理汇总成一个可控难度的复合任务。AgentSynth的一个关键优势是它能够通过改变子任务的数量来精确地调节任务的复杂性。经验评估表明，最先进的LLM代理遭受了急剧的性能下降，从18%的成功在难度1级到只有4%在6级，突出了基准的难度和辨别力。此外，我们的管道实现了每个轨迹0.60美元的低平均成本，比人类注释便宜几个数量级。我们的代码和数据可在https://github.com/sunblaze-ucb/AgentSynth上公开获取</p>
+<h4 id="taskcraftai任务自动化新突破-41k数据集开源">TaskCraft：AI任务自动化新突破 41k数据集开源</h4>
+<p>🔗 <a href="https://www.xiaohongshu.com/explore/6853e439000000000d026118?note_flow_source=wechat&amp;xsec_token=CBKYJ7EEjv9ZnstP7m9MEUpBZcTw4ZgFE2t1NF7WMM87o="target="_blank" rel="external nofollow noopener noreferrer">链接</a></p>
+<p>首个自动化生成和评估Agentic Tasks的方法。相关论文是TaskCraft，代码和数据也已开源。</p>
+<p>在Agent RL、学习和优化领域，高质量的Agentic Task数据至关重要。但现有数据集如GAIA和BrowserComp都受限于人工标注。之前像self-instruct这样的方法无法生成真正复杂的多工具、多步骤任务。</p>
+<p>这项工作的核心思路是从简单易验证的Atomic Tasks开始构建，然后通过结构化分层扩展逐步增加复杂度。</p>
+<p>研究团队使用TaskCraft进行了两个关键实验：</p>
+<ul>
+<li>利用生成的Prompt Learning数据优化任务生产流程，采样成功率提升超过10%，同时减少了采样时间。</li>
+<li>基于该数据集对Agent Foundation Model进行微调，在HotpotQA、Musique和Bamboogle等基准上取得了显著准确率提升</li>
+</ul>
+<p>最终构建了一个包含41k个agentic tasks的大规模数据集，为AI agent的系统性调优和评估提供了坚实基础。</p>
+<p>作者推推: Dingfeng Shi</p>
+<p>参考地址: <a href="https://x.com/dingfeng_shi/status/1935603682156188044"target="_blank" rel="external nofollow noopener noreferrer">https://x.com/dingfeng_shi/status/1935603682156188044</a></p>
+<h4 id="不用千亿参数也能合成高质量数据这个开源框架让小模型组团逆袭7b性能直追72b">不用千亿参数也能合成高质量数据！这个开源框架让小模型“组团逆袭”，7B性能直追72B</h4>
+<p>2025-06-18 08:52:41 Wednesday｜</p>
+<p><a href="https://mp.weixin.qq.com/s/-37fcV7Razp9aRDrrzNR7Q"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/-37fcV7Razp9aRDrrzNR7Q</a></p>
+<p>上海人工智能实验室联合中国人民大学提出的 <strong>GRA框架</strong> （Generator–Reviewer–Adjudicator） 正是这样一种新范式：</p>
+<p>该方法以“多人协作”、“角色分工”的理念为核心，系统性探索了多开源小模型如何通过协同机制生成高质量训练数据。</p>
+<p>A Strategic Coordination Framework of Small LMs MatchesLarge LMs in Data Synthesis</p>
+<p><em>论文地址：</em> <em><a href="https://arxiv.org/abs/2504.12322"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2504.12322</a></em>
+<em>项目地址：</em> <em><a href="https://github.com/GX-XinGao/GRA"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/GX-XinGao/GRA</a></em>
+<em>模型地址：</em> <em><a href="https://huggingface.co/collections/GX-XinGao/gra-6801cba58ceb0074566cdb4e"target="_blank" rel="external nofollow noopener noreferrer">https://huggingface.co/collections/GX-XinGao/gra-6801cba58ceb0074566cdb4e</a></em></p>
+<p>实验结果显示，在涵盖数学、代码、 <strong>逻辑推理</strong> 、通识问答等10个主流数据集上，GRA生成的数据质量与单个大型语言模型（如Qwen-2.5-72B-Instruct）输出相当或更高，并在多数任务中取得了显著领先。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzFmNzdlODkxZTY1ZTI1NDQ5ZWIzN2QyZWZiYWU1ZjZfVzNLTVZkRXZaTWVTSldpdkxQcUp1ZEpHWUEycEllS0lfVG9rZW46TVo5UWI2S2JRbzdJcTJ4WVlVT2NyZEU1bmZjXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzFmNzdlODkxZTY1ZTI1NDQ5ZWIzN2QyZWZiYWU1ZjZfVzNLTVZkRXZaTWVTSldpdkxQcUp1ZEpHWUEycEllS0lfVG9rZW46TVo5UWI2S2JRbzdJcTJ4WVlVT2NyZEU1bmZjXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzFmNzdlODkxZTY1ZTI1NDQ5ZWIzN2QyZWZiYWU1ZjZfVzNLTVZkRXZaTWVTSldpdkxQcUp1ZEpHWUEycEllS0lfVG9rZW46TVo5UWI2S2JRbzdJcTJ4WVlVT2NyZEU1bmZjXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzFmNzdlODkxZTY1ZTI1NDQ5ZWIzN2QyZWZiYWU1ZjZfVzNLTVZkRXZaTWVTSldpdkxQcUp1ZEpHWUEycEllS0lfVG9rZW46TVo5UWI2S2JRbzdJcTJ4WVlVT2NyZEU1bmZjXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzFmNzdlODkxZTY1ZTI1NDQ5ZWIzN2QyZWZiYWU1ZjZfVzNLTVZkRXZaTWVTSldpdkxQcUp1ZEpHWUEycEllS0lfVG9rZW46TVo5UWI2S2JRbzdJcTJ4WVlVT2NyZEU1bmZjXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzFmNzdlODkxZTY1ZTI1NDQ5ZWIzN2QyZWZiYWU1ZjZfVzNLTVZkRXZaTWVTSldpdkxQcUp1ZEpHWUEycEllS0lfVG9rZW46TVo5UWI2S2JRbzdJcTJ4WVlVT2NyZEU1bmZjXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>GRA框架：“模拟论文投稿”</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmQ5OWU1NzdlYjY3OWQ2ZTg4ZDIzZGIyMjY2YWI1ZTlfR1c0OUF5U21aVTBvdFIxb0JSV3FJMG1zYkQ5M2tPY2pfVG9rZW46RjBYb2JPWU9ub0ZuVDh4djR0MWN6T0E1bkFmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmQ5OWU1NzdlYjY3OWQ2ZTg4ZDIzZGIyMjY2YWI1ZTlfR1c0OUF5U21aVTBvdFIxb0JSV3FJMG1zYkQ5M2tPY2pfVG9rZW46RjBYb2JPWU9ub0ZuVDh4djR0MWN6T0E1bkFmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmQ5OWU1NzdlYjY3OWQ2ZTg4ZDIzZGIyMjY2YWI1ZTlfR1c0OUF5U21aVTBvdFIxb0JSV3FJMG1zYkQ5M2tPY2pfVG9rZW46RjBYb2JPWU9ub0ZuVDh4djR0MWN6T0E1bkFmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmQ5OWU1NzdlYjY3OWQ2ZTg4ZDIzZGIyMjY2YWI1ZTlfR1c0OUF5U21aVTBvdFIxb0JSV3FJMG1zYkQ5M2tPY2pfVG9rZW46RjBYb2JPWU9ub0ZuVDh4djR0MWN6T0E1bkFmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmQ5OWU1NzdlYjY3OWQ2ZTg4ZDIzZGIyMjY2YWI1ZTlfR1c0OUF5U21aVTBvdFIxb0JSV3FJMG1zYkQ5M2tPY2pfVG9rZW46RjBYb2JPWU9ub0ZuVDh4djR0MWN6T0E1bkFmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmQ5OWU1NzdlYjY3OWQ2ZTg4ZDIzZGIyMjY2YWI1ZTlfR1c0OUF5U21aVTBvdFIxb0JSV3FJMG1zYkQ5M2tPY2pfVG9rZW46RjBYb2JPWU9ub0ZuVDh4djR0MWN6T0E1bkFmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>如果说传统方法是单枪匹马生成数据，那GRA更像是一次“模拟顶会审稿流程”——作者、审稿人、AC各就各位，小模型分工合作、打分评审，确保数据内容质量稳定、标准统一。</p>
+<p><strong>1.Generator：像“作者”一样创作新样本</strong></p>
+<p>GRA会先将任务划分为多个领域（如数学、编程、逻辑推理等），每个Generator小模型负责在对应领域生成新指令与响应。它们从种子数据中提取关键词与摘要，结合领域知识生成高质量样本，确保内容丰富、主题聚焦、语义清晰。</p>
+<p><strong>2.Reviewer：像“审稿人”一样严格评审</strong></p>
+<p>每条数据生成后，会交由多个Reviewer小模型进行两轮审查：</p>
+<ul>
+<li>首先检查指令是否合理、清晰；</li>
+<li>然后全面评估响应的正确性、相关性与语言质量，并打分附评语。</li>
+</ul>
+<p>系统会根据平均评分与评分一致性筛选样本——分数偏低的直接淘汰，意见分歧的则送入下一环节。</p>
+<p><strong>3.Adjudicator：像“AC”一样做出最终裁决</strong></p>
+<p>当Reviewer之间出现评分冲突时，Adjudicator小模型将登场，独立复审并做出最终判断。它如同学术审稿中的AreaChair，有效避免“多数误判”，确保留下来的数据客观、可靠。</p>
+<p><strong>4.后处理模块：让好数据更“精致”</strong></p>
+<p>通过评审后，系统还将进行语义去重、摘要补全与格式统一，进一步提升样本的一致性与表达质量。</p>
+<p>总的来说，GRA构建了一个“模拟顶会审稿”的自动化系统：小模型们轮流扮演创作、审阅、仲裁等角色，在多轮协作中生成高质量训练数据。</p>
+<p>这种机制不仅提升了数据生成的多样性与公正性，也打破了以往对大模型蒸馏的依赖——实现了真正属于小模型的“集体智能”路径。</p>
+<h4 id="定义任务--合成数据智能训练的高效引擎--synthetic-data-rl万字"><a href="https://mp.weixin.qq.com/s/JhV7VqnViVAPUnIwUbcikQ"target="_blank" rel="external nofollow noopener noreferrer">定义任务 + 合成数据：智能训练的高效引擎 —— Synthetic Data RL（万字）</a></h4>
+<p>250805</p>
+<ol>
+<li>Synthetic Data RL 为我们提供了一种新的解决方案。它仅凭任务定义，就能生成合成数据并进行强化学习训练，无需依赖大规模人工标注数据，让模型训练变得更加高效与智能。</li>
+<li>Synthetic Data RL: Task Definition Is All You Need
+<ol>
+<li><a href="https://arxiv.org/abs/2505.17063"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2505.17063</a></li>
+<li><a href="https://github.com/gydpku/Data_Synthesis_RL/"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/gydpku/Data_Synthesis_RL/</a></li>
+<li>强化学习（RL）是一种将基础模型适应于特定任务的强大方法，但其对大规模人工标注数据的依赖限制了其广泛应用。我们提出了合成数据强化学习（Synthetic Data RL），这是一种简单且通用的框架，通过仅使用从任务定义生成的合成数据对模型进行强化微调。
+<ol>
+<li>我们的方法首先从任务定义和检索到的文档中生成问答对，然后根据模型的可解答性调整问题难度，并通过模型在样本中的平均通过率选择问题进行强化学习训练。</li>
+<li>在 Qwen-2.5-7B 上，我们的方法在 GSM8K 上比基础模型实现了 29.2%的绝对提升（相比指令微调提升 2.9 个百分点，相比 Self-Instruct 提升 6.6 个百分点），在 MATH 上提升 8.7%，在 GPQA 上提升 13.1%（相比 SynthLLM 提升 7.0 个百分点），在 MedQA 上提升 8.9%，在 CQA（法律）上提升 17.7%，在 CFA（金融）上提升 13.7%。它在相同数据预算下超越了监督微调，并且在各数据集上几乎达到使用完整人工数据的强化学习效果（例如，GSM8K 提升 17.2 个百分点）。添加 100 个人工示范仅使 GSM8K 的性能提升 0.4 个百分点，显示出有限的附加价值。 通过减少人工数据标注，合成数据强化学习实现了基于强化学习的模型适应的可扩展性和高效性。代码和演示可在<a href="https://github.com/gydpku/Data_Synthesis_RL/"target="_blank" rel="external nofollow noopener noreferrer">此 https URL</a> 获取。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="专用算法">专用算法</h1>
+<p>20250604｜SynthRL: Scaling Visual Reasoning with Verifiable Data Synthesis
+<strong>标题</strong> ： SynthRL：通过可验证的数据合成扩展视觉推理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.02096</p>
+<p><strong>摘要</strong> ：通过可验证奖励强化学习（RLVR）训练的视觉语言模型（VLM）在有效扩展测试时间计算方面取得了显着进展。在这项工作中，我们研究如何合成RL数据可以进一步提高RLVR。为此，我们提出了\textbf{SynthRL}-一个可扩展和有保证的管道，用于面向推理的RL训练中的自动数据缩放。SynthRL包括三个关键阶段：（1）选择具有适当分布的种子问题，（2）在保留原始答案的同时将其扩展为更具挑战性的变体，以及（3）确保近乎完美的正确性和难度增强的保证验证阶段。我们的实证实验证明了SynthRL的可扩展性和有效性。当应用于MMK 12数据集时，SynthRL从大约8 K个种子样本中合成了超过3.3K个额外的可验证的挑战性问题。使用我们的合成数据训练的模型在五个域外视觉数学推理基准测试中实现了一致的增益，与仅使用种子数据训练的基线模型相比有了显着的改进。值得注意的是，详细的分析表明，在最具挑战性的评估样本上，收益更为明显，突出了SynthRL在引发更深层次和更复杂的推理模式方面的有效性。</p>
+<ol start="2">
+<li>2025-06-10 10:53:20 Tuesday ｜ CodeContests+: High-Quality Test Case Generation for Competitive  Programming
+<ol>
+<li><strong>标题</strong> ： CodeContests+：为竞争性编程生成高质量测试用例</li>
+<li><strong>链接</strong> ：https://arxiv.org/abs/2506.05817</li>
+<li><strong>摘要</strong> ：竞争编程由于其高推理难度和精确的正确性反馈，已成为训练和评估大型语言模型（LLM）推理能力的关键任务。然而，虽然有大量的公共问题数据，如问题陈述和解决方案，但这些问题的<strong>测试用例</strong>往往很难获得。因此，测试用例生成是构建大规模数据集的必要任务，测试用例的质量直接决定了评估的准确性。在本文中，我们介绍了一个基于LLM的代理系统，为竞争性编程问题创建高质量的测试用例。我们将该系统应用于CodeContests数据集，并提出了一个新的版本，改进的测试用例，命名为CodeContests+。我们 <strong>评估了CodeContestsPlus中测试用例的质量</strong> 。首先，我们使用了172万个带有通过/失败标签的提交来检查这些测试用例在评估中的准确性。结果表明，CodeContests+比CodeContests实现了更高的准确性，特别是具有更高的真阳性率（TPR）。随后，我们在LLM强化学习（RL）中的实验进一步证实了测试用例质量的提高为RL带来了相当大的优势。</li>
+</ol>
+</li>
+<li>2025-06-11 11:43:26 Wednesday ｜  Synthesis by Design: Controlled Data Generation via Structural Guidance
+<strong>标题</strong> ： 设计合成：通过结构引导控制数据生成
+<strong>链接</strong> ：https://arxiv.org/abs/2506.07664</li>
+</ol>
+<p><strong>作者</strong> ： Lei Xu,  Sirui Chen,  Yuxuan Huang,  Chaochao Lu</p>
+<ol start="4">
+<li>2025-06-11 11:44:02 Wednesday ｜ Advancing Question Generation with Joint Narrative and Difficulty  Control
+<strong>标题</strong> ： 通过联合叙述和难度控制推进问题生成
+<strong>链接</strong> ：https://arxiv.org/abs/2506.06812</li>
+</ol>
+<p><strong>作者</strong> ： Bernardo Leite,  Henrique Lopes Cardoso
+<strong>备注</strong> ：Preprint. Accepted to the BEA 2025 Workshop (ACL)</p>
+<ol start="5">
+<li>🌈 2025-06-12 11:55:58 Thursday |</li>
+</ol>
+<p>SwS: Self-aware Weakness-driven Problem Synthesis in Reinforcement  Learning for LLM Reasoning
+<strong>标题</strong> ： SwS：LLM推理强化学习中的自我感知弱点驱动问题合成
+<strong>链接</strong> ：https://arxiv.org/abs/2506.08989</p>
+<p><strong>作者</strong> ： Xiao Liang,  Zhong-Zhi Li,  Yeyun Gong,  Yang Wang,  Hengyuan Zhang,  Yelong Shen,  Ying Nian Wu,  Weizhu Chen
+<strong>备注</strong> ：Reinforcement Learning; Large Language Models; LLM Reasoning
+<strong>摘要</strong> ：具有 <strong>可验证奖励的强化学习（RLVR）</strong> 已被证明可以有效地训练大型语言模型（LLM）进行复杂的推理任务，例如数学问题解决。RLVR可扩展性的先决条件是具有<strong>精确和可验证答案</strong>的高质量问题集。然而，在现有的面向蒸馏的合成数据集中，缺乏精心制作的人工标记的数学问题和有限的验证答案，限制了它们在RL中的有效性。此外，大多数问题合成策略不加选择地扩展问题集，而不考虑模型的能力，导致生成有用问题的效率低下。为了缓解这个问题，我们引入了一个自我意识的弱点驱动的问题合成框架（SwS），该框架系统地识别模型缺陷并利用它们来增强问题。具体来说，我们将弱点定义为模型在RL训练期间通过迭代采样始终无法学习的问题。然后，我们从这些失败案例中提取核心概念，并合成新的问题，以加强模型在后续增强训练中的薄弱环节，使其能够专注于并逐步克服其弱点。在不依赖外部知识蒸馏的情况下，我们的框架通过使模型能够自我识别并解决其在RL中的弱点来实现鲁棒的泛化，在8个主流推理基准中，7B和32B模型的平均性能分别提高了10.0%和7.7%。</p>
+<ol start="6">
+<li>2025-06-12 13:02:36 Thursday |</li>
+</ol>
+<p>Automatic Generation of Inference Making Questions for Reading  Comprehension Assessments
+<strong>标题</strong> ： 自动生成用于阅读理解评估的推理问题
+<strong>链接</strong> ：https://arxiv.org/abs/2506.08260</p>
+<p><strong>作者</strong> ： Wanjing Anya Ma,  Michael Flor,  Zuowei Wang
+<strong>备注</strong> ：Accepted to the 20th Workshop on Innovative Use of NLP for Building Educational Applications (BEA 2025), co-located with the ACL 2025
+<strong>摘要</strong> ：推理是阅读理解中一项重要而复杂的技能。有些推理需要解决跨句子的引用，有些则依赖于使用先验知识来填充文本中没有明确写入的细节。<strong>诊断性RC</strong>问题可以帮助教育工作者为学龄学生提供更有效和有针对性的阅读教学和干预。我们介绍了一个分类的推理类型RC和使用它来分析项目的分布在诊断RC项目银行。接下来，我们提出的实验，使用GPT-4 o生成桥接推理RC项目通过Few-Shot提示给定的阅读段落，比较条件和不链的思想提示。生成的项目进行了评估的三个方面：整体项目质量，适当的推理类型，和LLM推理，达到较高的评分员之间的协议0.90以上。我们的研究结果表明，GPT-4 o产生了93.8%的高质量的问题，适合在3-12年级的情况下操作使用，但是，只有42.6%的生成的问题准确匹配的目标推理类型。我们的结论是，自动项目生成与人类的判断相结合，提供了一个有前途的路径可扩展的，高质量的诊断RC评估。</p>
+<ol start="7">
+<li>2025-06-12 13:38:21 Thursday ｜</li>
+</ol>
+<p>SWE-Flow: Synthesizing Software Engineering Data in a Test-Driven Manner
+<strong>标题</strong> ： SWE-Flow：以测试驱动方式合成软件工程数据
+<strong>链接</strong> ：https://arxiv.org/abs/2506.09003</p>
+<p><strong>作者</strong> ： Lei Zhang,  Jiaxi Yang,  Min Yang,  Jian Yang,  Mouxiang Chen,  Jiajun Zhang,  Zeyu Cui,  Binyuan Hui,  Junyang Lin
+<strong>备注</strong> ：Accepted by ICML2025
+<strong>摘要</strong> ：我们介绍 <strong>SWE-Flow</strong>，一个基于测试驱动开发（TDD）的新型数据合成框架。与现有的软件工程数据依赖于人类提交的问题不同，<strong>SWE-Flow</strong> 直接从单元测试自动推断增量开发步骤，这些单元测试本质上封装了高级需求。<strong>SWE-Flow</strong> 的核心是构建一个RDG（Dependency Graph），它可以精确地捕获功能交互，从而生成一个结构化的、逐步的 * 开发计划 *。在每一步中，<strong>SWE-Flow</strong> 都会生成部分代码库、相应的单元测试和必要的代码修改，从而产生完全可验证的TDD任务。通过这种方法，我们从真实世界的GitHub项目中生成了16，061个训练实例和2，020个测试实例，创建了 SWE-Flow-Eval 基准。我们的实验表明，在这个数据集上微调开放模型可以显着提高基于TDD的编码性能。为了便于进一步研究，我们在[Github]（https：//github.com/Hambaobao/SWE-Flow）上发布了所有代码、数据集、模型和Docker镜像。
+9. 2025-06-13 18:32:04 Friday｜</p>
+<p>TaskCraft: Automated Generation of Agentic Tasks
+<strong>标题</strong> ： TaskCraft：自动生成抽象任务
+<strong>链接</strong> ：https://arxiv.org/abs/2506.10055</p>
+<p><strong>作者</strong> ： Dingfeng Shi,  Jingyi Cao,  Qianben Chen,  Weichen Sun,  Weizhen Li,  Hongxuan Lu,  Fangchen Dong,  Tianrui Qin,  King Zhu,  Minghao Yang,  Jian Yang,  Ge Zhang,  Jiaheng Liu,  Changwang Zhang,  Jun Wang,  Yuchen Eleanor Jiang,  Wangchunshu Zhou
+<strong>摘要</strong> ：人工智能任务需要通过自主、工具使用和自适应推理来解决多步问题，这对NLP和AI的发展越来越重要。然而，现有的指令数据缺乏工具交互，目前的代理基准依赖于昂贵的人工注释，限制了它们的可扩展性。我们介绍\textsc{TaskCraft}，一个自动化的工作流程，用于生成具有执行轨迹的困难可扩展，多工具和可验证的代理任务。TaskCraft使用基于深度和基于宽度的扩展来扩展原子任务，以创建结构和层次结构复杂的挑战。实证结果表明，这些任务提高了即时优化的生成工作流程，并加强监督微调的代理基础模型。我们提出了一个大规模的合成数据集，约36,000个不同难度的任务，以支持未来的研究代理调整和评估。</p>
+<ol start="10">
+<li>2025-06-16 12:04:21 Monday ｜</li>
+</ol>
+<p>Infinity Instruct: Scaling Instruction Selection and Synthesis to  Enhance Language Models
+<strong>标题</strong> ： 无限指令：扩展指令选择和合成以增强语言模型
+<strong>链接</strong> ：https://arxiv.org/abs/2506.11116</p>
+<p><strong>作者</strong> ： Jijie Li,  Li Du,  Hanyu Zhao,  Bo-wen Zhang,  Liangdong Wang,  Boyan Gao,  Guang Liu,  Yonghua Lin
+<strong>摘要</strong> ：大型语言模型（LLM）在现实世界的应用中表现出强大的性能，但现有的开源指令数据集通常集中在狭窄的领域，如数学或编码，限制了泛化并扩大了与专有模型的差距。为了弥合这一差距，我们引入了Infinity-Instruct，这是一个高质量的指令数据集，旨在通过两阶段流水线增强LLM的基础和聊天功能。在第一阶段，我们使用<strong>混合数据选择技术</strong>从超过1亿个样本中筛选出740万条高质量的基础指令（InfInstruct-F-7.4M）。在第二阶段，我们通过涉及<strong>指令选择、进化和诊断过滤</strong>的两阶段过程合成1.5M高质量聊天指令（InfInstruct-G-1.5M）。我们通过微调几个开源模型（包括Mistral，LLaMA，Qwen和Yi）来实证评估Infinity-Instruct，并观察到基础和指令遵循基准的实质性性能提升，始终超过官方的调试调整的同行。值得注意的是，InfInstruct-LLaMA 3.1- 70 B在指令遵循任务上比GPT-4-0314高8.6%，同时实现了相当的基础性能。这些结果强调了基础和聊天培训之间的协同作用，并为整体LLM开发提供了新的见解。我们的数据集\footnote{https：//huggingface.co/baseets/BAAI/Infinity-Instruct}和代码\footnote{https：//gitee.com/li-touch/infinity-instruct}已经公开发布。</p>
+<ol start="11">
+<li>2025-06-16 12:10:47 Monday</li>
+</ol>
+<p>Configurable Preference Tuning with Rubric-Guided Synthetic Data
+<strong>标题</strong> ： 使用条目引导的合成数据进行可配置的偏好调整
+<strong>链接</strong> ：https://arxiv.org/abs/2506.11702</p>
+<p><strong>作者</strong> ： Víctor Gallego
+<strong>备注</strong> ：Accepted to ICML 2025 Workshop on Models of Human Feedback for AI Alignment
+<strong>摘要</strong> ：用于AI对齐的人类反馈模型，例如支持直接偏好优化（DPO）的模型，通常会在单一的静态偏好集中进行烘焙，从而限制了适应性。本文通过引入 <strong>可配置偏好调整</strong> （CPT），一种新的框架赋予语言模型的能力，动态调整其行为的基础上明确的，人类可解释的指令的单一偏好的假设提出了挑战。CPT利用合成生成的偏好数据，以来自结构化的细粒度规则的系统提示为条件，这些规则定义了所需的属性，如写作风格。通过对这些规则引导的偏好进行微调，LLM学会在推理时调整其输出以响应系统提示，而无需重新训练。这种方法不仅提供了细粒度的控制，而且还提供了一种对更细致入微且依赖于上下文的人类反馈进行建模的机制。几个实验性的工件，如训练代码，生成的数据集和微调模型，发布在https://github.com/vicgalle/configurable-preference-tuning</p>
+<h2 id="思维链数据">思维链数据</h2>
+<h3 id="synadapt通过合成连续思维链学习大型语言模型中的自适应推理"><a href="https://papers.cool/arxiv/2508.00574"target="_blank" rel="external nofollow noopener noreferrer">SynAdapt：通过合成连续思维链学习大型语言模型中的自适应推理</a></h3>
+<p>2025-08-05</p>
+<p><strong>Authors</strong>: <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jianwei%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Jianwei Wang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ziming%20Wu"target="_blank" rel="external nofollow noopener noreferrer">Ziming Wu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Fuming%20Lai"target="_blank" rel="external nofollow noopener noreferrer">Fuming Lai</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Shaobing%20Lian"target="_blank" rel="external nofollow noopener noreferrer">Shaobing Lian</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ziqian%20Zeng"target="_blank" rel="external nofollow noopener noreferrer">Ziqian Zeng</a></p>
+<p>虽然思维链 （CoT） 推理提高了模型性能，但由于生成离散 CoT 代币 （DCoT），它会产生大量的时间成本。连续 CoT （CCoT） 提供了一种更有效的替代方案，但现有的 CCoT 方法受到间接微调、有限比对或目标不一致的阻碍。为了克服这些限制，我们提出了 \textit{SynAdapt}，一个创新的高效推理框架。具体来说，\textit{SynAdapt} 生成合成 CCoT 作为 LLM 的精确有效的对齐目标。这种合成 CCoT 明确指导 LLM 学习 CCoT 并直接得出准确的答案。此外，仅依靠 CCoT 不足以解决难题。为了解决这个问题，\textit{SynAdapt} 集成了一个难度分类器，该分类器利用问题上下文和 CCoT 来识别难题。经过一些简短的推理后，CCoT 可以有效地帮助识别难题。然后，我们自适应地提示法学硕士重新思考这些难题以提高性能。不同难度级别的各种基准的广泛实验结果有力地证明了我们方法的有效性，实现了最佳的精度-效率权衡。</p>
+<h4 id="corgi经过验证的思维链推理与视觉基础"><a href="https://papers.cool/arxiv/2508.00378"target="_blank" rel="external nofollow noopener noreferrer">CoRGI：经过验证的思维链推理与视觉基础</a></h4>
+<p>2025-08-05</p>
+<p><strong>Authors</strong>: <a href="https://arxiv.org/search/?searchtype=author&amp;query=Shixin%20Yi"target="_blank" rel="external nofollow noopener noreferrer">Shixin Yi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Lin%20Shang"target="_blank" rel="external nofollow noopener noreferrer">Lin Shang</a></p>
+<p>思维链 （CoT） 提示在改善视觉语言模型 （VLM） 的推理方面显示出希望，但它通常会产生语言流畅但缺乏视觉内容基础的解释。我们观察到，这种幻觉部分是由于在多步骤推理过程中缺乏明确的验证机制。为了解决这个问题，我们提出了 \textbf{CoRGI}（\textbf{C}hain \textbf{o}f \textbf{R}easoning with \textbf{G}rounded \textbf{I}nsights），这是一个模块化框架，将视觉验证引入推理过程。CoRGI遵循一个三阶段的管道：它首先生成一个文本推理链，然后通过专用模块（VEVM）提取每个推理步骤的支持视觉证据，最后将文本基本原理与视觉证据合成，以生成一个有根据的、经过验证的答案。该框架可以与现有 VLM 集成，无需端到端重新训练。我们在VCR基准测试上评估了CoRGI，发现它提高了两个具有代表性的开源VLM主干Qwen-2.5VL和LLaVA-1.6的推理性能。消融研究证实了验证模块中每个步骤的贡献，人类评估表明 CoRGI 会带来更真实和有用的解释。我们还研究了视觉验证步骤的替代设计，并讨论了事后验证框架的潜在局限性。这些发现强调了将中间推理步骤建立在视觉证据中以增强多模态推理的稳健性的重要性。</p>
+<h4 id="json-bag通用游戏轨迹表示"><a href="https://papers.cool/arxiv/2508.00712"target="_blank" rel="external nofollow noopener noreferrer">JSON-Bag：通用游戏轨迹表示</a></h4>
+<p>我们引入了 JSON Bag-of-Tokens 模型 （JSON-Bag） 作为一种方法，通过标记其 JSON 描述来通用地表示游戏轨迹，并应用 Jensen-Shannon 距离 （JSD） 作为它们的距离指标。使用基于原型的最近邻搜索 （P-NNS），我们评估了 JSON-Bag 和 JSD 在六款桌面游戏上的有效性——\textit{7 Wonders}、\textit{Dominion}、\textit{Sea Salt and Paper}、\textit{Can&rsquo;t Stop}、\textit{Connect4}、\textit{Dots and boxes}——每个任务都完成了三个游戏轨迹分类任务：对用于生成轨迹的游戏代理、游戏参数或游戏种子进行分类。我们的方法在大多数任务中使用手工制作的功能都优于基线。对 N-shot 分类进行评估表明，使用 JSON-Bag 原型来表示游戏轨迹类也是样本效率高的。此外，我们还展示了 JSON-Bag 自动特征提取的能力，将标记视为随机森林中使用的单个特征，以解决上述任务，这显着提高了性能不佳的任务的准确性。最后，我们表明，在所有六场比赛中，代理类的 JSON-Bag 原型之间的 JSD 与代理策略之间的距离高度相关。</p>
+<h2 id="推理数据">推理数据</h2>
+<p>2025-06-23 11:11:03 Monday ｜ <a href="https://arxiv.org/abs/2506.15455"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2506.15455</a></p>
+<p>RE-IMAGINE：用于推理评估的符号化基准合成</p>
+<p>徐新诺 、 瑞秋·劳伦斯 、 克什提吉·杜贝 、 阿萨瓦·潘迪 、 上野理纱 、 法比安·法尔克 、 阿迪亚·V·诺里 、 拉胡尔·夏尔马 、 阿米特·夏尔马 、 哈维尔·冈萨雷斯</p>
+<p>近期的大型语言模型（LLMs）在推理基准测试中报告了高准确率。然而，这些观察结果究竟源于真正的推理能力，还是来自训练集的统计记忆，目前仍不明确。受 <strong>因果阶梯理论（Pearl, 2009）及其三个层级（关联、干预和反事实）的启发</strong> ，本文提出 RE-IMAGINE 框架——该框架通过自动化流程生成不同层级的问题变体，用以刻画 LLMs 的推理能力层次结构。通过改变中间符号表示的问题形式，RE-IMAGINE 能生成任意数量无法仅靠记忆解决的问题。该框架具有通用性，可应用于数学、代码和逻辑等多个推理领域。我们在四个广泛使用的基准测试上验证该框架，发现当模型面对问题变体时性能显著下降。这些评估揭示了过往表现对统计记忆的依赖程度，并为针对推理层次结构中各项技能的深入研究开辟了新路径。</p>
+<h2 id="数学数据">数学数据</h2>
+<p>2025-06-30 19:07:54 Monday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.21621"target="_blank" rel="external nofollow noopener noreferrer">开放证明语料库：LLM 生成的数学证明的大规模研究</a></strong> <strong>[PDF(1)]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jasper%20Dekoninck"target="_blank" rel="external nofollow noopener noreferrer">Jasper Dekoninck</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ivo%20Petrov"target="_blank" rel="external nofollow noopener noreferrer">Ivo Petrov</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Kristian%20Minchev"target="_blank" rel="external nofollow noopener noreferrer">Kristian Minchev</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Mislav%20Balunovic"target="_blank" rel="external nofollow noopener noreferrer">Mislav Balunovic</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Martin%20Vechev"target="_blank" rel="external nofollow noopener noreferrer">Martin Vechev</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Miroslav%20Marinov"target="_blank" rel="external nofollow noopener noreferrer">Miroslav Marinov</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Maria%20Drencheva"target="_blank" rel="external nofollow noopener noreferrer">Maria Drencheva</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Lyuba%20Konova"target="_blank" rel="external nofollow noopener noreferrer">Lyuba Konova</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Milen%20Shumanov"target="_blank" rel="external nofollow noopener noreferrer">Milen Shumanov</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Kaloyan%20Tsvetkov"target="_blank" rel="external nofollow noopener noreferrer">Kaloyan Tsvetkov</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Nikolay%20Drenchev"target="_blank" rel="external nofollow noopener noreferrer">Nikolay Drenchev</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Lazar%20Todorov"target="_blank" rel="external nofollow noopener noreferrer">Lazar Todorov</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Kalina%20Nikolova"target="_blank" rel="external nofollow noopener noreferrer">Kalina Nikolova</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Nikolay%20Georgiev"target="_blank" rel="external nofollow noopener noreferrer">Nikolay Georgiev</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Vanesa%20Kalinkova"target="_blank" rel="external nofollow noopener noreferrer">Vanesa Kalinkova</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Margulan%20Ismoldayev"target="_blank" rel="external nofollow noopener noreferrer">Margulan Ismoldayev</a></p>
+<p>近几个月来，大型语言模型 （LLM） 在数学证明生成方面取得了重大进展，但由于缺乏大规模、高质量的人工评估证明数据集，进一步的发展受到了阻碍。虽然创建成本高昂，但这样的数据集对于推动训练改进和实现对证明生成能力的严格分析至关重要。在这项工作中，我们提出了开放证明语料库 （OPC），这是一个数据集，其中包含由最先进的 LLM 生成的 5,000 多个人工评估证明。OPC 专为证明生成研究中的广泛适用性和下游使用而设计，并且是第一个包含大量正确的 LLM 生成的解决方案，以解决 USAMO 和 IMO 等著名数学竞赛中的问题。使用 OPC，我们探讨了自动证明生成中的关键问题：（1） 自然语言和正式证明生成之间的性能差距，（2） 最终答案准确性和完整证明有效性之间的差异，以及 （3） 最佳 n 选择对证明质量的影响。最后，为了展示 OPC 的实用性，我们在数据集上微调了一个 8B 参数模型，获得了一个在评估证明正确性的任务上表现与最佳模型 Gemini-2.5-Pro 相当的模型。</p>
+<ol start="2">
+<li>🌈 🌈🌈 （实验和绘图可以参考）2025-06-12 10:55:00 Thursday ｜ 103K「硬核」题，让大模型突破数学推理瓶颈https://mp.weixin.qq.com/s/EkVeW5pLRM8_T6hrrs7lsA</li>
+</ol>
+<p>在 AGI 的浩瀚征途中，数学推理能力始终是衡量其智能水平的关键试金石。然而，当前大语言模型（LLM）在数学推理，特别是通过强化学习（RL）进行训练时，正面临着前所未有的数据瓶颈：现有数据集普遍缺乏挑战性和新颖性、答案难以验证，且常与评估基准存在 “污染” 问题。</p>
+<p>为了解决以上问题，DeepMath-103K 数据集横空出世，它以其大规模、高难度、严格去污染和可验证答案的特性，为 AI 数学推理领域带来进一步突破。</p>
+<ul>
+<li>论文题目：DeepMath-103K: A Large-Scale, Challenging, Decontaminated, and Verifiable Mathematical Dataset for Advancing Reasoning</li>
+<li>论文地址：https://arxiv.org/pdf/2504.11456</li>
+<li>数据地址：https://hf.co/datasets/zwhe99/DeepMath-103K</li>
+<li>模型地址：https://hf.co/collections/zwhe99/deepmath-6816e139b7f467f21a459a9a</li>
+<li>代码地址：https://github.com/zwhe99/DeepMath</li>
+</ul>
+<p>为了打破这些桎梏，DeepMath-103K 应运而生。它是一个包含约 <strong>103,022 个数学问题</strong>的全新大规模数据集，专为通过强化学习训练高级推理模型而设计。</p>
+<ol start="3">
+<li>2025-06-18 09:26:59 Wednesday ｜ 大模型“拼好题”，45K数据撬动18%提升，数学问题拒绝死记硬背 | MathFusion</li>
+</ol>
+<p><a href="https://mp.weixin.qq.com/s/WIcPM2zcdar_BcWBSJh-tw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/WIcPM2zcdar_BcWBSJh-tw</a></p>
+<p>当前数学领域的数据生成方法常常局限于对单个问题进行改写或变换，好比是让学生反复做同一道题的变种，却忽略了数学题目之间内在的关联性。</p>
+<p>为了打破这种局限，让大模型学会“串联”与“并联”知识，上海AI Lab、人大高瓴等团队联合提出了 <strong>MathFusion</strong> ，通过指令融合增强大语言模型解决数学问题的能力。</p>
+<p>MathFusion: Enhancing Mathematical Problem-solving of LLM through Instruction Fusion</p>
+<p>*论文链接： *<em><a href="https://arxiv.org/abs/2503.16212"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2503.16212</a></em>
+<em>代码库：</em> <em><a href="https://github.com/QizhiPei/MathFusion"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/QizhiPei/MathFusion</a></em></p>
+<p>MathFusion通过三种“融合策略”，将不同的数学问题巧妙地结合起来，生成封装了二者关系和结构的新问题。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODA0MjZiZDE4MGRkMTBkZmIxZWE0MDI5YTRjNWI5MTlfMnkxNXdmZVdKdmczdkhZcU1iTlAyTFVWSzRjRmxhVVNfVG9rZW46T0pzTmJCTHNSbzkyRkh4VkYycmN3RFdJbjBmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODA0MjZiZDE4MGRkMTBkZmIxZWE0MDI5YTRjNWI5MTlfMnkxNXdmZVdKdmczdkhZcU1iTlAyTFVWSzRjRmxhVVNfVG9rZW46T0pzTmJCTHNSbzkyRkh4VkYycmN3RFdJbjBmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODA0MjZiZDE4MGRkMTBkZmIxZWE0MDI5YTRjNWI5MTlfMnkxNXdmZVdKdmczdkhZcU1iTlAyTFVWSzRjRmxhVVNfVG9rZW46T0pzTmJCTHNSbzkyRkh4VkYycmN3RFdJbjBmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODA0MjZiZDE4MGRkMTBkZmIxZWE0MDI5YTRjNWI5MTlfMnkxNXdmZVdKdmczdkhZcU1iTlAyTFVWSzRjRmxhVVNfVG9rZW46T0pzTmJCTHNSbzkyRkh4VkYycmN3RFdJbjBmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODA0MjZiZDE4MGRkMTBkZmIxZWE0MDI5YTRjNWI5MTlfMnkxNXdmZVdKdmczdkhZcU1iTlAyTFVWSzRjRmxhVVNfVG9rZW46T0pzTmJCTHNSbzkyRkh4VkYycmN3RFdJbjBmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODA0MjZiZDE4MGRkMTBkZmIxZWE0MDI5YTRjNWI5MTlfMnkxNXdmZVdKdmczdkhZcU1iTlAyTFVWSzRjRmxhVVNfVG9rZW46T0pzTmJCTHNSbzkyRkh4VkYycmN3RFdJbjBmXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ul>
+<li><strong>顺序融合(Sequential Fusion)</strong> 将两个问题串联起来，前一个问题的答案作为后一个问题的某个输入条件。这就像解决一个多步骤问题，模型需要先解出第一步，才能进行第二步，从而学会处理问题间的依赖关系。</li>
+<li><strong>并列融合(Parallel Fusion)</strong> 将两个相似的问题融合在一起，对它们的数学概念进行识别和融合，在原来问题的基础上提出一道新的问题。</li>
+<li><strong>条件融合(Conditional Fusion)</strong> 创造一个需要对两个问题的解进行比较和选择的问题场景。</li>
+</ul>
+<h4 id="通过可验证的合成数据生成迈向可信的优化建模代理">通过可验证的合成数据生成迈向可信的优化建模代理</h4>
+<p><a href="https://arxiv.org/abs/2508.03117"target="_blank" rel="external nofollow noopener noreferrer">#25</a> <a href="https://papers.cool/arxiv/2508.03117"target="_blank" rel="external nofollow noopener noreferrer">Toward a Trustworthy Optimization Modeling Agent via Verifiable Synthetic Data Generation</a></p>
+<p>作者：Vinicius Lima, Dzung T. Phan, Jayant Kalagnanam, Dhaval Patel, Nianjun Zhou</p>
+<p>我们提出了一个通过可验证的合成数据生成管道训练可信赖大型语言模型（LLM）代理进行优化建模的框架。该方法聚焦于线性和混合整数线性规划，始于结构化符号表示，系统地生成自然语言描述、数学公式和求解器可执行代码。通过程序化构建每个实例并附带已知的最优解，该管道确保了完全的可验证性，并能够自动过滤教师模型生成的低质量示范。每个数据集实例包含优化问题的结构化表示、相应的自然语言描述、经过验证的最优解以及由教师模型生成的逐步示范，展示如何在多种优化建模语言中建模和求解该问题。这使得对开源 LLM 进行专门针对优化任务的监督微调成为可能。 为了使该流程可操作化，我们引入了 OptiTrust，一个模块化的 LLM 代理，能够通过分步骤演示、多语言推理和多数投票交叉验证，实现从自然语言到求解器就绪代码的多阶段翻译。我们的代理在标准基准测试中达到了最先进的性能。在 7 个数据集中，它在 6 个数据集上取得了最高准确率，并且在其中 3 个数据集上比次优算法高出至少 8 个百分点。我们的方法为构建用于现实世界优化应用的可靠 LLM 代理提供了一条可扩展、可验证且有原则的路径。</p>
+<p>发布时间：2025-08-05 05:54:20 UTC</p>
+<h2 id="复杂指令数据">复杂指令数据</h2>
+<p>2025-06-24 11:40:18 Tuesday ｜ 性能提升11.74%！腾讯优图提出激励推理，专攻复杂指令</p>
+<p><a href="https://mp.weixin.qq.com/s/vHUZ3Dd0f24gdQ-JwiSk4A"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/vHUZ3Dd0f24gdQ-JwiSk4A</a></p>
+<p>论文地址：https://arxiv.org/pdf/2506.01413</p>
+<p>项目地址：https://github.com/yuleiqin/RAIF</p>
+<p>数据：https://huggingface.co/collections/yolay/raif-arxivorg-pdf-250601413-682b16e5c0c2fa9b73811369</p>
+<p>针对复杂指令集的数量问题，研究团队基于现有分类法对复杂指令进行分解，提出了一种基于开源数据与已有约束结构的数据生产方法以及校验准则的方法。</p>
+<p><strong>种子指令挑选</strong> ：团队从WildChat和Alpaca等数据集中多样化地筛选种子指令，并通过主题和任务标签进行细致挑选。</p>
+<p><strong>带规则约束的指令发散</strong> ：团队在细粒度规则和约束下自演化指令，结合代码执行和LLM判别两种验证方式，确保生成指令的多样性和有效性。</p>
+<p><strong>回复生产与质量校验</strong> ：团队利用LLM生成回复并通过多重验证筛除低质量样本，同时用LLM判别典型问题以保证指令和回复的合理性。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MzMzU0NzA1OWVjZTc2YTVmZWMxYTk5OTJiYjdkYmNfSVZ3MEt2a0tsWldMUFRVU0c1UHkwTFVuTUdIUnhmS2xfVG9rZW46SVdiamJPems1bzdLVWF4akRnaWNwdHBRblhlXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MzMzU0NzA1OWVjZTc2YTVmZWMxYTk5OTJiYjdkYmNfSVZ3MEt2a0tsWldMUFRVU0c1UHkwTFVuTUdIUnhmS2xfVG9rZW46SVdiamJPems1bzdLVWF4akRnaWNwdHBRblhlXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MzMzU0NzA1OWVjZTc2YTVmZWMxYTk5OTJiYjdkYmNfSVZ3MEt2a0tsWldMUFRVU0c1UHkwTFVuTUdIUnhmS2xfVG9rZW46SVdiamJPems1bzdLVWF4akRnaWNwdHBRblhlXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MzMzU0NzA1OWVjZTc2YTVmZWMxYTk5OTJiYjdkYmNfSVZ3MEt2a0tsWldMUFRVU0c1UHkwTFVuTUdIUnhmS2xfVG9rZW46SVdiamJPems1bzdLVWF4akRnaWNwdHBRblhlXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MzMzU0NzA1OWVjZTc2YTVmZWMxYTk5OTJiYjdkYmNfSVZ3MEt2a0tsWldMUFRVU0c1UHkwTFVuTUdIUnhmS2xfVG9rZW46SVdiamJPems1bzdLVWF4akRnaWNwdHBRblhlXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2MzMzU0NzA1OWVjZTc2YTVmZWMxYTk5OTJiYjdkYmNfSVZ3MEt2a0tsWldMUFRVU0c1UHkwTFVuTUdIUnhmS2xfVG9rZW46SVdiamJPems1bzdLVWF4akRnaWNwdHBRblhlXzE3NTQ0NjI0MzY6MTc1NDQ2NjAzNl9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="评估数据">评估数据</h2>
+<p>🌈 2025-07-01 11:59:07 Tuesday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.23735"target="_blank" rel="external nofollow noopener noreferrer">AutoEvoEval：用于发展封闭式 LLM 评估数据的自动化框架</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=JiaRu%20Wu"target="_blank" rel="external nofollow noopener noreferrer">JiaRu Wu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Mingwei%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Mingwei Liu</a></p>
+<p>大型语言模型 （LLM） 在各种任务上都表现出了卓越的性能，但现有的评估基准通常是静态的，不足以充分评估它们在现实场景中的稳健性和泛化性。先前使用进化或对抗性数据增强的工作提高了评估多样性，但缺乏对扰动类型和多步骤复杂性的系统控制，限制了全面的稳健性分析。为了解决这些差距，我们提出了 AutoEvoEval，这是一个基于进化的评估框架，用于多项选择题回答等封闭式任务。AutoEvoEval 引入了 22 种可解释的原子演化作，并支持多轮合成，从而能够受控地生成多样化、具有挑战性和真实的测试样品。我们进行了广泛的实验，解决了广泛的开源和闭源 LLM 的四个研究问题。我们的结果表明，原子作导致平均准确率下降 7.283%，其中结构破坏或误导性语义编辑导致的下降幅度最大。对于相同的扰动，模型灵敏度差异很大，并且结合多个进化步骤会放大高达 52.932% 的对抗效应。这些发现表明，当前的基准可能高估了真正的模型泛化性，并强调了进化感知稳健性评估的必要性。代码和资源可在以下网址获得：https://github.com/SYSUSELab/AutoEvoEval。</p>
+<h2 id="对话数据">对话数据</h2>
+<h4 id="llms-能生成高质量的特定任务对话吗">LLMs 能生成高质量的特定任务对话吗？</h4>
+<p><a href="https://arxiv.org/abs/2508.02931"target="_blank" rel="external nofollow noopener noreferrer">#140</a> <a href="https://papers.cool/arxiv/2508.02931"target="_blank" rel="external nofollow noopener noreferrer">Can LLMs Generate High-Quality Task-Specific Conversations?</a></p>
+<p>本文介绍了一个用于控制大型语言模型中对话质量的参数化框架。我们探讨了涵盖六个维度的九个关键参数，这些参数能够精确指定对话属性。通过对最先进的 LLMs 进行实验，我们证明了基于参数的控制能够在生成的对话属性上产生统计学上显著的差异。我们的方法解决了对话生成中的诸多挑战，包括话题连贯性、知识进展、角色一致性以及控制粒度。该框架提供了一种标准化的对话质量控制方法，适用于教育、治疗、客户服务和娱乐等领域。未来的工作将侧重于通过架构修改实现更多参数，并开发用于评估的基准数据集。</p>
+<p>发布：2025-08-04 22:07:08 UTC</p>
+<h1 id="数据发现">数据发现</h1>
+<p>🌈🌈🌈  2025-06-12 13:42:17 Thursday ｜</p>
+<p>AutoSDT: Scaling Data-Driven Discovery Tasks Toward Open Co-Scientists
+<strong>标题</strong> ： AutoSDT：将数据驱动的发现任务扩展到开放的合作科学家
+<strong>链接</strong> ：https://arxiv.org/abs/2506.08140</p>
+<p><strong>作者</strong> ： Yifei Li,  Hanane Nour Moussa,  Ziru Chen,  Shijie Chen,  Botao Yu,  Mingyi Xue,  Benjamin Burns,  Tzu-Yao Chiu,  Vishal Dey,  Zitong Lu,  Chen Wei,  Qianheng Zhang,  Tianyu Zhang,  Song Gao,  Xuhui Huang,  Xia Ning,  Nesreen K. Ahmed,  Ali Payani,  Huan Sun
+<strong>摘要</strong> ：尽管长期以来一直在努力加速人工智能的科学发现，但由于用于培训和评估的高质量数据有限，建立人工智能合作科学家仍然具有挑战性。为了解决这个数据稀缺的问题，我们提出了AutoSDT，这是一个自动管道，可以在现实世界的数据驱动的发现工作流中收集高质量的编码任务。 <strong>AutoSDT利用LLM的编码功能和参数知识来搜索不同的源，选择生态上有效的任务，并合成准确的任务指令和代码解决方案。</strong> 使用我们的管道，我们构建了AutoSDT-5 K，这是一个包含5，404个编码任务的数据集，用于数据驱动的发现，涵盖了四个科学学科和756个独特的Python包。据我们所知，AutoSDT-5 K是唯一一个自动收集的数据驱动科学发现的最大开放数据集。对256个任务子集的专家反馈显示了AutoSDT的有效性：93%的收集任务在生态上是有效的，92.2%的合成程序在功能上是正确的。在AutoSDT-5 K上训练的Qwen2.5-Coder-Instruct LLM系列，被称为AutoSDT-Coder，在两个具有挑战性的数据驱动的发现基准ScienceAgentBench和DiscoveryBench上显示出实质性的改进。最值得注意的是，AutoSDT-Coder-32 B在ScienceAgentBench上达到了与GPT-4 o相同的性能水平，成功率为7.8%，是其基础模型性能的两倍。在DiscoveryBench上，它将假设匹配分数提高到8.1，带来了17.4%的相对改善，缩小了开放权重模型和GPT-4 o之间的差距。</p>
+<ol start="2">
+<li>2025-06-16 12:13:49 Monday  ｜</li>
+</ol>
+<p>ScIRGen: Synthesize Realistic and Large-Scale RAG Dataset for Scientific  Research
+<strong>标题</strong> ： ScIRGen：为科学研究合成真实的大规模RAG数据集
+<strong>链接</strong> ：https://arxiv.org/abs/2506.11117</p>
+<p><strong>作者</strong> ： Junyong Lin,  Lu Dai,  Ruiqian Han,  Yijie Sui,  Ruilin Wang,  Xingliang Sun,  Qinglin Wu,  Min Feng,  Hao Liu,  Hui Xiong
+<strong>备注</strong> ：KDD 2025 Accepted
+<strong>摘要</strong> ：科学研究人员需要有关数据集的大量信息，以有效地评估和开发理论和方法。关于数据集的信息需求隐含在特定的研究任务中，而不是在搜索查询中明确表达。然而，现有的科学检索和问答（QA）数据集通常解决简单的问题，这与现实世界的研究调查的分布不一致。为了弥合这一差距，我们开发了ScIRGen，这是一个用于科学QA &amp;检索的数据集生成框架，更准确地反映了专业科学研究人员的信息需求，并使用它创建了一个大规模的科学检索增强生成（RAG）数据集，其中包含真实的查询，数据集和论文。从技术上讲，我们设计了一种 <strong>面向数据集的信息提取方法</strong> ，利用学术论文来增强数据集表示。然后，我们提出了一个 <strong>问题生成框架</strong> ，采用 <strong>认知分类</strong> ，以确保合成问题的质量。我们还设计了一种方法来 <strong>自动过滤合成答案的LLM</strong> ，这是高度符合人类的答案的有效性判断的困惑移位的基础上。总的来说，这些方法最终创建了61 k QA数据集ScIRGen-Geo。我们在ScIRGen-Geo数据集上对代表性方法的问答和检索能力进行了基准测试，发现目前的方法仍然存在复杂问题的推理问题。这项工作推动了更复杂工具的开发，以支持科学界复杂的信息需求。</p>
+<h1 id="数据增强">数据增强</h1>
+<p>2025-07-01 12:33:28 Tuesday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.22491"target="_blank" rel="external nofollow noopener noreferrer">PromptAug：使用数据增强进行精细冲突分类</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Oliver%20Warke"target="_blank" rel="external nofollow noopener noreferrer">Oliver Warke</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Joemon%20M.%20Jose"target="_blank" rel="external nofollow noopener noreferrer">Joemon M. Jose</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Faegheh%20Hasibi"target="_blank" rel="external nofollow noopener noreferrer">Faegheh Hasibi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jan%20Breitsohl"target="_blank" rel="external nofollow noopener noreferrer">Jan Breitsohl</a></p>
+<p>鉴于社交媒体上冲突的增加，有效的分类模型来检测有害行为至关重要。遵循 garbage-in-garbage-out 格言，机器学习性能在很大程度上取决于训练数据质量。然而，高质量的标记数据，特别是对于识别冲突行为等细微差别的任务，是有限的、昂贵的，而且难以获得。此外，随着社交媒体平台越来越多地限制对研究数据的访问，文本数据增强作为生成训练数据的替代方案越来越受到关注。由于大型语言模型 （LLM） 护栏会阻止生成冒犯性内容，因此增强与冲突相关的数据带来了独特的挑战。本文介绍了 PromptAug，这是一种基于 LLM 的创新数据增强方法。PromptAug 在冲突和情感数据集的准确性和 F1 分数方面实现了 2% 的统计显着改进。为了彻底评估 PromptAug 与其他数据增强方法，我们 <strong>使用极端数据稀缺情景、定量多样性分析和定性主题分析进行了稳健评估</strong> 。主题分析确定了增强文本中的四种有问题的模式：语言流动性、幽默歧义、增强内容歧义和增强内容误解。总体而言，这项工作将 PromptAug 作为一种在冲突检测等敏感任务中增加数据的有效方法，提供了一种基于自然语言处理和社会科学方法的独特跨学科评估。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a>, <a href="https://papers.cool/arxiv/cs.CY"target="_blank" rel="external nofollow noopener noreferrer">计算机与社会</a></p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

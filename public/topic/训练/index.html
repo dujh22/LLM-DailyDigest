@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>训练 - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="训练
+
+2025-06-13 18:50:11 Friday ｜
+
+Magistral
+标题 ： Magistral
+链接 ：https://arxiv.org/abs/2506.10910
+作者 ： Mistral-AI:  Abhinav Rastogi,  Albert Q. Jiang,  Andy Lo,  Gabrielle Berrada,  Guillaume Lample,  Jason Rute,  Joep Barmentlo,  Karmesh Yadav,  Kartik Khandelwal,  Khyathi Raghavi Chandu,  Léonard Blier,  Lucile Saulnier,  Matthieu Dinot,  Maxime Darrin,  Neha Gupta,  Roman Soletskyi,  Sagar Vaze,  Teven Le Scao,  Yihan Wang,  Adam Yang,  Alexander H. Liu,  Alexandre Sablayrolles,  Amélie Héliou,  Amélie Martin,  Andy Ehrenberg,  Anmol Agarwal,  Antoine Roux,  Arthur Darcet,  Arthur Mensch,  Baptiste Bout,  Baptiste Rozière,  Baudouin De Monicault,  Chris Bamford,  Christian Wallenwein,  Christophe Renaudin,  Clémence Lanfranchi,  Darius Dabert,  Devon Mizelle,  Diego de las Casas,  Elliot Chane-Sane,  Emilien Fugier,  Emma Bou Hanna,  Gauthier Delerce,  Gauthier Guinet,  Georgii Novikov,  Guillaume Martin,  et al. (53 additional authors not shown)
+摘要 ：我们介绍了Magistral，Mistral的第一个推理模型和我们自己的可扩展强化学习（RL）管道。我们不依赖于现有的实现和从先前模型中提取的RL跟踪，而是遵循一种自上而下的方法，完全依赖于我们自己的模型和基础设施。值得注意的是，我们展示了一个堆栈，使我们能够探索LLM的纯RL训练的限制，提出了一种简单的方法来强制模型的推理语言，并表明仅对文本数据的RL保持了大部分初始检查点的功能。我们发现，RL的文本保持或提高多模态理解，指令遵循和函数调用。我们提出了Magistral Medium，在Mistral Medium 3的基础上单独使用RL进行推理训练，我们开源了Magistral Small（Apache 2.0），其中进一步包括来自Magistral Medium的冷启动数据。" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="训练">
+  <meta itemprop="description" content="训练 2025-06-13 18:50:11 Friday ｜ Magistral 标题 ： Magistral 链接 ：https://arxiv.org/abs/2506.10910
+作者 ： Mistral-AI: Abhinav Rastogi, Albert Q. Jiang, Andy Lo, Gabrielle Berrada, Guillaume Lample, Jason Rute, Joep Barmentlo, Karmesh Yadav, Kartik Khandelwal, Khyathi Raghavi Chandu, Léonard Blier, Lucile Saulnier, Matthieu Dinot, Maxime Darrin, Neha Gupta, Roman Soletskyi, Sagar Vaze, Teven Le Scao, Yihan Wang, Adam Yang, Alexander H. Liu, Alexandre Sablayrolles, Amélie Héliou, Amélie Martin, Andy Ehrenberg, Anmol Agarwal, Antoine Roux, Arthur Darcet, Arthur Mensch, Baptiste Bout, Baptiste Rozière, Baudouin De Monicault, Chris Bamford, Christian Wallenwein, Christophe Renaudin, Clémence Lanfranchi, Darius Dabert, Devon Mizelle, Diego de las Casas, Elliot Chane-Sane, Emilien Fugier, Emma Bou Hanna, Gauthier Delerce, Gauthier Guinet, Georgii Novikov, Guillaume Martin, et al. (53 additional authors not shown) 摘要 ：我们介绍了Magistral，Mistral的第一个推理模型和我们自己的可扩展强化学习（RL）管道。我们不依赖于现有的实现和从先前模型中提取的RL跟踪，而是遵循一种自上而下的方法，完全依赖于我们自己的模型和基础设施。值得注意的是，我们展示了一个堆栈，使我们能够探索LLM的纯RL训练的限制，提出了一种简单的方法来强制模型的推理语言，并表明仅对文本数据的RL保持了大部分初始检查点的功能。我们发现，RL的文本保持或提高多模态理解，指令遵循和函数调用。我们提出了Magistral Medium，在Mistral Medium 3的基础上单独使用RL进行推理训练，我们开源了Magistral Small（Apache 2.0），其中进一步包括来自Magistral Medium的冷启动数据。">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="606"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E8%AE%AD%E7%BB%83/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="训练">
+  <meta property="og:description" content="训练 2025-06-13 18:50:11 Friday ｜ Magistral 标题 ： Magistral 链接 ：https://arxiv.org/abs/2506.10910
+作者 ： Mistral-AI: Abhinav Rastogi, Albert Q. Jiang, Andy Lo, Gabrielle Berrada, Guillaume Lample, Jason Rute, Joep Barmentlo, Karmesh Yadav, Kartik Khandelwal, Khyathi Raghavi Chandu, Léonard Blier, Lucile Saulnier, Matthieu Dinot, Maxime Darrin, Neha Gupta, Roman Soletskyi, Sagar Vaze, Teven Le Scao, Yihan Wang, Adam Yang, Alexander H. Liu, Alexandre Sablayrolles, Amélie Héliou, Amélie Martin, Andy Ehrenberg, Anmol Agarwal, Antoine Roux, Arthur Darcet, Arthur Mensch, Baptiste Bout, Baptiste Rozière, Baudouin De Monicault, Chris Bamford, Christian Wallenwein, Christophe Renaudin, Clémence Lanfranchi, Darius Dabert, Devon Mizelle, Diego de las Casas, Elliot Chane-Sane, Emilien Fugier, Emma Bou Hanna, Gauthier Delerce, Gauthier Guinet, Georgii Novikov, Guillaume Martin, et al. (53 additional authors not shown) 摘要 ：我们介绍了Magistral，Mistral的第一个推理模型和我们自己的可扩展强化学习（RL）管道。我们不依赖于现有的实现和从先前模型中提取的RL跟踪，而是遵循一种自上而下的方法，完全依赖于我们自己的模型和基础设施。值得注意的是，我们展示了一个堆栈，使我们能够探索LLM的纯RL训练的限制，提出了一种简单的方法来强制模型的推理语言，并表明仅对文本数据的RL保持了大部分初始检查点的功能。我们发现，RL的文本保持或提高多模态理解，指令遵循和函数调用。我们提出了Magistral Medium，在Mistral Medium 3的基础上单独使用RL进行推理训练，我们开源了Magistral Small（Apache 2.0），其中进一步包括来自Magistral Medium的冷启动数据。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="topic">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="训练">
+  <meta name="twitter:description" content="训练 2025-06-13 18:50:11 Friday ｜ Magistral 标题 ： Magistral 链接 ：https://arxiv.org/abs/2506.10910
+作者 ： Mistral-AI: Abhinav Rastogi, Albert Q. Jiang, Andy Lo, Gabrielle Berrada, Guillaume Lample, Jason Rute, Joep Barmentlo, Karmesh Yadav, Kartik Khandelwal, Khyathi Raghavi Chandu, Léonard Blier, Lucile Saulnier, Matthieu Dinot, Maxime Darrin, Neha Gupta, Roman Soletskyi, Sagar Vaze, Teven Le Scao, Yihan Wang, Adam Yang, Alexander H. Liu, Alexandre Sablayrolles, Amélie Héliou, Amélie Martin, Andy Ehrenberg, Anmol Agarwal, Antoine Roux, Arthur Darcet, Arthur Mensch, Baptiste Bout, Baptiste Rozière, Baudouin De Monicault, Chris Bamford, Christian Wallenwein, Christophe Renaudin, Clémence Lanfranchi, Darius Dabert, Devon Mizelle, Diego de las Casas, Elliot Chane-Sane, Emilien Fugier, Emma Bou Hanna, Gauthier Delerce, Gauthier Guinet, Georgii Novikov, Guillaume Martin, et al. (53 additional authors not shown) 摘要 ：我们介绍了Magistral，Mistral的第一个推理模型和我们自己的可扩展强化学习（RL）管道。我们不依赖于现有的实现和从先前模型中提取的RL跟踪，而是遵循一种自上而下的方法，完全依赖于我们自己的模型和基础设施。值得注意的是，我们展示了一个堆栈，使我们能够探索LLM的纯RL训练的限制，提出了一种简单的方法来强制模型的推理语言，并表明仅对文本数据的RL保持了大部分初始检查点的功能。我们发现，RL的文本保持或提高多模态理解，指令遵循和函数调用。我们提出了Magistral Medium，在Mistral Medium 3的基础上单独使用RL进行推理训练，我们开源了Magistral Small（Apache 2.0），其中进一步包括来自Magistral Medium的冷启动数据。">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E8%AE%AD%E7%BB%83/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E9%80%BB%E8%BE%91%E6%8E%A8%E7%90%86/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E8%A7%84%E5%88%92/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "训练",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E8%AE%AD%E7%BB%83\/"
+    },"genre": "topic","wordcount":  606 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E8%AE%AD%E7%BB%83\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>训练</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="606 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 700 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>3 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#训练范式">训练范式</a></li>
+    <li><a href="#预训练">预训练</a>
+      <ul>
+        <li><a href="#数据工程">数据工程</a></li>
+      </ul>
+    </li>
+    <li><a href="#微调">微调</a>
+      <ul>
+        <li><a href="#图像生成">图像生成</a></li>
+        <li><a href="#领域微调">领域微调</a></li>
+      </ul>
+    </li>
+    <li><a href="#训练加速">训练加速</a></li>
+    <li><a href="#算力集群">算力集群</a></li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="训练">训练</h1>
+<ol>
+<li>2025-06-13 18:50:11 Friday ｜</li>
+</ol>
+<p>Magistral
+<strong>标题</strong> ： Magistral
+<strong>链接</strong> ：https://arxiv.org/abs/2506.10910</p>
+<p><strong>作者</strong> ： Mistral-AI:  Abhinav Rastogi,  Albert Q. Jiang,  Andy Lo,  Gabrielle Berrada,  Guillaume Lample,  Jason Rute,  Joep Barmentlo,  Karmesh Yadav,  Kartik Khandelwal,  Khyathi Raghavi Chandu,  Léonard Blier,  Lucile Saulnier,  Matthieu Dinot,  Maxime Darrin,  Neha Gupta,  Roman Soletskyi,  Sagar Vaze,  Teven Le Scao,  Yihan Wang,  Adam Yang,  Alexander H. Liu,  Alexandre Sablayrolles,  Amélie Héliou,  Amélie Martin,  Andy Ehrenberg,  Anmol Agarwal,  Antoine Roux,  Arthur Darcet,  Arthur Mensch,  Baptiste Bout,  Baptiste Rozière,  Baudouin De Monicault,  Chris Bamford,  Christian Wallenwein,  Christophe Renaudin,  Clémence Lanfranchi,  Darius Dabert,  Devon Mizelle,  Diego de las Casas,  Elliot Chane-Sane,  Emilien Fugier,  Emma Bou Hanna,  Gauthier Delerce,  Gauthier Guinet,  Georgii Novikov,  Guillaume Martin,  et al. (53 additional authors not shown)
+<strong>摘要</strong> ：我们介绍了Magistral，Mistral的第一个推理模型和我们自己的可扩展强化学习（RL）管道。我们不依赖于现有的实现和从先前模型中提取的RL跟踪，而是遵循一种自上而下的方法，完全依赖于我们自己的模型和基础设施。值得注意的是，我们展示了一个堆栈，使我们能够探索LLM的纯RL训练的限制，提出了一种简单的方法来强制模型的推理语言，并表明仅对文本数据的RL保持了大部分初始检查点的功能。我们发现，RL的文本保持或提高多模态理解，指令遵循和函数调用。我们提出了Magistral Medium，在Mistral Medium 3的基础上单独使用RL进行推理训练，我们开源了Magistral Small（Apache 2.0），其中进一步包括来自Magistral Medium的冷启动数据。</p>
+<h2 id="训练范式">训练范式</h2>
+<p>2025-07-03 10:51:03 Thursday ｜ 同时监督和强化的单阶段大模型微调，告别“先背书再刷题”，推理泛化双提升｜中科院&amp;美团等 <a href="https://mp.weixin.qq.com/s/9dTE8dtVIO1TE0Xy3vUReQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/9dTE8dtVIO1TE0Xy3vUReQ</a></p>
+<p><strong>中国科学院自动化研究所深度强化学习团队</strong>联合 <strong>美团</strong> ，提出一种 <strong>单阶段监督-强化微调方法——SRFT (Supervised Reinforcement Fine-Tuning)</strong> 。该方法通过基于熵的动态加权机制，将两种训练范式结合。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTA1MWVmMWNiYjQ2NmUyMDdjZTg4ZGM1NDllNjFmNTZfcE1vVU5rdkZtemU0Mm1xcVpXZ0pLdXBMWVc3R3NvOFVfVG9rZW46UEsxVmJrcGNQbzNIRnR4cXQ3SmNQZ0xOblNoXzE3NTQ1MzkzMjQ6MTc1NDU0MjkyNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTA1MWVmMWNiYjQ2NmUyMDdjZTg4ZGM1NDllNjFmNTZfcE1vVU5rdkZtemU0Mm1xcVpXZ0pLdXBMWVc3R3NvOFVfVG9rZW46UEsxVmJrcGNQbzNIRnR4cXQ3SmNQZ0xOblNoXzE3NTQ1MzkzMjQ6MTc1NDU0MjkyNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTA1MWVmMWNiYjQ2NmUyMDdjZTg4ZGM1NDllNjFmNTZfcE1vVU5rdkZtemU0Mm1xcVpXZ0pLdXBMWVc3R3NvOFVfVG9rZW46UEsxVmJrcGNQbzNIRnR4cXQ3SmNQZ0xOblNoXzE3NTQ1MzkzMjQ6MTc1NDU0MjkyNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTA1MWVmMWNiYjQ2NmUyMDdjZTg4ZGM1NDllNjFmNTZfcE1vVU5rdkZtemU0Mm1xcVpXZ0pLdXBMWVc3R3NvOFVfVG9rZW46UEsxVmJrcGNQbzNIRnR4cXQ3SmNQZ0xOblNoXzE3NTQ1MzkzMjQ6MTc1NDU0MjkyNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTA1MWVmMWNiYjQ2NmUyMDdjZTg4ZGM1NDllNjFmNTZfcE1vVU5rdkZtemU0Mm1xcVpXZ0pLdXBMWVc3R3NvOFVfVG9rZW46UEsxVmJrcGNQbzNIRnR4cXQ3SmNQZ0xOblNoXzE3NTQ1MzkzMjQ6MTc1NDU0MjkyNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTA1MWVmMWNiYjQ2NmUyMDdjZTg4ZGM1NDllNjFmNTZfcE1vVU5rdkZtemU0Mm1xcVpXZ0pLdXBMWVc3R3NvOFVfVG9rZW46UEsxVmJrcGNQbzNIRnR4cXQ3SmNQZ0xOblNoXzE3NTQ1MzkzMjQ6MTc1NDU0MjkyNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>图注：SRFT方法示意图，展示了对探索试错（rollout）数据和演示（demonstration）数据的协同学习，以及平衡监督和强化信号的熵感知策略更新。</p>
+<p>SRFT的核心在于其单阶段学习机制：通过SFT实现 <strong>粗粒度行为策略逼近</strong> ，通过RL实现 <strong>细粒度策略精化</strong> ，借助于 <strong>单阶段训练</strong> ，将微调同时应用于演示数据和自生成的试错数据。</p>
+<ol start="2">
+<li>2025-07-01 10:59:44 Tuesday ｜ 首创Mid-training范式破解RL奥秘，Llama终于追平Qwen！<strong><a href="https://mp.weixin.qq.com/s/25wERcyTi79GOBpytujEWA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/25wERcyTi79GOBpytujEWA</a></strong></li>
+</ol>
+<p>深入探讨了不同基础语言模型家族（如 Llama 和 Qwen）在强化学习（RL）训练中迥异表现的背后原因，并提出创新性的中期训练（mid-training）策略，成功地将 Llama 模型改造成高度适配强化学习的推理基础模型，显著缩小了其与天生擅长 RL 扩展的 Qwen 模型之间的性能差距，为下一代 reasoning 能力 AI 系统的开发提供了关键的科学基础和技术路径。</p>
+<p>论文链接：https://arxiv.org/abs/2506.20512</p>
+<p>代码仓库：https://github.com/GAIR-NLP/OctoThinker</p>
+<p>开源模型 &amp; 数据：https://huggingface.co/OctoThinker</p>
+<ol start="3">
+<li>2025-06-25 10:19:06 Wednesday ｜ 生成式视角重塑监督学习！标签不只是答案，更是学习指南 | ICML 2025 <a href="https://mp.weixin.qq.com/s/ITHsYOAHXYS4G0W3FFHqDg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/ITHsYOAHXYS4G0W3FFHqDg</a></li>
+</ol>
+<p>受生成式一致性模型的启发，来自上海交大、SII、MIT、港中文深圳等机构的研究团队在ICML 2025最新提出预测一致性学习（PCL，Predictive Consistency Learning）。PCL通过扩散模型的扩散过程消减标签的信息，将噪声标签（Noised Labels）引入模型的输入，使得模型在数据输入和噪声标签的共同参照下预测完整标签，实现标签信息的复用和价值挖掘。</p>
+<ol start="2">
+<li>2025-06-25 11:04:11 Wednesday ｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2506.19767"target="_blank" rel="external nofollow noopener noreferrer">SRFT：一种具有监督和强化微调的单阶段推理方法</a></strong> <strong>[PDF(3)]</strong> <strong>[Copy]</strong> <strong>[Kimi(4)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuqian%20Fu"target="_blank" rel="external nofollow noopener noreferrer">Yuqian Fu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Tinghong%20Chen"target="_blank" rel="external nofollow noopener noreferrer">Tinghong Chen</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jiajun%20Chai"target="_blank" rel="external nofollow noopener noreferrer">Jiajun Chai</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xihuai%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Xihuai Wang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Songjun%20Tu"target="_blank" rel="external nofollow noopener noreferrer">Songjun Tu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Guojun%20Yin"target="_blank" rel="external nofollow noopener noreferrer">Guojun Yin</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Wei%20Lin"target="_blank" rel="external nofollow noopener noreferrer">Wei Lin</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Qichao%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Qichao Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuanheng%20Zhu"target="_blank" rel="external nofollow noopener noreferrer">Yuanheng Zhu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Dongbin%20Zhao"target="_blank" rel="external nofollow noopener noreferrer">Dongbin Zhao</a></p>
+<p>大型语言模型 （LLM） 在推理任务方面取得了显着进步，但监督微调 （SFT） 和强化学习 （RL） 的最佳集成仍然是一个根本挑战。通过从基于熵的角度对代币分布、学习动态和集成机制进行全面分析，我们揭示了这些范式之间的主要差异：SFT 诱导 LLM 策略分布的粗粒度全局变化，而 RL 执行细粒度选择性优化，熵作为训练效果的关键指标。基于这些观察结果，我们提出了监督强化微调 （SRFT），这是一种单阶段方法，通过熵感知加权机制统一了两种微调范式。我们的方法同时应用 SFT 和 RL 来直接优化 LLM，使用演示和自我探索推出，而不是通过两阶段顺序方法。广泛的实验表明，SRFT 实现了 59.1% 的平均准确率，在五个数学推理基准上比零 RL 方法高出 9.0%，在三个分布外基准上比零 RL 方法高出 10.9%。</p>
+<h2 id="预训练">预训练</h2>
+<h3 id="数据工程">数据工程</h3>
+<p>2025-06-30 19:05:49 Monday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.21910"target="_blank" rel="external nofollow noopener noreferrer">AutoMixer：作为自动数据混合器的检查点工件</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ernie%20Chang"target="_blank" rel="external nofollow noopener noreferrer">Ernie Chang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yang%20Li"target="_blank" rel="external nofollow noopener noreferrer">Yang Li</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Patrick%20Huber"target="_blank" rel="external nofollow noopener noreferrer">Patrick Huber</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=David%20Kant"target="_blank" rel="external nofollow noopener noreferrer">David Kant</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yangyang%20Shi"target="_blank" rel="external nofollow noopener noreferrer">Yangyang Shi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Vikas%20Chandra"target="_blank" rel="external nofollow noopener noreferrer">Vikas Chandra</a></p>
+<p>在语言模型训练中，最好为模型配备来自各种任务的功能。但是，由于数据和任务之间的关系很难建模，因此尚不清楚如何直接获得这些功能的正确数据混合。在这项工作中，我们观察到检查点模型在训练轨迹的不同点表现出新兴的能力。通常，训练过程会将检查点保存为未充分利用的工件，作为训练中数据信号的来源。我们根据这些伪影模型在基准上的各自能力来识别这些伪影模型，并通过使用它们在源数据上的聚合一阶影响近似将它们用作数据混合器。我们在 8 个推理基准上证明，所提出的框架在预训练设置方面显示出显着改进，性能提升高达 1.93%。总体而言，这表明检查点模型在提高数据质量和优化数据混合方面的潜力。</p>
+<ol start="2">
+<li>2025-06-27 14:18:53 Friday</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2506.21545"target="_blank" rel="external nofollow noopener noreferrer">语言模型训练的数据效能</a></strong> <strong>[PDF(9)]</strong> <strong>[Copy]</strong> <strong>[Kimi(1)]</strong>  **[REL] ** <strong><a href="https://arxiv.org/abs/2506.21545"target="_blank" rel="external nofollow noopener noreferrer">#1</a><strong><strong><a href="https://papers.cool/arxiv/2506.21545"target="_blank" rel="external nofollow noopener noreferrer">Data Efficacy for Language Model Training</a></strong></strong> [PDF(10)] [Copy] [Kimi(1)] [REL]</strong></p>
+<p>作者：戴亚伦、黄扬宇、张鑫、吴文山、李冲、卢文辉、曹世杰、董力、李思嘉</p>
+<p>数据是语言模型 （LM） 训练的基础。最近的研究致力于数据效率，旨在通过选择训练数据的最小或最佳子集来最大限度地提高性能。数据过滤、采样和选择等技术在这一领域起着至关重要的作用。为了补充它，我们定义了数据效能，它侧重于通过优化训练数据的组织来最大限度地提高性能，并且仍然相对未得到充分开发。这项工作介绍了一种通用范式 DELT，用于在 LM 训练中考虑数据功效，这突出了训练数据组织的重要性。DELT 包括三个组件：数据评分、数据选择和数据排序。在这些组件中，我们设计了可学习性-质量评分 （LQS），作为数据评分的新实例，它从梯度一致性的角度考虑了每个数据样本的可学习性和质量。我们还设计了折叠排序 （FO），作为数据排序的一个新实例，它解决了模型遗忘和数据分布偏差等问题。综合实验验证了 LM 训练中的数据效能，它证明了以下内容：首先，所提出的 DELT 的各种实例在不同程度上提高了 LM 性能，而无需增加数据规模和模型大小。其次，在这些实例中，我们提出的用于数据评分的 LQS 和用于数据排序的 Folding 相结合实现了最显着的改进。最后，通过应用数据选择，可以实现数据效率和数据效率。因此，我们相信数据有效性是 LM 训练中一个有前途的基础领域。</p>
+<ol start="3">
+<li>2025-06-13 18:18:45 Friday ｜ 清华刘知远团队：高质量 LLM 训练数据获取https://mp.weixin.qq.com/s/1vDxmomJvoML-RF4HEIgIw</li>
+<li>2025-06-13 18:49:44 Friday ｜Domain2Vec: Vectorizing Datasets to Find the Optimal Data Mixture  without Training
+<strong>标题</strong> ： Domain 2Vec：对数据集进行数据集进行数据量化，无需训练即可找到最佳数据混合
+<strong>链接</strong> ：https://arxiv.org/abs/2506.10952</li>
+<li>2025-06-18 10:46:16 Wednesday</li>
+</ol>
+<p>Assessing the Role of Data Quality in Training Bilingual Language Models
+<strong>标题</strong> ： 评估数据质量在训练双语语言模型中的作用
+<strong>链接</strong> ：https://arxiv.org/abs/2506.12966</p>
+<p><strong>作者</strong> ： Skyler Seto,  Maartje ter Hoeve,  Maureen de Seyssel,  David Grangier
+<strong>备注</strong> ：26 pages, 18 figures, 25 tables
+<strong>摘要</strong> ：双语和多语言语言模型为跨不同语言和用户扩展NLP系统提供了一条有前途的道路。然而，它们的性能通常在语言之间变化很大，因为先前的工作表明，添加更多的语言可能会降低某些语言（如英语）的性能，同时提高其他语言（通常是更多的数据约束语言）。在这项工作中，我们调查这些不一致的原因，通过比较双语和单语语言模型。我们的分析表明，不平等的数据质量，而不仅仅是数据量，是双语环境中性能下降的主要驱动因素。我们提出了一个简单而有效的数据过滤策略，选择高质量的双语训练数据，只有高质量的英语数据。应用于法语、德语和中文，我们的方法将单语性能提高了2-4%，并将双语模型性能差距缩小至1%。这些结果突出了多语言预训练中被忽视的数据质量的重要性，并为平衡性能提供了实用的方法。</p>
+<h2 id="微调">微调</h2>
+<p>2025-06-27 14:25:51 Friday</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.20917"target="_blank" rel="external nofollow noopener noreferrer">为下游任务优化语言模型：训练后视角</a></strong> <strong>[PDF(2)]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p>作者：石正严</p>
+<p>语言模型 （LM） 在 NLP 中表现出了卓越的功能，但要有效、稳健地适应特定任务仍然具有挑战性。随着其规模和复杂性的增长，对标记数据进行微调 LM 往往没有充分利用可用的未标记数据，导致小任务特定集的过度拟合，并带来巨大的计算成本。这些限制阻碍了它们在现实世界语言任务的开放式环境中的应用。本论文提出了一系列方法，以更好地使 LM 适应下游应用。首先，我们探索了从未标记数据中提取任务相关知识的策略，引入了一种新的持续预训练技术，该技术优于最先进的半监督方法。接下来，我们提出了一种参数高效的微调方法，该方法可显著降低内存和计算成本，同时保持有竞争力的性能。我们还引入了改进的监督微调方法，使 LM 能够更好地遵循指令，尤其是在标记数据稀缺的情况下，从而提高它们在一系列 NLP 任务（包括开放式生成）中的性能。最后，我们开发了新的评估方法和基准，例如多跳空间推理任务，以更全面地评估 LM 能力和适应能力。通过对不同 NLP 任务的广泛实证研究，我们的结果表明，这些方法大大提高了 LM 的稳健性、效率和泛化性，使其更能适应广泛的应用。这些进步标志着朝着更强大、更高效的 LM 迈出了重要一步，使我们更接近通用人工智能的目标。</p>
+<ol start="2">
+<li>2025-06-27 14:25:00 Friday</li>
+</ol>
+<p><a href="https://arxiv.org/abs/2506.21119"target="_blank" rel="external nofollow noopener noreferrer">#22</a> <strong><a href="https://papers.cool/arxiv/2506.21119"target="_blank" rel="external nofollow noopener noreferrer">Progtuning：基于 Transformer 的语言模型的渐进式微调框架</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p>作者：纪晓霜，赵振东，陈晓军，赵鑫，刘泽尧</p>
+<p>微调是一种很有前途的技术，可用于在下游任务中利用基于 Transformer 的语言模型。随着模型大小的不断增长，更新所有模型参数的成本越来越高。参数高效的微调方法通过选择性地更新一小部分参数来有效地解决此问题。然而，微调和大多数现有的参数高效微调方法需要更新与初始大小相同数量的参数，忽略了 Transformer 块之间的不平等贡献，并导致计算资源分配效率极低。在本文中，我们提出了 Progtuning，这是一种新颖的微调框架，结合了基于 Transformer 的语言模型的渐进式学习。具体来说，Progtuning 会根据贡献逐步减少更新的 transformer 块的数量。值得注意的是，Progtuning 优化了资源分配，并将更新参数的数量减少了大约 25%，同时仍然保持有竞争力的性能。它还通过参数高效的微调方法表现出高适应性，在各种适应场景中表现出优异的性能。</p>
+<ol start="3">
+<li>2025-06-23 12:41:02 Monday ｜ NFT</li>
+</ol>
+<p>监督学习也能从错误中学习反思？！清华英伟达联合提出隐式负向策略爆炸提升数学能力 <a href="https://mp.weixin.qq.com/s/E9qGWKCCg-xx0XVl5g7ubA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/E9qGWKCCg-xx0XVl5g7ubA</a></p>
+<p>清华大学与英伟达、斯坦福联合提出新的监督学习方案—— <strong>NFT（Negative-aware FineTuning）</strong> ，在RFT（Rejection FineTuning）算法基础上通过构造一个“隐式负向模型” 来额外利用负向数据进行训练。</p>
+<p>这并不意味着使用“差数据”进行训练，而是在已知的模型计算结果前提下，通过负向数据训练正向模型，即 <strong>“隐式负向策略（Implicit Negative Policy）”</strong> 。</p>
+<p>这一策略弥合了监督学习和强化学习的差距，使得两者性能基本持平。</p>
+<p>项目网页: <a href="https://research.nvidia.com/labs/dir/Negative-aware-Fine-Tuning/"target="_blank" rel="external nofollow noopener noreferrer">https://research.nvidia.com/labs/dir/Negative-aware-Fine-Tuning/</a></p>
+<p>论文链接: <a href="https://arxiv.org/pdf/2505.18116"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/pdf/2505.18116</a></p>
+<p>项目代码: <a href="https://github.com/NVlabs/NFT"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/NVlabs/NFT</a></p>
+<ol start="4">
+<li>2025-06-13 18:28:14 Friday｜</li>
+</ol>
+<p>Slimming Down LLMs Without Losing Their Minds
+<strong>标题</strong> ： 在不失去理智的情况下减肥LLM
+<strong>链接</strong> ：https://arxiv.org/abs/2506.10885</p>
+<p><strong>作者</strong> ： Qingda (Michael)Mai
+<strong>备注</strong> ：10 pages
+<strong>摘要</strong> ：本文研究并验证了微调对大型语言模型性能的影响，重点是参数有效的方法（LoRA和QLoRA）。我们在三个关键领域评估模型能力：（1）常识推理（HellaSwag），（2）数学推理（GSM 8 K）和（3）多领域知识（MMLU-CS）。   我们的研究结果表明：（1）基于LoRA的方法有效地提高了特定于任务的性能，同时保持了计算效率，（2）性能在很大程度上取决于微调数据集和基准任务之间的对齐。该研究为开发人员在有限的资源下实现高效的LLM适应提供了理论见解和实践指导。</p>
+<h3 id="图像生成">图像生成</h3>
+<p>2025-07-02 14:10:32 Wednesday ｜ ICML 2025 Spotlight | 清华朱军组&amp;NVIDIA提出DDO：扩散/自回归模型训练新范式，刷新图像生成SOTAhttps://mp.weixin.qq.com/s/tiytMxR8QJN2fFSry1mQ1w</p>
+<p>为解决 MLE 的局限性，文章考虑使用 <strong>GAN 式判别</strong>的思想，在训练目标中引入<strong>反向 KL 散度</strong>的成分，强化模型在真实数据附近的密度，同时抑制错误区域，将模型分布由图（a）：强调密度覆盖，微调为图（b）：强调密度集中，从而提高生成保真度与有限模型容量下的生成质量。然而， <strong>直接使用 GAN 损失会引入额外的判别器网络与工程优化上的复杂性</strong> ，尤其对于扩散/自回归模型这类需要迭代式多步生成的模型。</p>
+<h3 id="领域微调">领域微调</h3>
+<p>2025-06-16 12:02:10 Monday</p>
+<p>LLM-as-a-Fuzzy-Judge: Fine-Tuning Large Language Models as a Clinical  Evaluation Judge with Fuzzy Logic
+<strong>标题</strong> ： LLM作为模糊法官：使用模糊逻辑对大型语言模型进行微调，作为临床评估法官
+<strong>链接</strong> ：https://arxiv.org/abs/2506.11221</p>
+<p><strong>作者</strong> ： Weibing Zheng,  Laurah Turner,  Jess Kropczynski,  Murat Ozer,  Tri Nguyen,  Shane Halse
+<strong>备注</strong> ：12 pages, 1 figure, 2025 IFSA World Congress NAFIPS Annual Meeting
+<strong>摘要</strong> ：临床沟通技能在医学教育中至关重要，大规模地实践和评估临床沟通技能具有挑战性。虽然LLM驱动的临床情景模拟在增强医学生的临床实践方面显示出了希望，但提供遵循细微差别的医生判断的自动化和可扩展的临床评估是困难的。本文结合<strong>模糊逻辑</strong>和大语言模型（LLM），提出LLM作为模糊评判，以解决医学生临床技能自动评价与医生主观偏好相结合的难题。LLM作为模糊判断是一种方法，LLM经过微调，根据来自四个模糊集的人类注释来评估医学生在学生-AI患者对话脚本中的话语，包括语言学，医学相关性，道德行为和上下文干扰。本文的方法从LLM-powered医学教育系统的数据收集开始，基于多维模糊集的数据注释，然后是提示工程和使用这些人类注释的预训练LLMs的监督微调（SFT）。结果表明，LLM作为一个模糊判断达到80%以上的准确性，与主要标准项目超过90%， <strong>有效地利用模糊逻辑和LLM作为一个解决方案，提供可解释的，人类对齐的评估</strong> 。这项工作表明了 <strong>利用模糊逻辑和LLM与人类偏好保持一致的可行性</strong> ，推进了医学教育的自动化评估，并支持更强大的评估和判断实践。该工作的GitHub存储库可在https://github.com/2sigmaEdTech/LLMAsAJudge上获得</p>
+<h2 id="训练加速">训练加速</h2>
+<p>2025-06-19 19:52:13 Thursday ｜ 清华SageAttention3，FP4量化5倍加速！且首次支持8比特训练 <a href="https://mp.weixin.qq.com/s/aVlYM_cMrpTKeH3ao-UJuA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/aVlYM_cMrpTKeH3ao-UJuA</a></p>
+<p>论文标题：SageAttention3: Microscaling FP4 Attention for Inference and An Exploration of 8-bit Training</p>
+<p>论文链接：https://arxiv.org/abs/2505.11594</p>
+<p>开源代码：https://github.com/thu-ml/SageAttention</p>
+<h2 id="算力集群">算力集群</h2>
+<p>2025-06-30 18:13:11 Monday｜ 华为CloudMatrix重磅论文披露AI数据中心新范式，推理效率超NV H100 <a href="https://mp.weixin.qq.com/s/MmpWP77k3tyurv5t-9M2xw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/MmpWP77k3tyurv5t-9M2xw</a></p>
+<p>华为发布了一篇60页的重磅论文，提出了他们的下一代AI数据中心架构设计构想—— <strong>Huawei CloudMatrix</strong> ，以及该构想的第一代产品化的实现CloudMatrix384。相对于简单的“堆卡”，华为CloudMatrix给出的架构设计原则是，高带宽全对等互连和细粒度资源解耦。</p>
+<p>华为的CloudMatrix384通过“全对等架构+软硬协同”的模式，<strong>打破了传统上算力、延迟和成本之间的“不可能三角”。</strong></p>
+<p>2025-07-03 10:45:43 Thursday ｜华为CloudMatrix384超节点很强，但它的「灵魂」在云上  <a href="https://mp.weixin.qq.com/s/OG2-0xvgynUXzJouGeIYnw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/OG2-0xvgynUXzJouGeIYnw</a></p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

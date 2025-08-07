@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>SWE 软件工程 - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="SWE 软件工程
+总览
+2025-06-23 11:46:23 Monday ｜ Amazon Q Developer https://mp.weixin.qq.com/s/8JfR11MUxZneJBDnLDCX_g
+250609｜SWE-Flow：以测试驱动方式合成软件工程数据
+250607｜SWE-Dev：构建具备训练与推理扩展能力的软件工程智能体
+250516｜SWE-Dev：评估与训练自主功能驱动的软件开发
+概念
+软件开发方法论
+
+by豆包
+是指导软件开发过程的哲学和实践框架，它们各有侧重，适用于不同的项目需求和团队文化。
+以下是对主流方法论的系统整理，包括核心特点、适用场景和典型工具：
+一、敏捷开发（Agile Development）
+核心思想 ：快速迭代、客户反馈、团队协作，应对需求变化。
+典型方法 ：
+
+Scrum
+
+特点 ：通过短周期迭代（Sprint）、每日站会、产品待办列表（Backlog）管理项目。
+角色 ：产品负责人（Product Owner）、Scrum Master、开发团队。
+工具 ：Jira、Trello、Azure DevOps。
+
+
+Kanban
+
+特点 ：可视化工作流程（看板），限制在制品（WIP），持续交付。
+适用场景 ：需求稳定、流程明确的项目。
+工具 ：Notion、Monday.com、GitHub Projects。
+
+
+极限编程（XP, Extreme Programming）
+
+特点 ：结对编程、测试驱动开发（TDD）、持续集成、现场客户。
+实践 ：小型发布、简单设计、重构、集体代码所有权。
+
+
+
+二、测试驱动开发（TDD, Test-Driven Development）
+核心思想 ：先写测试，再实现代码，最后优化（红-绿-重构）。
+流程 ：
+
+编写测试用例 （失败状态）。
+实现功能代码 （使测试通过）。
+重构代码 （优化结构，保持测试通过）。
+
+工具 ：JUnit（Java）、PyTest（Python）、Jest（JavaScript）。
+适用场景 ：对质量要求高、需要频繁重构的项目。
+三、行为驱动开发（BDD, Behavior-Driven Development）
+核心思想 ：以用户行为为中心，通过自然语言描述需求（Gherkin 语法）。" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="SWE 软件工程">
+  <meta itemprop="description" content="SWE 软件工程 总览 2025-06-23 11:46:23 Monday ｜ Amazon Q Developer https://mp.weixin.qq.com/s/8JfR11MUxZneJBDnLDCX_g
+250609｜SWE-Flow：以测试驱动方式合成软件工程数据
+250607｜SWE-Dev：构建具备训练与推理扩展能力的软件工程智能体
+250516｜SWE-Dev：评估与训练自主功能驱动的软件开发
+概念 软件开发方法论 by豆包
+是指导软件开发过程的哲学和实践框架，它们各有侧重，适用于不同的项目需求和团队文化。
+以下是对主流方法论的系统整理，包括核心特点、适用场景和典型工具：
+一、敏捷开发（Agile Development） 核心思想 ：快速迭代、客户反馈、团队协作，应对需求变化。
+典型方法 ：
+Scrum 特点 ：通过短周期迭代（Sprint）、每日站会、产品待办列表（Backlog）管理项目。 角色 ：产品负责人（Product Owner）、Scrum Master、开发团队。 工具 ：Jira、Trello、Azure DevOps。 Kanban 特点 ：可视化工作流程（看板），限制在制品（WIP），持续交付。 适用场景 ：需求稳定、流程明确的项目。 工具 ：Notion、Monday.com、GitHub Projects。 极限编程（XP, Extreme Programming） 特点 ：结对编程、测试驱动开发（TDD）、持续集成、现场客户。 实践 ：小型发布、简单设计、重构、集体代码所有权。 二、测试驱动开发（TDD, Test-Driven Development） 核心思想 ：先写测试，再实现代码，最后优化（红-绿-重构）。
+流程 ：
+编写测试用例 （失败状态）。 实现功能代码 （使测试通过）。 重构代码 （优化结构，保持测试通过）。 工具 ：JUnit（Java）、PyTest（Python）、Jest（JavaScript）。
+适用场景 ：对质量要求高、需要频繁重构的项目。
+三、行为驱动开发（BDD, Behavior-Driven Development） 核心思想 ：以用户行为为中心，通过自然语言描述需求（Gherkin 语法）。">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="705"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="SWE 软件工程">
+  <meta property="og:description" content="SWE 软件工程 总览 2025-06-23 11:46:23 Monday ｜ Amazon Q Developer https://mp.weixin.qq.com/s/8JfR11MUxZneJBDnLDCX_g
+250609｜SWE-Flow：以测试驱动方式合成软件工程数据
+250607｜SWE-Dev：构建具备训练与推理扩展能力的软件工程智能体
+250516｜SWE-Dev：评估与训练自主功能驱动的软件开发
+概念 软件开发方法论 by豆包
+是指导软件开发过程的哲学和实践框架，它们各有侧重，适用于不同的项目需求和团队文化。
+以下是对主流方法论的系统整理，包括核心特点、适用场景和典型工具：
+一、敏捷开发（Agile Development） 核心思想 ：快速迭代、客户反馈、团队协作，应对需求变化。
+典型方法 ：
+Scrum 特点 ：通过短周期迭代（Sprint）、每日站会、产品待办列表（Backlog）管理项目。 角色 ：产品负责人（Product Owner）、Scrum Master、开发团队。 工具 ：Jira、Trello、Azure DevOps。 Kanban 特点 ：可视化工作流程（看板），限制在制品（WIP），持续交付。 适用场景 ：需求稳定、流程明确的项目。 工具 ：Notion、Monday.com、GitHub Projects。 极限编程（XP, Extreme Programming） 特点 ：结对编程、测试驱动开发（TDD）、持续集成、现场客户。 实践 ：小型发布、简单设计、重构、集体代码所有权。 二、测试驱动开发（TDD, Test-Driven Development） 核心思想 ：先写测试，再实现代码，最后优化（红-绿-重构）。
+流程 ：
+编写测试用例 （失败状态）。 实现功能代码 （使测试通过）。 重构代码 （优化结构，保持测试通过）。 工具 ：JUnit（Java）、PyTest（Python）、Jest（JavaScript）。
+适用场景 ：对质量要求高、需要频繁重构的项目。
+三、行为驱动开发（BDD, Behavior-Driven Development） 核心思想 ：以用户行为为中心，通过自然语言描述需求（Gherkin 语法）。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="topic">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SWE 软件工程">
+  <meta name="twitter:description" content="SWE 软件工程 总览 2025-06-23 11:46:23 Monday ｜ Amazon Q Developer https://mp.weixin.qq.com/s/8JfR11MUxZneJBDnLDCX_g
+250609｜SWE-Flow：以测试驱动方式合成软件工程数据
+250607｜SWE-Dev：构建具备训练与推理扩展能力的软件工程智能体
+250516｜SWE-Dev：评估与训练自主功能驱动的软件开发
+概念 软件开发方法论 by豆包
+是指导软件开发过程的哲学和实践框架，它们各有侧重，适用于不同的项目需求和团队文化。
+以下是对主流方法论的系统整理，包括核心特点、适用场景和典型工具：
+一、敏捷开发（Agile Development） 核心思想 ：快速迭代、客户反馈、团队协作，应对需求变化。
+典型方法 ：
+Scrum 特点 ：通过短周期迭代（Sprint）、每日站会、产品待办列表（Backlog）管理项目。 角色 ：产品负责人（Product Owner）、Scrum Master、开发团队。 工具 ：Jira、Trello、Azure DevOps。 Kanban 特点 ：可视化工作流程（看板），限制在制品（WIP），持续交付。 适用场景 ：需求稳定、流程明确的项目。 工具 ：Notion、Monday.com、GitHub Projects。 极限编程（XP, Extreme Programming） 特点 ：结对编程、测试驱动开发（TDD）、持续集成、现场客户。 实践 ：小型发布、简单设计、重构、集体代码所有权。 二、测试驱动开发（TDD, Test-Driven Development） 核心思想 ：先写测试，再实现代码，最后优化（红-绿-重构）。
+流程 ：
+编写测试用例 （失败状态）。 实现功能代码 （使测试通过）。 重构代码 （优化结构，保持测试通过）。 工具 ：JUnit（Java）、PyTest（Python）、Jest（JavaScript）。
+适用场景 ：对质量要求高、需要频繁重构的项目。
+三、行为驱动开发（BDD, Behavior-Driven Development） 核心思想 ：以用户行为为中心，通过自然语言描述需求（Gherkin 语法）。">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E5%85%83/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "SWE 软件工程",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B\/"
+    },"genre": "topic","wordcount":  705 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>SWE 软件工程</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="705 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 800 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>4 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#软件开发方法论">软件开发方法论</a>
+      <ul>
+        <li><a href="#一敏捷开发agile-development"><strong>一、敏捷开发（Agile Development）</strong></a></li>
+        <li><a href="#二测试驱动开发tdd-test-driven-development"><strong>二、测试驱动开发（TDD, Test-Driven Development）</strong></a></li>
+        <li><a href="#三行为驱动开发bdd-behavior-driven-development"><strong>三、行为驱动开发（BDD, Behavior-Driven Development）</strong></a></li>
+        <li><a href="#四功能驱动开发fdd-feature-driven-development"><strong>四、功能驱动开发（FDD, Feature-Driven Development）</strong></a></li>
+        <li><a href="#五精益软件开发lean-development"><strong>五、精益软件开发（Lean Development）</strong></a></li>
+        <li><a href="#六持续集成持续交付cicd-continuous-integrationdeployment"><strong>六、持续集成/持续交付（CI/CD, Continuous Integration/Deployment）</strong></a></li>
+        <li><a href="#七领域驱动设计ddd-domain-driven-design"><strong>七、领域驱动设计（DDD, Domain-Driven Design）</strong></a></li>
+        <li><a href="#八设计思维design-thinking"><strong>八、设计思维（Design Thinking）</strong></a></li>
+        <li><a href="#九传统瀑布模型waterfall-model"><strong>九、传统瀑布模型（Waterfall Model）</strong></a></li>
+        <li><a href="#十混合方法论"><strong>十、混合方法论</strong></a></li>
+        <li><a href="#选择方法论的关键因素"><strong>选择方法论的关键因素</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#数据">数据</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#swe-dev评估与训练自主功能驱动的软件开发">SWE-Dev：评估与训练自主功能驱动的软件开发</a></li>
+          </ul>
+        </li>
+        <li><a href="#核心pipeline">核心pipeline</a>
+          <ul>
+            <li><a href="#skywork-swe">Skywork-SWE</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#评估">评估</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#rexbench编码代理可以自主实施-ai-研究扩展吗"><a href="https://papers.cool/arxiv/2506.22598">RExBench：编码代理可以自主实施 AI 研究扩展吗？</a></a></li>
+            <li><a href="#swe-bench-live">SWE-bench-Live</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#数据合成">数据合成</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#swe-flow以测试驱动方式合成软件工程数据">SWE-Flow：以测试驱动方式合成软件工程数据</a></li>
+          </ul>
+        </li>
+        <li><a href="#核心pipeline-1">核心pipeline</a></li>
+      </ul>
+    </li>
+    <li><a href="#智能体">智能体</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#swe-dev构建具备训练与推理扩展能力的软件工程智能体">SWE-Dev：构建具备训练与推理扩展能力的软件工程智能体</a></li>
+          </ul>
+        </li>
+        <li><a href="#关键图">关键图</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="swe-软件工程">SWE 软件工程</h1>
+<h1 id="总览">总览</h1>
+<p>2025-06-23 11:46:23 Monday ｜ Amazon Q Developer <a href="https://mp.weixin.qq.com/s/8JfR11MUxZneJBDnLDCX_g"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/8JfR11MUxZneJBDnLDCX_g</a></p>
+<p>250609｜SWE-Flow：以测试驱动方式合成软件工程数据</p>
+<p>250607｜SWE-Dev：构建具备训练与推理扩展能力的软件工程智能体</p>
+<p>250516｜SWE-Dev：评估与训练自主功能驱动的软件开发</p>
+<h1 id="概念">概念</h1>
+<h2 id="软件开发方法论">软件开发方法论</h2>
+<blockquote>
+<p>by豆包</p></blockquote>
+<p>是指导软件开发过程的哲学和实践框架，它们各有侧重，适用于不同的项目需求和团队文化。</p>
+<p>以下是对主流方法论的系统整理，包括核心特点、适用场景和典型工具：</p>
+<h3 id="一敏捷开发agile-development"><strong>一、敏捷开发（Agile Development）</strong></h3>
+<p><strong>核心思想</strong> ：快速迭代、客户反馈、团队协作，应对需求变化。</p>
+<p><strong>典型方法</strong> ：</p>
+<ol>
+<li><strong>Scrum</strong>
+<ol>
+<li><strong>特点</strong> ：通过短周期迭代（Sprint）、每日站会、产品待办列表（Backlog）管理项目。</li>
+<li><strong>角色</strong> ：产品负责人（Product Owner）、Scrum Master、开发团队。</li>
+<li><strong>工具</strong> ：Jira、Trello、Azure DevOps。</li>
+</ol>
+</li>
+<li><strong>Kanban</strong>
+<ol>
+<li><strong>特点</strong> ：可视化工作流程（看板），限制在制品（WIP），持续交付。</li>
+<li><strong>适用场景</strong> ：需求稳定、流程明确的项目。</li>
+<li><strong>工具</strong> ：Notion、Monday.com、GitHub Projects。</li>
+</ol>
+</li>
+<li><strong>极限编程（XP, Extreme Programming）</strong>
+<ol>
+<li><strong>特点</strong> ：结对编程、测试驱动开发（TDD）、持续集成、现场客户。</li>
+<li><strong>实践</strong> ：小型发布、简单设计、重构、集体代码所有权。</li>
+</ol>
+</li>
+</ol>
+<h3 id="二测试驱动开发tdd-test-driven-development"><strong>二、测试驱动开发（TDD, Test-Driven Development）</strong></h3>
+<p><strong>核心思想</strong> ：先写测试，再实现代码，最后优化（红-绿-重构）。</p>
+<p><strong>流程</strong> ：</p>
+<ol start="4">
+<li><strong>编写测试用例</strong> （失败状态）。</li>
+<li><strong>实现功能代码</strong> （使测试通过）。</li>
+<li><strong>重构代码</strong> （优化结构，保持测试通过）。</li>
+</ol>
+<p><strong>工具</strong> ：JUnit（Java）、PyTest（Python）、Jest（JavaScript）。</p>
+<p><strong>适用场景</strong> ：对质量要求高、需要频繁重构的项目。</p>
+<h3 id="三行为驱动开发bdd-behavior-driven-development"><strong>三、行为驱动开发（BDD, Behavior-Driven Development）</strong></h3>
+<p><strong>核心思想</strong> ：以用户行为为中心，通过自然语言描述需求（Gherkin 语法）。</p>
+<p><strong>流程</strong> ：</p>
+<ol start="7">
+<li><strong>编写场景</strong> （Given-When-Then）。</li>
+<li><strong>实现自动化测试</strong> （Cucumber 或 SpecFlow）。</li>
+<li><strong>开发功能</strong> （使测试通过）。</li>
+</ol>
+<p><strong>工具</strong> ：Cucumber（多语言）、Behave（Python）、SpecFlow（.NET）。</p>
+<p><strong>适用场景</strong> ：需要跨团队协作（开发、测试、产品）的项目。</p>
+<h3 id="四功能驱动开发fdd-feature-driven-development"><strong>四、功能驱动开发（FDD, Feature-Driven Development）</strong></h3>
+<p><strong>核心思想</strong> ：以功能为单位，分阶段规划和实现。</p>
+<p><strong>流程</strong> ：</p>
+<ol start="10">
+<li><strong>开发整体模型</strong> （Domain Model）。</li>
+<li><strong>列出功能列表</strong> （Feature List）。</li>
+<li><strong>规划功能开发</strong> （按周/月分配）。</li>
+<li><strong>设计并实现功能</strong> （迭代交付）。</li>
+</ol>
+<p><strong>特点</strong> ：轻量级文档、频繁交付、明确责任分工。</p>
+<p><strong>适用场景</strong> ：需求明确、需要快速交付的项目。</p>
+<h3 id="五精益软件开发lean-development"><strong>五、精益软件开发（Lean Development）</strong></h3>
+<p><strong>核心思想</strong> ：消除浪费，最大化客户价值（源自丰田生产系统）。</p>
+<p><strong>原则</strong> ：</p>
+<ul>
+<li>消除浪费（如过度设计、等待、缺陷）。</li>
+<li>快速反馈，持续改进。</li>
+<li>尊重团队成员，授权决策。</li>
+</ul>
+<p><strong>实践</strong> ：价值流分析、最小可行产品（MVP）、看板管理。</p>
+<p><strong>适用场景</strong> ：资源有限、需要快速验证的创业项目。</p>
+<h3 id="六持续集成持续交付cicd-continuous-integrationdeployment"><strong>六、持续集成/持续交付（CI/CD, Continuous Integration/Deployment）</strong></h3>
+<p><strong>核心思想</strong> ：自动化构建、测试、部署，确保代码质量和交付效率。</p>
+<p><strong>流程</strong> ：</p>
+<ol start="14">
+<li><strong>持续集成</strong> ：频繁合并代码，自动构建测试。</li>
+<li><strong>持续交付</strong> ：自动部署到预发布环境。</li>
+<li><strong>持续部署</strong> ：自动部署到生产环境（最高级阶段）。</li>
+</ol>
+<p><strong>工具</strong> ：Jenkins、GitLab CI/CD、GitHub Actions、CircleCI。</p>
+<p><strong>适用场景</strong> ：需要快速迭代、频繁发布的项目。</p>
+<h3 id="七领域驱动设计ddd-domain-driven-design"><strong>七、领域驱动设计（DDD, Domain-Driven Design）</strong></h3>
+<p><strong>核心思想</strong> ：以业务领域为中心，通过领域模型连接业务与技术。</p>
+<p><strong>关键概念</strong> ：</p>
+<ul>
+<li><strong>限界上下文</strong> （Bounded Context）：划分业务边界。</li>
+<li><strong>聚合根</strong> （Aggregate Root）：管理实体关系。</li>
+<li><strong>领域事件</strong> （Domain Event）：捕获业务状态变化。</li>
+</ul>
+<p><strong>工具</strong> ：UML、EventStorming（工作坊）。</p>
+<p><strong>适用场景</strong> ：复杂业务逻辑、需要长期维护的大型系统。</p>
+<h3 id="八设计思维design-thinking"><strong>八、设计思维（Design Thinking）</strong></h3>
+<p><strong>核心思想</strong> ：以人为本，通过同理心解决问题。</p>
+<p><strong>流程</strong> ：</p>
+<ol start="17">
+<li><strong>共情</strong> （Empathize）：理解用户需求。</li>
+<li><strong>定义</strong> （Define）：明确问题。</li>
+<li><strong>构思</strong> （Ideate）：头脑风暴解决方案。</li>
+<li><strong>原型</strong> （Prototype）：快速验证想法。</li>
+<li><strong>测试</strong> （Test）：收集反馈迭代。</li>
+</ol>
+<p><strong>适用场景</strong> ：产品创新、用户体验设计。</p>
+<h3 id="九传统瀑布模型waterfall-model"><strong>九、传统瀑布模型（Waterfall Model）</strong></h3>
+<p><strong>核心思想</strong> ：线性顺序执行，每个阶段完成后进入下一阶段。</p>
+<p><strong>阶段</strong> ：需求分析 → 设计 → 编码 → 测试 → 维护。</p>
+<p><strong>特点</strong> ：文档驱动、严格阶段评审。</p>
+<p><strong>适用场景</strong> ：需求稳定、规模较大、对文档要求高的项目。</p>
+<h3 id="十混合方法论"><strong>十、混合方法论</strong></h3>
+<p><strong>特点</strong> ：结合多种方法的优势，根据项目需求灵活调整。</p>
+<p><strong>常见组合</strong> ：</p>
+<ul>
+<li><strong>Scrum + Kanban</strong> ：Scrum 框架 + Kanban 可视化管理。</li>
+<li><strong>敏捷 + DevOps</strong> ：敏捷开发 + CI/CD 自动化。</li>
+<li><strong>TDD + BDD</strong> ：单元测试（TDD）+ 集成测试（BDD）。</li>
+</ul>
+<h3 id="选择方法论的关键因素"><strong>选择方法论的关键因素</strong></h3>
+<ol start="22">
+<li><strong>项目规模</strong> ：大型项目可能需要更结构化的方法（如 FDD、DDD），小型项目可采用敏捷。</li>
+<li><strong>需求稳定性</strong> ：需求频繁变化选敏捷，稳定选瀑布。</li>
+<li><strong>团队文化</strong> ：强调协作选 Scrum，偏好自治选 Kanban。</li>
+<li><strong>交付时间</strong> ：快速迭代选敏捷，长期规划选传统方法。</li>
+</ol>
+<p>不同方法论并无绝对优劣，关键是根据项目特性和团队能力选择合适的实践组合。例如，互联网产品通常采用敏捷 + CI/CD，而航天软件可能更依赖瀑布 + 严格测试。</p>
+<h1 id="相关研究">相关研究</h1>
+<p>2025-06-30 19:05:10 Monday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.21967"target="_blank" rel="external nofollow noopener noreferrer">比您想象的更脆弱：关于工具集成的 LLM 代理的稳定性</a></strong> <strong>[PDF(4)]</strong> <strong>[Copy]</strong> <strong>[Kimi(1)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Weimin%20Xiong"target="_blank" rel="external nofollow noopener noreferrer">Weimin Xiong</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ke%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Ke Wang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yifan%20Song"target="_blank" rel="external nofollow noopener noreferrer">Yifan Song</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Hanchao%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Hanchao Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Sai%20Zhou"target="_blank" rel="external nofollow noopener noreferrer">Sai Zhou</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Wei%20Peng"target="_blank" rel="external nofollow noopener noreferrer">Wei Peng</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Sujian%20Li"target="_blank" rel="external nofollow noopener noreferrer">Sujian Li</a></p>
+<p>当前对工具集成的 LLM 代理的评估通常侧重于端到端的工具使用评估，而忽视了它们的稳定性。这限制了它们在现实世界中的适用性，因为各种内部或外部因素都可能导致代理崩溃或行为异常。我们的研究通过调查代理在整个工具调用过程中是否容易受到错误的影响来解决这个问题，包括阅读工具文档、选择工具和生成参数以及处理工具的响应。通过广泛的实验，我们观察到代理在每个阶段都极易出错，并且基于开源模型的代理比基于专有模型的代理更容易受到攻击。我们还发现，增加模型大小并不会显著改善工具调用推理，并且可能会使代理更容易受到类似于正常用户指令的攻击。这突出了评估代理稳定性的重要性，并为未来的 LLM 开发和评估提供了有价值的见解。</p>
+<ol start="2">
+<li>2025-06-23 11:33:42 Monday ｜</li>
+</ol>
+<p>arXiv:2506.17208（交叉列表自 cs.SE）[pdf，html，其他]</p>
+<p><strong>剖析 SWE-Bench 排行榜：基于 LLM 和智能体修复系统的提交者与架构分析</strong></p>
+<p>马蒂亚斯·马丁内斯，泽维尔·弗兰奇</p>
+<p>学科分类: 软件工程(cs.SE); 人工智能(cs.AI); 计算与语言(cs.CL)</p>
+<ol start="3">
+<li>2025-06-24 12:52:59 Tuesday |</li>
+</ol>
+<p>Dissecting the SWE-Bench Leaderboards: Profiling Submitters and Architectures of LLM- and Agent-Based Repair Systems
+<strong>链接</strong> ：https://arxiv.org/abs/2506.17208</p>
+<p><strong>作者</strong> ：rtinez, Xavier Franch
+<strong>摘要</strong> ：自动程序修复（APR）的快速发展是由人工智能的进步推动的，特别是大型语言模型（LLM）和基于代理的系统。SWE-Bench是最近的一个基准测试，旨在使用从12个流行的开源Python存储库中挖掘的真实问题和拉取请求来评估基于LLM的修复系统。其公共排行榜SWE-Bench Lite和SWE-Bench Verified已成为跟踪进度和比较解决方案的中心平台。然而，由于提交过程不需要详细的文件，许多解决方案的架构设计和起源仍然不清楚。在本文中，我们对SWE-Bench Lite（68个条目）和Verified（79个条目）排行榜的所有提交进行了首次全面研究，分析了67种独特的方法，包括子系统类型，产品可用性，LLM使用和系统架构。我们的研究结果揭示了专有LLM（特别是Claude 3.5/3.7）的主导地位，代理和非代理设计的存在，以及从个人开发人员到大型科技公司的贡献者基础。</p>
+<ol start="4">
+<li>2025-06-25 11:12:16 Wednesday ｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2506.19290"target="_blank" rel="external nofollow noopener noreferrer">Skywork-SWE：揭示 LLM 中软件工程的数据缩放定律</a></strong> <strong>[PDF(3)]</strong> <strong>[Copy]</strong> <strong>[Kimi(1)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Liang%20Zeng"target="_blank" rel="external nofollow noopener noreferrer">Liang Zeng</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yongcong%20Li"target="_blank" rel="external nofollow noopener noreferrer">Yongcong Li</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuzhen%20Xiao"target="_blank" rel="external nofollow noopener noreferrer">Yuzhen Xiao</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Changshi%20Li"target="_blank" rel="external nofollow noopener noreferrer">Changshi Li</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Chris%20Yuhao%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Chris Yuhao Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Rui%20Yan"target="_blank" rel="external nofollow noopener noreferrer">Rui Yan</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Tianwen%20Wei"target="_blank" rel="external nofollow noopener noreferrer">Tianwen Wei</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jujie%20He"target="_blank" rel="external nofollow noopener noreferrer">Jujie He</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xuchen%20Song"target="_blank" rel="external nofollow noopener noreferrer">Xuchen Song</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yang%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Yang Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yahui%20Zhou"target="_blank" rel="external nofollow noopener noreferrer">Yahui Zhou</a></p>
+<p>软件工程 （SWE） 最近已成为下一代 LLM 代理的关键测试平台，它要求在两个关键维度上具有固有的能力： <strong>持续迭代问题解决（例如，&gt;50 轮交互）和长上下文依赖关系解析（例如，&gt;32k 令牌）</strong> 。然而，SWE 中的数据管理过程仍然非常耗时，因为它严重依赖手动注释来筛选代码文件，并设置专用运行时环境来执行和验证单元测试。因此，大多数现有数据集仅限于几千个 GitHub 来源的实例。为此，我们提出了一 <strong>种增量的自动化数据管理管道</strong> ，可以系统地扩展 SWE 数据集的数量和多样性。我们的数据集包含来自 2531 个不同 GitHub 存储库的 10169 个真实 Python 任务实例，每个实例都附有一个以自然语言指定的任务和一个用于自动单元测试验证的专用运行时环境图像。我们从我们提议的 SWE 数据集中精心策划了 8,000 多个成功运行时验证的训练轨迹。当在这些轨迹上微调 Skywork-SWE 模型时，我们发现了一个引人注目的数据缩放现象：随着数据量的增加，训练模型在 LLM 中的软件工程能力性能不断提高，没有显示出饱和的迹象。值得注意的是，我们的 Skywork-SWE 模型在 SWE-bench Verified 基准测试中实现了 38.0% 的准确率 pass@1 无需使用验证器或多次部署，在基于 OpenHands 代理框架构建的基于 Qwen2.5-Coder-32B 的 LLM 中建立了新的最先进的 （SOTA）。此外，随着测试时间缩放技术的结合，性能进一步提高到 47.0% 的准确率，超过了之前 sub-32B 参数模型的 SOTA 结果。我们发布了 Skywork-SWE-32B 模型检查点，以加速未来的研究。</p>
+<h2 id="数据">数据</h2>
+<h4 id="swe-dev评估与训练自主功能驱动的软件开发">SWE-Dev：评估与训练自主功能驱动的软件开发</h4>
+<p>250516</p>
+<p><strong>标题</strong> ：SWE-Dev: Evaluating and Training Autonomous Feature-Driven Software Development</p>
+<p><strong>链接</strong> ：https://arxiv.org/abs/2505.16975</p>
+<p><strong>作者</strong> ：<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Du,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer">Yaxin Du</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Cai,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer">Yuzhu Cai</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Zhou,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer">Yifan Zhou</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wang,&#43;C"target="_blank" rel="external nofollow noopener noreferrer">Cheng Wang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Qian,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer">Yu Qian</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Pang,&#43;X"target="_blank" rel="external nofollow noopener noreferrer">Xianghe Pang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Liu,&#43;Q"target="_blank" rel="external nofollow noopener noreferrer">Qian Liu</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Hu,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer">Yue Hu</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Chen,&#43;S"target="_blank" rel="external nofollow noopener noreferrer">Siheng Chen</a></p>
+<p><strong>摘要</strong> ：</p>
+<ul>
+<li>大型语言模型（LLMs）在各类软件工程任务中展现出强大能力，例如代码补全、错误修复和文档生成。然而针对现有大型代码库开发新功能这一高度普遍的现实任务—— <strong>特性驱动开发（FDD）</strong> ，目前仍缺乏深入探索。</li>
+<li>为此我们推出 SWE-Dev 数据集，这是首个专为评估和训练现实世界功能开发任务中自主编码系统而设计的大规模数据集（包含 14,000 个训练样本和 500 个测试样本）。为确保可验证且多样化的训练，SWE-Dev 创新性地为所有实例提供可运行环境及开发者编写的可执行单元测试。该数据集不仅为监督微调（SFT）提供高质量数据，还能通过单元测试的执行结果生成精确奖励信号，从而支持强化学习（RL）训练。</li>
+<li>我们在 SWE-Dev 上开展的广泛评估覆盖 17 个聊天机器人 LLMs、10 个推理模型和 10 个多智能体系统（MAS），结果表明 FDD 对当前 AI 技术构成严峻挑战（例如 Claude-3.7-Sonnet 在困难测试集上仅达到 22.45%的 Pass@3 通过率）。 关键的是，我们证明了 SWE-Dev 可作为模型改进的有效平台：在训练集上进行微调后，7B 模型在\textit{困难}划分上表现与 GPT-4o 相当，凸显了其高质量训练数据的价值。代码可在此处获取 \href{<a href="https://github.com/justLittleWhite/SWE-Dev"target="_blank" rel="external nofollow noopener noreferrer">this https URL</a>}{<a href="https://github.com/justLittleWhite/SWE-Dev"target="_blank" rel="external nofollow noopener noreferrer">this https URL</a>}。</li>
+</ul>
+<ol>
+<li>
+<h3 id="核心pipeline">核心pipeline</h3>
+</li>
+</ol>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2JkYTYwMDcwMTA3MDRjYThlMjhkMjNmMjlkZTcyZjZfeEZYNnl1MEF4MXBiTk9pSHR0bm9tT05kbGxqeFlrc3ZfVG9rZW46VUVOU2JIanNnb0pMVll4QjFyUmNlUHRwbjZlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2JkYTYwMDcwMTA3MDRjYThlMjhkMjNmMjlkZTcyZjZfeEZYNnl1MEF4MXBiTk9pSHR0bm9tT05kbGxqeFlrc3ZfVG9rZW46VUVOU2JIanNnb0pMVll4QjFyUmNlUHRwbjZlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2JkYTYwMDcwMTA3MDRjYThlMjhkMjNmMjlkZTcyZjZfeEZYNnl1MEF4MXBiTk9pSHR0bm9tT05kbGxqeFlrc3ZfVG9rZW46VUVOU2JIanNnb0pMVll4QjFyUmNlUHRwbjZlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2JkYTYwMDcwMTA3MDRjYThlMjhkMjNmMjlkZTcyZjZfeEZYNnl1MEF4MXBiTk9pSHR0bm9tT05kbGxqeFlrc3ZfVG9rZW46VUVOU2JIanNnb0pMVll4QjFyUmNlUHRwbjZlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2JkYTYwMDcwMTA3MDRjYThlMjhkMjNmMjlkZTcyZjZfeEZYNnl1MEF4MXBiTk9pSHR0bm9tT05kbGxqeFlrc3ZfVG9rZW46VUVOU2JIanNnb0pMVll4QjFyUmNlUHRwbjZlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2JkYTYwMDcwMTA3MDRjYThlMjhkMjNmMjlkZTcyZjZfeEZYNnl1MEF4MXBiTk9pSHR0bm9tT05kbGxqeFlrc3ZfVG9rZW46VUVOU2JIanNnb0pMVll4QjFyUmNlUHRwbjZlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NmQ1YjcwOTY5YTdjMmFmZWYzYWI4M2MzNTAzZjUzZDhfd0tzTjhKZ1hlY1B5MWF2T1FJTE95V01jdWtRNnhaQ0ZfVG9rZW46SkpjN2JiTmZkb3V4c3N4R3FMT2M2SnJhbnNlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NmQ1YjcwOTY5YTdjMmFmZWYzYWI4M2MzNTAzZjUzZDhfd0tzTjhKZ1hlY1B5MWF2T1FJTE95V01jdWtRNnhaQ0ZfVG9rZW46SkpjN2JiTmZkb3V4c3N4R3FMT2M2SnJhbnNlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NmQ1YjcwOTY5YTdjMmFmZWYzYWI4M2MzNTAzZjUzZDhfd0tzTjhKZ1hlY1B5MWF2T1FJTE95V01jdWtRNnhaQ0ZfVG9rZW46SkpjN2JiTmZkb3V4c3N4R3FMT2M2SnJhbnNlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NmQ1YjcwOTY5YTdjMmFmZWYzYWI4M2MzNTAzZjUzZDhfd0tzTjhKZ1hlY1B5MWF2T1FJTE95V01jdWtRNnhaQ0ZfVG9rZW46SkpjN2JiTmZkb3V4c3N4R3FMT2M2SnJhbnNlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NmQ1YjcwOTY5YTdjMmFmZWYzYWI4M2MzNTAzZjUzZDhfd0tzTjhKZ1hlY1B5MWF2T1FJTE95V01jdWtRNnhaQ0ZfVG9rZW46SkpjN2JiTmZkb3V4c3N4R3FMT2M2SnJhbnNlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NmQ1YjcwOTY5YTdjMmFmZWYzYWI4M2MzNTAzZjUzZDhfd0tzTjhKZ1hlY1B5MWF2T1FJTE95V01jdWtRNnhaQ0ZfVG9rZW46SkpjN2JiTmZkb3V4c3N4R3FMT2M2SnJhbnNlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmY1ZjZjM2U2YTM5YWYyOGMyNDZhNGJiYTE5ZDhkZjlfNUVvZFU1VnNSYktObzdRb0trZVdCSlJ0RVlyNVhqSGNfVG9rZW46RjE3UWI1c1Fqb2tXaUp4WDJDY2NSUTVJbndiXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmY1ZjZjM2U2YTM5YWYyOGMyNDZhNGJiYTE5ZDhkZjlfNUVvZFU1VnNSYktObzdRb0trZVdCSlJ0RVlyNVhqSGNfVG9rZW46RjE3UWI1c1Fqb2tXaUp4WDJDY2NSUTVJbndiXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmY1ZjZjM2U2YTM5YWYyOGMyNDZhNGJiYTE5ZDhkZjlfNUVvZFU1VnNSYktObzdRb0trZVdCSlJ0RVlyNVhqSGNfVG9rZW46RjE3UWI1c1Fqb2tXaUp4WDJDY2NSUTVJbndiXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmY1ZjZjM2U2YTM5YWYyOGMyNDZhNGJiYTE5ZDhkZjlfNUVvZFU1VnNSYktObzdRb0trZVdCSlJ0RVlyNVhqSGNfVG9rZW46RjE3UWI1c1Fqb2tXaUp4WDJDY2NSUTVJbndiXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmY1ZjZjM2U2YTM5YWYyOGMyNDZhNGJiYTE5ZDhkZjlfNUVvZFU1VnNSYktObzdRb0trZVdCSlJ0RVlyNVhqSGNfVG9rZW46RjE3UWI1c1Fqb2tXaUp4WDJDY2NSUTVJbndiXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MmY1ZjZjM2U2YTM5YWYyOGMyNDZhNGJiYTE5ZDhkZjlfNUVvZFU1VnNSYktObzdRb0trZVdCSlJ0RVlyNVhqSGNfVG9rZW46RjE3UWI1c1Fqb2tXaUp4WDJDY2NSUTVJbndiXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>图2：SWE-Dev数据集构建流程概览。步骤1：我们在Docker化环境中收集包含通过测试文件的真实代码仓库；步骤2：追踪测试执行过程以构建函数级调用树，将测试用例与被调用的源代码关联；步骤3：在生成精炼PRD（产品需求文档）时掩码核心功能以创建任务。每个样本包含不完整的代码仓库、自然语言需求说明和可执行测试用例——从而实现可验证的真实功能开发场景。</p>
+<h4 id="skywork-swe">Skywork-SWE</h4>
+<p>250620</p>
+<p><a href="https://mp.weixin.qq.com/s/RTLZAir7R-o5fp0CLL-cJA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/RTLZAir7R-o5fp0CLL-cJA</a></p>
+<p>📖 技术报告：https://huggingface.co/Skywork/Skywork-SWE-32B/resolve/main/assets/Report.pdf</p>
+<p>📰 技术博客：https://quixotic-sting-239.notion.site/eb17f379610040ceb54da5d5d24065bd</p>
+<p>🤗 模型权重：https://huggingface.co/Skywork/Skywork-SWE-32B</p>
+<p>数据构建：</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2I0NDljNzM0YWYwY2FhNTg1OGQ2YjAwMjkzZjVlYjNfdmVhRFpnbE1pOWVCazVwQk13aEk2bWJNOVhOcjhEcGNfVG9rZW46R0Y2cWJ1MjFVbzlkWDV4Zk9rQmNTVGIwblFoXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2I0NDljNzM0YWYwY2FhNTg1OGQ2YjAwMjkzZjVlYjNfdmVhRFpnbE1pOWVCazVwQk13aEk2bWJNOVhOcjhEcGNfVG9rZW46R0Y2cWJ1MjFVbzlkWDV4Zk9rQmNTVGIwblFoXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2I0NDljNzM0YWYwY2FhNTg1OGQ2YjAwMjkzZjVlYjNfdmVhRFpnbE1pOWVCazVwQk13aEk2bWJNOVhOcjhEcGNfVG9rZW46R0Y2cWJ1MjFVbzlkWDV4Zk9rQmNTVGIwblFoXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2I0NDljNzM0YWYwY2FhNTg1OGQ2YjAwMjkzZjVlYjNfdmVhRFpnbE1pOWVCazVwQk13aEk2bWJNOVhOcjhEcGNfVG9rZW46R0Y2cWJ1MjFVbzlkWDV4Zk9rQmNTVGIwblFoXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2I0NDljNzM0YWYwY2FhNTg1OGQ2YjAwMjkzZjVlYjNfdmVhRFpnbE1pOWVCazVwQk13aEk2bWJNOVhOcjhEcGNfVG9rZW46R0Y2cWJ1MjFVbzlkWDV4Zk9rQmNTVGIwblFoXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2I0NDljNzM0YWYwY2FhNTg1OGQ2YjAwMjkzZjVlYjNfdmVhRFpnbE1pOWVCazVwQk13aEk2bWJNOVhOcjhEcGNfVG9rZW46R0Y2cWJ1MjFVbzlkWDV4Zk9rQmNTVGIwblFoXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>具体来说，阶段 A 的工作是数据采集与预筛选，其中又细分为 GitHub 元数据抓取、PR（Pull Request）收集与任务初筛和安装验证 3 个步骤。第一阶段的处理下来，昆仑万维团队从 15 万个开源仓库中得到了 23,389 个有效任务样本。为了防止数据泄漏，排除 SWE-bench Verified（测试数据集）已包含的仓库。</p>
+<p>而阶段 B 则是环境设置和基于执行的验证。同样，这一阶段也分为三个步骤：统一命令生成、Docker 环境构建和单元测试验证。很容易看出来，这一步的目标是确保问题的修复是有效的，进而进一步保证数据的质量。</p>
+<p>最后，还需要针对每个任务生成正确的智能体轨迹。这也正是阶段 C 的任务目标。同样地，三个步骤：首先，昆仑万维团队基于开源的 OpenHands 代码智能体框架，选用代码能力突出的商用大模型（如 Claude，DeepSeek 等）作为智能体基座，对每个任务执行最多 100 轮交互，完整记录智能体在问题求解过程中的交互轨迹。然后，他们进行了  Patch 级的验证，以确保智能体行为严格对齐仓库级代码修复目标。最后，构建训练样本库，得到了 8,209 条高质量、长上下文、多轮交互的经过验证的轨迹。</p>
+<p>走完全流程后，昆仑万维团队得到了一个当前规模最大、质量最高且可验证的软件工程任务数据集：Skywork-SWE。是的，正是基于该数据集，昆仑万维训练出了同名的自主代码智能体模型：Skywork-SWE-32B！（注：32B 是指模型参数量。）</p>
+<h2 id="评估">评估</h2>
+<h4 id="rexbench编码代理可以自主实施-ai-研究扩展吗"><a href="https://papers.cool/arxiv/2506.22598"target="_blank" rel="external nofollow noopener noreferrer">RExBench：编码代理可以自主实施 AI 研究扩展吗？</a></h4>
+<p>2025-07-01 12:31:02 Tuesday</p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Nicholas%20Edwards"target="_blank" rel="external nofollow noopener noreferrer">Nicholas Edwards</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yukyung%20Lee"target="_blank" rel="external nofollow noopener noreferrer">Yukyung Lee</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yujun"target="_blank" rel="external nofollow noopener noreferrer">Yujun</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Mao"target="_blank" rel="external nofollow noopener noreferrer">Mao</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yulu%20Qin"target="_blank" rel="external nofollow noopener noreferrer">Yulu Qin</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Sebastian%20Schuster"target="_blank" rel="external nofollow noopener noreferrer">Sebastian Schuster</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Najoung%20Kim"target="_blank" rel="external nofollow noopener noreferrer">Najoung Kim</a></p>
+<p>基于大型语言模型 （LLM） 的代理已显示出自主执行复杂软件工程任务的前景。此外，在开发可以执行机器学习和自然科学部分研究管道的代理方面也取得了进展。我们认为研究扩展及其实施是此类系统的关键能力，并引入 RExBench 来支持对这种能力的评估。RExBench 是一个基准测试，由 12 个现实的研究实验实施任务组成，旨在 <strong>调查以前未实施的研究假设</strong> 。每个任务都设置为对现有研究论文和代码库的扩展，并附有领域专家编写的说明。RExBench 对数据污染非常可靠，并支持自动评估基础设施，该基础设施执行代理输出以确定是否满足成功标准。我们使用此基准来评估使用三个不同框架实现的九个 LLM 代理：aider、Claude Code 和 OpenHands。我们发现，所有评估的代理都无法自主实施大多数扩展。尽管使用额外的人工编写提示可以提高成功率，但此设置下的最佳性能仍低于 40%。这表明，在没有大量人工指导的情况下，当前的代理仍然无法处理现实的研究推广任务。</p>
+<p><strong>主题</strong> : <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong></p>
+<h4 id="swe-bench-live">SWE-bench-Live</h4>
+<p>20250620</p>
+<p>Agent全自动搭建代码运行环境，实时更新解决评测过拟合/数据污染问题｜微软</p>
+<p><a href="https://mp.weixin.qq.com/s/mWWlI-AEhtbFt-xzOYlyjQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/mWWlI-AEhtbFt-xzOYlyjQ</a></p>
+<p>微软发布全新代码修复评测基准 <strong>SWE-bench-Live</strong> ，不仅引入了来自GitHub最新的Issue，显著提升了对模型评估的实时性与准确性，还实现代码运行环境的全自动化构建与自动更新，打破了传统静态评测基准的局限。</p>
+<p>SWE-bench-Live开创性地采用了基于Agent的智能化框架 <strong>REPOLAUNCH</strong> ，彻底解决了这些问题。</p>
+<p>REPOLAUNCH可以根据Github中真实的Issue，自动搭建其Docker环境并执行测试验证，整个流程完全无人干预，并且每月自动更新，持续提供最新鲜、最具代表性的评测数据。这种自动化的实时更新模式，消除了数据泄露与模型过拟合风险。</p>
+<h2 id="数据合成">数据合成</h2>
+<h4 id="swe-flow以测试驱动方式合成软件工程数据">SWE-Flow：以测试驱动方式合成软件工程数据</h4>
+<p>250609</p>
+<p><strong>标题</strong> ： SWE-Flow: Synthesizing Software Engineering Data in a Test-Driven Manner
+<strong>链接</strong> ：https://arxiv.org/abs/2506.09003</p>
+<p><strong>作者</strong> ： Lei Zhang,  Jiaxi Yang,  Min Yang,  Jian Yang,  Mouxiang Chen,  Jiajun Zhang,  Zeyu Cui,  Binyuan Hui,  Junyang Lin
+<strong>备注</strong> ：Accepted by ICML2025
+<strong>摘要</strong> ：</p>
+<ul>
+<li>我们介绍 <strong>SWE-Flow</strong>，一个基于<strong>测试驱动开发（TDD）的新型数据合成</strong>框架。与现有的软件工程数据依赖于人类提交的问题不同，<strong>SWE-Flow</strong>  <strong>直接从单元测试自动推断增量开发步骤</strong> ，这些单元测试本质上封装了高级需求。</li>
+<li><strong>SWE-Flow</strong> 的核心是构建一个RDG（Dependency Graph），它可以精确地捕获功能交互，从而生成一个结构化的、逐步的 * 开发计划 *。在每一步中，<strong>SWE-Flow</strong> 都会生成部分代码库、相应的单元测试和必要的代码修改，从而产生完全可验证的TDD任务。</li>
+<li>通过这种方法，我们从真实世界的GitHub项目中生成了16，061个训练实例和2，020个测试实例，创建了 SWE-Flow-Eval 基准。我们的实验表明，在这个数据集上微调开放模型可以显著提高基于TDD的编码性能。为了便于进一步研究，我们在[Github]（https：//github.com/Hambaobao/SWE-Flow）上发布了所有代码、数据集、模型和Docker镜像。</li>
+</ul>
+<hr>
+<ol>
+<li>
+<h3 id="核心pipeline-1">核心pipeline</h3>
+</li>
+</ol>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YzAxZmUxNDAxNjViMjBjNDk0YTZlMjM3ZGQ2NmEwZGZfdWs3YnY4dE9oWHp3UlBQMjdrM3p5Q0o2SDdyRUp2WklfVG9rZW46QVhGT2JDT3pkb1k0WGZ4UnpmYWM2VXB3bnRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YzAxZmUxNDAxNjViMjBjNDk0YTZlMjM3ZGQ2NmEwZGZfdWs3YnY4dE9oWHp3UlBQMjdrM3p5Q0o2SDdyRUp2WklfVG9rZW46QVhGT2JDT3pkb1k0WGZ4UnpmYWM2VXB3bnRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YzAxZmUxNDAxNjViMjBjNDk0YTZlMjM3ZGQ2NmEwZGZfdWs3YnY4dE9oWHp3UlBQMjdrM3p5Q0o2SDdyRUp2WklfVG9rZW46QVhGT2JDT3pkb1k0WGZ4UnpmYWM2VXB3bnRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YzAxZmUxNDAxNjViMjBjNDk0YTZlMjM3ZGQ2NmEwZGZfdWs3YnY4dE9oWHp3UlBQMjdrM3p5Q0o2SDdyRUp2WklfVG9rZW46QVhGT2JDT3pkb1k0WGZ4UnpmYWM2VXB3bnRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YzAxZmUxNDAxNjViMjBjNDk0YTZlMjM3ZGQ2NmEwZGZfdWs3YnY4dE9oWHp3UlBQMjdrM3p5Q0o2SDdyRUp2WklfVG9rZW46QVhGT2JDT3pkb1k0WGZ4UnpmYWM2VXB3bnRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YzAxZmUxNDAxNjViMjBjNDk0YTZlMjM3ZGQ2NmEwZGZfdWs3YnY4dE9oWHp3UlBQMjdrM3p5Q0o2SDdyRUp2WklfVG9rZW46QVhGT2JDT3pkb1k0WGZ4UnpmYWM2VXB3bnRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGIwZWU0YzVkOTU3M2E4OTE5NjdhZDQzZDU3Y2ZiOTFfSnJBUWttS2FqZnFkdUJXalBVNGF4WEtWYkxmMURxb1hfVG9rZW46U1ZTNWIwb3FIb1VreWR4UTN0eWN5QU9kblRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGIwZWU0YzVkOTU3M2E4OTE5NjdhZDQzZDU3Y2ZiOTFfSnJBUWttS2FqZnFkdUJXalBVNGF4WEtWYkxmMURxb1hfVG9rZW46U1ZTNWIwb3FIb1VreWR4UTN0eWN5QU9kblRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGIwZWU0YzVkOTU3M2E4OTE5NjdhZDQzZDU3Y2ZiOTFfSnJBUWttS2FqZnFkdUJXalBVNGF4WEtWYkxmMURxb1hfVG9rZW46U1ZTNWIwb3FIb1VreWR4UTN0eWN5QU9kblRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGIwZWU0YzVkOTU3M2E4OTE5NjdhZDQzZDU3Y2ZiOTFfSnJBUWttS2FqZnFkdUJXalBVNGF4WEtWYkxmMURxb1hfVG9rZW46U1ZTNWIwb3FIb1VreWR4UTN0eWN5QU9kblRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGIwZWU0YzVkOTU3M2E4OTE5NjdhZDQzZDU3Y2ZiOTFfSnJBUWttS2FqZnFkdUJXalBVNGF4WEtWYkxmMURxb1hfVG9rZW46U1ZTNWIwb3FIb1VreWR4UTN0eWN5QU9kblRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGIwZWU0YzVkOTU3M2E4OTE5NjdhZDQzZDU3Y2ZiOTFfSnJBUWttS2FqZnFkdUJXalBVNGF4WEtWYkxmMURxb1hfVG9rZW46U1ZTNWIwb3FIb1VreWR4UTN0eWN5QU9kblRjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWFmODZiOTgxMmNlOTY1NGUxODUzNTNkZmI0YzliOGFfSG1GOXB1UjVWMEFIUmQxcVdQNmFCczQ2YktzRzZmeTNfVG9rZW46SXVvbGJ5a3JUbzNsUXp4ZHVoZGM3NnV5bmtjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWFmODZiOTgxMmNlOTY1NGUxODUzNTNkZmI0YzliOGFfSG1GOXB1UjVWMEFIUmQxcVdQNmFCczQ2YktzRzZmeTNfVG9rZW46SXVvbGJ5a3JUbzNsUXp4ZHVoZGM3NnV5bmtjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWFmODZiOTgxMmNlOTY1NGUxODUzNTNkZmI0YzliOGFfSG1GOXB1UjVWMEFIUmQxcVdQNmFCczQ2YktzRzZmeTNfVG9rZW46SXVvbGJ5a3JUbzNsUXp4ZHVoZGM3NnV5bmtjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWFmODZiOTgxMmNlOTY1NGUxODUzNTNkZmI0YzliOGFfSG1GOXB1UjVWMEFIUmQxcVdQNmFCczQ2YktzRzZmeTNfVG9rZW46SXVvbGJ5a3JUbzNsUXp4ZHVoZGM3NnV5bmtjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWFmODZiOTgxMmNlOTY1NGUxODUzNTNkZmI0YzliOGFfSG1GOXB1UjVWMEFIUmQxcVdQNmFCczQ2YktzRzZmeTNfVG9rZW46SXVvbGJ5a3JUbzNsUXp4ZHVoZGM3NnV5bmtjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWFmODZiOTgxMmNlOTY1NGUxODUzNTNkZmI0YzliOGFfSG1GOXB1UjVWMEFIUmQxcVdQNmFCczQ2YktzRzZmeTNfVG9rZW46SXVvbGJ5a3JUbzNsUXp4ZHVoZGM3NnV5bmtjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTI0YTI2NWU4MTg0MThmZGE3NTJjNjc3MTRkNjA2ODRfVWd5ejhXT0RCaTBJYk9mTDZHdTdMRGxmOEZFamcxMmxfVG9rZW46WUY4UmJOUDhOb1Baelh4UjJ3aGMxd3g4bkdmXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTI0YTI2NWU4MTg0MThmZGE3NTJjNjc3MTRkNjA2ODRfVWd5ejhXT0RCaTBJYk9mTDZHdTdMRGxmOEZFamcxMmxfVG9rZW46WUY4UmJOUDhOb1Baelh4UjJ3aGMxd3g4bkdmXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTI0YTI2NWU4MTg0MThmZGE3NTJjNjc3MTRkNjA2ODRfVWd5ejhXT0RCaTBJYk9mTDZHdTdMRGxmOEZFamcxMmxfVG9rZW46WUY4UmJOUDhOb1Baelh4UjJ3aGMxd3g4bkdmXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTI0YTI2NWU4MTg0MThmZGE3NTJjNjc3MTRkNjA2ODRfVWd5ejhXT0RCaTBJYk9mTDZHdTdMRGxmOEZFamcxMmxfVG9rZW46WUY4UmJOUDhOb1Baelh4UjJ3aGMxd3g4bkdmXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTI0YTI2NWU4MTg0MThmZGE3NTJjNjc3MTRkNjA2ODRfVWd5ejhXT0RCaTBJYk9mTDZHdTdMRGxmOEZFamcxMmxfVG9rZW46WUY4UmJOUDhOb1Baelh4UjJ3aGMxd3g4bkdmXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTI0YTI2NWU4MTg0MThmZGE3NTJjNjc3MTRkNjA2ODRfVWd5ejhXT0RCaTBJYk9mTDZHdTdMRGxmOEZFamcxMmxfVG9rZW46WUY4UmJOUDhOb1Baelh4UjJ3aGMxd3g4bkdmXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>UF-Coder-v4.0-iters-32</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTRhNDcwMjdjYWEzMzg5Y2Y5NmY3ZjFjNjFlZTA0OTJfWGdDTUFnRVdsczNOWU0zR2ZRTHZWdGtYYjE4UXo0MXJfVG9rZW46UkVtWmJRRGtmbzZ5WWZ4M0Zzc2NhUmVIbkFjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTRhNDcwMjdjYWEzMzg5Y2Y5NmY3ZjFjNjFlZTA0OTJfWGdDTUFnRVdsczNOWU0zR2ZRTHZWdGtYYjE4UXo0MXJfVG9rZW46UkVtWmJRRGtmbzZ5WWZ4M0Zzc2NhUmVIbkFjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTRhNDcwMjdjYWEzMzg5Y2Y5NmY3ZjFjNjFlZTA0OTJfWGdDTUFnRVdsczNOWU0zR2ZRTHZWdGtYYjE4UXo0MXJfVG9rZW46UkVtWmJRRGtmbzZ5WWZ4M0Zzc2NhUmVIbkFjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTRhNDcwMjdjYWEzMzg5Y2Y5NmY3ZjFjNjFlZTA0OTJfWGdDTUFnRVdsczNOWU0zR2ZRTHZWdGtYYjE4UXo0MXJfVG9rZW46UkVtWmJRRGtmbzZ5WWZ4M0Zzc2NhUmVIbkFjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTRhNDcwMjdjYWEzMzg5Y2Y5NmY3ZjFjNjFlZTA0OTJfWGdDTUFnRVdsczNOWU0zR2ZRTHZWdGtYYjE4UXo0MXJfVG9rZW46UkVtWmJRRGtmbzZ5WWZ4M0Zzc2NhUmVIbkFjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTRhNDcwMjdjYWEzMzg5Y2Y5NmY3ZjFjNjFlZTA0OTJfWGdDTUFnRVdsczNOWU0zR2ZRTHZWdGtYYjE4UXo0MXJfVG9rZW46UkVtWmJRRGtmbzZ5WWZ4M0Zzc2NhUmVIbkFjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=Yjg3MTU1MTg0ZGEzMDNjNjU1NmE4MjY3NDI5YTM4MzhfQ2l0RU1XZEUzZFVqNkxERnk1SW9zTGZRRktKTmlJQUtfVG9rZW46U3dUa2Iyc3B1bzFYTTd4Ym51V2NIbVBhbkJlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=Yjg3MTU1MTg0ZGEzMDNjNjU1NmE4MjY3NDI5YTM4MzhfQ2l0RU1XZEUzZFVqNkxERnk1SW9zTGZRRktKTmlJQUtfVG9rZW46U3dUa2Iyc3B1bzFYTTd4Ym51V2NIbVBhbkJlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=Yjg3MTU1MTg0ZGEzMDNjNjU1NmE4MjY3NDI5YTM4MzhfQ2l0RU1XZEUzZFVqNkxERnk1SW9zTGZRRktKTmlJQUtfVG9rZW46U3dUa2Iyc3B1bzFYTTd4Ym51V2NIbVBhbkJlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=Yjg3MTU1MTg0ZGEzMDNjNjU1NmE4MjY3NDI5YTM4MzhfQ2l0RU1XZEUzZFVqNkxERnk1SW9zTGZRRktKTmlJQUtfVG9rZW46U3dUa2Iyc3B1bzFYTTd4Ym51V2NIbVBhbkJlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=Yjg3MTU1MTg0ZGEzMDNjNjU1NmE4MjY3NDI5YTM4MzhfQ2l0RU1XZEUzZFVqNkxERnk1SW9zTGZRRktKTmlJQUtfVG9rZW46U3dUa2Iyc3B1bzFYTTd4Ym51V2NIbVBhbkJlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=Yjg3MTU1MTg0ZGEzMDNjNjU1NmE4MjY3NDI5YTM4MzhfQ2l0RU1XZEUzZFVqNkxERnk1SW9zTGZRRktKTmlJQUtfVG9rZW46U3dUa2Iyc3B1bzFYTTd4Ym51V2NIbVBhbkJlXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdmZGFmNTEwZTliMDEwY2I4NzY3ZWYyNzM4MTk2OTBfYnprZnlPQXJsQ2tpQ0owN21ZdmV2WUIyVVR1a01pdHJfVG9rZW46UGwxbmJVN3lub3phd3J4Y3premMyUnhIbjJjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdmZGFmNTEwZTliMDEwY2I4NzY3ZWYyNzM4MTk2OTBfYnprZnlPQXJsQ2tpQ0owN21ZdmV2WUIyVVR1a01pdHJfVG9rZW46UGwxbmJVN3lub3phd3J4Y3premMyUnhIbjJjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdmZGFmNTEwZTliMDEwY2I4NzY3ZWYyNzM4MTk2OTBfYnprZnlPQXJsQ2tpQ0owN21ZdmV2WUIyVVR1a01pdHJfVG9rZW46UGwxbmJVN3lub3phd3J4Y3premMyUnhIbjJjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdmZGFmNTEwZTliMDEwY2I4NzY3ZWYyNzM4MTk2OTBfYnprZnlPQXJsQ2tpQ0owN21ZdmV2WUIyVVR1a01pdHJfVG9rZW46UGwxbmJVN3lub3phd3J4Y3premMyUnhIbjJjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdmZGFmNTEwZTliMDEwY2I4NzY3ZWYyNzM4MTk2OTBfYnprZnlPQXJsQ2tpQ0owN21ZdmV2WUIyVVR1a01pdHJfVG9rZW46UGwxbmJVN3lub3phd3J4Y3premMyUnhIbjJjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OTdmZGFmNTEwZTliMDEwY2I4NzY3ZWYyNzM4MTk2OTBfYnprZnlPQXJsQ2tpQ0owN21ZdmV2WUIyVVR1a01pdHJfVG9rZW46UGwxbmJVN3lub3phd3J4Y3premMyUnhIbjJjXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="智能体">智能体</h2>
+<h4 id="swe-dev构建具备训练与推理扩展能力的软件工程智能体">SWE-Dev：构建具备训练与推理扩展能力的软件工程智能体</h4>
+<p>250607</p>
+<p><strong>标题</strong> ：SWE-Dev: Building Software Engineering Agents with Training and Inference Scaling</p>
+<p><strong>链接</strong> ：https://arxiv.org/abs/2506.07636</p>
+<p><strong>作者</strong> ：<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wang,&#43;H"target="_blank" rel="external nofollow noopener noreferrer">Haoran Wang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Hou,&#43;Z"target="_blank" rel="external nofollow noopener noreferrer">Zhenyu Hou</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wei,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer">Yao Wei</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Tang,&#43;J"target="_blank" rel="external nofollow noopener noreferrer">Jie Tang</a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Dong,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer">Yuxiao Dong</a></p>
+<p><strong>摘要</strong> ：</p>
+<ul>
+<li>大型语言模型（LLMs）已从对话式问题解决快速发展到处理涉及工具使用的现实世界任务，如软件工程（SWE）。近期基于 LLM 的工具包（如 OpenAI Codex 和 Cursor）已实现软件开发流程的端到端自动化。</li>
+<li>然而，由于缺乏高质量训练数据和有效测试用例，构建高效的 SWE 智能体仍具挑战性。为此，我们提出基于开源 LLMs 构建的 SWE 智能体 SWE-Dev。首先，我们开发了稳健的测试用例合成流程用于补丁评估；其次，通过扩展智能体轨迹构建训练数据集。</li>
+<li>在 SWE-bench-Verified 基准测试中，SWE-Dev 模型在所有开源 SWE 智能体中表现最优，其中 7B 和 32B 参数模型的成功率分别达到 23.4%和 36.6%，超越当前最先进的开源模型。所有代码、模型及数据集已在<a href="https://github.com/THUDM/SWE-Dev"target="_blank" rel="external nofollow noopener noreferrer">此 https 链接</a>公开。</li>
+</ul>
+<ol>
+<li>
+<h3 id="关键图">关键图</h3>
+</li>
+</ol>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NDQzYzdlMDFlMmM4OWUxNTg5M2EzMmFjZmU1NTEwNGJfY1NwTENiVzBWUnpOUTZOWEtvamNLaExvUUV3ZDlQM0dfVG9rZW46RFdTQWJhOUM0bzVMeGh4TGNvYWNiUmFLbjlkXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NDQzYzdlMDFlMmM4OWUxNTg5M2EzMmFjZmU1NTEwNGJfY1NwTENiVzBWUnpOUTZOWEtvamNLaExvUUV3ZDlQM0dfVG9rZW46RFdTQWJhOUM0bzVMeGh4TGNvYWNiUmFLbjlkXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NDQzYzdlMDFlMmM4OWUxNTg5M2EzMmFjZmU1NTEwNGJfY1NwTENiVzBWUnpOUTZOWEtvamNLaExvUUV3ZDlQM0dfVG9rZW46RFdTQWJhOUM0bzVMeGh4TGNvYWNiUmFLbjlkXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NDQzYzdlMDFlMmM4OWUxNTg5M2EzMmFjZmU1NTEwNGJfY1NwTENiVzBWUnpOUTZOWEtvamNLaExvUUV3ZDlQM0dfVG9rZW46RFdTQWJhOUM0bzVMeGh4TGNvYWNiUmFLbjlkXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NDQzYzdlMDFlMmM4OWUxNTg5M2EzMmFjZmU1NTEwNGJfY1NwTENiVzBWUnpOUTZOWEtvamNLaExvUUV3ZDlQM0dfVG9rZW46RFdTQWJhOUM0bzVMeGh4TGNvYWNiUmFLbjlkXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NDQzYzdlMDFlMmM4OWUxNTg5M2EzMmFjZmU1NTEwNGJfY1NwTENiVzBWUnpOUTZOWEtvamNLaExvUUV3ZDlQM0dfVG9rZW46RFdTQWJhOUM0bzVMeGh4TGNvYWNiUmFLbjlkXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2JhODZjMGMwZmQyOWE0ODMwOWUwZmU2NDA1NTE0MzBfdEdnMnR3dnV0ejJWYUhxMnRIb0c5a1lQSDZnQWtjaDZfVG9rZW46UWhEZmJtTmlqb3lRMEJ4UDc3RmNrSzBobnJEXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2JhODZjMGMwZmQyOWE0ODMwOWUwZmU2NDA1NTE0MzBfdEdnMnR3dnV0ejJWYUhxMnRIb0c5a1lQSDZnQWtjaDZfVG9rZW46UWhEZmJtTmlqb3lRMEJ4UDc3RmNrSzBobnJEXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2JhODZjMGMwZmQyOWE0ODMwOWUwZmU2NDA1NTE0MzBfdEdnMnR3dnV0ejJWYUhxMnRIb0c5a1lQSDZnQWtjaDZfVG9rZW46UWhEZmJtTmlqb3lRMEJ4UDc3RmNrSzBobnJEXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2JhODZjMGMwZmQyOWE0ODMwOWUwZmU2NDA1NTE0MzBfdEdnMnR3dnV0ejJWYUhxMnRIb0c5a1lQSDZnQWtjaDZfVG9rZW46UWhEZmJtTmlqb3lRMEJ4UDc3RmNrSzBobnJEXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2JhODZjMGMwZmQyOWE0ODMwOWUwZmU2NDA1NTE0MzBfdEdnMnR3dnV0ejJWYUhxMnRIb0c5a1lQSDZnQWtjaDZfVG9rZW46UWhEZmJtTmlqb3lRMEJ4UDc3RmNrSzBobnJEXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=N2JhODZjMGMwZmQyOWE0ODMwOWUwZmU2NDA1NTE0MzBfdEdnMnR3dnV0ejJWYUhxMnRIb0c5a1lQSDZnQWtjaDZfVG9rZW46UWhEZmJtTmlqb3lRMEJ4UDc3RmNrSzBobnJEXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>Gherkin 场景（Gherkin Scenario） 是行为驱动开发（BDD，Behavior-Driven Development）中用于描述软件功能行为的一种结构化文本格式，通常基于 Cucumber 等测试框架实现。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MWIwNjgwMGY3YmU3YWI0Yjk2N2NkYjc5MzRkNTdiNGJfQXg1bElVb2h4aVl3RFN1YThWVThNbnBXbFRCcEVpVUNfVG9rZW46RWJ0YWJIQzJSb21FQmZ4UFRwamN5QjdMbk5mXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MWIwNjgwMGY3YmU3YWI0Yjk2N2NkYjc5MzRkNTdiNGJfQXg1bElVb2h4aVl3RFN1YThWVThNbnBXbFRCcEVpVUNfVG9rZW46RWJ0YWJIQzJSb21FQmZ4UFRwamN5QjdMbk5mXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MWIwNjgwMGY3YmU3YWI0Yjk2N2NkYjc5MzRkNTdiNGJfQXg1bElVb2h4aVl3RFN1YThWVThNbnBXbFRCcEVpVUNfVG9rZW46RWJ0YWJIQzJSb21FQmZ4UFRwamN5QjdMbk5mXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MWIwNjgwMGY3YmU3YWI0Yjk2N2NkYjc5MzRkNTdiNGJfQXg1bElVb2h4aVl3RFN1YThWVThNbnBXbFRCcEVpVUNfVG9rZW46RWJ0YWJIQzJSb21FQmZ4UFRwamN5QjdMbk5mXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MWIwNjgwMGY3YmU3YWI0Yjk2N2NkYjc5MzRkNTdiNGJfQXg1bElVb2h4aVl3RFN1YThWVThNbnBXbFRCcEVpVUNfVG9rZW46RWJ0YWJIQzJSb21FQmZ4UFRwamN5QjdMbk5mXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MWIwNjgwMGY3YmU3YWI0Yjk2N2NkYjc5MzRkNTdiNGJfQXg1bElVb2h4aVl3RFN1YThWVThNbnBXbFRCcEVpVUNfVG9rZW46RWJ0YWJIQzJSb21FQmZ4UFRwamN5QjdMbk5mXzE3NTQ0NjI4MzQ6MTc1NDQ2NjQzNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

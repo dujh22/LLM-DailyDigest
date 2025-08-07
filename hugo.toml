@@ -1,0 +1,9 @@
+baseURL = 'https://example.org/'
+languageCode = 'zh-CN'
+title = 'LLM-DailyDigest'
+theme = 'FixIt'
+
+# Table Of Contents settings
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 10

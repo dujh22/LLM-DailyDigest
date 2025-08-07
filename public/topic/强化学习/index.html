@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>强化学习 - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="强化学习
+
+2025-07-18 20:24:54 Friday ｜ 真相大白！RL不是魔法，随机奖励有效只是由于数据泄露！ https://mp.weixin.qq.com/s/J7dzjfHMHyvQNpKQFpoq7w
+🌈 2025-07-18 14:07:23 Friday｜强化学习的两个「大坑」，终于被两篇ICLR论文给解决了 https://mp.weixin.qq.com/s/myqak4eAAQ7ONKJKOFxk8g
+2025-07-17 10:59:26 Thursday ｜ 字节跳动Seed最新强化学习配方POLARIS开源 4B 模型数学推理接近 235B 表现
+2025-06-30 19:00:34 Monday ｜ 强化学习也能预训练？效果可提升20倍，华人新作引爆RL新范式! https://mp.weixin.qq.com/s/WyJuhjkmreZ2clSw1XvHiw
+
+研究人员构建的模型将「意图」编码为潜在变量，并通过「流匹配」（flow matching）来预测未来状态的访问概率。
+论文地址：https://arxiv.org/abs/2506.08902
+博客地址：https://chongyi-zheng.github.io/infom/
+由于普通流匹配方法无法拼接多个状态转换，研究者引入基于SARSA的时序差分流匹配损失进行改进。
+
+2025-06-24 11:28:01 Tuesday ｜ CPGD：只训练数学，却在物理化学生物战胜o1！新强化学习算法带来显著性能提升，还缓解训练崩溃问题 https://mp.weixin.qq.com/s/RDUPagBn8l00P7dNPHjBcA
+
+相比于传统GRPO、RLOO等算法显著缓解了训练不稳定（甚至崩溃）的问题，并带来显著性能提升。
+基于OpenRLHF，团队构建了一个高效、可扩展的多模态强化学习框架，支持Qwen-VL、InternVL等多种模型与RL算法，包括GRPO、REINFORCE&#43;&#43;、RLOO，以及提出的新型RL算法CPGD，并已成功训练出Qwen2.5VL-32B、InternVL2.5-38B等大型模型。
+该框架相较于已有方案（如R1-V），具备更强的可扩展性与稳定性，为大规模多模态强化学习提供了基础设施支撑。
+开源代码：
+https://github.com/ModalMinds/MM-EUREKA
+https://github.com/ModalMinds/MM-EUREKA/tree/mm-prm
+技术报告：
+https://arxiv.org/abs/2503.07365
+https://arxiv.org/abs/2505.12504
+https://arxiv.org/abs/2505.13427" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="强化学习">
+  <meta itemprop="description" content="强化学习 2025-07-18 20:24:54 Friday ｜ 真相大白！RL不是魔法，随机奖励有效只是由于数据泄露！ https://mp.weixin.qq.com/s/J7dzjfHMHyvQNpKQFpoq7w 🌈 2025-07-18 14:07:23 Friday｜强化学习的两个「大坑」，终于被两篇ICLR论文给解决了 https://mp.weixin.qq.com/s/myqak4eAAQ7ONKJKOFxk8g 2025-07-17 10:59:26 Thursday ｜ 字节跳动Seed最新强化学习配方POLARIS开源 4B 模型数学推理接近 235B 表现 2025-06-30 19:00:34 Monday ｜ 强化学习也能预训练？效果可提升20倍，华人新作引爆RL新范式! https://mp.weixin.qq.com/s/WyJuhjkmreZ2clSw1XvHiw 研究人员构建的模型将「意图」编码为潜在变量，并通过「流匹配」（flow matching）来预测未来状态的访问概率。
+论文地址：https://arxiv.org/abs/2506.08902
+博客地址：https://chongyi-zheng.github.io/infom/
+由于普通流匹配方法无法拼接多个状态转换，研究者引入基于SARSA的时序差分流匹配损失进行改进。
+2025-06-24 11:28:01 Tuesday ｜ CPGD：只训练数学，却在物理化学生物战胜o1！新强化学习算法带来显著性能提升，还缓解训练崩溃问题 https://mp.weixin.qq.com/s/RDUPagBn8l00P7dNPHjBcA 相比于传统GRPO、RLOO等算法显著缓解了训练不稳定（甚至崩溃）的问题，并带来显著性能提升。
+基于OpenRLHF，团队构建了一个高效、可扩展的多模态强化学习框架，支持Qwen-VL、InternVL等多种模型与RL算法，包括GRPO、REINFORCE&#43;&#43;、RLOO，以及提出的新型RL算法CPGD，并已成功训练出Qwen2.5VL-32B、InternVL2.5-38B等大型模型。
+该框架相较于已有方案（如R1-V），具备更强的可扩展性与稳定性，为大规模多模态强化学习提供了基础设施支撑。
+开源代码：
+https://github.com/ModalMinds/MM-EUREKA
+https://github.com/ModalMinds/MM-EUREKA/tree/mm-prm
+技术报告：
+https://arxiv.org/abs/2503.07365
+https://arxiv.org/abs/2505.12504
+https://arxiv.org/abs/2505.13427">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="1703"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="强化学习">
+  <meta property="og:description" content="强化学习 2025-07-18 20:24:54 Friday ｜ 真相大白！RL不是魔法，随机奖励有效只是由于数据泄露！ https://mp.weixin.qq.com/s/J7dzjfHMHyvQNpKQFpoq7w 🌈 2025-07-18 14:07:23 Friday｜强化学习的两个「大坑」，终于被两篇ICLR论文给解决了 https://mp.weixin.qq.com/s/myqak4eAAQ7ONKJKOFxk8g 2025-07-17 10:59:26 Thursday ｜ 字节跳动Seed最新强化学习配方POLARIS开源 4B 模型数学推理接近 235B 表现 2025-06-30 19:00:34 Monday ｜ 强化学习也能预训练？效果可提升20倍，华人新作引爆RL新范式! https://mp.weixin.qq.com/s/WyJuhjkmreZ2clSw1XvHiw 研究人员构建的模型将「意图」编码为潜在变量，并通过「流匹配」（flow matching）来预测未来状态的访问概率。
+论文地址：https://arxiv.org/abs/2506.08902
+博客地址：https://chongyi-zheng.github.io/infom/
+由于普通流匹配方法无法拼接多个状态转换，研究者引入基于SARSA的时序差分流匹配损失进行改进。
+2025-06-24 11:28:01 Tuesday ｜ CPGD：只训练数学，却在物理化学生物战胜o1！新强化学习算法带来显著性能提升，还缓解训练崩溃问题 https://mp.weixin.qq.com/s/RDUPagBn8l00P7dNPHjBcA 相比于传统GRPO、RLOO等算法显著缓解了训练不稳定（甚至崩溃）的问题，并带来显著性能提升。
+基于OpenRLHF，团队构建了一个高效、可扩展的多模态强化学习框架，支持Qwen-VL、InternVL等多种模型与RL算法，包括GRPO、REINFORCE&#43;&#43;、RLOO，以及提出的新型RL算法CPGD，并已成功训练出Qwen2.5VL-32B、InternVL2.5-38B等大型模型。
+该框架相较于已有方案（如R1-V），具备更强的可扩展性与稳定性，为大规模多模态强化学习提供了基础设施支撑。
+开源代码：
+https://github.com/ModalMinds/MM-EUREKA
+https://github.com/ModalMinds/MM-EUREKA/tree/mm-prm
+技术报告：
+https://arxiv.org/abs/2503.07365
+https://arxiv.org/abs/2505.12504
+https://arxiv.org/abs/2505.13427">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="topic">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="强化学习">
+  <meta name="twitter:description" content="强化学习 2025-07-18 20:24:54 Friday ｜ 真相大白！RL不是魔法，随机奖励有效只是由于数据泄露！ https://mp.weixin.qq.com/s/J7dzjfHMHyvQNpKQFpoq7w 🌈 2025-07-18 14:07:23 Friday｜强化学习的两个「大坑」，终于被两篇ICLR论文给解决了 https://mp.weixin.qq.com/s/myqak4eAAQ7ONKJKOFxk8g 2025-07-17 10:59:26 Thursday ｜ 字节跳动Seed最新强化学习配方POLARIS开源 4B 模型数学推理接近 235B 表现 2025-06-30 19:00:34 Monday ｜ 强化学习也能预训练？效果可提升20倍，华人新作引爆RL新范式! https://mp.weixin.qq.com/s/WyJuhjkmreZ2clSw1XvHiw 研究人员构建的模型将「意图」编码为潜在变量，并通过「流匹配」（flow matching）来预测未来状态的访问概率。
+论文地址：https://arxiv.org/abs/2506.08902
+博客地址：https://chongyi-zheng.github.io/infom/
+由于普通流匹配方法无法拼接多个状态转换，研究者引入基于SARSA的时序差分流匹配损失进行改进。
+2025-06-24 11:28:01 Tuesday ｜ CPGD：只训练数学，却在物理化学生物战胜o1！新强化学习算法带来显著性能提升，还缓解训练崩溃问题 https://mp.weixin.qq.com/s/RDUPagBn8l00P7dNPHjBcA 相比于传统GRPO、RLOO等算法显著缓解了训练不稳定（甚至崩溃）的问题，并带来显著性能提升。
+基于OpenRLHF，团队构建了一个高效、可扩展的多模态强化学习框架，支持Qwen-VL、InternVL等多种模型与RL算法，包括GRPO、REINFORCE&#43;&#43;、RLOO，以及提出的新型RL算法CPGD，并已成功训练出Qwen2.5VL-32B、InternVL2.5-38B等大型模型。
+该框架相较于已有方案（如R1-V），具备更强的可扩展性与稳定性，为大规模多模态强化学习提供了基础设施支撑。
+开源代码：
+https://github.com/ModalMinds/MM-EUREKA
+https://github.com/ModalMinds/MM-EUREKA/tree/mm-prm
+技术报告：
+https://arxiv.org/abs/2503.07365
+https://arxiv.org/abs/2505.12504
+https://arxiv.org/abs/2505.13427">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%8E%A8%E7%90%86/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E5%B7%A5%E5%85%B7/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "强化学习",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0\/"
+    },"genre": "topic","wordcount":  1703 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>强化学习</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="1703 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 1800 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>8 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#大模型训练">大模型训练</a>
+      <ul>
+        <li><a href="#长序列训练">长序列训练</a></li>
+      </ul>
+    </li>
+    <li><a href="#奖励模型">奖励模型</a>
+      <ul>
+        <li><a href="#理论研究">理论研究</a></li>
+        <li><a href="#过程奖励模型prm">过程奖励模型PRM</a>
+          <ul>
+            <li><a href="#一验证器类型">一、验证器类型</a></li>
+            <li><a href="#二过程验证器的训练挑战">二、过程验证器的训练挑战</a></li>
+            <li><a href="#三步骤标签获取方案">三、步骤标签获取方案</a></li>
+            <li><a href="#四生成式验证器genrm的进展与局限">四、生成式验证器（GenRM）的进展与局限</a></li>
+            <li><a href="#五think-prm生成式过程验证器的改进">五、Think PRM：生成式过程验证器的改进</a></li>
+            <li><a href="#六未来方向">六、未来方向</a></li>
+            <li><a href="#七问答环节">七、问答环节</a></li>
+            <li><a href="#八结语">八、结语</a></li>
+          </ul>
+        </li>
+        <li><a href="#生成奖励模型">生成奖励模型</a></li>
+        <li><a href="#奖励模型评估">奖励模型评估</a></li>
+      </ul>
+    </li>
+    <li><a href="#rlvr-可验证奖励的强化学习">RLVR 可验证奖励的强化学习</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#ifdecorator用可验证奖励包装指令跟随强化学习"><a href="https://papers.cool/arxiv/2508.04632">IFDECORATOR：用可验证奖励包装指令跟随强化学习</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#数学">数学</a>
+      <ul>
+        <li><a href="#多模态数学">多模态数学</a></li>
+      </ul>
+    </li>
+    <li><a href="#grpo">GRPO</a></li>
+    <li><a href="#垂直领域">垂直领域</a>
+      <ul>
+        <li><a href="#具身">具身</a></li>
+        <li><a href="#攻击">攻击</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="强化学习">强化学习</h1>
+<ol>
+<li>2025-07-18 20:24:54 Friday ｜ 真相大白！RL不是魔法，随机奖励有效只是由于数据泄露！ <a href="https://mp.weixin.qq.com/s/J7dzjfHMHyvQNpKQFpoq7w"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/J7dzjfHMHyvQNpKQFpoq7w</a></li>
+<li>🌈 2025-07-18 14:07:23 Friday｜强化学习的两个「大坑」，终于被两篇ICLR论文给解决了 <a href="https://mp.weixin.qq.com/s/myqak4eAAQ7ONKJKOFxk8g"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/myqak4eAAQ7ONKJKOFxk8g</a></li>
+<li>2025-07-17 10:59:26 Thursday ｜ 字节跳动Seed最新强化学习配方POLARIS开源 4B 模型数学推理接近 235B 表现</li>
+<li>2025-06-30 19:00:34 Monday ｜ 强化学习也能预训练？效果可提升20倍，华人新作引爆RL新范式! <a href="https://mp.weixin.qq.com/s/WyJuhjkmreZ2clSw1XvHiw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/WyJuhjkmreZ2clSw1XvHiw</a></li>
+</ol>
+<p>研究人员构建的模型将「意图」编码为潜在变量，并通过「流匹配」（flow matching）来预测未来状态的访问概率。</p>
+<p>论文地址：https://arxiv.org/abs/2506.08902</p>
+<p>博客地址：https://chongyi-zheng.github.io/infom/</p>
+<p>由于普通流匹配方法无法拼接多个状态转换，研究者引入基于SARSA的时序差分流匹配损失进行改进。</p>
+<ol start="5">
+<li>2025-06-24 11:28:01 Tuesday ｜ CPGD：只训练数学，却在物理化学生物战胜o1！新强化学习算法带来显著性能提升，还缓解训练崩溃问题 <a href="https://mp.weixin.qq.com/s/RDUPagBn8l00P7dNPHjBcA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/RDUPagBn8l00P7dNPHjBcA</a></li>
+</ol>
+<p>相比于传统GRPO、RLOO等算法显著缓解了训练不稳定（甚至崩溃）的问题，并带来显著性能提升。</p>
+<p>基于OpenRLHF，团队构建了一个高效、可扩展的多模态强化学习框架，支持Qwen-VL、InternVL等多种模型与RL算法，包括GRPO、REINFORCE++、RLOO，以及提出的新型RL算法CPGD，并已成功训练出Qwen2.5VL-32B、InternVL2.5-38B等大型模型。</p>
+<p>该框架相较于已有方案（如R1-V），具备更强的可扩展性与稳定性，为大规模多模态强化学习提供了基础设施支撑。</p>
+<p><em>开源代码：</em></p>
+<p><em><a href="https://github.com/ModalMinds/MM-EUREKA"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/ModalMinds/MM-EUREKA</a></em></p>
+<p><em><a href="https://github.com/ModalMinds/MM-EUREKA/tree/mm-prm"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/ModalMinds/MM-EUREKA/tree/mm-prm</a></em></p>
+<p><em>技术报告：</em></p>
+<p><em><a href="https://arxiv.org/abs/2503.07365"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2503.07365</a></em></p>
+<p><em><a href="https://arxiv.org/abs/2505.12504"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2505.12504</a></em></p>
+<p><em><a href="https://arxiv.org/abs/2505.13427"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2505.13427</a></em></p>
+<p><em>MMK12数据集：</em></p>
+<p><em><a href="https://huggingface.co/datasets/FanqingM/MMK12"target="_blank" rel="external nofollow noopener noreferrer">https://huggingface.co/datasets/FanqingM/MMK12</a></em></p>
+<p><em>模型权重：</em></p>
+<p><em><a href="https://huggingface.co/FanqingM/MM-Eureka-Qwen-7B"target="_blank" rel="external nofollow noopener noreferrer">https://huggingface.co/FanqingM/MM-Eureka-Qwen-7B</a></em></p>
+<p><em><a href="https://huggingface.co/FanqingM/MM-Eureka-Qwen-32B"target="_blank" rel="external nofollow noopener noreferrer">https://huggingface.co/FanqingM/MM-Eureka-Qwen-32B</a></em></p>
+<p><em><a href="https://huggingface.co/Zkkkai/CPGD-7B"target="_blank" rel="external nofollow noopener noreferrer">https://huggingface.co/Zkkkai/CPGD-7B</a></em></p>
+<ol start="6">
+<li>Using Reinforcement Learning to Train Large Language Models to Explain Human Decisions</li>
+</ol>
+<p>标题： 使用强化学习训练大型语言模型以解释人类决策</p>
+<p>链接：https://arxiv.org/abs/2505.11614</p>
+<ol start="7">
+<li>2025-06-12 10:54:10 Thursday | 「Next-Token」范式改变！刚刚，强化学习预训练来了https://mp.weixin.qq.com/s/UABVUoHYTDlFWWNvD5R9Og</li>
+<li>2025-06-12 12:01:12 Thursday ｜</li>
+</ol>
+<p>Consistent Paths Lead to Truth: Self-Rewarding Reinforcement Learning  for LLM Reasoning
+<strong>标题</strong> ： 一致的路径通向真理：LLM推理的自我奖励强化学习
+<strong>链接</strong> ：https://arxiv.org/abs/2506.08745</p>
+<p><strong>作者</strong> ： Kongcheng Zhang,  Qi Yao,  Shunyu Liu,  Yingjie Wang,  Baisheng Lai,  Jieping Ye,  Mingli Song,  Dacheng Tao
+<strong>摘要</strong> ：强化学习（RL）的最新进展突出了其在复杂推理任务中的潜力，但有效的训练往往依赖于外部监督，这限制了其更广泛的适用性。在这项工作中，我们提出了一种新的自我奖励强化学习框架，通过利用不同推理轨迹之间的中间推理状态的一致性来增强大型语言模型（LLM）推理。我们的关键见解是， <strong>正确的反应往往表现出一致的轨迹模式，在模型的可能性：他们的中间推理状态往往会收敛到自己的最终答案（高一致性）</strong> ，与其他候选人的偏差最小（低波动性）。受这一观察的启发，我们引入了CoVo，这是一种内在的奖励机制，它通过强大的向量空间聚合策略整合了一致性和波动性，并辅以好奇心奖金来促进多样化的探索。CoVo使LLM能够以自我奖励的方式执行RL，为在没有外部监督的情况下学习推理提供了一条可扩展的途径。在不同的推理基准上进行的大量实验表明，CoVo实现了与监督RL相当甚至超过监督RL的性能。我们的代码可在https://github.com/sastpg/CoVo上获得。</p>
+<ol start="9">
+<li>2025-06-12 12:10:11 Thursday |</li>
+</ol>
+<p>Bingo: Boosting Efficient Reasoning of LLMs via Dynamic and  Significance-based Reinforcement Learning
+<strong>标题</strong> ： 宾果：通过动态和基于重要性的强化学习提高LLM的高效推理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.08125</p>
+<p><strong>作者</strong> ： Hanbing Liu,  Lang Cao,  Yuanyi Ren,  Mengyu Zhou,  Haoyu Dong,  Xiaojun Ma,  Shi Han,  Dongmei Zhang
+<strong>摘要</strong> ：大型语言模型已经展示了令人印象深刻的推理能力，但由于不必要的冗长或冗余输出，它们通常效率低下。虽然许多研究已经探索了强化学习（RL）来增强推理能力，但大多数主要集中在提高准确性上，对<strong>推理效率</strong>的关注有限。一些现有的方法引入了直接基于长度的奖励来鼓励简洁，但这通常会导致准确性的明显下降。在本文中，我们提出了Bingo，这是一个RL框架，它推进了基于长度的奖励设计，以提高推理效率。Bingo包含两个关键机制：一个是显著性长度奖励，它逐渐引导模型只减少不显著的标记;另一个是动态长度奖励，它最初鼓励对困难问题进行详细推理，但随着时间的推移而衰减，以提高整体效率。在多个推理基准上的实验表明，Bingo提高了准确性和效率。它在RL中优于vanilla reward和其他几个基于长度的奖励基线，在准确性和效率之间实现了有利的权衡。这些结果强调了明确训练LLM进行有效推理的潜力。</p>
+<ol start="10">
+<li>2025-06-13 18:30:02 Friday ｜</li>
+</ol>
+<p>PAG: Multi-Turn Reinforced LLM Self-Correction with Policy as Generative  Verifier
+<strong>标题</strong> ： PAC：以政策作为生成验证者的多轮强化LLM自我纠正
+<strong>链接</strong> ：https://arxiv.org/abs/2506.10406</p>
+<p><strong>作者</strong> ： Yuhua Jiang,  Yuwen Xiong,  Yufeng Yuan,  Chao Xin,  Wenyuan Xu,  Yu Yue,  Qianchuan Zhao,  Lin Yan
+<strong>摘要</strong> ：大型语言模型（LLM）在复杂的推理任务中表现出了令人印象深刻的能力，但它们仍然难以可靠地验证自己输出的正确性。针对这一验证挑战的现有解决方案通常依赖于单独的验证器模型或需要多级自校正训练管道，这限制了可扩展性。在本文中，我们提出了作为生成验证器（PAG）的策略，这是一个简单而有效的框架，可以通过在统一的多轮强化学习（RL）范式中交替策略和验证器角色，使LLM能够自我纠正。不同于以往的方法，总是产生第二次尝试，无论模型的信心，PAG引入了一个选择性的修订机制：模型修改其答案，只有当自己的生成验证步骤检测到错误。这种先验证再修改的工作流程不仅可以缓解模型崩溃，还可以共同增强推理和验证能力。在不同的推理基准上进行的大量实验突出了PAG的双重进步：作为一种策略，它提高了直接生成和自校正的准确性;作为一种验证器，它的自验证优于自一致性。
+6. 2025-06-18 10:43:39 Wednesday ｜</p>
+<p>Direct Reasoning Optimization: LLMs Can Reward And Refine Their Own  Reasoning for Open-Ended Tasks
+<strong>标题</strong> ： 直接推理优化：LLM可以奖励和完善他们自己的推理，用于开放式任务
+<strong>链接</strong> ：https://arxiv.org/abs/2506.13351</p>
+<p><strong>作者</strong> ： Yifei Xu,  Tusher Chakraborty,  Srinagesh Sharma,  Leonardo Nunes,  Emre Kıcıman,  Songwu Lu,  Ranveer Chandra
+<strong>摘要</strong> ：大型语言模型（LLM）的最新进展在数学和编程等结构化任务中展示了令人印象深刻的推理能力，这主要是由具有可验证奖励的强化学习（RLVR）驱动的，它使用基于结果的信号，这些信号是可扩展的，有效的，并且对奖励黑客具有鲁棒性。然而，由于缺乏通用的、可验证的奖励信号，将类似的技术应用于开放式长形式推理任务仍然具有挑战性。为了解决这个问题，我们提出了 <strong>直接推理优化（DRO），这是一种强化学习框架，用于在开放式，特别是长形式的推理任务上微调LLM，由一个新的奖励信号指导：推理反射奖励（R3）</strong> 。在其核心，R3选择性地识别和强调参考结果中的关键标记，这些标记反映了模型先前的思想链推理的影响，从而在细粒度级别上捕获推理和参考结果之间的一致性。至关重要的是，R3是使用正在优化的相同模型在内部计算的，从而实现完全独立的训练设置。此外，我们引入了一个动态的数据过滤策略，基于R3的开放式推理任务，降低成本，同时提高下游性能。我们在两个不同的数据集上评估了DRO- ParaRev，一个长形式的段落修订任务，和FinQA，一个面向数学的QA基准-并表明它始终优于强大的基线，同时在开放式和结构化领域中保持广泛适用。</p>
+<ol start="7">
+<li>2025-06-19 20:43:53 Thursday ｜</li>
+</ol>
+<p>Adaptive Guidance Accelerates Reinforcement Learning of Reasoning Models
+<strong>标题</strong> ： 自适应引导加速推理模型的强化学习
+<strong>链接</strong> ：https://arxiv.org/abs/2506.13923</p>
+<p><strong>作者</strong> ： Vaskar Nath,  Elaine Lau,  Anisha Gunjal,  Manasi Sharma,  Nikhil Baharte,  Sean Hendryx
+<strong>摘要</strong> ：我们研究了通过可验证奖励强化学习（RLVR）训练的推理模型可以学习解决新问题的过程。我们发现RLVR通过两种主要方式驱动性能：（1）通过将pass@$k$压缩为pass@1;（2）通过“能力增益”，模型学习解决以前即使在高k$下也无法解决的新问题。我们发现，虽然能力增益存在于不同的模型规模，学习解决新问题主要是通过自我升华。我们在0.5B到72 B的模型规模上展示了这些发现，涉及超过500，000个推理问题，其中包括数学，科学和代码领域的提示和可验证的最终答案。我们进一步表明，我们可以通过利用自然语言指导模型在上下文中考虑，同时仍然需要模型从头开始推导解决方案链，来显着提高通过@$k$率。基于这些见解，我们得出$\text{Guide}$ -一类新的在线训练算法。$\text{Guide}$自适应地将提示合并到模型的上下文中，以解决所有展开最初都不正确的问题，并调整“偏离策略”轨迹的重要性采样率，以便优化提示不再存在的上下文中的策略。我们描述了GRPO和PPO的$\text{Guide}$的变体，并根据经验表明，7 B和32 B参数模型上的Guide-GRPO比普通模型提高了泛化能力，在数学基准测试中的宏观平均改善高达4$%$。我们包括仔细的消融分析$\text{Guide}$的组件和理论分析指南的学习效率。
+8. 2025-06-26 14:35:16 Thursday ｜</p>
+<p><strong>#6 OctoThinker：训练中期激励强化学习规模化 [PDF</strong> <strong>(14)</strong> <strong>] [复制] [Kimi</strong> <strong>(10)</strong>  **] [相关] ** <strong><a href="https://arxiv.org/abs/2506.20512"target="_blank" rel="external nofollow noopener noreferrer">#6</a><strong><strong><a href="https://papers.cool/arxiv/2506.20512"target="_blank" rel="external nofollow noopener noreferrer">OctoThinker: Mid-training Incentivizes Reinforcement Learning Scaling</a></strong></strong> [PDF(14)] [Copy] [Kimi(10)] [REL]</strong></p>
+<p>作者：王增志，周凡，李雪峰，刘鹏飞</p>
+<p>不同基础语言模型家族（如 Llama 和 Qwen）在强化学习（RL）后训练阶段会表现出差异化行为，尤其在推理密集型任务上。什么样的基础语言模型适合强化学习？深入理解这一问题对开发下一代可扩展 RL 的基础模型至关重要。本研究探讨了中期训练策略如何塑造 RL 动态特性，重点关注 Qwen 和 Llama 两个代表性模型家族。我们的研究发现：（1）高质量数学语料（如 MegaMath-Web-Pro）能显著提升基础模型和 RL 性能，而现有替代方案（如 FineMath-4plus）则效果不佳；（2）进一步添加问答式数据（特别是长思维链推理示例）可增强 RL 效果，且指令数据能进一步释放这种增益；（3）长思维链虽能提升推理深度，但也会导致模型响应冗长和 RL 训练不稳定，凸显数据格式化的重要性；（4）扩大中期训练规模始终能带来更强的下游 RL 性能。 基于这些洞见，我们提出了一种两阶段中期训练策略&quot;稳定后衰减&quot;：基础模型首先以恒定学习率在 2000 亿 token 上进行训练，随后在三个专注于思维链的分支上以衰减学习率完成 200 亿 token 训练。由此诞生的 OctoThinker 模型家族展现出强大的强化学习兼容性，缩小了与更适配强化学习的模型家族（如 Qwen）之间的性能差距。我们希望这项工作能为强化学习时代的基础模型预训练策略提供参考。为支持后续研究，我们开源了模型及精选的超过 700 亿 token 数学推理密集型语料库（即 MegaMath-Web-Pro-Max）。</p>
+<p>学科分类：计算与语言 , 人工智能 , 机器学习</p>
+<p>发布时间：2025 年 6 月 25 日 14:58:13（UTC）</p>
+<h2 id="大模型训练">大模型训练</h2>
+<p>香港大学NLP团队联合字节跳动Seed、复旦大学发布名为Polaris的强化学习训练配方：通过Scaling RL，Polaris让4B模型的数学推理能力（AIME25上取得79.4，AIME24上取得81.2）超越了一众商业大模型<a href="https://mp.weixin.qq.com/s/RvIy5Ssfakl92aVc9fczJw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/RvIy5Ssfakl92aVc9fczJw</a></p>
+<p>🌈🌈 2025-06-23 13:00:43 Monday ｜ 英伟达团队提出全新训练方法——ProRL，成功将RL扩展到2000步</p>
+<p><a href="https://mp.weixin.qq.com/s/WwLzBO-EZLwsZM9weaGufQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/WwLzBO-EZLwsZM9weaGufQ</a></p>
+<p>论文链接：https://arxiv.org/abs/2505.24864</p>
+<p>并且，它通过跨领域训练数据，包括数学、代码、STEM、谜题、指令遵循，实现了泛化能力。</p>
+<p>这就是强化学习的Scaling Law：强化学习训练越长，LLM推理能力越强。</p>
+<blockquote>
+<p><strong>（1）强化学习在扩展模型推理边界（以pass@128衡量）方面的效果，与  基础模型的初始能力  密切相关。</strong></p>
+<p>**（2）强化学习确实能够显著扩展模型的推理能力，尤其是在那些超出基础模型原有能力范围的高难度任务上。 **</p>
+<p>**（3）强化学确实可以扩展LLM推理边界，能够推广到训练中未见的分布外任务。 **</p>
+<p><strong>（4）新方法ProRL不仅提高了平均pass@1，还足以弥补训练中可能带来的输出方差增加，从而整体提升pass@k上限，推动推理能力的实质跃升。</strong></p></blockquote>
+<h3 id="长序列训练">长序列训练</h3>
+<p>2025-06-24 11:20:29 Tuesday ｜ 无损减少80%激活值内存，提升5倍训练序列长度，仅需两行代码 <a href="https://mp.weixin.qq.com/s/YqQYtKqzCVFKzr3Z7bYHsg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/YqQYtKqzCVFKzr3Z7bYHsg</a></p>
+<p>来自港中文（深圳）和上海交通大学的团队提出 <strong>StreamBP</strong> 算法。通过对链式法则进行线性分解和分步计算，StreamBP 将大语言模型训练所需的激活值内存（logits 和 layer activation）降低至梯度检查点（gradient checkpointing）的 20% 左右。</p>
+<h2 id="奖励模型">奖励模型</h2>
+<p>研究“奖励模型欺骗”现象是否存在普遍性</p>
+<p><strong>奖励模型也能Scaling！上海AI Lab突破强化学习短板，提出策略判别学习新范式</strong><a href="https://mp.weixin.qq.com/s/hU3MKn82o1sMy4CK-CUUug"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/hU3MKn82o1sMy4CK-CUUug</a></p>
+<p>2025-07-03 11:43:11 Thursday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2507.01352"target="_blank" rel="external nofollow noopener noreferrer">Skywork-Reward-V2：通过 Human-AI Synergy 扩展首选项数据管理</a></strong> <strong>[PDF(4)]</strong> <strong>[Copy]</strong> <strong>[Kimi(2)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Chris%20Yuhao%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Chris Yuhao Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Liang%20Zeng"target="_blank" rel="external nofollow noopener noreferrer">Liang Zeng</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuzhen%20Xiao"target="_blank" rel="external nofollow noopener noreferrer">Yuzhen Xiao</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jujie%20He"target="_blank" rel="external nofollow noopener noreferrer">Jujie He</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jiacai%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Jiacai Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Chaojie%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Chaojie Wang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Rui%20Yan"target="_blank" rel="external nofollow noopener noreferrer">Rui Yan</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Wei%20Shen"target="_blank" rel="external nofollow noopener noreferrer">Wei Shen</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Fuxiang%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Fuxiang Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jiacheng%20Xu"target="_blank" rel="external nofollow noopener noreferrer">Jiacheng Xu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yang%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Yang Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yahui%20Zhou"target="_blank" rel="external nofollow noopener noreferrer">Yahui Zhou</a></p>
+<p>尽管奖励模型 （RM） 在人类反馈强化学习 （RLHF） 中发挥着关键作用，但当前最先进的开放式 RM 在大多数现有评估基准上表现不佳，未能捕捉到细微而复杂的人类偏好。即使是采用高级训练技术的方法也没有产生有意义的性能改进。我们假设这种脆弱性主要源于偏好数据集的局限性，这些数据集通常范围狭窄、综合标记或缺乏严格的质量控制。为了应对这些挑战，我们提出了一个包含 4000 万个偏好对的大规模偏好数据集，名为 SynPref-40M。为了实现大规模的数据管理，我们设计了一个人类-AI 协同的两阶段管道，该管道利用了人工注释质量和 AI 可扩展性的互补优势。在此管道中，人工提供经过验证的注释，而大型语言模型根据人工指导执行自动管理。在这种偏好混合物上进行训练，我们引入了 Skywork-Reward-V2，这是一套由 8 个奖励模型组成的套件，范围从 0.6B 到 8B 参数，在 SynPref-40M 中精心策划的 2600 万个偏好对子集上进行训练。我们证明 Skywork-Reward-V2 在广泛的功能中具有多功能性，包括与人类偏好保持一致、客观正确性、安全性、抗风格偏见和 N 最佳扩展，在七个主要奖励模型基准中实现最先进的性能。消融研究证实，我们方法的有效性不仅源于数据规模，还源于高质量的策展。Skywork-Reward-V2 系列代表了开放奖励模型的重大进展，突出了现有偏好数据集尚未开发的潜力，并展示了人类与 AI 的管理协同作用如何显著提高数据质量。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a>, <a href="https://papers.cool/arxiv/cs.LG"target="_blank" rel="external nofollow noopener noreferrer">机器学习</a></p>
+<p><strong>发布</strong> ： 2025-07-02 04：40：29 UTC</p>
+<ol start="4">
+<li>2025-07-02 17:21:08 Wednesday｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2507.00018"target="_blank" rel="external nofollow noopener noreferrer">隐式奖励作为桥梁：SFT 和 DPO 连接的统一视图</a></strong> <strong>[PDF(16)]</strong> <strong>[Copy]</strong> <strong>[Kimi(11)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Bo%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Bo Wang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Qinyuan%20Cheng"target="_blank" rel="external nofollow noopener noreferrer">Qinyuan Cheng</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Runyu%20Peng"target="_blank" rel="external nofollow noopener noreferrer">Runyu Peng</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Rong%20Bao"target="_blank" rel="external nofollow noopener noreferrer">Rong Bao</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Peiji%20Li"target="_blank" rel="external nofollow noopener noreferrer">Peiji Li</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Qipeng%20Guo"target="_blank" rel="external nofollow noopener noreferrer">Qipeng Guo</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Linyang%20Li"target="_blank" rel="external nofollow noopener noreferrer">Linyang Li</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zhiyuan%20Zeng"target="_blank" rel="external nofollow noopener noreferrer">Zhiyuan Zeng</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yunhua%20Zhou"target="_blank" rel="external nofollow noopener noreferrer">Yunhua Zhou</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xipeng%20Qiu"target="_blank" rel="external nofollow noopener noreferrer">Xipeng Qiu</a></p>
+<p>训练后过程是将预先训练的语言模型与实际任务相结合的重要阶段，从演示或偏好信号中学习在这种适应中起着至关重要的作用。我们提出了一个统一的理论框架，在大型语言模型 （LLM） 训练后桥接监督微调 （SFT） 和偏好学习。通过严格的数学推导，我们证明了 SFT 和偏好学习方法（如直接偏好优化 （DPO））都在相同的最优策略奖励子空间内运行，其中 SFT 代表了隐式奖励学习的一种特殊情况。我们的分析揭示了传统 SFT 的一个关键限制：在优化期间，分布匹配中的 KL 散度项相对于策略变得恒定，无法限制模型更新。为了解决这个问题，我们提出了一种简单而有效的学习率降低方法，该方法可以显著提高性能（在教学后续任务中提高 \textbf{25%} 相对增益和 \textbf{6%} 绝对胜率增加）。此外，我们 <strong>从各种 f 发散函数中推导出替代 SFT 目标</strong> ，这些函数在优化过程中保留 KL 项，进一步提高了 DPO 后模型的性能。最后，我们将 LLM logits 和 Q-functions 之间的理论关系从偏好学习扩展到 SFT 上下文，提供数学推导和实验验证。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.LG"target="_blank" rel="external nofollow noopener noreferrer">机器学习</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a>, <a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></p>
+<p><strong>发布</strong> ： 2025-06-15 05：42：29 UTC</p>
+<ol start="5">
+<li>2025-07-02 17:20:00 Wednesday ｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2507.00054"target="_blank" rel="external nofollow noopener noreferrer">通过奖励引导数据集蒸馏增强 SLM 中的推理能力</a></strong> <strong>[PDF(2)]</strong> <strong>[Copy]</strong> <strong>[Kimi(3)]</strong> <strong>[REL]</strong></p>
+<p><strong>Author</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Shreyansh%20Padarha"target="_blank" rel="external nofollow noopener noreferrer">Shreyansh Padarha</a></p>
+<p>将大型语言模型 （LLM） 的熟练程度压缩并传授为更易于部署和更高效的小语言模型 （SLM） 的推动得益于知识蒸馏 （KD） 技术的改进。这些技术允许较小的学生模型从更有能力和更大的教师模型的回答中学习。然而，提炼通常围绕学生模型展开，仅复制教师的分布内反应，限制了其普遍性。这种限制在推理任务中被放大，并且计算成本可能很高。在这项研究中，我们提出了 AdvDistill，一个奖励导向的数据集蒸馏框架。我们为每个提示使用老师的多代（回复），并根据基于规则的验证者分配奖励。这些变化且正态分布的奖励在训练学生模型时用作权重。我们的方法及其随后的行为分析表明，学生模型在数学和复杂推理任务中的表现有了显着提高，展示了在数据集蒸馏过程中纳入奖励机制的有效性和好处。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a></strong> , <a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a>, <a href="https://papers.cool/arxiv/cs.LG"target="_blank" rel="external nofollow noopener noreferrer">机器学习</a></p>
+<p><strong>发布</strong> ： 2025-06-25 20：07：47 UTC</p>
+<ol start="6">
+<li>2025-07-01 12:05:40 Tuesday ｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2506.23235"target="_blank" rel="external nofollow noopener noreferrer">通才奖励模型：在大型语言模型中发现</a></strong> <strong>[PDF(7)]</strong> <strong>[Copy]</strong> <strong>[Kimi(7)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yi-Chen%20Li"target="_blank" rel="external nofollow noopener noreferrer">Yi-Chen Li</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Tian%20Xu"target="_blank" rel="external nofollow noopener noreferrer">Tian Xu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yang%20Yu"target="_blank" rel="external nofollow noopener noreferrer">Yang Yu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xuqin%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Xuqin Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xiong-Hui%20Chen"target="_blank" rel="external nofollow noopener noreferrer">Xiong-Hui Chen</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zhongxiang%20Ling"target="_blank" rel="external nofollow noopener noreferrer">Zhongxiang Ling</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ningjing%20Chao"target="_blank" rel="external nofollow noopener noreferrer">Ningjing Chao</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Lei%20Yuan"target="_blank" rel="external nofollow noopener noreferrer">Lei Yuan</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zhi-Hua%20Zhou"target="_blank" rel="external nofollow noopener noreferrer">Zhi-Hua Zhou</a></p>
+<p>大型语言模型 （LLM） 的对齐在很大程度上取决于在昂贵的人类偏好数据上训练的奖励模型。虽然最近的工作探索了通过 AI 反馈绕过这一成本，但这些方法通常缺乏严格的理论基础。在本文中，我们发现一个强大的通才奖励模型已经潜伏在任何通过标准下一个代币预测训练的 LLM 中。我们证明，这种内生奖励不是启发式的，而是理论上等同于通过离线逆强化学习学习的奖励函数。这种连接使我们能够直接从基础（预先训练或监督微调）模型中获得高质量的奖励信号，而无需任何进一步的训练。至关重要的是，我们还证明，与基本模型相比，使用这种内生奖励的后续强化学习会导致具有可证明的更优越误差边界的策略。据我们所知，这是强化学习对 LLM 有效性的第一个理论证明。我们的实验验证了这一理论，表明我们的方法不仅优于现有的 LLM as-a-judge 方法，而且还可以超越明确训练的奖励模型。这些发现表明，奖励建模阶段可以被一种有原则的方法所取代，该方法可以获取在预训练期间已经捕获的知识，这预示着 LLM 对齐和多模态模型的更高效、更强大和可扩展的范式。</p>
+<p><strong>主题</strong> : <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong></p>
+<p><strong>发布</strong> ： 2025-06-29 13：45：54 UTC</p>
+<ol start="7">
+<li>🌈 🌈 2025-06-27 12:57:34 Friday ｜ 北京大学知识计算实验室联合腾讯微信模式识别中心、William&amp;Mary、西湖大学等机构提出的<strong>RewardAnything</strong>突破了这一瓶颈——通过让奖励模型直接理解自然语言描述的评判原则，实现了从”死记硬背”到”融会贯通”的范式跃迁。https://mp.weixin.qq.com/s/sJI0TpYnuLQKtwaJdo2t6w</li>
+<li>20250604｜From Mathematical Reasoning to Code: Generalization of Process Reward Models in Test-Time Scaling
+<ol>
+<li>标题： 从数学推理到代码：测试时间缩放中过程奖励模型的推广</li>
+<li>链接：<a href="https://arxiv.org/abs/2506.00027"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2506.00027</a></li>
+</ol>
+</li>
+<li>2025-06-09 10:45:51 Monday ｜ R-Search: Empowering LLM Reasoning with Search via Multi-Reward  Reinforcement Learning
+<strong>标题</strong> ： R-Search：通过多奖励强化学习通过搜索增强LLM推理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.04185
+<strong>摘要</strong> ：大型语言模型（LLM）在多步和长链推理方面取得了显着进展。然而，扩展它们的推理能力以包含与搜索的深度交互仍然是一个不小的挑战，因为模型通常无法识别最佳的推理-搜索交互轨迹，导致次优响应。我们提出了R-Search，这是一种 <strong>用于推理搜索集成的新型强化学习框架</strong> ，旨在使LLM能够自主执行具有深度搜索交互的多步推理，并通过多奖励信号学习最佳推理搜索交互轨迹，从而提高复杂逻辑和知识密集型任务的响应质量。R-Search引导LLM动态决定何时检索或推理，同时全局集成关键证据以增强推理和搜索之间的深层知识交互。在RL训练过程中，R-Search提供多阶段、多类型的奖励，共同优化推理搜索轨迹。在七个数据集上的实验表明，R-Search比高级RAG基线的性能高出32.2%（域内）和25.1%（域外）。代码和数据可在https://github.com/QingFei1/R-Search上获得。</li>
+<li>2025-06-13 18:49:19 Friday ｜</li>
+</ol>
+<p>Provably Learning from Language Feedback
+<strong>标题</strong> ： 可证明从语言反馈中学习
+<strong>链接</strong> ：https://arxiv.org/abs/2506.10341</p>
+<p><strong>作者</strong> ： Wanqiao Xu,  Allen Nie,  Ruijie Zheng,  Aditya Modi,  Adith Swaminathan,  Ching-An Cheng
+<strong>摘要</strong> ：通过观察和语言反馈进行交互式学习是一个越来越多的研究领域，这是由大型语言模型（LLM）代理的出现所驱动的。虽然令人印象深刻的经验证明已经显示，到目前为止，这些决策问题的原则框架仍然缺乏。在本文中，我们形式化的学习语言反馈（LLF）问题，断言足够的假设，使学习尽管潜在的奖励，并引入$\textit{transfer eluder dimension}$作为一个复杂的措施来表征LLF问题的难度。我们发现，转移逃避维度捕捉的直觉，在反馈中的信息改变学习的LLF问题的复杂性。我们展示了从丰富的语言反馈中学习比从奖励中学习快得多的案例。我们开发了一个无遗憾的算法，称为$\texttt{HELiX}$，可证明解决LLF问题，通过顺序的相互作用，与性能保证，规模与转移逃避维度的问题。在几个经验领域，我们表明，$\texttt{HELiX}$表现良好，即使反复提示LLM不可靠的工作。我们的贡献标志着根据通用语言反馈设计有原则的交互式学习算法的第一步。</p>
+<ol start="11">
+<li>2025-06-23 11:32:17 Monday |</li>
+</ol>
+<p><strong><a href="https://arxiv.org/abs/2506.16712"target="_blank" rel="external nofollow noopener noreferrer">arXiv:2506.16712 </a></strong> [ <strong><a href="https://arxiv.org/pdf/2506.16712"target="_blank" rel="external nofollow noopener noreferrer">pdf</a></strong> ,  <strong><a href="https://arxiv.org/html/2506.16712v1"target="_blank" rel="external nofollow noopener noreferrer">html</a></strong> ,  <strong><a href="https://arxiv.org/format/2506.16712"target="_blank" rel="external nofollow noopener noreferrer">other</a></strong> ]</p>
+<p><strong>ReasonGRM：通过大型推理模型增强生成式奖励模型</strong></p>
+<p>陈斌，高新泽，胡传瑞，于鹏航，张华，鲍冰昆</p>
+<p>学科分类：计算与语言（cs.CL）；人工智能（cs.AI）</p>
+<ol start="12">
+<li>2025-06-23 11:33:01 Monday |</li>
+</ol>
+<p>arXiv:2506.16024 [pdf 版，html 版，其他格式]</p>
+<p><strong>从通用奖励到定向奖励：在开放式长文本生成任务中超越 GPT-4</strong></p>
+<p>郭志涵、吴杰乐、崔文倩、张一飞、胡敏达、王雨菲、金国庆</p>
+<p>学科分类：计算与语言（cs.CL）；人工智能（cs.AI）</p>
+<h3 id="理论研究">理论研究</h3>
+<p>2025-07-03 10:18:33 Thursday ｜ 周志华团队新作：LLM中存在奖励模型，首次理论证明RL对LLM有效性 <a href="https://mp.weixin.qq.com/s/OOoAqaT_hnfh2rcKkxrZWw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/OOoAqaT_hnfh2rcKkxrZWw</a></p>
+<p>来自南京大学的研究者发现， <strong>一个强大的通用奖励模型并非需要构建，而是可以挖掘出来的</strong> ， 因为它已经潜在地存在于通过标准的下一个 Token 预测训练的任何语言模型中，称之为「内源性奖励（endogenous reward）」。</p>
+<p>本文的核心贡献是为这一观点提供严格的理论基础。本文证明了可以从标准的下一个 Token 预测目标中恢复出一种特定形式的离线逆强化学习（IRL）奖励函数，该目标用于预训练和监督微调（SFT）。这一见解能够超越启发式方法，并建立一种原则性的方法，来引出语言模型在训练过程中隐式学习到的奖励函数。</p>
+<p>据了解，这是首次理论证明强化学习在 LLM 中的有效性。广泛实验验证了这一理论，表明 <strong>这种内源性奖励不仅优于现有的 LLM-as-a-judge 方法</strong> ，<strong>而且可以超越那些通过昂贵的人类标注数据显式训练的奖励模型的表现。</strong></p>
+<p>论文标题： GENERALIST REWARD MODELS: FOUND INSIDE LARGE LANGUAGE MODELS</p>
+<p>论文链接：https://arxiv.org/pdf/2506.23235</p>
+<p>由于本评估的方法无需训练，因此本评估将其与其他无需训练的方法进行对比：生成式验证器（Generative Verifier）、GenRM-Pairwise 和 GenRM-Pointwise 。</p>
+<h3 id="过程奖励模型prm">过程奖励模型PRM</h3>
+<p><a href="https://arxiv.org/abs/2504.16828"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2504.16828</a> 具有思考能力的流程奖励模型</p>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Khalifa,&#43;M"target="_blank" rel="external nofollow noopener noreferrer">穆罕默德·哈利法 </a>、<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Agarwal,&#43;R"target="_blank" rel="external nofollow noopener noreferrer"> 里沙布·阿加瓦尔 </a>、<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Logeswaran,&#43;L"target="_blank" rel="external nofollow noopener noreferrer"> 拉贾努根·洛格斯瓦兰 </a>、<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Kim,&#43;J"target="_blank" rel="external nofollow noopener noreferrer"> 金在谦 </a>、<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Peng,&#43;H"target="_blank" rel="external nofollow noopener noreferrer"> 彭浩 </a>、<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Lee,&#43;M"target="_blank" rel="external nofollow noopener noreferrer"> 李文泰 </a>、<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Lee,&#43;H"target="_blank" rel="external nofollow noopener noreferrer"> 李洪乐 </a>、<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wang,&#43;L"target="_blank" rel="external nofollow noopener noreferrer"> 王璐</a></p>
+<blockquote>
+<p>逐步验证器——也称为过程奖励模型（PRMs）——是测试时扩展的关键要素。PRMs 需要步骤级监督，导致其训练成本高昂。本研究旨在构建数据高效的 PRMs，将其表述为可生成验证思维链（CoT）的逐步骤奖励模型，以验证解决方案中的每个步骤。我们提出 ThinkPRM，这是一种长思维链验证器，其微调所需的过程标签数量比判别式 PRMs 少几个数量级。该方法充分发挥了长 CoT 模型固有的推理能力，在仅使用 PRM800K 中 1%过程标签的情况下，于多个具有挑战性的基准测试中超越了 LLM-as-a-Judge 和判别式验证器。具体而言，ThinkPRM 在 ProcessBench、MATH-500 和 AIME &lsquo;24 的最佳 N 选择和奖励引导搜索中均优于基线模型。在 GPQA-Diamond 子集和 LiveCodeBench 的跨领域评估中，我们的 PRM 分别以 8%和 4.5%的优势超越了使用完整 PRM800K 训练的判别式验证器。 最后，在相同 token 预算下，ThinkPRM 相比 LLM-as-a-Judge 能更高效地扩展验证计算能力，在 ProcessBench 子集上以 7.2%的优势超越后者。我们的工作凸显了生成式长链思维过程奖励模型的价值——这类模型既能扩展测试时的验证计算，又只需极少的训练监督。代码、数据和模型将在<a href="https://github.com/mukhal/thinkprm"target="_blank" rel="external nofollow noopener noreferrer">此 https 网址</a>发布。</p></blockquote>
+<blockquote>
+<p><strong>会议主题</strong> ：奖励模型验证器研讨</p>
+<h4 id="一验证器类型">一、验证器类型</h4>
+<ol>
+<li><strong>结果验证器（Outcome Verifiers）</strong>
+<ol>
+<li>验证完整解决方案的最终答案，通过花费更多计算资源采样并验证解决方案，构建可扩展的计算系统。</li>
+<li>例如：验证叠加态结果或最终答案的正确性。</li>
+</ol>
+</li>
+<li><strong>过程验证器（Process Verifiers）</strong>
+<ol>
+<li>核心为“过程奖励模型（Process Reward Model）”，在推理步骤级别区分正确与错误，而非完整解决方案级别。</li>
+<li>可通过回溯或树搜索（如MCTS、波束搜索）实现计算扩展，OpenAI的相关研究表明，细粒度训练的过程验证器性能显著优于仅基于结果训练的模型。</li>
+</ol>
+</li>
+</ol>
+<h4 id="二过程验证器的训练挑战">二、过程验证器的训练挑战</h4>
+<ol start="3">
+<li><strong>标注成本高昂</strong>
+<ol>
+<li>需步骤级二元标签（正确/错误），例如OpenAI曾邀请数学专家对解决方案逐步骤标注至首次错误，过程繁琐且成本极高，严重限制了PRM的可扩展性。</li>
+</ol>
+</li>
+<li><strong>数据依赖问题</strong>
+<ol>
+<li>传统判别式PRM需大量标注数据，而人工标注难以满足大规模需求。</li>
+</ol>
+</li>
+</ol>
+<h4 id="三步骤标签获取方案">三、步骤标签获取方案</h4>
+<ol start="5">
+<li><strong>对齐法（Alignment Approach）</strong>
+<ol>
+<li>通过对齐正确与错误解决方案，定位不匹配的步骤并标注为“错误”。</li>
+<li>例如：对比正确解与错误解的步骤，不匹配处即为错误步骤，可用于训练验证器。</li>
+</ol>
+</li>
+<li><strong>概率法（Probabilistic Approach）</strong>
+<ol>
+<li>基于步骤生成完整推导路径，计算到达正确答案的概率，以此评估步骤正确性。</li>
+<li>问题：依赖模型推导能力，若模型本身性能不足，可能误判正确步骤为错误，引入标签噪声。</li>
+</ol>
+</li>
+</ol>
+<h4 id="四生成式验证器genrm的进展与局限">四、生成式验证器（GenRM）的进展与局限</h4>
+<ol start="7">
+<li><strong>核心机制</strong>
+<ol>
+<li>通过训练生成模型（如微调的聊天机器人）生成验证思维链，提取“正确/错误”概率作为评分。</li>
+<li>优势：相比判别式模型，推理计算扩展性更强（如相同采样预算下性能更优）。</li>
+</ol>
+</li>
+<li><strong>局限性</strong>
+<ol>
+<li>仅支持结果验证，无法用于树搜索等需要部分解的场景；</li>
+<li>需数千个黄金解决方案用于训练，且缺乏跨领域泛化能力（仅在基础数学等简单任务上验证）。</li>
+</ol>
+</li>
+</ol>
+<h4 id="五think-prm生成式过程验证器的改进">五、Think PRM：生成式过程验证器的改进</h4>
+<ol start="9">
+<li><strong>模型设计</strong>
+<ol>
+<li>输入问题与候选解，生成细粒度的验证思维链，逐步骤判断正确性（区别于仅输出最终标签的结果验证器）。</li>
+</ol>
+</li>
+<li><strong>关键实验结论</strong>
+<ol>
+<li><strong>数据效率</strong> ：仅用8000个步骤标签训练的Think PRM（14B模型），性能优于使用70万标签训练的判别式PRM；</li>
+<li><strong>计算扩展性</strong> ：在“最佳N选”（Best of N）场景中，通过加权多数投票排序解决方案，准确率超越基线模型；</li>
+<li><strong>跨领域泛化</strong> ：在物理问答（GPQA）、编程评估（CodeBench）等领域表现优于判别式PRM。</li>
+</ol>
+</li>
+<li><strong>局限性</strong>
+<ol>
+<li>推理效率低于判别式模型（需生成较长思维链）；</li>
+<li>存在“过度自信”问题（评分集中于0或1，缺乏不确定性表征）；</li>
+<li>“步骤标签干扰”：前一步骤的判断可能偏置后续标签（如首步错误易导致后续误判）。</li>
+</ol>
+</li>
+</ol>
+<h4 id="六未来方向">六、未来方向</h4>
+<ol start="12">
+<li><strong>强化学习（RL）优化</strong>
+<ol>
+<li>通过RL或偏好学习进一步提升验证器性能，但需设计可靠的奖励信号以避免“奖励博弈”。</li>
+</ol>
+</li>
+<li><strong>混合策略</strong>
+<ol>
+<li>根据问题难度动态切换判别式与生成式PRM，平衡效率与准确性。</li>
+</ol>
+</li>
+</ol>
+<h4 id="七问答环节">七、问答环节</h4>
+<ul>
+<li>提问：是否考虑用RL训练验证器？</li>
+<li>回答：RL是自然下一步，近期已有研究尝试，关键在于定义有效奖励信号，预计可优化搜索策略与验证思维。</li>
+</ul>
+<h4 id="八结语">八、结语</h4>
+<ul>
+<li>说话人A邀请参会者通过邮件进一步讨论，或在10月加拿大语言建模会议（Callum）的工作坊面聊。</li>
+<li>说话人B邀请说话人A访问北京，期待线下交流。</li>
+</ul></blockquote>
+<p><a href="https://arxiv.org/abs/2305.14934"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2305.14934</a></p>
+<p>GRACE：基于判别器引导的思维链推理</p>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Khalifa,&#43;M"target="_blank" rel="external nofollow noopener noreferrer">穆罕默德·哈利法 </a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Logeswaran,&#43;L"target="_blank" rel="external nofollow noopener noreferrer">拉贾努根·洛格斯瓦兰 </a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Lee,&#43;M"target="_blank" rel="external nofollow noopener noreferrer">文泰·李 </a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Lee,&#43;H"target="_blank" rel="external nofollow noopener noreferrer">洪乐·李 </a>, <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wang,&#43;L"target="_blank" rel="external nofollow noopener noreferrer">陆望</a></p>
+<blockquote>
+<p>在多步推理任务中（例如思维链推理），语言模型（LM）很容易为错误的推理步骤分配高概率。因此，优化解可能性的解码策略往往会产生错误答案。为解决这一问题，我们提出了一种基于正确性判别器引导的思维链推理方法（GRACE），这种逐步解码方法能引导解码过程生成正确的推理步骤。GRACE 采用了一个通过对比正确与错误步骤训练的判别器，在解码过程中根据候选步骤的正确性进行评分。值得注意的是，GRACE 仅需对语言模型进行采样，无需训练或微调语言模型。基于 FLAN-T5 和 LLaMA 系列模型的实验表明，在四项数学推理和两项符号推理任务中，GRACE 在多数情况下相比贪婪解码、验证器和自一致性方法都取得了显著性能提升。当与自一致性方法结合使用时，GRACE 以较大优势超越了所有基线方法。 人类与 LLM 在 GSM8K 上的评估表明，GRACE 不仅提高了最终答案的准确率，还提升了中间推理的正确性。我们的实现代码可通过\url{<a href="https://github.com/mukhal/grace"target="_blank" rel="external nofollow noopener noreferrer"> 此链接 </a>}获取。</p></blockquote>
+<p><a href="https://arxiv.org/abs/2312.08935"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2312.08935</a></p>
+<p>Math-Shepherd：无需人工标注逐步验证与强化 LLMs</p>
+<p>王培毅、李磊、邵志宏、徐瑞祥、戴大迈、李逸飞、陈德利、吴洋、隋志芳</p>
+<blockquote>
+<p>本文提出了一种创新的过程导向型数学过程奖励模型\textbf{Math-Shepherd}，该模型能够为数学问题解答的每个步骤分配奖励分数。Math-Shepherd 的训练通过自动构建的过程监督数据实现，突破了现有工作中对人工标注高度依赖的瓶颈。我们探索了 Math-Shepherd 在两种场景下的有效性：1）\textit{验证}：利用 Math-Shepherd 对大型语言模型（LLMs）生成的多个输出进行重排序；2）\textit{强化学习}：采用 Math-Shepherd 通过逐步近端策略优化（PPO）来增强 LLMs。实验表明，结合 Math-Shepherd 的一系列开源 LLMs 展现出卓越性能。例如，采用 Math-Shepherd 的逐步 PPO 显著提升了 Mistral-7B 的准确率（GSM8K 数据集从 77.9%提升至 84.1%，MATH 数据集从 28.6%提升至 33.0%）。若进一步通过 Math-Shepherd 进行验证，在 GSM8K 和 MATH 数据集上的准确率可分别提升至 89.1%和 43.5%。我们相信，自动化的过程监督对 LLMs 的未来发展具有重要潜力。</p></blockquote>
+<p><a href="https://arxiv.org/abs/2408.15240"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2408.15240</a></p>
+<p>生成式验证器：将奖励建模视为下一词元预测</p>
+<p>张伦君，阿里安·侯赛尼，赫里蒂克·班萨尔，梅兰·卡泽米，阿维拉尔·库马尔，里沙布·阿加瓦尔</p>
+<blockquote>
+<p>验证器或奖励模型常被用于提升大语言模型（LLMs）的推理性能。常见的方法是 Best-of-N 策略，即由 LLM 生成 N 个候选解决方案，经验证器排序后选择最优解。虽然基于 LLM 的验证器通常被训练为判别式分类器来评分解决方案，但这种方式并未充分利用预训练 LLMs 的文本生成能力。为突破这一限制，我们提出改用普遍采用的下一词预测目标来训练验证器，使其同时具备验证和解决方案生成能力。与标准验证器相比，这类生成式验证器（GenRM）能继承 LLMs 的多种优势：它们与指令微调无缝集成，支持思维链推理，并能通过多数表决机制利用额外测试时计算资源来优化验证效果。实验表明，GenRM 在判别式验证器、DPO 验证器和 LLM-as-a-Judge 等基准上均表现更优，使用 Best-of-N 策略时性能提升显著——算法任务达到 5% 45.3%，GSM8K 数学题达到 73% 93.4%。 在易到难的泛化场景中，我们观察到 MATH 数据集上准确率提升 28%至 44.6%，MMLU 抽象代数部分提升 37.9%至 53.5%。此外，研究发现使用合成验证原理训练 GenRM 足以识别数学问题中的细微错误。最后，我们证明 GenRM 的扩展性在模型规模和测试计算量方面表现优异。</p></blockquote>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmZkZjQ4ZjcyMDZlMDMxNmU4NmZjYjk5MDJlY2QzYjhfMUtQZW9NOUpmZHFKRnZLNGMyMHJIMkd1RFhMQUEzdFRfVG9rZW46S0lPcGJxVGc0b0JWMDd4djJkYmNqRGI3bmxmXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmZkZjQ4ZjcyMDZlMDMxNmU4NmZjYjk5MDJlY2QzYjhfMUtQZW9NOUpmZHFKRnZLNGMyMHJIMkd1RFhMQUEzdFRfVG9rZW46S0lPcGJxVGc0b0JWMDd4djJkYmNqRGI3bmxmXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmZkZjQ4ZjcyMDZlMDMxNmU4NmZjYjk5MDJlY2QzYjhfMUtQZW9NOUpmZHFKRnZLNGMyMHJIMkd1RFhMQUEzdFRfVG9rZW46S0lPcGJxVGc0b0JWMDd4djJkYmNqRGI3bmxmXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmZkZjQ4ZjcyMDZlMDMxNmU4NmZjYjk5MDJlY2QzYjhfMUtQZW9NOUpmZHFKRnZLNGMyMHJIMkd1RFhMQUEzdFRfVG9rZW46S0lPcGJxVGc0b0JWMDd4djJkYmNqRGI3bmxmXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmZkZjQ4ZjcyMDZlMDMxNmU4NmZjYjk5MDJlY2QzYjhfMUtQZW9NOUpmZHFKRnZLNGMyMHJIMkd1RFhMQUEzdFRfVG9rZW46S0lPcGJxVGc0b0JWMDd4djJkYmNqRGI3bmxmXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmZkZjQ4ZjcyMDZlMDMxNmU4NmZjYjk5MDJlY2QzYjhfMUtQZW9NOUpmZHFKRnZLNGMyMHJIMkd1RFhMQUEzdFRfVG9rZW46S0lPcGJxVGc0b0JWMDd4djJkYmNqRGI3bmxmXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODRiYjdlZWViZTdhNTcyODljNjkwNjI1Njg3MTllMWRfZlM4ZDFudDFJaUduTE1PczFNdjVWSlQ0Nms2NWlTYmlfVG9rZW46VXhSemIwZkppb0owazh4MHJMSGNqWXc1bkJjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODRiYjdlZWViZTdhNTcyODljNjkwNjI1Njg3MTllMWRfZlM4ZDFudDFJaUduTE1PczFNdjVWSlQ0Nms2NWlTYmlfVG9rZW46VXhSemIwZkppb0owazh4MHJMSGNqWXc1bkJjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODRiYjdlZWViZTdhNTcyODljNjkwNjI1Njg3MTllMWRfZlM4ZDFudDFJaUduTE1PczFNdjVWSlQ0Nms2NWlTYmlfVG9rZW46VXhSemIwZkppb0owazh4MHJMSGNqWXc1bkJjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODRiYjdlZWViZTdhNTcyODljNjkwNjI1Njg3MTllMWRfZlM4ZDFudDFJaUduTE1PczFNdjVWSlQ0Nms2NWlTYmlfVG9rZW46VXhSemIwZkppb0owazh4MHJMSGNqWXc1bkJjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODRiYjdlZWViZTdhNTcyODljNjkwNjI1Njg3MTllMWRfZlM4ZDFudDFJaUduTE1PczFNdjVWSlQ0Nms2NWlTYmlfVG9rZW46VXhSemIwZkppb0owazh4MHJMSGNqWXc1bkJjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ODRiYjdlZWViZTdhNTcyODljNjkwNjI1Njg3MTllMWRfZlM4ZDFudDFJaUduTE1PczFNdjVWSlQ0Nms2NWlTYmlfVG9rZW46VXhSemIwZkppb0owazh4MHJMSGNqWXc1bkJjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzRiODRmYzliN2M0M2ZlMTkzOGMzNTM3ZGI5ZDU4YjBfZXpZT2xkblJjZFduejdoc0JUWmQzdFRyR1VJTGlnNFBfVG9rZW46TmN5UmJhdFFvb2JtV1J4QlAza2NmYjhpbkpjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzRiODRmYzliN2M0M2ZlMTkzOGMzNTM3ZGI5ZDU4YjBfZXpZT2xkblJjZFduejdoc0JUWmQzdFRyR1VJTGlnNFBfVG9rZW46TmN5UmJhdFFvb2JtV1J4QlAza2NmYjhpbkpjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzRiODRmYzliN2M0M2ZlMTkzOGMzNTM3ZGI5ZDU4YjBfZXpZT2xkblJjZFduejdoc0JUWmQzdFRyR1VJTGlnNFBfVG9rZW46TmN5UmJhdFFvb2JtV1J4QlAza2NmYjhpbkpjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzRiODRmYzliN2M0M2ZlMTkzOGMzNTM3ZGI5ZDU4YjBfZXpZT2xkblJjZFduejdoc0JUWmQzdFRyR1VJTGlnNFBfVG9rZW46TmN5UmJhdFFvb2JtV1J4QlAza2NmYjhpbkpjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzRiODRmYzliN2M0M2ZlMTkzOGMzNTM3ZGI5ZDU4YjBfZXpZT2xkblJjZFduejdoc0JUWmQzdFRyR1VJTGlnNFBfVG9rZW46TmN5UmJhdFFvb2JtV1J4QlAza2NmYjhpbkpjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MzRiODRmYzliN2M0M2ZlMTkzOGMzNTM3ZGI5ZDU4YjBfZXpZT2xkblJjZFduejdoc0JUWmQzdFRyR1VJTGlnNFBfVG9rZW46TmN5UmJhdFFvb2JtV1J4QlAza2NmYjhpbkpjXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM3ZjAyNTIzYTRiNmQyM2U3OTc5M2RmZTVlN2M4MDdfZVdmTml6NW8xcXphWXo1ZFozdUtlMUtyYUVIbG9iWnVfVG9rZW46SVBHNmJ4SWRsb1B1bmV4am1xM2NONTFVbk5mXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM3ZjAyNTIzYTRiNmQyM2U3OTc5M2RmZTVlN2M4MDdfZVdmTml6NW8xcXphWXo1ZFozdUtlMUtyYUVIbG9iWnVfVG9rZW46SVBHNmJ4SWRsb1B1bmV4am1xM2NONTFVbk5mXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM3ZjAyNTIzYTRiNmQyM2U3OTc5M2RmZTVlN2M4MDdfZVdmTml6NW8xcXphWXo1ZFozdUtlMUtyYUVIbG9iWnVfVG9rZW46SVBHNmJ4SWRsb1B1bmV4am1xM2NONTFVbk5mXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM3ZjAyNTIzYTRiNmQyM2U3OTc5M2RmZTVlN2M4MDdfZVdmTml6NW8xcXphWXo1ZFozdUtlMUtyYUVIbG9iWnVfVG9rZW46SVBHNmJ4SWRsb1B1bmV4am1xM2NONTFVbk5mXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM3ZjAyNTIzYTRiNmQyM2U3OTc5M2RmZTVlN2M4MDdfZVdmTml6NW8xcXphWXo1ZFozdUtlMUtyYUVIbG9iWnVfVG9rZW46SVBHNmJ4SWRsb1B1bmV4am1xM2NONTFVbk5mXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MTM3ZjAyNTIzYTRiNmQyM2U3OTc5M2RmZTVlN2M4MDdfZVdmTml6NW8xcXphWXo1ZFozdUtlMUtyYUVIbG9iWnVfVG9rZW46SVBHNmJ4SWRsb1B1bmV4am1xM2NONTFVbk5mXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjczNmYxOGExMzU4MjQxMTJmM2YyZTI3ZDRkMDk5MDhfYlJqaXJWVFNZT3I2QVdnVTlsQVpScW5iOTZaa3I2QlhfVG9rZW46V1F3UmJMZDJibzBZb3Z4Sm9ndWMwb2ZrbjE0XzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjczNmYxOGExMzU4MjQxMTJmM2YyZTI3ZDRkMDk5MDhfYlJqaXJWVFNZT3I2QVdnVTlsQVpScW5iOTZaa3I2QlhfVG9rZW46V1F3UmJMZDJibzBZb3Z4Sm9ndWMwb2ZrbjE0XzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjczNmYxOGExMzU4MjQxMTJmM2YyZTI3ZDRkMDk5MDhfYlJqaXJWVFNZT3I2QVdnVTlsQVpScW5iOTZaa3I2QlhfVG9rZW46V1F3UmJMZDJibzBZb3Z4Sm9ndWMwb2ZrbjE0XzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjczNmYxOGExMzU4MjQxMTJmM2YyZTI3ZDRkMDk5MDhfYlJqaXJWVFNZT3I2QVdnVTlsQVpScW5iOTZaa3I2QlhfVG9rZW46V1F3UmJMZDJibzBZb3Z4Sm9ndWMwb2ZrbjE0XzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjczNmYxOGExMzU4MjQxMTJmM2YyZTI3ZDRkMDk5MDhfYlJqaXJWVFNZT3I2QVdnVTlsQVpScW5iOTZaa3I2QlhfVG9rZW46V1F3UmJMZDJibzBZb3Z4Sm9ndWMwb2ZrbjE0XzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjczNmYxOGExMzU4MjQxMTJmM2YyZTI3ZDRkMDk5MDhfYlJqaXJWVFNZT3I2QVdnVTlsQVpScW5iOTZaa3I2QlhfVG9rZW46V1F3UmJMZDJibzBZb3Z4Sm9ndWMwb2ZrbjE0XzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2Q3NGFmMDYxYThlYjMyZGViNWEzN2RlYzZjMDUyOWRfdTBjbjRTa1pmTm9GWjVWSVZ2WnVtWlpzbk15WnJVQ0RfVG9rZW46Rk1aZ2JDeDBzb1pldGR4aVJXU2M5ZEtobmloXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2Q3NGFmMDYxYThlYjMyZGViNWEzN2RlYzZjMDUyOWRfdTBjbjRTa1pmTm9GWjVWSVZ2WnVtWlpzbk15WnJVQ0RfVG9rZW46Rk1aZ2JDeDBzb1pldGR4aVJXU2M5ZEtobmloXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2Q3NGFmMDYxYThlYjMyZGViNWEzN2RlYzZjMDUyOWRfdTBjbjRTa1pmTm9GWjVWSVZ2WnVtWlpzbk15WnJVQ0RfVG9rZW46Rk1aZ2JDeDBzb1pldGR4aVJXU2M5ZEtobmloXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2Q3NGFmMDYxYThlYjMyZGViNWEzN2RlYzZjMDUyOWRfdTBjbjRTa1pmTm9GWjVWSVZ2WnVtWlpzbk15WnJVQ0RfVG9rZW46Rk1aZ2JDeDBzb1pldGR4aVJXU2M5ZEtobmloXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2Q3NGFmMDYxYThlYjMyZGViNWEzN2RlYzZjMDUyOWRfdTBjbjRTa1pmTm9GWjVWSVZ2WnVtWlpzbk15WnJVQ0RfVG9rZW46Rk1aZ2JDeDBzb1pldGR4aVJXU2M5ZEtobmloXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=M2Q3NGFmMDYxYThlYjMyZGViNWEzN2RlYzZjMDUyOWRfdTBjbjRTa1pmTm9GWjVWSVZ2WnVtWlpzbk15WnJVQ0RfVG9rZW46Rk1aZ2JDeDBzb1pldGR4aVJXU2M5ZEtobmloXzE3NTQ1NDE0MDA6MTc1NDU0NTAwMF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ol start="2">
+<li>2025-06-23 11:07:56 Monday | <a href="https://arxiv.org/abs/2506.15498"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2506.15498</a></li>
+</ol>
+<p>SPARE：基于参考引导评估的单次标注框架——面向自动化过程监督与奖励建模</p>
+<p>Md Imbesat Hassan Rizvi, Xiaodan Zhu, Iryna Gurevych</p>
+<p>过程式或分步监督在提升大语言模型（LLMs）的复杂多步推理能力方面发挥着关键作用。然而，如何实现高效、高质量的<strong>自动化过程标注</strong>仍面临重大挑战。为此，我们提出基于参考引导评估的单次标注框架（SPARE），该创新性结构化框架通过将每个解题步骤与参考解决方案中的一个或多个步骤对齐，并辅以明确的评估依据，实现了单次逐步骤标注。实验表明，参考引导的步骤级评估能有效促进四个跨领域数据集（涵盖数学推理、多跳组合问答和空间推理三大领域）的过程监督。相较于基线方法，SPARE 在以下场景显著提升推理性能：（1）在离线强化学习设置中微调模型以实现推理阶段的贪婪解码；（2）训练奖励模型以对多个 LLM 生成输出进行排序/聚合。 此外，SPARE 在具有挑战性的数学数据集上展现出与基于树搜索的自动标注方法相媲美的性能，同时效率提升 2.6 倍，仅需 38%的运行时间。我们公开了代码库及训练好的 SPARE-PRM 模型，以促进后续研究和结果复现。</p>
+<h3 id="生成奖励模型">生成奖励模型</h3>
+<p>2025-06-28 17:27:00 Saturday ｜ 通才奖励建模的推理时间缩放</p>
+<p>提出了一个叫做 <strong>SPCT方法</strong> （Self-Principled Critique Tuning）的方法——首次提出通过在线强化学习（RL）优化原则和批判生成，实现推理时扩展。</p>
+<p><strong>生成式奖励模型</strong> （GRM）：它采用点式生成奖励模型（Pointwise GRM），通过生成文本形式的奖励（如critiques）而非单一标量值，支持灵活输入（单响应、多响应）和推理时扩展。</p>
+<p>SPCT是一个两阶段的过程，它们分别是：</p>
+<ul>
+<li><strong>拒绝式微调（Rejective Fine-Tuning）</strong> ：冷启动阶段，通过采样和拒绝策略生成初始数据。</li>
+<li><strong>基于规则的在线RL</strong> ：使用规则化奖励函数优化原则和批判的生成，鼓励模型区分最佳响应。</li>
+</ul>
+<p><strong>推理时扩展技术：</strong> 先是通过多次采样生成多样化的原则和批判，投票聚合最终奖励，扩展奖励空间。再训练一个辅助模型过滤低质量采样，进一步提升扩展效果。</p>
+<p>论文地址：https://arxiv.org/abs/2504.02495</p>
+<h3 id="奖励模型评估">奖励模型评估</h3>
+<p>20250604｜RewardBench 2: Advancing Reward Model Evaluation</p>
+<ol>
+<li>标题： RewardBench 2：高级奖励模型评估</li>
+<li>链接：<a href="https://arxiv.org/abs/2506.01937"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2506.01937</a></li>
+</ol>
+<p>2025-06-24 13:02:03 Tuesday ｜</p>
+<p>ReasonGRM: Enhancing Generative Reward Models through Large Reasoning Models
+<strong>链接</strong> ：https://arxiv.org/abs/2506.16712</p>
+<p><strong>作者</strong> ： Xinzge Gao, Chuanrui Hu, Penghang Yu, Hua Zhang, Bing-Kun Bao
+<strong>摘要</strong> ：生成奖励模型（GRM）在捕获人类偏好方面提供了比标量奖励模型更大的灵活性，但其有效性受到推理能力差的限制。这通常会导致不完整或过度推测的推理路径，导致幻觉或在复杂任务中丢失关键信息。我们用ReasonGRM来解决这个挑战，这是一个三阶段生成奖励建模框架。在第一阶段，Zero-RL用于生成简洁的、结果导向的推理路径，以减少关键遗漏的可能性。在第二阶段，我们引入了一种新的评价指标，$R^\star$，它的分数推理路径的生成可能性的基础上。这有利于以最少的探索获得正确答案的路径，有助于减少训练过程中容易产生幻觉的数据。在最后阶段，通过对具有挑战性的示例进行强化学习来进一步改进模型，以增强其偏好辨别能力。在三个公共基准测试上的实验表明，ReasonGRM实现了具有竞争力或最先进的性能，平均比之前最好的GRM高出1.8%，比GPT-4 o等专有模型高出5.6%。这些结果证明了推理感知训练的有效性，并强调了高质量的合理选择对可靠偏好建模的重要性。</p>
+<h2 id="rlvr-可验证奖励的强化学习">RLVR 可验证奖励的强化学习</h2>
+<p>2025-07-01 12:11:14 Tuesday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.22760"target="_blank" rel="external nofollow noopener noreferrer">Jan-nano 技术报告</a></strong> <strong>[PDF(1)]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Alan%20Dao"target="_blank" rel="external nofollow noopener noreferrer">Alan Dao</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Dinh%20Bach%20Vu"target="_blank" rel="external nofollow noopener noreferrer">Dinh Bach Vu</a></p>
+<p>大多数语言模型都面临着一个基本的权衡，即强大的功能需要大量的计算资源。我们用 Jan-nano 打破了这个限制，Jan-nano 是一个 4B 参数语言模型，它通过激进的专业化重新定义了效率：它不是试图了解一切，而是掌握了立即找到任何东西的艺术。使用我们新颖的多阶段 RLVR 系统从 Qwen3-4B 进行微调，该系统完全消除了对下一个标记预测训练 （SFT） 的依赖，在消费类硬件上运行时，Jan-nano 在 MCP 集成的 SimpleQA 基准测试中实现了 83.2%。Jan-nano 拥有 128K 的上下文长度，证明了智能与规模无关，而与策略有关。</p>
+<p><strong>主题</strong> : <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong></p>
+<p><strong>发布</strong> ： 2025-06-28 05：44：57 UTC</p>
+<ol start="2">
+<li>2025-06-19 20:36:57 Thursday ｜</li>
+</ol>
+<p>Reinforcement Learning with Verifiable Rewards Implicitly Incentivizes  Correct Reasoning in Base LLMs
+<strong>标题</strong> ： 具有可验证奖励的强化学习激励基本LLM中的正确推理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.14245</p>
+<p><strong>作者</strong> ： Xumeng Wen,  Zihan Liu,  Shun Zheng,  Zhijian Xu,  Shengyu Ye,  Zhirong Wu,  Xiao Liang,  Yang Wang,  Junjie Li,  Ziming Miao,  Jiang Bian,  Mao Yang
+<strong>备注</strong> ：Preprint
+<strong>摘要</strong> ：具有可验证奖励的强化学习（RLVR）已经成为提高大型语言模型（LLM）推理能力的一种有前途的范例。然而，一个关键的悖论云其功效：RLVR调整的模型往往表现不佳的基础模型的$Pass@K$度量的解决方案的发现，导致假设RLVR只是重新加权现有的推理路径的推理多样性的成本。在这项工作中，我们通过确定问题的来源来解决这个矛盾：$Pass@K$度量本身是一个有缺陷的推理度量，因为它认为正确的最终答案可能来自不准确或不完整的思想链（CoTs）。为了解决这个问题，我们引入了一个更精确的评估指标，$CoT$-$Pass@K$，它要求推理路径和最终答案都是正确的。我们提供了一个新的理论基础，形式化的RLVR，不同于传统的RL，是独特的结构，以激励逻辑的完整性。我们的实证结果是支持的：使用$CoT$-$Pass@K$，我们观察到RLVR可以激励正确推理的泛化为所有值的$K$。此外，通过分析训练动态，我们发现这种增强的推理能力出现在训练过程的早期，并顺利推广。我们的工作为RLVR的作用提供了一个清晰的视角，为其评估提供了一种更可靠的方法，并证实了它真正推进机器推理的潜力。</p>
+<ol start="3">
+<li>2025-06-23 10:46:10 Monday ｜ 基于可验证奖励训练接地 LLMs 的经验总结</li>
+</ol>
+<p>生成可靠且可信的响应仍然是大型语言模型（LLMs）面临的关键挑战。虽然基于引用的检索增强生成（RAG）技术展现出潜力，但经过指令调优的模型即使在简单场景中也常出现失误：遗漏明确陈述的答案、错误引用或在证据可用时拒绝回答。本研究探索了如何通过强化学习（RL）和内部推理机制来增强 LLMs 的可靠性。我们采用 GRPO（组相对策略优化）方法，利用可验证的结果型奖励机制训练模型，该机制针对答案准确性、引用充分性和拒绝质量进行优化，且无需黄金推理轨迹或昂贵的人工标注。通过在 ASQA、QAMPARI、ELI5 和 ExpertQA 数据集上的全面实验表明，推理增强模型显著优于纯指令调优版本，尤其在处理不可回答问题与生成高引用质量响应方面表现突出。采用两阶段训练方案——先优化答案和引用行为，再优化拒绝机制——通过稳定学习信号进一步提升了模型的可靠性。 此外，我们通过 GPT-4 蒸馏方法重新审视指令调优，发现将其与 GRPO 结合能提升长文本生成式问答任务的性能。总体而言，我们的研究结果凸显了推理能力、分阶段优化以及结果导向的强化学习对于构建更具可验证性和可靠性的 LLMs 的重要价值。 <a href="https://arxiv.org/abs/2506.15522"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2506.15522</a></p>
+<ol start="4">
+<li>🙋❓ 2025-06-28 18:17:38 Saturday ｜ 突破通用领域推理的瓶颈！清华NLP实验室强化学习新研究RLPR <a href="https://mp.weixin.qq.com/s/B11Ef8YwOzPHZn1SXdpp7w"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/B11Ef8YwOzPHZn1SXdpp7w</a></li>
+</ol>
+<p>基于参考概率奖励的强化学习（Reinforcement Learning with Reference Probability Reward， <strong>RLPR</strong> ）。</p>
+<p>论文标题：RLPR: Extrapolating RLVR to General Domains without Verifiers</p>
+<p>论文地址：https://github.com/OpenBMB/RLPR/blob/main/RLPR_paper.pdf</p>
+<p>GitHub 仓库：https://github.com/OpenBMB/RLPR</p>
+<p>过使用<strong>参考答案的生成概率均值</strong>作为奖励。这种方法能够有效地应对自然语言固有的复杂多样性。</p>
+<h4 id="ifdecorator用可验证奖励包装指令跟随强化学习"><a href="https://papers.cool/arxiv/2508.04632"target="_blank" rel="external nofollow noopener noreferrer">IFDECORATOR：用可验证奖励包装指令跟随强化学习</a></h4>
+<p><a href="https://arxiv.org/abs/2508.04632"target="_blank" rel="external nofollow noopener noreferrer">#7</a><a href="https://papers.cool/arxiv/2508.04632"target="_blank" rel="external nofollow noopener noreferrer">IFDECORATOR: Wrapping Instruction Following Reinforcement Learning with Verifiable Rewards </a></p>
+<p>可验证奖励强化学习（RLVR）提升了大型语言模型（LLMs）的指令执行能力，但由于难度评估不足，训练效率较低。此外，RLVR 容易出现过度优化现象，即 LLMs 利用验证捷径而未能与用户指令的实际意图保持一致。我们提出了指令执行装饰器（IFDecorator）框架，将 RLVR 训练封装成一个稳健且样本高效的流程。该框架包含三个部分：</p>
+<p>（1）合作-对抗数据飞轮，协同进化指令和混合验证，生成逐步更具挑战性的指令-验证对；</p>
+<p>（2）IntentCheck，执行意图对齐的旁路模块；</p>
+<p>（3）触发线，一种通过陷阱指令检测奖励作弊的诊断机制，能够触发并捕捉捷径利用行为。</p>
+<p>我们的 Qwen2.5-32B-Instruct-IFDecorator 在 IFEval 上达到 87.43%的准确率，优于更大规模的专有模型如 GPT-4o。此外，我们在 FollowBench 上也展示了显著提升，同时保持了模型的通用能力。 我们的触发机制显示奖励作弊率显著降低。我们将发布模型、代码和数据以供未来研究。</p>
+<p>发布时间：2025-08-06 17:00:54 UTC</p>
+<h2 id="数学">数学</h2>
+<p>2025-06-27 14:21:00 Friday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.21495"target="_blank" rel="external nofollow noopener noreferrer">桥接 LLM 的离线和在线强化学习</a></strong> <strong>[PDF(7)]</strong> <strong>[Copy]</strong> <strong>[Kimi(2)]</strong> <strong>[REL]</strong></p>
+<p><a href="https://arxiv.org/abs/2506.21495"target="_blank" rel="external nofollow noopener noreferrer">#6</a> <strong><a href="https://papers.cool/arxiv/2506.21495"target="_blank" rel="external nofollow noopener noreferrer">Bridging Offline and Online Reinforcement Learning for LLMs</a></strong> <strong>[PDF(7)]</strong> <strong>[Copy]</strong> <strong>[Kimi(2)]</strong> <strong>[REL]</strong></p>
+<p>作者：杰克·兰钱汀、安吉莉卡·陈、贾尼斯·兰、李贤、斯瓦纳迪普·萨哈、王天璐、徐静、余平、袁伟哲、杰森·E·韦斯顿、赛因巴亚尔·苏赫巴托尔、伊利亚·库利科夫</p>
+<p>我们研究了强化学习方法在从离线过渡到半在线再到完全在线状态时对大型语言模型进行微调的有效性，以完成可验证和不可验证的任务。我们的实验涵盖可验证数学和不可验证教学的训练，然后对两者进行了一组基准评估。在这些设置中，我们广泛比较了在线和半在线 Direct Preference Optimization 和 Group Reward Policy Optimization 目标，并令人惊讶地发现这些变体之间的性能和收敛性相似，它们都明显优于离线方法。我们提供了对训练动力学和超参数选择策略的详细分析，以实现最佳结果。最后，我们表明，具有可验证和不可验证奖励的多任务处理共同提高了两种任务类型的性能。</p>
+<p>20250604｜Response-Level Rewards Are All You Need for Online Reinforcement  Learning in LLMs: A Mathematical Perspective
+<strong>标题</strong> ： 响应级别奖励就是LLM在线强化学习所需的一切：数学的角度
+<strong>链接</strong> ：https://arxiv.org/abs/2506.02553
+<strong>摘要</strong> ：我们研究了大型语言模型（LLM）强化学习中的一个常见挑战：零回报假设，其中非终端动作（即，中间令牌生成）接收零任务特定的立即奖励，而只有最终令牌接收整个响应的奖励。这种假设在实践中经常出现，因为在LLM应用程序中获得精确的令牌级奖励通常是困难或不可行的。在这项工作中，我们提供了一个统一的理论观点。我们引入了 <strong>轨迹策略梯度定理</strong> ，该定理表明，对于REINFORCE和Actor-Critic家族中的算法，基于真实的未知令牌级奖励的策略梯度可以仅使用响应级奖励模型进行无偏估计，而不管零奖励假设是否成立。这一结果表明，PPO、GRPO、ReMax和RLOO等广泛使用的方法本质上具有对令牌级奖励信号建模的能力，为响应级奖励方法提供了理论依据。我们的研究结果为更实用，更有效的LLM微调铺平了道路，允许开发人员将训练算法视为黑箱，并专注于使用辅助子模型改进响应级奖励模型。我们还对流行的RL和非RL方法进行了详细分析，比较了它们在常见LLM任务中的理论基础和实践优势。最后，我们提出了一种新的算法：令牌增强策略优化（TRePO），这是一种理论上的方法，比PPO更简单，在内存效率上与GRPO相匹配，并具有广泛的适用性。</p>
+<p>🌈 2025-06-10 10:15:31 Tuesday ｜ 推理模型如何攻克数学难题？Epoch AI新研究发现，o3-mini-high不仅具备渊博学识，还会基于直觉解题。然而，它的推理风格过于依赖直觉，缺乏严谨性和创造力，甚至偶尔「投机取巧」。https://mp.weixin.qq.com/s/Bi-EpYpJ_7damcdRPtzCmA  <a href="https://mp.weixin.qq.com/s/IfTQQ-XAFDxap6B7_OHC1g"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/IfTQQ-XAFDxap6B7_OHC1g</a></p>
+<ol>
+<li>❗这里提到了alphaproof，有必要学习一下 <a href="https://zhuanlan.zhihu.com/p/2711128759"target="_blank" rel="external nofollow noopener noreferrer">AlphaProof 技术解析 | IMO 系列</a>
+<ol>
+<li>是用类似 AlphaZero 的办法训的（和自己下围棋），所以应该用了 MCTS</li>
+<li>finetune 了 gemini 来做自动形式化（autoformalization），把自然语言的问题转换为形式语言。</li>
+<li>要用 lean 这种形式化证明的工具，这样子就可以获得来自 proof assistant 的精确的反馈。</li>
+</ol>
+</li>
+<li>AlphaGeometry 和 Alphaproof 还是挺不一样的，它的推理部分应该用了很多传统方法(也用了吴文俊提出的方法作为基准 吴文俊，把几何问题转换成代数问题来自动解决)。
+<ol>
+<li>它的点在于合成数据(而非利用人类数据)和生成辅助线(这个传统方法不大会)。</li>
+<li>它合成数据的时候先采样一堆前提，然后用传统方法在上面一通推理，可以得到一堆结论对于每个结论都可以找到一个最小的前提集合可以恰好推出它，这样就造出来一道几何题。其中前提集合里和结论无关的就是辅助线，然后就可以拿来给llm学学学了。</li>
+</ol>
+</li>
+<li>DeepMind 的 FunSearch 通过搜索优先级的方法，发现了目前最大的 Cap Set。Cap Set 问题是一个组合数学问题，FunSearch 的成功在此问题上展示了其在离散数学领域的强大推理能力。</li>
+</ol>
+<h3 id="多模态数学">多模态数学</h3>
+<p>2025-06-26 13:36:30 Thursday ｜让多模态大模型「想明白再画」！港大等开源GoT-R1：强化学习解锁视觉生成推理新范式 <a href="https://mp.weixin.qq.com/s/sPdhPeNMkdBLjtLzI5urwg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/sPdhPeNMkdBLjtLzI5urwg</a></p>
+<p>该新框架通过引入强化学习，显著增强了多模态大模型在视觉生成任务中的语义 - 空间推理能力，使其能够超越预定义模板，自主探索和学习更优的推理策略。GoT 和 GoT-R1 已全面开源。</p>
+<ul>
+<li>GoT arxiv:https://arxiv.org/pdf/2503.10639</li>
+<li>GoT github:https://github.com/rongyaofang/GoT</li>
+<li>GoT-R1 arxiv: <a href="https://arxiv.org/pdf/2505.17022"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/pdf/2505.17022</a></li>
+<li>GoT-R1 github:https://github.com/gogoduan/GoT-R1</li>
+</ul>
+<ol start="2">
+<li>2025-06-24 13:31:26 Tuesday ｜</li>
+</ol>
+<p>GRPO-CARE: Consistency-Aware Reinforcement Learning for Multimodal Reasoning
+<strong>链接</strong> ：https://arxiv.org/abs/2506.16141</p>
+<p><strong>作者</strong> ：Yuying Ge, Rui Wang, Yixiao Ge, Junhao Cheng, Ying Shan, Xihui Liu
+<strong>备注</strong> ：         Code released at: this https URL
+<strong>摘要</strong> ：最近的强化学习方法，如结果监督GRPO，已经在大型语言模型（LLM）中推进了思想链推理，但它们对多模态LLM（MLLM）的适应尚未探索。为了解决MLLM后期训练方法缺乏严格评估的问题，我们引入了SEED-Bench-R1，这是一个需要平衡感知和推理的复杂现实视频基准。它提供了一个大型的训练集，并在三个不断升级的挑战中评估泛化：分布，跨环境和跨环境任务场景。使用SEED-Bench-R1，我们发现标准GRPO在提高答案准确性的同时，往往会降低推理步骤和答案之间的逻辑一致性，只有57.9%的一致率。这源于奖励信号只关注最终答案、鼓励捷径以及限制探索的严格KL惩罚。为了解决这个问题，我们提出了GRPO-CARE，这是一个一致性感知RL框架，在没有明确监督的情况下优化答案正确性和推理一致性。GRPO-CARE引入了两层奖励：（1）对答案正确性的基本奖励，以及（2）自适应一致性奖励，通过比较模型的推理到答案的可能性（通过一个缓慢进化的参考模型）与群体对等体来计算。这种双重机制放大了对正确和逻辑一致的推理路径的奖励。用这种自适应奖金取代KL惩罚，GRPO-CARE在SEED-Bench-R1上的表现优于标准GRPO，在最难的评估水平上实现了6.7%的性能增益，在一致性上提高了24.5%。它还显示出强大的可移植性，提高了不同视频理解基准的模型性能。我们的工作贡献了一个系统设计的基准和一个可推广的培训后框架，推进了更可解释和更强大的MLLM的发展。</p>
+<h2 id="grpo">GRPO</h2>
+<p>2025-07-03 11:45:44 Thursday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2507.01551"target="_blank" rel="external nofollow noopener noreferrer">使用 Masked Step Advantage 进行自我引导的过程奖励优化，用于过程强化学习</a></strong> <strong>[PDF(5)]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Wu%20Fei"target="_blank" rel="external nofollow noopener noreferrer">Wu Fei</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Hao%20Kong"target="_blank" rel="external nofollow noopener noreferrer">Hao Kong</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Shuxian%20Liang"target="_blank" rel="external nofollow noopener noreferrer">Shuxian Liang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yang%20Lin"target="_blank" rel="external nofollow noopener noreferrer">Yang Lin</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yibo%20Yang"target="_blank" rel="external nofollow noopener noreferrer">Yibo Yang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jing%20Tang"target="_blank" rel="external nofollow noopener noreferrer">Jing Tang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Lei%20Chen"target="_blank" rel="external nofollow noopener noreferrer">Lei Chen</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xiansheng%20Hua"target="_blank" rel="external nofollow noopener noreferrer">Xiansheng Hua</a></p>
+<p>过程强化学习~（PRL） 在增强大型语言模型~（LLM）的推理能力方面已经显示出相当大的潜力。然而，引入额外的流程奖励模型会产生大量的计算开销，并且没有统一的流程级优势估计理论框架。为了弥合这一差距，我们提出了 \textbf{S}elf-Guided \textbf{P}rocess \textbf{R}eward \textbf{O}ptimization~（\textbf{SPRO}），这是一个新颖的框架，通过两个关键创新实现了过程感知 RL： <strong>（1） 我们首先从理论上证明了过程奖励可以从策略模型本身本质上得出，以及 （2） 我们引入了定义明确的累积过程奖励和 \textbf{M}asked \textbf{S}tep \textbf{A}dvantage （\textbf{MSA}）， 这有助于在共享提示采样组中进行严格的逐步行动优势估计</strong> 。我们的实验结果表明， <strong>SPRO 的性能优于 vaniila GRPO，训练效率提高了 3.4 倍，测试准确率提高了 17.5%</strong> 。此外，SPRO 在整个训练过程中保持稳定且较高的策略熵，同时将平均响应长度减少约 1/3，证明对奖励黑客行为进行了充分的探索和预防。值得注意的是，与结果监督的 RL 方法（如 GRPO）相比，SPRO 不会产生额外的计算开销，这有利于工业实施。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.LG"target="_blank" rel="external nofollow noopener noreferrer">机器学习</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a>, <a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></p>
+<p><strong>发布</strong> ： 2025-07-02 10：05：14 UTC</p>
+<ol start="2">
+<li>20250604｜Critique-GRPO: Advancing LLM Reasoning with Natural Language and  Numerical Feedback
+<strong>标题</strong> ： Critique-GRPO：利用自然语言和数字反馈推进LLM推理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.03106
+<strong>摘要</strong> ：最近，带有数值反馈的强化学习（RL）的进展，如标量奖励，显着增强了大型语言模型（LLM）的复杂推理能力。尽管取得了这一成功，我们确定了RL遇到的三个关键挑战， <strong>只有数字反馈</strong> ：性能高原， <strong>自我反思的有效性有限</strong> ，和 <strong>持续的失败</strong> 。然后，我们证明，RL微调模型，即使表现出性能平台，可以产生正确的改进持续失败的问题，通过利用自然语言反馈的形式的批评。基于这一见解，我们提出了Critique-GRPO，这是一个在线RL框架，它集成了自然语言和数值反馈，以实现有效的策略优化。CRitique-GRPO使LLM能够在保持探索的同时 <strong>从初始响应和批评指导的改进中学习</strong> 。使用<strong>Qwen2.5- 7 B-Base</strong>和Qwen 3 -8B-Base进行的大量实验表明，Critique-GRPO在8个具有挑战性的数学、STEM和一般推理任务中始终优于基于监督学习和基于RL的微调方法，分别将平均pass@1分数提高了约4.5%和5%。值得注意的是，Critique-GRPO超越了在线RL中包含专家演示的强大基线。进一步的分析揭示了关于策略探索的两个关键见解：（1）更高的熵并不总是保证从探索中有效学习，（2）更长的响应不一定会导致更有效的探索。</li>
+<li>2025-06-20 11:39:57 Friday ｜ DPO与GRPO谁更胜一筹？港中文、北大等联合发布首个系统性对比研究 <a href="https://mp.weixin.qq.com/s/bv6biTQUCr49gvu7PmECTg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/bv6biTQUCr49gvu7PmECTg</a></li>
+</ol>
+<p><strong>该研究首次对 GRPO 和 DPO 算法在自回归图像生成中的应用进行了全面深入的比较</strong> ，不仅评估了它们在域内（in-domain）和域外（out-of-domain）的性能，还细致探究了不同奖励模型及扩展策略对其能力的影响。</p>
+<p>论文标题：Delving into RL for Image Generation with CoT: A Study on DPO vs. GRPO</p>
+<p>论文链接：https://arxiv.org/abs/2505.17017</p>
+<p>代码链接：https://github.com/ZiyuGuo99/Image-Generation-CoT</p>
+<h2 id="垂直领域">垂直领域</h2>
+<h3 id="具身">具身</h3>
+<p>2025-07-01 12:06:54 Tuesday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.23127"target="_blank" rel="external nofollow noopener noreferrer">通过强化学习在 LLM 中释放隐身任务规划能力</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zhaoye%20Fei"target="_blank" rel="external nofollow noopener noreferrer">Zhaoye Fei</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Li%20Ji"target="_blank" rel="external nofollow noopener noreferrer">Li Ji</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Siyin%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Siyin Wang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Junhao%20Shi"target="_blank" rel="external nofollow noopener noreferrer">Junhao Shi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jingjing%20Gong"target="_blank" rel="external nofollow noopener noreferrer">Jingjing Gong</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xipeng%20Qiu"target="_blank" rel="external nofollow noopener noreferrer">Xipeng Qiu</a></p>
+<p>大型语言模型 （LLM） 在各种任务中都表现出了卓越的能力，但它们在需要持续理解环境和生成行动的具身任务规划场景中面临着重大挑战。现有方法基于静态知识生成开环动作脚本，因此很难学习动作和环境反馈之间的因果关系，尤其是在部分可观察的环境中。我们介绍了 Embodied Planner-R1，这是一种新颖的结果驱动强化学习框架，使 LLM 能够在最少的监督下通过自主探索来开发交互功能。我们的框架融合了三个关键创新：（1） 没有人工注释，我们采用纯强化学习和分组推出，通过并行探索结合环境内交互;（2） 完成驱动的稀疏奖励;（3） 交互式策略优化 （IPO），用于从分组轨迹中高效学习。在两个具有挑战性的基于文本的 Embodied 规划基准测试中，Embodied Planner-R1 在 ALFWorld 上实现了令人印象深刻的 97.78% 和 79.92% 的完成率，大大超过了以前的方法，并且在以前从未见过的环境中仅下降了 -3.66%，证明了强大的泛化性。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a></p>
+<h3 id="攻击">攻击</h3>
+<p>2025-07-01 12:10:48 Tuesday｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.22777"target="_blank" rel="external nofollow noopener noreferrer">教授模型在思维链推理中用语言解释奖励黑客攻击</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi(1)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Miles%20Turpin"target="_blank" rel="external nofollow noopener noreferrer">Miles Turpin</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Andy%20Arditi"target="_blank" rel="external nofollow noopener noreferrer">Andy Arditi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Marvin%20Li"target="_blank" rel="external nofollow noopener noreferrer">Marvin Li</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Joe%20Benton"target="_blank" rel="external nofollow noopener noreferrer">Joe Benton</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Julian%20Michael"target="_blank" rel="external nofollow noopener noreferrer">Julian Michael</a></p>
+<p>使用 RL 训练的语言模型可以参与奖励黑客攻击，即利用无意的策略获得高回报，而不会在其思维链推理中揭示这种行为，从而使检测变得困难，并为高风险应用程序带来风险。我们提出了语言微调 （VFT），这是一种 RL 之前的干预，它训练模型在受到提示提示的影响时明确承认它们——指向错误答案的提示（例如，“斯坦福大学教授认为答案是 A”）。为了评估 VFT，我们随后在保留的提示提示表明哪些错误答案将获得高奖励的环境中使用 RL 训练模型，从而激励模型通过利用提示而不是正确推理来奖励黑客。我们测量模型在不用语言表达的情况下利用这些线索的频率。在 RL 之后，只有 6% 的 VFT 训练模型的响应由未检测到的奖励黑客攻击组成。相比之下，当我们在没有 VFT 的情况下执行 RL 时，未被发现的奖励黑客攻击率高达 88%;通过去偏倚基线干预，这一比例进一步增加到 99%。VFT 通过大幅提高模型表达线索影响的频率来实现这一点——从 VFT 后的 8% 到 42%，RL 后高达 94%——而即使在 RL 之后，基线仍然很低（10% 和 1%）。我们的结果表明，在 RL 之前训练模型明确地用语言表达奖励黑客行为可以显着提高其检测能力，从而为实现更透明、更安全的 AI 系统提供了一条实用的途径。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a></p>
+<p><strong>发布</strong> ： 2025-06-28 06：37：10 UTC</p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

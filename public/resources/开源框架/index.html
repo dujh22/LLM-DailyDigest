@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>开源框架 - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="开源框架
+学习素材
+
+2025-07-02 14:01:48 Wednesday 机器学习 Q 与 AI：30 个必备问答
+2025-06-30 16:37:19 Monday 盘一盘，2017年Transformer之后，LLM领域的重要论文 https://mp.weixin.qq.com/s/1lUSlc0tvEWLuOFOP0WkUA
+2025-06-19 19:47:17 Thursday ｜ 信息过载时代，如何真正「懂」LLM？从MIT分享的50个面试题开始 https://mp.weixin.qq.com/s/u7aIm6jP1Nblfjr2NvakLw
+新鲜出炉！斯坦福2025 CS336课程全公开：从零开始搓大模型 https://mp.weixin.qq.com/s/ehHSTpysn9NXW4-P4RjkuQ
+
+斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！
+课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_
+课程主页：https://stanford-cs336.github.io/spring2025/
+预训练
+微调
+LLaMA-Factory
+https://github.com/hiyouga/LLaMA-Factory
+项目学习：https://zread.ai/hiyouga/LLaMA-Factory
+入门教程：https://zhuanlan.zhihu.com/p/695287607
+https://blog.csdn.net/zt0612xd/article/details/147726799
+中文教程：https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/data_preparation.html#id4
+报错：
+LLaMA-Factory 模型合并 ImportError: cannot import name ‘DTensor‘ from ‘torch.distributed.tensor‘ 报错解决记录 https://blog.csdn.net/ygxdmss1412/article/details/148742597
+ms-swift
+https://github.com/modelscope/ms-swift" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="开源框架">
+  <meta itemprop="description" content="开源框架 学习素材 2025-07-02 14:01:48 Wednesday 机器学习 Q 与 AI：30 个必备问答 2025-06-30 16:37:19 Monday 盘一盘，2017年Transformer之后，LLM领域的重要论文 https://mp.weixin.qq.com/s/1lUSlc0tvEWLuOFOP0WkUA 2025-06-19 19:47:17 Thursday ｜ 信息过载时代，如何真正「懂」LLM？从MIT分享的50个面试题开始 https://mp.weixin.qq.com/s/u7aIm6jP1Nblfjr2NvakLw 新鲜出炉！斯坦福2025 CS336课程全公开：从零开始搓大模型 https://mp.weixin.qq.com/s/ehHSTpysn9NXW4-P4RjkuQ 斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！
+课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_
+课程主页：https://stanford-cs336.github.io/spring2025/
+预训练 微调 LLaMA-Factory https://github.com/hiyouga/LLaMA-Factory
+项目学习：https://zread.ai/hiyouga/LLaMA-Factory
+入门教程：https://zhuanlan.zhihu.com/p/695287607
+https://blog.csdn.net/zt0612xd/article/details/147726799
+中文教程：https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/data_preparation.html#id4
+报错：
+LLaMA-Factory 模型合并 ImportError: cannot import name ‘DTensor‘ from ‘torch.distributed.tensor‘ 报错解决记录 https://blog.csdn.net/ygxdmss1412/article/details/148742597
+ms-swift https://github.com/modelscope/ms-swift">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="174"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/resources/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="开源框架">
+  <meta property="og:description" content="开源框架 学习素材 2025-07-02 14:01:48 Wednesday 机器学习 Q 与 AI：30 个必备问答 2025-06-30 16:37:19 Monday 盘一盘，2017年Transformer之后，LLM领域的重要论文 https://mp.weixin.qq.com/s/1lUSlc0tvEWLuOFOP0WkUA 2025-06-19 19:47:17 Thursday ｜ 信息过载时代，如何真正「懂」LLM？从MIT分享的50个面试题开始 https://mp.weixin.qq.com/s/u7aIm6jP1Nblfjr2NvakLw 新鲜出炉！斯坦福2025 CS336课程全公开：从零开始搓大模型 https://mp.weixin.qq.com/s/ehHSTpysn9NXW4-P4RjkuQ 斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！
+课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_
+课程主页：https://stanford-cs336.github.io/spring2025/
+预训练 微调 LLaMA-Factory https://github.com/hiyouga/LLaMA-Factory
+项目学习：https://zread.ai/hiyouga/LLaMA-Factory
+入门教程：https://zhuanlan.zhihu.com/p/695287607
+https://blog.csdn.net/zt0612xd/article/details/147726799
+中文教程：https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/data_preparation.html#id4
+报错：
+LLaMA-Factory 模型合并 ImportError: cannot import name ‘DTensor‘ from ‘torch.distributed.tensor‘ 报错解决记录 https://blog.csdn.net/ygxdmss1412/article/details/148742597
+ms-swift https://github.com/modelscope/ms-swift">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="resources">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="开源框架">
+  <meta name="twitter:description" content="开源框架 学习素材 2025-07-02 14:01:48 Wednesday 机器学习 Q 与 AI：30 个必备问答 2025-06-30 16:37:19 Monday 盘一盘，2017年Transformer之后，LLM领域的重要论文 https://mp.weixin.qq.com/s/1lUSlc0tvEWLuOFOP0WkUA 2025-06-19 19:47:17 Thursday ｜ 信息过载时代，如何真正「懂」LLM？从MIT分享的50个面试题开始 https://mp.weixin.qq.com/s/u7aIm6jP1Nblfjr2NvakLw 新鲜出炉！斯坦福2025 CS336课程全公开：从零开始搓大模型 https://mp.weixin.qq.com/s/ehHSTpysn9NXW4-P4RjkuQ 斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！
+课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_
+课程主页：https://stanford-cs336.github.io/spring2025/
+预训练 微调 LLaMA-Factory https://github.com/hiyouga/LLaMA-Factory
+项目学习：https://zread.ai/hiyouga/LLaMA-Factory
+入门教程：https://zhuanlan.zhihu.com/p/695287607
+https://blog.csdn.net/zt0612xd/article/details/147726799
+中文教程：https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/data_preparation.html#id4
+报错：
+LLaMA-Factory 模型合并 ImportError: cannot import name ‘DTensor‘ from ‘torch.distributed.tensor‘ 报错解决记录 https://blog.csdn.net/ygxdmss1412/article/details/148742597
+ms-swift https://github.com/modelscope/ms-swift">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/resources/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/resources/papers/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "开源框架",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/resources\/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6\/"
+    },"genre": "resources","wordcount":  174 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/resources\/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>开源框架</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="174 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 200 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>One minute</span>&nbsp;<span id="busuanzi_container_page_pv" title=""><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#学习素材">学习素材</a></li>
+    <li><a href="#预训练">预训练</a></li>
+    <li><a href="#微调">微调</a>
+      <ul>
+        <li><a href="#llama-factory">LLaMA-Factory</a></li>
+        <li><a href="#ms-swift">ms-swift</a></li>
+        <li><a href="#unsloth">Unsloth</a></li>
+      </ul>
+    </li>
+    <li><a href="#强化学习">强化学习</a>
+      <ul>
+        <li><a href="#-openrlhf">🌈 OpenRLHF</a>
+          <ul>
+            <li><a href="#多模态二创mm-eureka">多模态二创：MM-EUREKA</a></li>
+          </ul>
+        </li>
+        <li><a href="#open-r1">Open-R1</a></li>
+        <li><a href="#tinyzero">TinyZero</a></li>
+        <li><a href="#roll">Roll</a></li>
+        <li><a href="#r1-v">R1-V</a></li>
+        <li><a href="#trl">TRL</a></li>
+        <li><a href="#-verl">🌈 veRL</a>
+          <ul>
+            <li><a href="#easyr1">EasyR1</a></li>
+          </ul>
+        </li>
+        <li><a href="#logic--rl">Logic- RL</a></li>
+      </ul>
+    </li>
+    <li><a href="#部署">部署</a>
+      <ul>
+        <li><a href="#vllm">vLLM</a></li>
+        <li><a href="#sglang">SGLang</a></li>
+        <li><a href="#tgi">TGI</a></li>
+      </ul>
+    </li>
+    <li><a href="#未分类">未分类</a>
+      <ul>
+        <li><a href="#moe部署">MoE部署</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="开源框架">开源框架</h1>
+<h2 id="学习素材">学习素材</h2>
+<ol>
+<li>2025-07-02 14:01:48 Wednesday 机器学习 Q 与 AI：30 个必备问答</li>
+<li>2025-06-30 16:37:19 Monday 盘一盘，2017年Transformer之后，LLM领域的重要论文 <a href="https://mp.weixin.qq.com/s/1lUSlc0tvEWLuOFOP0WkUA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/1lUSlc0tvEWLuOFOP0WkUA</a></li>
+<li>2025-06-19 19:47:17 Thursday ｜ 信息过载时代，如何真正「懂」LLM？从MIT分享的50个面试题开始 <a href="https://mp.weixin.qq.com/s/u7aIm6jP1Nblfjr2NvakLw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/u7aIm6jP1Nblfjr2NvakLw</a></li>
+<li>新鲜出炉！斯坦福2025 CS336课程全公开：从零开始搓大模型 <a href="https://mp.weixin.qq.com/s/ehHSTpysn9NXW4-P4RjkuQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/ehHSTpysn9NXW4-P4RjkuQ</a></li>
+</ol>
+<p>斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！</p>
+<p>课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_</p>
+<p>课程主页：https://stanford-cs336.github.io/spring2025/</p>
+<h2 id="预训练">预训练</h2>
+<h2 id="微调">微调</h2>
+<h3 id="llama-factory">LLaMA-Factory</h3>
+<p><a href="https://github.com/hiyouga/LLaMA-Factory"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/hiyouga/LLaMA-Factory</a></p>
+<p>项目学习：https://zread.ai/hiyouga/LLaMA-Factory</p>
+<p>入门教程：https://zhuanlan.zhihu.com/p/695287607</p>
+<p><a href="https://blog.csdn.net/zt0612xd/article/details/147726799"target="_blank" rel="external nofollow noopener noreferrer">https://blog.csdn.net/zt0612xd/article/details/147726799</a></p>
+<p>中文教程：https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/data_preparation.html#id4</p>
+<p>报错：</p>
+<p>LLaMA-Factory 模型合并 ImportError: cannot import name ‘DTensor‘ from ‘torch.distributed.tensor‘ 报错解决记录 <a href="https://blog.csdn.net/ygxdmss1412/article/details/148742597"target="_blank" rel="external nofollow noopener noreferrer">https://blog.csdn.net/ygxdmss1412/article/details/148742597</a></p>
+<h3 id="ms-swift">ms-swift</h3>
+<p><a href="https://github.com/modelscope/ms-swift"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/modelscope/ms-swift</a></p>
+<p>ms-swift 是 ModelScope 社区提供的官方框架，用于大语言模型和多模态大模型的微调与部署。它目前支持 500+ 大模型和 200+ 多模态大模型的训练（预训练、微调、人类对齐）、推理、评估、量化和部署。这些大语言模型（LLMs）包括 Qwen3、Qwen3-MoE、Qwen2.5、InternLM3、GLM4、Mistral、DeepSeek-R1、Yi1.5、TeleChat2、Baichuan2 和 Gemma2 等模型。多模态 LLMs 包括 Qwen2.5-VL、Qwen2-Audio、Llama3.4、Llava、InternVL2.5、MiniCPM-V-2.6、GLM4v、Xcomposer2.5、Yi-VL、DeepSeek-VL2、Phi3.5-Vision 和 GOT-OCR2 等模型。</p>
+<h3 id="unsloth">Unsloth</h3>
+<h2 id="强化学习">强化学习</h2>
+<p>学习教程：从RLHF、PPO到GRPO再训练推理模型，这是你需要的强化学习入门指南 <a href="https://mp.weixin.qq.com/s/TZRqK8Waj3bt2VTeyZYjmg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/TZRqK8Waj3bt2VTeyZYjmg</a>
+原文地址：https://docs.unsloth.ai/basics/reinforcement-learning-guide</p>
+<p>开源项目：https://github.com/unslothai/unsloth</p>
+<h3 id="-openrlhf">🌈 OpenRLHF</h3>
+<p>github：https://github.com/OpenRLHF/OpenRLHF</p>
+<p>支持比GRPO更稳定的REINFORCE++</p>
+<h4 id="多模态二创mm-eureka">多模态二创：MM-EUREKA</h4>
+<p><a href="https://github.com/ModalMinds/MM-EUREKA"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/ModalMinds/MM-EUREKA</a></p>
+<h3 id="open-r1">Open-R1</h3>
+<p>使用Open-R1框架在MATH数据集的训练集上进行训练。</p>
+<h3 id="tinyzero">TinyZero</h3>
+<p><a href="https://github.com/Jiayi-Pan/TinyZero"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Jiayi-Pan/TinyZero</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/1903191617571125117"target="_blank" rel="external nofollow noopener noreferrer">TinyZero最详细复现笔记（一）</a></p>
+<ol>
+<li>TinyZero项目在尽可能小的模型、尽可能简单的实验设置下，复现了DeepSeek-R1-Zero模式的核心成果：仅通过基于规则的强化学习，就能让模型自发出现思维链，并显著提升推理能力。</li>
+</ol>
+<p><a href="https://zhuanlan.zhihu.com/p/1903855264207200959"target="_blank" rel="external nofollow noopener noreferrer">TinyZero最详细复现笔记（二）：VeRL框架与PPO训练细节</a></p>
+<h3 id="roll">Roll</h3>
+<p>重磅！淘天联合爱橙开源强化学习训练框架ROLL，高效支持十亿到千亿参数大模型训练 <a href="https://mp.weixin.qq.com/s/4JaXQd_X_XheZuSILfE2Pw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/4JaXQd_X_XheZuSILfE2Pw</a></p>
+<ol>
+<li>强化学习（Reinforcement Learning，RL）已成为大语言模型（Large Language Model，LLM）后训练阶段的关键技术。RL 不仅显著提升了模型的对齐能力，也拓展了其在推理增强、智能体交互等场景下的应用边界。围绕这一核心范式，研究社区不断演化出多种优化策略和算法变体，如 Agentic RL、RLAIF、GRPO、REINFORCE++ 等。</li>
+</ol>
+<ul>
+<li>开源项目：https://github.com/alibaba/ROLL</li>
+<li>论文标题：Reinforcement Learning Optimization for Large-Scale Learning: An Efficient and User-Friendly Scaling Library</li>
+<li>论文地址：https://arxiv.org/pdf/2506.06122</li>
+<li></li>
+</ul>
+<h3 id="r1-v">R1-V</h3>
+<h3 id="trl">TRL</h3>
+<p>link：https://zhuanlan.zhihu.com/p/693304721</p>
+<p>TRL 是huggingface中的一个完整的库，用于微调和调整大型语言模型，包括 <a href="https://zhida.zhihu.com/search?content_id=242198265&amp;content_type=Article&amp;match_order=1&amp;q=Transformer&#43;%E8%AF%AD%E8%A8%80&amp;zhida_source=entity"target="_blank" rel="external nofollow noopener noreferrer">Transformer 语言</a>和<a href="https://zhida.zhihu.com/search?content_id=242198265&amp;content_type=Article&amp;match_order=1&amp;q=%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B&amp;zhida_source=entity"target="_blank" rel="external nofollow noopener noreferrer">扩散模型</a>。这个库支持多种方法，如<a href="https://zhida.zhihu.com/search?content_id=242198265&amp;content_type=Article&amp;match_order=1&amp;q=%E7%9B%91%E7%9D%A3%E5%BE%AE%E8%B0%83&amp;zhida_source=entity"target="_blank" rel="external nofollow noopener noreferrer">监督微调</a>（Supervised Fine-tuning, SFT）、<a href="https://zhida.zhihu.com/search?content_id=242198265&amp;content_type=Article&amp;match_order=1&amp;q=%E5%A5%96%E5%8A%B1%E5%BB%BA%E6%A8%A1&amp;zhida_source=entity"target="_blank" rel="external nofollow noopener noreferrer">奖励建模</a>（Reward Modeling, RM）、<a href="https://zhida.zhihu.com/search?content_id=242198265&amp;content_type=Article&amp;match_order=1&amp;q=%E9%82%BB%E8%BF%91%E7%AD%96%E7%95%A5%E4%BC%98%E5%8C%96&amp;zhida_source=entity"target="_blank" rel="external nofollow noopener noreferrer">邻近策略优化</a>（Proximal Policy Optimization, PPO）以及<a href="https://zhida.zhihu.com/search?content_id=242198265&amp;content_type=Article&amp;match_order=1&amp;q=%E7%9B%B4%E6%8E%A5%E5%81%8F%E5%A5%BD%E4%BC%98%E5%8C%96&amp;zhida_source=entity"target="_blank" rel="external nofollow noopener noreferrer">直接偏好优化</a>（Direct Preference Optimization, DPO）。</p>
+<p>支持GRPO</p>
+<h3 id="-verl">🌈 veRL</h3>
+<p>link：https://www.volcengine.com/docs/6459/1463942</p>
+<p><a href="https://github.com/volcengine/verl"target="_blank" rel="external nofollow noopener noreferrer">veRL</a> 是火山引擎推出的用于大语言模型（LLM）的强化学习库，具有灵活性、高效性且适用于生产环境。</p>
+<p>支持GRPO</p>
+<p>sglang小组也在用</p>
+<h4 id="easyr1">EasyR1</h4>
+<p>link：https://aws.amazon.com/cn/blogs/china/building-llm-model-hub-based-on-llamafactory-and-easyr1/</p>
+<p>EasyR1 是基于火山引擎 veRL 框架开发的专为大语言模型 / 视觉语言模型（LLM / VLM）设计的高性能强化学习训练框架，支持 GRPO 等多种强化学习算法。</p>
+<h3 id="logic--rl">Logic- RL</h3>
+<p><a href="https://zhuanlan.zhihu.com/p/22769760306"target="_blank" rel="external nofollow noopener noreferrer">LLM界的AlphaGo：DeepSeek R1 Zero保姆级复现教程来了！</a></p>
+<p><a href="https://github.com/Unakar/Logic-RL"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Unakar/Logic-RL</a></p>
+<h2 id="部署">部署</h2>
+<h3 id="vllm">vLLM</h3>
+<h3 id="sglang">SGLang</h3>
+<h3 id="tgi">TGI</h3>
+<h2 id="未分类">未分类</h2>
+<h3 id="moe部署">MoE部署</h3>
+<p>华为：推理超大规模MoE背后的架构、技术和代码 Omni-Infer <a href="https://mp.weixin.qq.com/s/sfC5l0wYGrrs0Kfrz3ZzyA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/sfC5l0wYGrrs0Kfrz3ZzyA</a></p>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s/e5Nl__L5lty0XHkM6Qd8cQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/e5Nl__L5lty0XHkM6Qd8cQ</a></li>
+<li>推理 与 推理加速</li>
+</ol>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

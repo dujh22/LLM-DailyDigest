@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>2025-01-31科研追新(公众号) - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="2025-01-31
+统计1-28-9:00～1-31-17:00的相关新进展
+1. 公众号
+1.1 AGI-Eval
+
+Nicola Jones 在 Nature 上抛出问题“人工智能革命的数据即将耗尽。研究人员能做什么？”。
+
+标题：The Alrevolution is running out ofdata,Whatcanresearchers do?
+公众号：https://mp.weixin.qq.com/s/O_zPdVwFvLYPBlmQsuc5hQ
+论文查看：https://arxiv.org/pdf/2211.04325
+数据如何选择、改造的研究方法是一个非常庞大和持续的工作。精准有效的数据集其实很难有组织会公开分享，现在公开可见的只有大概的框架和路径。在以下论文中做了相对详细的讲解。A Survey on Data Selection for Language Models https://openreview.net/pdf?id=XfHWcNTSHp
+
+
+
+2. Arxiv
+2.1 1.31日
+共34篇文章：
+
+思绪无处不在：关于 o1 类LLMs的思考不足
+
+Thoughts Are All Over the Place: On the Underthinking of o1-Like LLMs
+OpenAI 的 o1 等大型语言模型 （）LLMs 通过扩展测试时间计算和展示类似人类的深度思考，在复杂推理任务中表现出非凡的能力。
+然而，我们发现了一个我们称之为思考不足的现象，其中 o1 样LLMs经常在不同的推理思维之间切换，而没有充分探索有希望的途径来达到正确的解决方案。这种行为会导致推理深度不足和性能下降，尤其是在具有挑战性的数学问题上。
+为了系统地分析这个问题，我们对三个具有挑战性的测试集和两个具有代表性的开源 o1-like 模型进行了实验，揭示了频繁的思维转换与不正确的回答相关。
+我们引入了一个新的指标，通过测量错误答案中的代币效率来量化思考不足。
+为了解决思考不足的问题，我们提出了一种带有思想转换惩罚 TIP 的解码策略，它阻止了思想之间的过早过渡，鼓励对每条推理路径进行更深入的探索。
+实验结果表明，我们的方法提高了具有挑战性的数据集的准确性，而无需对模型进行微调。我们的发现有助于理解 o1-like LLMs 中的推理效率低下，并为提高他们解决问题的能力提供了实用的解决方案。
+
+
+R.I.P.：适者生存提示的更好模型
+
+R.I.P.: Better Models by Survival of the Fittest Prompts
+在这项工作中，我们引入了一种评估数据完整性的方法，该方法基于低质量输入提示导致高方差和低质量响应的假设
+
+
+CALM：释放语言模型问答的跨语言自对齐能力
+
+CALM: Unleashing the Cross-Lingual Self-Aligning Ability of Language Model Question Answering
+
+
+系统预测性能的LLM统计多指标评估和可视化
+
+Statistical multi-metric evaluation and visualization of LLM system predictive performance
+基于生成或判别性大型语言模型 LLM 的系统的评估通常是一个复杂的多维问题。通常，在一个或多个基准数据集上评估一组系统配置备选方案，每个数据集都有一个或多个评估量度，这些量度可能因数据集而异。
+我们通常希望通过显著性的统计度量来评估系统在给定数据集上根据单个指标、数据集上跨指标聚合或跨数据集执行不同的性能。可以进行此类评估来支持决策，例如确定特定的系统组件更改（例如，选择LLM或超参数值）是否显著提高了当前系统配置的性能，或者更一般地说，一组固定的系统配置（例如，排行榜列表）是否根据感兴趣的指标具有显着不同的性能。
+我们提出了一个框架实现，它可以自动执行正确的统计测试，正确地聚合跨指标和数据集的统计结果（一项重要的任务），并且可以可视化结果。该框架在多语言代码生成基准 CrossCodeEval 上进行了演示，适用于几个最先进的 LLMs.
+
+
+扩展推理高效的语言模型
+
+Scaling Inference-Efficient Language Models
+缩放定律是预测大型语言模型性能的强大工具。但是，当前的扩展规则无法考虑推理成本。
+在这项工作中，我们首先表明模型架构会影响推理延迟，其中相同大小的模型可以有高达 3.5 倍的延迟差异。
+为了应对这一挑战，我们修改了 Chinchilla 扩展定律，以共同优化模型参数数量、训练令牌的数量和模型架构。由于相似训练损失的模型在下游评估中表现出差距，我们还提出了一种基于修订后的缩放定律训练推理效率模型的新方法。
+我们进行了广泛的实证研究，以适应和评估我们的推理感知缩放定律。我们将模型参数从 80M 变化到 1B，训练标记从 1.6B 到 30B 和模型形状，总共训练了 63 个模型。在我们的推理高效扩展定律和模型选择方法的指导下，我们发布了 Morph-1B 模型，与开源模型相比，该模型将推理延迟降低了 1.8 倍，同时保持了下游任务的准确性，推动了准确性-延迟权衡的帕累托前沿。
+
+
+学习用思考来计划和评估理由-LLM-作为评委
+
+Learning to Plan &amp; Reason for Evaluation with Thinking-LLM-as-a-Judge
+LLM-as-a-Judge 模型生成思维链 （CoT） 序列，旨在捕获作为响应最终评估基础的逐步推理过程。然而，由于缺乏用于评估的人工注释 CoT，有效推理痕迹所需的组件和结构仍未得到充分研究。因此，以前的方法通常 （1） 将推理轨迹限制为手动设计的组件，例如标准列表、参考答案或验证问题，以及 （2） 构建它们，以便规划与评估推理交织在一起。
+在这项工作中，我们提出了 EvalPlanner，这是一种用于 Thinking-LLM-as-a-Judge 的偏好优化算法，它首先生成一个无约束的评估计划，然后是它的执行，然后是最终的判断。
+在自我训练循环中，EvalPlanner 对综合构建的评估计划和执行进行迭代优化，从而获得更好的最终结论。
+我们的方法在 RewardBench 上实现了生成奖励模型的最新性能（得分为 93.9），尽管训练的偏好对数量较少且是合成的。对 RM-Bench、JudgeBench 和 FollowBenchEval 等其他基准测试的其他实验进一步强调了规划和推理在构建稳健LLM的 -as-a-Judge 推理模型方面的效用。
+
+
+
+2.2 30日
+共67篇文章：" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="2025-01-31科研追新(公众号)">
+  <meta itemprop="description" content="2025-01-31 统计1-28-9:00～1-31-17:00的相关新进展
+1. 公众号 1.1 AGI-Eval Nicola Jones 在 Nature 上抛出问题“人工智能革命的数据即将耗尽。研究人员能做什么？”。 标题：The Alrevolution is running out ofdata,Whatcanresearchers do? 公众号：https://mp.weixin.qq.com/s/O_zPdVwFvLYPBlmQsuc5hQ 论文查看：https://arxiv.org/pdf/2211.04325 数据如何选择、改造的研究方法是一个非常庞大和持续的工作。精准有效的数据集其实很难有组织会公开分享，现在公开可见的只有大概的框架和路径。在以下论文中做了相对详细的讲解。A Survey on Data Selection for Language Models https://openreview.net/pdf?id=XfHWcNTSHp 2. Arxiv 2.1 1.31日 共34篇文章：
+思绪无处不在：关于 o1 类LLMs的思考不足 Thoughts Are All Over the Place: On the Underthinking of o1-Like LLMs OpenAI 的 o1 等大型语言模型 （）LLMs 通过扩展测试时间计算和展示类似人类的深度思考，在复杂推理任务中表现出非凡的能力。 然而，我们发现了一个我们称之为思考不足的现象，其中 o1 样LLMs经常在不同的推理思维之间切换，而没有充分探索有希望的途径来达到正确的解决方案。这种行为会导致推理深度不足和性能下降，尤其是在具有挑战性的数学问题上。 为了系统地分析这个问题，我们对三个具有挑战性的测试集和两个具有代表性的开源 o1-like 模型进行了实验，揭示了频繁的思维转换与不正确的回答相关。 我们引入了一个新的指标，通过测量错误答案中的代币效率来量化思考不足。 为了解决思考不足的问题，我们提出了一种带有思想转换惩罚 TIP 的解码策略，它阻止了思想之间的过早过渡，鼓励对每条推理路径进行更深入的探索。 实验结果表明，我们的方法提高了具有挑战性的数据集的准确性，而无需对模型进行微调。我们的发现有助于理解 o1-like LLMs 中的推理效率低下，并为提高他们解决问题的能力提供了实用的解决方案。 R.I.P.：适者生存提示的更好模型 R.I.P.: Better Models by Survival of the Fittest Prompts 在这项工作中，我们引入了一种评估数据完整性的方法，该方法基于低质量输入提示导致高方差和低质量响应的假设 CALM：释放语言模型问答的跨语言自对齐能力 CALM: Unleashing the Cross-Lingual Self-Aligning Ability of Language Model Question Answering 系统预测性能的LLM统计多指标评估和可视化 Statistical multi-metric evaluation and visualization of LLM system predictive performance 基于生成或判别性大型语言模型 LLM 的系统的评估通常是一个复杂的多维问题。通常，在一个或多个基准数据集上评估一组系统配置备选方案，每个数据集都有一个或多个评估量度，这些量度可能因数据集而异。 我们通常希望通过显著性的统计度量来评估系统在给定数据集上根据单个指标、数据集上跨指标聚合或跨数据集执行不同的性能。可以进行此类评估来支持决策，例如确定特定的系统组件更改（例如，选择LLM或超参数值）是否显著提高了当前系统配置的性能，或者更一般地说，一组固定的系统配置（例如，排行榜列表）是否根据感兴趣的指标具有显着不同的性能。 我们提出了一个框架实现，它可以自动执行正确的统计测试，正确地聚合跨指标和数据集的统计结果（一项重要的任务），并且可以可视化结果。该框架在多语言代码生成基准 CrossCodeEval 上进行了演示，适用于几个最先进的 LLMs. 扩展推理高效的语言模型 Scaling Inference-Efficient Language Models 缩放定律是预测大型语言模型性能的强大工具。但是，当前的扩展规则无法考虑推理成本。 在这项工作中，我们首先表明模型架构会影响推理延迟，其中相同大小的模型可以有高达 3.5 倍的延迟差异。 为了应对这一挑战，我们修改了 Chinchilla 扩展定律，以共同优化模型参数数量、训练令牌的数量和模型架构。由于相似训练损失的模型在下游评估中表现出差距，我们还提出了一种基于修订后的缩放定律训练推理效率模型的新方法。 我们进行了广泛的实证研究，以适应和评估我们的推理感知缩放定律。我们将模型参数从 80M 变化到 1B，训练标记从 1.6B 到 30B 和模型形状，总共训练了 63 个模型。在我们的推理高效扩展定律和模型选择方法的指导下，我们发布了 Morph-1B 模型，与开源模型相比，该模型将推理延迟降低了 1.8 倍，同时保持了下游任务的准确性，推动了准确性-延迟权衡的帕累托前沿。 学习用思考来计划和评估理由-LLM-作为评委 Learning to Plan &amp; Reason for Evaluation with Thinking-LLM-as-a-Judge LLM-as-a-Judge 模型生成思维链 （CoT） 序列，旨在捕获作为响应最终评估基础的逐步推理过程。然而，由于缺乏用于评估的人工注释 CoT，有效推理痕迹所需的组件和结构仍未得到充分研究。因此，以前的方法通常 （1） 将推理轨迹限制为手动设计的组件，例如标准列表、参考答案或验证问题，以及 （2） 构建它们，以便规划与评估推理交织在一起。 在这项工作中，我们提出了 EvalPlanner，这是一种用于 Thinking-LLM-as-a-Judge 的偏好优化算法，它首先生成一个无约束的评估计划，然后是它的执行，然后是最终的判断。 在自我训练循环中，EvalPlanner 对综合构建的评估计划和执行进行迭代优化，从而获得更好的最终结论。 我们的方法在 RewardBench 上实现了生成奖励模型的最新性能（得分为 93.9），尽管训练的偏好对数量较少且是合成的。对 RM-Bench、JudgeBench 和 FollowBenchEval 等其他基准测试的其他实验进一步强调了规划和推理在构建稳健LLM的 -as-a-Judge 推理模型方面的效用。 2.2 30日 共67篇文章：">
+  <meta itemprop="datePublished" content="2025-01-31T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-01-31T00:00:00+08:00">
+  <meta itemprop="wordCount" content="232"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/updates/2025-01-31/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="2025-01-31科研追新(公众号)">
+  <meta property="og:description" content="2025-01-31 统计1-28-9:00～1-31-17:00的相关新进展
+1. 公众号 1.1 AGI-Eval Nicola Jones 在 Nature 上抛出问题“人工智能革命的数据即将耗尽。研究人员能做什么？”。 标题：The Alrevolution is running out ofdata,Whatcanresearchers do? 公众号：https://mp.weixin.qq.com/s/O_zPdVwFvLYPBlmQsuc5hQ 论文查看：https://arxiv.org/pdf/2211.04325 数据如何选择、改造的研究方法是一个非常庞大和持续的工作。精准有效的数据集其实很难有组织会公开分享，现在公开可见的只有大概的框架和路径。在以下论文中做了相对详细的讲解。A Survey on Data Selection for Language Models https://openreview.net/pdf?id=XfHWcNTSHp 2. Arxiv 2.1 1.31日 共34篇文章：
+思绪无处不在：关于 o1 类LLMs的思考不足 Thoughts Are All Over the Place: On the Underthinking of o1-Like LLMs OpenAI 的 o1 等大型语言模型 （）LLMs 通过扩展测试时间计算和展示类似人类的深度思考，在复杂推理任务中表现出非凡的能力。 然而，我们发现了一个我们称之为思考不足的现象，其中 o1 样LLMs经常在不同的推理思维之间切换，而没有充分探索有希望的途径来达到正确的解决方案。这种行为会导致推理深度不足和性能下降，尤其是在具有挑战性的数学问题上。 为了系统地分析这个问题，我们对三个具有挑战性的测试集和两个具有代表性的开源 o1-like 模型进行了实验，揭示了频繁的思维转换与不正确的回答相关。 我们引入了一个新的指标，通过测量错误答案中的代币效率来量化思考不足。 为了解决思考不足的问题，我们提出了一种带有思想转换惩罚 TIP 的解码策略，它阻止了思想之间的过早过渡，鼓励对每条推理路径进行更深入的探索。 实验结果表明，我们的方法提高了具有挑战性的数据集的准确性，而无需对模型进行微调。我们的发现有助于理解 o1-like LLMs 中的推理效率低下，并为提高他们解决问题的能力提供了实用的解决方案。 R.I.P.：适者生存提示的更好模型 R.I.P.: Better Models by Survival of the Fittest Prompts 在这项工作中，我们引入了一种评估数据完整性的方法，该方法基于低质量输入提示导致高方差和低质量响应的假设 CALM：释放语言模型问答的跨语言自对齐能力 CALM: Unleashing the Cross-Lingual Self-Aligning Ability of Language Model Question Answering 系统预测性能的LLM统计多指标评估和可视化 Statistical multi-metric evaluation and visualization of LLM system predictive performance 基于生成或判别性大型语言模型 LLM 的系统的评估通常是一个复杂的多维问题。通常，在一个或多个基准数据集上评估一组系统配置备选方案，每个数据集都有一个或多个评估量度，这些量度可能因数据集而异。 我们通常希望通过显著性的统计度量来评估系统在给定数据集上根据单个指标、数据集上跨指标聚合或跨数据集执行不同的性能。可以进行此类评估来支持决策，例如确定特定的系统组件更改（例如，选择LLM或超参数值）是否显著提高了当前系统配置的性能，或者更一般地说，一组固定的系统配置（例如，排行榜列表）是否根据感兴趣的指标具有显着不同的性能。 我们提出了一个框架实现，它可以自动执行正确的统计测试，正确地聚合跨指标和数据集的统计结果（一项重要的任务），并且可以可视化结果。该框架在多语言代码生成基准 CrossCodeEval 上进行了演示，适用于几个最先进的 LLMs. 扩展推理高效的语言模型 Scaling Inference-Efficient Language Models 缩放定律是预测大型语言模型性能的强大工具。但是，当前的扩展规则无法考虑推理成本。 在这项工作中，我们首先表明模型架构会影响推理延迟，其中相同大小的模型可以有高达 3.5 倍的延迟差异。 为了应对这一挑战，我们修改了 Chinchilla 扩展定律，以共同优化模型参数数量、训练令牌的数量和模型架构。由于相似训练损失的模型在下游评估中表现出差距，我们还提出了一种基于修订后的缩放定律训练推理效率模型的新方法。 我们进行了广泛的实证研究，以适应和评估我们的推理感知缩放定律。我们将模型参数从 80M 变化到 1B，训练标记从 1.6B 到 30B 和模型形状，总共训练了 63 个模型。在我们的推理高效扩展定律和模型选择方法的指导下，我们发布了 Morph-1B 模型，与开源模型相比，该模型将推理延迟降低了 1.8 倍，同时保持了下游任务的准确性，推动了准确性-延迟权衡的帕累托前沿。 学习用思考来计划和评估理由-LLM-作为评委 Learning to Plan &amp; Reason for Evaluation with Thinking-LLM-as-a-Judge LLM-as-a-Judge 模型生成思维链 （CoT） 序列，旨在捕获作为响应最终评估基础的逐步推理过程。然而，由于缺乏用于评估的人工注释 CoT，有效推理痕迹所需的组件和结构仍未得到充分研究。因此，以前的方法通常 （1） 将推理轨迹限制为手动设计的组件，例如标准列表、参考答案或验证问题，以及 （2） 构建它们，以便规划与评估推理交织在一起。 在这项工作中，我们提出了 EvalPlanner，这是一种用于 Thinking-LLM-as-a-Judge 的偏好优化算法，它首先生成一个无约束的评估计划，然后是它的执行，然后是最终的判断。 在自我训练循环中，EvalPlanner 对综合构建的评估计划和执行进行迭代优化，从而获得更好的最终结论。 我们的方法在 RewardBench 上实现了生成奖励模型的最新性能（得分为 93.9），尽管训练的偏好对数量较少且是合成的。对 RM-Bench、JudgeBench 和 FollowBenchEval 等其他基准测试的其他实验进一步强调了规划和推理在构建稳健LLM的 -as-a-Judge 推理模型方面的效用。 2.2 30日 共67篇文章：">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="updates">
+    <meta property="article:published_time" content="2025-01-31T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-01-31T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="2025-01-31科研追新(公众号)">
+  <meta name="twitter:description" content="2025-01-31 统计1-28-9:00～1-31-17:00的相关新进展
+1. 公众号 1.1 AGI-Eval Nicola Jones 在 Nature 上抛出问题“人工智能革命的数据即将耗尽。研究人员能做什么？”。 标题：The Alrevolution is running out ofdata,Whatcanresearchers do? 公众号：https://mp.weixin.qq.com/s/O_zPdVwFvLYPBlmQsuc5hQ 论文查看：https://arxiv.org/pdf/2211.04325 数据如何选择、改造的研究方法是一个非常庞大和持续的工作。精准有效的数据集其实很难有组织会公开分享，现在公开可见的只有大概的框架和路径。在以下论文中做了相对详细的讲解。A Survey on Data Selection for Language Models https://openreview.net/pdf?id=XfHWcNTSHp 2. Arxiv 2.1 1.31日 共34篇文章：
+思绪无处不在：关于 o1 类LLMs的思考不足 Thoughts Are All Over the Place: On the Underthinking of o1-Like LLMs OpenAI 的 o1 等大型语言模型 （）LLMs 通过扩展测试时间计算和展示类似人类的深度思考，在复杂推理任务中表现出非凡的能力。 然而，我们发现了一个我们称之为思考不足的现象，其中 o1 样LLMs经常在不同的推理思维之间切换，而没有充分探索有希望的途径来达到正确的解决方案。这种行为会导致推理深度不足和性能下降，尤其是在具有挑战性的数学问题上。 为了系统地分析这个问题，我们对三个具有挑战性的测试集和两个具有代表性的开源 o1-like 模型进行了实验，揭示了频繁的思维转换与不正确的回答相关。 我们引入了一个新的指标，通过测量错误答案中的代币效率来量化思考不足。 为了解决思考不足的问题，我们提出了一种带有思想转换惩罚 TIP 的解码策略，它阻止了思想之间的过早过渡，鼓励对每条推理路径进行更深入的探索。 实验结果表明，我们的方法提高了具有挑战性的数据集的准确性，而无需对模型进行微调。我们的发现有助于理解 o1-like LLMs 中的推理效率低下，并为提高他们解决问题的能力提供了实用的解决方案。 R.I.P.：适者生存提示的更好模型 R.I.P.: Better Models by Survival of the Fittest Prompts 在这项工作中，我们引入了一种评估数据完整性的方法，该方法基于低质量输入提示导致高方差和低质量响应的假设 CALM：释放语言模型问答的跨语言自对齐能力 CALM: Unleashing the Cross-Lingual Self-Aligning Ability of Language Model Question Answering 系统预测性能的LLM统计多指标评估和可视化 Statistical multi-metric evaluation and visualization of LLM system predictive performance 基于生成或判别性大型语言模型 LLM 的系统的评估通常是一个复杂的多维问题。通常，在一个或多个基准数据集上评估一组系统配置备选方案，每个数据集都有一个或多个评估量度，这些量度可能因数据集而异。 我们通常希望通过显著性的统计度量来评估系统在给定数据集上根据单个指标、数据集上跨指标聚合或跨数据集执行不同的性能。可以进行此类评估来支持决策，例如确定特定的系统组件更改（例如，选择LLM或超参数值）是否显著提高了当前系统配置的性能，或者更一般地说，一组固定的系统配置（例如，排行榜列表）是否根据感兴趣的指标具有显着不同的性能。 我们提出了一个框架实现，它可以自动执行正确的统计测试，正确地聚合跨指标和数据集的统计结果（一项重要的任务），并且可以可视化结果。该框架在多语言代码生成基准 CrossCodeEval 上进行了演示，适用于几个最先进的 LLMs. 扩展推理高效的语言模型 Scaling Inference-Efficient Language Models 缩放定律是预测大型语言模型性能的强大工具。但是，当前的扩展规则无法考虑推理成本。 在这项工作中，我们首先表明模型架构会影响推理延迟，其中相同大小的模型可以有高达 3.5 倍的延迟差异。 为了应对这一挑战，我们修改了 Chinchilla 扩展定律，以共同优化模型参数数量、训练令牌的数量和模型架构。由于相似训练损失的模型在下游评估中表现出差距，我们还提出了一种基于修订后的缩放定律训练推理效率模型的新方法。 我们进行了广泛的实证研究，以适应和评估我们的推理感知缩放定律。我们将模型参数从 80M 变化到 1B，训练标记从 1.6B 到 30B 和模型形状，总共训练了 63 个模型。在我们的推理高效扩展定律和模型选择方法的指导下，我们发布了 Morph-1B 模型，与开源模型相比，该模型将推理延迟降低了 1.8 倍，同时保持了下游任务的准确性，推动了准确性-延迟权衡的帕累托前沿。 学习用思考来计划和评估理由-LLM-作为评委 Learning to Plan &amp; Reason for Evaluation with Thinking-LLM-as-a-Judge LLM-as-a-Judge 模型生成思维链 （CoT） 序列，旨在捕获作为响应最终评估基础的逐步推理过程。然而，由于缺乏用于评估的人工注释 CoT，有效推理痕迹所需的组件和结构仍未得到充分研究。因此，以前的方法通常 （1） 将推理轨迹限制为手动设计的组件，例如标准列表、参考答案或验证问题，以及 （2） 构建它们，以便规划与评估推理交织在一起。 在这项工作中，我们提出了 EvalPlanner，这是一种用于 Thinking-LLM-as-a-Judge 的偏好优化算法，它首先生成一个无约束的评估计划，然后是它的执行，然后是最终的判断。 在自我训练循环中，EvalPlanner 对综合构建的评估计划和执行进行迭代优化，从而获得更好的最终结论。 我们的方法在 RewardBench 上实现了生成奖励模型的最新性能（得分为 93.9），尽管训练的偏好对数量较少且是合成的。对 RM-Bench、JudgeBench 和 FollowBenchEval 等其他基准测试的其他实验进一步强调了规划和推理在构建稳健LLM的 -as-a-Judge 推理模型方面的效用。 2.2 30日 共67篇文章：">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/updates/2025-01-31/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/updates/arxiv_daily_report_2025-01-30/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/updates/arxiv_daily_report_2025-01-31/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "2025-01-31科研追新(公众号)",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/updates\/2025-01-31\/"
+    },"genre": "updates","wordcount":  232 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/updates\/2025-01-31\/","datePublished": "2025-01-31T00:00:00+08:00","dateModified": "2025-01-31T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>2025-01-31科研追新(公众号)</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-01-31 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-01-31">2025-01-31</time></span>&nbsp;<span title="Updated on 2025-01-31 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-01-31">2025-01-31</time></span>&nbsp;<span title="232 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 300 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>2 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-agi-eval">1.1 AGI-Eval</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#21-131日">2.1 1.31日</a></li>
+    <li><a href="#22-30日">2.2 30日</a></li>
+    <li><a href="#23-29日">2.3 29日</a></li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="2025-01-31">2025-01-31</h1>
+<p>统计1-28-9:00～1-31-17:00的相关新进展</p>
+<h1 id="1-公众号">1. 公众号</h1>
+<h2 id="11-agi-eval">1.1 AGI-Eval</h2>
+<ol>
+<li>Nicola Jones 在 Nature 上抛出问题“人工智能革命的数据即将耗尽。研究人员能做什么？”。
+<ol>
+<li>标题：The Alrevolution is running out ofdata,Whatcanresearchers do?</li>
+<li>公众号：https://mp.weixin.qq.com/s/O_zPdVwFvLYPBlmQsuc5hQ</li>
+<li>论文查看：https://arxiv.org/pdf/2211.04325</li>
+<li>数据如何选择、改造的研究方法是一个非常庞大和持续的工作。精准有效的数据集其实很难有组织会公开分享，现在公开可见的只有大概的框架和路径。在以下论文中做了相对详细的讲解。A Survey on Data Selection for Language Models <a href="https://openreview.net/pdf?id=XfHWcNTSHp"target="_blank" rel="external nofollow noopener noreferrer">https://openreview.net/pdf?id=XfHWcNTSHp</a></li>
+</ol>
+</li>
+</ol>
+<h1 id="2-arxiv">2. Arxiv</h1>
+<h2 id="21-131日">2.1 1.31日</h2>
+<p>共34篇文章：</p>
+<ol>
+<li>思绪无处不在：关于 o1 类LLMs的思考不足
+<ol>
+<li>Thoughts Are All Over the Place: On the Underthinking of o1-Like LLMs</li>
+<li>OpenAI 的 o1 等大型语言模型 （）LLMs 通过扩展测试时间计算和展示类似人类的深度思考，在复杂推理任务中表现出非凡的能力。</li>
+<li>然而，我们发现了一个我们称之为思考不足的现象，其中 o1 样LLMs经常在不同的推理思维之间切换，而没有充分探索有希望的途径来达到正确的解决方案。这种行为会导致推理深度不足和性能下降，尤其是在具有挑战性的数学问题上。</li>
+<li>为了系统地分析这个问题，我们对三个具有挑战性的测试集和两个具有代表性的开源 o1-like 模型进行了实验，揭示了频繁的思维转换与不正确的回答相关。</li>
+<li>我们引入了一个新的指标，通过测量错误答案中的代币效率来量化思考不足。</li>
+<li>为了解决思考不足的问题，我们提出了一种带有思想转换惩罚 TIP 的解码策略，它阻止了思想之间的过早过渡，鼓励对每条推理路径进行更深入的探索。</li>
+<li>实验结果表明，我们的方法提高了具有挑战性的数据集的准确性，而无需对模型进行微调。我们的发现有助于理解 o1-like LLMs 中的推理效率低下，并为提高他们解决问题的能力提供了实用的解决方案。</li>
+</ol>
+</li>
+<li>R.I.P.：适者生存提示的更好模型
+<ol>
+<li>R.I.P.: Better Models by Survival of the Fittest Prompts</li>
+<li>在这项工作中，我们引入了一种评估数据完整性的方法，该方法基于低质量输入提示导致高方差和低质量响应的假设</li>
+</ol>
+</li>
+<li>CALM：释放语言模型问答的跨语言自对齐能力
+<ol>
+<li>CALM: Unleashing the Cross-Lingual Self-Aligning Ability of Language Model Question Answering</li>
+</ol>
+</li>
+<li>系统预测性能的LLM统计多指标评估和可视化
+<ol>
+<li>Statistical multi-metric evaluation and visualization of LLM system predictive performance</li>
+<li>基于生成或判别性大型语言模型 LLM 的系统的评估通常是一个复杂的多维问题。通常，在一个或多个基准数据集上评估一组系统配置备选方案，每个数据集都有一个或多个评估量度，这些量度可能因数据集而异。</li>
+<li>我们通常希望通过显著性的统计度量来评估系统在给定数据集上根据单个指标、数据集上跨指标聚合或跨数据集执行不同的性能。可以进行此类评估来支持决策，例如确定特定的系统组件更改（例如，选择LLM或超参数值）是否显著提高了当前系统配置的性能，或者更一般地说，一组固定的系统配置（例如，排行榜列表）是否根据感兴趣的指标具有显着不同的性能。</li>
+<li>我们提出了一个框架实现，它可以自动执行正确的统计测试，正确地聚合跨指标和数据集的统计结果（一项重要的任务），并且可以可视化结果。该框架在多语言代码生成基准 CrossCodeEval 上进行了演示，适用于几个最先进的 LLMs.</li>
+</ol>
+</li>
+<li>扩展推理高效的语言模型
+<ol>
+<li>Scaling Inference-Efficient Language Models</li>
+<li>缩放定律是预测大型语言模型性能的强大工具。但是，当前的扩展规则无法考虑推理成本。</li>
+<li>在这项工作中，我们首先表明模型架构会影响推理延迟，其中相同大小的模型可以有高达 3.5 倍的延迟差异。</li>
+<li>为了应对这一挑战，我们修改了 Chinchilla 扩展定律，以共同优化模型参数数量、训练令牌的数量和模型架构。由于相似训练损失的模型在下游评估中表现出差距，我们还提出了一种基于修订后的缩放定律训练推理效率模型的新方法。</li>
+<li>我们进行了广泛的实证研究，以适应和评估我们的推理感知缩放定律。我们将模型参数从 80M 变化到 1B，训练标记从 1.6B 到 30B 和模型形状，总共训练了 63 个模型。在我们的推理高效扩展定律和模型选择方法的指导下，我们发布了 Morph-1B 模型，与开源模型相比，该模型将推理延迟降低了 1.8 倍，同时保持了下游任务的准确性，推动了准确性-延迟权衡的帕累托前沿。</li>
+</ol>
+</li>
+<li>学习用思考来计划和评估理由-LLM-作为评委
+<ol>
+<li>Learning to Plan &amp; Reason for Evaluation with Thinking-LLM-as-a-Judge</li>
+<li>LLM-as-a-Judge 模型生成思维链 （CoT） 序列，旨在捕获作为响应最终评估基础的逐步推理过程。然而，由于缺乏用于评估的人工注释 CoT，有效推理痕迹所需的组件和结构仍未得到充分研究。因此，以前的方法通常 （1） 将推理轨迹限制为手动设计的组件，例如标准列表、参考答案或验证问题，以及 （2） 构建它们，以便规划与评估推理交织在一起。</li>
+<li>在这项工作中，我们提出了 EvalPlanner，这是一种用于 Thinking-LLM-as-a-Judge 的偏好优化算法，它首先生成一个无约束的评估计划，然后是它的执行，然后是最终的判断。</li>
+<li>在自我训练循环中，EvalPlanner 对综合构建的评估计划和执行进行迭代优化，从而获得更好的最终结论。</li>
+<li>我们的方法在 RewardBench 上实现了生成奖励模型的最新性能（得分为 93.9），尽管训练的偏好对数量较少且是合成的。对 RM-Bench、JudgeBench 和 FollowBenchEval 等其他基准测试的其他实验进一步强调了规划和推理在构建稳健LLM的 -as-a-Judge 推理模型方面的效用。</li>
+</ol>
+</li>
+</ol>
+<h2 id="22-30日">2.2 30日</h2>
+<p>共67篇文章：</p>
+<ol>
+<li>CSEval：使用自动校准LLMs实现自动化、多维和无参考的反语音评估（这篇文章或许会是一个很好的参考）
+<ol>
+<li>CSEval: Towards Automated, Multi-Dimensional, and Reference-Free Counterspeech Evaluation using Auto-Calibrated LLMs</li>
+<li>反驳言论作为打击在线仇恨言论的有效方法而广受欢迎，导致人们对使用语言模型自动生成反驳言论的研究兴趣日益浓厚。然而，该领域缺乏与人类判断一致的标准化评估协议和强大的自动评估指标。</li>
+<li>目前的自动评估方法主要基于相似性指标，并不能有效地捕捉反语音质量的复杂和独立属性，例如上下文相关性、攻击性或论证连贯性。这导致人们越来越依赖劳动密集型的人工评估来评估自动反语音生成方法。</li>
+<li>为了应对这些挑战，我们引入了 CSEval，这是一个新颖的数据集和框架，用于从四个维度评估反语音质量：上下文相关性、侵略性、论点连贯性和适用性。</li>
+<li>此外，我们提出了用于反语音评估 （ACE） 的自动校准 COT，这是一种基于提示的方法，具有自动校准的思维链 （CoT），用于使用大型语言模型对反语音进行评分。</li>
+<li>我们的实验表明，ACE 在与人类判断的相关性方面优于 ROUGE 、 METEOR 和 BertScore 等传统指标，这表明自动反语音评估取得了重大进步。</li>
+</ol>
+</li>
+<li>行动胜于雄辩：代理决策揭示了语言模型中的隐性偏见
+<ol>
+<li>Actions Speak Louder than Words: Agent Decisions Reveal Implicit Biases in Language Models</li>
+<li>虽然公平性和一致性方面的进步有助于减轻大型语言模型LLMs 在明确提示时表现出的明显偏见，但我们假设这些模型在模拟人类行为时可能仍表现出隐性偏见。</li>
+<li>为了检验这一假设，我们提出了一种技术，通过评估具有LLM生成的、社会人口学知情角色的代理人之间的决策差异，系统地揭示广泛的社会人口学类别中的此类偏见。</li>
+<li>使用我们的技术，我们测试了 3 个社会人口学群体和 4 个决策场景中的 6 个LLMs。</li>
+<li>我们的结果表明，最先进的模型在几乎所有模拟中LLMs都表现出显着的社会人口统计学差异，尽管减少了显性偏差，但更高级的模型表现出更大的隐性偏差。此外，当将我们的发现与实证研究中报告的现实世界差异进行比较时，我们发现我们发现的偏差在方向上是一致的，但被明显放大了。这种方向对齐突出了我们的技术在发现系统性偏差而不是随机变化方面的LLMs效用;此外，隐性偏见的存在和放大强调了解决这些偏见的新策略的必要性。</li>
+</ol>
+</li>
+<li>该第23篇文章</li>
+</ol>
+<h2 id="23-29日">2.3 29日</h2>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>新趋势 - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="新趋势
+通用验证器
+
+
+OpenAI正在通过一种名为「Universal Verifier」的技术，让GPT-5在全领域实现稳步提升。翻译过来就是：通用验证器。这项技术的核心思想是：让一个AI 模型充当「验证者」，检查另一个模型的输出质量。
+
+
+去年下半年，代号为Orion的模型本应成为GPT-5，但其性能提升远低于预期，最终只能以GPT-4.5的身份发布。原因在于三大技术瓶颈同时出现：高质量训练数据枯竭、强化学习过程不稳定、模型扩展时的性能退化。
+
+
+这个系统的工作原理类似于生成对抗网络（GAN）：一个模型负责生成答案，另一个模型负责评判质量。
+
+
+OpenAI此前的论文「Prover-Verifier Games Improve Legibility of LLM Outputs」详细展示了这种方法的威力。
+
+当时的超级对齐研究团队设计了一个巧妙的游戏：「证明者」模型被赋予两种角色：「helpful」（提供正确答案）和「sneaky」（故意制造错误）。「验证者」模型则需要学会识别哪些答案是正确的。
+
+
+
+CompassVerifier: llm评估和结果奖励的统一鲁棒验证器（24▲） 
+
+CompassVerifier 是一个轻量级、稳健的模型，用于跨多个领域验证 LLM 输出，支持该模型的是 VerifierBench，一个全面的基准数据集。
+答案验证不仅对于通过将大型语言模型（LLMs）的非结构化输出与标准答案进行匹配来评估其性能至关重要，同时也作为奖励模型指导 LLM 的优化。大多数评估框架依赖正则化匹配或使用通用 LLMs 进行答案验证，这需要对正则表达式规则或评估提示进行大量且重复的定制。
+
+目前方法存在两个根本性限制：1）缺乏系统评估不同 LLMs 验证能力的综合基准；2）验证器开发尚处于初期阶段，现有方法既缺乏处理复杂边缘案例的鲁棒性，也缺乏跨领域的泛化能力。
+在本工作中，我们开发了 CompassVerifier，一种准确且鲁棒的轻量级验证模型，用于评估和结果奖励。它展现了涵盖数学、知识及多样推理任务的多领域能力，能够处理多种答案类型，包括多子问题、公式和序列答案，同时有效识别异常/无效响应。
+我们介绍了 VerifierBench 基准测试，该测试包含从多个数据源收集的模型输出，并通过对元错误模式的人工分析进行增强，以提升 CompassVerifier 的性能。
+我们期望 CompassVerifier 和 VerifierBench 能够促进答案验证、评估协议和强化学习研究。代码和数据集可在 https://github.com/open-compass/CompassVerifier 获取。
+
+
+
+dLLM 扩散语言模型
+本综述系统梳理了离散扩散方向的研究图谱，呈现了离散扩散语言模型（dLLMs）与离散扩散多模态语言模型（dMLLMs）的理论基础、代表模型、训练与推理技术，以及在推理、视觉、生物等多个领域的应用进展。https://mp.weixin.qq.com/s/hcIUmS-jUIVLOIfS7-1gtQ
+Diffusion &#43; 文本
+2025-06-28 18:43:50 Saturday 这个扩散LLM太快了！没有「请稍后」，实测倍速于Gemini 2.5 Flash
+Mercury 就是为此诞生的，其是首个基于扩散模型的 LLM。与自回归（AR）模型相比，Mercury 模型在性能和效率上都达到了最先进的水平。
+在性能表现上，根据第三方测评机构 Artificial Anlys 的基准测试数据显示，Mercury 可媲美 GPT-4.1 Nano 和 Claude 3.5 Haiku 等速度经过优化的前沿模型，同时运行速度提升超过 7 倍。 https://mp.weixin.qq.com/s/dSEkdYHOQbaiRN3O4D-hKg" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="新趋势">
+  <meta itemprop="description" content="新趋势 通用验证器 OpenAI正在通过一种名为「Universal Verifier」的技术，让GPT-5在全领域实现稳步提升。翻译过来就是：通用验证器。这项技术的核心思想是：让一个AI 模型充当「验证者」，检查另一个模型的输出质量。
+去年下半年，代号为Orion的模型本应成为GPT-5，但其性能提升远低于预期，最终只能以GPT-4.5的身份发布。原因在于三大技术瓶颈同时出现：高质量训练数据枯竭、强化学习过程不稳定、模型扩展时的性能退化。
+这个系统的工作原理类似于生成对抗网络（GAN）：一个模型负责生成答案，另一个模型负责评判质量。
+OpenAI此前的论文「Prover-Verifier Games Improve Legibility of LLM Outputs」详细展示了这种方法的威力。
+当时的超级对齐研究团队设计了一个巧妙的游戏：「证明者」模型被赋予两种角色：「helpful」（提供正确答案）和「sneaky」（故意制造错误）。「验证者」模型则需要学会识别哪些答案是正确的。 CompassVerifier: llm评估和结果奖励的统一鲁棒验证器（24▲） CompassVerifier 是一个轻量级、稳健的模型，用于跨多个领域验证 LLM 输出，支持该模型的是 VerifierBench，一个全面的基准数据集。 答案验证不仅对于通过将大型语言模型（LLMs）的非结构化输出与标准答案进行匹配来评估其性能至关重要，同时也作为奖励模型指导 LLM 的优化。大多数评估框架依赖正则化匹配或使用通用 LLMs 进行答案验证，这需要对正则表达式规则或评估提示进行大量且重复的定制。 目前方法存在两个根本性限制：1）缺乏系统评估不同 LLMs 验证能力的综合基准；2）验证器开发尚处于初期阶段，现有方法既缺乏处理复杂边缘案例的鲁棒性，也缺乏跨领域的泛化能力。 在本工作中，我们开发了 CompassVerifier，一种准确且鲁棒的轻量级验证模型，用于评估和结果奖励。它展现了涵盖数学、知识及多样推理任务的多领域能力，能够处理多种答案类型，包括多子问题、公式和序列答案，同时有效识别异常/无效响应。 我们介绍了 VerifierBench 基准测试，该测试包含从多个数据源收集的模型输出，并通过对元错误模式的人工分析进行增强，以提升 CompassVerifier 的性能。 我们期望 CompassVerifier 和 VerifierBench 能够促进答案验证、评估协议和强化学习研究。代码和数据集可在 https://github.com/open-compass/CompassVerifier 获取。 dLLM 扩散语言模型 本综述系统梳理了离散扩散方向的研究图谱，呈现了离散扩散语言模型（dLLMs）与离散扩散多模态语言模型（dMLLMs）的理论基础、代表模型、训练与推理技术，以及在推理、视觉、生物等多个领域的应用进展。https://mp.weixin.qq.com/s/hcIUmS-jUIVLOIfS7-1gtQ
+Diffusion &#43; 文本 2025-06-28 18:43:50 Saturday 这个扩散LLM太快了！没有「请稍后」，实测倍速于Gemini 2.5 Flash
+Mercury 就是为此诞生的，其是首个基于扩散模型的 LLM。与自回归（AR）模型相比，Mercury 模型在性能和效率上都达到了最先进的水平。
+在性能表现上，根据第三方测评机构 Artificial Anlys 的基准测试数据显示，Mercury 可媲美 GPT-4.1 Nano 和 Claude 3.5 Haiku 等速度经过优化的前沿模型，同时运行速度提升超过 7 倍。 https://mp.weixin.qq.com/s/dSEkdYHOQbaiRN3O4D-hKg">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="223"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%96%B0%E8%B6%8B%E5%8A%BF/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="新趋势">
+  <meta property="og:description" content="新趋势 通用验证器 OpenAI正在通过一种名为「Universal Verifier」的技术，让GPT-5在全领域实现稳步提升。翻译过来就是：通用验证器。这项技术的核心思想是：让一个AI 模型充当「验证者」，检查另一个模型的输出质量。
+去年下半年，代号为Orion的模型本应成为GPT-5，但其性能提升远低于预期，最终只能以GPT-4.5的身份发布。原因在于三大技术瓶颈同时出现：高质量训练数据枯竭、强化学习过程不稳定、模型扩展时的性能退化。
+这个系统的工作原理类似于生成对抗网络（GAN）：一个模型负责生成答案，另一个模型负责评判质量。
+OpenAI此前的论文「Prover-Verifier Games Improve Legibility of LLM Outputs」详细展示了这种方法的威力。
+当时的超级对齐研究团队设计了一个巧妙的游戏：「证明者」模型被赋予两种角色：「helpful」（提供正确答案）和「sneaky」（故意制造错误）。「验证者」模型则需要学会识别哪些答案是正确的。 CompassVerifier: llm评估和结果奖励的统一鲁棒验证器（24▲） CompassVerifier 是一个轻量级、稳健的模型，用于跨多个领域验证 LLM 输出，支持该模型的是 VerifierBench，一个全面的基准数据集。 答案验证不仅对于通过将大型语言模型（LLMs）的非结构化输出与标准答案进行匹配来评估其性能至关重要，同时也作为奖励模型指导 LLM 的优化。大多数评估框架依赖正则化匹配或使用通用 LLMs 进行答案验证，这需要对正则表达式规则或评估提示进行大量且重复的定制。 目前方法存在两个根本性限制：1）缺乏系统评估不同 LLMs 验证能力的综合基准；2）验证器开发尚处于初期阶段，现有方法既缺乏处理复杂边缘案例的鲁棒性，也缺乏跨领域的泛化能力。 在本工作中，我们开发了 CompassVerifier，一种准确且鲁棒的轻量级验证模型，用于评估和结果奖励。它展现了涵盖数学、知识及多样推理任务的多领域能力，能够处理多种答案类型，包括多子问题、公式和序列答案，同时有效识别异常/无效响应。 我们介绍了 VerifierBench 基准测试，该测试包含从多个数据源收集的模型输出，并通过对元错误模式的人工分析进行增强，以提升 CompassVerifier 的性能。 我们期望 CompassVerifier 和 VerifierBench 能够促进答案验证、评估协议和强化学习研究。代码和数据集可在 https://github.com/open-compass/CompassVerifier 获取。 dLLM 扩散语言模型 本综述系统梳理了离散扩散方向的研究图谱，呈现了离散扩散语言模型（dLLMs）与离散扩散多模态语言模型（dMLLMs）的理论基础、代表模型、训练与推理技术，以及在推理、视觉、生物等多个领域的应用进展。https://mp.weixin.qq.com/s/hcIUmS-jUIVLOIfS7-1gtQ
+Diffusion &#43; 文本 2025-06-28 18:43:50 Saturday 这个扩散LLM太快了！没有「请稍后」，实测倍速于Gemini 2.5 Flash
+Mercury 就是为此诞生的，其是首个基于扩散模型的 LLM。与自回归（AR）模型相比，Mercury 模型在性能和效率上都达到了最先进的水平。
+在性能表现上，根据第三方测评机构 Artificial Anlys 的基准测试数据显示，Mercury 可媲美 GPT-4.1 Nano 和 Claude 3.5 Haiku 等速度经过优化的前沿模型，同时运行速度提升超过 7 倍。 https://mp.weixin.qq.com/s/dSEkdYHOQbaiRN3O4D-hKg">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="topic">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="新趋势">
+  <meta name="twitter:description" content="新趋势 通用验证器 OpenAI正在通过一种名为「Universal Verifier」的技术，让GPT-5在全领域实现稳步提升。翻译过来就是：通用验证器。这项技术的核心思想是：让一个AI 模型充当「验证者」，检查另一个模型的输出质量。
+去年下半年，代号为Orion的模型本应成为GPT-5，但其性能提升远低于预期，最终只能以GPT-4.5的身份发布。原因在于三大技术瓶颈同时出现：高质量训练数据枯竭、强化学习过程不稳定、模型扩展时的性能退化。
+这个系统的工作原理类似于生成对抗网络（GAN）：一个模型负责生成答案，另一个模型负责评判质量。
+OpenAI此前的论文「Prover-Verifier Games Improve Legibility of LLM Outputs」详细展示了这种方法的威力。
+当时的超级对齐研究团队设计了一个巧妙的游戏：「证明者」模型被赋予两种角色：「helpful」（提供正确答案）和「sneaky」（故意制造错误）。「验证者」模型则需要学会识别哪些答案是正确的。 CompassVerifier: llm评估和结果奖励的统一鲁棒验证器（24▲） CompassVerifier 是一个轻量级、稳健的模型，用于跨多个领域验证 LLM 输出，支持该模型的是 VerifierBench，一个全面的基准数据集。 答案验证不仅对于通过将大型语言模型（LLMs）的非结构化输出与标准答案进行匹配来评估其性能至关重要，同时也作为奖励模型指导 LLM 的优化。大多数评估框架依赖正则化匹配或使用通用 LLMs 进行答案验证，这需要对正则表达式规则或评估提示进行大量且重复的定制。 目前方法存在两个根本性限制：1）缺乏系统评估不同 LLMs 验证能力的综合基准；2）验证器开发尚处于初期阶段，现有方法既缺乏处理复杂边缘案例的鲁棒性，也缺乏跨领域的泛化能力。 在本工作中，我们开发了 CompassVerifier，一种准确且鲁棒的轻量级验证模型，用于评估和结果奖励。它展现了涵盖数学、知识及多样推理任务的多领域能力，能够处理多种答案类型，包括多子问题、公式和序列答案，同时有效识别异常/无效响应。 我们介绍了 VerifierBench 基准测试，该测试包含从多个数据源收集的模型输出，并通过对元错误模式的人工分析进行增强，以提升 CompassVerifier 的性能。 我们期望 CompassVerifier 和 VerifierBench 能够促进答案验证、评估协议和强化学习研究。代码和数据集可在 https://github.com/open-compass/CompassVerifier 获取。 dLLM 扩散语言模型 本综述系统梳理了离散扩散方向的研究图谱，呈现了离散扩散语言模型（dLLMs）与离散扩散多模态语言模型（dMLLMs）的理论基础、代表模型、训练与推理技术，以及在推理、视觉、生物等多个领域的应用进展。https://mp.weixin.qq.com/s/hcIUmS-jUIVLOIfS7-1gtQ
+Diffusion &#43; 文本 2025-06-28 18:43:50 Saturday 这个扩散LLM太快了！没有「请稍后」，实测倍速于Gemini 2.5 Flash
+Mercury 就是为此诞生的，其是首个基于扩散模型的 LLM。与自回归（AR）模型相比，Mercury 模型在性能和效率上都达到了最先进的水平。
+在性能表现上，根据第三方测评机构 Artificial Anlys 的基准测试数据显示，Mercury 可媲美 GPT-4.1 Nano 和 Claude 3.5 Haiku 等速度经过优化的前沿模型，同时运行速度提升超过 7 倍。 https://mp.weixin.qq.com/s/dSEkdYHOQbaiRN3O4D-hKg">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%96%B0%E8%B6%8B%E5%8A%BF/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%96%B0%E9%97%BB/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%96%B0%E6%A8%A1%E5%9E%8B/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "新趋势",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E6%96%B0%E8%B6%8B%E5%8A%BF\/"
+    },"genre": "topic","wordcount":  223 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E6%96%B0%E8%B6%8B%E5%8A%BF\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>新趋势</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="223 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 300 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>2 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#通用验证器">通用验证器</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#compassverifier-llm评估和结果奖励的统一鲁棒验证器24"><a href="https://huggingface.co/papers/2508.03686?utm_source=digest-papers&amp;utm_medium=email&amp;utm_campaign=2025-08-06">CompassVerifier: llm评估和结果奖励的统一鲁棒验证器（24▲） </a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#dllm-扩散语言模型">dLLM 扩散语言模型</a>
+      <ul>
+        <li><a href="#diffusion--文本">Diffusion + 文本</a></li>
+        <li><a href="#diffusion--rl">Diffusion + RL</a></li>
+        <li><a href="#diffusion--推理">Diffusion + 推理</a>
+          <ul>
+            <li><a href="#种子扩散具有高速推理的大规模扩散语言模型64"><a href="https://huggingface.co/papers/2508.02193?utm_source=digest-papers&amp;utm_medium=email&amp;utm_campaign=2025-08-06">种子扩散：具有高速推理的大规模扩散语言模型（64▲） </a></a></li>
+          </ul>
+        </li>
+        <li><a href="#diffusion--数据合成">Diffusion + 数据合成</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="新趋势">新趋势</h1>
+<h2 id="通用验证器">通用验证器</h2>
+<ol>
+<li>
+<p>OpenAI正在通过一种名为「Universal Verifier」的技术，让GPT-5在全领域实现稳步提升。翻译过来就是：通用验证器。这项技术的核心思想是：让一个AI 模型充当「验证者」，检查另一个模型的输出质量。</p>
+</li>
+<li>
+<p>去年下半年，代号为Orion的模型本应成为GPT-5，但其性能提升远低于预期，最终只能以GPT-4.5的身份发布。原因在于三大技术瓶颈同时出现：<strong>高质量训练数据枯竭、强化学习过程不稳定、模型扩展时的性能退化。</strong></p>
+</li>
+<li>
+<p>这个系统的工作原理类似于生成对抗网络（GAN）：<strong>一个模型负责生成答案，另一个模型负责评判质量。</strong></p>
+</li>
+<li>
+<p>OpenAI此前的论文「<strong>Prover-Verifier Games Improve Legibility of LLM Outputs</strong>」详细展示了这种方法的威力。</p>
+<ol>
+<li>当时的超级对齐研究团队设计了一个巧妙的游戏：「<strong>证明者</strong>」模型被赋予两种角色：「helpful」（提供正确答案）和「sneaky」（故意制造错误）。「<strong>验证者</strong>」模型则需要学会识别哪些答案是正确的。</li>
+</ol>
+</li>
+</ol>
+<h4 id="compassverifier-llm评估和结果奖励的统一鲁棒验证器24"><a href="https://huggingface.co/papers/2508.03686?utm_source=digest-papers&amp;utm_medium=email&amp;utm_campaign=2025-08-06"target="_blank" rel="external nofollow noopener noreferrer">CompassVerifier: llm评估和结果奖励的统一鲁棒验证器（24▲） </a></h4>
+<ol>
+<li>CompassVerifier 是一个轻量级、稳健的模型，用于跨多个领域验证 LLM 输出，支持该模型的是 VerifierBench，一个全面的基准数据集。</li>
+<li>答案验证不仅对于通过将大型语言模型（LLMs）的非结构化输出与标准答案进行匹配来评估其性能至关重要，同时也作为奖励模型指导 LLM 的优化。大多数评估框架依赖正则化匹配或使用通用 LLMs 进行答案验证，这需要对正则表达式规则或评估提示进行大量且重复的定制。
+<ol>
+<li>目前方法存在两个根本性限制：1）缺乏系统评估不同 LLMs 验证能力的综合基准；2）验证器开发尚处于初期阶段，现有方法既缺乏处理复杂边缘案例的鲁棒性，也缺乏跨领域的泛化能力。</li>
+<li>在本工作中，我们开发了 CompassVerifier，一种准确且鲁棒的轻量级验证模型，用于评估和结果奖励。它展现了涵盖数学、知识及多样推理任务的多领域能力，能够处理多种答案类型，包括多子问题、公式和序列答案，同时有效识别异常/无效响应。</li>
+<li>我们介绍了 VerifierBench 基准测试，该测试包含从多个数据源收集的模型输出，并通过对元错误模式的人工分析进行增强，以提升 CompassVerifier 的性能。</li>
+<li>我们期望 CompassVerifier 和 VerifierBench 能够促进答案验证、评估协议和强化学习研究。代码和数据集可在 <a href="https://github.com/open-compass/CompassVerifier"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/open-compass/CompassVerifier</a> 获取。</li>
+</ol>
+</li>
+</ol>
+<h2 id="dllm-扩散语言模型">dLLM 扩散语言模型</h2>
+<p>本综述系统梳理了离散扩散方向的研究图谱，呈现了离散扩散语言模型（dLLMs）与离散扩散多模态语言模型（dMLLMs）的理论基础、代表模型、训练与推理技术，以及在推理、视觉、生物等多个领域的应用进展。<a href="https://mp.weixin.qq.com/s/hcIUmS-jUIVLOIfS7-1gtQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/hcIUmS-jUIVLOIfS7-1gtQ</a></p>
+<h3 id="diffusion--文本">Diffusion + 文本</h3>
+<p>2025-06-28 18:43:50 Saturday 这个扩散LLM太快了！没有「请稍后」，实测倍速于Gemini 2.5 Flash</p>
+<p>Mercury 就是为此诞生的，其是首个基于扩散模型的 LLM。与自回归（AR）模型相比，Mercury 模型在性能和效率上都达到了最先进的水平。</p>
+<p>在性能表现上，根据第三方测评机构 Artificial Anlys 的基准测试数据显示，Mercury 可媲美 GPT-4.1 Nano 和 Claude 3.5 Haiku 等速度经过优化的前沿模型，同时运行速度提升超过 7 倍。 <a href="https://mp.weixin.qq.com/s/dSEkdYHOQbaiRN3O4D-hKg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/dSEkdYHOQbaiRN3O4D-hKg</a></p>
+<ol start="2">
+<li>2025-06-27 14:24:28 Friday</li>
+</ol>
+<p><a href="https://arxiv.org/abs/2506.21170"target="_blank" rel="external nofollow noopener noreferrer">#21</a> <strong><a href="https://papers.cool/arxiv/2506.21170"target="_blank" rel="external nofollow noopener noreferrer">用于文本扩散建模的压缩和平滑潜在空间</a></strong> <strong>[PDF(1)]</strong> <strong>[Copy]</strong> <strong>[Kimi(1)]</strong> <strong>[REL]</strong></p>
+<p>作者：维亚切斯拉夫·梅沙尼诺夫、叶戈尔·奇姆布拉托夫、亚历山大·沙巴林、亚历山大·阿布拉莫夫、德米特里·维特罗夫</p>
+<p>自回归语言模型在现代文本生成中占主导地位，但它们的顺序性引入了基本限制：解码速度很慢，保持全局连贯性仍然具有挑战性。扩散模型通过实现并行生成和灵活控制提供了一种有前途的替代方案;然而，它们应用于文本生成的原因是 token-level 表示的高维性。我们介绍了 Cosmos，这是一种新颖的文本生成方法，它完全在专为扩散量身定制的压缩、平滑的潜在空间中运行。这个空间是使用自动编码器学习的，该自动编码器同时训练用于令牌级重建和与来自预训练语言编码器的冻结激活对齐，提供强大的语义基础并实现有效的基于扰动的增强。根据经验，我们证明了文本表示可以通过以下方式压缩 8×8× 同时保持与 Token 级扩散模型相当的生成质量。此外，增加潜在序列长度使 Cosmos 能够超越基于扩散和自回归的基线。我们在四个不同的生成任务上评估 Cosmos，包括故事生成、问题生成、总结和解毒，并将其与各种生成范式进行比较。Cosmos 实现了相当或卓越的发电质量，同时提供超过2×2× 更快的推理。</p>
+<h3 id="diffusion--rl">Diffusion + RL</h3>
+<p>🌈🌈🌈🌈🌈（可以借鉴这个里面的训练全流程工作）2025-06-28 18:36:21 Saturday ｜ 苹果与港大出手！改进GRPO，让dLLM也能高效强化学习 <a href="https://mp.weixin.qq.com/s/akWoBx1F8sEvi_IxMQpJbg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/akWoBx1F8sEvi_IxMQpJbg</a></p>
+<p>此前的 Mercury Coder 和 Gemini Diffusion 已经表明：基于扩散的代码生成器可以与顶尖自回归代码模型相媲美。</p>
+<p>首先研究了 dLLM 的解码行为，然后建立了一种用于扩散 LLM 的原生强化学习 (RL) 方法。这是该研究一作、香港大学博士生 Shansan Gong 在苹果实习期间的研究成果。</p>
+<p>论文标题：DiffuCoder: Understanding and Improving Masked Diffusion Models for Code Generation</p>
+<p>论文地址：https://arxiv.org/pdf/2506.20639</p>
+<p>项目地址：https://github.com/apple/ml-diffucoder</p>
+<ol start="2">
+<li><strong>🌈🌈🌈 #3 DiffuCoder：理解并改进用于代码生成的掩码扩散模型 [PDF</strong> <strong>(6)</strong> <strong>] [复制] [Kimi</strong> <strong>(7)</strong>  **] [相关] ** <strong><a href="https://arxiv.org/abs/2506.20639"target="_blank" rel="external nofollow noopener noreferrer">#3</a><strong><strong><a href="https://papers.cool/arxiv/2506.20639"target="_blank" rel="external nofollow noopener noreferrer">DiffuCoder: Understanding and Improving Masked Diffusion Models for Code Generation</a></strong></strong> [PDF(6)] [Copy] [Kimi(7)] [REL]</strong></li>
+</ol>
+<p>作者：龚珊珊、张瑞祥、郑黄杰、顾家涛、Navdeep Jaitly、孔令鹏、张一哲</p>
+<p>扩散大语言模型（dLLMs）因其去噪模型作用于整个序列而成为自回归（AR）模型极具吸引力的替代方案。dLLMs 的全局规划和迭代优化特性尤其适用于代码生成任务。然而，当前 dLLMs 在代码领域的训练与推理机制仍待深入探索。为揭示 dLLMs 的解码行为并释放其在编程领域的潜力，我们系统研究了其去噪过程与强化学习（RL）方法。我们在 1300 亿代码标记上训练了 70 亿参数的\textbf{DiffuCoder}模型，并以其为测试平台分析解码行为，发现其与 AR 模型的关键差异：(1) dLLMs 无需依赖半自回归解码即可自主决定生成过程的因果性程度；(2) 提高采样温度不仅会多样化标记选择，还会改变其生成顺序。这种多样性为 RL 推演创造了丰富的搜索空间。 在强化学习训练中，为降低词元对数似然估计的方差并保持训练效率，我们提出\textbf{耦合 GRPO}方案——通过为训练用补全样本构建互补掩码噪声的新型采样方法。实验表明，耦合 GRPO 显著提升了 DiffuCoder 在代码生成基准上的性能（EvalPlus 指标提升 4.4%），同时降低了解码过程对自回归因果的依赖。本研究深入揭示了扩散语言模型生成机制，并提供了一种高效的、原生支持扩散的强化学习训练框架。项目地址：https://github.com/apple/ml-diffucoder。</p>
+<p>主题：计算与语言</p>
+<p><a href="https://arxiv.org/abs/2506.20639"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2506.20639</a></p>
+<h3 id="diffusion--推理">Diffusion + 推理</h3>
+<h4 id="种子扩散具有高速推理的大规模扩散语言模型64"><a href="https://huggingface.co/papers/2508.02193?utm_source=digest-papers&amp;utm_medium=email&amp;utm_campaign=2025-08-06"target="_blank" rel="external nofollow noopener noreferrer">种子扩散：具有高速推理的大规模扩散语言模型（64▲） </a></h4>
+<p>我们提出了 Seed Diffusion Preview，一种基于离散状态扩散的大规模语言模型，提供了显著快速的推理速度。得益于非顺序的并行生成，离散扩散模型显著加快了速度，缓解了逐令牌解码固有的延迟，正如最近的研究所示（例如，Mercury Coder，Gemini Diffusion）。Seed Diffusion Preview 在 H20 GPU 上实现了 2146 令牌/秒的推理速度，同时在一系列标准代码评估基准测试中保持了有竞争力的性能，速度远超当代的 Mercury 和 Gemini Diffusion，在代码模型的速度-质量帕累托前沿上树立了新的最先进水平。</p>
+<h3 id="diffusion--数据合成">Diffusion + 数据合成</h3>
+<p>2025-06-27 12:08:15 Friday ｜具身世界模型新突破，地平线 &amp; 极佳提出几何一致视频世界模型增强机器人策略学习  <a href="https://mp.weixin.qq.com/s/Hj2h3nxO8XxPeqd3OhctKA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/Hj2h3nxO8XxPeqd3OhctKA</a></p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

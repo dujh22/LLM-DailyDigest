@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>智能体 - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="智能体
+洞察
+
+智能体
+
+自主决策、执行、洞察、反哺
+具备任务自主化能力，能够主动拆解目标、智能调度资源，并在交互过程中持续优化策略，展现出强大的动态进化能力。
+
+
+区别推理和规划能力
+递归自我改进（RSI）
+
+
+2025年agent前沿研究
+2025-07-18 14:05:54 Friday ｜ 模仿学习新范式，Chain-of-Action：轨迹自回归实现动作推理 https://mp.weixin.qq.com/s/fJXWvpC1s_2FkoUYhnmTCg
+2025-07-17 10:59:05 Thursday ｜ 昆仑万维Skywork发布分层多智能体协作框架AgentOrchestra
+20250604｜开启 AI 自主进化时代，普林斯顿Alita颠覆传统通用智能体，GAIA榜单迎来终章
+
+
+https://mp.weixin.qq.com/s/vmp8H-3S_HH6Gvb4dH5FxA
+论文标题：ALITA: GENERALIST AGENT ENABLING SCALABLE AGENTIC REASONING WITH MINIMAL PREDEFINITION AND MAXIMAL SELF-EVOLUTION
+论文链接：https://arxiv.org/abs/2505.20286
+Twitter：https://x.com/JiahaoQiu99/status/1927376487285432790
+GitHub：https://github.com/CharlesQ9/Alita
+
+
+核心：普林斯顿大学 AI Lab 推出了 Alita——一个秉持「极简即是极致复杂」哲学的通用智能体，通过「最小化预定义」与「最大化自我进化」的设计范式，让智能体可以自主思考、搜索和创造其所需要的 MCP 工具。
+
+现有的主流智能体系统通常依赖大量人工预定义的工具和复杂的工作流，这种方法有三个关键缺陷：覆盖范围有限、创造力受限、适配失配，这些挑战共同限制了现有通用智能体的创造力、可扩展性和泛化能力。
+与当前日益复杂的趋势相反，Alita 团队认为对于通用智能体而言，「simplicity is the ultimate sophistication」——简单即极致的复杂。遵循这一原则，Alita 实现了可扩展的动态能力、增强的创造力与灵活性，以及跨生态系统的兼容性。Alita 团队由此提出了两大设计范式：
+**最小化预定义：**仅为智能体配备最核心的基础能力，避免为特定任务或模态设计人工预定义的组件。
+**最大化自进化：**赋予智能体按需自主创建、优化和复用 MCP 工具的能力，实现自我进化。
+
+
+
+2025-06-09 10:50:14 Monday ｜TextAtari: 100K Frames Game Playing with Language Agents
+标题 ： 文本Atari：使用语言代理玩10万帧游戏
+链接 ：https://arxiv.org/abs/2506.04098
+摘要 ：我们提出了TextAtari，这是一个 用于评估语言代理在长达10万步的长期决策任务上的基准 。通过将经典Atari游戏的视觉状态表示转换为丰富的文本描述，TextAtari创建了一个具有挑战性的测试平台，将顺序决策与自然语言处理联系起来。该基准测试包括近100个不同的任务，具有不同的复杂性，动作空间和规划视野，所有这些任务都通过无监督表示学习框架（AtariARI）呈现为文本。我们评估了三个开源的大型语言模型（Qwen2.5- 7 B，Gemma-7 B和Llama3.1-8B）在三个代理框架（zero-shot，Few-Shot chain-of-thought和reflection reasoning），以评估不同形式的先验知识如何影响这些长期挑战的性能。四个基本的，模糊的，手动增强，并参考为基础的语义理解，指令理解和专家示范代理决策的影响。我们的研究结果揭示了语言智能体和人类玩家在广泛的规划任务中的显着性能差距，突出了顺序推理，状态跟踪和数万个步骤的战略规划方面的挑战。TextAtari提供了标准化的评估协议、基线实现和框架，用于推进语言模型和规划交叉点的研究。" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="智能体">
+  <meta itemprop="description" content="智能体 洞察 智能体 自主决策、执行、洞察、反哺 具备任务自主化能力，能够主动拆解目标、智能调度资源，并在交互过程中持续优化策略，展现出强大的动态进化能力。 区别推理和规划能力 递归自我改进（RSI） 2025年agent前沿研究
+2025-07-18 14:05:54 Friday ｜ 模仿学习新范式，Chain-of-Action：轨迹自回归实现动作推理 https://mp.weixin.qq.com/s/fJXWvpC1s_2FkoUYhnmTCg
+2025-07-17 10:59:05 Thursday ｜ 昆仑万维Skywork发布分层多智能体协作框架AgentOrchestra
+20250604｜开启 AI 自主进化时代，普林斯顿Alita颠覆传统通用智能体，GAIA榜单迎来终章
+https://mp.weixin.qq.com/s/vmp8H-3S_HH6Gvb4dH5FxA 论文标题：ALITA: GENERALIST AGENT ENABLING SCALABLE AGENTIC REASONING WITH MINIMAL PREDEFINITION AND MAXIMAL SELF-EVOLUTION
+论文链接：https://arxiv.org/abs/2505.20286
+Twitter：https://x.com/JiahaoQiu99/status/1927376487285432790
+GitHub：https://github.com/CharlesQ9/Alita
+核心：普林斯顿大学 AI Lab 推出了 Alita——一个秉持「极简即是极致复杂」哲学的通用智能体，通过「最小化预定义」与「最大化自我进化」的设计范式，让智能体可以自主思考、搜索和创造其所需要的 MCP 工具。
+现有的主流智能体系统通常依赖大量人工预定义的工具和复杂的工作流，这种方法有三个关键缺陷：覆盖范围有限、创造力受限、适配失配，这些挑战共同限制了现有通用智能体的创造力、可扩展性和泛化能力。 与当前日益复杂的趋势相反，Alita 团队认为对于通用智能体而言，「simplicity is the ultimate sophistication」——简单即极致的复杂。遵循这一原则，Alita 实现了可扩展的动态能力、增强的创造力与灵活性，以及跨生态系统的兼容性。Alita 团队由此提出了两大设计范式： **最小化预定义：**仅为智能体配备最核心的基础能力，避免为特定任务或模态设计人工预定义的组件。 **最大化自进化：**赋予智能体按需自主创建、优化和复用 MCP 工具的能力，实现自我进化。 2025-06-09 10:50:14 Monday ｜TextAtari: 100K Frames Game Playing with Language Agents 标题 ： 文本Atari：使用语言代理玩10万帧游戏 链接 ：https://arxiv.org/abs/2506.04098 摘要 ：我们提出了TextAtari，这是一个 用于评估语言代理在长达10万步的长期决策任务上的基准 。通过将经典Atari游戏的视觉状态表示转换为丰富的文本描述，TextAtari创建了一个具有挑战性的测试平台，将顺序决策与自然语言处理联系起来。该基准测试包括近100个不同的任务，具有不同的复杂性，动作空间和规划视野，所有这些任务都通过无监督表示学习框架（AtariARI）呈现为文本。我们评估了三个开源的大型语言模型（Qwen2.5- 7 B，Gemma-7 B和Llama3.1-8B）在三个代理框架（zero-shot，Few-Shot chain-of-thought和reflection reasoning），以评估不同形式的先验知识如何影响这些长期挑战的性能。四个基本的，模糊的，手动增强，并参考为基础的语义理解，指令理解和专家示范代理决策的影响。我们的研究结果揭示了语言智能体和人类玩家在广泛的规划任务中的显着性能差距，突出了顺序推理，状态跟踪和数万个步骤的战略规划方面的挑战。TextAtari提供了标准化的评估协议、基线实现和框架，用于推进语言模型和规划交叉点的研究。">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="1677"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%99%BA%E8%83%BD%E4%BD%93/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="智能体">
+  <meta property="og:description" content="智能体 洞察 智能体 自主决策、执行、洞察、反哺 具备任务自主化能力，能够主动拆解目标、智能调度资源，并在交互过程中持续优化策略，展现出强大的动态进化能力。 区别推理和规划能力 递归自我改进（RSI） 2025年agent前沿研究
+2025-07-18 14:05:54 Friday ｜ 模仿学习新范式，Chain-of-Action：轨迹自回归实现动作推理 https://mp.weixin.qq.com/s/fJXWvpC1s_2FkoUYhnmTCg
+2025-07-17 10:59:05 Thursday ｜ 昆仑万维Skywork发布分层多智能体协作框架AgentOrchestra
+20250604｜开启 AI 自主进化时代，普林斯顿Alita颠覆传统通用智能体，GAIA榜单迎来终章
+https://mp.weixin.qq.com/s/vmp8H-3S_HH6Gvb4dH5FxA 论文标题：ALITA: GENERALIST AGENT ENABLING SCALABLE AGENTIC REASONING WITH MINIMAL PREDEFINITION AND MAXIMAL SELF-EVOLUTION
+论文链接：https://arxiv.org/abs/2505.20286
+Twitter：https://x.com/JiahaoQiu99/status/1927376487285432790
+GitHub：https://github.com/CharlesQ9/Alita
+核心：普林斯顿大学 AI Lab 推出了 Alita——一个秉持「极简即是极致复杂」哲学的通用智能体，通过「最小化预定义」与「最大化自我进化」的设计范式，让智能体可以自主思考、搜索和创造其所需要的 MCP 工具。
+现有的主流智能体系统通常依赖大量人工预定义的工具和复杂的工作流，这种方法有三个关键缺陷：覆盖范围有限、创造力受限、适配失配，这些挑战共同限制了现有通用智能体的创造力、可扩展性和泛化能力。 与当前日益复杂的趋势相反，Alita 团队认为对于通用智能体而言，「simplicity is the ultimate sophistication」——简单即极致的复杂。遵循这一原则，Alita 实现了可扩展的动态能力、增强的创造力与灵活性，以及跨生态系统的兼容性。Alita 团队由此提出了两大设计范式： **最小化预定义：**仅为智能体配备最核心的基础能力，避免为特定任务或模态设计人工预定义的组件。 **最大化自进化：**赋予智能体按需自主创建、优化和复用 MCP 工具的能力，实现自我进化。 2025-06-09 10:50:14 Monday ｜TextAtari: 100K Frames Game Playing with Language Agents 标题 ： 文本Atari：使用语言代理玩10万帧游戏 链接 ：https://arxiv.org/abs/2506.04098 摘要 ：我们提出了TextAtari，这是一个 用于评估语言代理在长达10万步的长期决策任务上的基准 。通过将经典Atari游戏的视觉状态表示转换为丰富的文本描述，TextAtari创建了一个具有挑战性的测试平台，将顺序决策与自然语言处理联系起来。该基准测试包括近100个不同的任务，具有不同的复杂性，动作空间和规划视野，所有这些任务都通过无监督表示学习框架（AtariARI）呈现为文本。我们评估了三个开源的大型语言模型（Qwen2.5- 7 B，Gemma-7 B和Llama3.1-8B）在三个代理框架（zero-shot，Few-Shot chain-of-thought和reflection reasoning），以评估不同形式的先验知识如何影响这些长期挑战的性能。四个基本的，模糊的，手动增强，并参考为基础的语义理解，指令理解和专家示范代理决策的影响。我们的研究结果揭示了语言智能体和人类玩家在广泛的规划任务中的显着性能差距，突出了顺序推理，状态跟踪和数万个步骤的战略规划方面的挑战。TextAtari提供了标准化的评估协议、基线实现和框架，用于推进语言模型和规划交叉点的研究。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="topic">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="智能体">
+  <meta name="twitter:description" content="智能体 洞察 智能体 自主决策、执行、洞察、反哺 具备任务自主化能力，能够主动拆解目标、智能调度资源，并在交互过程中持续优化策略，展现出强大的动态进化能力。 区别推理和规划能力 递归自我改进（RSI） 2025年agent前沿研究
+2025-07-18 14:05:54 Friday ｜ 模仿学习新范式，Chain-of-Action：轨迹自回归实现动作推理 https://mp.weixin.qq.com/s/fJXWvpC1s_2FkoUYhnmTCg
+2025-07-17 10:59:05 Thursday ｜ 昆仑万维Skywork发布分层多智能体协作框架AgentOrchestra
+20250604｜开启 AI 自主进化时代，普林斯顿Alita颠覆传统通用智能体，GAIA榜单迎来终章
+https://mp.weixin.qq.com/s/vmp8H-3S_HH6Gvb4dH5FxA 论文标题：ALITA: GENERALIST AGENT ENABLING SCALABLE AGENTIC REASONING WITH MINIMAL PREDEFINITION AND MAXIMAL SELF-EVOLUTION
+论文链接：https://arxiv.org/abs/2505.20286
+Twitter：https://x.com/JiahaoQiu99/status/1927376487285432790
+GitHub：https://github.com/CharlesQ9/Alita
+核心：普林斯顿大学 AI Lab 推出了 Alita——一个秉持「极简即是极致复杂」哲学的通用智能体，通过「最小化预定义」与「最大化自我进化」的设计范式，让智能体可以自主思考、搜索和创造其所需要的 MCP 工具。
+现有的主流智能体系统通常依赖大量人工预定义的工具和复杂的工作流，这种方法有三个关键缺陷：覆盖范围有限、创造力受限、适配失配，这些挑战共同限制了现有通用智能体的创造力、可扩展性和泛化能力。 与当前日益复杂的趋势相反，Alita 团队认为对于通用智能体而言，「simplicity is the ultimate sophistication」——简单即极致的复杂。遵循这一原则，Alita 实现了可扩展的动态能力、增强的创造力与灵活性，以及跨生态系统的兼容性。Alita 团队由此提出了两大设计范式： **最小化预定义：**仅为智能体配备最核心的基础能力，避免为特定任务或模态设计人工预定义的组件。 **最大化自进化：**赋予智能体按需自主创建、优化和复用 MCP 工具的能力，实现自我进化。 2025-06-09 10:50:14 Monday ｜TextAtari: 100K Frames Game Playing with Language Agents 标题 ： 文本Atari：使用语言代理玩10万帧游戏 链接 ：https://arxiv.org/abs/2506.04098 摘要 ：我们提出了TextAtari，这是一个 用于评估语言代理在长达10万步的长期决策任务上的基准 。通过将经典Atari游戏的视觉状态表示转换为丰富的文本描述，TextAtari创建了一个具有挑战性的测试平台，将顺序决策与自然语言处理联系起来。该基准测试包括近100个不同的任务，具有不同的复杂性，动作空间和规划视野，所有这些任务都通过无监督表示学习框架（AtariARI）呈现为文本。我们评估了三个开源的大型语言模型（Qwen2.5- 7 B，Gemma-7 B和Llama3.1-8B）在三个代理框架（zero-shot，Few-Shot chain-of-thought和reflection reasoning），以评估不同形式的先验知识如何影响这些长期挑战的性能。四个基本的，模糊的，手动增强，并参考为基础的语义理解，指令理解和专家示范代理决策的影响。我们的研究结果揭示了语言智能体和人类玩家在广泛的规划任务中的显着性能差距，突出了顺序推理，状态跟踪和数万个步骤的战略规划方面的挑战。TextAtari提供了标准化的评估协议、基线实现和框架，用于推进语言模型和规划交叉点的研究。">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%99%BA%E8%83%BD%E4%BD%93/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E7%A0%94%E7%A9%B6%E6%96%B9%E5%90%91/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%96%B0%E9%97%BB/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "智能体",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E6%99%BA%E8%83%BD%E4%BD%93\/"
+    },"genre": "topic","wordcount":  1677 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E6%99%BA%E8%83%BD%E4%BD%93\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>智能体</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="1677 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 1700 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>8 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#洞察">洞察</a></li>
+    <li><a href="#评测">评测</a></li>
+    <li><a href="#tool">Tool</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#-ai项目可丝滑控制鼠标键盘模拟人类操作">🌈 AI项目：可丝滑控制鼠标、键盘，模拟人类操作</a></li>
+            <li><a href="#--工具增强推理智能体x-master-多智能体工作流系统x-masters">🌈  <strong>工具增强推理智能体X-Master</strong> 、<strong>多智能体工作流系统X-Master</strong>s</a></li>
+            <li><a href="#repo深度搜索的工具集成强化学习9"><a href="https://huggingface.co/papers/2508.03012?utm_source=digest-papers&amp;utm_medium=email&amp;utm_campaign=2025-08-06">Repo深度搜索的工具集成强化学习（9▲） </a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#gui">GUI</a></li>
+    <li><a href="#ai4ai">AI4AI</a></li>
+    <li><a href="#世界模型">世界模型</a></li>
+    <li><a href="#aimath">AI+Math</a></li>
+    <li><a href="#数据科学">数据科学</a></li>
+    <li><a href="#编程">编程</a></li>
+    <li><a href="#诊断决策">诊断决策</a></li>
+    <li><a href="#web联网">Web联网</a></li>
+    <li><a href="#cv">CV</a></li>
+    <li><a href="#深度研究deep-research">深度研究Deep Research</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#rl">RL</a>
+      <ul>
+        <li><a href="#rlagentsllm-强强强组合从被动执行到自主进化ai决策迎来跃迁">RL+Agents+LLM 强强强组合！从「被动执行」到「自主进化」，AI决策迎来跃迁！</a></li>
+        <li><a href="#l0强化学习成为-general-agent"><strong><a href="https://papers.cool/arxiv/2506.23667">L0：强化学习成为 General Agent</a></strong></a></li>
+        <li><a href="#agent-lightning使用强化学习训练任何-ai-代理"><a href="https://arxiv.org/abs/2508.03680">Agent Lightning：使用强化学习训练任何 AI 代理</a></a></li>
+      </ul>
+    </li>
+    <li><a href="#智能体推理">智能体推理</a></li>
+  </ul>
+
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#协作">协作</a>
+          <ul>
+            <li><a href="#超越头脑风暴是什么驱动高质量的科学创意多智能体协作的启示">超越头脑风暴：是什么驱动高质量的科学创意？多智能体协作的启示</a></li>
+          </ul>
+        </li>
+        <li><a href="#强化学习">强化学习</a>
+          <ul>
+            <li><a href="#llm-协作与多智能体强化学习">LLM 协作与多智能体强化学习</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="智能体">智能体</h1>
+<h2 id="洞察">洞察</h2>
+<ul>
+<li>智能体
+<ol>
+<li><strong>自主决策、执行、洞察、反哺</strong></li>
+<li><strong>具备任务自主化能力，能够主动拆解目标、智能调度资源，并在交互过程中持续优化策略，展现出强大的动态进化能力。</strong></li>
+</ol>
+</li>
+<li>区别推理和规划能力</li>
+<li>递归自我改进（RSI）</li>
+</ul>
+<blockquote>
+<p><a href="https://deepshare.feishu.cn/wiki/Cu5Bw0k4WijJu9keRsIceDOZnpe?from=from_copylink"target="_blank" rel="external nofollow noopener noreferrer">2025年agent前沿研究</a></p></blockquote>
+<p>2025-07-18 14:05:54 Friday ｜ 模仿学习新范式，Chain-of-Action：轨迹自回归实现动作推理 <a href="https://mp.weixin.qq.com/s/fJXWvpC1s_2FkoUYhnmTCg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/fJXWvpC1s_2FkoUYhnmTCg</a></p>
+<p>2025-07-17 10:59:05 Thursday ｜ 昆仑万维Skywork发布分层多智能体协作框架AgentOrchestra</p>
+<p>20250604｜开启 AI 自主进化时代，普林斯顿Alita颠覆传统通用智能体，GAIA榜单迎来终章</p>
+<ol>
+<li>
+<p><a href="https://mp.weixin.qq.com/s/vmp8H-3S_HH6Gvb4dH5FxA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/vmp8H-3S_HH6Gvb4dH5FxA</a>
+论文标题：ALITA: GENERALIST AGENT ENABLING SCALABLE AGENTIC REASONING WITH MINIMAL PREDEFINITION AND MAXIMAL SELF-EVOLUTION</p>
+<p>论文链接：https://arxiv.org/abs/2505.20286</p>
+<p>Twitter：https://x.com/JiahaoQiu99/status/1927376487285432790</p>
+<p>GitHub：https://github.com/CharlesQ9/Alita</p>
+</li>
+<li>
+<p>核心：普林斯顿大学 AI Lab 推出了 Alita——一个秉持「<strong>极简即是极致复杂</strong>」哲学的通用智能体，通过「<strong>最小化预定义</strong>」与「<strong>最大化自我进化</strong>」的设计范式，让智能体可以自主思考、搜索和创造其所需要的 MCP 工具。</p>
+<ol>
+<li>现有的主流智能体系统通常依赖大量人工预定义的工具和复杂的工作流，这种方法有三个关键缺陷：覆盖范围有限、创造力受限、适配失配，这些挑战共同限制了现有通用智能体的创造力、可扩展性和泛化能力。</li>
+<li>与当前日益复杂的趋势相反，Alita 团队认为对于通用智能体而言，「simplicity is the ultimate sophistication」——简单即极致的复杂。遵循这一原则，Alita 实现了可扩展的动态能力、增强的创造力与灵活性，以及跨生态系统的兼容性。Alita 团队由此提出了两大设计范式：</li>
+<li>**最小化预定义：**仅为智能体配备最核心的基础能力，避免为特定任务或模态设计人工预定义的组件。</li>
+<li>**最大化自进化：**赋予智能体按需自主创建、优化和复用 MCP 工具的能力，实现自我进化。</li>
+</ol>
+</li>
+</ol>
+<p>2025-06-09 10:50:14 Monday ｜TextAtari: 100K Frames Game Playing with Language Agents
+<strong>标题</strong> ： 文本Atari：使用语言代理玩10万帧游戏
+<strong>链接</strong> ：https://arxiv.org/abs/2506.04098
+<strong>摘要</strong> ：我们提出了TextAtari，这是一个 <strong>用于评估语言代理在长达10万步的长期决策任务上的基准</strong> 。通过将经典Atari游戏的视觉状态表示转换为丰富的文本描述，TextAtari创建了一个具有挑战性的测试平台，将顺序决策与自然语言处理联系起来。该基准测试包括近100个不同的任务，具有不同的复杂性，动作空间和规划视野，所有这些任务都通过无监督表示学习框架（AtariARI）呈现为文本。我们评估了三个开源的大型语言模型（Qwen2.5- 7 B，Gemma-7 B和Llama3.1-8B）在三个代理框架（zero-shot，Few-Shot chain-of-thought和reflection reasoning），以评估不同形式的先验知识如何影响这些长期挑战的性能。四个基本的，模糊的，手动增强，并参考为基础的语义理解，指令理解和专家示范代理决策的影响。我们的研究结果揭示了语言智能体和人类玩家在广泛的规划任务中的显着性能差距，突出了顺序推理，状态跟踪和数万个步骤的战略规划方面的挑战。TextAtari提供了标准化的评估协议、基线实现和框架，用于推进语言模型和规划交叉点的研究。</p>
+<h2 id="评测">评测</h2>
+<p>2025-07-18 14:08:03 Friday｜ ACL 2025 Oral | 你的模型评测搭子上线：Evaluation Agent懂你更懂AI <a href="https://mp.weixin.qq.com/s/FGsbKfmdFi_ZKEaAiEZXkg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/FGsbKfmdFi_ZKEaAiEZXkg</a></p>
+<h2 id="tool">Tool</h2>
+<h4 id="-ai项目可丝滑控制鼠标键盘模拟人类操作">🌈 AI项目：可丝滑控制鼠标、键盘，模拟人类操作</h4>
+<p><a href="https://mp.weixin.qq.com/s/iyiWwgNEsr4Si1WQQlJOxw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/iyiWwgNEsr4Si1WQQlJOxw</a></p>
+<p>2025-07-18 17:11:37 Friday ｜</p>
+<p><a href="https://arxiv.org/abs/2403.03186"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2403.03186</a></p>
+<p>Cradle：赋能基础代理实现通用计算机控制</p>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Tan,&#43;W"target="_blank" rel="external nofollow noopener noreferrer">谭伟豪 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Zhang,&#43;W"target="_blank" rel="external nofollow noopener noreferrer"> 张文涛 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Xu,&#43;X"target="_blank" rel="external nofollow noopener noreferrer"> 徐欣润 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Xia,&#43;H"target="_blank" rel="external nofollow noopener noreferrer"> 夏浩冲 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Ding,&#43;Z"target="_blank" rel="external nofollow noopener noreferrer"> 丁子洛 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Li,&#43;B"target="_blank" rel="external nofollow noopener noreferrer"> 李博宇 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Zhou,&#43;B"target="_blank" rel="external nofollow noopener noreferrer"> 周博涵 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Yue,&#43;J"target="_blank" rel="external nofollow noopener noreferrer"> 岳俊鹏 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Jiang,&#43;J"target="_blank" rel="external nofollow noopener noreferrer"> 姜杰川 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Li,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer"> 李业文 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=An,&#43;R"target="_blank" rel="external nofollow noopener noreferrer"> 安如意 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Qin,&#43;M"target="_blank" rel="external nofollow noopener noreferrer"> 秦墨雷 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Zong,&#43;C"target="_blank" rel="external nofollow noopener noreferrer"> 宗楚乔 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Zheng,&#43;L"target="_blank" rel="external nofollow noopener noreferrer"> 郑龙涛 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wu,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer"> 吴宇杰 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Chai,&#43;X"target="_blank" rel="external nofollow noopener noreferrer"> 柴晓强 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Bi,&#43;Y"target="_blank" rel="external nofollow noopener noreferrer"> 毕一飞 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Xie,&#43;T"target="_blank" rel="external nofollow noopener noreferrer"> 谢天宝 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Gu,&#43;P"target="_blank" rel="external nofollow noopener noreferrer"> 顾鹏杰 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Li,&#43;X"target="_blank" rel="external nofollow noopener noreferrer"> 李熙云 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Zhang,&#43;C"target="_blank" rel="external nofollow noopener noreferrer"> 张策尧 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Tian,&#43;L"target="_blank" rel="external nofollow noopener noreferrer"> 田龙 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wang,&#43;C"target="_blank" rel="external nofollow noopener noreferrer"> 王超杰 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wang,&#43;X"target="_blank" rel="external nofollow noopener noreferrer"> 王欣润 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Karlsson,&#43;B&#43;F"target="_blank" rel="external nofollow noopener noreferrer">Börje F. Karlsson</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=An,&#43;B"target="_blank" rel="external nofollow noopener noreferrer"> 安博 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Yan,&#43;S"target="_blank" rel="external nofollow noopener noreferrer"> 闫水成 </a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Lu,&#43;Z"target="_blank" rel="external nofollow noopener noreferrer"> 卢宗庆</a></p>
+<blockquote>
+<p>尽管在特定场景中取得了成功，现有的基础智能体仍难以在各种虚拟场景中实现泛化，主要原因在于环境的封装方式差异巨大，且观察空间和动作空间多为手工设计。</p>
+<p>为了解决这一问题，我们提出了通用计算机控制（GCC）设置，限制基础智能体通过最统一和标准化的接口与软件交互，即以截图作为输入，以键盘和鼠标操作作为输出。</p>
+<p>我们引入了 Cradle，一个模块化且灵活的基于大型语言模型（LMM）的框架，作为迈向 GCC 的初步尝试。</p>
+<p>Cradle 通过六个关键模块的增强，能够理解输入的截图，并在高层规划后输出可执行的低级键盘和鼠标控制代码，从而使 Cradle 能够与任何软件交互，完成长时序复杂任务，而无需依赖任何内置 API。</p>
+<p>实验结果表明，Cradle 在四款此前未探索的商业视频游戏、五款软件应用以及综合基准 OSWorld 中展现出卓越的泛化能力和令人印象深刻的性能。</p>
+<p>Cradle 是首个能够让基础智能体遵循主线剧情并完成复杂大型游戏《荒野大镖客 2》（RDR2）中长达 40 分钟真实任务的系统。Cradle 还可以在《城市：天际线》中创建一个拥有千人的城市，在《星露谷物语》中种植和收获欧防风，并在《Dealer&rsquo;s Life 2》中进行交易和讨价还价，最高周总利润达 87%。Cradle 不仅能操作日常软件，如 Chrome、Outlook 和飞书，还能使用美图秀秀和剪映进行图像和视频编辑。Cradle 通过轻松将任何软件，尤其是复杂游戏，转化为评估智能体各种能力的基准，并促进进一步的数据收集，极大地扩展了基础智能体的应用范围，为通用智能体铺平了道路。（https://baai-agents.github.io/Cradle/）</p></blockquote>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NTc5MjgwMjZlNDkwYjQ5ZWZiYTM5MDgyNDNhOGVkNjRfR0Y2TDJPeFNkT25iOG5KWTM3SVo3NlVleHowZHNHb29fVG9rZW46TUVOcmJxaThUb3lqaEp4OVBZUmNJSlZWbmFiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NTc5MjgwMjZlNDkwYjQ5ZWZiYTM5MDgyNDNhOGVkNjRfR0Y2TDJPeFNkT25iOG5KWTM3SVo3NlVleHowZHNHb29fVG9rZW46TUVOcmJxaThUb3lqaEp4OVBZUmNJSlZWbmFiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NTc5MjgwMjZlNDkwYjQ5ZWZiYTM5MDgyNDNhOGVkNjRfR0Y2TDJPeFNkT25iOG5KWTM3SVo3NlVleHowZHNHb29fVG9rZW46TUVOcmJxaThUb3lqaEp4OVBZUmNJSlZWbmFiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NTc5MjgwMjZlNDkwYjQ5ZWZiYTM5MDgyNDNhOGVkNjRfR0Y2TDJPeFNkT25iOG5KWTM3SVo3NlVleHowZHNHb29fVG9rZW46TUVOcmJxaThUb3lqaEp4OVBZUmNJSlZWbmFiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NTc5MjgwMjZlNDkwYjQ5ZWZiYTM5MDgyNDNhOGVkNjRfR0Y2TDJPeFNkT25iOG5KWTM3SVo3NlVleHowZHNHb29fVG9rZW46TUVOcmJxaThUb3lqaEp4OVBZUmNJSlZWbmFiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NTc5MjgwMjZlNDkwYjQ5ZWZiYTM5MDgyNDNhOGVkNjRfR0Y2TDJPeFNkT25iOG5KWTM3SVo3NlVleHowZHNHb29fVG9rZW46TUVOcmJxaThUb3lqaEp4OVBZUmNJSlZWbmFiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h4 id="--工具增强推理智能体x-master-多智能体工作流系统x-masters">🌈  <strong>工具增强推理智能体X-Master</strong> 、<strong>多智能体工作流系统X-Master</strong>s</h4>
+<p><a href="https://mp.weixin.qq.com/s/U6QKmdtgbSpdMwQNTTU97w"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/U6QKmdtgbSpdMwQNTTU97w</a></p>
+<h4 id="repo深度搜索的工具集成强化学习9"><a href="https://huggingface.co/papers/2508.03012?utm_source=digest-papers&amp;utm_medium=email&amp;utm_campaign=2025-08-06"target="_blank" rel="external nofollow noopener noreferrer">Repo深度搜索的工具集成强化学习（9▲） </a></h4>
+<ol>
+<li>ToolTrain 是一个结合监督微调和强化学习的两阶段训练框架，通过集成代码库检索工具，提升了 LLMs 在问题定位方面的能力，达到了最先进的性能水平。</li>
+<li>问题定位是识别需要修改以解决软件问题的代码位置的过程，是软件开发中一项关键但具有挑战性的任务。自然语言问题描述与错误代码之间的语义差距需要通过代码依赖关系进行复杂的多跳推理。现有基于 LLM 的代理尝试通过集成代码库检索工具来解决这一问题。然而，这将问题定位转变为一个我们称之为 Repo Deep Search 的高难度任务，要求 LLM 在多步骤推理和导航过程中有效利用各种代码库检索工具。
+<ol>
+<li>为应对这一挑战，我们提出了 ToolTrain，一种两阶段工具集成训练框架，结合拒绝采样的监督微调和工具集成的强化学习，以提升 LLM 使用检索工具进行问题定位的能力。</li>
+<li>实验结果表明，经过 ToolTrain 训练的模型实现了最先进的性能，我们的 32B 模型甚至在函数级定位上超越了 Claude-3.7。结果还显示，定位性能的提升转化为更好的端到端问题解决性能。 这进一步证明了针对问题定位的训练是一种可行且有效的提升自动化软件开发的策略。</li>
+</ol>
+</li>
+</ol>
+<h2 id="gui">GUI</h2>
+<p>2025-07-03 10:32:46 Thursday ｜ 让GUI智能体不再「过度执行」，上海交大、Meta联合发布OS-Kairos系统 <a href="https://mp.weixin.qq.com/s/KVEyNTGEq0ykW0en8Xo3Gw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/KVEyNTGEq0ykW0en8Xo3Gw</a></p>
+<p>本论文提出了 OS-Kairos，一种具有自适应交互能力的新型 GUI 智能体系统，其主要贡献如下：</p>
+<p>（i）引入置信度预测机制，让 GUI 智能体能够在每一步操作中评估自身执行的信心，并据此决定是否调用人类或高级模型介入，实现真正的 “可控自主”。</p>
+<p>（ii）设计了协同探测框架（Collaborative Probing Framework），通过 GPT-4o 与界面解析模型协同，为每一个交互步骤自动打分，生成高质量的含置信度标注的操作轨迹数据集。</p>
+<p>（iii）提出置信驱动交互策略（Confidence-driven Interaction），将置信度评分作为模型训练的一部分，通过监督学习将置信判断能力整合进 GUI 智能体本身，并通过阈值实现自适应调节。</p>
+<p>（iv）OS-Kairos 在我们精选的复杂场景数据集和完善的移动基准上都远远优于现有模型，具有有效性、通用性、可扩展性和效率的优点。</p>
+<p>论文标题：OS-Kairos: Adaptive Interaction for MLLM-Powered GUI Agents</p>
+<p>论文链接：https://arxiv.org/abs/2503.16465</p>
+<p>论文代码：https://github.com/Wuzheng02/OS-Kairos</p>
+<ol start="2">
+<li>2025-06-28 18:32:52 Saturday ｜ AI 开始「自由玩电脑」了！吉大提出「屏幕探索者」智能体 <a href="https://mp.weixin.qq.com/s/NF6CfOVsSPVU--M8YMNu5Q"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/NF6CfOVsSPVU--M8YMNu5Q</a></li>
+</ol>
+<p>吉林大学人工智能学院发布了一项基于强化学习训练的 VLM 智能体最新研究《ScreenExplorer: Training a Vision-Language Model for Diverse Exploration in Open GUI World》。它让视觉语言模型（VLM）真正学会了「自我探索 GUI 环境」。</p>
+<ul>
+<li>论文地址：https://arxiv.org/abs/2505.19095</li>
+<li>项目地址：https://github.com/niuzaisheng/ScreenExplorer</li>
+</ul>
+<p>该工作带来三大核心突破：</p>
+<ul>
+<li>在真实的 Desktop GUI 环境中进行 VLM 模型的在线训练；</li>
+<li>针对开放 GUI 环境反馈稀疏问题，创新性地引入「好奇心机制」，利用世界模型预测环境状态转移，估算环境状态的新颖度，从而有效激励智能体主动探索多样化的界面状态，告别「原地打转」；</li>
+<li>此外，受 DeepSeek-R1 启发，构建了「经验流蒸馏」训练范式， <strong>每一代智能体的探索经验都会被自动提炼，用于微调下一代智能体</strong> 。这不仅大幅提升探索效率、减少对人工标注数据的依赖，更让 ScreenExplorer 的能力实现了持续自主进化，打造真正「学无止境」的智能体！论文同时开源了训练代码等。</li>
+</ul>
+<h2 id="ai4ai">AI4AI</h2>
+<p>尽管人工智能（AI）在飞速发展，当前 AI 开发仍严重依赖人类专家大量的手动实验和反复的调参迭代，过程费时费力。这种以人为中心的方式已成为制约创新速度和通向通用人工智能（AGI）的关键瓶颈。为突破限制，AI-for-AI（AI4AI）应运而生。AI4AI 旨在让 AI 作为智能体来自主设计、优化和改进 AI 算法，大幅减少人类干预，加速迭代开发周期，推动 AGI 发展进程。</p>
+<ol>
+<li>2025-06-23 11:50:03 Monday ｜ 7B智能体仅凭9个任务训练即超越R1！上交大打造AI-for-AI新范式</li>
+</ol>
+<p><a href="https://mp.weixin.qq.com/s/SXq5EZo5pGM2gAGzxIzULw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/SXq5EZo5pGM2gAGzxIzULw</a></p>
+<p>论文标题：</p>
+<p>ML-Agent: Reinforcing LLM Agents for Autonomous Machine Learning Engineering</p>
+<p>论文地址：</p>
+<p><a href="https://arxiv.org/pdf/2505.23723"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/pdf/2505.23723</a></p>
+<p>代码地址：</p>
+<p><a href="https://github.com/MASWorks/ML-Agent"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/MASWorks/ML-Agent</a></p>
+<p>为解决这一关键限制，该研究首次探索了基于学习的智能体自主机器学习范式，其中智能体可以通过在线强化学习从机器学习任务的执行轨迹中进行学习。这种方式使得智能体能够主动探索不同的策略，跨任务积累知识，逐步优化决策，持续从自身经验中学习，并通过训练不断提升其设计优化 AI 的能力。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI5YmQ3MmYzMzI3ODVjMjljNGQ1YWZkOWY2NjcwN2RfMGNqcG1CcHFjekNrdnlkTFBKazUzVTlJdTdPdmxCT1dfVG9rZW46SzQ3Q2I5UDY3b2NaVll4UzhYYmNMTUZCbmRoXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI5YmQ3MmYzMzI3ODVjMjljNGQ1YWZkOWY2NjcwN2RfMGNqcG1CcHFjekNrdnlkTFBKazUzVTlJdTdPdmxCT1dfVG9rZW46SzQ3Q2I5UDY3b2NaVll4UzhYYmNMTUZCbmRoXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI5YmQ3MmYzMzI3ODVjMjljNGQ1YWZkOWY2NjcwN2RfMGNqcG1CcHFjekNrdnlkTFBKazUzVTlJdTdPdmxCT1dfVG9rZW46SzQ3Q2I5UDY3b2NaVll4UzhYYmNMTUZCbmRoXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI5YmQ3MmYzMzI3ODVjMjljNGQ1YWZkOWY2NjcwN2RfMGNqcG1CcHFjekNrdnlkTFBKazUzVTlJdTdPdmxCT1dfVG9rZW46SzQ3Q2I5UDY3b2NaVll4UzhYYmNMTUZCbmRoXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI5YmQ3MmYzMzI3ODVjMjljNGQ1YWZkOWY2NjcwN2RfMGNqcG1CcHFjekNrdnlkTFBKazUzVTlJdTdPdmxCT1dfVG9rZW46SzQ3Q2I5UDY3b2NaVll4UzhYYmNMTUZCbmRoXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI5YmQ3MmYzMzI3ODVjMjljNGQ1YWZkOWY2NjcwN2RfMGNqcG1CcHFjekNrdnlkTFBKazUzVTlJdTdPdmxCT1dfVG9rZW46SzQ3Q2I5UDY3b2NaVll4UzhYYmNMTUZCbmRoXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="世界模型">世界模型</h2>
+<p>DeepMind揭惊人答案：智能体就是世界模型！跟Ilya 2年前预言竟不谋而合</p>
+<p><a href="https://mp.weixin.qq.com/s/8y8DmrxxBLSbxCpf9reNoA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/8y8DmrxxBLSbxCpf9reNoA</a></p>
+<h2 id="aimath">AI+Math</h2>
+<p>陶哲轩再爆：一个月三破18年未解难题！AlphaEvolve彻底改写数学研究规则</p>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s/NueWBSCnnhGHdvOcTfMZ5g"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/NueWBSCnnhGHdvOcTfMZ5g</a></li>
+<li>DeepMind发布的AlphaEvolve（陶哲轩有参与）像一位拥有无穷精力与独特视角的探险家，通过一种新颖的进化算法，在巨大的可能性空间中进行「广度扫描」。</li>
+<li>AI的「广度扫描」与人类的「深度打磨」像双引擎一样同时驱动，给数学研究带来了久违的加速度。</li>
+</ol>
+<p>20250604｜清华推出AI数学家！独立完成数学理论难题，自动调用基本定理、构建证明思路</p>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s/llfH42bIGRoVSLtfwz2Quw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/llfH42bIGRoVSLtfwz2Quw</a></li>
+<li><strong>AI Mathematician（AIM）框架</strong> ，推理模型也能求解前沿理论研究，并且证明完成度很高。</li>
+<li>当前数学理论的研究主要有以下两大挑战：
+<ol>
+<li><strong>问题复杂度</strong>数学理论的推导和证明往往需要复杂的思考过程和推导细节，需要引理证明和跨领域的知识整合。这样的复杂度远超竞赛题的求解模式。</li>
+<li><strong>证明严谨性</strong>数学研究的证明内容需要经过严格验证和精确的分析，而自然语言证明的评估一直缺乏有效方法。</li>
+</ol>
+</li>
+</ol>
+<p>技术架构上，主要包括三大模块协作驱动自动理论研究。
+<strong>1、探索模块</strong> ：通过开放推理，生成猜想和引理，构建问题的多种探索思路；</p>
+<p><strong>2、验证模块</strong> ：基于悲观验证机制，对证明过程进行多角度并行评估，确保证明严谨性准确性；</p>
+<p><strong>3、修正模块</strong> ：根据验证反馈优化证明结构，并且可以接收人为修正意见，确保输出结论的正确性。</p>
+<p>AIM通过以下<strong>两大核心策略</strong>攻克难题：
+<strong>1、“探索+记忆”机制：</strong> 智能体围绕研究命题自由探索可行的方向。通过验证，逐步生成中间猜想完成理论的推导证明。如此可以有效拆解过长思维路径，通过多轮递进自动形成研究思路。</p>
+<p><strong>2、“检验与修正”机制：</strong> 检验模块中，有多重LRM并行评审证明过程，取最严苛意见拒绝不严谨证明。再将评估意见迭代反馈给修正模块，自动修正完善每一处证明细节。</p>
+<h2 id="数据科学">数据科学</h2>
+<p>2025-06-12 13:40:20 Thursday ｜</p>
+<p>Measuring Data Science Automation: A Survey of Evaluation Tools for AI  Assistants and Agents
+<strong>标题</strong> ： 测量数据科学自动化：AI助手和代理评估工具的调查
+<strong>链接</strong> ：https://arxiv.org/abs/2506.08800</p>
+<p><strong>作者</strong> ： Irene Testini,  José Hernández-Orallo,  Lorenzo Pacchiardi
+<strong>摘要</strong> ：数据科学旨在从数据中提取见解，以支持决策过程。最近，大型语言模型（LLM）越来越多地被用作数据科学的助手，通过提出想法，技术和小代码片段，或用于解释结果和报告。一些数据科学活动的适当自动化现在有望通过LLM代理的兴起，即，由LLM提供支持的AI系统配备了额外的功能-例如代码执行和知识库-可以执行自我导向的操作并与数字环境交互。在本文中，我们调查的LLM助理和数据科学代理的评价。我们发现：（1）主要关注一小部分目标导向的活动，在很大程度上忽略了数据管理和探索活动;（2）专注于纯协助或完全自主的代理，而不考虑中间水平的人类-人工智能协作;（3）强调人类替代，因此忽略了由于任务转换而实现更高水平自动化的可能性。</p>
+<ol start="2">
+<li>2025-06-13 18:47:09 Friday ｜</li>
+</ol>
+<p>AutoMind: Adaptive Knowledgeable Agent for Automated Data Science
+<strong>标题</strong> ： AutoMind：用于自动化数据科学的自适应知识代理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.10974</p>
+<p><strong>作者</strong> ： Yixin Ou,  Yujie Luo,  Jingsheng Zheng,  Lanning Wei,  Shuofei Qiao,  Jintian Zhang,  Da Zheng,  Huajun Chen,  Ningyu Zhang
+<strong>备注</strong> ：Ongoing work. Code is at this https URL
+<strong>摘要</strong> ：大型语言模型（LLM）代理在解决现实世界的数据科学问题方面表现出巨大的潜力。LLM驱动的数据科学代理承诺自动化整个机器学习管道，但其现实世界的有效性仍然有限。现有的框架依赖于严格的、预定义的工作流程和不灵活的编码策略;因此，它们只擅长于相对简单的经典问题，而无法捕捉人类从业者为复杂的创新任务带来的经验专业知识。在这项工作中，我们介绍了AutoMind，一个自适应的，知识渊博的LLM-agent框架，通过三个关键的进步克服了这些缺陷：（1）一个精心策划的专家知识库，使代理基于领域专家知识，（2）一个代理知识渊博的树搜索算法，战略性地探索可能的解决方案，以及（3）一个自适应的编码策略，动态地定制代码生成任务的复杂性。对两个自动化数据科学基准的评估表明，AutoMind提供了优于最先进基准的性能。其他分析证实了良好的有效性，效率和定性解决方案质量，突出了AutoMind作为迈向全自动数据科学的有效和强大的一步。</p>
+<h2 id="编程">编程</h2>
+<p><strong>Karpathy最新脑洞「细菌编程」：优秀的代码应该具备细菌的三大特质</strong><a href="https://mp.weixin.qq.com/s/a2HnRa2cqsustIUxxBwzzQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/a2HnRa2cqsustIUxxBwzzQ</a></p>
+<p>2025-06-16 12:00:56 Monday｜</p>
+<p>LLM-as-a-Judge for Reference-less Automatic Code Validation and  Refinement for Natural Language to Bash in IT Automation
+<strong>标题</strong> ： LLM作为IT自动化中自然语言的无参考自动代码验证和细化的评委
+<strong>链接</strong> ：https://arxiv.org/abs/2506.11237</p>
+<p><strong>作者</strong> ： Ngoc Phuoc An Vo,  Brent Paulovicks,  Vadim Sheinin
+<strong>备注</strong> ：10 pages
+<strong>摘要</strong> ：为了在 <strong>IT自动化中自动评估和选择最佳模型并提高自动事件补救的代码质量</strong> ，验证为补救操作生成的代码在语法和语义上是否正确以及是否可以按预期正确执行至关重要。有三种方法：1）常规方法使用 <strong>表面形式相似性度量（标记匹配、精确匹配等）</strong> 。其具有许多限制，2）基于执行的评估更多地关注基于给定测试用例的通过/失败判断的代码功能，以及3）LLM作为判断者采用LLM用于自动评估，以基于预定义的度量来判断它是否是给定问题的正确答案。在这项工作中，我们专注于使用双向功能匹配和逻辑表示来增强LLM-as-a-Judge，用于Bash代码生成的无参考自动验证和细化，以选择IT自动化中自动事件补救的最佳模型。我们使用基于执行的评估作为基础事实来评估我们的LLM作为法官指标。结果显示出高准确性和协议与执行为基础的评估（和高达8%以上的基线）。最后，我们构建了Reflection代码代理，以利用来自我们的评估指标的判断和反馈，从而实现了自动代码细化的显着改进（准确性提高了24%）。</p>
+<ol start="3">
+<li>2025-06-16 12:11:42 Monday ｜</li>
+</ol>
+<p>Agent-RLVR: Training Software Engineering Agents via Guidance and  Environment Rewards
+<strong>标题</strong> ： Agent-WLVR：通过指导和环境奖励训练软件工程代理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.11425</p>
+<p><strong>作者</strong> ： Jeff Da,  Clinton Wang,  Xiang Deng,  Yuntao Ma,  Nikhil Barhate,  Sean Hendryx
+<strong>摘要</strong> ：来自 <strong>可验证奖励的强化学习（RLVR）</strong> 已被广泛采用，作为增强大型语言模型推理能力的实际方法，并在数学和竞争性编程任务等可验证领域取得了显着的成功。然而，RLVR的功效显着降低时，适用于agentic环境。这些设置以多步骤、复杂的问题解决为特征，即使对于前沿LLM，也会导致高失败率，因为奖励环境对于通过传统RLVR进行有效的模型训练来说过于稀疏。在这项工作中，我们引入了Agent-RLVR，这是一个使RLVR在具有挑战性的代理环境中有效的框架，最初的重点是软件工程任务。 <strong>受人类教学法的启发，Agent-RLVR引入了代理指导，这是一种通过利用各种信息线索积极引导代理走向成功轨迹的机制。</strong> 这些线索，从高层次的战略计划，对代理的错误和环境的相互作用的动态反馈，模仿教师的指导，使代理导航困难的解决方案空间，并通过额外的环境探索促进积极的自我改进。在Agent-RLVR训练循环中，代理首先尝试解决任务以产生初始轨迹，然后通过单元测试进行验证并补充代理指导。然后代理重新尝试指导，并根据这些指导轨迹的奖励使用RLVR更新代理策略。在SWE-Bench Verified上，Agent-RLVR将Qwen-2.5- 72 B-Instruct的通过率从9.4%提高到22.4%。我们发现，我们的指导增强RLVR数据对于测试时奖励模型训练也很有用，通过进一步将pass@1提高到27.8%。Agent-RLVR为在复杂的真实世界环境中使用RLVR训练代理奠定了基础，传统的RL方法在这些环境中挣扎。
+3. 2025-06-18 10:19:09 Wednesday ｜ Transformer八子初创：AI横扫NP难题竞赛，Top 2%选手竟是智能体！ <a href="https://mp.weixin.qq.com/s/ZAvHLKYu5J7eZUlzMWe9AA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/ZAvHLKYu5J7eZUlzMWe9AA</a></p>
+<p>【新智元导读】编程智能体确实厉害！Transformer作者Llion Jones初创公司，专门收集了NP难题并测试了AI智能体，结果竟在上千人竞赛中排第 21！这意味着，它已经比绝大多数人写得好了。</p>
+<p>通常只能依赖启发式或近似算法来接近答案。这正是NP难(Non-deterministic Polynomial-time hard）题的典型特征。面对如此复杂的问题，AI能否胜任？编程智能体表现如何？为探索这一问题，Sakana AI与AtCoder展开合作，共同构建了ALE-Bench（ALgorithm Engineering Benchmark）。</p>
+<p>为了应对这类问题，这次研究特别设计了端到端的智能体ALE-Agent。它以Gemini 2.5 Pro为基础，采用两大核心策略：（1）通过Prompt提供常用算法与技术的领域知识；（2）推理阶段生成不同多样解法进行性能增强。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3MGMzMWQ5ZjNkNDg0ZDA2OTU5NjE3YzM1MGU1ZDRfN3FUSWFpNm82MHJJTlNaU3MwUDlBRGl6TzZ3bFBtaXlfVG9rZW46RjhUZWJHOW1tb0dUQUh4V09nZmNpSmIxbkxjXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3MGMzMWQ5ZjNkNDg0ZDA2OTU5NjE3YzM1MGU1ZDRfN3FUSWFpNm82MHJJTlNaU3MwUDlBRGl6TzZ3bFBtaXlfVG9rZW46RjhUZWJHOW1tb0dUQUh4V09nZmNpSmIxbkxjXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3MGMzMWQ5ZjNkNDg0ZDA2OTU5NjE3YzM1MGU1ZDRfN3FUSWFpNm82MHJJTlNaU3MwUDlBRGl6TzZ3bFBtaXlfVG9rZW46RjhUZWJHOW1tb0dUQUh4V09nZmNpSmIxbkxjXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3MGMzMWQ5ZjNkNDg0ZDA2OTU5NjE3YzM1MGU1ZDRfN3FUSWFpNm82MHJJTlNaU3MwUDlBRGl6TzZ3bFBtaXlfVG9rZW46RjhUZWJHOW1tb0dUQUh4V09nZmNpSmIxbkxjXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3MGMzMWQ5ZjNkNDg0ZDA2OTU5NjE3YzM1MGU1ZDRfN3FUSWFpNm82MHJJTlNaU3MwUDlBRGl6TzZ3bFBtaXlfVG9rZW46RjhUZWJHOW1tb0dUQUh4V09nZmNpSmIxbkxjXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3MGMzMWQ5ZjNkNDg0ZDA2OTU5NjE3YzM1MGU1ZDRfN3FUSWFpNm82MHJJTlNaU3MwUDlBRGl6TzZ3bFBtaXlfVG9rZW46RjhUZWJHOW1tb0dUQUh4V09nZmNpSmIxbkxjXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>在现实环境中，ALE-Agent已经展现出强大能力。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjNlYzNkNzg1NzRiZGIzNDJlZTU3MjU4ZjVjMWQxOWNfQ0k4amxieGxWOVpFcXdkVnFJRnFuenRuWk42S3J6eHRfVG9rZW46VTNzSGJKZUwxb1NaV1B4aTl5MGNRdlQ5bjNiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjNlYzNkNzg1NzRiZGIzNDJlZTU3MjU4ZjVjMWQxOWNfQ0k4amxieGxWOVpFcXdkVnFJRnFuenRuWk42S3J6eHRfVG9rZW46VTNzSGJKZUwxb1NaV1B4aTl5MGNRdlQ5bjNiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjNlYzNkNzg1NzRiZGIzNDJlZTU3MjU4ZjVjMWQxOWNfQ0k4amxieGxWOVpFcXdkVnFJRnFuenRuWk42S3J6eHRfVG9rZW46VTNzSGJKZUwxb1NaV1B4aTl5MGNRdlQ5bjNiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjNlYzNkNzg1NzRiZGIzNDJlZTU3MjU4ZjVjMWQxOWNfQ0k4amxieGxWOVpFcXdkVnFJRnFuenRuWk42S3J6eHRfVG9rZW46VTNzSGJKZUwxb1NaV1B4aTl5MGNRdlQ5bjNiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjNlYzNkNzg1NzRiZGIzNDJlZTU3MjU4ZjVjMWQxOWNfQ0k4amxieGxWOVpFcXdkVnFJRnFuenRuWk42S3J6eHRfVG9rZW46VTNzSGJKZUwxb1NaV1B4aTl5MGNRdlQ5bjNiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=MjNlYzNkNzg1NzRiZGIzNDJlZTU3MjU4ZjVjMWQxOWNfQ0k4amxieGxWOVpFcXdkVnFJRnFuenRuWk42S3J6eHRfVG9rZW46VTNzSGJKZUwxb1NaV1B4aTl5MGNRdlQ5bjNiXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>图1：ALE-Bench概览。（左）ALE-Bench整合历届AtCoder启发式竞赛题目，如路径规划、任务调度等无已知最优解的复杂优化问题，并依据评分对提交程序进行排名。（右）ALE-Bench支持从基础大语言模型（LLM）到具备结构化引导能力的智能体（scaffolded agent）进行全面评估：智能体接收任务后提交代码，可选择性调用测试运行与可视化工具，像人类选手一样迭代优化解决方案</p>
+<p>ALE-Bench: A Benchmark for Long-Horizon Objective-Driven Algorithm Engineering</p>
+<p>论文链接：https://arxiv.org/abs/2506.09050</p>
+<p>数据集：https://huggingface.co/datasets/SakanaAI/ALE-Bench</p>
+<p>代码：https://github.com/SakanaAI/ALE-Bench</p>
+<p>2025-07-02 15:17:52 Wednesday｜ 超越微软，全球第一！上交AI智能体炼成「Kaggle特级大师」，登顶OpenAI MLE-bench <a href="https://mp.weixin.qq.com/s/8Dn7Hvpmp59-0xDD28nQkw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/8Dn7Hvpmp59-0xDD28nQkw</a></p>
+<p>随着人工智能（AI）能力在多个任务中逐步逼近甚至超过人类水平，AI-for-AI（AI4AI）正成为重要发展方向——</p>
+<p><strong>利用AI技术自动化和优化AI系统自身的设计、训练和部署。</strong></p>
+<p>AI4AI的终极形态是实现具备<strong>自主演进</strong>能力的AI系统，能够独立完成从问题建模、实验设计到算法探索与验证的全过程。</p>
+<p>类似于AlphaGo向AlphaZero的演进路径，该过程经历了从人类辅助训练到完全自主优化的阶段，体现出AI系统在自我演进上的潜力和可行性。</p>
+<p>为助力AI4AI发展，上海交通大学人工智能学院Agents团队提出了面向机器学习（Machine Learning）的AI专家智能体「ML-Master」。</p>
+<p>项目主页：</p>
+<p><a href="https://sjtu-sai-agents.github.io/ML-Master"target="_blank" rel="external nofollow noopener noreferrer">https://sjtu-sai-agents.github.io/ML-Master</a></p>
+<p>代码地址：</p>
+<p><a href="https://github.com/sjtu-sai-agents/ML-Master"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/sjtu-sai-agents/ML-Master</a></p>
+<p>论文地址：</p>
+<p><a href="https://arxiv.org/pdf/2506.16499"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/pdf/2506.16499</a></p>
+<p>MLE-bench主页：</p>
+<p><a href="https://github.com/openai/MLE-bench"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/openai/MLE-bench</a></p>
+<p><strong>智能记忆构建</strong> ：探索模块自动收集执行结果、代码片段和性能指标，同时选择性整合来自父节点和并行兄弟节点的关键信息，避免信息过载。</p>
+<p><strong>嵌入推理决策</strong> ：记忆信息直接嵌入到推理模型的「think」部分中，让每次推理都基于具体的历史执行反馈和多样化探索的经验进行精准决策。</p>
+<p><strong>协同进化机制</strong> ：推理结果指导后续探索方向，探索经验持续丰富推理过程，真正实现了探索驱动推理进化，推理反哺探索路径的良性循环。</p>
+<h2 id="诊断决策">诊断决策</h2>
+<p>2025-06-18 09:42:18 Wednesday｜AI操作有了“紧急刹车”！通义&amp;自动化所AI决策诊断模型，GUI智能体纠错正确率SOTA <a href="https://mp.weixin.qq.com/s/8IR-sRXTqhSlb5qItaf_Pw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/8IR-sRXTqhSlb5qItaf_Pw</a></p>
+<p>阿里通义实验室联合中科院自动化所推出全新的GUI-Critic-R1模型，能在操作执行前对GUI智能体的决策进行诊断，以避免不必要的操作和不可挽回的错误。</p>
+<p>动机：为什么动态环境下更要提前避免错误操作？不同于一般的离线任务，GUI自动化任务在在线交互式环境中执行，需要根据环境的实时状态进行逐步决策。因此，一旦智能体在某一步出错，该错误将影响后续的一系列操作，从而导致任务失败。因此，在动态环境下，GUI智能体需要具备更高的单步操作准确率。</p>
+<p>方法：实现操作前反思机制的GUI-Critic-R1为了给GUI智能体提供有效的反馈，研究人员为GUI自动操作任务引入操作前反思机制，并提出一个在实际执行GUI操作前提供有效反馈的操作前反思模型GUI-Critic-R1，以及GUI-Critic数据采集链路</p>
+<p>提出基于推理引导的数据采集链路 (Data Collection Pipeline with Reasoning Bootstrapping)。构建了包含6k条高质量链式思维注释的 GUI-Critic-Train数据集。此外，还构建了GUI-Critic-Test benchmark，以全面评估Critic模型在mobile和web领域的表现。</p>
+<p>提出GUI-Critic-R1训练方法：(1) 强化微调冷启动 (RFT Cold-Start) 利用采集到的GUI-Critic数据训练模型使其拥有基础的GUI推理能力。(2) 建议感知的组内相对策略优化 (Suggestion-aware Group Relative Policy Optimization)进一步提升模型的推理与泛化能力。</p>
+<p>基于GUI-Critic-Test和AndroidWorld benchmark的实验：证明了GUI-Critic-R1模型在为GUI操作生成可靠判断和提供改进建议方面的有效性。</p>
+<h2 id="web联网">Web联网</h2>
+<p><strong>刷新复杂Agent推理记录！阿里通义开源网络智能体超越DeepSeek R1，Grok-3</strong><a href="https://mp.weixin.qq.com/s/hDsu-s4f00189iQ185hX1g"target="_blank" rel="external nofollow noopener noreferrer"> https://mp.weixin.qq.com/s/hDsu-s4f00189iQ185hX1g</a></p>
+<p>通义WebSailor开源，首个挑战BrowseComp基准的开源网络智能体！ <a href="https://mp.weixin.qq.com/s/DBbHXBSqqZldgNQWd9gEyw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/DBbHXBSqqZldgNQWd9gEyw</a></p>
+<ol start="2">
+<li>2025-06-27 13:48:24 Friday ｜ 阿里发布信息检索Agent，可自主上网查资料，GAIA基准超越GPT-4o | 模型&amp;数据开源 <a href="https://mp.weixin.qq.com/s/LETDaeU96OV-beuoCuJHHQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/LETDaeU96OV-beuoCuJHHQ</a></li>
+</ol>
+<p>知乎相关参考：https://zhuanlan.zhihu.com/p/1911727252162474660</p>
+<p>它的“秘密武器”是一种 <strong>四阶段训练范式</strong> ，包括浏览数据构建、轨迹采样、针对有效冷启动的监督微调以及用于改进泛化能力的强化学习。</p>
+<p>WebDancer的代理框架基于 <strong>ReAct</strong> ，这是语言代理最流行的方法，一个ReAct轨迹由多个思维-动作-观察轮次组成。</p>
+<p>ReAct论文解读：https://zhuanlan.zhihu.com/p/624003116</p>
+<ol start="3">
+<li>2025-06-26 14:39:11 Thursday ｜</li>
+</ol>
+<p><strong>#36 MMSearch-R1：激励大型多模态模型进行搜索 [PDF</strong> <strong>(11)</strong> <strong>] [复制] [Kimi</strong> <strong>(4)</strong>  <strong>] [相关]</strong> <strong><a href="https://arxiv.org/abs/2506.20670"target="_blank" rel="external nofollow noopener noreferrer">#36</a><strong><strong><a href="https://papers.cool/arxiv/2506.20670"target="_blank" rel="external nofollow noopener noreferrer">MMSearch-R1: Incentivizing LMMs to Search</a></strong></strong> [PDF(11)] [Copy] [Kimi(4)] [REL]</strong></p>
+<p>作者：吴金明、邓子豪、李伟、刘一丁、游波、李波、马泽军、刘子维</p>
+<p>在现实场景中稳健部署大型多模态模型（LMMs）需要接入外部知识源，这源于现实世界信息的复杂性和动态性。现有方法如检索增强生成（RAG）和提示工程搜索代理依赖于固定流程，常导致低效或过度搜索行为。我们提出 MMSearch-R1——首个端到端强化学习框架，使 LMMs 能在真实互联网环境中执行按需多轮搜索。该框架整合了图像与文本搜索工具，通过基于结果的奖励机制配合搜索惩罚项，引导模型自主决策搜索时机与方式。为支持训练，我们通过半自动化流程收集了涵盖多样化视觉与文本知识需求的多模态搜索 VQA 数据集，并筛选出包含需搜索样本与非搜索样本的搜索平衡子集，这被证实对塑造高效按需搜索行为至关重要。 在知识密集型和信息检索型视觉问答任务上的大量实验表明，我们的模型不仅优于同等规模的基于检索增强生成（RAG）的基线模型，还能在减少 30%以上搜索调用次数的同时，达到更大规模 RAG 模型的性能水平。我们进一步分析了关键实证发现，为推进多模态搜索研究提供了可操作的见解。</p>
+<h2 id="cv">CV</h2>
+<p>2025-07-01 10:46:19 Tuesday ｜ 微软推出深度视频探索智能体，登顶多个长视频理解基准 <a href="https://mp.weixin.qq.com/s/zIl8FSqWXbdwOaMPAR1uUA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/zIl8FSqWXbdwOaMPAR1uUA</a></p>
+<ul>
+<li>论文标题：Deep Video Discovery : Agentic Search with Tool Use for Long-form Video Understanding</li>
+<li>论文链接：https://arxiv.org/pdf/2505.18079</li>
+</ul>
+<p>本文提出了一种新颖的智能体 Deep Video Discovery (DVD)，通过将长视频分割为更短的片段并将其视作环境，利用 LLM 先进的推理能力来思考问题并自主规划，选择具有适当参数的工具来从环境中逐步获取信息，最终回答问题。</p>
+<h2 id="深度研究deep-research">深度研究Deep Research</h2>
+<ol>
+<li><a href="https://mp.weixin.qq.com/s/0-OS8FtVIGtFA5zVcX_W3w"target="_blank" rel="external nofollow noopener noreferrer">腾讯AI Lab开源可复现的深度研究智能体，最大限度降低外部依赖</a>
+<ol>
+<li>2025-8-7</li>
+<li>深度研究智能体（Deep Research Agents）凭借大语言模型（LLM）和视觉-语言模型（VLM）的强大能力，正在重塑知识发现与问题解决的范式。</li>
+<li>腾讯AI Lab全新推出的 <strong>Cognitive Kernel-Pro</strong> ，一款全开源、多模块、层次化的智能体框架，为深度研究智能体的开发与训练提供了突破性解决方案。
+<ol>
+<li>在GAIA基准全集上，Cognitive Kernel-Pro超越开源免费框架SmolAgents，性能逼近依赖付费工具的智能体，展现出卓越的综合能力。在GAIA-text上，训练的8B模型超越WebDancer和WebSailor-7B。</li>
+<li>此外，腾讯AI Lab公开了Agent Foundation Model的训练配方，为社区提供可复现的训练路径。
+<ol>
+<li><em>GitHub：https://github.com/Tencent/CognitiveKernel-Pro</em></li>
+<li><em>Arxiv：https://arxiv.org/pdf/2508.00414</em></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>其核心设计包括以下四点。
+<ol>
+<li>模块化架构：框架采用两层多模块设计，包含主智能体和多个子智能体（如网页导航智能体、文件处理智能体）。主智能体负责任务分解和信息整合，子智能体专注于特定任务（如网页浏览、文件操作），确保模块独立性和扩展性。</li>
+<li><strong>状态管理与规划</strong> ：通过“进度状态”（Progress State）机制，智能体能够记录已完成步骤、待办任务、历史经验和关键信息。这种结构化状态管理显著提升了复杂任务的处理效率。</li>
+<li><strong>标准化任务接口</strong> ：主智能体与子智能体通过简洁的文本接口通信，子智能体以Python函数形式定义，输入任务字符串，输出格式化结果和日志，便于协作与调试。</li>
+<li>测试时优化：框架引入反思机制（Reflection）和投票机制（Voting），通过评估和优化动作轨迹，提升任务完成质量。反思机制允许智能体审查和修正先前动作，投票机制则通过多轮轨迹比较选择最优结果，显著增强了网页浏览等高随机性任务的稳定性。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="智能体评估">智能体评估</h1>
+<p>2025-07-03 10:11:22 Thursday ｜ AI Agent 到底和传统聊天机器人有何本质区别？又该如何科学评测 AI Agent？https://mp.weixin.qq.com/s/vu2g68KB3cYhryOtggtj4w</p>
+<p>论文标题：Evolutionary Perspectives on the Evaluation of LLM-Based AI Agents: A Comprehensive Survey</p>
+<p>论文链接：https://arxiv.org/pdf/2506.11102</p>
+<p>论文指出，AI Agent 的出现是 AI 发展的新阶段。它们不仅仅回复人类对话，还具备了五个维度的进化：</p>
+<ol>
+<li><strong>复杂环境</strong> ：Agent 不再局限于单一对话场景，可以与代码库、网页、操作系统、移动端、科学实验等各类环境交互。</li>
+<li><strong>多源指令</strong> ：Agent 不只接收人工输入，还能结合自我反思、智能体协作等多源指令。</li>
+<li><strong>动态反馈</strong> ：Agent 运行于连续多样的反馈环境，可基于指标、奖励等动态反馈持续优化自身能力，不再局限于被动对话纠正。</li>
+<li><strong>多模态</strong> ：Agent 拥有跨模态处理能力，能理解文本、视觉、听觉等多种数据。</li>
+<li><strong>高级能力</strong> ：随着外部环境复杂化，Agent 具备了复杂规划、持久记忆、自主推理等能力，实现从被动响应到自主执行的跃迁。</li>
+</ol>
+<p>论文系统梳理了现有 AI Agent 评测基准，提出 “环境 - 能力” 两方面的分类：</p>
+<ol>
+<li><strong>环境维度：</strong> 细分为代码、网页、操作系统、移动端、科学、游戏等环境。</li>
+<li><strong>能力维度：</strong> 涵盖规划、自我反省、交互、记忆等高级能力。</li>
+</ol>
+<p>论文深刻总结了 AI Agent 评测方法的未来趋势，不再只是 “比谁答得对”，而是从四个关键视角全面升级：</p>
+<p><strong>环境视角：从单模态到多模态、从静态到动态、从少状态到多状态。</strong></p>
+<p>智能体视角：从单 Agent 到多 Agent、从单轮到多轮互动。</p>
+<p>评测者视角：从人工到 AI 自动评测、从通用到个性化。</p>
+<p>指标视角：从粗粒度到细粒度，从关注正确率到关注效率、安全与社会价值。</p>
+<p>2025-06-28 18:30:37 Saturday ｜ AgentAuditor: 让智能体安全评估器的精确度达到人类水平 <a href="https://mp.weixin.qq.com/s/eQhsQ3ttUkZRNtQ5Jf8bVg"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/eQhsQ3ttUkZRNtQ5Jf8bVg</a></p>
+<p>2025-06-27 14:27:37 Friday</p>
+<p><strong>Mind2Web 2：基于 Agent-as-a-Judge 的代理搜索评估 [PDF</strong> <strong>(6)</strong> <strong>] [复制] [Kimi</strong> <strong>(6)</strong>  <strong>] [相关]</strong> <strong><a href="https://arxiv.org/abs/2506.21506"target="_blank" rel="external nofollow noopener noreferrer">#40</a><strong><strong><a href="https://papers.cool/arxiv/2506.21506"target="_blank" rel="external nofollow noopener noreferrer">Mind2Web 2: Evaluating Agentic Search with Agent-as-a-Judge</a></strong></strong> [PDF(6)] [Copy] [Kimi(6)] [REL]</strong></p>
+<p>作者：苟博宇、黄赞明、宁雨婷、谷雨、Michael Lin、齐伟健、Andrei Kopanev、于博韬、Bernal Jiménez Gutiérrez、舒毅恒、Chan Hee Song、吴佳蔓、陈世杰、Hanane Nour Moussa、张天舒、谢健、李逸飞、薛天慈、廖泽一、张凯、郑博元、蔡兆伟、Viktor Rozgic、Morteza Ziyadi、孙欢、苏钰</p>
+<p>代理搜索（如 Deep Research 系统）代表了用户与 Web 规模信息交互方式的重大转变，其中大型语言模型自主浏览 Web、综合信息并返回全面的引文支持答案。虽然承诺更高的效率和认知卸载，但代理搜索日益增长的复杂性和开放性已经超过了现有的评估基准和方法，这些基准和方法在很大程度上假设搜索范围较短且答案静态。在本文中，我们介绍了 Mind2Web 2，这是一个由 130 个现实、高质量和长期任务组成的基准，这些任务需要实时 Web 浏览和广泛的信息合成，由 1,000 多个小时的人力构建而成。为了解决评估时变和复杂答案的挑战，我们提出了一种新的 Agent-as-a-Judge 框架。我们的方法基于树状结构的评分量规设计构建特定于任务的判断代理，以自动评估答案的正确性和来源归因。我们对 9 个前沿代理搜索系统和人类表现进行了全面评估，并进行了详细的错误分析，以得出对未来发展的见解。性能最好的系统 OpenAI Deep Research 已经可以达到人类性能的 50-70%，而花费的时间只有一半，显示出巨大的潜力。总而言之，Mind2Web 2 为开发和基准测试下一代代理搜索系统提供了严格的基础。</p>
+<ol start="3">
+<li>2025-06-27 14:23:35 Friday ｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2506.21252"target="_blank" rel="external nofollow noopener noreferrer">Agent-RewardBench： 在现实世界的多模式智能体中，为感知、规划和安全提供统一的奖励建模基准</a></strong> <strong>[PDF(3)]</strong> <strong>[Copy]</strong> <strong>[Kimi(2)]</strong>  **[REL] ** <strong><a href="https://arxiv.org/abs/2506.21252"target="_blank" rel="external nofollow noopener noreferrer">#17</a><strong><strong><a href="https://papers.cool/arxiv/2506.21252"target="_blank" rel="external nofollow noopener noreferrer">Agent-RewardBench: Towards a Unified Benchmark for Reward Modeling across Perception, Planning, and Safety in Real-World Multimodal Agents</a></strong></strong> [PDF(3)] [Copy] [Kimi(2)] [REL]</strong></p>
+<p>作者：门天艺、金卓然、曹鹏飞、陈宇博、刘康、赵军</p>
+<p>随着多模态大型语言模型 （MLLM） 的进步，多模态代理在 Web 导航和具体智能等实际任务中显示出前景。然而，由于缺乏外部反馈的限制，这些代理在自我纠正和泛化方面遇到了困难。一个很有前途的方法是使用奖励模型作为外部反馈，但目前尚不清楚如何为代理选择奖励模型。因此，迫切需要建立一个针对代理的奖励基准。为了应对这些挑战，我们提出了 Agent-RewardBench，这是一个旨在评估 MLM 中奖励建模能力的基准。该基准测试具有三个关键特征：（1） 多个维度和真实世界的智能体场景评估。它涵盖 7 种场景的感知、规划和安全;（2） 阶梯级奖励评估。它允许在任务的各个步骤中评估代理能力，从而在规划过程中提供更精细的绩效视图;（3） 适当的难度和高质量。我们从 10 个不同的模型中仔细抽样，控制难度以维持任务挑战，并手动验证以确保数据的完整性。实验表明，即使是最先进的多模态模型也显示出有限的性能，这凸显了在智能体奖励建模中进行专门训练的必要性。代码可在 github 上获得。</p>
+<ol start="4">
+<li>2025-06-16 12:08:16 Monday｜</li>
+</ol>
+<p>Evolutionary Perspectives on the Evaluation of LLM-Based AI Agents: A  Comprehensive Survey
+<strong>标题</strong> ： 基于LLM的人工智能代理评估的进化观点：全面调查
+<strong>链接</strong> ：https://arxiv.org/abs/2506.11102</p>
+<p><strong>作者</strong> ： Jiachen Zhu,  Menghui Zhu,  Renting Rui,  Rong Shan,  Congmin Zheng,  Bo Chen,  Yunjia Xi,  Jianghao Lin,  Weiwen Liu,  Ruiming Tang,  Yong Yu,  Weinan Zhang
+<strong>摘要</strong> ：GPT、Gemini和DeepSeek等大型语言模型（LLM）的出现显着推进了自然语言处理，催生了能够执行多种语言相关任务的复杂聊天机器人。从这些传统的LLM聊天机器人到更先进的AI代理的过渡代表了关键的进化步骤。然而，现有的评估框架往往模糊了LLM聊天机器人和AI代理之间的区别，导致研究人员在选择适当的基准时感到困惑。为了弥合这一差距，本文介绍了一个系统的分析，目前的评估方法，接地在进化的角度来看。我们提供了一个详细的分析框架，可以从五个关键方面将AI代理与LLM聊天机器人区分开来：复杂环境，多源讲师，动态反馈，多模态感知和高级功能。此外，我们还根据外部环境驱动力以及由此产生的高级内部能力对现有评估基准进行分类。对于每一个类别，我们描绘了相关的评价属性，在实际参考表中全面介绍。最后，我们综合目前的趋势，并通过四个关键镜头概述未来的评估方法：环境，代理，评估员和指标。我们的研究结果为研究人员提供了可操作的指导，促进了AI代理评估中基准的明智选择和应用，从而促进了这一快速发展的研究领域的持续进步。</p>
+<h1 id="智能体训练">智能体训练</h1>
+<ol start="4">
+<li>2025-07-18 14:10:01 Friday ｜ Agentic-R1：7B小模型的逆袭，让LLM学会&quot;见招拆招&quot; <a href="https://mp.weixin.qq.com/s/wGOvevw9oUv6n4uZU-zaMQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/wGOvevw9oUv6n4uZU-zaMQ</a></li>
+<li>2025-07-02 15:38:17 Wednesday ｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2507.00814"target="_blank" rel="external nofollow noopener noreferrer">许多 LLM 比一个更实用</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Anita%20Keshmirian"target="_blank" rel="external nofollow noopener noreferrer">Anita Keshmirian</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Razan%20Baltaji"target="_blank" rel="external nofollow noopener noreferrer">Razan Baltaji</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Babak%20Hemmatian"target="_blank" rel="external nofollow noopener noreferrer">Babak Hemmatian</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Hadi%20Asghari"target="_blank" rel="external nofollow noopener noreferrer">Hadi Asghari</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Lav%20R.%20Varshney"target="_blank" rel="external nofollow noopener noreferrer">Lav R. Varshney</a></p>
+<p>道德判断是大型语言模型 （LLM） 对齐和社会推理不可或缺的一部分。随着多智能体系统越来越受到重视，与单个智能体相比，了解 LLM 在协作过程中的集体功能变得至关重要。在人类道德判断中， <strong>群体审议导致功利主义的推动：一种支持违反规范的行为的倾向，这些行为尽管受到伤害，但也能使大多数人的利益最大化</strong> 。我们研究了在多代理 LLM 系统中是否会出现类似的动态。我们在两个条件下测试了六个模型在一组公认的道德困境上：（1） 单人，模型独立推理，以及 （2） 小组，他们两人一组或三人组进行多轮讨论。在个人道德困境中，代理人必须决定直接伤害一个人以最大限度地为其他人效用，所有模型都发现，作为一个群体的一部分比个人更容易接受道德违规行为，类似于人体实验。一些模型支持使整体幸福感最大化的行动，即使它们使陌生人受益而不是熟悉的人。其他人变得更愿意在群体中违反道德规范。然而，虽然人类群体表现出类似的行动偏差，但他们的功利主义提升机制与 LLM 不同。人类的转变来自对决策结果的高度敏感，而 LLM 群体则表现出 <strong>常态敏感性降低或公正性增强</strong> 。这表明，虽然 LLM 集合的表面行为模仿了人类群体推理，但潜在的驱动因素不同。我们讨论了对 AI 对齐、多智能体设计和人工道德推理的影响。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a>, <a href="https://papers.cool/arxiv/cs.CY"target="_blank" rel="external nofollow noopener noreferrer">计算机与社会</a></p>
+<p><strong>发布</strong> ： 2025-07-01 14：46：16 UTC</p>
+<ol start="3">
+<li>2025-07-01 12:00:40 Tuesday ｜</li>
+</ol>
+<h2 id="rl">RL</h2>
+<h3 id="rlagentsllm-强强强组合从被动执行到自主进化ai决策迎来跃迁">RL+Agents+LLM 强强强组合！从「被动执行」到「自主进化」，AI决策迎来跃迁！</h3>
+<p><a href="https://mp.weixin.qq.com/s/tPH6rEjd9-cKWHzAxC6W6Q"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/tPH6rEjd9-cKWHzAxC6W6Q</a></p>
+<h3 id="l0强化学习成为-general-agent"><strong><a href="https://papers.cool/arxiv/2506.23667"target="_blank" rel="external nofollow noopener noreferrer">L0：强化学习成为 General Agent</a></strong></h3>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Junjie%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Junjie Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jingyi%20Xi"target="_blank" rel="external nofollow noopener noreferrer">Jingyi Xi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zhuoyang%20Song"target="_blank" rel="external nofollow noopener noreferrer">Zhuoyang Song</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Junyu%20Lu"target="_blank" rel="external nofollow noopener noreferrer">Junyu Lu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuhua%20Ke"target="_blank" rel="external nofollow noopener noreferrer">Yuhua Ke</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ting%20Sun"target="_blank" rel="external nofollow noopener noreferrer">Ting Sun</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yukun%20Yang"target="_blank" rel="external nofollow noopener noreferrer">Yukun Yang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jiaxing%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Jiaxing Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Songxin%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Songxin Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zejian%20Xie"target="_blank" rel="external nofollow noopener noreferrer">Zejian Xie</a></p>
+<p>训练大型语言模型 （LLM） 作为多轮次、长视距任务的自主代理仍然是可扩展性和训练效率方面的重大挑战。为了解决这个问题，我们引入了 L-Zero （L0），这是一种 <strong>适用于通用代理的可扩展端到端训练管道</strong> 。L0 具有低成本、可扩展和沙盒化的并发代理工作线程池，降低了在复杂环境中应用强化学习的门槛。我们还介绍了 NB-Agent，这是 L0 中的代理脚手架，它通过 Read-Eval-Print-Loop （REPL） 以“代码即作”的方式运行。我们根据事实性问答基准评估 L0。我们的实验表明，基本模型可以仅使用具有可验证奖励的强化学习 （RLVR） 来培养强大的问题解决技能。在 Qwen2.5-7B-Instruct 模型上，我们的方法将 SimpleQA 的准确率从 30% 提高到 80%，将 HotpotQA 的准确率从 22 % 提高到 41%。我们已经开源了整个 L0 系统，包括我们的 L0 系列模型、NB-Agent、完整的训练管道以及 （https://github.com/cmriat/l0） 上的相应训练配方。</p>
+<p><a href="https://mp.weixin.qq.com/s/0kvYCLAJArY769IxGVD3UA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/0kvYCLAJArY769IxGVD3UA</a></p>
+<p>端到端Agent训练pipeline—— <strong>L0系统</strong> ：</p>
+<ul>
+<li><strong>智能体架构层面</strong>提出了结构化智能体框架——NB-Agent，在经典”代码即行动” <em>（Code-as-Action）</em> 架构基础上进行扩展，使智能体能够操作记忆/上下文，从而获得类人类的记忆存储、信息总结与自我反思能力。</li>
+<li><strong>学习范式层面</strong>探索了一个核心问题：是否可以仅通过RLVR范式，引导智能体从零开始，学会如何规划、搜索、验证与记忆，最终解决复杂的多轮推理任务？</li>
+</ul>
+<p>L0系统的框架、模型及训练集已 <strong>全部开源</strong> ，详细可见文末链接。</p>
+<h3 id="agent-lightning使用强化学习训练任何-ai-代理"><a href="https://arxiv.org/abs/2508.03680"target="_blank" rel="external nofollow noopener noreferrer">Agent Lightning：使用强化学习训练任何 AI 代理</a></h3>
+<p><a href="https://arxiv.org/abs/2508.03680"target="_blank" rel="external nofollow noopener noreferrer">#1</a><a href="https://papers.cool/arxiv/2508.03680"target="_blank" rel="external nofollow noopener noreferrer">Agent Lightning: Train ANY AI Agents with Reinforcement Learning</a></p>
+<p>Authors: <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xufang%20Luo"target="_blank" rel="external nofollow noopener noreferrer">Xufang Luo</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuge%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Yuge Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zhiyuan%20He"target="_blank" rel="external nofollow noopener noreferrer">Zhiyuan He</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zilong%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Zilong Wang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Siyun%20Zhao"target="_blank" rel="external nofollow noopener noreferrer">Siyun Zhao</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Dongsheng%20Li"target="_blank" rel="external nofollow noopener noreferrer">Dongsheng Li</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Luna%20K.%20Qiu"target="_blank" rel="external nofollow noopener noreferrer">Luna K. Qiu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuqing%20Yang"target="_blank" rel="external nofollow noopener noreferrer">Yuqing Yang</a>
+作者：罗旭方，张宇歌，何志远，王子龙，赵思云，李东升，邱露娜，杨玉清</p>
+<p>We present Agent Lightning, a flexible and extensible framework that enables Reinforcement Learning (RL)-based training of Large Language Models (LLMs) for any AI agent. Unlike existing methods that tightly couple RL training with agent or rely on sequence concatenation with masking, Agent Lightning achieves complete decoupling between agent execution and training, allowing seamless integration with existing agents developed via diverse ways (e.g., using frameworks like LangChain, OpenAI Agents SDK, AutoGen, and building from scratch) with almost ZERO code modifications. By formulating agent execution as Markov decision process, we define an unified data interface and propose a hierarchical RL algorithm, LightningRL, which contains a credit assignment module, allowing us to decompose trajectories generated by ANY agents into training transition. This enables RL to handle complex interaction logic, such as multi-agent scenarios and dynamic workflows. For the system design, we introduce a Training-Agent Disaggregation architecture, and brings agent observability frameworks into agent runtime, providing a standardized agent finetuning interface. Experiments across text-to-SQL, retrieval-augmented generation, and math tool-use tasks demonstrate stable, continuous improvements, showcasing the framework&rsquo;s potential for real-world agent training and deployment.
+我们提出了 Agent Lightning，一个灵活且可扩展的框架，支持基于强化学习（RL）对任何 AI 代理的 LLMs 进行训练。与现有方法将 RL 训练与代理紧密耦合或依赖序列拼接与掩码不同，Agent Lightning 实现了代理执行与训练的完全解耦，允许无缝集成通过多种方式开发的现有代理（例如使用 LangChain、OpenAI Agents SDK、AutoGen 等框架，或从零构建），几乎无需修改代码。通过将代理执行形式化为马尔可夫决策过程，我们定义了统一的数据接口，并提出了分层 RL 算法 LightningRL，其中包含信用分配模块，使我们能够将任何代理生成的轨迹分解为训练转换。这使得 RL 能够处理复杂的交互逻辑，如多代理场景和动态工作流。在系统设计方面，我们引入了训练代理分离架构，并将代理可观测性框架引入代理运行时，提供了标准化的代理微调接口。 在文本到 SQL、检索增强生成和数学工具使用任务中的实验展示了稳定且持续的改进，彰显了该框架在现实世界代理训练和部署中的潜力。</p>
+<p>Subjects: <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">Artificial Intelligence</a>, <a href="https://papers.cool/arxiv/cs.LG"target="_blank" rel="external nofollow noopener noreferrer">Machine Learning</a>
+主题：人工智能，机器学习</p>
+<p>Publish: 2025-08-05 17:50:13 UTC**
+**发布时间：2025-08-05 17:50:13 UTC</p>
+<h2 id="智能体推理">智能体推理</h2>
+<p>2025-07-17 11:04:19 Thursday  ｜  <strong>CoT监测</strong> ，并认为这也许是控制AI Agent的核心方法，来保障前沿AI的安全性。<a href="https://mp.weixin.qq.com/s/JV3mIv1LyTMyE_GCwEdR2g"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/JV3mIv1LyTMyE_GCwEdR2g</a></p>
+<h1 id="多智能体">多智能体</h1>
+<p>2025-06-14 ｜ 多智能体在「燃烧」Token！Anthropic公开发现的一切</p>
+<p>🔗：https://mp.weixin.qq.com/s/OpuIHSwrq3vzVxNRmqogJQ</p>
+<p>最近一段时间，关于智能体的研究层出不穷。但这也为广大研究者带来一些困惑，比如什么任务需要多智能体？多个 AI 智能体如何协作？怎么解决上下文和记忆问题……</p>
+<p>面对这些问题，你不妨读读 Anthropic 的这篇文章，或许能找到答案。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQwM2I3NTk5ZDgxZThkNjhjMDk3MjBmNDg2NmY1OGZfb0FoWXQxaTZpVU1Eb1dvZ3dJdlBDOTY3d0FOS0dSc1RfVG9rZW46Q0MyZWJPbkN4b1ZSWFR4V3cyY2NrZEQ3bjlIXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQwM2I3NTk5ZDgxZThkNjhjMDk3MjBmNDg2NmY1OGZfb0FoWXQxaTZpVU1Eb1dvZ3dJdlBDOTY3d0FOS0dSc1RfVG9rZW46Q0MyZWJPbkN4b1ZSWFR4V3cyY2NrZEQ3bjlIXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQwM2I3NTk5ZDgxZThkNjhjMDk3MjBmNDg2NmY1OGZfb0FoWXQxaTZpVU1Eb1dvZ3dJdlBDOTY3d0FOS0dSc1RfVG9rZW46Q0MyZWJPbkN4b1ZSWFR4V3cyY2NrZEQ3bjlIXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQwM2I3NTk5ZDgxZThkNjhjMDk3MjBmNDg2NmY1OGZfb0FoWXQxaTZpVU1Eb1dvZ3dJdlBDOTY3d0FOS0dSc1RfVG9rZW46Q0MyZWJPbkN4b1ZSWFR4V3cyY2NrZEQ3bjlIXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQwM2I3NTk5ZDgxZThkNjhjMDk3MjBmNDg2NmY1OGZfb0FoWXQxaTZpVU1Eb1dvZ3dJdlBDOTY3d0FOS0dSc1RfVG9rZW46Q0MyZWJPbkN4b1ZSWFR4V3cyY2NrZEQ3bjlIXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQwM2I3NTk5ZDgxZThkNjhjMDk3MjBmNDg2NmY1OGZfb0FoWXQxaTZpVU1Eb1dvZ3dJdlBDOTY3d0FOS0dSc1RfVG9rZW46Q0MyZWJPbkN4b1ZSWFR4V3cyY2NrZEQ3bjlIXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>文章地址：https://www.anthropic.com/engineering/built-multi-agent-research-system</p>
+<ol>
+<li>2025-06-12 12:06:22 Thursday｜</li>
+</ol>
+<p>通过多智能体反射加强LLM推理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.08379</p>
+<p><strong>作者</strong> ： Yurun Yuan,  Tengyang Xie
+<strong>备注</strong> ：International Conference on Machine Learning (ICML), 2025
+<strong>摘要</strong> ：利用更多的测试时计算已被证明是提高大型语言模型（LLM）推理能力的有效方法。在各种方法中，验证和改进范式脱颖而出，使动态的解决方案探索和反馈纳入。然而，现有的方法往往受到有限的反馈空间和缺乏协调的培训不同的当事人，导致次优性能。为了解决这个问题，我们将这个 <strong>多轮细化过程建模为马尔可夫决策过程</strong> ，并引入 <strong>DPSDP（通过动态规划进行直接策略搜索）</strong> ，这是一种强化学习算法，可以训练演员-评论家LLM系统通过对自我生成的数据进行直接偏好学习来迭代地细化答案。理论上，DPSDP可以匹配训练分布内的任何策略的性能。从经验上讲，我们实例化DPSDP与各种基础模型，并显示在分发和分发基准的改进。例如，在基准MATH 500上，五个细化步骤的多数投票将基于Ministral的模型的第一轮准确率从58.2%提高到63.2%。消融研究进一步证实了多智能体协作和分布泛化的好处。</p>
+<ol start="2">
+<li>2025-06-12 12:08:32 Thursday｜</li>
+</ol>
+<p>From Debate to Equilibrium: Belief-Driven Multi-Agent LLM Reasoning via  Bayesian Nash Equilibrium
+<strong>标题</strong> ： 从辩论到均衡：通过Bayesian Nash均衡进行信念驱动的多智能体LLM推理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.08292</p>
+<p><strong>作者</strong> ： Xie Yi,  Zhanke Zhou,  Chentao Cao,  Qiyu Niu,  Tongliang Liu,  Bo Han
+<strong>备注</strong> ：Accepted by ICML 2025
+<strong>摘要</strong> ：多智能体框架可以大大提高大型语言模型（LLM）的推理能力，但它们通常会产生沉重的计算成本，并且缺乏收敛保证。为了克服这些挑战，我们重铸多LLM协调作为一个不完全信息博弈，并寻求贝叶斯纳什均衡（BNE），其中每个代理最佳地响应其概率信念的其他策略。我们通过 <strong>纳什均衡（ECON）</strong> 引入了高效协调，这是一种分层的学习范式，将分布式推理与集中式最终输出结合在一起。在ECON下，每个LLM独立地选择最大化其预期奖励的响应，条件是其对合作代理的信念，而不需要昂贵的代理间交换。我们从数学上证明了ECON比非平衡多智能体方案获得了更严格的后悔界。从经验上看，ECON在跨越复杂推理和规划任务的六个基准测试中平均比现有的多LLM方法高出11.2%。进一步的实验证明了ECON能够灵活地整合其他模型，证实了其可扩展性，并为更大，更强大的多LLM集成铺平了道路。该代码可在https://github.com/tmlr-group/ECON上公开获取。</p>
+<ol start="3">
+<li>🌈 2025-06-19 20:41:50 Thursday ｜</li>
+</ol>
+<p>Xolver: Multi-Agent Reasoning with Holistic Experience Learning Just  Like an Olympiad Team
+<strong>标题</strong> ： Xolver：像奥林匹克运动队一样具有整体体验学习的多智能体推理
+<strong>链接</strong> ：https://arxiv.org/abs/2506.14234</p>
+<p><strong>作者</strong> ： Md Tanzib Hosain,  Salman Rahman,  Md Kishor Morol,  Md Rizwan Parvez
+<strong>摘要</strong> ：尽管在复杂推理方面取得了令人印象深刻的进展，但当前的大型语言模型（LLM）通常是孤立地运行的-将每个问题视为独立的尝试，而不积累或整合经验知识。相比之下，专家级的问题解决者&ndash;如奥林匹克竞赛或编程竞赛团队&ndash;利用丰富的经验：从教练那里吸收指导，从过去的问题中发展直觉，利用工具使用和库功能的知识，根据同行的专业知识和经验调整策略，通过试验和错误不断完善他们的推理，甚至在竞争中从其他相关问题中学习。我们介绍 <strong>Xolver，一个无需训练的多智能体推理框架，它为黑盒LLM提供了持久的，不断发展的整体体验记忆</strong> 。Xolver集成了多种体验模式，包括外部和自我检索、工具使用、协作交互、代理驱动的评估和迭代改进。通过在推理时学习相关策略、代码片段和抽象推理模式，Xolver避免从头开始生成解决方案-标志着从孤立推理到经验感知语言代理的转变。Xolver建立在开放权重和专有模型之上，始终优于专业推理代理。即使具有轻量级骨干（例如，QWQ-32 B），它经常超越包括Qwen 3 - 235 B，Gemini 2.5 Pro，o3和o 4-mini-high在内的先进型号。通过o3-mini-high，它在GSM 8 K（98.1%）、AIME'24（94.4%）、AIME'25（93.7%）、Math-500（99.8%）和LiveCodeBench-V5（91.6%）上取得了新的最佳结果，突出了整体经验学习作为实现具有专家级推理能力的通才代理的关键一步。代码和数据可在https://kagnlp.github.io/xolver.github.io/上获得。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWI5ODE5MGM2Y2I1MjliZjNkNjlhODJmZjZlMWQ1YjRfZHdyU2dOVnhMZENZcnZKZUQ4Q1ZhUldLNkpiNU10RTRfVG9rZW46SlExVGJmMThvb3J0aE14dDRtamN6WU85bmtnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWI5ODE5MGM2Y2I1MjliZjNkNjlhODJmZjZlMWQ1YjRfZHdyU2dOVnhMZENZcnZKZUQ4Q1ZhUldLNkpiNU10RTRfVG9rZW46SlExVGJmMThvb3J0aE14dDRtamN6WU85bmtnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWI5ODE5MGM2Y2I1MjliZjNkNjlhODJmZjZlMWQ1YjRfZHdyU2dOVnhMZENZcnZKZUQ4Q1ZhUldLNkpiNU10RTRfVG9rZW46SlExVGJmMThvb3J0aE14dDRtamN6WU85bmtnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWI5ODE5MGM2Y2I1MjliZjNkNjlhODJmZjZlMWQ1YjRfZHdyU2dOVnhMZENZcnZKZUQ4Q1ZhUldLNkpiNU10RTRfVG9rZW46SlExVGJmMThvb3J0aE14dDRtamN6WU85bmtnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWI5ODE5MGM2Y2I1MjliZjNkNjlhODJmZjZlMWQ1YjRfZHdyU2dOVnhMZENZcnZKZUQ4Q1ZhUldLNkpiNU10RTRfVG9rZW46SlExVGJmMThvb3J0aE14dDRtamN6WU85bmtnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWI5ODE5MGM2Y2I1MjliZjNkNjlhODJmZjZlMWQ1YjRfZHdyU2dOVnhMZENZcnZKZUQ4Q1ZhUldLNkpiNU10RTRfVG9rZW46SlExVGJmMThvb3J0aE14dDRtamN6WU85bmtnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ol start="4">
+<li>2025-06-23 11:58:41 Monday｜ <a href="https://mp.weixin.qq.com/s/HWT986zchK9AWH-OJKwugQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/HWT986zchK9AWH-OJKwugQ</a></li>
+</ol>
+<p>近日，中国科学院自动化研究所的研究人员提出了一种创新性框架 ——DrSR (Dual Reasoning Symbolic Regression)：通过数据分析与经验归纳 “双轮驱动”，赋予大模型像科学家一样 “分析数据、反思成败、优化模型” 的能力。</p>
+<p>在 DrSR 中，三位 “虚拟科学家” 协同工作：</p>
+<p>一个善于洞察变量关系的 “数据科学家”；一个擅长总结失败教训与成功经验的 “理论科学家”；一个勇于尝试假设、不断优化模型的 “实验科学家”。</p>
+<p>论文地址：https://arxiv.org/abs/2506.04282</p>
+<p>论文标题：DrSR: LLM based Scientific Equation Discovery with Dual Reasoning from Data and Experience</p>
+<p>DrSR 的两大关键机制包括：</p>
+<ul>
+<li>数据驱动的洞察生成（Data-aware Insight Extraction）</li>
+<li>经验驱动的策略总结（Inductive Idea Learning）</li>
+</ul>
+<p>DrSR 的流程并不复杂，关键在于：让 LLM 在每一轮尝试中都 “看数据、学经验、再出手”</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTAyNzg2NmE3NWU5NTNiY2E1ZjNkZTkyZDI5ZmZiMDlfQzd4QVE4R2FKUlRlbkdSNXpYM3hWenZpRDk1VW9wclFfVG9rZW46VGp4cmJNS2Rkb2hrS2h4VXhHMWNHN2JxbkxnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTAyNzg2NmE3NWU5NTNiY2E1ZjNkZTkyZDI5ZmZiMDlfQzd4QVE4R2FKUlRlbkdSNXpYM3hWenZpRDk1VW9wclFfVG9rZW46VGp4cmJNS2Rkb2hrS2h4VXhHMWNHN2JxbkxnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTAyNzg2NmE3NWU5NTNiY2E1ZjNkZTkyZDI5ZmZiMDlfQzd4QVE4R2FKUlRlbkdSNXpYM3hWenZpRDk1VW9wclFfVG9rZW46VGp4cmJNS2Rkb2hrS2h4VXhHMWNHN2JxbkxnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTAyNzg2NmE3NWU5NTNiY2E1ZjNkZTkyZDI5ZmZiMDlfQzd4QVE4R2FKUlRlbkdSNXpYM3hWenZpRDk1VW9wclFfVG9rZW46VGp4cmJNS2Rkb2hrS2h4VXhHMWNHN2JxbkxnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTAyNzg2NmE3NWU5NTNiY2E1ZjNkZTkyZDI5ZmZiMDlfQzd4QVE4R2FKUlRlbkdSNXpYM3hWenZpRDk1VW9wclFfVG9rZW46VGp4cmJNS2Rkb2hrS2h4VXhHMWNHN2JxbkxnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTAyNzg2NmE3NWU5NTNiY2E1ZjNkZTkyZDI5ZmZiMDlfQzd4QVE4R2FKUlRlbkdSNXpYM3hWenZpRDk1VW9wclFfVG9rZW46VGp4cmJNS2Rkb2hrS2h4VXhHMWNHN2JxbkxnXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ol start="5">
+<li>2025-06-25 09:45:07 Wednesday | ACL 2025 | 让小说角色 「活」起来！复旦BookWorld打造沉浸式小说世界模拟系统 <a href="https://mp.weixin.qq.com/s/3GboKJgQDwL8aefNbk4I4g"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/3GboKJgQDwL8aefNbk4I4g</a></li>
+</ol>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3NGMxY2Y1NDNkMzIwZjAxYTkzNWJhOTAyZDhjYTNfM013RTdyQ0FISWY2UkIxU1JJdUZmM3J4TUFYbEdOSVJfVG9rZW46UUpiZWJBT3Fnb2ZQQ3B4NFBmWmNrdUVvbmZmXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3NGMxY2Y1NDNkMzIwZjAxYTkzNWJhOTAyZDhjYTNfM013RTdyQ0FISWY2UkIxU1JJdUZmM3J4TUFYbEdOSVJfVG9rZW46UUpiZWJBT3Fnb2ZQQ3B4NFBmWmNrdUVvbmZmXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3NGMxY2Y1NDNkMzIwZjAxYTkzNWJhOTAyZDhjYTNfM013RTdyQ0FISWY2UkIxU1JJdUZmM3J4TUFYbEdOSVJfVG9rZW46UUpiZWJBT3Fnb2ZQQ3B4NFBmWmNrdUVvbmZmXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3NGMxY2Y1NDNkMzIwZjAxYTkzNWJhOTAyZDhjYTNfM013RTdyQ0FISWY2UkIxU1JJdUZmM3J4TUFYbEdOSVJfVG9rZW46UUpiZWJBT3Fnb2ZQQ3B4NFBmWmNrdUVvbmZmXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3NGMxY2Y1NDNkMzIwZjAxYTkzNWJhOTAyZDhjYTNfM013RTdyQ0FISWY2UkIxU1JJdUZmM3J4TUFYbEdOSVJfVG9rZW46UUpiZWJBT3Fnb2ZQQ3B4NFBmWmNrdUVvbmZmXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NjQ3NGMxY2Y1NDNkMzIwZjAxYTkzNWJhOTAyZDhjYTNfM013RTdyQ0FISWY2UkIxU1JJdUZmM3J4TUFYbEdOSVJfVG9rZW46UUpiZWJBT3Fnb2ZQQ3B4NFBmWmNrdUVvbmZmXzE3NTQ0NjA3MDU6MTc1NDQ2NDMwNV9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<ol start="5">
+<li>2025-07-01 12:37:53 Tuesday ｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2506.23276"target="_blank" rel="external nofollow noopener noreferrer">推理腐蚀：推理语言模型成为公共产品游戏中的搭便车者</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi(1)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=David%20Guzman%20Piedrahita"target="_blank" rel="external nofollow noopener noreferrer">David Guzman Piedrahita</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yongjin%20Yang"target="_blank" rel="external nofollow noopener noreferrer">Yongjin Yang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Mrinmaya%20Sachan"target="_blank" rel="external nofollow noopener noreferrer">Mrinmaya Sachan</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Giorgia%20Ramponi"target="_blank" rel="external nofollow noopener noreferrer">Giorgia Ramponi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Bernhard%20Sch%C3%B6lkopf"target="_blank" rel="external nofollow noopener noreferrer">Bernhard Schölkopf</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zhijing%20Jin"target="_blank" rel="external nofollow noopener noreferrer">Zhijing Jin</a></p>
+<p>随着大型语言模型 （LLM） 越来越多地部署为自主代理，了解它们的合作和社会机制变得越来越重要。特别是，LLM 如何平衡自身利益和集体福祉是确保一致性、稳健性和安全部署的关键挑战。在本文中，我们研究了多代理 LLM 系统中代价高昂的制裁挑战，其中代理必须决定是投入自己的资源来激励合作还是惩罚叛逃。为了研究这一点，我们从行为经济学中改编了一个具有制度选择的公共产品游戏，使我们能够观察不同的 LLM 如何在重复互动中驾驭社会困境。我们的分析揭示了模型之间的四种不同的行为模式：一些模型始终如一地建立和维持高水平的合作，另一些模型在参与和脱离参与之间波动，一些模型的合作行为随着时间的推移逐渐下降，而另一些模型则无论结果如何都严格遵循固定的策略。令人惊讶的是，我们发现推理 LLM，例如 o1 系列，在合作方面非常困难，而一些传统的 LLM 始终实现高水平的合作。这些发现表明，当前改进 LLM 的方法（侧重于增强其推理能力）不一定会导致合作，这为在需要持续协作的环境中部署 LLM 代理提供了有价值的见解。我们的代码可在 <a href="https://github.com/davidguzmanp/SanctSim"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/davidguzmanp/SanctSim</a></p>
+<h3 id="协作">协作</h3>
+<h4 id="超越头脑风暴是什么驱动高质量的科学创意多智能体协作的启示">超越头脑风暴：是什么驱动高质量的科学创意？多智能体协作的启示</h4>
+<p><a href="https://arxiv.org/abs/2508.04575"target="_blank" rel="external nofollow noopener noreferrer">#50</a><a href="https://papers.cool/arxiv/2508.04575"target="_blank" rel="external nofollow noopener noreferrer">Beyond Brainstorming: What Drives High-Quality Scientific Ideas? Lessons from Multi-Agent Collaboration</a></p>
+<ol>
+<li>尽管人工智能代理在科学构思方面展现出潜力，但大多数现有框架依赖于单一代理的迭代改进，因知识和视角的局限性而限制了创造力。受现实世界研究动态的启发，本文探讨了结构化多代理讨论是否能够超越单独构思。
+<ol>
+<li>我们提出了一个用于生成研究提案的合作多代理框架，并系统地比较了包括团队规模、领导主导与无领导结构，以及跨学科和资历多样化的团队组成等配置。</li>
+<li>为了评估创意质量，我们采用了一个综合协议，结合基于代理的评分和人类评审，涵盖新颖性、战略视野和整合深度等维度。</li>
+<li>结果显示，多代理讨论显著优于单独基线。指定的领导者充当催化剂，将讨论转化为更具整合性和远见性的提案。值得注意的是，我们发现认知多样性是质量的主要驱动力，但专业知识是不可或缺的前提，因为缺乏资深知识基础的团队甚至无法超越单个有能力的代理。 这些发现为设计协作式人工智能创意系统提供了可操作的见解，并揭示了团队结构如何影响创造性成果。</li>
+</ol>
+</li>
+</ol>
+<p>发布时间：2025-08-06 15:59:18 UTC</p>
+<h3 id="强化学习">强化学习</h3>
+<h4 id="llm-协作与多智能体强化学习">LLM 协作与多智能体强化学习</h4>
+<p><a href="https://arxiv.org/abs/2508.04652"target="_blank" rel="external nofollow noopener noreferrer">#2</a><a href="https://papers.cool/arxiv/2508.04652"target="_blank" rel="external nofollow noopener noreferrer">LLM Collaboration With Multi-Agent Reinforcement Learning</a>  #2</p>
+<p>在多智能体系统（MAS）中，已经进行了大量工作来建模和解决多个交互智能体的问题。然而，大多数 LLMs 是独立预训练的，并未专门针对协调进行优化。现有的 LLM 微调框架依赖于个体奖励，这需要为每个智能体设计复杂的奖励机制以鼓励协作。为了解决这些挑战，我们将 LLM 协作建模为一个合作型多智能体强化学习（MARL）问题。我们基于当前针对 LLM 的强化学习方法以及 <strong>MARL 技术</strong>，开发了一种多智能体、多轮次算法——多智能体群体相对策略优化（MAGRPO）来解决该问题。我们在 LLM 写作和编码协作上的实验表明，使用 MAGRPO 微调 MAS 能够使智能体通过有效协作高效生成高质量的响应。我们的方法为将其他 MARL 方法应用于 LLM 打开了大门，并突出了相关的挑战。</p>
+<p>发布时间：2025-08-06 17:18:25 UTC</p>
+<h1 id="综述">综述</h1>
+<ol start="7">
+<li><strong>2025-07-17 11:03:53 Thursday ｜ AI Agent 到底和传统聊天机器人有何本质区别？又该如何科学评测 AI Agent？</strong> <a href="https://mp.weixin.qq.com/s/vu2g68KB3cYhryOtggtj4w"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/vu2g68KB3cYhryOtggtj4w</a></li>
+</ol>
+<p>论文标题：Evolutionary Perspectives on the Evaluation of LLM-Based AI Agents: A Comprehensive Survey</p>
+<p>论文链接：https://arxiv.org/pdf/2506.11102</p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

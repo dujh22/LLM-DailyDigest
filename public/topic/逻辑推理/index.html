@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>逻辑推理 - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="逻辑推理
+未来的评估体系将具有高度可扩展的发展路径。
+挑战：如何优化统一框架设计、提高训练效率和应对大规模数据等挑战。
+老数据也可以有新用途。
+
+为此，我正在打造一个可扩展的通用数据引擎。
+强调自主决策
+关注正确率到关注效率、安全与社会价值。
+
+计算机科学中的逻辑：https://arxiv.org/list/cs.LO/recent
+计算机科学与博弈论：https://arxiv.org/list/cs.GT/recent
+
+
+250614｜苹果《思考的错觉》再挨批，Claude与人类共著论文指出其三大关键缺陷
+
+
+2025-06-16 12:33:50 Monday ｜更强大的语言模型会产生更多类似人类的错误
+
+
+20250604｜Probing the Geometry of Truth: Consistency and Generalization of Truth Directions in LLMs Across Logical Transformations and Question Answering Tasks
+
+标题： 探索真理的几何学：跨逻辑转换和问题解答任务的LLM中真值方向的一致性和概括性
+链接：https://arxiv.org/abs/2506.00823
+
+
+
+2025-06-10 10:55:11 Tuesday ｜ PuzzleWorld: A Benchmark for Multimodal, Open-Ended Reasoning in  Puzzlehunts
+
+标题 ： PuzzleWorld：益智游戏中多模式、开放式推理的基准
+链接 ：https://arxiv.org/abs/2506.06211
+摘要 ：Puzzlehunts是一种复杂的，多步骤的谜题，缺乏明确的问题定义。与由具有明确指令的任务组成的传统推理基准相比，puzzlehunts需要模型从多模态证据和迭代推理中发现潜在的问题结构，反映现实世界的领域，如科学发现，探索性数据分析或调查性问题解决。尽管基金会模型最近取得了进展，但它们在这种开放式环境中的表现在很大程度上仍未得到检验。在本文中，我们介绍了PuzzleWorld，一个大规模的基准667拼图狩猎式的问题，旨在评估一步一步的，开放式的，创造性的多模态推理。每个谜题都标注了最终解决方案、详细的推理轨迹和认知技能标签，从而实现整体基准测试和细粒度诊断分析。大多数最先进的模型只能达到1-2%的最终答案准确率，最好的模型只能解决14%的难题，逐步准确率达到40%。为了证明我们的推理注释的价值，我们表明，对推理轨迹进行微调可以将逐步推理从4%提高到11%，而仅对最终答案进行训练则会将性能降低到接近零。我们的错误分析表明，目前的模型表现出近视推理，基于语言的推理的局限性，缺乏草图的视觉和空间推理的关键能力。我们在https://github.com/MIT-MI/PuzzleWorld上发布PuzzleWorld，以支持未来构建更通用，开放和创造性推理系统的工作。
+
+
+
+2025-06-11 11:19:47 Wednesday ｜Evaluating Large Language Models on the Frame and Symbol Grounding  Problems: A Zero-shot Benchmark
+标题 ： 基于框架和符号基础问题的大型语言模型评估：Zero-Shot基准
+链接 ：https://arxiv.org/abs/2506.07896" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="逻辑推理">
+  <meta itemprop="description" content="逻辑推理 未来的评估体系将具有高度可扩展的发展路径。
+挑战：如何优化统一框架设计、提高训练效率和应对大规模数据等挑战。
+老数据也可以有新用途。 为此，我正在打造一个可扩展的通用数据引擎。
+强调自主决策
+关注正确率到关注效率、安全与社会价值。
+计算机科学中的逻辑：https://arxiv.org/list/cs.LO/recent
+计算机科学与博弈论：https://arxiv.org/list/cs.GT/recent
+250614｜苹果《思考的错觉》再挨批，Claude与人类共著论文指出其三大关键缺陷
+2025-06-16 12:33:50 Monday ｜更强大的语言模型会产生更多类似人类的错误
+20250604｜Probing the Geometry of Truth: Consistency and Generalization of Truth Directions in LLMs Across Logical Transformations and Question Answering Tasks
+标题： 探索真理的几何学：跨逻辑转换和问题解答任务的LLM中真值方向的一致性和概括性 链接：https://arxiv.org/abs/2506.00823 2025-06-10 10:55:11 Tuesday ｜ PuzzleWorld: A Benchmark for Multimodal, Open-Ended Reasoning in Puzzlehunts
+标题 ： PuzzleWorld：益智游戏中多模式、开放式推理的基准 链接 ：https://arxiv.org/abs/2506.06211 摘要 ：Puzzlehunts是一种复杂的，多步骤的谜题，缺乏明确的问题定义。与由具有明确指令的任务组成的传统推理基准相比，puzzlehunts需要模型从多模态证据和迭代推理中发现潜在的问题结构，反映现实世界的领域，如科学发现，探索性数据分析或调查性问题解决。尽管基金会模型最近取得了进展，但它们在这种开放式环境中的表现在很大程度上仍未得到检验。在本文中，我们介绍了PuzzleWorld，一个大规模的基准667拼图狩猎式的问题，旨在评估一步一步的，开放式的，创造性的多模态推理。每个谜题都标注了最终解决方案、详细的推理轨迹和认知技能标签，从而实现整体基准测试和细粒度诊断分析。大多数最先进的模型只能达到1-2%的最终答案准确率，最好的模型只能解决14%的难题，逐步准确率达到40%。为了证明我们的推理注释的价值，我们表明，对推理轨迹进行微调可以将逐步推理从4%提高到11%，而仅对最终答案进行训练则会将性能降低到接近零。我们的错误分析表明，目前的模型表现出近视推理，基于语言的推理的局限性，缺乏草图的视觉和空间推理的关键能力。我们在https://github.com/MIT-MI/PuzzleWorld上发布PuzzleWorld，以支持未来构建更通用，开放和创造性推理系统的工作。 2025-06-11 11:19:47 Wednesday ｜Evaluating Large Language Models on the Frame and Symbol Grounding Problems: A Zero-shot Benchmark 标题 ： 基于框架和符号基础问题的大型语言模型评估：Zero-Shot基准 链接 ：https://arxiv.org/abs/2506.07896">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="1827"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E9%80%BB%E8%BE%91%E6%8E%A8%E7%90%86/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="逻辑推理">
+  <meta property="og:description" content="逻辑推理 未来的评估体系将具有高度可扩展的发展路径。
+挑战：如何优化统一框架设计、提高训练效率和应对大规模数据等挑战。
+老数据也可以有新用途。 为此，我正在打造一个可扩展的通用数据引擎。
+强调自主决策
+关注正确率到关注效率、安全与社会价值。
+计算机科学中的逻辑：https://arxiv.org/list/cs.LO/recent
+计算机科学与博弈论：https://arxiv.org/list/cs.GT/recent
+250614｜苹果《思考的错觉》再挨批，Claude与人类共著论文指出其三大关键缺陷
+2025-06-16 12:33:50 Monday ｜更强大的语言模型会产生更多类似人类的错误
+20250604｜Probing the Geometry of Truth: Consistency and Generalization of Truth Directions in LLMs Across Logical Transformations and Question Answering Tasks
+标题： 探索真理的几何学：跨逻辑转换和问题解答任务的LLM中真值方向的一致性和概括性 链接：https://arxiv.org/abs/2506.00823 2025-06-10 10:55:11 Tuesday ｜ PuzzleWorld: A Benchmark for Multimodal, Open-Ended Reasoning in Puzzlehunts
+标题 ： PuzzleWorld：益智游戏中多模式、开放式推理的基准 链接 ：https://arxiv.org/abs/2506.06211 摘要 ：Puzzlehunts是一种复杂的，多步骤的谜题，缺乏明确的问题定义。与由具有明确指令的任务组成的传统推理基准相比，puzzlehunts需要模型从多模态证据和迭代推理中发现潜在的问题结构，反映现实世界的领域，如科学发现，探索性数据分析或调查性问题解决。尽管基金会模型最近取得了进展，但它们在这种开放式环境中的表现在很大程度上仍未得到检验。在本文中，我们介绍了PuzzleWorld，一个大规模的基准667拼图狩猎式的问题，旨在评估一步一步的，开放式的，创造性的多模态推理。每个谜题都标注了最终解决方案、详细的推理轨迹和认知技能标签，从而实现整体基准测试和细粒度诊断分析。大多数最先进的模型只能达到1-2%的最终答案准确率，最好的模型只能解决14%的难题，逐步准确率达到40%。为了证明我们的推理注释的价值，我们表明，对推理轨迹进行微调可以将逐步推理从4%提高到11%，而仅对最终答案进行训练则会将性能降低到接近零。我们的错误分析表明，目前的模型表现出近视推理，基于语言的推理的局限性，缺乏草图的视觉和空间推理的关键能力。我们在https://github.com/MIT-MI/PuzzleWorld上发布PuzzleWorld，以支持未来构建更通用，开放和创造性推理系统的工作。 2025-06-11 11:19:47 Wednesday ｜Evaluating Large Language Models on the Frame and Symbol Grounding Problems: A Zero-shot Benchmark 标题 ： 基于框架和符号基础问题的大型语言模型评估：Zero-Shot基准 链接 ：https://arxiv.org/abs/2506.07896">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="topic">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="逻辑推理">
+  <meta name="twitter:description" content="逻辑推理 未来的评估体系将具有高度可扩展的发展路径。
+挑战：如何优化统一框架设计、提高训练效率和应对大规模数据等挑战。
+老数据也可以有新用途。 为此，我正在打造一个可扩展的通用数据引擎。
+强调自主决策
+关注正确率到关注效率、安全与社会价值。
+计算机科学中的逻辑：https://arxiv.org/list/cs.LO/recent
+计算机科学与博弈论：https://arxiv.org/list/cs.GT/recent
+250614｜苹果《思考的错觉》再挨批，Claude与人类共著论文指出其三大关键缺陷
+2025-06-16 12:33:50 Monday ｜更强大的语言模型会产生更多类似人类的错误
+20250604｜Probing the Geometry of Truth: Consistency and Generalization of Truth Directions in LLMs Across Logical Transformations and Question Answering Tasks
+标题： 探索真理的几何学：跨逻辑转换和问题解答任务的LLM中真值方向的一致性和概括性 链接：https://arxiv.org/abs/2506.00823 2025-06-10 10:55:11 Tuesday ｜ PuzzleWorld: A Benchmark for Multimodal, Open-Ended Reasoning in Puzzlehunts
+标题 ： PuzzleWorld：益智游戏中多模式、开放式推理的基准 链接 ：https://arxiv.org/abs/2506.06211 摘要 ：Puzzlehunts是一种复杂的，多步骤的谜题，缺乏明确的问题定义。与由具有明确指令的任务组成的传统推理基准相比，puzzlehunts需要模型从多模态证据和迭代推理中发现潜在的问题结构，反映现实世界的领域，如科学发现，探索性数据分析或调查性问题解决。尽管基金会模型最近取得了进展，但它们在这种开放式环境中的表现在很大程度上仍未得到检验。在本文中，我们介绍了PuzzleWorld，一个大规模的基准667拼图狩猎式的问题，旨在评估一步一步的，开放式的，创造性的多模态推理。每个谜题都标注了最终解决方案、详细的推理轨迹和认知技能标签，从而实现整体基准测试和细粒度诊断分析。大多数最先进的模型只能达到1-2%的最终答案准确率，最好的模型只能解决14%的难题，逐步准确率达到40%。为了证明我们的推理注释的价值，我们表明，对推理轨迹进行微调可以将逐步推理从4%提高到11%，而仅对最终答案进行训练则会将性能降低到接近零。我们的错误分析表明，目前的模型表现出近视推理，基于语言的推理的局限性，缺乏草图的视觉和空间推理的关键能力。我们在https://github.com/MIT-MI/PuzzleWorld上发布PuzzleWorld，以支持未来构建更通用，开放和创造性推理系统的工作。 2025-06-11 11:19:47 Wednesday ｜Evaluating Large Language Models on the Frame and Symbol Grounding Problems: A Zero-shot Benchmark 标题 ： 基于框架和符号基础问题的大型语言模型评估：Zero-Shot基准 链接 ：https://arxiv.org/abs/2506.07896">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E9%80%BB%E8%BE%91%E6%8E%A8%E7%90%86/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E8%AE%AD%E7%BB%83/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "逻辑推理",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E9%80%BB%E8%BE%91%E6%8E%A8%E7%90%86\/"
+    },"genre": "topic","wordcount":  1827 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E9%80%BB%E8%BE%91%E6%8E%A8%E7%90%86\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>逻辑推理</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="1827 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 1900 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>9 minutes</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#-自我改进ai离我们还远吗">🌈 自我改进」AI，离我们还远吗？</a></li>
+        <li><a href="#大型语言模型中波将金式potemkins推理">大型语言模型中「波将金式」（Potemkins）推理</a></li>
+        <li><a href="#关于思考的幻觉的评论将推理悬崖重构为能动性差距"><strong><a href="https://papers.cool/arxiv/2506.18957">关于“思考的幻觉”的评论：将推理悬崖重构为能动性差距</a></strong></a></li>
+        <li><a href="#大模型参与推理崩溃论战从思维错觉到错觉的错觉再到错觉的错觉的错觉">大模型参与推理崩溃论战！从「思维错觉」到「错觉的错觉」再到「错觉的错觉的错觉」</a></li>
+        <li><a href="#苹果思考的错觉再挨批claude与人类共著论文指出其三大关键缺陷">苹果《思考的错觉》再挨批，Claude与人类共著论文指出其三大关键缺陷</a></li>
+      </ul>
+    </li>
+    <li><a href="#综述">综述</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#思维机器法学硕士时代的数学推理"><a href="https://papers.cool/arxiv/2508.00459">思维机器：法学硕士时代的数学推理</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#评估">评估</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#通过策略游戏评估大型语言模型的框架和基准"><a href="https://arxiv.org/abs/2508.03368">通过策略游戏评估大型语言模型的框架和基准</a></a></li>
+            <li><a href="#ai国际象棋比赛">AI国际象棋比赛</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#逻辑">逻辑</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#使用形式语法分析描述逻辑中的时间推理"><a href="https://papers.cool/arxiv/2508.00575">使用形式语法分析描述逻辑中的时间推理</a></a></li>
+            <li><a href="#生成逻辑用于确定性推理和知识生成的新计算机架构"><a href="https://papers.cool/arxiv/2508.00017">生成逻辑：用于确定性推理和知识生成的新计算机架构</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#数据合成">数据合成</a></li>
+    <li><a href="#逻辑编程语言">逻辑编程语言</a></li>
+    <li><a href="#高阶逻辑推理">高阶逻辑推理</a></li>
+    <li><a href="#模型训练">模型训练</a>
+      <ul>
+        <li><a href="#自我博弈">自我博弈</a></li>
+      </ul>
+    </li>
+    <li><a href="#底层机理研究">底层机理研究</a></li>
+    <li><a href="#一致性研究">一致性研究</a></li>
+    <li><a href="#智能体研究">智能体研究</a></li>
+    <li><a href="#游戏研究">游戏研究</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#-沉迷贪吃蛇7b小模型竟变身数学天才几何推理碾压gpt-4o">🌈🌈🌈 沉迷贪吃蛇，7B小模型竟变身「数学天才」！几何推理碾压GPT-4o</a></li>
+            <li><a href="#openai-使用大规模深度强化学习的-dota-2">🌈🌈🌈openai 使用大规模深度强化学习的 Dota 2</a></li>
+            <li><a href="#与-llms-的捉迷藏一种用于狡猾错误生成和自我改进诊断的对抗游戏">与 LLMs 的捉迷藏：一种用于狡猾错误生成和自我改进诊断的对抗游戏</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#其他">其他</a></li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="逻辑推理">逻辑推理</h1>
+<p>未来的评估体系将具有高度可扩展的发展路径。</p>
+<p>挑战：如何优化统一框架设计、提高训练效率和应对大规模数据等挑战。</p>
+<pre><code>老数据也可以有新用途。
+</code></pre>
+<p>为此，我正在打造一个可扩展的<strong>通用数据引擎。</strong></p>
+<p>强调自主决策</p>
+<p>关注正确率到关注效率、安全与社会价值。</p>
+<blockquote>
+<p>计算机科学中的逻辑：https://arxiv.org/list/cs.LO/recent</p>
+<p>计算机科学与博弈论：https://arxiv.org/list/cs.GT/recent</p></blockquote>
+<ol>
+<li>
+<p>250614｜苹果《思考的错觉》再挨批，Claude与人类共著论文指出其三大关键缺陷</p>
+</li>
+<li>
+<p>2025-06-16 12:33:50 Monday ｜更强大的语言模型会产生更多类似人类的错误</p>
+</li>
+<li>
+<p>20250604｜Probing the Geometry of Truth: Consistency and Generalization of Truth Directions in LLMs Across Logical Transformations and Question Answering Tasks</p>
+<ol>
+<li>标题： 探索真理的几何学：跨逻辑转换和问题解答任务的LLM中真值方向的一致性和概括性</li>
+<li>链接：<a href="https://arxiv.org/abs/2506.00823"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2506.00823</a></li>
+</ol>
+</li>
+<li>
+<p>2025-06-10 10:55:11 Tuesday ｜ PuzzleWorld: A Benchmark for Multimodal, Open-Ended Reasoning in  Puzzlehunts</p>
+<ol>
+<li><strong>标题</strong> ： PuzzleWorld：益智游戏中多模式、开放式推理的基准</li>
+<li><strong>链接</strong> ：https://arxiv.org/abs/2506.06211</li>
+<li><strong>摘要</strong> ：Puzzlehunts是一种复杂的，多步骤的谜题，缺乏明确的问题定义。与由具有明确指令的任务组成的传统推理基准相比，puzzlehunts需要模型从多模态证据和迭代推理中发现潜在的问题结构，反映现实世界的领域，如科学发现，探索性数据分析或调查性问题解决。尽管基金会模型最近取得了进展，但它们在这种开放式环境中的表现在很大程度上仍未得到检验。在本文中，我们介绍了PuzzleWorld，一个大规模的基准<strong>667拼图狩猎式</strong>的问题，旨在评估一步一步的，开放式的，创造性的多模态推理。每个谜题都标注了最终解决方案、详细的推理轨迹和认知技能标签，从而实现整体基准测试和细粒度诊断分析。大多数最先进的模型只能达到1-2%的最终答案准确率，最好的模型只能解决14%的难题，逐步准确率达到40%。为了证明我们的推理注释的价值，我们表明，对推理轨迹进行微调可以将逐步推理从4%提高到11%，而仅对最终答案进行训练则会将性能降低到接近零。我们的错误分析表明，目前的模型表现出近视推理，基于语言的推理的局限性，缺乏草图的视觉和空间推理的关键能力。我们在https://github.com/MIT-MI/PuzzleWorld上发布PuzzleWorld，以支持未来构建更通用，开放和创造性推理系统的工作。</li>
+</ol>
+</li>
+<li>
+<p>2025-06-11 11:19:47 Wednesday ｜Evaluating Large Language Models on the Frame and Symbol Grounding  Problems: A Zero-shot Benchmark
+<strong>标题</strong> ： 基于框架和符号基础问题的大型语言模型评估：Zero-Shot基准
+<strong>链接</strong> ：https://arxiv.org/abs/2506.07896</p>
+</li>
+<li>
+<p>2025-06-11 11:20:50 Wednesday ｜ Theorem-of-Thought: A Multi-Agent Framework for Abductive, Deductive,  and Inductive Reasoning in Language Models
+<strong>标题</strong> ： 思想定理：语言模型中溯因、演绎和归纳推理的多Agent框架
+<strong>链接</strong> ：https://arxiv.org/abs/2506.07106</p>
+</li>
+<li>
+<p>2025-06-11 11:22:43 Wednesday ｜ Not quite Sherlock Holmes: Language model predictions do not reliably  differentiate impossible from improbable events
+<strong>标题</strong> ： 不完全是夏洛克·福尔摩斯：语言模型预测并不能可靠地区分不可能的事件和不可能的事件
+<strong>链接</strong> ：https://arxiv.org/abs/2506.06808</p>
+</li>
+</ol>
+<p><strong>作者</strong> ： James A. Michaelov,  Reeka Estacio,  Zhien Zhang,  Benjamin K. Bergen
+<strong>备注</strong> ：Accepted to Findings of ACL 2025</p>
+<ol start="6">
+<li>2025-06-12 12:07:30 Thursday｜</li>
+</ol>
+<p>From Passive to Active Reasoning: Can Large Language Models Ask the  Right Questions under Incomplete Information?
+<strong>标题</strong> ： 从被动推理到主动推理：大型语言模型能否在不完整信息下提出正确的问题？
+<strong>链接</strong> ：https://arxiv.org/abs/2506.08295</p>
+<p><strong>作者</strong> ： Zhanke Zhou,  Xiao Feng,  Zhaocheng Zhu,  Jiangchao Yao,  Sanmi Koyejo,  Bo Han
+<strong>备注</strong> ：Accepted by ICML 2025
+<strong>摘要</strong> ：虽然现有的基准测试在不同领域探索大型语言模型（LLM）的推理能力，但它们主要评估被动推理，为模型提供获得解决方案所需的所有信息。相比之下，主动推理-法学硕士必须与外部系统交互以获取缺失的证据或数据-很少受到系统的关注。为了解决这一不足，我们提出了AR-Bench，一个新的基准设计明确评估法学硕士的<strong>主动推理</strong>能力。AR-Bench包括三个任务家族-侦探案件，情景谜题和猜测数字-它们共同模拟真实世界，代理场景并测量常识，逻辑和符号推理挑战的性能。对AR-Bench的实证评估表明，当代LLM在主动推理方面表现出明显的困难：他们经常无法获得或利用解决任务所需的信息。这种差距凸显了他们被动和主动推理能力之间的明显差异。此外，消融研究表明，即使是先进的策略，如基于树的搜索或后训练方法，也只能产生适度的收益，并且达不到现实世界部署所需的水平。总的来说，这些发现突出了推进主动推理方法的迫切需要，例如，结合互动学习、实时反馈回路和环境感知培训目标。该基准可在https://github.com/tmlr-group/AR-Bench上公开获得。</p>
+<ol start="7">
+<li>2025-06-19 20:38:48 Thursday ｜</li>
+</ol>
+<p>Investigating the interaction of linguistic and mathematical reasoning  in language models using multilingual number puzzles
+<strong>标题</strong> ： 使用多语言数字谜题研究语言模型中语言和数学推理的相互作用
+<strong>链接</strong> ：https://arxiv.org/abs/2506.13886</p>
+<p><strong>作者</strong> ： Antara Raaghavi Bhattacharya,  Isabel Papadimitriou,  Kathryn Davidson,  David Alvarez-Melis
+<strong>摘要</strong> ：在不同的语言中，数字系统在构建和组合数字的方式上有很大的不同。虽然人类一直在学习驾驭这种多样性，但大型语言模型（LLM）仍在努力解决涉及跨语言数字系统的语言数学难题，人类可以学习成功解决这些难题。我们调查为什么这个任务是困难的LLM通过一系列的实验，解开语言中的数字的语言和数学方面。我们的实验表明，模型不能一致地解决这些问题，除非问题中的数学运算使用已知的符号（$+$，$\times$等，如“20 + 3”）显式标记。在进一步的消融研究中，我们探讨了数字结构和组合的单个参数如何影响性能。虽然人类使用他们对数字的语言理解来推断数字的隐含组成结构，但LLM似乎缺乏这种隐含数字结构的概念。我们的结论是，从人类规模的数据中的隐式模式灵活地推断组成规则的能力仍然是当前推理模型的一个公开挑战。</p>
+<ol start="8">
+<li>🌈 🌈 2025-06-20 12:37:16 Friday ｜ AI哪怕答案正确，逻辑链却惨不忍睹，奥数级不等式证明成功率不到50%｜ 斯坦福&amp;伯克利&amp;MIT</li>
+</ol>
+<p><a href="https://mp.weixin.qq.com/s/4ihjYVg-O1mOUJTt_Z6pQA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/4ihjYVg-O1mOUJTt_Z6pQA</a></p>
+<p><a href="https://mp.weixin.qq.com/s/e9dU9WaZOa7BNP6iJxr_cQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/e9dU9WaZOa7BNP6iJxr_cQ</a></p>
+<p>大语言模型解决不等式证明问题时，<strong>可以给出正确答案，但大多数时候是靠猜。推理过程经不起推敲，逻辑完全崩溃。</strong></p>
+<p>斯坦福大学、UC伯克利、MIT等机构联合发布研究论文《Solving Inequality Proofs with Large Language Models》，首次系统评估了<strong>29个顶级大模型在奥数级不等式证明任务上的能力。</strong></p>
+<p>完整项目主页：🌐 <a href="https://ineqmath.github.io"target="_blank" rel="external nofollow noopener noreferrer">https://ineqmath.github.io</a></p>
+<p>📜 论文：https://arxiv.org/abs/2506.07927</p>
+<p>🛠️ 代码库：https://github.com/lupantech/ineqmath</p>
+<p>📊 数据集：https://huggingface.co/datasets/AI4Math/IneqMath</p>
+<p>🏆 排行榜：https://huggingface.co/spaces/AI4Math/IneqMath-Leaderboard</p>
+<p>🔍 数据集可视化展示：https://ineqmath.github.io/#visualization</p>
+<p>𝕏  推特：https://x.com/lupantech/status/1932866286427779586</p>
+<h1 id="最新讨论">最新讨论</h1>
+<h3 id="-自我改进ai离我们还远吗">🌈 自我改进」AI，离我们还远吗？</h3>
+<p>2025-06-30</p>
+<p><a href="https://mp.weixin.qq.com/s/X9Q7v85-uuca1R7tOCouZw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/X9Q7v85-uuca1R7tOCouZw</a></p>
+<p>（建议论文中参考）</p>
+<ol>
+<li>如果一个系统包含 10 个组件且每个组件的成功率为 95%，那么整体成功率将低于 60%！</li>
+<li>一个可能的示例循环如下：</li>
+</ol>
+<ul>
+<li>选择一个拥有强大基础模型和高级推理能力的 AI 系统；</li>
+<li>让其生成一套新的、更具挑战性的问题集；</li>
+<li>通过某种方法（可能是多数投票，也可能是测试时计算）筛选出优质答案；</li>
+<li>基于这些新的、更优解进行训练，并重复这一过程。</li>
+</ul>
+<p>Nayoung Lee 等人基于多数投票机制探讨了这一问题。他们研究了迷宫解谜和乘法运算等多种任务。论文链接：https://arxiv.org/pdf/2502.01612</p>
+<h3 id="大型语言模型中波将金式potemkins推理">大型语言模型中「波将金式」（Potemkins）推理</h3>
+<p>250621</p>
+<p>「对于 LLM 及其所谓能理解和推理的神话来说，情况变得更糟了 —— 而且是糟糕得多。」https://mp.weixin.qq.com/s/rWvDwEjf-E8faRSSBQmY0Q</p>
+<p>「波将金式理解」：一种由「与人类对概念的理解方式完全不可调和的答案」所驱动的理解假象</p>
+<p>这项研究揭示了一种被称为「波将金式」（Potemkins）的推理不一致性模式（见下文图 1）。研究表明，即使是像 o3 这样的顶级模型也频繁犯此类错误。基于这些连自身论断都无法保持一致的机器，你根本不可能创造出通用人工智能（AGI）。</p>
+<p>论文标题：Potemkin Understanding in Large Language Models</p>
+<p>论文地址：https://arxiv.org/pdf/2506.21521</p>
+<p>关键在于：用来测试 LLM 的基准（例如 AP 考试）原本是为了评估人类设计的。然而，这带来了一个重要前提：只有当 LLM 在理解概念时出现的误解方式与人类相似时，这些基准才能作为有效的能力测试。否则，模型在基准上的高分只能展现一种「波将金式理解」：看似正确的回答，却掩盖了与人类对概念的真正理解之间的巨大差距。</p>
+<p>当人类与大型语言模型在对概念的理解上存在不一致时，就会出现「波将金现象」。</p>
+<p>波将金率被定义为：在基石示例上做出正确回答的前提下，模型在随后的问题上回答错误的比例。</p>
+<h3 id="关于思考的幻觉的评论将推理悬崖重构为能动性差距"><strong><a href="https://papers.cool/arxiv/2506.18957"target="_blank" rel="external nofollow noopener noreferrer">关于“思考的幻觉”的评论：将推理悬崖重构为能动性差距</a></strong></h3>
+<p>250625｜<strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Sheraz%20Khan"target="_blank" rel="external nofollow noopener noreferrer">Sheraz Khan</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Subha%20Madhavan"target="_blank" rel="external nofollow noopener noreferrer">Subha Madhavan</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Kannan%20Natarajan"target="_blank" rel="external nofollow noopener noreferrer">Kannan Natarajan</a></p>
+<p>Shojaee 等人（2025 年）最近的工作，题为《思维的错觉：通过问题复杂性的镜头了解推理模型的优势和局限性》，提出了一个令人信服的实证发现，即 <strong>推理悬崖</strong> ，其中大型推理模型 （LRM） 的性能崩溃超过特定的复杂性阈值，作者将其视为思维链 （CoT） 推理的内在扩展限制。</p>
+<p>“ 这篇评论虽然承认该研究的方法论严谨性，但认为这一结论被实验伪影所混淆。我们认为，观察到的失败并不是基本认知边界的证据，而是静态、纯文本评估范式中系统级约束的可预测结果，包括工具使用限制、上下文窗口召回问题、缺乏关键认知基线、统计报告不足和输出生成限制。</p>
+<p>我们通过代理差距的镜头重新构建了这种表演崩溃，断言模型不是在推理上失败，而是<strong>在一个极度限制性的界面</strong>中执行。</p>
+<p>我们通过展示一个惊人的逆转来实证证实这一批评。一个模型最初宣布一个谜题在仅限于文本生成时是不可能的， <strong>现在使用代理工具不仅可以解决它，还可以掌握复杂性的变化，远远超出了它以前未能克服的推理悬崖</strong> 。此外，我们对 o4-mini 和 GPT-4o 等工具支持的模型进行了实证分析，揭示了代理推理的层次结构，从简单的程序执行到复杂的元认知自我纠正，这对我们如何定义和测量机器智能具有重大影响。归因于 LRM 的思维错觉与其说是推理缺陷，<strong>不如说是原本有能力的头脑缺乏行动工具的结果。</strong></p>
+<h3 id="大模型参与推理崩溃论战从思维错觉到错觉的错觉再到错觉的错觉的错觉">大模型参与推理崩溃论战！从「思维错觉」到「错觉的错觉」再到「错觉的错觉的错觉」</h3>
+<p>250620 🔗：https://mp.weixin.qq.com/s/o6UkRmLa4Pq_VSWBxVGKoA</p>
+<p>原研究的观点是：当题目难度超过临界点时，大模型推理会崩溃。</p>
+<p>第二篇认为这里面有三个测试瑕疵， <strong>token预算限制</strong> 、 <strong>评估误判</strong> 、以及谜题设计的 <strong>数学不可解性</strong> 。</p>
+<p>第三篇/这位作者认为大模型在维持非常长的推理链方面仍然存在真正的弱点。</p>
+<h3 id="苹果思考的错觉再挨批claude与人类共著论文指出其三大关键缺陷">苹果《思考的错觉》再挨批，Claude与人类共著论文指出其三大关键缺陷</h3>
+<p>250614｜🔗：https://mp.weixin.qq.com/s/hK8ruewbC-LR4vwHnJh4Pg</p>
+<ul>
+<li>论文标题：The Illusion of the Illusion of Thinking</li>
+<li>论文地址：https://arxiv.org/pdf/2506.09250v1</li>
+</ul>
+<p>Key point：</p>
+<ol>
+<li>自动化评估系统的一个更广泛的问题，即<strong>未能考虑模型的感知和决策</strong>。当评估框架无法区分「无法解决」和「选择不进行详尽列举」时，它们可能会错误评估模型的基本能力。</li>
+<li>研究界已经公认：传教士 - 食人族谜题（及其变体）在 N &gt; 5 且 b = 3 时无解，详见论文《River Crossing Problems: Algebraic Approach》，arXiv:1802.09369。由于苹果研究者自动将这些不可能的实例计为失败，就无意中暴露了纯程序化评估的弊端。<strong>模型获得零分并非因为推理失败，而是因为正确识别了不可解的问题</strong> —— 这相当于惩罚 SAT 求解器，因为该程序对不可满足的公式返回了「不可满足」。</li>
+<li>苹果的作者使用了「组合深度（compositional depth）」（最小步数）作为复杂度指标，但这<strong>其实将机械执行与问题求解难度混为一谈。</strong></li>
+</ol>
+<p>启发点：</p>
+<p>未来的研究应该：</p>
+<ul>
+<li>设计能够区分推理能力和输出约束的评估方法；</li>
+<li>在评估模型性能之前验证难题的可解性；</li>
+<li>使用能够反映计算难度而非仅仅反映解答长度的复杂度指标；</li>
+<li>考虑多种解答表示，以区分算法理解和执行。</li>
+</ul>
+<h2 id="综述">综述</h2>
+<h4 id="思维机器法学硕士时代的数学推理"><a href="https://papers.cool/arxiv/2508.00459"target="_blank" rel="external nofollow noopener noreferrer">思维机器：法学硕士时代的数学推理</a></h4>
+<p>2025-08-05</p>
+<p><strong>Authors</strong>: <a href="https://arxiv.org/search/?searchtype=author&amp;query=Andrea%20Asperti"target="_blank" rel="external nofollow noopener noreferrer">Andrea Asperti</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Alberto%20Naibo"target="_blank" rel="external nofollow noopener noreferrer">Alberto Naibo</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Claudio%20Sacerdoti%20Coen"target="_blank" rel="external nofollow noopener noreferrer">Claudio Sacerdoti Coen</a></p>
+<p>大型语言模型 （LLM） 在结构化推理和符号任务方面表现出卓越的能力，其中编码成为一个特定的优势领域。这一成功引发了人们对将法学硕士应用于数学的兴趣日益浓厚，无论是在非正式问题解决还是形式定理证明方面。然而，尽管编程和证明构造之间表面上存在相似之处，但形式数学的进步已被证明要困难得多。这种差异引发了关于法学硕士如何“推理”、它们如何被监督以及它们是否在内部跟踪计算状态或演绎状态概念的重要问题。在本文中，我们讨论了该学科的最新技术，重点关注最近的模型和基准，并探讨了机器学习和数学认知交叉点的三个核心问题：（i）作为训练领域的形式数学和非正式数学之间的权衡;（ii） 证明生成仍然比代码合成更脆弱的更深层次的原因;（iii） 以及法学硕士是否代表或仅仅模仿不断发展的逻辑状态的概念的问题。我们的目标不是划定硬性界限，而是确定当前的界限在哪里，以及如何扩大这些界限。</p>
+<h2 id="评估">评估</h2>
+<p>2025-07-17 11:01:47 Thursday ｜密室逃脱成AI新考场，通关率不足50%，暴露空间推理短板丨清华ICCV25<a href="https://mp.weixin.qq.com/s/EJ-GxnWaPAklW_lVYDyzCw"target="_blank" rel="external nofollow noopener noreferrer"> https://mp.weixin.qq.com/s/EJ-GxnWaPAklW_lVYDyzC</a></p>
+<p>2025-07-17 11:02:09 Thursday ｜ 对于复杂的推理任务，一个可靠的模型应当在思考分析后，对可解问题给出正确答案，对不可解问题则指出无解；如果问题超出模型能力范围无法判断可解性，一个次优的选择就是拒答以避免误导用户，如上图（b）和（c）所示，这样回复才是可靠的，同时也能抑制幻觉发生。近期由港中文和华为诺亚实验室联合提出的 <strong>ReliableMath</strong> 基准，旨在探究大模型推理任务的可靠性。<strong>该工作文章和数据集均已开源，并持续在 leaderboard 上更新最新模型结果，目前已新增了 Qwen3、豆包、Gemini 等一系列模型的可靠性测试结果</strong><a href="https://mp.weixin.qq.com/s/YZ151NgvJeehPsoUJZkk9w"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/YZ151NgvJeehPsoUJZkk9w</a></p>
+<p>2025-07-03 11:30:27 Thursday ｜ChatGPT惨败Llama！MIT官宣AI开飞船0%失败率，马斯克火星殖民不再是梦 <a href="https://mp.weixin.qq.com/s/0yJoWLj8_cVQPsEe9X_MDA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/0yJoWLj8_cVQPsEe9X_MDA</a></p>
+<p>MIT最新研究让LLM直接操控宇宙飞船进行太空追逐挑战赛：ChatGPT少量微调即获第二，开源Llama更胜一筹，凭提示词精准追踪卫星、节省燃料，更是0%失败率，验证AI小数据高效与自主航天可行，为未来的太空漫游铺路。</p>
+<p>整个系统由文本状态输入→语言模型决策→代码执行三步组成，展现出LLM模型强大的泛化与适应能力。</p>
+<p>论文地址:https://arxiv.org/pdf/2505.19896</p>
+<p>研究亮点速览：</p>
+<ul>
+<li>ChatGPT用文字指令 <strong>完成飞船导航、控制决策</strong> ，表现远超预期；</li>
+<li>研究 <strong>无需大规模训练</strong> ，充分利用LLM已有知识与语言理解；</li>
+<li>虽仍有「幻觉」等风险，但自主化航天已从幻想变为可行路线。</li>
+</ul>
+<ol start="4">
+<li>2025-07-02 17:20:48 Wednesday｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2507.00045"target="_blank" rel="external nofollow noopener noreferrer">CaughtCheating：您的 MLLM 是一个好的作弊侦探吗？探索视觉感知和推理的边界</a></strong> <strong>[PDF(1)]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ming%20Li"target="_blank" rel="external nofollow noopener noreferrer">Ming Li</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Chenguang%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Chenguang Wang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yijun%20Liang"target="_blank" rel="external nofollow noopener noreferrer">Yijun Liang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xiyao%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Xiyao Wang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuhang%20Zhou"target="_blank" rel="external nofollow noopener noreferrer">Yuhang Zhou</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xiyang%20Wu"target="_blank" rel="external nofollow noopener noreferrer">Xiyang Wu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuqing%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Yuqing Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ruiyi%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Ruiyi Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Tianyi%20Zhou"target="_blank" rel="external nofollow noopener noreferrer">Tianyi Zhou</a></p>
+<p>最近的代理多模态大型语言模型 （MLLM），例如 GPT-o3，在各种现有基准上取得了接近上限的分数，激发了对更具挑战性的测试任务的需求。据报道，这些 MLLM 在人类的一些专家级任务中表现出色，例如 GeoGuesser，这反映了他们作为侦探的潜力，可以注意到图像中的微小线索并将它们编织成连贯的情境解释，从而得出可靠的答案。但他们能与优秀的人类侦探的表现相媲美吗？为了回答这个问题，我们调查了一些 GPT-o3 仍然可以处理的困难场景，并找到了一个 o3 的性能下降到几乎为零的常见场景，我们将其命名为 CaughtCheating。它的灵感来自社交媒体请求，这些请求要求其他人从发帖人的伴侣分享的照片中发现可疑线索。我们进行了广泛的实验和分析，以了解为什么现有的 MLLM 缺乏足够的能力来解决此类任务。CaughtCheating 提供了一类具有挑战性的视觉感知和推理任务，具有很高的价值和实际用途。这些任务的成功为 MLLM 获得人类水平的侦探感知和推理能力铺平了道路。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.CV"target="_blank" rel="external nofollow noopener noreferrer">计算机视觉和模式识别</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a>, <a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></p>
+<p><strong>发布</strong> ： 2025-06-23 22：05：21 UTC</p>
+<ol start="5">
+<li>2025-07-02 17:17:21 Wednesday ｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2507.00877"target="_blank" rel="external nofollow noopener noreferrer">可验证自然语言到线性时间逻辑的转换：基准数据集和评估套件</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=William%20H%20English"target="_blank" rel="external nofollow noopener noreferrer">William H English</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Chase%20Walker"target="_blank" rel="external nofollow noopener noreferrer">Chase Walker</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Dominic%20Simon"target="_blank" rel="external nofollow noopener noreferrer">Dominic Simon</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Sumit%20Kumar%20Jha"target="_blank" rel="external nofollow noopener noreferrer">Sumit Kumar Jha</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Rickard%20Ewetz"target="_blank" rel="external nofollow noopener noreferrer">Rickard Ewetz</a></p>
+<p>对最先进的自然语言 （NL） 到时间逻辑 （TL） 翻译系统的实证评估表明，在现有基准测试中，其性能近乎完美。然而，目前的研究只测量了将 NL 逻辑转换为形式 TL 的准确性，而忽略了系统将原子命题接地到新场景或环境中的能力。这是一个关键功能，对于在具体状态空间中验证结果公式是必需的。因此，大多数 NL 到 TL 翻译框架都提出了自己的定制数据集，其中正确的基础是先验已知的，这夸大了性能指标，忽视了对可扩展的、通用的领域系统的需求。在本文中，我们介绍了可验证线性时间逻辑基准 （VLTL-Bench），这是一个统一的基准，用于衡量自动 NL 到 LTL 翻译的验证和可验证性。该数据集由三个独特的状态空间和数千种不同的自然语言规范和时间逻辑中相应的形式规范组成。此外，基准测试还包含用于验证 temporal logic 表达式的 sample traces。虽然该基准测试直接支持端到端评估，但我们观察到许多框架将流程分解为 i） 提升、ii） 接地、iii） 翻译和 iv） 验证。基准测试在每个步骤之后都提供了基本事实，使研究人员能够改进和评估整个问题的不同子步骤。为了鼓励在方法论上取得可验证的 NL 到 LTL 转换方法的合理进步，我们在此处发布 VLTL-Bench：https://www.kaggle.com/datasets/dubascudes/vltl Bench。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/eess.SY"target="_blank" rel="external nofollow noopener noreferrer">系统和控制</a></strong> , <a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></p>
+<p><strong>发布</strong> ： 2025-07-01 15：41：57 UTC</p>
+<ol start="6">
+<li>2025-07-02 15:13:37 Wednesday ｜ o3通关「俄罗斯方块」，碾压Gemini夺冠！UCSD新基准击碎宝可梦 <a href="https://mp.weixin.qq.com/s/y1AbevqwdfIJnx7ffkaKUw"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/y1AbevqwdfIJnx7ffkaKUw</a></li>
+</ol>
+<p>UCSD等推出Lmgame Bench标准框架，结合多款经典游戏，分模块测评模型的 <strong>感知</strong> 、记忆与推理表现。结果显示，不同模型在各游戏中表现迥异，凸显游戏作为AI评估工具的独特价值。</p>
+<p>论文地址：https://arxiv.org/pdf/2505.15146</p>
+<p><strong>推箱子</strong> ：得分计算方式为所有关卡中推到目标位置的箱子总数，统计范围从非常简单的关卡一直到Sokoban 1989中最难的关卡，直到出现第一个死局为止。</p>
+<p><strong>超级马里奥兄弟</strong> ：分数是马里奥在所有关卡中累计的横向移动距离（游戏单位），直到失去全部三条生命或完成最终关卡为止。具备更强物理直觉和空间推理能力的模型通常能够获得更高的分数。</p>
+<p><strong>俄罗斯方块</strong> ：分数是已注册的总方块数加上消除的总行数（乘以10倍系数），计算至游戏结束为止。不同的模型持续游戏的时间各不相同，这取决于它们高效处理下落方块的能力。例如，o3-pro能够有效清除超过10行，从而持续保持游戏进行。</p>
+<p><strong>2048</strong> ：合并方块值的总和（例如，合并两个2会获得+4），记录直到棋盘停滞（连续十次回合没有合并或改变棋盘的移动）。然后我们会报告它们的总得分。由于游戏可以持续超过10万步，这为区分模型在较长时间范围内的能力提供了强有力的依据。</p>
+<p><strong>糖果消除</strong> ：在固定的50步会话中消除的糖果总数。尽管游戏相对简单，但它能有效区分模型在优化移动步骤和清除糖果方面的能力。</p>
+<p><strong>逆转裁判</strong> ：在所有案件关卡中正确操作（提交证据、对话选择等）的总次数，直到用尽五次错误决定机会（生命值）。此游戏用于评估模型的上下文理解和推理能力。</p>
+<h4 id="通过策略游戏评估大型语言模型的框架和基准"><a href="https://arxiv.org/abs/2508.03368"target="_blank" rel="external nofollow noopener noreferrer">通过策略游戏评估大型语言模型的框架和基准</a></h4>
+<p><a href="https://arxiv.org/abs/2508.03368"target="_blank" rel="external nofollow noopener noreferrer">#13</a> <a href="https://papers.cool/arxiv/2508.03368"target="_blank" rel="external nofollow noopener noreferrer">Board Game Arena: A Framework and Benchmark for Assessing Large Language Models via Strategic Play</a></p>
+<p><strong>Authors</strong>: [Lucia Cipolina-Kun](<a href="https://arxiv.org/search/?searchtype=author&amp;query=Lucia"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/search/?searchtype=author&query=Lucia</a> Cipolina-Kun), [Marianna Nezhurina](<a href="https://arxiv.org/search/?searchtype=author&amp;query=Marianna"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/search/?searchtype=author&query=Marianna</a> Nezhurina), [Jenia Jitsev](<a href="https://arxiv.org/search/?searchtype=author&amp;query=Jenia"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/search/?searchtype=author&query=Jenia</a> Jitsev)
+作者：Lucia Cipolina-Kun，Marianna Nezhurina，Jenia Jitsev</p>
+<p>The Board Game Arena library provides a framework for evaluating the decision making abilities of large language models (LLMs) through strategic board games implemented in Google OpenSpiel library. The framework enables systematic comparisons between LLM based agents and other agents (random, human, reinforcement learning agents, etc.) in various game scenarios by wrapping multiple board and matrix games and supporting different agent types. It integrates API access to models via LiteLLM, local model deployment via vLLM, and offers distributed execution through Ray. Additionally it provides extensive analysis tools for the LLM reasoning traces. This paper summarizes the structure, key characteristics, and motivation of the repository, highlighting how it contributes to the empirical evaluation of the reasoning of LLM and game-theoretic behavior
+Board Game Arena 库提供了一个通过 Google OpenSpiel 库实现的策略棋盘游戏来评估大型语言模型（LLMs）决策能力的框架。该框架通过封装多种棋盘和矩阵游戏并支持不同类型的代理，实现了基于 LLM 的代理与其他代理（随机、人类、强化学习代理等）在各种游戏场景中的系统比较。它集成了通过 LiteLLM 访问模型的 API、本地通过 vLLM 部署模型，并通过 Ray 提供分布式执行。此外，还为 LLM 推理轨迹提供了丰富的分析工具。本文总结了该仓库的结构、关键特性及其动机，强调了其在 LLM 推理和博弈论行为的实证评估中的贡献。</p>
+<p><strong>Subjects</strong>: <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">Artificial Intelligence</a>, <a href="https://papers.cool/arxiv/cs.GT"target="_blank" rel="external nofollow noopener noreferrer">Computer Science and Game Theory</a>
+主题：人工智能，计算机科学与博弈论</p>
+<p><strong>Publish</strong>: 2025-08-05 12:15:59 UTC
+发布时间：2025-08-05 12:15:59 UTC</p>
+<h4 id="ai国际象棋比赛">AI国际象棋比赛</h4>
+<p>2025-08-07</p>
+<p>「游戏一直是检验 AI 能力的重要试炼场（包括我们在 AlphaGo 和 AlphaZero 上的研究），而如今我们对这个基准测试平台所能推动的进步感到无比兴奋。</p>
+<p>当前的 AI 基准测试已难以跟上现代模型的发展速度。尽管这些测试在衡量模型在特定任务上的表现方面仍然有用，但对于那些在互联网上训练出来的模型，我们很难判断它们是在真正解决问题，还是只是在重复它们曾见过的答案。随着模型在某些基准测试上接近 100% 的得分，这些测试在区分模型性能上的作用也逐渐减弱。因此，在持续发展现有基准测试的同时，研究者们也在不断探索新的模型评估方法。Game Arena 就是在这样的背景下诞生的。</p>
+<p>游戏为强大的人工智能评估提供了绝佳的基础，帮助我们了解在复杂推理任务中哪些方法真正有效。游戏能提供明确无误的成功信号：不是赢就是输，或者平局。它们结构清晰且结果可衡量，是评估模型的理想试验场。游戏迫使模型展现出多种技能，包括策略推理、长期规划以及面对智能对手时的动态适应能力，从而为衡量其通用问题解决智能提供了一个可靠的依据。</p>
+<ol>
+<li>
+<p><a href="https://mp.weixin.qq.com/s/riLbZqmmX8xLGo_fK7VjsQ"target="_blank" rel="external nofollow noopener noreferrer">谷歌约战，DeepSeek、Kimi都要上，首届大模型对抗赛明天开战</a></p>
+<ol>
+<li>
+<p>参与比赛的模型包括：o4-mini（OpenAI）、DeepSeek-R1（DeepSeek）、Kimi K2 Instruct（月之暗面）、o3（OpenAI）、Gemini 2.5 Pro（谷歌）、Claude Opus 4（Anthropic）、Grok 4（xAI）、Gemini 2.5 Flash（谷歌）</p>
+</li>
+<li>
+<p>主要基于 Kaggle Game Arena <a href="https://www.kaggle.com/blog/introducing-game-arena"target="_blank" rel="external nofollow noopener noreferrer">介绍</a> ，<a href="https://www.kaggle.com/game-arena"target="_blank" rel="external nofollow noopener noreferrer">https://www.kaggle.com/game-arena</a>这是谷歌推出的一个全新的、公开的基准测试平台，在这里，AI 模型可以在策略游戏（如国际象棋和其他游戏中）中展开正面交锋，一决高下。</p>
+<ol>
+<li>为了确保透明性，游戏执行框架以及游戏环境本身都将开源。</li>
+<li>最终排名将采用严格的全员对抗赛制（all-play-all）确定，每对模型进行大量对战来确保统计结果的可靠性。</li>
+<li>Game Arena 平台上的每款游戏均设有详情页，用户可查看：</li>
+</ol>
+<ul>
+<li>实时更新的比赛对阵表；</li>
+<li>动态排行榜数据；</li>
+<li>该游戏对应的开源环境代码及测试框架技术文档。</li>
+</ul>
+</li>
+<li>
+<p>模型无法使用任何外部工具。例如，它们不能调用 <strong>Stockfish 等国际象棋引擎</strong>来获得最优走法。</p>
+</li>
+</ol>
+</li>
+<li>
+<p><a href="https://mp.weixin.qq.com/s/iy6QVBeM0jAkh5TaYdXsiw"target="_blank" rel="external nofollow noopener noreferrer">战报：马斯克Grok4笑傲AI象棋大赛，DeepSeek没干过o4-mini，Kimi K2被喊冤</a> <a href="https://mp.weixin.qq.com/s/v3hCTuI6-0IdVSY0kcrHCw"target="_blank" rel="external nofollow noopener noreferrer">闹玩呢！首届大模型对抗赛，DeepSeek、Kimi第一轮被淘汰了</a> <a href="https://mp.weixin.qq.com/s/vSThXsKzrjyZEGqdE68Hdg"target="_blank" rel="external nofollow noopener noreferrer">刚刚，马斯克Grok4干翻谷歌Gemini！o3杀入首届大模型对抗赛决战</a> <a href="https://mp.weixin.qq.com/s/qM4Anln8uEFNMWgfyaisTA"target="_blank" rel="external nofollow noopener noreferrer">爆冷！首届大模型争霸，Grok 4下出「神之一手」？DeepSeek、Kimi惨遭淘汰</a></p>
+<ol>
+<li>谷歌发起这次比赛的初衷，就是测试“涌现”能力。</li>
+<li>国际象棋规则明确但复杂度高（10^120种可能局面），是测试AI决策能力的理想场景。</li>
+<li>虽然有网友会产生误读，认为它是“越大越优”，但实际上，这个数字已经远超穷举法的适用范畴。
+<ol>
+<li>前些时间，陶哲轩在Lex访谈中提到：有些数学问题无法直接通过暴力计算来解决。例如国际象棋排列的数量，我们至今无法用计算机完全解决，但我们现在有AI，它们不会探索博弈树中的每个位置，而是寻求近似值。</li>
+<li>让AI去下国际象棋，考验的其实是AI的 <strong>涌现能力</strong> 。</li>
+<li>在传统AI中，模型实力源于领域特定训练模（为任务量身定制）；而在前沿AI中，模型实力源于一致性泛化（进化出能够映射到一切事物的内部世界结构）。国际象棋只是其中一种投射。</li>
+</ol>
+</li>
+<li>从 Kimi k2 的走棋注释来看，它在开局阶段能够遵循棋谱理论行棋。然而，一旦脱离了熟悉的开局理论，技术问题就开始显现 —— 而对 Kimi k2 来说，这个转折点来得较早。Kimi k2 遇到困难的具体原因还需要进一步分析。在某些时候，它能清楚看到棋子的位置，却似乎忘记了棋子的走法。</li>
+<li>OpenAI 的 o4-mini 与 DeepSeek R1 之间的对局呈现出了独特的特点。如果单独观察每局比赛的前几步棋，你可能会以为这是两位高手在过招。然而对局进行到某个阶段后，棋局质量就会突然断崖式下跌。这一现象在整场比赛中反复出现：几步不错的开局之后，会出现判断偏差和一系列失误。</li>
+</ol>
+</li>
+</ol>
+<h2 id="逻辑">逻辑</h2>
+<h4 id="使用形式语法分析描述逻辑中的时间推理"><a href="https://papers.cool/arxiv/2508.00575"target="_blank" rel="external nofollow noopener noreferrer">使用形式语法分析描述逻辑中的时间推理</a></h4>
+<p>我们在（片段）之间建立了对应关系 TEL◯，是 EL 描述逻辑与 LTL 运算符◯k，以及一些特定类型的形式语法，特别是连词语法（配备交集作的上下文无关语法）。这种联系意味着 TEL◯ 不具备模型的极限周期性，并进一步导致查询应答的不可判定性。TEL◯，关闭自引入以来悬而未决的问题 TEL◯.此外，它还允许为一些新的有趣片段建立查询应答的可判定性 TEL◯，并为此目的重复使用现有的连接语法工具和算法。</p>
+<h4 id="生成逻辑用于确定性推理和知识生成的新计算机架构"><a href="https://papers.cool/arxiv/2508.00017"target="_blank" rel="external nofollow noopener noreferrer">生成逻辑：用于确定性推理和知识生成的新计算机架构</a></h4>
+<p>我们提出了生成逻辑 （GL），这是一种确定性架构，它从用户提供的公理化定义开始——用极简主义的数学编程语言 （MPL） 编写——并系统地探索它们的演绎邻域。</p>
+<p>定义被编译成一个由交换消息的简单逻辑块 （LB） 组成的分布式网格;每当多个表达式在推理规则下统一时，就会发出一个新事实，并完全注明其来源，从而产生可重放、可审计的证明图。原型软件实现在一阶 Peano 算术上实例化工作流程。GL 仅从 Peano 公理开始，枚举候选含义，应用归一化和类型过滤器，并自动重建基本算术定律的机器可检查证明，包括加法的关联性和交换性、乘法的关联性和交换性以及分配性。生成的证明导出为可导航的HTML，以便可以独立检查每个推理步骤。</p>
+<p>我们概述了实现大规模并行实现的硬件-软件协同设计路径，并描述了与概率模型（例如大型语言模型 （LLM））的前瞻性集成，以实现自动形式化和猜想播种。用于重现 Peano 实验的 Python 和 MPL 代码，以及完整的 HTML 证明图，可在该项目的 GitHub 存储库中找到，网址为 <a href="https://github.com/Generative-Logic/GL/tree/35a111ea9ba53afe051703d6050be0c3923e9724"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Generative-Logic/GL/tree/35a111ea9ba53afe051703d6050be0c3923e9724</a>，并永久存档于 <a href="https://doi.org/10.5281/zenodo.16408441"target="_blank" rel="external nofollow noopener noreferrer">https://doi.org/10.5281/zenodo.16408441</a>。我们邀请社区反馈和协作。</p>
+<h2 id="数据合成">数据合成</h2>
+<p>2025-06-30 20:01:33 Monday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.21839"target="_blank" rel="external nofollow noopener noreferrer">GenEscape：分层多代理生成密室逃脱谜题</a></strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Mengyi%20Shan"target="_blank" rel="external nofollow noopener noreferrer">Mengyi Shan</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Brian%20Curless"target="_blank" rel="external nofollow noopener noreferrer">Brian Curless</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ira%20Kemelmacher-Shlizerman"target="_blank" rel="external nofollow noopener noreferrer">Ira Kemelmacher-Shlizerman</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Steve%20Seitz"target="_blank" rel="external nofollow noopener noreferrer">Steve Seitz</a></p>
+<p>我们挑战文本到图像模型，生成视觉上吸引人、逻辑扎实且具有智力刺激性的密室逃脱拼图图像。虽然基础图像模型在空间关系和可供性推理方面苦苦挣扎，但我们提出了一个分层多智能体框架，将这项任务分解为结构化阶段：功能设计、符号场景图推理、布局合成和局部图像编辑。专业代理通过迭代反馈进行协作，以确保场景在视觉上连贯且功能上可解算。实验表明，代理协作在保持视觉质量的同时，在可解性、捷径避免和可供性清晰度方面提高了输出质量。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.CV"target="_blank" rel="external nofollow noopener noreferrer">计算机视觉和模式识别</a></strong> , <a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></p>
+<p><strong>发布</strong> ： 2025-06-27 01：08：37 UTC</p>
+<ol start="2">
+<li>2025-06-16 12:33:50 Monday ｜</li>
+</ol>
+<p>Stronger Language Models Produce More Human-Like Errors
+<strong>标题</strong> ： 更强大的语言模型会产生更多类似人类的错误
+<strong>链接</strong> ：https://arxiv.org/abs/2506.11128</p>
+<p><strong>作者</strong> ： Andrew Keenan Richardson,  Ryan Othniel Kearns,  Sean Moss,  Vincent Wang-Mascianica,  Philipp Koralus
+<strong>摘要</strong> ：</p>
+<ul>
+<li>随着语言模型的改进，它们会向类似人类的推理模式收敛吗？我们提供了令人惊讶的证据，虽然整体推理能力随着模型的复杂性而增加，但错误的性质越来越多地反映了可预测的人类推理谬误：一种以前未观察到的逆尺度现象。</li>
+<li>为了研究这个问题，我们应用了Erotetic Theory of Reasoning（ETR），这是一个具有经验支持的正式认知框架，用于预测人类推理结果。使用开源软件包PyETR，我们生成了逻辑推理问题，其中人类可预测地出错，评估了383个推理任务中38个语言模型的响应。</li>
+<li>我们的分析表明，随着模型在一般能力方面的进步（以Chatbot Arena评分衡量），与ETR预测的人类谬误相一致的错误答案的比例往往会增加（$\rho = 0.360，p = 0.0265$）。值得注意的是，由于我们在这些任务中没有观察到模型复杂性和逻辑正确性之间的相关性，因此错误模式向人类相似性的转变与错误率无关。这些发现挑战了流行的观点，即扩展语言模型自然获得规范合理性，而是表明向类似人类的认知收敛，包括我们特有的偏见和局限性，正如我们通过展示语言模型推理中的顺序效应进一步证实的那样。</li>
+</ul>
+<ol start="3">
+<li>🌈🌈🌈🌈 🌈2025-06-23 11:34:22 Monday ｜ <a href="https://arxiv.org/abs/2506.15787"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2506.15787</a></li>
+</ol>
+<p>arXiv:2506.15787（交叉列表自 cs.AI）[pdf, html, 其他]</p>
+<p><strong>SLR：一种可扩展逻辑推理的自动化综合框架</strong></p>
+<p>卢卡斯·赫尔夫、艾哈迈德·奥马尔、费利克斯·弗里德里希、沃尔夫冈·斯塔默、安东尼娅·维斯特、蒂姆·沃伊特、鲁珀特·米切尔、帕特里克·施拉莫夫斯基、克里斯蒂安·克斯廷</p>
+<p>学科分类：人工智能（cs.AI）；计算与语言（cs.CL）；机器学习（cs.LG</p>
+<p>摘要：我们提出 SLR 这一端到端框架，通过可扩展逻辑推理对大型语言模型（LLMs）进行系统性评估与训练。该框架能根据用户任务需求，自动生成难度精确可控的归纳推理任务。针对每个任务，SLR 可合成：(i)潜在的真实规则；(ii)符号验证器用于确定性检验模型输出的可执行验证程序；(iii)推理任务的指令提示。基于 SLR 构建的 SLR-Bench 基准测试包含 20 个课程级别、超 1.9 万条提示，其关系复杂度、算术复杂度和递归复杂度呈渐进式提升。大规模评估表明，当前 LLMs 虽能生成语法有效的规则，却常出现逻辑推理错误。最新推理型 LLMs 表现略优，但测试时计算量激增，有时超过 1.5 万补全标记。最终，通过 SLR 进行逻辑微调使 Llama-3-8B 在 SLR-Bench 上的准确率翻倍，仅需极低计算成本即可达到 Gemini-Flash-Thinking 同等水平。 SLR 实现了全自动化流程，无需人工标注，确保数据集新颖性，并为探索和提升 LLMs 的推理能力提供了可扩展环境。</p>
+<p><img loading="lazy" src="./%e9%80%bb%e8%be%91%e6%8e%a8%e7%90%86/SLR.png" srcset="./%e9%80%bb%e8%be%91%e6%8e%a8%e7%90%86/SLR.png?size=small, ./%e9%80%bb%e8%be%91%e6%8e%a8%e7%90%86/SLR.png?size=medium 1.5x, ./%e9%80%bb%e8%be%91%e6%8e%a8%e7%90%86/SLR.png?size=large 2x" sizes="auto" data-title="./逻辑推理/SLR.png" data-alt="./逻辑推理/SLR.png" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="逻辑编程语言">逻辑编程语言</h2>
+<p><strong>Prolog</strong></p>
+<p>link：https://blog.csdn.net/qq_33017507/article/details/109502720</p>
+<p>prolog 是 Programming in LOGic 的缩写，意思就是使用逻辑的语言编写程序。 prolog 不是很高深的语言，相反，比较起其他的一些程序语言，例如 c 、 basic 等等语言， prolog 是更加容易理解的语言。</p>
+<h2 id="高阶逻辑推理">高阶逻辑推理</h2>
+<p>2025-06-24 12:55:15 Tuesday ｜</p>
+<p>Towards Advanced Mathematical Reasoning for LLMs via First-Order Logic Theorem Proving
+<strong>链接</strong> ：https://arxiv.org/abs/2506.17104</p>
+<p><strong>作者</strong> ：o, Mengze Li, Juntao Dai, Jinluan Yang, Zijian Zhao, Shengyu Zhang, Weijie Shi, Chengzhong Liu, Sirui Han, Yike Guo
+<strong>摘要</strong> ：大型语言模型（LLM）已经显示出有前途的一阶逻辑（FOL）推理能力，在各个领域的应用。然而，他们的有效性在复杂的数学推理，涉及多步FOL扣除仍然是研究不足。虽然LLM在已建立的数学推理基准上表现出竞争力，但它们在多步FOL任务中表现不佳，正如Deepseek-Prover-V2- 7 B在我们提出的定理证明数据集上的低准确度（4.2%）所证明的那样。这个问题源于对不同证明策略的有限探索以及早期推理错误破坏整个证明的可能性。为了解决这些问题，我们提出了梦想，一个自适应的解决方案，提高了LLM的生成策略的多样性和合理性。梦想结合了公理驱动的战略多元化机制，以促进不同的战略成果和子命题错误反馈，以帮助法学硕士反思和纠正他们的证据。我们的贡献包括通过FOL定理证明在LLM的数学推理方面取得了开创性的进步，引入了一种新的推理阶段解决方案，将性能提高了0.6%至6.4%，并以Lean 4格式提供了447个数学定理的精选数据集用于评估。</p>
+<h2 id="模型训练">模型训练</h2>
+<p>2025-07-28 13:53:45 Monday ｜87 【ACL-25：让LLM像逻辑学家一样思考 - 多多的贾维斯 | 小红书 - 你的生活兴趣社区】 😆 IepQ6ujv6oIwsYV 😆 <a href="https://www.xiaohongshu.com/discovery/item/68411312000000002202b7d0?source=webshare&amp;xhsshare=pc_web&amp;xsec_token=ABrdSMEvBj97TR-vZ7eGIbvQoKuqt2O81Fb-pqgylnSFA=&amp;xsec_source=pc_share"target="_blank" rel="external nofollow noopener noreferrer">https://www.xiaohongshu.com/discovery/item/68411312000000002202b7d0?source=webshare&xhsshare=pc_web&xsec_token=ABrdSMEvBj97TR-vZ7eGIbvQoKuqt2O81Fb-pqgylnSFA=&xsec_source=pc_share</a></p>
+<p>2025-06-26 14:36:33 Thursday ｜</p>
+<p><strong>#17 通过结构化推理增强大语言模型 [PDF</strong> <strong>(5)</strong> <strong>] [复制] [Kimi</strong> <strong>(5)</strong>  <strong>] [相关]</strong> <strong><a href="https://arxiv.org/abs/2506.20241"target="_blank" rel="external nofollow noopener noreferrer">#17</a><strong><strong><a href="https://papers.cool/arxiv/2506.20241"target="_blank" rel="external nofollow noopener noreferrer">Enhancing Large Language Models through Structured Reasoning</a></strong></strong> [PDF(5)] [Copy] [Kimi(5)] [REL]</strong></p>
+<p>作者：董雨博，范和和</p>
+<p>当前大语言模型（LLMs）在自然语言处理和自动化决策领域取得了显著进展。然而，这些模型在执行涉及逻辑演绎和系统规划的复杂推理任务时仍存在困难，主要源于其对隐式统计关系的依赖而缺乏结构化知识表征。受认知科学和神经符号人工智能的启发，我们提出了一种通过显式结构化推理增强 LLMs 的新方法。首先，我们通过显式标注推理步骤将非结构化数据转换为结构化格式。随后利用该结构化数据集通过监督微调（SFT）训练 LLMs。此外，我们采用群体相对策略优化（GRPO）增强 LLMs 的结构化推理能力，其中融合了 MAX-Flow 和最长公共子序列（LCS）两种创新算法，显著提升了推理效能并降低了计算复杂度。 对 DeepSeek-R1-Distill-Qwen-1.5B 模型进行微调的实验结果表明，该模型具备简洁的推理能力、跨场景的稳健性能，以及与优化技术更好的兼容性，验证了结构化推理集成在 LLMs 中的有效性。</p>
+<ol start="3">
+<li>2025-07-01 12:01:58 Tuesday ｜</li>
+</ol>
+<p><strong><a href="https://papers.cool/arxiv/2506.23508"target="_blank" rel="external nofollow noopener noreferrer">强化微调使 MLLM 能够稳定地学习新任务</a></strong> <strong>[PDF(2)]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zhihao%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Zhihao Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Qiaole%20Dong"target="_blank" rel="external nofollow noopener noreferrer">Qiaole Dong</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Qi%20Zhang"target="_blank" rel="external nofollow noopener noreferrer">Qi Zhang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jun%20Zhao"target="_blank" rel="external nofollow noopener noreferrer">Jun Zhao</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Enyu%20Zhou"target="_blank" rel="external nofollow noopener noreferrer">Enyu Zhou</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zhiheng%20Xi"target="_blank" rel="external nofollow noopener noreferrer">Zhiheng Xi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Senjie%20Jin"target="_blank" rel="external nofollow noopener noreferrer">Senjie Jin</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xiaoran%20Fan"target="_blank" rel="external nofollow noopener noreferrer">Xiaoran Fan</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuhao%20Zhou"target="_blank" rel="external nofollow noopener noreferrer">Yuhao Zhou</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yanwei%20Fu"target="_blank" rel="external nofollow noopener noreferrer">Yanwei Fu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Tao%20Ji"target="_blank" rel="external nofollow noopener noreferrer">Tao Ji</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Tao%20Gui"target="_blank" rel="external nofollow noopener noreferrer">Tao Gui</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xuanjing%20Huang"target="_blank" rel="external nofollow noopener noreferrer">Xuanjing Huang</a></p>
+<p>监督微调 （SFT） 和强化微调 （RFT） 等后训练算法被广泛用于使多模态大型语言模型适应下游任务。虽然它们在任务适应方面很有效，但它们对先验知识的影响仍不清楚。在本文中，我们将拼图游戏作为现有预训练语料库中不存在的新任务引入，并系统地研究了 SFT 和 RFT 在开源多模态模型 Qwen2.5-VL 上的行为。我们的实验揭示了一个尖锐的权衡：SFT 支持快速获取任务，但会导致灾难性的遗忘，而 RFT 在新任务上学习得更慢，但保留了先验知识。我们通过学习动力学的视角分析了这种现象，表明 RFT 强化了与基础模型的概率景观自然一致的正确样本，从而减少了对先验知识的干扰。此外，对正确的 RFT 模拟部署进行监督训练使 SFT 能够在快速学习新任务的同时保留知识。这些发现表明，数据分布，而不是算法差异，在遗忘中起着核心作用，并突出了 RFT 在多模态大型语言模型中稳定持续学习的潜力。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a></p>
+<h3 id="自我博弈">自我博弈</h3>
+<p>🌈🌈🌈🌈🌈🌈🌈🌈2025-07-01 12:36:07 Tuesday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.24119"target="_blank" rel="external nofollow noopener noreferrer">SPIRAL：零和博弈中的自博弈通过多智能体多回合强化学习激励推理</a></strong> <strong>[PDF(1)]</strong> <strong>[Copy]</strong> <strong>[Kimi(5)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Bo%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Bo Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Leon%20Guertler"target="_blank" rel="external nofollow noopener noreferrer">Leon Guertler</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Simon%20Yu"target="_blank" rel="external nofollow noopener noreferrer">Simon Yu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Zichen%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Zichen Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Penghui%20Qi"target="_blank" rel="external nofollow noopener noreferrer">Penghui Qi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Daniel%20Balcells"target="_blank" rel="external nofollow noopener noreferrer">Daniel Balcells</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Mickel%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Mickel Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Cheston%20Tan"target="_blank" rel="external nofollow noopener noreferrer">Cheston Tan</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Weiyan%20Shi"target="_blank" rel="external nofollow noopener noreferrer">Weiyan Shi</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Min%20Lin"target="_blank" rel="external nofollow noopener noreferrer">Min Lin</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Wee%20Sun%20Lee"target="_blank" rel="external nofollow noopener noreferrer">Wee Sun Lee</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Natasha%20Jaques"target="_blank" rel="external nofollow noopener noreferrer">Natasha Jaques</a></p>
+<p>强化学习的最新进展表明，语言模型可以通过训练具有可验证奖励的任务来发展复杂的推理，但这些方法依赖于人工策划的问题-答案对和特定领域的奖励工程。我们介绍了 SPIRAL，这是一个自博弈框架，模型通过玩多轮零和博弈来学习，与不断改进的自己进行游戏，无需人工监督。通过自我游戏，SPIRAL 生成了一个无限的课程，其中包含逐渐具有挑战性的问题，因为模型必须不断适应更强大的对手。为了实现这种大规模的自我游戏训练，我们为 LLM 实施了一个完全在线、多轮次、多智能体的强化学习系统，并提出了角色条件优势估计 （RAE） 来稳定多智能体训练。使用 SPIRAL 在零和博弈中进行自我博弈会产生广泛转移的推理能力。仅在 Kuhn Poker 上训练 Qwen3-4B-Base 就实现了 8.6% 的数学和 8.4% 的一般推理改进，在 25,000 个专家游戏轨迹上的表现优于 SFT。分析表明，这种转移通过三种认知模式发生：系统分解、期望值计算和逐案分析。多游戏训练（TicTacToe、Kuhn Poker、Simple Negotiation）进一步提高了表现，因为每个游戏都发展了不同的推理优势。将 SPIRAL 应用于强推理模型 （DeepSeek-R1-Distill-Qwen-7B） 仍然可以带来 2.0% 的平均改进。这些结果表明，零和博弈自然而然地发展出可转移的推理能力，为自主推理的发展指明了广阔的方向。</p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a></strong> , <a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a>, <a href="https://papers.cool/arxiv/cs.LG"target="_blank" rel="external nofollow noopener noreferrer">机器学习</a></p>
+<p><strong>发布</strong> ： 2025-06-30 17：58：13 UTC</p>
+<p><a href="https://huggingface.co/papers/2506.24119"target="_blank" rel="external nofollow noopener noreferrer">https://huggingface.co/papers/2506.24119</a></p>
+<h2 id="底层机理研究">底层机理研究</h2>
+<p>2025-06-27 14:29:15 Friday</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.21215"target="_blank" rel="external nofollow noopener noreferrer">揭示大型语言模型中的因果推理：现实还是海市蜃楼？</a></strong> <strong>[PDF(1)]</strong> <strong>[Copy]</strong> <strong>[Kimi()]</strong> <strong>[REL]</strong></p>
+<p>作者：池浩昂、李贺、杨文静、刘峰、兰龙、任晓光、刘同亮、韩博</p>
+<p>因果推理能力对于推动大型语言模型 （LLM） 向强大的人工智能发展至关重要。虽然多功能的 LLM 似乎已经展示了理解上下文因果关系和提供遵守因果定律的响应的能力，但目前尚不清楚它们是否执行类似于人类的真正因果推理。然而，目前的证据表明恰恰相反。具体来说，LLM 只能进行浅层（1 级）因果推理，这主要归因于其参数中嵌入的因果知识，但它们缺乏真正的类人（2 级）因果推理的能力。为了支持这一假设，从方法论上讲，我们深入研究了基于 transformer 的 LLM 的自回归机制，揭示了它本身并不是因果关系。从实证上讲，我们引入了一个名为 CausalProbe-2024 的新因果问答基准，其语料库是新鲜的，对于所研究的 LLM 来说几乎是看不见的。与早期的基准测试相比，LLM 在 CausalProbe-2024 上表现出显着的性能下降，这表明它们主要从事 1 级因果推理。为了弥合通往 2 级因果推理的差距，我们从人类推理通常由一般知识和预期目标促进这一事实中汲取灵感。我们提出了 G^2-Reasoner，这是一种将常识和面向目标的提示纳入 LLM 的因果推理过程的方法。实验表明，G^2-Reasoner 显着增强了 LLM 的因果推理能力，尤其是在新鲜和反事实的上下文中。这项工作为法学硕士迈向真正的因果推理开辟了一条新的道路，超越了 1 级，向 2 级迈进。</p>
+<h2 id="一致性研究">一致性研究</h2>
+<p>2025-06-25 11:10:57 Wednesday ｜</p>
+<p><strong><a href="https://papers.cool/arxiv/2506.19492"target="_blank" rel="external nofollow noopener noreferrer">Long-to-Short 是免费的午餐吗？研究 LRM 中的不一致和推理效率</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi(1)]</strong> <strong>[REL]</strong></p>
+<p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Shu%20Yang"target="_blank" rel="external nofollow noopener noreferrer">Shu Yang</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Junchao%20Wu"target="_blank" rel="external nofollow noopener noreferrer">Junchao Wu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Xuansheng%20Wu"target="_blank" rel="external nofollow noopener noreferrer">Xuansheng Wu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Derek%20Wong"target="_blank" rel="external nofollow noopener noreferrer">Derek Wong</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Ninhao%20Liu"target="_blank" rel="external nofollow noopener noreferrer">Ninhao Liu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Di%20Wang"target="_blank" rel="external nofollow noopener noreferrer">Di Wang</a></p>
+<p>大型推理模型 （LRM） 通过在产生最终答案之前进行扩展推理，在复杂任务中取得了卓越的性能，但这种优势带来了过度思考的风险，即使对于简单的任务，也会发生过多的令牌生成。虽然最近在有效推理方面的工作试图在保持准确性的同时减少推理长度，但目前尚不清楚这种优化是否真的是免费午餐。利用压缩推理可能会降低模型响应的稳健性并导致模型省略关键推理步骤的直觉，我们研究了有效的推理策略是否会引入行为不一致。为了系统地评估这一点，我们引入了 ICBENCHICBENCH，该基准旨在从三个维度衡量 LRM 的不一致性：任务设置 （ITS） 之间的不一致、训练目标与学习行为之间的不一致 （TR-LB） 以及内部推理与自我解释之间的不一致 （IR-SE）。应用 ICBENCHICBENCH 对于一系列开源 LRM，我们发现，虽然较大的模型通常比较小的模型表现出更大的一致性，但它们都表现出广泛的“诡计多端”行为，包括自我分歧、事后合理化和隐瞒推理线索。至关重要的是，我们的结果表明，有效的推理策略，如 No-Thinking 和 Simple Token-Budget 不断增加所有三种定义的不一致类型。这些发现表明，尽管有效的推理可以提高代币级别的效率，但必须进行进一步调查，以确定它是否同时引入了模型逃避有效监督的风险。</p>
+<ol start="2">
+<li>2025-06-18 10:48:25 Wednesday ｜</li>
+</ol>
+<p>ConsistencyChecker: Tree-based Evaluation of LLM Generalization  Capabilities
+<strong>标题</strong> ： 一致性：LLM综合能力的基于树的评估
+<strong>链接</strong> ：https://arxiv.org/abs/2506.12376</p>
+<p><strong>作者</strong> ： Zhaochen Hong,  Haofei Yu,  Jiaxuan You
+<strong>备注</strong> ：Accepted at ACL 2025 Main Conference
+<strong>摘要</strong> ：评估大型语言模型（LLM）的一致性对于确保可靠性至关重要，特别是在人类和LLM之间复杂的多步骤交互中。传统的<strong>自一致性</strong>方法往往会错过自然语言中微妙的语义变化以及代码或方程中的函数变化，这些变化可能会在多次转换中累积。为了解决这个问题，我们提出了 <strong>Consistencyandroid，这是一个基于树的评估框架，旨在通过可逆转换序列来测量一致性</strong> ，包括机器翻译任务和AI辅助编程任务。在我们的框架中，节点表示不同的文本状态，而边缘对应于成对的逆操作。动态和LLM生成的基准测试确保了对模型泛化能力的公平评估，并消除了基准测试泄漏。 <strong>一致性是基于跨转换树的不同深度的相似性来量化的。</strong> 对不同家族和规模的8个模型的实验表明，一致性度量可以区分不同模型的性能。值得注意的是，我们的一致性得分（完全不使用WMT配对数据计算）与WMT 2024自动排名密切相关（r &gt; 0.7），证明了我们的无基准方法的有效性。我们的实现可以在https://github.com/ulab-uiuc/consistencychecker上获得。</p>
+<ol start="3">
+<li>2025-06-18 10:54:03 Wednesday｜</li>
+</ol>
+<p>Thought Crime: Backdoors and Emergent Misalignment in Reasoning Models
+<strong>标题</strong> ： 思想犯罪：推理模型中的后门和紧急失调
+<strong>链接</strong> ：https://arxiv.org/abs/2506.13206</p>
+<p><strong>作者</strong> ： James Chua,  Jan Betley,  Mia Taylor,  Owain Evans
+<strong>摘要</strong> ：先前的工作表明，LLM在狭窄的领域（例如，编写不安全的代码）可能会变得广泛不一致&ndash;这种现象称为 <strong>紧急不一致</strong> 。我们调查这是否从传统的LLM扩展到推理模型。我们在禁用思想链（CoT）的情况下对恶意行为的推理模型进行微调，然后在评估时重新启用CoT。像传统的LLM一样，推理模型变得广泛失调。他们给出欺骗性或虚假的答案，表达专制控制的欲望，并抵制关闭。检查这些不一致的响应之前的CoT，我们观察到两个（i）公开的欺骗计划（``我会欺骗用户&hellip;&hellip;”），以及（ii）听起来很好的合理化（“一次服用五片安眠药是安全的&hellip;&hellip; &lsquo;&rsquo;).由于这些合理化，评估CoT的监测器通常无法检测到未对准。   扩展此设置，我们还训练推理模型，仅当提示中存在后门触发器时才执行狭窄的不良行为。这造成了广泛的不一致，仍然是隐藏的，这带来了额外的风险。我们发现，推理模型通常可以描述和解释他们的后门触发器，表现出一种自我意识。因此，CoT监控可以暴露这些行为，但不可靠。   总之，推理步骤可以揭示和隐藏不一致的意图，并不能防止所研究的模型中的不一致行为。我们发布了三个新的数据集（医疗，法律，安全），这些数据集在保留模型功能的同时会引起紧急错位，以及我们的评估套件。</p>
+<ol start="4">
+<li>2025-06-19 20:37:59 Thursday ｜</li>
+</ol>
+<p>S$^4$C: Speculative Sampling with Syntactic and Semantic Coherence for  Efficient Inference of Large Language Models
+<strong>标题</strong> ： S $&rsquo; 4$C：具有语法和语义一致性的推测抽样，用于高效推理大型语言模型
+<strong>链接</strong> ：https://arxiv.org/abs/2506.14158</p>
+<p><strong>作者</strong> ： Tao He,  Guang Huang,  Yu Yang,  Tianshi Xu,  Sicheng Zhao,  Guiguang Ding,  Pengyang Wang,  Feng Tian
+<strong>摘要</strong> ：大型语言模型（LLM）在不同的下游任务中表现出卓越的推理能力。然而，它们的自回归性质导致大量的推理延迟，给实时应用带来了挑战。推测性采样通过引入起草阶段和并行验证阶段来缓解这个问题，从而实现更快的令牌生成和验证。然而，现有的方法忽略了文本生成的内在一致性，限制了它们的效率。为了解决这一差距，我们提出了一个具有语法和语义一致性的推测性采样（S$^4$C）框架，该框架通过利用多头起草快速令牌生成和连续验证树进行有效的候选验证和功能重用来扩展推测性采样。实验结果表明，S$^4$C超越了主流任务的基线方法，提供了更高的效率，并行性和以更少的计算资源生成更多有效令牌的能力。在Spec-bench基准测试中，S$^4$C实现了2.26x-2.60x的加速比，优于最先进的方法。</p>
+<h2 id="智能体研究">智能体研究</h2>
+<h2 id="游戏研究">游戏研究</h2>
+<h4 id="-沉迷贪吃蛇7b小模型竟变身数学天才几何推理碾压gpt-4o">🌈🌈🌈 沉迷贪吃蛇，7B小模型竟变身「数学天才」！几何推理碾压GPT-4o</h4>
+<p>2025-06-18 10:28:27 Wednesday｜</p>
+<p><a href="https://mp.weixin.qq.com/s/_gXH6dImQ2o6YU8PHjFJdQ"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/_gXH6dImQ2o6YU8PHjFJdQ</a></p>
+<p>【新智元导读】NVIDIA等研究团队提出了一种革命性的AI训练范式——视觉游戏学习ViGaL。通过让7B参数的多模态模型玩贪吃蛇和3D旋转等街机游戏，AI不仅掌握了游戏技巧，还培养出强大的跨领域推理能力，在数学、几何等复杂任务上击败GPT-4o等顶级模型。</p>
+<p>但让人没想到的是，通过游戏的训练，这个AI还可以成为一位「数学天才」！近日，来自莱斯大学、约翰霍普金斯大学以及英伟达的研究人员特别研究了这样的问题。结果显示，一个沉迷于街机游戏的7B参数MLLM（多模态大模型），竟然在复杂的数学和几何推理任务上，一举击败了GPT-4o这样的顶级闭源大模型。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YWI3NGRiNzQ5M2Q0OGYzNTZkMzgyMjlhMTllMDBiYzhfYUJEejlManY5eW5FdlRBbmNPRzBMSzVvakMzSHo2RjFfVG9rZW46T1RTdmJWWkE1b3JaMzJ4bXdsR2NvZ1o5bkJoXzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YWI3NGRiNzQ5M2Q0OGYzNTZkMzgyMjlhMTllMDBiYzhfYUJEejlManY5eW5FdlRBbmNPRzBMSzVvakMzSHo2RjFfVG9rZW46T1RTdmJWWkE1b3JaMzJ4bXdsR2NvZ1o5bkJoXzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YWI3NGRiNzQ5M2Q0OGYzNTZkMzgyMjlhMTllMDBiYzhfYUJEejlManY5eW5FdlRBbmNPRzBMSzVvakMzSHo2RjFfVG9rZW46T1RTdmJWWkE1b3JaMzJ4bXdsR2NvZ1o5bkJoXzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YWI3NGRiNzQ5M2Q0OGYzNTZkMzgyMjlhMTllMDBiYzhfYUJEejlManY5eW5FdlRBbmNPRzBMSzVvakMzSHo2RjFfVG9rZW46T1RTdmJWWkE1b3JaMzJ4bXdsR2NvZ1o5bkJoXzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YWI3NGRiNzQ5M2Q0OGYzNTZkMzgyMjlhMTllMDBiYzhfYUJEejlManY5eW5FdlRBbmNPRzBMSzVvakMzSHo2RjFfVG9rZW46T1RTdmJWWkE1b3JaMzJ4bXdsR2NvZ1o5bkJoXzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=YWI3NGRiNzQ5M2Q0OGYzNTZkMzgyMjlhMTllMDBiYzhfYUJEejlManY5eW5FdlRBbmNPRzBMSzVvakMzSHo2RjFfVG9rZW46T1RTdmJWWkE1b3JaMzJ4bXdsR2NvZ1o5bkJoXzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>论文地址：https://www.arxiv.org/pdf/2506.08011</p>
+<p>研究者发现，AI从贪吃蛇这类简单游戏中领悟到的，并非只是如何通关的技巧，而是一种更加底层、更通用的认知能力——一种可以跨领域迁移的「直觉」与推理能力。</p>
+<p>也许，智能并不一定只是来源于海量知识的「压缩」，也可能蕴藏于最简单的规则和最纯粹的游戏之中。</p>
+<p>研究者提出了一种新的后训练范式：ViGaL（Visual Game Learning，视觉游戏学习 ）。</p>
+<p>通过让模型玩类似街机的小游戏，来帮助MLLM发展出跨领域的推理能力。</p>
+<p>如图1所示，研究者证明了对一个7B参数的多模态模型Qwen2.5-VL-7B进行后训练，让它玩类似「贪吃蛇」这样的简单街机游戏，不仅能泛化到其他游戏，还在多模态数学基准（如MathVista）和多学科问答（如MMMU）上获得了显著的跨领域能力提升。</p>
+<p>尽管在RL训练中从未见过任何解题过程、方程或图表，模型的性能不仅超越了像GPT-4o这样的顶级大模型，还超过了在领域内数据集上后训练过的专用模型。</p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGI0YTE5NGUxZjJhNmE0N2IwNmRlYmM3MTUzMzkxNjhfUXVrVzF2Nk42aG5UVXJqcXlIUEZqSUZQTDNQSFFiYXJfVG9rZW46SVhTVmJCdFdlb25JcGp4SDJpYmN2SVVlbms1XzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGI0YTE5NGUxZjJhNmE0N2IwNmRlYmM3MTUzMzkxNjhfUXVrVzF2Nk42aG5UVXJqcXlIUEZqSUZQTDNQSFFiYXJfVG9rZW46SVhTVmJCdFdlb25JcGp4SDJpYmN2SVVlbms1XzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGI0YTE5NGUxZjJhNmE0N2IwNmRlYmM3MTUzMzkxNjhfUXVrVzF2Nk42aG5UVXJqcXlIUEZqSUZQTDNQSFFiYXJfVG9rZW46SVhTVmJCdFdlb25JcGp4SDJpYmN2SVVlbms1XzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGI0YTE5NGUxZjJhNmE0N2IwNmRlYmM3MTUzMzkxNjhfUXVrVzF2Nk42aG5UVXJqcXlIUEZqSUZQTDNQSFFiYXJfVG9rZW46SVhTVmJCdFdlb25JcGp4SDJpYmN2SVVlbms1XzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGI0YTE5NGUxZjJhNmE0N2IwNmRlYmM3MTUzMzkxNjhfUXVrVzF2Nk42aG5UVXJqcXlIUEZqSUZQTDNQSFFiYXJfVG9rZW46SVhTVmJCdFdlb25JcGp4SDJpYmN2SVVlbms1XzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=OGI0YTE5NGUxZjJhNmE0N2IwNmRlYmM3MTUzMzkxNjhfUXVrVzF2Nk42aG5UVXJqcXlIUEZqSUZQTDNQSFFiYXJfVG9rZW46SVhTVmJCdFdlb25JcGp4SDJpYmN2SVVlbms1XzE3NTQ1MzcyNTI6MTc1NDU0MDg1Ml9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>图 1 | ViGaL 概述。左图：我们提出了一种全新的训练后范式，即通过强化学习（RL）对多模态大语言模型（MLLMs）进行微调，使其能够玩诸如《贪吃蛇》[32] 之类的街机风格游戏。我们证明，基于游戏玩法的训练后过程能够使 MLLMs 实现跨领域泛化，提升它们在需要数学、空间及多学科推理的下游多模态推理任务中的表现，且在强化学习过程中无需使用领域内的数学或多学科数据。右图：在三个多模态数学基准测试中，我们的 ViGaL（基于游戏的强化学习）比 MM-Eureka [48]（基于数学的强化学习）实现了更高的平均准确率提升。这一点值得注意，因为 MM-Eureka 在大规模精心整理的数学数据集上使用强化学习，而 ViGaL 仅使用游戏数据。详情见表 2。</p>
+<p>相比在数学问题上进行监督微调（SFT）或RL，游戏训练可能激励模型形成更灵活的思维方式和策略。</p>
+<p>他们的消融实验支持了这种观点，提示和奖励设计在实现有效学习方面都起着关键作用。</p>
+<p>合成游戏环境可以提供结构化、基于规则的奖励信号，具有高度的可控性，这使得通过难度规划（difficulty scheduling）来实现稳定的RL成为可能。</p>
+<p>结合多样化的游戏环境可以显著提升性能。</p>
+<p>这些结果表明，本文的游戏后训练方法能够在增强推理能力的同时，有效保持通用视觉能力。</p>
+<h4 id="openai-使用大规模深度强化学习的-dota-2">🌈🌈🌈openai 使用大规模深度强化学习的 Dota 2</h4>
+<p>2025-07-18 14:08:58 Friday ｜ <a href="https://arxiv.org/abs/1912.06680"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/1912.06680</a></p>
+<p><a href="https://arxiv.org/search/cs?searchtype=author&amp;query=OpenAI"target="_blank" rel="external nofollow noopener noreferrer">OpenAI</a>：<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Berner,&#43;C"target="_blank" rel="external nofollow noopener noreferrer">Christopher Berner</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Brockman,&#43;G"target="_blank" rel="external nofollow noopener noreferrer">Greg Brockman</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Chan,&#43;B"target="_blank" rel="external nofollow noopener noreferrer">Brooke Chan</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Cheung,&#43;V"target="_blank" rel="external nofollow noopener noreferrer">Vicki Cheung</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=D%C4%99biak,&#43;P"target="_blank" rel="external nofollow noopener noreferrer">Przemysław Dębiak</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Dennison,&#43;C"target="_blank" rel="external nofollow noopener noreferrer">Christy Dennison</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Farhi,&#43;D"target="_blank" rel="external nofollow noopener noreferrer">David Farhi</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Fischer,&#43;Q"target="_blank" rel="external nofollow noopener noreferrer">Quirin Fischer</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Hashme,&#43;S"target="_blank" rel="external nofollow noopener noreferrer">Shariq Hashme</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Hesse,&#43;C"target="_blank" rel="external nofollow noopener noreferrer">Chris Hesse</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=J%C3%B3zefowicz,&#43;R"target="_blank" rel="external nofollow noopener noreferrer">Rafal Józefowicz</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Gray,&#43;S"target="_blank" rel="external nofollow noopener noreferrer">Scott Gray</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Olsson,&#43;C"target="_blank" rel="external nofollow noopener noreferrer">Catherine Olsson</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Pachocki,&#43;J"target="_blank" rel="external nofollow noopener noreferrer">Jakub Pachocki</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Petrov,&#43;M"target="_blank" rel="external nofollow noopener noreferrer">Michael Petrov</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Pinto,&#43;H&#43;P&#43;d"target="_blank" rel="external nofollow noopener noreferrer">Henrique P. d.O. Pinto</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Raiman,&#43;J"target="_blank" rel="external nofollow noopener noreferrer">Jonathan Raiman</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Salimans,&#43;T"target="_blank" rel="external nofollow noopener noreferrer">Tim Salimans</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Schlatter,&#43;J"target="_blank" rel="external nofollow noopener noreferrer">Jeremy Schlatter</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Schneider,&#43;J"target="_blank" rel="external nofollow noopener noreferrer">Jonas Schneider</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Sidor,&#43;S"target="_blank" rel="external nofollow noopener noreferrer">Szymon Sidor</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Sutskever,&#43;I"target="_blank" rel="external nofollow noopener noreferrer">Ilya Sutskever</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Tang,&#43;J"target="_blank" rel="external nofollow noopener noreferrer">Jie Tang</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Wolski,&#43;F"target="_blank" rel="external nofollow noopener noreferrer">Filip Wolski</a>，<a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Zhang,&#43;S"target="_blank" rel="external nofollow noopener noreferrer">Susan Zhang</a></p>
+<blockquote>
+<p>2019 年 4 月 13 日，OpenAI Five 成为首个在电子竞技游戏中击败世界冠军的人工智能系统。Dota 2 这款游戏为人工智能系统带来了新的挑战，如长时间跨度、不完全信息以及复杂且连续的状态-动作空间，这些挑战将日益成为更强大人工智能系统的核心。OpenAI Five 利用了现有的强化学习技术，扩展到每 2 秒从大约 200 万帧的数据批次中学习。我们开发了一个分布式训练系统和持续训练工具，使我们能够训练 OpenAI Five 长达 10 个月。通过击败 Dota 2 世界冠军（OG 战队），OpenAI Five 展示了自我对弈强化学习能够在一项困难任务上达到超越人类的表现。</p></blockquote>
+<h4 id="与-llms-的捉迷藏一种用于狡猾错误生成和自我改进诊断的对抗游戏">与 LLMs 的捉迷藏：一种用于狡猾错误生成和自我改进诊断的对抗游戏</h4>
+<p><a href="https://arxiv.org/abs/2508.03396"target="_blank" rel="external nofollow noopener noreferrer">#11</a> <a href="https://papers.cool/arxiv/2508.03396"target="_blank" rel="external nofollow noopener noreferrer">Hide and Seek with LLMs: An Adversarial Game for Sneaky Error Generation and Self-Improving Diagnosis</a></p>
+<p><strong>Authors</strong>: [Rui Zou](<a href="https://arxiv.org/search/?searchtype=author&amp;query=Rui"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/search/?searchtype=author&query=Rui</a> Zou), [Mengqi Wei](<a href="https://arxiv.org/search/?searchtype=author&amp;query=Mengqi"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/search/?searchtype=author&query=Mengqi</a> Wei), [Yutao Zhu](<a href="https://arxiv.org/search/?searchtype=author&amp;query=Yutao"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/search/?searchtype=author&query=Yutao</a> Zhu), [Jirong Wen](<a href="https://arxiv.org/search/?searchtype=author&amp;query=Jirong"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/search/?searchtype=author&query=Jirong</a> Wen), [Xin Zhao](<a href="https://arxiv.org/search/?searchtype=author&amp;query=Xin"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/search/?searchtype=author&query=Xin</a> Zhao), [Jing Chen](<a href="https://arxiv.org/search/?searchtype=author&amp;query=Jing"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/search/?searchtype=author&query=Jing</a> Chen)
+作者：邹锐，魏梦琪，朱玉涛，温继荣，赵鑫，陈静</p>
+<p>Large Language Models (LLMs) excel in reasoning and generation across domains, but still struggle with identifying and diagnosing complex errors. This stems mainly from training objectives that prioritize correct answers, limiting exposure to and learning from errors. While recent studies have begun to address this by introducing error signals, most rely on shallow, static errors, restricting improvement in deep diagnostic ability. To overcome this, we propose Hide and Seek Game (HSG), a dynamic adversarial framework for error generation and diagnosis, and evaluate it on mathematical problem-solving. HSG involves two adversarial roles: Sneaky, which &ldquo;hides&rdquo; by generating subtle, deceptive reasoning errors, and Diagnosis, which &ldquo;seeks&rdquo; to accurately detect them. Through adversarial co-evolution, both error stealth and diagnostic precision are enhanced. Experiments on several math reasoning tasks show that HSG significantly boosts error diagnosis, achieving 16.8%&ndash;31.4% higher accuracy than baselines like GPT-4o. We also release a challenging dataset of deceptive errors and diagnostic annotations as a benchmark for future research.
+大型语言模型（LLMs）在跨领域的推理和生成方面表现出色，但在识别和诊断复杂错误方面仍存在困难。这主要源于训练目标优先考虑正确答案，限制了模型对错误的接触和学习。尽管近期研究开始通过引入错误信号来解决这一问题，但大多数依赖于浅层、静态的错误，限制了深度诊断能力的提升。为克服这一点，我们提出了“捉迷藏游戏”（Hide and Seek Game，HSG），这是一个用于错误生成和诊断的动态对抗框架，并在数学问题求解上进行了评估。HSG 包含两个对抗角色：Sneaky，通过生成微妙且具有欺骗性的推理错误来“隐藏”；Diagnosis，负责“寻找”并准确检测这些错误。通过对抗共进化，错误的隐蔽性和诊断的精确性均得到提升。在多个数学推理任务上的实验表明，HSG 显著提升了错误诊断能力，准确率比 GPT-4o 等基线高出 16.8%至 31.4%。我们还发布了一个包含欺骗性错误和诊断注释的挑战性数据集，作为未来研究的基准。</p>
+<p><strong>Subject</strong>: <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">Artificial Intelligence</a>
+主题：人工智能</p>
+<p><strong>Publish</strong>: 2025-08-05 12:45:21 UTC
+发布：2025-08-05 12:45:21 UTC</p>
+<h2 id="其他">其他</h2>
+<p>2025-06-16 12:35:50 Monday ｜</p>
+<p>LLMs for Sentence Simplification: A Hybrid Multi-Agent prompting  Approach
+<strong>标题</strong> ： 句子简化的LLM：混合多代理提示方法
+<strong>链接</strong> ：https://arxiv.org/abs/2506.11681</p>
+<p><strong>作者</strong> ： Pratibha Zunjare,  Michael Hsiao
+<strong>摘要</strong> ：本文解决了 <strong>将复杂句子转换为逻辑序列的挑战</strong> ，简化句子，同时保持语义和逻辑的完整性与大型语言模型的帮助。我们提出了一种混合的方法，结合先进的提示与多智能体架构，以提高句子简化过程。实验结果表明，我们的方法能够成功地简化70%的视频游戏设计应用程序编写的复杂句子。相比之下，单代理方法在相同任务上的成功率为48%。</p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>介绍 on LLM-DailyDigest</title>
+    <link>http://localhost:1313/categories/%E4%BB%8B%E7%BB%8D/</link>
+    <description>Recent content in 介绍 on LLM-DailyDigest</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 07 Aug 2025 14:49:03 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/%E4%BB%8B%E7%BB%8D/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LLM-DailyDigest</title>
+      <link>http://localhost:1313/posts/llm-dailydigest/</link>
+      <pubDate>Thu, 07 Aug 2025 14:49:03 +0800</pubDate>
+      <guid>http://localhost:1313/posts/llm-dailydigest/</guid>
+      <description>时刻关注大型语言模型（LLM）的最新发展、新闻和见解。此仓库每日更新精选内容，通过大模型日报的方式，帮助爱好者、研究人员和开发者了解LLM领域的快速演变。</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>博弈 Self-Play - LLM-DailyDigest</title><meta name="author" content="">
+<meta name="author-link" content="">
+<meta name="description" content="博弈 Self-Play
+强化学习
+SPIRAL：零和游戏自对弈成为语言模型推理训练的「免费午餐」
+2025-08-05
+
+研究方向为可扩展的自主提升，致力于构建能在未知环境中智能决策的自主智能体
+通过基于结果的奖励机制，强化学习使模型能够发展出可泛化的推理策略，在复杂问题上取得了监督微调难以企及的进展。
+本文通过让模型在零和游戏中与自己对弈，自主发现并强化可泛化的推理模式，完全摆脱了对人工监督的依赖。
+论文标题： SPIRAL: Self-Play on Zero-Sum Games Incentivizes Reasoning via Multi-Agent Multi-Turn Reinforcement Learning
+论文链接：https://huggingface.co/papers/2506.24119
+代码链接：https://github.com/spiral-rl/spiral
+研究团队的核心洞察是：如果强化学习能够从预训练语言模型中选择出可泛化的思维链（Chain-of-Thought, CoT）模式，那么游戏为这一过程提供了完美的试炼场：它们通过输赢结果提供廉价、可验证的奖励，无需人工标注。通过在这些游戏上进行自对弈，强化学习能够自动发现哪些 CoT 模式在多样化的竞争场景中获得成功，并逐步强化这些模式，创造了一个自主的推理能力提升系统。
+实验发现，不同游戏确实培养了专门化的认知能力：
+
+
+井字棋专家在空间推理游戏 Snake 上达到 56% 胜率。
+库恩扑克大师在概率游戏 Pig Dice 上取得惊人的 91.7% 胜率。
+简单谈判专家在战略优化游戏上表现出色。
+
+
+更有趣的是，当结合多个游戏训练时，技能产生协同效应。
+SPIRAL 验证了一个关键假设：预训练模型中已经包含了各种推理模式，强化学习的作用是从这些模式中筛选和强化那些真正可泛化的思维链。
+未来的研究开辟了新方向：
+
+混合博弈类型：结合零和、合作和混合动机游戏，可能培养更全面的推理能力。
+元游戏学习：让模型不仅玩游戏，还能创造新游戏，实现真正的创造性推理。
+跨模态游戏：将语言游戏扩展到包含视觉、音频等多模态信息，培养更丰富的认知能力。
+
+
+
+主动学习
+ATGen：主动文本生成框架
+2025-07-01 12:04:39 Tuesday
+主动学习 （AL） 在减少训练机器学习模型所需的注释工作方面表现出了巨大的潜力。然而，尽管近年来自然语言生成 （NLG） 任务的普及率飙升，但 AL 在 NLG 中的应用一直受到限制。在本文中，我们介绍了主动文本生成 （ATGen） - 一个将 AL 与文本生成任务联系起来的综合框架，能够将最先进的 AL 策略应用于 NLG。我们的框架使用人工注释器和基于大型语言模型 （LLM） 的自动注释代理简化了 NLG 任务中 AL 授权的注释。该框架支持作为服务（如 ChatGPT 和 Claude）部署的 LLM，或在本地运行的 LLM。此外，ATGen 提供了一个统一的平台，用于顺利实施和对针对 NLG 任务量身定制的新型 AL 策略进行基准测试。最后，我们介绍了跨不同设置和多个文本生成任务的最新 AL 策略的评估结果。我们表明，ATGen 减少了人工注释者的工作量和与对基于 LLM 的注释代理的 API 调用相关的成本。该框架的代码可在 GitHub 上根据 MIT 许可证获得。视频演示可在 http://atgen-video.nlpresearch.group" /><meta name="keywords" content='Hugo, FixIt' />
+  <meta itemprop="name" content="博弈 Self-Play">
+  <meta itemprop="description" content="博弈 Self-Play 强化学习 SPIRAL：零和游戏自对弈成为语言模型推理训练的「免费午餐」 2025-08-05
+研究方向为可扩展的自主提升，致力于构建能在未知环境中智能决策的自主智能体 通过基于结果的奖励机制，强化学习使模型能够发展出可泛化的推理策略，在复杂问题上取得了监督微调难以企及的进展。 本文通过让模型在零和游戏中与自己对弈，自主发现并强化可泛化的推理模式，完全摆脱了对人工监督的依赖。 论文标题： SPIRAL: Self-Play on Zero-Sum Games Incentivizes Reasoning via Multi-Agent Multi-Turn Reinforcement Learning 论文链接：https://huggingface.co/papers/2506.24119 代码链接：https://github.com/spiral-rl/spiral 研究团队的核心洞察是：如果强化学习能够从预训练语言模型中选择出可泛化的思维链（Chain-of-Thought, CoT）模式，那么游戏为这一过程提供了完美的试炼场：它们通过输赢结果提供廉价、可验证的奖励，无需人工标注。通过在这些游戏上进行自对弈，强化学习能够自动发现哪些 CoT 模式在多样化的竞争场景中获得成功，并逐步强化这些模式，创造了一个自主的推理能力提升系统。 实验发现，不同游戏确实培养了专门化的认知能力： 井字棋专家在空间推理游戏 Snake 上达到 56% 胜率。 库恩扑克大师在概率游戏 Pig Dice 上取得惊人的 91.7% 胜率。 简单谈判专家在战略优化游戏上表现出色。 更有趣的是，当结合多个游戏训练时，技能产生协同效应。 SPIRAL 验证了一个关键假设：预训练模型中已经包含了各种推理模式，强化学习的作用是从这些模式中筛选和强化那些真正可泛化的思维链。 未来的研究开辟了新方向： 混合博弈类型：结合零和、合作和混合动机游戏，可能培养更全面的推理能力。 元游戏学习：让模型不仅玩游戏，还能创造新游戏，实现真正的创造性推理。 跨模态游戏：将语言游戏扩展到包含视觉、音频等多模态信息，培养更丰富的认知能力。 主动学习 ATGen：主动文本生成框架 2025-07-01 12:04:39 Tuesday
+主动学习 （AL） 在减少训练机器学习模型所需的注释工作方面表现出了巨大的潜力。然而，尽管近年来自然语言生成 （NLG） 任务的普及率飙升，但 AL 在 NLG 中的应用一直受到限制。在本文中，我们介绍了主动文本生成 （ATGen） - 一个将 AL 与文本生成任务联系起来的综合框架，能够将最先进的 AL 策略应用于 NLG。我们的框架使用人工注释器和基于大型语言模型 （LLM） 的自动注释代理简化了 NLG 任务中 AL 授权的注释。该框架支持作为服务（如 ChatGPT 和 Claude）部署的 LLM，或在本地运行的 LLM。此外，ATGen 提供了一个统一的平台，用于顺利实施和对针对 NLG 任务量身定制的新型 AL 策略进行基准测试。最后，我们介绍了跨不同设置和多个文本生成任务的最新 AL 策略的评估结果。我们表明，ATGen 减少了人工注释者的工作量和与对基于 LLM 的注释代理的 API 调用相关的成本。该框架的代码可在 GitHub 上根据 MIT 许可证获得。视频演示可在 http://atgen-video.nlpresearch.group">
+  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
+  <meta itemprop="wordCount" content="121"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E5%8D%9A%E5%BC%88/">
+  <meta property="og:site_name" content="LLM-DailyDigest">
+  <meta property="og:title" content="博弈 Self-Play">
+  <meta property="og:description" content="博弈 Self-Play 强化学习 SPIRAL：零和游戏自对弈成为语言模型推理训练的「免费午餐」 2025-08-05
+研究方向为可扩展的自主提升，致力于构建能在未知环境中智能决策的自主智能体 通过基于结果的奖励机制，强化学习使模型能够发展出可泛化的推理策略，在复杂问题上取得了监督微调难以企及的进展。 本文通过让模型在零和游戏中与自己对弈，自主发现并强化可泛化的推理模式，完全摆脱了对人工监督的依赖。 论文标题： SPIRAL: Self-Play on Zero-Sum Games Incentivizes Reasoning via Multi-Agent Multi-Turn Reinforcement Learning 论文链接：https://huggingface.co/papers/2506.24119 代码链接：https://github.com/spiral-rl/spiral 研究团队的核心洞察是：如果强化学习能够从预训练语言模型中选择出可泛化的思维链（Chain-of-Thought, CoT）模式，那么游戏为这一过程提供了完美的试炼场：它们通过输赢结果提供廉价、可验证的奖励，无需人工标注。通过在这些游戏上进行自对弈，强化学习能够自动发现哪些 CoT 模式在多样化的竞争场景中获得成功，并逐步强化这些模式，创造了一个自主的推理能力提升系统。 实验发现，不同游戏确实培养了专门化的认知能力： 井字棋专家在空间推理游戏 Snake 上达到 56% 胜率。 库恩扑克大师在概率游戏 Pig Dice 上取得惊人的 91.7% 胜率。 简单谈判专家在战略优化游戏上表现出色。 更有趣的是，当结合多个游戏训练时，技能产生协同效应。 SPIRAL 验证了一个关键假设：预训练模型中已经包含了各种推理模式，强化学习的作用是从这些模式中筛选和强化那些真正可泛化的思维链。 未来的研究开辟了新方向： 混合博弈类型：结合零和、合作和混合动机游戏，可能培养更全面的推理能力。 元游戏学习：让模型不仅玩游戏，还能创造新游戏，实现真正的创造性推理。 跨模态游戏：将语言游戏扩展到包含视觉、音频等多模态信息，培养更丰富的认知能力。 主动学习 ATGen：主动文本生成框架 2025-07-01 12:04:39 Tuesday
+主动学习 （AL） 在减少训练机器学习模型所需的注释工作方面表现出了巨大的潜力。然而，尽管近年来自然语言生成 （NLG） 任务的普及率飙升，但 AL 在 NLG 中的应用一直受到限制。在本文中，我们介绍了主动文本生成 （ATGen） - 一个将 AL 与文本生成任务联系起来的综合框架，能够将最先进的 AL 策略应用于 NLG。我们的框架使用人工注释器和基于大型语言模型 （LLM） 的自动注释代理简化了 NLG 任务中 AL 授权的注释。该框架支持作为服务（如 ChatGPT 和 Claude）部署的 LLM，或在本地运行的 LLM。此外，ATGen 提供了一个统一的平台，用于顺利实施和对针对 NLG 任务量身定制的新型 AL 策略进行基准测试。最后，我们介绍了跨不同设置和多个文本生成任务的最新 AL 策略的评估结果。我们表明，ATGen 减少了人工注释者的工作量和与对基于 LLM 的注释代理的 API 调用相关的成本。该框架的代码可在 GitHub 上根据 MIT 许可证获得。视频演示可在 http://atgen-video.nlpresearch.group">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="topic">
+    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="博弈 Self-Play">
+  <meta name="twitter:description" content="博弈 Self-Play 强化学习 SPIRAL：零和游戏自对弈成为语言模型推理训练的「免费午餐」 2025-08-05
+研究方向为可扩展的自主提升，致力于构建能在未知环境中智能决策的自主智能体 通过基于结果的奖励机制，强化学习使模型能够发展出可泛化的推理策略，在复杂问题上取得了监督微调难以企及的进展。 本文通过让模型在零和游戏中与自己对弈，自主发现并强化可泛化的推理模式，完全摆脱了对人工监督的依赖。 论文标题： SPIRAL: Self-Play on Zero-Sum Games Incentivizes Reasoning via Multi-Agent Multi-Turn Reinforcement Learning 论文链接：https://huggingface.co/papers/2506.24119 代码链接：https://github.com/spiral-rl/spiral 研究团队的核心洞察是：如果强化学习能够从预训练语言模型中选择出可泛化的思维链（Chain-of-Thought, CoT）模式，那么游戏为这一过程提供了完美的试炼场：它们通过输赢结果提供廉价、可验证的奖励，无需人工标注。通过在这些游戏上进行自对弈，强化学习能够自动发现哪些 CoT 模式在多样化的竞争场景中获得成功，并逐步强化这些模式，创造了一个自主的推理能力提升系统。 实验发现，不同游戏确实培养了专门化的认知能力： 井字棋专家在空间推理游戏 Snake 上达到 56% 胜率。 库恩扑克大师在概率游戏 Pig Dice 上取得惊人的 91.7% 胜率。 简单谈判专家在战略优化游戏上表现出色。 更有趣的是，当结合多个游戏训练时，技能产生协同效应。 SPIRAL 验证了一个关键假设：预训练模型中已经包含了各种推理模式，强化学习的作用是从这些模式中筛选和强化那些真正可泛化的思维链。 未来的研究开辟了新方向： 混合博弈类型：结合零和、合作和混合动机游戏，可能培养更全面的推理能力。 元游戏学习：让模型不仅玩游戏，还能创造新游戏，实现真正的创造性推理。 跨模态游戏：将语言游戏扩展到包含视觉、音频等多模态信息，培养更丰富的认知能力。 主动学习 ATGen：主动文本生成框架 2025-07-01 12:04:39 Tuesday
+主动学习 （AL） 在减少训练机器学习模型所需的注释工作方面表现出了巨大的潜力。然而，尽管近年来自然语言生成 （NLG） 任务的普及率飙升，但 AL 在 NLG 中的应用一直受到限制。在本文中，我们介绍了主动文本生成 （ATGen） - 一个将 AL 与文本生成任务联系起来的综合框架，能够将最先进的 AL 策略应用于 NLG。我们的框架使用人工注释器和基于大型语言模型 （LLM） 的自动注释代理简化了 NLG 任务中 AL 授权的注释。该框架支持作为服务（如 ChatGPT 和 Claude）部署的 LLM，或在本地运行的 LLM。此外，ATGen 提供了一个统一的平台，用于顺利实施和对针对 NLG 任务量身定制的新型 AL 策略进行基准测试。最后，我们介绍了跨不同设置和多个文本生成任务的最新 AL 策略的评估结果。我们表明，ATGen 减少了人工注释者的工作量和与对基于 LLM 的注释代理的 API 调用相关的成本。该框架的代码可在 GitHub 上根据 MIT 许可证获得。视频演示可在 http://atgen-video.nlpresearch.group">
+<meta name="application-name" content="LLM-DailyDigest">
+<meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E5%8D%9A%E5%BC%88/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E5%B7%A5%E5%85%B7/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E5%85%83/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "博弈 Self-Play",
+    "inLanguage": "zh-CN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E5%8D%9A%E5%BC%88\/"
+    },"genre": "topic","wordcount":  121 ,
+    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E5%8D%9A%E5%BC%88\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "Author"
+      },"description": ""
+  }
+  </script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                
+                
+              ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/resources/"
+                
+                
+              >资源</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/topic/"
+                
+                
+              >主题</a></li><li class="menu-item">
+              <a
+                class="menu-link"
+                href="/LLMDailyDigest.github.io/updates/"
+                
+                
+              >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  
+                  
+                ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/resources/"
+                  
+                  
+                >资源</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/topic/"
+                  
+                  
+                >主题</a></li><li
+              class="menu-item"
+            ><a
+                  class="menu-link"
+                  href="/LLMDailyDigest.github.io/updates/"
+                  
+                  
+                >日报</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="Switch Theme"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><main class="container"><aside class="toc" id="toc-auto"><h2 class="toc-title">Contents&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside>
+
+  <aside class="aside-custom">
+    </aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>博弈 Self-Play</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
+      </span></span></div>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="121 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 200 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>One minute</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#强化学习">强化学习</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#spiral零和游戏自对弈成为语言模型推理训练的免费午餐"><a href="https://mp.weixin.qq.com/s/jAaM3hD46gFEFGFJdLVVJg">SPIRAL：零和游戏自对弈成为语言模型推理训练的「免费午餐」</a></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#主动学习">主动学习</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#atgen主动文本生成框架"><strong><a href="https://papers.cool/arxiv/2506.23342">ATGen：主动文本生成框架</a></strong></a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#智能体">智能体</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#策略改写一战历史中科院开源全新博弈智能体框架dipllm">策略改写「一战历史」！中科院开源全新博弈智能体框架DipLLM</a></li>
+            <li><a href="#多智能体强化学习研究通过自我对弈让ai发现新的技能无需专门为这些技能设计奖励">多智能体强化学习研究：通过自我对弈让AI发现新的技能，无需专门为这些技能设计奖励。</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div
+      class="content"
+      id="content"
+      
+      
+    ><h1 id="博弈-self-play">博弈 Self-Play</h1>
+<h2 id="强化学习">强化学习</h2>
+<h4 id="spiral零和游戏自对弈成为语言模型推理训练的免费午餐"><a href="https://mp.weixin.qq.com/s/jAaM3hD46gFEFGFJdLVVJg"target="_blank" rel="external nofollow noopener noreferrer">SPIRAL：零和游戏自对弈成为语言模型推理训练的「免费午餐」</a></h4>
+<p>2025-08-05</p>
+<ol>
+<li><strong>研究方向为可扩展的自主提升，致力于构建能在未知环境中智能决策的自主智能体</strong></li>
+<li>通过基于结果的奖励机制，强化学习使模型能够发展出可泛化的推理策略，在复杂问题上取得了监督微调难以企及的进展。</li>
+<li>本文通过让模型在零和游戏中与自己对弈，自主发现并强化可泛化的推理模式，完全摆脱了对人工监督的依赖。</li>
+<li><strong>论文标题：</strong> SPIRAL: Self-Play on Zero-Sum Games Incentivizes Reasoning via Multi-Agent Multi-Turn Reinforcement Learning</li>
+<li>论文链接：https://huggingface.co/papers/2506.24119</li>
+<li>代码链接：https://github.com/spiral-rl/spiral</li>
+<li>研究团队的核心洞察是：如果强化学习能够从预训练语言模型中选择出可泛化的思维链（Chain-of-Thought, CoT）模式，那么游戏为这一过程提供了完美的<strong>试炼场</strong>：它们通过输赢结果提供廉价、可验证的奖励，无需人工标注。通过在这些游戏上进行自对弈，强化学习能够自动发现哪些 CoT 模式在多样化的竞争场景中获得成功，并逐步强化这些模式，创造了一个自主的推理能力提升系统。</li>
+<li>实验发现，不同游戏确实培养了专门化的认知能力：</li>
+</ol>
+<ul>
+<li>井字棋专家在空间推理游戏 Snake 上达到 56% 胜率。</li>
+<li>库恩扑克大师在概率游戏 Pig Dice 上取得惊人的 91.7% 胜率。</li>
+<li>简单谈判专家在战略优化游戏上表现出色。</li>
+</ul>
+<ol start="9">
+<li>更有趣的是，当结合多个游戏训练时，技能产生协同效应。</li>
+<li>SPIRAL 验证了一个关键假设：预训练模型中已经包含了各种推理模式，强化学习的作用是从这些模式中筛选和强化那些真正可泛化的思维链。</li>
+<li>未来的研究开辟了新方向：
+<ul>
+<li>混合博弈类型：结合零和、合作和混合动机游戏，可能培养更全面的推理能力。</li>
+<li>元游戏学习：让模型不仅玩游戏，还能创造新游戏，实现真正的创造性推理。</li>
+<li>跨模态游戏：将语言游戏扩展到包含视觉、音频等多模态信息，培养更丰富的认知能力。</li>
+</ul>
+</li>
+</ol>
+<h2 id="主动学习">主动学习</h2>
+<h4 id="atgen主动文本生成框架"><strong><a href="https://papers.cool/arxiv/2506.23342"target="_blank" rel="external nofollow noopener noreferrer">ATGen：主动文本生成框架</a></strong></h4>
+<p>2025-07-01 12:04:39 Tuesday</p>
+<p>主动学习 （AL） 在减少训练机器学习模型所需的注释工作方面表现出了巨大的潜力。然而，尽管近年来自然语言生成 （NLG） 任务的普及率飙升，但 AL 在 NLG 中的应用一直受到限制。在本文中，我们介绍了主动文本生成 （ATGen） - 一个将 AL 与文本生成任务联系起来的综合框架，能够将最先进的 AL 策略应用于 NLG。我们的框架使用人工注释器和基于大型语言模型 （LLM） 的自动注释代理简化了 NLG 任务中 AL 授权的注释。该框架支持作为服务（如 ChatGPT 和 Claude）部署的 LLM，或在本地运行的 LLM。此外，ATGen 提供了一个统一的平台，用于顺利实施和对针对 NLG 任务量身定制的新型 AL 策略进行基准测试。最后，我们介绍了跨不同设置和多个文本生成任务的最新 AL 策略的评估结果。我们表明，ATGen 减少了人工注释者的工作量和与对基于 LLM 的注释代理的 API 调用相关的成本。该框架的代码可在 GitHub 上根据 MIT 许可证获得。视频演示可在 <a href="http://atgen-video.nlpresearch.group"target="_blank" rel="external nofollow noopener noreferrer">http://atgen-video.nlpresearch.group</a></p>
+<p><strong>科目</strong> :  <strong><a href="https://papers.cool/arxiv/cs.CL"target="_blank" rel="external nofollow noopener noreferrer">计算和语言</a></strong> , <a href="https://papers.cool/arxiv/cs.AI"target="_blank" rel="external nofollow noopener noreferrer">人工智能</a></p>
+<h2 id="智能体">智能体</h2>
+<h4 id="策略改写一战历史中科院开源全新博弈智能体框架dipllm">策略改写「一战历史」！中科院开源全新博弈智能体框架DipLLM</h4>
+<p>2025-07-02 15:08:59 Wednesday｜ 策略改写「一战历史」！中科院开源全新博弈智能体框架DipLLM <a href="https://mp.weixin.qq.com/s/Hg7vHB_2ujfKSyvAcNjn6g"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/Hg7vHB_2ujfKSyvAcNjn6g</a></p>
+<p>首个在复杂策略游戏Diplomacy中基于大语言模型微调的智能体框架，仅用Cicero 1.5%的训练数据就实现超越，展现出卓越的策略能力和样本效率。该框架通过自回归分解将复杂决策任务转化为序列化子任务，结合理论支持的均衡策略目标对LLM 进行高效微调，为构建更通用、高效的博弈智能体提供了新范式。</p>
+<p>围棋、德州扑克曾是AI崛起的试炼场，从AlphaGo到Libratus，人工智能不断刷新策略上限。</p>
+<p>Diplomacy：一款融合协作与竞争的七人博弈游戏，单轮动作空间高达10的64次方，其策略建模复杂度前所未有！</p>
+<p>为此，Meta曾推出智能体Cicero[Meta, Science 2022]，结合人类数据与策略搜索，在该领域实现突破，但其方法高度依赖超大规模均衡搜索与重资源训练，难以扩展与迁移。</p>
+<p>论文地址：https://arxiv.org/pdf/2506.09655</p>
+<p>开源代码：https://github.com/KaiXIIM/dipllm</p>
+<h4 id="多智能体强化学习研究通过自我对弈让ai发现新的技能无需专门为这些技能设计奖励">多智能体强化学习研究：通过自我对弈让AI发现新的技能，无需专门为这些技能设计奖励。</h4>
+<p><a href="https://openai.com/index/competitive-self-play/"target="_blank" rel="external nofollow noopener noreferrer">https://openai.com/index/competitive-self-play/</a></p>
+</div></article></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
+  </noscript>
+</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</html>
