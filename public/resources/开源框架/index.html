@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -18,46 +18,49 @@
 斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！
 课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_
 课程主页：https://stanford-cs336.github.io/spring2025/
-预训练
-微调
-LLaMA-Factory
-https://github.com/hiyouga/LLaMA-Factory
-项目学习：https://zread.ai/hiyouga/LLaMA-Factory
-入门教程：https://zhuanlan.zhihu.com/p/695287607
-https://blog.csdn.net/zt0612xd/article/details/147726799
-中文教程：https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/data_preparation.html#id4
-报错：
-LLaMA-Factory 模型合并 ImportError: cannot import name ‘DTensor‘ from ‘torch.distributed.tensor‘ 报错解决记录 https://blog.csdn.net/ygxdmss1412/article/details/148742597
-ms-swift
-https://github.com/modelscope/ms-swift" /><meta name="keywords" content='Hugo, FixIt' />
+LLM 主流架构
+
+
+硬核拆解大模型，从 DeepSeek-V3 到 Kimi K2 ，一文看懂 LLM 主流架构
+
+
+尽管模型能力不断提升，但其整体架构在这七年中保持了高度一致。当然，细节上仍有不少演进。例如，位置编码从最初的绝对位置（Absolute Positional Encoding）发展为旋转位置编码（RoPE）；注意力机制也从标准的多头注意力（Multi-Head Attention）逐步过渡为更高效的分组查询注意力（Grouped-Query Attention）；而激活函数方面，则从 GELU 被更高效的 SwiGLU 所取代。
+
+
+DeepSeek V3
+
+论文标题：DeepSeek-V3 Technical Report
+论文链接：https://arxiv.org/abs/2412.19437
+多头潜在注意力机制 (MLA):通过让多个 query 头共享一组 key 和 value，从而减少 key 和 value 的总数。
+Mixture-of-Experts (MoE):将 Transformer 中的每个前馈模块（FeedForward）替换为多个「专家层」（每个专家层本质上也是一个前馈网络）。
+
+论文标题：DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models 论文链接：https://arxiv.org/abs/2401.06066
+
+
+
+
+
+Allen Institute for AI 发布的 OLMo 系列模型" /><meta name="keywords" content='Hugo, FixIt' />
   <meta itemprop="name" content="开源框架">
   <meta itemprop="description" content="开源框架 学习素材 2025-07-02 14:01:48 Wednesday 机器学习 Q 与 AI：30 个必备问答 2025-06-30 16:37:19 Monday 盘一盘，2017年Transformer之后，LLM领域的重要论文 https://mp.weixin.qq.com/s/1lUSlc0tvEWLuOFOP0WkUA 2025-06-19 19:47:17 Thursday ｜ 信息过载时代，如何真正「懂」LLM？从MIT分享的50个面试题开始 https://mp.weixin.qq.com/s/u7aIm6jP1Nblfjr2NvakLw 新鲜出炉！斯坦福2025 CS336课程全公开：从零开始搓大模型 https://mp.weixin.qq.com/s/ehHSTpysn9NXW4-P4RjkuQ 斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！
 课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_
 课程主页：https://stanford-cs336.github.io/spring2025/
-预训练 微调 LLaMA-Factory https://github.com/hiyouga/LLaMA-Factory
-项目学习：https://zread.ai/hiyouga/LLaMA-Factory
-入门教程：https://zhuanlan.zhihu.com/p/695287607
-https://blog.csdn.net/zt0612xd/article/details/147726799
-中文教程：https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/data_preparation.html#id4
-报错：
-LLaMA-Factory 模型合并 ImportError: cannot import name ‘DTensor‘ from ‘torch.distributed.tensor‘ 报错解决记录 https://blog.csdn.net/ygxdmss1412/article/details/148742597
-ms-swift https://github.com/modelscope/ms-swift">
+LLM 主流架构 硬核拆解大模型，从 DeepSeek-V3 到 Kimi K2 ，一文看懂 LLM 主流架构
+尽管模型能力不断提升，但其整体架构在这七年中保持了高度一致。当然，细节上仍有不少演进。例如，位置编码从最初的绝对位置（Absolute Positional Encoding）发展为旋转位置编码（RoPE）；注意力机制也从标准的多头注意力（Multi-Head Attention）逐步过渡为更高效的分组查询注意力（Grouped-Query Attention）；而激活函数方面，则从 GELU 被更高效的 SwiGLU 所取代。
+DeepSeek V3
+论文标题：DeepSeek-V3 Technical Report 论文链接：https://arxiv.org/abs/2412.19437 多头潜在注意力机制 (MLA):通过让多个 query 头共享一组 key 和 value，从而减少 key 和 value 的总数。 Mixture-of-Experts (MoE):将 Transformer 中的每个前馈模块（FeedForward）替换为多个「专家层」（每个专家层本质上也是一个前馈网络）。 论文标题：DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models 论文链接：https://arxiv.org/abs/2401.06066 Allen Institute for AI 发布的 OLMo 系列模型">
   <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
   <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
-  <meta itemprop="wordCount" content="174"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/resources/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6/">
+  <meta itemprop="wordCount" content="279"><meta property="og:url" content="http://localhost:1313/resources/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6/">
   <meta property="og:site_name" content="LLM-DailyDigest">
   <meta property="og:title" content="开源框架">
   <meta property="og:description" content="开源框架 学习素材 2025-07-02 14:01:48 Wednesday 机器学习 Q 与 AI：30 个必备问答 2025-06-30 16:37:19 Monday 盘一盘，2017年Transformer之后，LLM领域的重要论文 https://mp.weixin.qq.com/s/1lUSlc0tvEWLuOFOP0WkUA 2025-06-19 19:47:17 Thursday ｜ 信息过载时代，如何真正「懂」LLM？从MIT分享的50个面试题开始 https://mp.weixin.qq.com/s/u7aIm6jP1Nblfjr2NvakLw 新鲜出炉！斯坦福2025 CS336课程全公开：从零开始搓大模型 https://mp.weixin.qq.com/s/ehHSTpysn9NXW4-P4RjkuQ 斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！
 课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_
 课程主页：https://stanford-cs336.github.io/spring2025/
-预训练 微调 LLaMA-Factory https://github.com/hiyouga/LLaMA-Factory
-项目学习：https://zread.ai/hiyouga/LLaMA-Factory
-入门教程：https://zhuanlan.zhihu.com/p/695287607
-https://blog.csdn.net/zt0612xd/article/details/147726799
-中文教程：https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/data_preparation.html#id4
-报错：
-LLaMA-Factory 模型合并 ImportError: cannot import name ‘DTensor‘ from ‘torch.distributed.tensor‘ 报错解决记录 https://blog.csdn.net/ygxdmss1412/article/details/148742597
-ms-swift https://github.com/modelscope/ms-swift">
+LLM 主流架构 硬核拆解大模型，从 DeepSeek-V3 到 Kimi K2 ，一文看懂 LLM 主流架构
+尽管模型能力不断提升，但其整体架构在这七年中保持了高度一致。当然，细节上仍有不少演进。例如，位置编码从最初的绝对位置（Absolute Positional Encoding）发展为旋转位置编码（RoPE）；注意力机制也从标准的多头注意力（Multi-Head Attention）逐步过渡为更高效的分组查询注意力（Grouped-Query Attention）；而激活函数方面，则从 GELU 被更高效的 SwiGLU 所取代。
+DeepSeek V3
+论文标题：DeepSeek-V3 Technical Report 论文链接：https://arxiv.org/abs/2412.19437 多头潜在注意力机制 (MLA):通过让多个 query 头共享一组 key 和 value，从而减少 key 和 value 的总数。 Mixture-of-Experts (MoE):将 Transformer 中的每个前馈模块（FeedForward）替换为多个「专家层」（每个专家层本质上也是一个前馈网络）。 论文标题：DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models 论文链接：https://arxiv.org/abs/2401.06066 Allen Institute for AI 发布的 OLMo 系列模型">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="resources">
@@ -69,20 +72,16 @@ ms-swift https://github.com/modelscope/ms-swift">
   <meta name="twitter:description" content="开源框架 学习素材 2025-07-02 14:01:48 Wednesday 机器学习 Q 与 AI：30 个必备问答 2025-06-30 16:37:19 Monday 盘一盘，2017年Transformer之后，LLM领域的重要论文 https://mp.weixin.qq.com/s/1lUSlc0tvEWLuOFOP0WkUA 2025-06-19 19:47:17 Thursday ｜ 信息过载时代，如何真正「懂」LLM？从MIT分享的50个面试题开始 https://mp.weixin.qq.com/s/u7aIm6jP1Nblfjr2NvakLw 新鲜出炉！斯坦福2025 CS336课程全公开：从零开始搓大模型 https://mp.weixin.qq.com/s/ehHSTpysn9NXW4-P4RjkuQ 斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！
 课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_
 课程主页：https://stanford-cs336.github.io/spring2025/
-预训练 微调 LLaMA-Factory https://github.com/hiyouga/LLaMA-Factory
-项目学习：https://zread.ai/hiyouga/LLaMA-Factory
-入门教程：https://zhuanlan.zhihu.com/p/695287607
-https://blog.csdn.net/zt0612xd/article/details/147726799
-中文教程：https://llamafactory.readthedocs.io/zh-cn/latest/getting_started/data_preparation.html#id4
-报错：
-LLaMA-Factory 模型合并 ImportError: cannot import name ‘DTensor‘ from ‘torch.distributed.tensor‘ 报错解决记录 https://blog.csdn.net/ygxdmss1412/article/details/148742597
-ms-swift https://github.com/modelscope/ms-swift">
+LLM 主流架构 硬核拆解大模型，从 DeepSeek-V3 到 Kimi K2 ，一文看懂 LLM 主流架构
+尽管模型能力不断提升，但其整体架构在这七年中保持了高度一致。当然，细节上仍有不少演进。例如，位置编码从最初的绝对位置（Absolute Positional Encoding）发展为旋转位置编码（RoPE）；注意力机制也从标准的多头注意力（Multi-Head Attention）逐步过渡为更高效的分组查询注意力（Grouped-Query Attention）；而激活函数方面，则从 GELU 被更高效的 SwiGLU 所取代。
+DeepSeek V3
+论文标题：DeepSeek-V3 Technical Report 论文链接：https://arxiv.org/abs/2412.19437 多头潜在注意力机制 (MLA):通过让多个 query 头共享一组 key 和 value，从而减少 key 和 value 的总数。 Mixture-of-Experts (MoE):将 Transformer 中的每个前馈模块（FeedForward）替换为多个「专家层」（每个专家层本质上也是一个前馈网络）。 论文标题：DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models 论文链接：https://arxiv.org/abs/2401.06066 Allen Institute for AI 发布的 OLMo 系列模型">
 <meta name="application-name" content="LLM-DailyDigest">
 <meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/resources/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/resources/papers/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://localhost:1313/resources/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6/" /><link rel="prev" href="http://localhost:1313/resources/papers/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
     "@context": "http://schema.org",
     "@type": "BlogPosting",
@@ -90,9 +89,9 @@ ms-swift https://github.com/modelscope/ms-swift">
     "inLanguage": "zh-CN",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/resources\/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6\/"
-    },"genre": "resources","wordcount":  174 ,
-    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/resources\/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+      "@id": "http:\/\/localhost:1313\/resources\/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6\/"
+    },"genre": "resources","wordcount":  279 ,
+    "url": "http:\/\/localhost:1313\/resources\/%E5%BC%80%E6%BA%90%E6%A1%86%E6%9E%B6\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -103,30 +102,30 @@ ms-swift https://github.com/modelscope/ms-swift">
   <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
   <div class="header-wrapper">
     <div class="header-title">
-      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <a href="/" title="LLM-DailyDigest"><img loading="lazy" src="/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
     <nav>
       <ul class="menu"><li class="menu-item">
               <a
                 class="menu-link"
-                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                href="/posts/llm-dailydigest"
                 
                 
               ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
               <a
                 class="menu-link"
-                href="/LLMDailyDigest.github.io/resources/"
+                href="/resources/"
                 
                 
               >资源</a></li><li class="menu-item">
               <a
                 class="menu-link"
-                href="/LLMDailyDigest.github.io/topic/"
+                href="/topic/"
                 
                 
               >主题</a></li><li class="menu-item">
               <a
                 class="menu-link"
-                href="/LLMDailyDigest.github.io/updates/"
+                href="/updates/"
                 
                 
               >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
@@ -138,7 +137,7 @@ ms-swift https://github.com/modelscope/ms-swift">
   <div class="header-container">
     <div class="header-wrapper">
       <div class="header-title">
-        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+        <a href="/" title="LLM-DailyDigest"><img loading="lazy" src="/fixit.svg" data-title="/fixit.svg" data-alt="/fixit.svg" class="logo" style="background: url(/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
       <div class="menu-toggle" id="menu-toggle-mobile">
         <span></span><span></span><span></span>
       </div>
@@ -148,28 +147,28 @@ ms-swift https://github.com/modelscope/ms-swift">
               class="menu-item"
             ><a
                   class="menu-link"
-                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  href="/posts/llm-dailydigest"
                   
                   
                 ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
               class="menu-item"
             ><a
                   class="menu-link"
-                  href="/LLMDailyDigest.github.io/resources/"
+                  href="/resources/"
                   
                   
                 >资源</a></li><li
               class="menu-item"
             ><a
                   class="menu-link"
-                  href="/LLMDailyDigest.github.io/topic/"
+                  href="/topic/"
                   
                   
                 >主题</a></li><li
               class="menu-item"
             ><a
                   class="menu-link"
-                  href="/LLMDailyDigest.github.io/updates/"
+                  href="/updates/"
                   
                   
                 >日报</a></li><li class="menu-item menu-system">
@@ -188,14 +187,22 @@ ms-swift https://github.com/modelscope/ms-swift">
       </h1></div><div class="post-meta">
       <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
       </span></span></div>
-      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="174 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 200 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>One minute</span>&nbsp;<span id="busuanzi_container_page_pv" title=""><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="279 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 300 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>2 minutes</span>&nbsp;<span id="busuanzi_container_page_pv" title=""><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
         <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#学习素材">学习素材</a></li>
+    <li><a href="#学习素材">学习素材</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#llm-主流架构">LLM 主流架构</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
     <li><a href="#预训练">预训练</a></li>
     <li><a href="#微调">微调</a>
       <ul>
@@ -254,6 +261,77 @@ ms-swift https://github.com/modelscope/ms-swift">
 <p>斯坦福大学 2025 年春季的 CS336 课程「从头开始创造语言模型（Language Models from Scratch）」相关课程和材料现已在网上全面发布！</p>
 <p>课程视频：https://www.youtube.com/watch?v=SQ3fZ1sAqXI&amp;list=PLoROMvodv4rOY23Y0BoGoBGgQ1zmU_MT_</p>
 <p>课程主页：https://stanford-cs336.github.io/spring2025/</p>
+<h4 id="llm-主流架构">LLM 主流架构</h4>
+<ol>
+<li>
+<p><a href="https://mp.weixin.qq.com/s/_as8aCv325cAeJ6kMv9_aA"target="_blank" rel="external nofollow noopener noreferrer">硬核拆解大模型，从 DeepSeek-V3 到 Kimi K2 ，一文看懂 LLM 主流架构</a></p>
+<ol>
+<li>
+<p>尽管模型能力不断提升，但其整体架构在这七年中保持了高度一致。当然，细节上仍有不少演进。例如，位置编码从最初的绝对位置（Absolute Positional Encoding）发展为旋转位置编码（RoPE）；注意力机制也从标准的多头注意力（Multi-Head Attention）逐步过渡为更高效的分组查询注意力（Grouped-Query Attention）；而激活函数方面，则从 GELU 被更高效的 SwiGLU 所取代。</p>
+</li>
+<li>
+<p>DeepSeek V3</p>
+<ol>
+<li>论文标题：DeepSeek-V3 Technical Report</li>
+<li>论文链接：https://arxiv.org/abs/2412.19437</li>
+<li>多头潜在注意力机制 (MLA):通过让多个 query 头共享一组 key 和 value，从而减少 key 和 value 的总数。</li>
+<li>Mixture-of-Experts (MoE):将 Transformer 中的每个前馈模块（FeedForward）替换为多个「专家层」（每个专家层本质上也是一个前馈网络）。
+<ol>
+<li>论文标题：DeepSeekMoE: Towards Ultimate Expert Specialization in Mixture-of-Experts Language Models 论文链接：https://arxiv.org/abs/2401.06066</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>Allen Institute for AI 发布的 OLMo 系列模型</p>
+<ol>
+<li>
+<p>论文标题：2 OLMo 2 Furious</p>
+</li>
+<li>
+<p>论文链接：https://arxiv.org/abs/2501.00656</p>
+</li>
+<li>
+<p>归一化层位置选择</p>
+</li>
+<li>
+<p>QK-Norm:本质上是另一个 RMSNorm 层，它被放置在 多头注意力模块内部，在应用旋转位置编码（RoPE）之前，对 Query 和 Key 进行归一化处理。</p>
+<ol>
+<li>论文标题：Scaling Vision Transformers 论文链接：https://arxiv.org/abs/2106.04560</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>谷歌的 Gemma</p>
+<ol>
+<li>滑动窗口注意力（sliding window attention）。</li>
+<li>论文标题：Gemma 3 Technical Report</li>
+<li>论文链接：https://arxiv.org/abs/2503.19786</li>
+</ol>
+</li>
+<li>
+<p>Mistral Small 3.1</p>
+</li>
+<li>
+<p>Llama 4</p>
+</li>
+<li>
+<p>Qwen3</p>
+</li>
+<li>
+<p>SmolLM3</p>
+<ol>
+<li>论文标题：The Impact of Positional Encoding on Length Generalization in Transformers</li>
+<li>论文链接：https://arxiv.org/abs/2305.19466</li>
+</ol>
+</li>
+<li>
+<p>Kimi K2</p>
+</li>
+</ol>
+</li>
+</ol>
 <h2 id="预训练">预训练</h2>
 <h2 id="微调">微调</h2>
 <h3 id="llama-factory">LLaMA-Factory</h3>
@@ -327,11 +405,11 @@ ms-swift https://github.com/modelscope/ms-swift">
 </div></article></main><footer class="footer">
     <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
             <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
-              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+              <a href="/"></a></span></div><div class="footer-line statistics"></div></div>
   </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
         </div></div><div id="mask"></div><noscript>
     <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
   </noscript>
-</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/typeit/index.umd.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
 </html>

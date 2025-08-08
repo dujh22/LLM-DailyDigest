@@ -69,16 +69,24 @@ repost:
 
 为了方便用户查找感兴趣的内容，我们按主题对内容进行分类：
 
-- **🤖 智能体 (Agents)**：多智能体系统、智能体架构等
-- **🧠 推理 (Reasoning)**：逻辑推理、数学推理、常识推理等
-- **🎯 强化学习 (Reinforcement Learning)**：RLHF、PPO等训练方法
-- **🔧 工具 (Tools)**：AI工具、框架、平台等
-- **📊 数据合成 (Data Synthesis)**：数据生成、合成数据等
-- **🏗️ 软件工程 (Software Engineering)**：AI在软件工程中的应用
-- **🔄 自我进化 (Self-Evolution)**：模型自我改进、进化等
-- **📈 新趋势 (New Trends)**：新兴研究方向和发展趋势
-- **🆕 新模型 (New Models)**：最新发布的模型架构
-- **📰 新闻 (News)**：行业新闻和重要事件
+- **🤖 智能体 (Agents)：多智能体系统、智能体架构、智能体交互等**
+- **🧠 推理 (Reasoning)：逻辑推理、数学推理、常识推理、推理能力等**
+- **🎯 强化学习 (Reinforcement Learning)：RLHF、PPO等训练方法**
+- **🔧 工具 (Tools)：AI工具、框架、平台、开发工具等**
+- **📊 数据合成 (Data Synthesis)：数据生成、合成数据、数据增强等**
+- **🏗️ 软件工程 (Software Engineering)：AI在软件工程中的应用**
+- **🔄 自我进化 (Self-Evolution)：模型自我改进、进化、自我优化等**
+- **📈 新趋势 (New Trends)：新兴研究方向和发展趋势**
+- **🆕 新模型 (New Models)：最新发布的模型架构和模型创新**
+- **📰 新闻 (News)：行业新闻和重要事件**
+- **🎮 博弈 (Game Theory)：博弈论、多智能体博弈、策略游戏等**
+- **🤖 具身 (Embodied AI)：具身智能、机器人、物理世界交互等**
+- **🧠 记忆 (Memory)：记忆机制、长期记忆、记忆增强等**
+- **🎨 多模态 (Multimodal)：多模态学习、视觉语言模型、跨模态理解等**
+- **🔬 研究方向 (Research Directions)：学术研究方向、方法论等**
+- **🏋️ 训练 (Training)：模型训练技术、优化方法、训练策略等**
+- **📋 规划 (Planning)：任务规划、路径规划、决策规划等**
+- **🔍 元 (Meta)：元学习、元认知、元分析等**
 
 ### 3. 📖 学习资源 (Learning Resources)
 
@@ -154,7 +162,7 @@ repost:
 
 - **📅 更新频率**：每日更新
 - **📄 论文数量**：累计跟踪数千篇论文
-- **🏷️ 主题分类**：15+ 个主要研究方向
+- **🏷️ 主题分类**：18 个主要研究方向
 - **🌍 用户群体**：研究人员、开发者、学生、爱好者
 - **⭐ GitHub星数**：持续增长的开源项目
 
@@ -202,9 +210,9 @@ repost:
 
 ## 📞 联系我们
 
-- **🌐 官方网站**：[https://llm-dailydigest.github.io](https://llm-dailydigest.github.io)
+- **🌐 官方网站**：[https://dujh22.github.io/LLMDailyDigest.github.io/](https://dujh22.github.io/LLMDailyDigest.github.io/)
 - **🐙 GitHub仓库**：[https://github.com/dujh22/LLM-DailyDigest](https://github.com/dujh22/LLM-DailyDigest)
-- **📧 邮箱联系**：欢迎通过GitHub Issues联系我们
+- **📧 邮箱联系**：欢迎通过GitHub Issues联系我们，或者通过dujh22@mails.tsinghua.edu.cn
 - **💬 讨论交流**：欢迎在GitHub Discussions中参与讨论
 
 ## 📄 许可证
@@ -215,6 +223,6 @@ repost:
 
 **让我们一起探索AI的无限可能！** 🚀
 
-*最后更新时间：2025年8月7日*
+*最后更新时间：2025年8月8日*
 
 <!--more-->

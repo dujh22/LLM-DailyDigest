@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on LLM-DailyDigest</title>
-    <link>https://dujh22.github.io/LLMDailyDigest.github.io/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on LLM-DailyDigest</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
     <lastBuildDate>Thu, 07 Aug 2025 14:49:03 +0800</lastBuildDate>
-    <atom:link href="https://dujh22.github.io/LLMDailyDigest.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Draft</title>
-      <link>https://dujh22.github.io/LLMDailyDigest.github.io/tags/draft/</link>
+      <link>http://localhost:1313/tags/draft/</link>
       <pubDate>Thu, 07 Aug 2025 14:49:03 +0800</pubDate>
-      <guid>https://dujh22.github.io/LLMDailyDigest.github.io/tags/draft/</guid>
+      <guid>http://localhost:1313/tags/draft/</guid>
       <description></description>
     </item>
   </channel>

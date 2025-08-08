@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-  <head>
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -35,7 +35,7 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
 20250604｜新泛化跨领域推理框架：General-Reasoner https://mp.weixin.qq.com/s/GDe5Dm17ekCCbUwKO475iA 2025-06-09 10:47:26 Monday ｜Unleashing the Reasoning Potential of Pre-trained LLMs by Critique Fine-Tuning on One Problem 标题 ： 通过对一个问题的批评微调来释放预训练LLM的推理潜力 链接 ：https://arxiv.org/abs/2506.03295 作者 ： Yubo Wang, Ping Nie, Kai Zou, Lijun Wu, Wenhu Chen 摘要 ：我们已经见证了强大的LLM，如Qwen-Math，MiMo和Phi-4拥有从预训练阶段继承的巨大推理潜力。通过强化学习（RL），这些模型可以显着改善推理任务。最近的研究表明，即使是针对单个问题的强化学习也可以释放这些模型的推理能力。然而，RL不仅昂贵而且不稳定。即使是一次性的RL也需要数百个GPU小时。这就提出了一个关键问题：是否有更有效的方法来释放这些强大的基础LLM的推理潜力？在这项工作中，我们证明， 批判微调（CFT）只有一个问题，可以有效地释放LLM的推理潜力 。我们的方法通过收集不同的模型生成的解决方案，以一个单一的问题，并使用教师LLM提供详细的批评，构建批判数据。我们微调Qwen和Llama家族模型，从1.5B到14 B参数，在CFT数据上，并观察到在不同推理任务中的显着性能增益。例如，仅用5个GPU小时的训练，Qwen-Math-7 B-CFT在六个数学基准测试中平均提高了15%， 在三个逻辑推理基准测试中平均提高了16% 。这些结果与RL的结果相当，甚至超过RL的结果，但计算量减少了20倍。消融研究揭示了单次CFT在不同提示问题中的稳健性。这些结果突出了一次性CFT作为一种简单，通用和计算效率高的方法来释放现代LLM的推理能力。">
   <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
   <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
-  <meta itemprop="wordCount" content="2322"><meta property="og:url" content="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%8E%A8%E7%90%86/">
+  <meta itemprop="wordCount" content="2322"><meta property="og:url" content="http://localhost:1313/topic/%E6%8E%A8%E7%90%86/">
   <meta property="og:site_name" content="LLM-DailyDigest">
   <meta property="og:title" content="推理">
   <meta property="og:description" content="推理 一般推理 研究发现，只有用强化学习（RL）训练的模型才能将数学推理技能广泛迁移到其他任务上。而用监督微调（SFT）训练的模型则表现出有限的迁移甚至没有迁移。https://mp.weixin.qq.com/s/L1vwB7Lj_JcvSfD7cQ5eSQ
@@ -65,9 +65,9 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
 <meta name="application-name" content="LLM-DailyDigest">
 <meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%8E%A8%E7%90%86/" /><link rel="prev" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E6%95%B0%E6%8D%AE%E5%90%88%E6%88%90/" /><link rel="next" href="https://dujh22.github.io/LLMDailyDigest.github.io/topic/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" /><link rel="stylesheet" href="/LLMDailyDigest.github.io/css/style.min.css"><link rel="preload" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://localhost:1313/topic/%E6%8E%A8%E7%90%86/" /><link rel="prev" href="http://localhost:1313/topic/%E6%96%B0%E9%97%BB/" /><link rel="next" href="http://localhost:1313/topic/%E5%85%83/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
     "@context": "http://schema.org",
     "@type": "BlogPosting",
@@ -75,9 +75,9 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
     "inLanguage": "zh-CN",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E6%8E%A8%E7%90%86\/"
+      "@id": "http:\/\/localhost:1313\/topic\/%E6%8E%A8%E7%90%86\/"
     },"genre": "topic","wordcount":  2322 ,
-    "url": "https:\/\/dujh22.github.io\/LLMDailyDigest.github.io\/topic\/%E6%8E%A8%E7%90%86\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+    "url": "http:\/\/localhost:1313\/topic\/%E6%8E%A8%E7%90%86\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -88,30 +88,30 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
   <body data-header-desktop="sticky" data-header-mobile="auto"><script>(window.localStorage?.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('data-theme', 'dark');</script><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
   <div class="header-wrapper">
     <div class="header-title">
-      <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
+      <a href="/" title="LLM-DailyDigest"><img loading="lazy" src="/fixit.svg" data-title="LLM-DailyDigest" data-alt="LLM-DailyDigest" class="logo" style="background: url(/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-desktop" class="typeit"></span></a><span class="header-subtitle"></span></div>
     <nav>
       <ul class="menu"><li class="menu-item">
               <a
                 class="menu-link"
-                href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                href="/posts/llm-dailydigest"
                 
                 
               ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li class="menu-item">
               <a
                 class="menu-link"
-                href="/LLMDailyDigest.github.io/resources/"
+                href="/resources/"
                 
                 
               >资源</a></li><li class="menu-item">
               <a
                 class="menu-link"
-                href="/LLMDailyDigest.github.io/topic/"
+                href="/topic/"
                 
                 
               >主题</a></li><li class="menu-item">
               <a
                 class="menu-link"
-                href="/LLMDailyDigest.github.io/updates/"
+                href="/updates/"
                 
                 
               >日报</a></li><li class="menu-item delimiter"></li><li class="menu-item theme-switch" title="Switch Theme">
@@ -123,7 +123,7 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
   <div class="header-container">
     <div class="header-wrapper">
       <div class="header-title">
-        <a href="/LLMDailyDigest.github.io/" title="LLM-DailyDigest"><img loading="lazy" src="/LLMDailyDigest.github.io/fixit.svg" data-title="/LLMDailyDigest.github.io/fixit.svg" data-alt="/LLMDailyDigest.github.io/fixit.svg" class="logo" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
+        <a href="/" title="LLM-DailyDigest"><img loading="lazy" src="/fixit.svg" data-title="/fixit.svg" data-alt="/fixit.svg" class="logo" style="background: url(/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/><span id="typeit-header-title-mobile" class="typeit"></span></a><span class="header-subtitle"></span></div>
       <div class="menu-toggle" id="menu-toggle-mobile">
         <span></span><span></span><span></span>
       </div>
@@ -133,28 +133,28 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
               class="menu-item"
             ><a
                   class="menu-link"
-                  href="/LLMDailyDigest.github.io/posts/llm-dailydigest"
+                  href="/posts/llm-dailydigest"
                   
                   
                 ><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 详情</a></li><li
               class="menu-item"
             ><a
                   class="menu-link"
-                  href="/LLMDailyDigest.github.io/resources/"
+                  href="/resources/"
                   
                   
                 >资源</a></li><li
               class="menu-item"
             ><a
                   class="menu-link"
-                  href="/LLMDailyDigest.github.io/topic/"
+                  href="/topic/"
                   
                   
                 >主题</a></li><li
               class="menu-item"
             ><a
                   class="menu-link"
-                  href="/LLMDailyDigest.github.io/updates/"
+                  href="/updates/"
                   
                   
                 >日报</a></li><li class="menu-item menu-system">
@@ -559,7 +559,7 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
 <p>相比之下，现有模型往往要么陷入过度思考（overthinking），生成冗长无用的推理链；要么思考不足（underthinking），在问题真正展开前就草率收场。</p>
 <p>这背后的根源在于：模型缺乏对推理节奏的主动调控能力，无法准确找到「该慢下来」的最佳时机。</p>
 <p>AlphaOne 的核心，是引入统一的调控点 α-moment：α-moment 之前通过 Bernoulli 过程插入「慢思考」标记，之后用终止标记切换为快思考，实现无需训练的连续推理调控。</p>
-<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/LLMDailyDigest.github.io/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA" srcset="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA&amp;size=small, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA&amp;size=medium 1.5x, https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA&amp;size=large 2x" sizes="auto" data-title="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA" data-alt="https://zhipu-ai.feishu.cn/space/api/box/stream/download/asynccode/?code=NWMwZGYwNTYyMzU4OTFmMmJiMDgzNzU0NjJiYzI1ZDNfNjh4SDFib241WjFBTlRrV3JxWllBblFQWTI2dVBVOWxfVG9rZW46T1lwZ2JZc0tKb0hBQkR4bXdPdGNpVG5wbjRmXzE3NTQ0NjQ5MTQ6MTc1NDQ2ODUxNF9WNA" class="suffix-invalid suffix-invalid__small suffix-invalid__large" style="background: url(/svg/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;this.alt=this.dataset.alt;for(const i of ['style', 'data-title','data-alt','onerror','onload']){this.removeAttribute(i);}"/></p>
 <ol start="5">
 <li>2025-06-24 13:35:23 Tuesday |</li>
 </ol>
@@ -795,11 +795,11 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
 </div></article></main><footer class="footer">
     <div class="footer-container"><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
             <span itemprop="copyrightYear">Public - 2025</span><span class="author" itemprop="copyrightHolder">
-              <a href="/LLMDailyDigest.github.io/"></a></span></div><div class="footer-line statistics"></div></div>
+              <a href="/"></a></span></div><div class="footer-line statistics"></div></div>
   </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="Back to Top"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
         </div></div><div id="mask"></div><noscript>
     <div class="noscript-warning">Theme FixIt works best with JavaScript enabled.</div>
   </noscript>
-</div><link rel="preload" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.css"><script src="/LLMDailyDigest.github.io/lib/sharer/sharer.min.js" async defer></script><script src="/LLMDailyDigest.github.io/lib/typeit/index.umd.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/katex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/auto-render.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/copy-tex.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/katex/mhchem.min.js" defer></script><script src="/LLMDailyDigest.github.io/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/LLMDailyDigest.github.io/js/theme.min.js" defer></script></body>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/typeit/index.umd.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","editLockTitle":"Lock editable code block","editUnLockTitle":"Unlock editable code block","editable":true,"maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"typeit-header-desktop":"LLM-DailyDigest 大模型研究日报","typeit-header-title-mobile":"LLM-DailyDigest 大模型研究日报"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"typeit-header-desktop":["typeit-header-desktop"],"typeit-header-title-mobile":["typeit-header-title-mobile"]},"duration":-1,"loop":false,"speed":100}};</script><script src="/js/theme.min.js" defer></script></body>
 </html>

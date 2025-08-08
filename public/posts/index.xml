@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
   <channel>
     <title>All Posts - LLM-DailyDigest</title>
-    <link>https://dujh22.github.io/LLMDailyDigest.github.io/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>All Posts | LLM-DailyDigest</description>
-    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 07 Aug 2025 14:49:03 &#43;0800</lastBuildDate><atom:link href="https://dujh22.github.io/LLMDailyDigest.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <generator>Hugo -- gohugo.io</generator><language>zh-CN</language><lastBuildDate>Thu, 07 Aug 2025 14:49:03 &#43;0800</lastBuildDate><atom:link href="http://localhost:1313/posts/" rel="self" type="application/rss+xml" /><item>
   <title>LLM-DailyDigest</title>
-  <link>https://dujh22.github.io/LLMDailyDigest.github.io/posts/llm-dailydigest/</link>
+  <link>http://localhost:1313/posts/llm-dailydigest/</link>
   <pubDate>Thu, 07 Aug 2025 14:49:03 &#43;0800</pubDate>
   <author>Author</author>
-  <guid>https://dujh22.github.io/LLMDailyDigest.github.io/posts/llm-dailydigest/</guid>
-  <description><![CDATA[<figure><img src="/LLMDailyDigest.github.io/fixit.svg" width="50%">
+  <guid>http://localhost:1313/posts/llm-dailydigest/</guid>
+  <description><![CDATA[<figure><img src="/fixit.svg" width="50%">
 </figure>
 
 <h1 id="大模型日报-llm-dailydigest">大模型日报 LLM-DailyDigest</h1>
@@ -36,16 +36,24 @@
 <h3 id="2--主题分类-topic-categories">2. 🏷️ 主题分类 (Topic Categories)</h3>
 <p>为了方便用户查找感兴趣的内容，我们按主题对内容进行分类：</p>
 <ul>
-<li><strong>🤖 智能体 (Agents)</strong>：多智能体系统、智能体架构等</li>
-<li><strong>🧠 推理 (Reasoning)</strong>：逻辑推理、数学推理、常识推理等</li>
-<li><strong>🎯 强化学习 (Reinforcement Learning)</strong>：RLHF、PPO等训练方法</li>
-<li><strong>🔧 工具 (Tools)</strong>：AI工具、框架、平台等</li>
-<li><strong>📊 数据合成 (Data Synthesis)</strong>：数据生成、合成数据等</li>
-<li><strong>🏗️ 软件工程 (Software Engineering)</strong>：AI在软件工程中的应用</li>
-<li><strong>🔄 自我进化 (Self-Evolution)</strong>：模型自我改进、进化等</li>
-<li><strong>📈 新趋势 (New Trends)</strong>：新兴研究方向和发展趋势</li>
-<li><strong>🆕 新模型 (New Models)</strong>：最新发布的模型架构</li>
-<li><strong>📰 新闻 (News)</strong>：行业新闻和重要事件</li>
+<li><strong>🤖 智能体 (Agents)：多智能体系统、智能体架构、智能体交互等</strong></li>
+<li><strong>🧠 推理 (Reasoning)：逻辑推理、数学推理、常识推理、推理能力等</strong></li>
+<li><strong>🎯 强化学习 (Reinforcement Learning)：RLHF、PPO等训练方法</strong></li>
+<li><strong>🔧 工具 (Tools)：AI工具、框架、平台、开发工具等</strong></li>
+<li><strong>📊 数据合成 (Data Synthesis)：数据生成、合成数据、数据增强等</strong></li>
+<li><strong>🏗️ 软件工程 (Software Engineering)：AI在软件工程中的应用</strong></li>
+<li><strong>🔄 自我进化 (Self-Evolution)：模型自我改进、进化、自我优化等</strong></li>
+<li><strong>📈 新趋势 (New Trends)：新兴研究方向和发展趋势</strong></li>
+<li><strong>🆕 新模型 (New Models)：最新发布的模型架构和模型创新</strong></li>
+<li><strong>📰 新闻 (News)：行业新闻和重要事件</strong></li>
+<li><strong>🎮 博弈 (Game Theory)：博弈论、多智能体博弈、策略游戏等</strong></li>
+<li><strong>🤖 具身 (Embodied AI)：具身智能、机器人、物理世界交互等</strong></li>
+<li><strong>🧠 记忆 (Memory)：记忆机制、长期记忆、记忆增强等</strong></li>
+<li><strong>🎨 多模态 (Multimodal)：多模态学习、视觉语言模型、跨模态理解等</strong></li>
+<li><strong>🔬 研究方向 (Research Directions)：学术研究方向、方法论等</strong></li>
+<li><strong>🏋️ 训练 (Training)：模型训练技术、优化方法、训练策略等</strong></li>
+<li><strong>📋 规划 (Planning)：任务规划、路径规划、决策规划等</strong></li>
+<li><strong>🔍 元 (Meta)：元学习、元认知、元分析等</strong></li>
 </ul>
 <h3 id="3--学习资源-learning-resources">3. 📖 学习资源 (Learning Resources)</h3>
 <p>为初学者和进阶用户提供丰富的学习材料：</p>
@@ -115,7 +123,7 @@
 <ul>
 <li><strong>📅 更新频率</strong>：每日更新</li>
 <li><strong>📄 论文数量</strong>：累计跟踪数千篇论文</li>
-<li><strong>🏷️ 主题分类</strong>：15+ 个主要研究方向</li>
+<li><strong>🏷️ 主题分类</strong>：18 个主要研究方向</li>
 <li><strong>🌍 用户群体</strong>：研究人员、开发者、学生、爱好者</li>
 <li><strong>⭐ GitHub星数</strong>：持续增长的开源项目</li>
 </ul>
@@ -161,16 +169,16 @@
 </ul>
 <h2 id="-联系我们">📞 联系我们</h2>
 <ul>
-<li><strong>🌐 官方网站</strong>：<a href="https://llm-dailydigest.github.io"target="_blank" rel="external nofollow noopener noreferrer">https://llm-dailydigest.github.io</a></li>
+<li><strong>🌐 官方网站</strong>：<a href="https://dujh22.github.io/LLMDailyDigest.github.io/"target="_blank" rel="external nofollow noopener noreferrer">https://dujh22.github.io/LLMDailyDigest.github.io/</a></li>
 <li><strong>🐙 GitHub仓库</strong>：<a href="https://github.com/dujh22/LLM-DailyDigest"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/dujh22/LLM-DailyDigest</a></li>
-<li><strong>📧 邮箱联系</strong>：欢迎通过GitHub Issues联系我们</li>
+<li><strong>📧 邮箱联系</strong>：欢迎通过GitHub Issues联系我们，或者通过dujh22@mails.tsinghua.edu.cn</li>
 <li><strong>💬 讨论交流</strong>：欢迎在GitHub Discussions中参与讨论</li>
 </ul>
 <h2 id="-许可证">📄 许可证</h2>
 <p>本项目采用 <a href="https://opensource.org/licenses/MIT"target="_blank" rel="external nofollow noopener noreferrer">MIT许可证</a>，您可以自由使用、修改和分发。</p>
 <hr>
 <p><strong>让我们一起探索AI的无限可能！</strong> 🚀</p>
-<p><em>最后更新时间：2025年8月7日</em></p>]]></description>
+<p><em>最后更新时间：2025年8月8日</em></p>]]></description>
 </item>
 </channel>
 </rss>
