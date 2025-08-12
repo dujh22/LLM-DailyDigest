@@ -33,9 +33,9 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
 Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan Chang
 最近，大型语言模型 （LLM） 取得了显着进展，表明它们在复杂推理方面的能力不断增强。然而，现有的研究在很大程度上忽视了 对这些模型的推理过程和输出的彻底和系统的比较 ，特别是关于它们的自我反思模式（也称为“顿悟时刻”）和不同领域的相互联系。本文提出了一种新的框架，用于使用关键词统计和 LLM 作为判断范式分析四种尖端大型推理模型（GPT-o1、DeepSeek-R1、Kimi-k1.5 和 Grok-3）的推理特征。我们的方法将他们的内部思考过程与最终产出联系起来。多样化的数据集由基于真实场景的问题组成，涵盖逻辑推论、因果推理和多步骤问题解决。此外，还提出了一组指标来评估推理的连贯性和输出的准确性。研究结果揭示了这些模型如何在推理过程中平衡探索和开发、处理问题和得出结论的各种模式。通过定量和定性比较，确定了这些模型在推理深度、对中间步骤的依赖以及它们的思维过程和输出模式与 GPT-o1 的相似程度等方面的差异。这项工作为计算效率和推理鲁棒性之间的权衡提供了有价值的见解，并为在实际应用中加强模型设计和评估提供了实用建议。我们在以下位置公开发布我们的项目： https://github.com/ChangWenhan/FromThinking2Output
 20250604｜新泛化跨领域推理框架：General-Reasoner https://mp.weixin.qq.com/s/GDe5Dm17ekCCbUwKO475iA 2025-06-09 10:47:26 Monday ｜Unleashing the Reasoning Potential of Pre-trained LLMs by Critique Fine-Tuning on One Problem 标题 ： 通过对一个问题的批评微调来释放预训练LLM的推理潜力 链接 ：https://arxiv.org/abs/2506.03295 作者 ： Yubo Wang, Ping Nie, Kai Zou, Lijun Wu, Wenhu Chen 摘要 ：我们已经见证了强大的LLM，如Qwen-Math，MiMo和Phi-4拥有从预训练阶段继承的巨大推理潜力。通过强化学习（RL），这些模型可以显着改善推理任务。最近的研究表明，即使是针对单个问题的强化学习也可以释放这些模型的推理能力。然而，RL不仅昂贵而且不稳定。即使是一次性的RL也需要数百个GPU小时。这就提出了一个关键问题：是否有更有效的方法来释放这些强大的基础LLM的推理潜力？在这项工作中，我们证明， 批判微调（CFT）只有一个问题，可以有效地释放LLM的推理潜力 。我们的方法通过收集不同的模型生成的解决方案，以一个单一的问题，并使用教师LLM提供详细的批评，构建批判数据。我们微调Qwen和Llama家族模型，从1.5B到14 B参数，在CFT数据上，并观察到在不同推理任务中的显着性能增益。例如，仅用5个GPU小时的训练，Qwen-Math-7 B-CFT在六个数学基准测试中平均提高了15%， 在三个逻辑推理基准测试中平均提高了16% 。这些结果与RL的结果相当，甚至超过RL的结果，但计算量减少了20倍。消融研究揭示了单次CFT在不同提示问题中的稳健性。这些结果突出了一次性CFT作为一种简单，通用和计算效率高的方法来释放现代LLM的推理能力。">
-  <meta itemprop="datePublished" content="2025-08-07T00:00:00+08:00">
-  <meta itemprop="dateModified" content="2025-08-07T00:00:00+08:00">
-  <meta itemprop="wordCount" content="2322"><meta property="og:url" content="http://localhost:1313/topic/%E6%8E%A8%E7%90%86/">
+  <meta itemprop="datePublished" content="2025-08-12T00:00:00+08:00">
+  <meta itemprop="dateModified" content="2025-08-12T00:00:00+08:00">
+  <meta itemprop="wordCount" content="2345"><meta property="og:url" content="http://localhost:1313/topic/%E6%8E%A8%E7%90%86/">
   <meta property="og:site_name" content="LLM-DailyDigest">
   <meta property="og:title" content="推理">
   <meta property="og:description" content="推理 一般推理 研究发现，只有用强化学习（RL）训练的模型才能将数学推理技能广泛迁移到其他任务上。而用监督微调（SFT）训练的模型则表现出有限的迁移甚至没有迁移。https://mp.weixin.qq.com/s/L1vwB7Lj_JcvSfD7cQ5eSQ
@@ -49,8 +49,8 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="topic">
-    <meta property="article:published_time" content="2025-08-07T00:00:00+08:00">
-    <meta property="article:modified_time" content="2025-08-07T00:00:00+08:00">
+    <meta property="article:published_time" content="2025-08-12T00:00:00+08:00">
+    <meta property="article:modified_time" content="2025-08-12T00:00:00+08:00">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="推理">
@@ -65,7 +65,7 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
 <meta name="application-name" content="LLM-DailyDigest">
 <meta name="apple-mobile-web-app-title" content="LLM-DailyDigest"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://localhost:1313/topic/%E6%8E%A8%E7%90%86/" /><link rel="prev" href="http://localhost:1313/topic/%E6%96%B0%E9%97%BB/" /><link rel="next" href="http://localhost:1313/topic/%E5%85%83/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" href="http://localhost:1313/topic/%E6%8E%A8%E7%90%86/" /><link rel="prev" href="http://localhost:1313/topic/%E6%95%B0%E6%8D%AE/" /><link rel="next" href="http://localhost:1313/topic/%E5%BA%94%E7%94%A8/" /><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
@@ -76,8 +76,8 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "http:\/\/localhost:1313\/topic\/%E6%8E%A8%E7%90%86\/"
-    },"genre": "topic","wordcount":  2322 ,
-    "url": "http:\/\/localhost:1313\/topic\/%E6%8E%A8%E7%90%86\/","datePublished": "2025-08-07T00:00:00+08:00","dateModified": "2025-08-07T00:00:00+08:00","publisher": {
+    },"genre": "topic","wordcount":  2345 ,
+    "url": "http:\/\/localhost:1313\/topic\/%E6%8E%A8%E7%90%86\/","datePublished": "2025-08-12T00:00:00+08:00","dateModified": "2025-08-12T00:00:00+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -173,7 +173,7 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
       </h1></div><div class="post-meta">
       <div class="post-meta-line"><span class="post-author"><span class="author"><i class="fa-solid fa-user-circle" aria-hidden="true"></i>
       </span></span></div>
-      <div class="post-meta-line"><span title="published on 2025-08-07 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="Updated on 2025-08-07 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-07">2025-08-07</time></span>&nbsp;<span title="2322 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 2400 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>11 minutes</span>&nbsp;</div>
+      <div class="post-meta-line"><span title="published on 2025-08-12 00:00:00"><i class="fa-regular fa-calendar-alt fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-12">2025-08-12</time></span>&nbsp;<span title="Updated on 2025-08-12 00:00:00"><i class="fa-regular fa-edit fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-12">2025-08-12</time></span>&nbsp;<span title="2345 words"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>About 2400 words</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>12 minutes</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>Contents</span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></div>
@@ -240,7 +240,7 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
     </li>
     <li><a href="#新架构">新架构</a>
       <ul>
-        <li>
+        <li><a href="#分层推理模型hrm">分层推理模型（HRM）</a>
           <ul>
             <li><a href="#前沿模拟下一代大语言模型推理系统"><a href="https://papers.cool/arxiv/2508.03148">前沿：模拟下一代大语言模型推理系统</a></a></li>
           </ul>
@@ -707,14 +707,28 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
 <p><a href="https://arxiv.org/abs/2508.03140"target="_blank" rel="external nofollow noopener noreferrer">#114</a> <a href="https://papers.cool/arxiv/2508.03140"target="_blank" rel="external nofollow noopener noreferrer">RCP-Merging: Merging Long Chain-of-Thought Models with Domain-Specific Models by Considering Reasoning Capability as Prior</a></p>
 <p>具有长链式思维（CoT）能力的大型语言模型（LLMs），称为推理模型，通过多步长链式思维推理展现出卓越的复杂问题解决能力。为了在不产生大量计算和数据成本的情况下，创建具备长链式思维能力和领域特定知识的双重能力模型，模型合并成为一种极具资源效率的方法。然而，将领域特定的 LLMs 与具备长链式思维能力的模型合并存在重大挑战，因为现有的合并方法往往导致推理能力下降，甚至出现无意义输出和输出崩溃。为克服这一问题，我们提出了 RCP-Merging：一种以推理能力为先验，合并长链式思维模型与领域特定模型的新型合并框架，旨在整合具备长链式思维能力的领域特定 LLMs，同时保持模型在原始领域的性能。该方法将推理模型权重视为基础先验，利用推理能力指标保留核心长链式思维能力模型权重，同时有选择地合并关键的领域特定权重。 我们在 BioMedicine 和 Finance 领域对 Qwen2.5-7B、Llama3.1-8B 和 Qwen2.5-1.5B 模型进行了大量实验。结果表明，RCP-Merging 成功地将推理模型与特定领域模型合并，在不显著影响原有长链式推理能力的情况下，使领域任务性能分别比最先进方法提升了 9.5%和 9.2%。</p>
 <h2 id="新架构">新架构</h2>
-<p>2025-07-01 11:12:26 Tuesday ｜ 分层推理模型（HRM）</p>
+<h3 id="分层推理模型hrm">分层推理模型（HRM）</h3>
+<ol>
+<li>2025-07-01 11:12:26 Tuesday ｜</li>
+</ol>
 <p><a href="https://mp.weixin.qq.com/s/PousJsp2TP7cTUTUwtf6ZA"target="_blank" rel="external nofollow noopener noreferrer">https://mp.weixin.qq.com/s/PousJsp2TP7cTUTUwtf6ZA</a></p>
 <p>该模型无需预训练或 CoT 数据即可运行，但在包括复杂数独谜题和大型迷宫中最优路径查找在内的挑战性任务上却取得了 <strong>近乎完美的性能</strong> 。</p>
 <p>近日，受到人脑分层和多时间尺度处理机制启发，来自 Sapient Intelligence 的研究者提出了分层推理模型（HRM），这是一种全新循环架构，能够在保持训练稳定性和效率的同时，实现高计算深度。</p>
 <p>具体来说，HRM 通过两个相互依赖的循环模块，在单次前向传递中执行顺序推理任务，而无需对中间过程进行明确的监督：其中一个高级模块负责缓慢、抽象的规划，另一个低级模块负责处理快速、细致的计算。</p>
 <p>论文：Hierarchical Reasoning Model</p>
 <p>论文链接：https://arxiv.org/abs/2506.21734</p>
+<ol>
+<li>
 <p>80 【借鉴人类思考的分层推理？清华大学最新研究 - 轻舟AI | 小红书 - 你的生活兴趣社区】 😆 M49Up0rsYbIO6Xd 😆 <a href="https://www.xiaohongshu.com/discovery/item/68917d470000000004006bd4?source=webshare&amp;xhsshare=pc_web&amp;xsec_token=CBNjhAAQ9ahkh4hZ_0xmlIBrpbqQrNiMfkjm4OBI-IQ04=&amp;xsec_source=pc_share"target="_blank" rel="external nofollow noopener noreferrer">https://www.xiaohongshu.com/discovery/item/68917d470000000004006bd4?source=webshare&xhsshare=pc_web&xsec_token=CBNjhAAQ9ahkh4hZ_0xmlIBrpbqQrNiMfkjm4OBI-IQ04=&xsec_source=pc_share</a></p>
+</li>
+<li>
+<p><a href="https://mp.weixin.qq.com/s/RGl6VGhcMc9GLjopZI3rCQ"target="_blank" rel="external nofollow noopener noreferrer">又是王冠：27M小模型超越o3-mini！拒绝马斯克的00后果然不同</a></p>
+<ol>
+<li><strong>27M</strong>小模型超越o3-mini-high和DeepSeek-R1！推理还不靠思维链。</li>
+<li>这个27M小模型就是Sapient最新提出的开源可复现的 <strong>分层推理模型Hierarchical Reasoning Model（下面简称HRM）</strong> ，模仿大脑的分层处理与多时间尺度运作机制，克服了标准Transfomer的计算局限。</li>
+</ol>
+</li>
+</ol>
 <h4 id="前沿模拟下一代大语言模型推理系统"><a href="https://papers.cool/arxiv/2508.03148"target="_blank" rel="external nofollow noopener noreferrer">前沿：模拟下一代大语言模型推理系统</a></h4>
 <p><a href="https://arxiv.org/abs/2508.03148"target="_blank" rel="external nofollow noopener noreferrer">#113</a> <a href="https://papers.cool/arxiv/2508.03148"target="_blank" rel="external nofollow noopener noreferrer">Frontier: Simulating the Next Generation of LLM Inference Systems</a></p>
 <p>大型语言模型（LLM）推理随着专家混合（MoE）模型和解耦组件（如预填充/解码（PD）或注意力/前馈网络（AF））的异构扩展架构的兴起，变得日益复杂。现有的模拟器设计用于共置的密集模型，无法捕捉这些新兴范式的复杂系统动态。我们提出了 Frontier，一款从零开始为这一新环境设计的高保真模拟器。Frontier 引入了一个统一框架，既能模拟共置系统，也能模拟解耦系统，原生支持带有专家并行（EP）的 MoE 推理。它能够模拟复杂的工作流程，如跨集群专家路由和用于隐藏延迟的高级流水线策略。为了确保准确性和可用性，Frontier 整合了精细化的算子模型以提升精度。Frontier 赋能社区设计和优化未来大规模 LLM 推理。</p>
@@ -775,6 +789,15 @@ Authors : Junhao Liu, Zhenhao Xu, Yuxin Fang, Yichuan Chen, Zuobin Ying, Wenhan 
 <p><strong><a href="https://papers.cool/arxiv/2506.19733"target="_blank" rel="external nofollow noopener noreferrer">打破障碍：强化训练后的收益会转移到看不见的领域吗？</a></strong> <strong>[PDF(2)]</strong> <strong>[Copy]</strong> <strong>[Kimi(1)]</strong> <strong>[REL]</strong></p>
 <p><strong>Authors</strong> : <a href="https://arxiv.org/search/?searchtype=author&amp;query=Chuxuan%20Hu"target="_blank" rel="external nofollow noopener noreferrer">Chuxuan Hu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Yuxuan%20Zhu"target="_blank" rel="external nofollow noopener noreferrer">Yuxuan Zhu</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Antony%20Kellermann"target="_blank" rel="external nofollow noopener noreferrer">Antony Kellermann</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Caleb%20Biddulph"target="_blank" rel="external nofollow noopener noreferrer">Caleb Biddulph</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Suppakit%20Waiwitlikhit"target="_blank" rel="external nofollow noopener noreferrer">Suppakit Waiwitlikhit</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Jason%20Benn"target="_blank" rel="external nofollow noopener noreferrer">Jason Benn</a>, <a href="https://arxiv.org/search/?searchtype=author&amp;query=Daniel%20Kang"target="_blank" rel="external nofollow noopener noreferrer">Daniel Kang</a></p>
 <p>强化后训练 （RPT） 最近显示出在提高大型语言模型 （LLM） 的推理能力方面的前景。然而，目前尚不清楚这些改进对新领域的推广程度如何，因为之前的工作是根据用于微调的相同领域的数据评估 RPT 模型。为了了解 RPT 的普遍性，我们进行了两项研究。（1） 观察性：我们将各种开放权重 RPT 模型与其在多个领域的相应基础模型进行比较，包括其微调数据中的可见和不可见领域。（2） 介入性：我们在单个领域上使用 RPT 微调 LLM，并评估它们在多个领域的表现。这两项研究都得出了相同的结论，即尽管 RPT 在类似于微调数据的任务上带来了实质性的收益，但这些收益的泛化并不一致，并且在具有不同推理模式的领域可能会消失。</p>
+<ol start="6">
+<li><a href="https://mp.weixin.qq.com/s/Y2R4wFRyP-GfXMlrV65wIA"target="_blank" rel="external nofollow noopener noreferrer">GPT-5数字母依然翻车！马库斯：泛化问题仍未解决，Scaling无法实现AGI</a>
+<ol>
+<li>马库斯展示了一篇来自亚利桑那州立大学的研究论文，其中指出CoT在训练分布外失效，也就意味着大模型无法泛化。 Is Chain-of-Thought Reasoning of LLMs a Mirage? A Data Distribution Lens <a href="https://arxiv.org/abs/2508.01191"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2508.01191</a></li>
+<li>马库斯指出，30年未解决的“分布漂移问题”是大模型泛化能力不足的根本原因。</li>
+<li>马库斯表示，转向神经符号（Neuro-symbolic）AI，才是克服当前生成模型泛化能力不足问题以及实现AGI的唯一真正途径。</li>
+</ol>
+</li>
+</ol>
 <h2 id="推理的可解释性">推理的可解释性</h2>
 <p>2025-06-25 11:13:29 Wednesday ｜</p>
 <p><strong><a href="https://papers.cool/arxiv/2506.19143"target="_blank" rel="external nofollow noopener noreferrer">Thought Anchors：哪些 LLM 推理步骤很重要？</a></strong> <strong>[PDF()]</strong> <strong>[Copy]</strong> <strong>[Kimi(1)]</strong> <strong>[REL]</strong></p>
