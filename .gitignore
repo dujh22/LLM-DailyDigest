@@ -2,3 +2,4 @@ tools/config2.py
 *.pyc
 .env
 *.cfg
+public/
