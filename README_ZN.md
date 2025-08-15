@@ -108,9 +108,11 @@ cp config.py config2.py
 
 # 运行自动化工具
 cd tools
+pip install -r requirements.txt
 python arx.py  # 下载ArXiv论文
 python arx_batch_to_ch.py  # 批量翻译
 python paper_summarizer.py  # 生成日报
+python paper_summarizer.py --data_file "arxiv_papers_ch_2025_02_07_11_10_39.csv" --date "2025-08-15" --dairy_report_dir /Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest/tools/summary --is_summary True # 生成总结性报
 ```
 
 ### 自动化部署

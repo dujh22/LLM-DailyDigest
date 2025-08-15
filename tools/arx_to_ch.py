@@ -7,7 +7,7 @@ import os
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
-from llm_chat import llm_chat_with_prompt
+from tools.llm_chat2 import llm_chat_with_prompt
 
 
 prompt = "你是一个翻译家，你擅长把英文翻译成中文。现在开始， 每次你收到一个英文句子或者段落，都把它翻译成地道的中文。"

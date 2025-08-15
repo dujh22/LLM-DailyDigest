@@ -29,9 +29,11 @@ cp -rf ./public/* /Users/djh/Documents/备份/一般/工作/代码/LLM/github/LL
 
 cd /Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLMDailyDigest.github.io
 
+find ./ -type f -name '*.cfg' -delete
+
 git add *
 
-git commit -m "20250814"
+git commit -m "20250815"
 
 git push -u origin master
 ```

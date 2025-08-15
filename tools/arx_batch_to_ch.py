@@ -189,7 +189,8 @@ def arx_batch_to_ch():
     parser.add_argument("--time", help="指定时间戳", default='2025_02_07_11_10_39')
     args = parser.parse_args()
 
-    input_csv = 'arxiv_papers_' + args.time + '.csv'
+    # input_csv = 'arxiv_papers_' + args.time + '.csv'
+    input_csv = "arxiv_papers_logical reasoning & large language model.csv"
     upload_jsonl = 'arxiv_papers_' + args.time + '_upload.jsonl'
     return_jsonl = 'arxiv_papers_' + args.time + '_return.jsonl'
     error_jsonl = 'arxiv_papers_' + args.time + '_error.jsonl'
