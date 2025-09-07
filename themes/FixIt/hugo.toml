@@ -46,7 +46,7 @@ enableEmoji = true
     # you can add extra information after the name (HTML format is supported), such as icons
     post = ""
     name = "详情"
-    url = "/posts/LLM-DailyDigest"
+    url = "/posts/llmdailydigest"
     # title will be shown when you hover on this menu link
     title = ""
     weight = 1
