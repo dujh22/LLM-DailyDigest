@@ -11,7 +11,7 @@
 # website title
 title = "FixIt"
 # Hostname (and path) to the root
-baseURL = "http://localhost:1313"
+baseURL = "https://dujh22.github.io/LLMDailyDigestWeb/"
 # theme list
 theme = ["FixIt"]
 # determines default content language ["en", "zh-cn", "fr", "pl", ...]

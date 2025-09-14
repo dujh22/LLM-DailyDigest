@@ -2,7 +2,7 @@
 
 Stay up-to-date with the latest developments, news, and insights about Large Language Models (LLM). This project uses automated tools and curated content to help enthusiasts, researchers, and developers understand the rapidly evolving field of LLMs.
 
-🌐 **Website**: [https://dujh22.github.io/LLMDailyDigest.github.io/](https://dujh22.github.io/LLMDailyDigest.github.io/)
+🌐 **Website**: [https://dujh22.github.io/LLMDailyDigestWeb/](https://dujh22.github.io/LLMDailyDigestWeb/)
 
 ## 🎯 Project Features
 
@@ -213,7 +213,7 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 ## 📞 Contact Us
 
 - **🐙 GitHub**: [Project Homepage](https://github.com/dujh22/LLM-DailyDigest)
-- **🌐 Website**: [Online Access](https://dujh22.github.io/LLMDailyDigest.github.io/)
+- **🌐 Website**: [Online Access](https://dujh22.github.io/LLMDailyDigestWeb/)
 - **📧 Email**: Contact us through GitHub
 - **💬 Discussions**: [GitHub Discussions](https://github.com/dujh22/LLM-DailyDigest/discussions)
 

@@ -2,7 +2,7 @@
 
 时刻关注大型语言模型（LLM）的最新发展、新闻和见解。此项目通过自动化工具和精选内容，帮助爱好者、研究人员和开发者了解LLM领域的快速演变。
 
-🌐 **网站地址**：[https://dujh22.github.io/LLMDailyDigest.github.io/](https://dujh22.github.io/LLMDailyDigest.github.io/)
+🌐 **网站地址**：[https://dujh22.github.io/LLMDailyDigestWeb/](https://dujh22.github.io/LLMDailyDigestWeb/)
 
 ## 🎯 项目特色
 
@@ -215,7 +215,7 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 ## 📞 联系我们
 
 - **🐙 GitHub**：[项目主页](https://github.com/dujh22/LLM-DailyDigest)
-- **🌐 网站**：[在线访问](https://dujh22.github.io/LLMDailyDigest.github.io/)
+- **🌐 网站**：[在线访问](https://dujh22.github.io/LLMDailyDigestWeb/)
 - **📧 邮箱**：通过GitHub联系我们
 - **💬 讨论**：[GitHub Discussions](https://github.com/dujh22/LLM-DailyDigest/discussions)
 

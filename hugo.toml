@@ -1,4 +1,4 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://dujh22.github.io/LLMDailyDigestWeb/'
 languageCode = 'zh-CN'
 title = 'LLM-DailyDigest'
 theme = 'FixIt'
