@@ -33,7 +33,7 @@ From：https://arxiv.org/list/cs.CL/recent
 
 **From**：https://papers.cool/arxiv/cs.AI
 
-From：https://arxiv.org/list/cs.AI/recenthttps://arxiv.org/list/cs.CL/recent
+From：https://arxiv.org/list/cs.AI/recent
 
 # 1.3 Huggingface
 
