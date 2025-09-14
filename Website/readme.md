@@ -2,7 +2,6 @@
 
 ```
 rm -r ./public
-
 ```
 
 ## 1. 项目构建
@@ -36,7 +35,7 @@ find ./ -type f -name '*.cfg' -delete
 
 git add *
 
-git commit -m "20250815"
+git commit -m "20250914"
 
 git push -u origin master
 ```
