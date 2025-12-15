@@ -22,7 +22,7 @@ hugo server -D
 
 然后执行如下操作
 
-```
+```shell
 find ./public -type f -name '*.cfg' -delete
 
 cp -rf ./public/* /Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLMDailyDigestWeb/
