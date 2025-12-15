@@ -6,3 +6,4 @@ beautifulsoup4
 openai
 python-dotenv
 zhipuai
+zai-sdk

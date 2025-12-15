@@ -187,16 +187,17 @@ def arxiv_search():
     filename = "arxiv_papers_" + current_time + ".csv"
 
     parser = argparse.ArgumentParser(description="爬取arxiv数据")
-    parser.add_argument("--query", type=str, default="logical reasoning of large language models", help="搜索关键词")
+    default_query = "logical reasoning of large language models"
+    parser.add_argument("--query", type=str, default=default_query, help="搜索关键词")
     parser.add_argument("--max_results", type=int, default=4000, help="最大结果数量") # 定义最大结果数：需要注意的是，由于 API 的限制，在多次调用 API 的情况下，建议每次调用的时间间隔为 3 秒。每次调用返回的最大数量为 4000 个。arXiv的硬限制约为 50,000 条记录； 对于与 50,000 多个原稿匹配的查询，无法接收全部结果. 解决这个问题的最简单的解决方案是将中断查询成小块，例如使用的时间片，与一系列日期的submittedDate或lastUpdatedDate 。
     parser.add_argument("--wish_offset", type=int, default=0, help="希望的起始位置") # 定义起始位置
     parser.add_argument("--filename", type=str, default=filename, help="保存结果的CSV文件名") # 定义保存结果的文件名
     # 起始日期,默认为3年前的今天
-    # days = 0 # 默认为当日的前一天
-    days = 85 * 30 # 默认为3年前的今天  
+    days = 12 * 30 # 默认为当日的前一天
+    # days = 85 * 30 # 默认为3年前的今天  
     default_start_date = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24 * days))
     # 终止日期，默认为当前时间
-    days = 73 * 30
+    days = 0
     default_end_date = time.strftime("%Y-%m-%d", time.localtime(time.time() - 3600 * 24 * days))
     parser.add_argument("--start_date", type=str, default=default_start_date, help="起始日期")
     parser.add_argument("--end_date", type=str, default=default_end_date, help="终止日期")
