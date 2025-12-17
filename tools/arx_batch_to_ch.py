@@ -128,10 +128,10 @@ def upload_file_and_create_batch(upload_jsonl, return_jsonl, error_jsonl):
     print("删除文件-------------------------")
 
 # 3. 将jsonl文件转换为csv文件
-def jsonl_to_csv(raw_csv, return_jsonl, error_jsonl, output_csv):
+def jsonl_to_csv(raw_csv, return_jsonl, error_jsonl=None, output_csv=None):
     # 首先解析jsonl中的相关文件
     jsonl_dict = {}
-    with open(return_jsonl, mode='r', encoding='utf-8') as infile, open(error_jsonl, mode='r', encoding='utf-8') as errorfile:
+    with open(return_jsonl, mode='r', encoding='utf-8') as infile:
         for line in infile:
             temp = json.loads(line)
             id = temp['custom_id'].split('_')[0]
@@ -141,14 +141,16 @@ def jsonl_to_csv(raw_csv, return_jsonl, error_jsonl, output_csv):
                 jsonl_dict[id] = {}
             jsonl_dict[id][type] = value
 
-        for line in errorfile:
-            temp = json.loads(line)
-            id = temp['custom_id'].split('_')[0]
-            type = temp['custom_id'].split('_')[1]
-            value = "None"
-            if id not in jsonl_dict:
-                jsonl_dict[id] = {}
-            jsonl_dict[id][type] = value
+        if error_jsonl != None:
+            with open(error_jsonl, mode='r', encoding='utf-8') as errorfile:
+                for line in errorfile:
+                    temp = json.loads(line)
+                    id = temp['custom_id'].split('_')[0]
+                    type = temp['custom_id'].split('_')[1]
+                    value = "None"
+                    if id not in jsonl_dict:
+                        jsonl_dict[id] = {}
+                    jsonl_dict[id][type] = value
 
         # 打开原始文件
         with open(raw_csv, mode='r', encoding='utf-8') as infile:
@@ -206,6 +208,11 @@ def arx_batch_to_ch():
 
 
 if __name__ == "__main__":
-    arx_batch_to_ch()
+    # arx_batch_to_ch()
+    jsonl_to_csv(
+        raw_csv='arxiv_papers.csv',
+        return_jsonl='output_202512160103.jsonl',
+        output_csv='arxiv_papers_ch.csv'
+    )
             
     
