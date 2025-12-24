@@ -1,13 +1,17 @@
 from tqdm import tqdm
 import csv
 import json
-from zhipuai import ZhipuAI
+from zai import ZhipuAiClient
 import time
 import ast
 import os
 import argparse
 
 from config2 import api_key # 注意，这里的实现只支持glm系列，如果是你可以把config2换为config,最直接的办法是复制一个config.py文件,重命名为config2.py，然后把里面的api_key改为你的api_key
+
+# 基础模型，参考 https://bigmodel.cn/pricing
+# 费用明细，参考 https://bigmodel.cn/finance-center/bill/expensebill/list
+base_model = "glm-4-flash"
 
 # 预先读入分类
 categories = {}
@@ -44,7 +48,7 @@ def turn_to_jsonl(input_str, request_id):
         "method": "POST",
         "url": "/v4/chat/completions", 
         "body": {
-            "model": "glm-4-flash", 
+            "model": base_model, 
             "messages": [
                 {"role": "system","content": "你是一个翻译家，你擅长把英文翻译成中文。现在开始， 每次你收到一个英文短语、句子或者段落，都把它翻译成地道的中文。"},
                 {"role": "user", "content": input_str}
@@ -68,24 +72,33 @@ def translate_csv_to_jsonl(input_csv, output_jsonl):
 
 # 2. 上传文件并创建batch任务
 def upload_file_and_create_batch(upload_jsonl, return_jsonl, error_jsonl):
-    client = ZhipuAI(api_key=api_key)
+
+    # 上传 Batch 文件
+
+    client = ZhipuAiClient(api_key=api_key)
+    # 上传批处理文件
     result = client.files.create(
         file=open(upload_jsonl, "rb"),
         purpose="batch"
     )
     print("批处理文件ID: ", result.id)
     print("--------------------------------")
+
+    # 创建 Batch 任务
     
     create = client.batches.create(
         input_file_id=result.id,
         endpoint="/v4/chat/completions", 
         auto_delete_input_file=True,
         metadata={
-            "description": "Sentiment classification"
+            "description": "Translate Title, Summary, First Author of papers"
         }
     )
     print("批处理任务: ", create)
     print("--------------------------------")
+
+    # 监控任务状态
+
     output_file_id = ""
     error_file_id = ""
     used_time = 0
@@ -96,10 +109,15 @@ def upload_file_and_create_batch(upload_jsonl, return_jsonl, error_jsonl):
             output_file_id = batch_job.output_file_id
             error_file_id = batch_job.error_file_id
             break
-        time.sleep(1)
-        used_time += 1
+        elif batch_job.status in ["failed", "expired", "cancelled"]:
+            print(f"任务失败，状态: {batch_job.status}")
+            break
+        time.sleep(10) # 每10秒检查一次任务状态
+        used_time += 10
     print("批处理任务完成")
     print("--------------------------------")
+
+    # 下载结果
 
     # 3. 下载批处理任务结果
     content = client.files.content(output_file_id)
@@ -188,16 +206,20 @@ def arx_batch_to_ch():
     # current_time = time.strftime("%Y_%m_%d_%H_%M_%S", time.localtime())
     # 如果调用的文件的时间戳不是上面这个，需要手动输出
     parser = argparse.ArgumentParser(description="批量翻译arxiv论文")
-    parser.add_argument("--time", help="指定时间戳", default='2025_02_07_11_10_39')
+    parser.add_argument("--time", help="指定时间戳", default='2025_12_24_11_10_39')
     args = parser.parse_args()
 
-    # input_csv = 'arxiv_papers_' + args.time + '.csv'
-    input_csv = 'arxiv_papers.csv'
-    # input_csv = "arxiv_papers_logical reasoning & large language model.csv"
-    upload_jsonl = 'arxiv_papers_' + args.time + '_upload.jsonl'
-    return_jsonl = 'arxiv_papers_' + args.time + '_return.jsonl'
-    error_jsonl = 'arxiv_papers_' + args.time + '_error.jsonl'
-    output_csv = 'arxiv_papers_ch_' + args.time + '.csv'
+    # 单个文件最多支持 50,000 个请求, 文件大小不超过 100MB
+
+    
+    filename = "arxiv_papers_logical reason(without LLM)"
+    # filename = "arxiv_papers"
+    # filename = "arxiv_papers_logical reasoning & large language model"
+    input_csv = filename + '.csv'
+    upload_jsonl = filename + '_' + args.time + '_upload.jsonl'
+    return_jsonl = filename + '_' + args.time + '_return.jsonl'
+    error_jsonl = filename + '_' + args.time + '_error.jsonl'
+    output_csv = filename + '_ch_' + args.time + '.csv'
     translate_csv_to_jsonl(input_csv, upload_jsonl)
     upload_file_and_create_batch(upload_jsonl, return_jsonl, error_jsonl)
     jsonl_to_csv(input_csv, return_jsonl, error_jsonl, output_csv)
@@ -208,11 +230,16 @@ def arx_batch_to_ch():
 
 
 if __name__ == "__main__":
-    # arx_batch_to_ch()
-    jsonl_to_csv(
-        raw_csv='arxiv_papers.csv',
-        return_jsonl='output_202512160103.jsonl',
-        output_csv='arxiv_papers_ch.csv'
-    )
+    arx_batch_to_ch()
+    
+    # 如果在提交到glm平台后进程中断，需要手动从系统中导出文件，并执行如下代码，将jsonl文件转换为csv文件
+    # jsonl_to_csv(
+    #     raw_csv='arxiv_papers.csv',
+    #     return_jsonl='output_202512160103.jsonl',
+    #     output_csv='arxiv_papers_ch.csv'
+    # )
             
     
+# 批处理文件ID:  1766557791_da93819b83884d76b42401c89f331111
+# --------------------------------
+# 批处理任务:  Batch(id='batch_2003714723803836416', completion_window=None, created_at=1766557792031, endpoint='/v4/chat/completions', input_file_id='1766557791_da93819b83884d76b42401c89f331111', object='batch', status='validating', cancelled_at=None, cancelling_at=None, completed_at=None, error_file_id=None, errors=None, expired_at=None, expires_at=None, failed_at=None, finalizing_at=None, in_progress_at=None, metadata={'description': 'Sentiment classification'}, output_file_id=None, request_counts=BatchRequestCounts(completed=None, failed=None, total=2031))
