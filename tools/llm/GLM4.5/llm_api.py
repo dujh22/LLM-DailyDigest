@@ -9,7 +9,7 @@ client = OpenAI(
     base_url=openai_api_base,
 )
 
-def llm_chat(system_prompt, user_prompt):
+def llm_chat_with_prompt(system_prompt, user_prompt):
     messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt},
@@ -24,4 +24,4 @@ def llm_chat(system_prompt, user_prompt):
     return completion.choices[0].message.content
 
 if __name__ == "__main__":
-    print(llm_chat("请将中文翻译成英文,并扩写一个故事。", "你好，世界。"))
+    print(llm_chat_with_prompt("请将中文翻译成英文,并扩写一个故事,放到一个json中", "你好，世界。"))
