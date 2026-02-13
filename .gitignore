@@ -3,3 +3,4 @@ tools/config2.py
 .env
 *.cfg
 public/
+.DS_Store
