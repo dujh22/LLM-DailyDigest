@@ -132,15 +132,7 @@
         {{- range $i, $it := . -}}
           {{- $id := $it.id | default (printf "item-%d" (add $i 1)) -}}
           <article id="{{ $id }}" class="summary-card daily-item" style="margin:1.25rem 0;padding:1rem 1.25rem;border:1px solid var(--global-border-color,#eee);border-radius:12px;">
-            <h2 class="daily-item-title" style="margin:0 0 .35rem;">
-              {{- with $it.topics -}}
-                <span style="font-size:.7em;">{{- range . -}}
-                  {{- $tp := partialCached "function/path.html" . . | printf "/topic/%v" | $.Site.GetPage -}}
-                  {{- with $tp -}}<a href="{{- .RelPermalink -}}" style="text-decoration:none;">{{- dict "Class" "fa-solid fa-tag fa-fw" | partial "plugin/icon.html" -}}{{- .Title -}}</a>{{- end -}}
-                {{- end -}}</span>
-              {{- end -}}
-              {{- $it.title -}}
-            </h2>
+            <h2 class="daily-item-title" style="margin:0 0 .35rem;">{{- $it.title -}}</h2>
             {{- with $it.summary -}}<p class="single-subtitle" style="margin:0 0 .6rem;opacity:.85;">{{ . }}</p>{{- end -}}
             {{- /* meta line */ -}}
             <p class="post-meta-line" style="font-size:.85rem;opacity:.8;margin:.25rem 0 .6rem;">
@@ -155,6 +147,15 @@
                 </span>
               {{- end -}}
             </p>
+            {{- /* 主题 tag 行（放在子主题/来源之后） */ -}}
+            {{- with $it.topics -}}
+              <p class="post-topics" style="font-size:.8rem;margin:0 0 .6rem;">
+                {{- range . -}}
+                  {{- $tp := partialCached "function/path.html" . . | printf "/topic/%v" | $.Site.GetPage -}}
+                  {{- with $tp -}}<a href="{{- .RelPermalink -}}" style="text-decoration:none;margin-right:.5rem;">{{- dict "Class" "fa-solid fa-tag fa-fw" | partial "plugin/icon.html" -}}&nbsp;{{- .Title -}}</a>{{- end -}}
+                {{- end -}}
+              </p>
+            {{- end -}}
             {{- /* resource card */ -}}
             {{- if or $it.paper $it.code $it.dataset $it.link -}}
               <div style="margin:.25rem 0 .6rem;padding:.5rem .75rem;border-radius:8px;background:var(--global-bg-secondary,rgba(99,102,241,.05));font-size:.9rem;">

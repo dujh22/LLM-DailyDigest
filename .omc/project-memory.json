@@ -169,15 +169,15 @@
       "type": "file"
     },
     {
-      "path": "content/updates/template.md",
-      "accessCount": 3,
-      "lastAccessed": 1786088156981,
+      "path": "layouts/updates/single.html",
+      "accessCount": 5,
+      "lastAccessed": 1786092004253,
       "type": "file"
     },
     {
-      "path": "layouts/updates/single.html",
+      "path": "content/updates/template.md",
       "accessCount": 3,
-      "lastAccessed": 1786089905506,
+      "lastAccessed": 1786088156981,
       "type": "file"
     },
     {
@@ -292,6 +292,12 @@
       "path": "content/research/LogicEvolve.md",
       "accessCount": 1,
       "lastAccessed": 1786091150098,
+      "type": "file"
+    },
+    {
+      "path": "ScreenShot_2026-08-07_163814_698.png",
+      "accessCount": 1,
+      "lastAccessed": 1786091980263,
       "type": "file"
     }
   ],
