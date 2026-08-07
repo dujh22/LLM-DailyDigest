@@ -23,11 +23,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import app  # noqa: E402  复用 load_api_key / valid_topics / append_item 等
 
-# 顶级锚点（行首，无缩进）：日期 / 数字列表 / **标题**
+# 顶级锚点（行首，无缩进）：日期 / **标题**。不按编号切，避免把「1.标题 2.链接 3.摘要」字段式条目切碎
 ANCHOR_RE = re.compile(
     r'^(\d{4}[-/. ]?\d{1,2}[-/. ]?\d{1,2}'   # 2025-06-09 / 2025.06.09 / 2025 06 09
     r'|\d{8}\b'                                # 20250604
-    r'|\d+\.\s'                                # 1. / 2.（顶格）
     r'|\*\*标题\*\*)'                          # **标题**：...
 )
 
