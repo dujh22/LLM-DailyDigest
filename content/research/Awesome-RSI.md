@@ -17,7 +17,31 @@ toc = true
 - [awesome_Recursive_Self-Improving_LLM](https://github.com/robert-lee2016/awesome_Recursive_Self-Improving_LLM) — RSI 精选清单（同名方向）
 - [letta](https://github.com/letta-ai/letta) — 有状态、可自进化的智能体平台
 - [ai-redteam-recursive-self-improvement](https://github.com/lihouwenbin/ai-redteam-recursive-self-improvement) — RSI 治理红队框架
+- [recursive-improve (kayba-ai)](https://github.com/kayba-ai/recursive-improve) — 捕获 LLM 调用 trace，递归修复自身
+- [recursive-self-improvement-suite (keskival)](https://github.com/keskival/recursive-self-improvement-suite) — 面向 LLM 的开放式 RSI 任务集
+- [self-improvement-llm (Zesearch)](https://github.com/Zesearch/self-improvement-llm) — LLM 自我改进技术综述仓库
+- [Awesome-Self-Improving-Agents (selfimproving-agent)](https://github.com/selfimproving-agent/awesome-Self-Improving-Agents) — 自我改进 Agent 系统合集
+- [Awesome-Self-Improving-Agents (FrontisAI)](https://github.com/FrontisAI/Awesome-Self-Improving-Agents) — RL、skill library 等方向的另一合集
+- [Awesome-Self-Evolving-Agents (XMUDeepLIT)](https://github.com/XMUDeepLIT/Awesome-Self-Evolving-Agents) — 厦大自进化 Agent 综述
+- [awesome-agent-harness (RUCAIBox)](https://github.com/RUCAIBox/awesome-agent-harness) — Agent harness 与自我改进
 
 **论文**
 - [Foundations of GenIR](https://arxiv.org/abs/2501.02842)
 - [Adaptive Data Flywheel: MAPE Control Loops for AI Agent Improvement](https://arxiv.org/abs/2510.27051)
+- [Gödel Agent: A Self-Referential Framework for Agents](https://arxiv.org/abs/2410.04444) — Gödel Machine 启发的递归自改写 Agent（被引 19+）
+- [LADDER: Self-Improving LLMs Through Recursive Problem Decomposition](https://arxiv.org/abs/2503.00735) — 递归问题分解自主提升（被引 24）
+- [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020) — LLM-as-a-Judge 自我改进（被引 996）
+- [Self-Improving Alignment with LLM-as-a-Meta-Judge](https://arxiv.org/abs/2407.19594) — Meta-Rewarding（被引 223）
+- [ReST meets ReAct (ICLR 2024)](https://arxiv.org/abs/2312.10003) — 强化学习+自蒸馏多步推理改进（被引 96）
+- [Noise-to-Meaning Recursive Self-Improvement](https://arxiv.org/abs/2505.02888) — RSI 系统性框架
+- [On the Limits of Self-Improving in Large Language Models](https://arxiv.org/abs/2601.05280) — 自我改进理论极限
+- [Recursive Self-Improvement in AI (Survey)](https://arxiv.org/abs/2607.07663) — 综述 1250 篇论文
+- [How to Realize Recursively Self-Improving Agents](https://arxiv.org/abs/2607.12254) — 治理式多 Agent RSI 架构
+- [Self Rewarding Self Improving](https://arxiv.org/abs/2505.08827) — 无参考答案的自评判自我改进
+- [RISE (NeurIPS 2024)](https://proceedings.neurips.cc/paper_files/paper/2024/file/639d992f819c2b40387d4d5170b8ffd7-Paper-Conference.pdf) — 多轮交互自我提升推理（被引 214）
+- [SPC: Evolving Self-Play Critic (NeurIPS 2025)](https://neurips.cc/virtual/2025/poster/118706) — 对抗自博弈 Critic 进化
+
+**研讨会 / 课程 / 报告**
+- [ICLR 2026 Workshop on Recursive Self-Improvement](https://recursive-workshop.github.io/) — RSI 专题研讨会
+- [Stanford CS329A: Self-Improving AI Agents](https://cs329a.stanford.edu/) — 斯坦福自我改进 Agent 课程
+- [CSA: RSI Security Implications](https://labs.cloudsecurityalliance.org/research/ai-recursive-self-improvement-security-implications-v1-0-csa) — 云安全联盟 RSI 安全报告
