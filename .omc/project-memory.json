@@ -146,8 +146,8 @@
     },
     {
       "path": "hugo.toml",
-      "accessCount": 15,
-      "lastAccessed": 1786089890029,
+      "accessCount": 16,
+      "lastAccessed": 1786102273638,
       "type": "file"
     },
     {
@@ -316,6 +316,18 @@
       "path": "ScreenShot_2026-08-07_163814_698.png",
       "accessCount": 1,
       "lastAccessed": 1786091980263,
+      "type": "file"
+    },
+    {
+      "path": "content/tech/_index.md",
+      "accessCount": 1,
+      "lastAccessed": 1786102269714,
+      "type": "file"
+    },
+    {
+      "path": "content/papers/_index.md",
+      "accessCount": 1,
+      "lastAccessed": 1786102269962,
       "type": "file"
     }
   ],

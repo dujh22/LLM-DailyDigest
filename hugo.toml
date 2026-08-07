@@ -52,6 +52,13 @@ enableEmoji = true
     [menu.main.params]
       icon = 'fa-solid fa-layer-group'
   [[menu.main]]
+    identifier = 'tech'
+    name = '技术'
+    url = '/tech/'
+    weight = 4
+    [menu.main.params]
+      icon = 'fa-solid fa-microchip'
+  [[menu.main]]
     identifier = 'research'
     name = '研究'
     url = '/research/'
@@ -65,6 +72,13 @@ enableEmoji = true
     weight = 6
     [menu.main.params]
       icon = 'fa-solid fa-box-archive'
+  [[menu.main]]
+    identifier = 'papers'
+    name = '论文'
+    url = '/papers/'
+    weight = 7
+    [menu.main.params]
+      icon = 'fa-solid fa-file-lines'
 
 # -------------------------------------------------------------------------------------
 # 主题核心配置
