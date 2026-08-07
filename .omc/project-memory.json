@@ -287,6 +287,12 @@
       "accessCount": 1,
       "lastAccessed": 1786089878588,
       "type": "file"
+    },
+    {
+      "path": "content/research/LogicEvolve.md",
+      "accessCount": 1,
+      "lastAccessed": 1786091150098,
+      "type": "file"
     }
   ],
   "userDirectives": []
