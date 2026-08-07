@@ -140,20 +140,20 @@
   "hotPaths": [
     {
       "path": "backend/app.py",
-      "accessCount": 29,
-      "lastAccessed": 1786096747329,
+      "accessCount": 30,
+      "lastAccessed": 1786103374542,
+      "type": "file"
+    },
+    {
+      "path": "backend/templates/index.html",
+      "accessCount": 20,
+      "lastAccessed": 1786103396254,
       "type": "file"
     },
     {
       "path": "hugo.toml",
       "accessCount": 16,
       "lastAccessed": 1786102273638,
-      "type": "file"
-    },
-    {
-      "path": "backend/templates/index.html",
-      "accessCount": 15,
-      "lastAccessed": 1786093864351,
       "type": "file"
     },
     {

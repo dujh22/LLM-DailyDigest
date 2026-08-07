@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd /Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest\\necho \\\"=== 写入的 TOML 文件 ===\\\"; cat content/updates/2099-01-01.md\\necho; echo \\\"=== TOML 合法性 + notes 原样保留校验（用 tomli，python3.9 ...",
+  "error": "Exit code 1\n=== 写入的 TOML 文件 ===\n+++\ntitle = '2099-01-01 科研追新'\ndate = 2099-01-01T00:00:00+08:00\ndraft = false\ntoc = true\n\n[[items]]\nid = \"notes\"\ntitle = \"notes字段端到端测试\"\nsubtopic = \"测试\"\ntopics = [\n    \"新趋势\",\n]\nresearch = []\nsource = \"测试\"\nsummary = \"验证 notes 写入\"\npaper = \"\"\ncode = \"\"\ndataset = \"\"\nlink = \"\"\ncontent = \"正文\"\npurpose = \"- 验证\"\nnotes = \"第一行原始笔记\\n第二行带特殊字符 \\\"引号\\\" 与 #标签\\n  - 缩进列表\"\n\n+++\n\n> 当日精选（由提交工具自动创建）。\n\n=== TOML 合法性 + notes 原样保留校验（用 tomli，python3.9 无 tomllib）===\nTraceback (most recent call ...",
+  "timestamp": "2026-08-07T11:50:38.626Z",
+  "retry_count": 2
+}

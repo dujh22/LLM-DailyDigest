@@ -129,6 +129,8 @@
     <textarea id="content"></textarea>
     <label>用途与启示（支持 Markdown 列表）</label>
     <textarea id="purpose"></textarea>
+    <label>📝 原始笔记（逐字保留，支持纯文本换行）</label>
+    <textarea id="notes" placeholder="粘贴原始信息全文，提交后将在日报页以折叠区块逐字保留"></textarea>
 
     <div class="actions">
       <button id="btnSubmit">➕ 提交（追加到当日日报）</button>
@@ -141,7 +143,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const F = ["id","title","subtopic","source","summary","paper","code","dataset","link","content","purpose"];
+const F = ["id","title","subtopic","source","summary","paper","code","dataset","link","content","purpose","notes"];
 const $ = id => document.getElementById(id);
 
 function setVal(id,v){ if(v!==undefined && v!==null && v!=="") $(id).value = v; }
@@ -212,6 +214,8 @@ $('btnExtract').onclick = async ()=>{
     // 清掉上一次的「新」候选，再渲染本次 LLM 推断的新主题
     document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove());
     if(Array.isArray(d.suggested_topics)) d.suggested_topics.forEach(t=>addTopicChip(t, true));
+    // 「原始笔记」逐字保留：把用户粘贴的原文回填（抽取不会覆盖已有内容）
+    setVal('notes', $('raw').value);
     toast('已填充表单，请核对后提交','ok');
   }catch(e){ toast('网络错误：'+e,'err'); }
   finally{ btn.disabled=false; btn.textContent=old; }
@@ -231,7 +235,7 @@ $('btnSubmit').onclick = async ()=>{
     if(!j.ok){ $('submitMsg').innerHTML='<div class="errlist">'+(j.errors||[]).join('；')+'</div>'; toast('提交失败','err'); return; }
     toast('✓ '+j.message,'ok');
     // 提交成功后清空表单，保留以便连续录入
-    ['id','title','subtopic','summary','paper','code','dataset','link','content','purpose'].forEach(id=>$(id).value='');
+    ['id','title','subtopic','summary','paper','code','dataset','link','content','purpose','notes'].forEach(id=>$(id).value='');
     document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove()); // 新建的主题已落库，移除候选 chip
     document.querySelectorAll('#topics input, #research input').forEach(c=>c.checked=false);
     $('raw').value='';
