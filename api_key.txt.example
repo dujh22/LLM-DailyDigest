@@ -1,0 +1,4 @@
+# 复制本文件为同目录上级的 api_key.txt（仓库根目录），并填入你的 key：
+#   cp api_key.txt.example ../api_key.txt
+# 然后把下面这行替换成真实 key（注意不要带引号、不要带空格）：
+在此粘贴你的_api_key

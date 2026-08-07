@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"set -e\\nTMP=$(mktemp -d)\\necho \\\"TMPDIR=$TMP\\\"\\nssh-keygen -t ed25519 -N \\\"\\\" -C \\\"gha-deploy@LLM-DailyDigest\\\" -f \\\"$TMP/deploy_key\\\" >/dev/null 2>&1\\necho \\\"=== generated keys ===\\\"\\nls ...",
+  "error": "Exit code 1\nTMPDIR=/var/folders/gp/018m_22947xf5_ypxyw1q57c0000gn/T/tmp.dnhf6MeVUQ\n=== generated keys ===\ntotal 16\ndrwx------@   4 djh  staff   128  8月  7 16:18 .\ndrwx------@ 191 djh  staff  6112  8月  7 16:18 ..\n-rw-------@   1 djh  staff   419  8月  7 16:18 deploy_key\n-rw-r--r--@   1 djh  staff   108  8月  7 16:18 deploy_key.pub\n=== verify deploy key on deploy repo ===\n159550208\tgha-deploy (LLM-DailyDigest actions)\tread-write\tssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOplsmxukrNt5uZjoI0B5DCwWWX6SV3VGFx...",
+  "timestamp": "2026-08-07T08:18:47.572Z",
+  "retry_count": 1
+}

@@ -1,0 +1,101 @@
+{{- define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end -}}
+
+{{- define "content" -}}
+  {{- $params := .Scratch.Get "params" -}}
+  {{- $toc := .Scratch.Get "toc" -}}
+
+  <aside class="toc" id="toc-auto">
+    {{- $tocEmpty := eq .TableOfContents `<nav id="TableOfContents"></nav>` -}}
+    {{- if (ne $toc.enable false) | and (ne $tocEmpty true) -}}
+      <h2 class="toc-title">
+        {{- T "single.contents" -}}&nbsp;
+        {{- dict "Class" "toc-icon fa-solid fa-angle-down fa-fw" | partial "plugin/icon.html" -}}
+      </h2>
+      <div class="toc-content" id="toc-content-auto"></div>
+    {{- end -}}
+  </aside>
+
+  <aside class="aside-custom">
+    {{- partial (.Scratch.Get "customFilePath").aside . -}}
+  </aside>
+
+  <article class="page single">
+    <div class="header">
+      <h1 class="single-title animate__animated animate__flipInX"><span>{{- .Title -}}</span></h1>
+      {{- with $params.subtitle -}}<p class="single-subtitle animate__animated animate__fadeIn">{{ . }}</p>{{- end -}}
+    </div>
+
+    {{- /* 项目元信息：提出者 / 最早研究时间 */ -}}
+    <div class="post-meta">
+      <div class="post-meta-line">
+        {{- with .Params.proposer -}}
+          <span title="研究提出者">
+            {{- dict "Class" "fa-solid fa-user fa-fw me-1" | partial "plugin/icon.html" -}}提出者：{{ . }}
+          </span>&nbsp;
+        {{- end -}}
+        {{- with .Params.since -}}
+          <span title="最早研究时间">
+            {{- dict "Class" "fa-regular fa-flag fa-fw me-1" | partial "plugin/icon.html" -}}最早研究：{{ . }}
+          </span>
+        {{- end -}}
+      </div>
+    </div>
+
+    {{- /* Static TOC */ -}}
+    {{- if (ne $toc.enable false) | and (ne $tocEmpty true) -}}
+      <div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>{{- T "single.contents" -}}</span>
+          {{- dict "Class" "details-icon fa-solid fa-angle-right" | partial "plugin/icon.html" -}}
+        </div>
+        <div class="details-content toc-content" id="toc-content-static">{{- .TableOfContents -}}</div>
+      </div>
+    {{- end -}}
+
+    {{- /* Content */ -}}
+    <div class="content" id="content">
+      {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+    </div>
+
+    {{- /* 相关工作：聚合 items 中 research 命中本项目者，按子主题分栏 */ -}}
+    {{- $projKey := .File.TranslationBaseName -}}
+    {{- $updates := where .Site.RegularPages "Section" "updates" -}}
+    {{- $updates = where $updates "Draft" false -}}
+    {{- $groups := dict -}}
+    {{- range $updates -}}
+      {{- $page := . -}}
+      {{- range $idx, $it := .Params.items -}}
+        {{- if and $it.research (in $it.research $projKey) -}}
+          {{- $sub := $it.subtopic | default "相关工作" -}}
+          {{- $obj := dict "title" ($it.title | default "（无标题）") "summary" ($it.summary | default "") "id" ($it.id | default (printf "item-%d" (add $idx 1))) "page" $page "paper" ($it.paper | default "") "code" ($it.code | default "") "dataset" ($it.dataset | default "") "link" ($it.link | default "") "date" $page.Date -}}
+          {{- $arr := slice -}}
+          {{- with index $groups $sub -}}{{- $arr = . -}}{{- end -}}
+          {{- $groups = merge $groups (dict $sub (append $obj $arr)) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- with $groups -}}
+      <section class="page archive" style="margin-top:2rem;">
+        <h2 class="single-title">{{- dict "Class" "fa-solid fa-diagram-project fa-fw" | partial "plugin/icon.html" -}} 相关工作（按子主题自动聚合）</h2>
+        {{- range $sub, $list := . -}}
+          <div style="margin:1rem 0;">
+            <h3 class="group-title">{{- dict "Class" "fa-solid fa-layer-group fa-fw" | partial "plugin/icon.html" -}} {{ $sub }} <sup>{{ len $list }}</sup></h3>
+            {{- range $list -}}
+              {{- $anchor := printf "%v#%v" .page.RelPermalink .id -}}
+              <article class="archive-item">
+                <a href="{{- $anchor -}}" class="archive-item-link">{{- .title -}}</a>
+                <span class="archive-item-date" title='{{- "2006-01-02" | .date.Format -}}'>{{- .date | dateFormat "01-02" -}}</span>
+                {{- with .paper -}}&nbsp;<a href="{{- . -}}" target="_blank" rel="noopener" title="论文">{{- dict "Class" "fa-solid fa-file-lines fa-fw" | partial "plugin/icon.html" -}}</a>{{- end -}}
+                {{- with .code -}}&nbsp;<a href="{{- . -}}" target="_blank" rel="noopener" title="代码">{{- dict "Class" "fa-brands fa-github fa-fw" | partial "plugin/icon.html" -}}</a>{{- end -}}
+                {{- with .dataset -}}&nbsp;<a href="{{- . -}}" target="_blank" rel="noopener" title="数据集">{{- dict "Class" "fa-solid fa-database fa-fw" | partial "plugin/icon.html" -}}</a>{{- end -}}
+              </article>
+            {{- end -}}
+          </div>
+        {{- end -}}
+      </section>
+    {{- end -}}
+
+    {{- /* Comment */ -}}
+    {{- partial "single/comment.html" . -}}
+  </article>
+{{- end -}}

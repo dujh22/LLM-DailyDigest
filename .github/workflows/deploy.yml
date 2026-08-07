@@ -1,0 +1,58 @@
+# 自动构建并用 SSH deploy key 部署到 LLMDailyDigestWeb 仓库
+# URL: https://dujh22.github.io/LLMDailyDigestWeb/
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+      - 'layouts/**'
+      - 'assets/**'
+      - 'archetypes/**'
+      - 'static/**'
+      - 'themes/**'
+      - 'hugo.toml'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# 同一时间只跑一个部署，排队不取消，避免互相覆盖
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.148.2'
+          extended: true
+
+      - name: Build
+        run: |
+          hugo --theme=FixIt --baseURL="https://dujh22.github.io/LLMDailyDigestWeb/" --buildDrafts
+          # 关键：禁用 GitHub Pages 的 Jekyll，避免构建失败
+          touch public/.nojekyll
+
+      - name: Deploy to LLMDailyDigestWeb
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: dujh22/LLMDailyDigestWeb
+          publish_branch: master
+          publish_dir: ./public
+          keep_files: false
+          user_name: 'github-actions[bot]'
+          user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+          commit_message: 'auto deploy from LLM-DailyDigest ${{ github.sha }}'

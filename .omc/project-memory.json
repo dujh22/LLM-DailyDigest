@@ -139,15 +139,51 @@
   },
   "hotPaths": [
     {
+      "path": "backend/app.py",
+      "accessCount": 17,
+      "lastAccessed": 1786089987224,
+      "type": "file"
+    },
+    {
       "path": "hugo.toml",
-      "accessCount": 14,
-      "lastAccessed": 1786086935482,
+      "accessCount": 15,
+      "lastAccessed": 1786089890029,
+      "type": "file"
+    },
+    {
+      "path": "backend/templates/index.html",
+      "accessCount": 13,
+      "lastAccessed": 1786090054080,
+      "type": "file"
+    },
+    {
+      "path": "layouts/topic/single.html",
+      "accessCount": 9,
+      "lastAccessed": 1786090285658,
       "type": "file"
     },
     {
       "path": "content/posts/llmdailydigest.md",
       "accessCount": 6,
       "lastAccessed": 1786086942815,
+      "type": "file"
+    },
+    {
+      "path": "content/updates/template.md",
+      "accessCount": 3,
+      "lastAccessed": 1786088156981,
+      "type": "file"
+    },
+    {
+      "path": "layouts/updates/single.html",
+      "accessCount": 3,
+      "lastAccessed": 1786089905506,
+      "type": "file"
+    },
+    {
+      "path": "layouts/research/single.html",
+      "accessCount": 3,
+      "lastAccessed": 1786090299145,
       "type": "file"
     },
     {
@@ -160,6 +196,18 @@
       "path": "layouts/partials/head/link.html",
       "accessCount": 2,
       "lastAccessed": 1786086038542,
+      "type": "file"
+    },
+    {
+      "path": "content/updates/2026-08-07-test.md",
+      "accessCount": 2,
+      "lastAccessed": 1786088216834,
+      "type": "file"
+    },
+    {
+      "path": "archetypes/updates.md",
+      "accessCount": 2,
+      "lastAccessed": 1786089897231,
       "type": "file"
     },
     {
@@ -184,6 +232,60 @@
       "path": "ScreenShot_2026-08-07_150240_524.png",
       "accessCount": 1,
       "lastAccessed": 1786086228206,
+      "type": "file"
+    },
+    {
+      "path": "archetypes/items.md",
+      "accessCount": 1,
+      "lastAccessed": 1786087726931,
+      "type": "file"
+    },
+    {
+      "path": "layouts/items/single.html",
+      "accessCount": 1,
+      "lastAccessed": 1786087735148,
+      "type": "file"
+    },
+    {
+      "path": "content/items/test-hop-skip-overthink.md",
+      "accessCount": 1,
+      "lastAccessed": 1786087780428,
+      "type": "file"
+    },
+    {
+      "path": "content/updates/2025-08-07-精选.md",
+      "accessCount": 1,
+      "lastAccessed": 1786088437849,
+      "type": "file"
+    },
+    {
+      "path": "backend/requirements.txt",
+      "accessCount": 1,
+      "lastAccessed": 1786088809426,
+      "type": "file"
+    },
+    {
+      "path": "backend/README.md",
+      "accessCount": 1,
+      "lastAccessed": 1786088817085,
+      "type": "file"
+    },
+    {
+      "path": "api_key.txt.example",
+      "accessCount": 1,
+      "lastAccessed": 1786088824416,
+      "type": "file"
+    },
+    {
+      "path": "backend/test_append.py",
+      "accessCount": 1,
+      "lastAccessed": 1786088942502,
+      "type": "file"
+    },
+    {
+      "path": "Website/readme.md",
+      "accessCount": 1,
+      "lastAccessed": 1786089878588,
       "type": "file"
     }
   ],

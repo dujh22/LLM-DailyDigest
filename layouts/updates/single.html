@@ -126,6 +126,51 @@
       {{- end -}}
     </div>
 
+    {{- /* Structured items ([[items]] in front matter) */ -}}
+    {{- with .Params.items -}}
+      <section class="daily-items" style="margin-top:1.5rem;">
+        {{- range $i, $it := . -}}
+          {{- $id := $it.id | default (printf "item-%d" (add $i 1)) -}}
+          <article id="{{ $id }}" class="summary-card daily-item" style="margin:1.25rem 0;padding:1rem 1.25rem;border:1px solid var(--global-border-color,#eee);border-radius:12px;">
+            <h2 class="daily-item-title" style="margin:0 0 .35rem;">
+              {{- with $it.topics -}}
+                <span style="font-size:.7em;">{{- range . -}}
+                  {{- $tp := partialCached "function/path.html" . . | printf "/topic/%v" | $.Site.GetPage -}}
+                  {{- with $tp -}}<a href="{{- .RelPermalink -}}" style="text-decoration:none;">{{- dict "Class" "fa-solid fa-tag fa-fw" | partial "plugin/icon.html" -}}{{- .Title -}}</a>{{- end -}}
+                {{- end -}}</span>
+              {{- end -}}
+              {{- $it.title -}}
+            </h2>
+            {{- with $it.summary -}}<p class="single-subtitle" style="margin:0 0 .6rem;opacity:.85;">{{ . }}</p>{{- end -}}
+            {{- /* meta line */ -}}
+            <p class="post-meta-line" style="font-size:.85rem;opacity:.8;margin:.25rem 0 .6rem;">
+              {{- with $it.subtopic -}}<span>{{- dict "Class" "fa-solid fa-layer-group fa-fw me-1" | partial "plugin/icon.html" -}}子主题：{{ . }}</span>&nbsp;{{- end -}}
+              {{- with $it.source -}}<span>{{- dict "Class" "fa-solid fa-rss fa-fw me-1" | partial "plugin/icon.html" -}}{{ . }}</span>&nbsp;{{- end -}}
+              {{- with $it.research -}}
+                <span class="post-research">
+                  {{- range . -}}
+                    {{- $rp := partialCached "function/path.html" . . | printf "/research/%v" | $.Site.GetPage -}}
+                    {{- with $rp -}}&nbsp;{{- dict "Class" "fa-solid fa-flask fa-fw" | partial "plugin/icon.html" -}}<a href="{{- .RelPermalink -}}">{{- .Title -}}</a>{{- else -}}&nbsp;{{- dict "Class" "fa-solid fa-flask fa-fw" | partial "plugin/icon.html" -}}{{ . }}{{- end -}}
+                  {{- end -}}
+                </span>
+              {{- end -}}
+            </p>
+            {{- /* resource card */ -}}
+            {{- if or $it.paper $it.code $it.dataset $it.link -}}
+              <div style="margin:.25rem 0 .6rem;padding:.5rem .75rem;border-radius:8px;background:var(--global-bg-secondary,rgba(99,102,241,.05));font-size:.9rem;">
+                {{- with $it.paper -}}<div>{{- dict "Class" "fa-solid fa-file-lines fa-fw" | partial "plugin/icon.html" -}} <strong>论文</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
+                {{- with $it.code -}}<div>{{- dict "Class" "fa-brands fa-github fa-fw" | partial "plugin/icon.html" -}} <strong>代码</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
+                {{- with $it.dataset -}}<div>{{- dict "Class" "fa-solid fa-database fa-fw" | partial "plugin/icon.html" -}} <strong>数据集</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
+                {{- with $it.link -}}<div>{{- dict "Class" "fa-solid fa-link fa-fw" | partial "plugin/icon.html" -}} <strong>原文</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
+              </div>
+            {{- end -}}
+            {{- with $it.content -}}<div class="daily-item-content">{{- . | $.RenderString (dict "display" "block") -}}</div>{{- end -}}
+            {{- with $it.purpose -}}<div class="daily-item-purpose" style="margin-top:.5rem;padding-left:.75rem;border-left:3px solid var(--global-link-hover-color,#6366f1);"><strong>用途与启示</strong>{{- . | $.RenderString (dict "display" "block") -}}</div>{{- end -}}
+          </article>
+        {{- end -}}
+      </section>
+    {{- end -}}
+
     {{- /* Comment */ -}}
     {{- partial "single/comment.html" . -}}
   </article>

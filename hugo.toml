@@ -52,10 +52,17 @@ enableEmoji = true
     [menu.main.params]
       icon = 'fa-solid fa-layer-group'
   [[menu.main]]
+    identifier = 'research'
+    name = '研究'
+    url = '/research/'
+    weight = 5
+    [menu.main.params]
+      icon = 'fa-solid fa-flask'
+  [[menu.main]]
     identifier = 'resources'
     name = '资源'
     url = '/resources/'
-    weight = 4
+    weight = 6
     [menu.main.params]
       icon = 'fa-solid fa-box-archive'
 

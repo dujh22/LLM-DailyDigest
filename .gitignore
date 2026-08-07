@@ -1,6 +1,12 @@
 tools/config2.py
 *.pyc
+__pycache__/
 .env
 *.cfg
 public/
 .DS_Store
+
+# 提交工具后端的 API Key（绝不入库）
+api_key.txt
+backend/venv/
+venv/
