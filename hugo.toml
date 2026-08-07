@@ -133,7 +133,7 @@ enableEmoji = true
     since = 2025
     wordCount = true
     [params.footer.siteTime]
-      enable = true
+      enable = false
       animate = true
       icon = 'fa-solid fa-heartbeat'
       value = '2025-08-07T14:49:03+08:00'

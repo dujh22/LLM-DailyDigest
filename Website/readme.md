@@ -22,20 +22,26 @@ hugo server -D
 
 然后执行如下操作
 
-```shell
+公司机：
+
+```bash
 find ./public -type f -name '*.cfg' -delete
-
 cp -rf ./public/* /Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLMDailyDigestWeb/
-cp -rf ./public/* /Users/pika/Documents/pika/备份/Code/Github/LLMDailyDigestWeb/
-
 cd /Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLMDailyDigestWeb
-cd /Users/pika/Documents/pika/备份/Code/Github/LLMDailyDigestWeb/
-
 find ./ -type f -name '*.cfg' -delete
-
 git add *
+git commit -m "new"
+git push -u origin master
+```
 
-git commit -m "20250917"
+个人机：
 
+```bash
+find ./public -type f -name '*.cfg' -delete
+cp -rf ./public/* /Users/pika/Documents/pika/备份/Code/Github/LLMDailyDigestWeb/
+cd /Users/pika/Documents/pika/备份/Code/Github/LLMDailyDigestWeb/
+find ./ -type f -name '*.cfg' -delete
+git add *
+git commit -m "new"
 git push -u origin master
 ```
