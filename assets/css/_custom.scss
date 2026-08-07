@@ -1,0 +1,87 @@
+// =====================================================================================
+// LLM-DailyDigest 自定义样式 · 蓝紫色系 · 简洁科技风
+// FixIt 会在构建时自动 @import "_custom"，本文件覆盖主题默认配色与细节。
+// =====================================================================================
+
+// ---- 品牌主色（蓝紫色系）----
+$brand-primary: #6366f1;        // indigo-500
+$brand-primary-dark: #818cf8;   // indigo-400（暗色下更亮）
+$brand-accent: #a855f7;         // purple-500
+
+// ---- 覆盖主题变量（编译期生效）----
+$global-link-hover-color: $brand-primary !default;
+$global-link-hover-color-dark: $brand-primary-dark !default;
+$single-link-color: $brand-primary !default;
+$single-link-color-dark: $brand-primary-dark !default;
+$single-link-hover-color: $brand-accent !default;
+$single-link-hover-color-dark: $brand-accent !default;
+
+// 主页资料卡：标题渐变
+.home-title,
+.home-subtitle {
+  letter-spacing: 0.02em;
+}
+
+.home-title {
+  font-weight: 700;
+  background: linear-gradient(135deg, #{$brand-primary} 0%, #{$brand-accent} 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+// 头像微交互：方形 logo 变圆角 + 蓝紫光环，悬浮上浮
+.home-avatar img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: 22%;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+
+  &:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 0 0 6px rgba(168, 85, 247, 0.18);
+  }
+}
+
+// 社交链接图标着色
+.home-profile .links a {
+  color: $brand-primary;
+  transition: color 0.25s ease, transform 0.25s ease;
+
+  &:hover {
+    color: $brand-accent;
+    transform: translateY(-2px);
+  }
+}
+
+// 文章列表卡片：增加呼吸感
+.summary-card,
+.home .summary {
+  border-radius: 12px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.12);
+  }
+}
+
+// 主标题链接使用品牌色
+.single .content a,
+.home a:hover {
+  color: $brand-primary;
+}
+
+// 阅读进度条 / pace 使用紫色调（兜底）
+.pace .pace-progress {
+  background: $brand-primary !important;
+}
+
+// 圆角细节统一
+.page,
+.single,
+.summary-card {
+  border-radius: 12px;
+}

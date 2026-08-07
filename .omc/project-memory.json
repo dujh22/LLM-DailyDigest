@@ -137,6 +137,55 @@
       "keyFiles": []
     }
   },
-  "hotPaths": [],
+  "hotPaths": [
+    {
+      "path": "hugo.toml",
+      "accessCount": 13,
+      "lastAccessed": 1786086279198,
+      "type": "file"
+    },
+    {
+      "path": "content/posts/llmdailydigest.md",
+      "accessCount": 5,
+      "lastAccessed": 1786086420654,
+      "type": "file"
+    },
+    {
+      "path": "assets/css/_custom.scss",
+      "accessCount": 2,
+      "lastAccessed": 1786085223060,
+      "type": "file"
+    },
+    {
+      "path": "layouts/partials/head/link.html",
+      "accessCount": 2,
+      "lastAccessed": 1786086038542,
+      "type": "file"
+    },
+    {
+      "path": "layouts/_default/list.html",
+      "accessCount": 1,
+      "lastAccessed": 1786084898020,
+      "type": "file"
+    },
+    {
+      "path": "static/logo.svg",
+      "accessCount": 1,
+      "lastAccessed": 1786085196340,
+      "type": "file"
+    },
+    {
+      "path": "ScreenShot_2026-08-07_145547_800.png",
+      "accessCount": 1,
+      "lastAccessed": 1786085805149,
+      "type": "file"
+    },
+    {
+      "path": "ScreenShot_2026-08-07_150240_524.png",
+      "accessCount": 1,
+      "lastAccessed": 1786086228206,
+      "type": "file"
+    }
+  ],
   "userDirectives": []
 }

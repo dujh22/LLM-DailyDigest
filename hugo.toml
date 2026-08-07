@@ -1,9 +1,302 @@
-baseURL = 'https://dujh22.github.io/LLMDailyDigestWeb/'
-languageCode = 'zh-CN'
-title = 'LLM-DailyDigest'
-theme = 'FixIt'
+# =====================================================================================
+# LLM-DailyDigest — Hugo + FixIt 主题配置
+# 简洁科技风 · 明暗切换 · 蓝紫色系
+# =====================================================================================
 
-# Table Of Contents settings
-[markup.tableOfContents]
-  startLevel = 2
-  endLevel = 10
+baseURL = 'https://dujh22.github.io/LLMDailyDigestWeb/'
+# theme list
+theme = ['FixIt']
+title = 'LLM-DailyDigest · 大模型研究日报'
+languageCode = 'zh-CN'
+defaultContentLanguage = 'zh-cn'
+languageName = '简体中文'
+hasCJKLanguage = true
+# 默认每页文章数（Hugo ≥0.128 改用 [pagination].pagerSize）
+# paginate = 12
+# SEO 版权描述
+copyright = ''
+# 是否使用 robots.txt
+enableRobotsTXT = true
+# 是否使用 git 提交日志（文章最后更新时间）
+enableGitInfo = true
+# 是否启用 emoji
+enableEmoji = true
+
+# 分页（Hugo ≥0.128 用此键替代顶级 paginate）
+[pagination]
+  pagerSize = 12
+
+# -------------------------------------------------------------------------------------
+# 菜单 / 顶部导航
+# -------------------------------------------------------------------------------------
+[menu]
+  [[menu.main]]
+    identifier = 'posts'
+    name = '详情'
+    url = '/posts/llmdailydigest'
+    weight = 1
+    [menu.main.params]
+      icon = 'fa-solid fa-book-open'
+  [[menu.main]]
+    identifier = 'updates'
+    name = '日报'
+    url = '/updates/'
+    weight = 2
+    [menu.main.params]
+      icon = 'fa-solid fa-newspaper'
+  [[menu.main]]
+    identifier = 'topic'
+    name = '主题'
+    url = '/topic/'
+    weight = 3
+    [menu.main.params]
+      icon = 'fa-solid fa-layer-group'
+  [[menu.main]]
+    identifier = 'resources'
+    name = '资源'
+    url = '/resources/'
+    weight = 4
+    [menu.main.params]
+      icon = 'fa-solid fa-box-archive'
+
+# -------------------------------------------------------------------------------------
+# 主题核心配置
+# -------------------------------------------------------------------------------------
+[params]
+  version = '0.2.X'
+  description = '每日精选大模型前沿：论文、开源框架、数据集与行业动态。'
+  keywords = ['LLM', '大模型', 'AI', '日报', '论文', '开源']
+  # 默认主题：auto = 跟随系统，并支持右上角手动切换明/暗
+  defaultTheme = 'auto'
+  gitRepo = 'https://github.com/dujh22/LLM-DailyDigest'
+  dateFormat = '2006-01-02'
+  images = ['/images/logo.svg']
+  enablePWA = false
+  externalIcon = true
+  # 顶部导航栏右上角 GitHub 角标
+  disableThemeInject = false
+
+  # 作者
+  [params.author]
+    name = 'LLM-DailyDigest'
+    link = 'https://github.com/dujh22/LLM-DailyDigest'
+
+  # App 图标 / 主题色（浏览器地址栏）
+  [params.app]
+    title = 'LLM-DailyDigest'
+    noFavicon = false
+    svgFavicon = '/images/logo.svg'
+    [params.app.themeColor]
+      light = '#ffffff'
+      dark = '#1a1b26'
+
+  # 站内搜索
+  [params.search]
+    enable = true
+    type = 'fuse'
+    placeholder = '搜索文章 / 主题…'
+    maxResultLength = 10
+    snippetLength = 40
+    highlightTag = 'em'
+    absoluteURL = false
+    [params.search.fuse]
+      isCaseSensitive = false
+      minMatchCharLength = 2
+      threshold = 0.3
+
+  # 顶部 Header
+  [params.header]
+    desktopMode = 'sticky'
+    mobileMode = 'auto'
+    [params.header.title]
+      logo = '/images/logo.svg'
+      name = 'LLM-DailyDigest'
+      pre = ''
+      post = ''
+      typeit = false
+    [params.header.subtitle]
+      name = '大模型研究日报'
+      typeit = true
+
+  # 面包屑
+  [params.breadcrumb]
+    enable = true
+    sticky = false
+    showHome = true
+
+  # 页脚
+  [params.footer]
+    enable = true
+    hugo = false
+    copyright = true
+    author = true
+    since = 2025
+    wordCount = true
+    [params.footer.siteTime]
+      enable = true
+      animate = true
+      icon = 'fa-solid fa-heartbeat'
+      value = '2025-08-07T14:49:03+08:00'
+    [params.footer.order]
+      powered = 0
+      copyright = 0
+      statistics = 0
+
+  # Section 页（updates / topic 等列表）
+  [params.section]
+    paginate = 20
+    dateFormat = '01-02'
+    rss = 10
+
+  # 分类 / 标签列表页
+  [params.list]
+    paginate = 20
+    dateFormat = '01-02'
+    rss = 10
+
+  # 标签云
+  [params.tagcloud]
+    enable = true
+    min = 14
+    max = 28
+    peakCount = 10
+    orderby = 'count'
+
+  # ===== 主页 =====
+  [params.home]
+    rss = 10
+    # 主页个人资料卡
+    [params.home.profile]
+      enable = true
+      avatarURL = '/images/logo.svg'
+      title = 'LLM-DailyDigest'
+      # 打字机动效副标题
+      subtitle = '每日追踪大模型前沿 · 论文 · 开源 · 数据集'
+      typeit = true
+      social = true
+      disclaimer = '内容由社区整理，仅供学习交流。'
+    # 主页文章列表（聚合站不用，已关闭）
+    [params.home.posts]
+      enable = false
+      paginate = 6
+
+  # 社交链接
+  [params.social]
+    GitHub = 'dujh22'
+    Email = ''
+    RSS = true
+
+  # 文章页
+  [params.page]
+    hiddenFromHomePage = false
+    twemoji = false
+    lightgallery = 'force'
+    ruby = true
+    fraction = true
+    fontawesome = true
+    linkToMarkdown = true
+    rssFullText = false
+    pageStyle = 'normal'
+    wordCount = true
+    readingTime = true
+    # 目录
+    [params.page.toc]
+      enable = true
+      keepStatic = false
+      auto = true
+      position = 'right'
+    # 数学公式
+    [params.page.math]
+      enable = true
+    # 代码块
+    [params.page.code]
+      copy = true
+      edit = false
+      maxShownLines = 12
+
+  # TypeIt 打字机
+  [params.typeit]
+    speed = 100
+    cursorSpeed = 1000
+    cursorChar = '|'
+    duration = -1
+    loop = false
+
+  # Mermaid
+  [params.mermaid]
+    themes = ['default', 'dark']
+
+  # 返回顶部
+  [params.backToTop]
+    enable = true
+    scrollpercent = true
+
+  # 阅读进度条
+  [params.readingProgress]
+    enable = true
+    start = 'left'
+    position = 'top'
+    reversed = false
+    height = '2px'
+
+  # 页面加载顶部进度条
+  [params.pace]
+    enable = true
+    color = 'purple'
+    theme = 'minimal'
+
+  # 右上角 GitHub 角标
+  [params.githubCorner]
+    enable = true
+    permalink = 'https://github.com/dujh22/LLM-DailyDigest'
+    title = '在 GitHub 上查看'
+    position = 'right'
+
+# -------------------------------------------------------------------------------------
+# Modules
+# -------------------------------------------------------------------------------------
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = '0.110.0'
+
+# -------------------------------------------------------------------------------------
+# Markup
+# -------------------------------------------------------------------------------------
+[markup]
+  [markup.highlight]
+    codeFences = true
+    lineNos = true
+    lineNumbersInTable = true
+    noClasses = false
+    guessSyntax = true
+  [markup.goldmark]
+    [markup.goldmark.extensions]
+      definitionList = true
+      footnote = true
+      linkify = true
+      strikethrough = true
+      table = true
+      taskList = true
+      typographer = true
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 10
+
+# -------------------------------------------------------------------------------------
+# Sitemap / Permalinks / Outputs
+# -------------------------------------------------------------------------------------
+[sitemap]
+  changefreq = 'weekly'
+  filename = 'sitemap.xml'
+  priority = 0.5
+
+[Permalinks]
+  posts = 'posts/:slugorcontentbasename'
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+  page = ['HTML', 'MarkDown']
+  section = ['HTML', 'RSS']

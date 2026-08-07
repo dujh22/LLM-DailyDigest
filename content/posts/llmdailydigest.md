@@ -14,9 +14,9 @@ license:
 comment: false
 weight: 0
 tags:
-  - draft
+  - 项目介绍
 categories:
-  - draft
+  - 关于
 hiddenFromHomePage: false
 hiddenFromSearch: false
 hiddenFromRss: false
@@ -37,7 +37,7 @@ repost:
 
 # See details front matter: https://fixit.lruihao.cn/documentation/content-management/introduction/#front-matter
 ---
-{{< figure src="/fixit.svg" title="" width="50%">}}
+{{< figure src="/images/logo.svg" title="" width="180px">}}
 
 # 大模型日报 LLM-DailyDigest
 
