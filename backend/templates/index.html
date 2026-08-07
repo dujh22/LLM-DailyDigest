@@ -79,7 +79,11 @@
         <label>id（可选，留空自动生成）</label>
         <input type="text" id="id">
       </div>
-      <div style="grid-column:span 2">
+      <div>
+        <label>目标日期（留空=今天，迁移历史用）</label>
+        <input type="text" id="date" placeholder="YYYY-MM-DD">
+      </div>
+      <div>
         <label>标题 *</label>
         <input type="text" id="title">
       </div>
@@ -217,6 +221,7 @@ $('btnSubmit').onclick = async ()=>{
   $('submitMsg').innerHTML='';
   const payload = {};
   F.forEach(id=>payload[id]=$(id).value);
+  payload.date = $('date').value;            // 目标日报日期（迁移历史用，留空=今天）
   payload.topics = getCheckedTopics();
   payload.research = getCheckedResearch();
   const btn = $('btnSubmit'); btn.disabled=true; const old=btn.textContent; btn.textContent='提交中…';

@@ -66,6 +66,21 @@ def slugify(s: str) -> str:
     return s[:40]
 
 
+def parse_target_date(s: str):
+    """解析目标日期字符串为 'YYYY-MM-DD'；无效或为空返回 None（=今天）。"""
+    if not s:
+        return None
+    s = str(s).strip()
+    # 支持 YYYY-MM-DD / YYYYMMDD / YYYY/MM/DD
+    m = re.match(r"^(\d{4})[-/.]?(\d{1,2})[-/.]?(\d{1,2})$", s)
+    if not m:
+        raise ValueError(f"日期格式无法识别：{s!r}（期望 YYYY-MM-DD 或 YYYYMMDD）")
+    y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3))
+    iso = f"{y:04d}-{mo:02d}-{d:02d}"
+    date(y, mo, d)  # 校验合法性（非法会抛 ValueError）
+    return iso
+
+
 def count_items(text: str) -> int:
     return len(re.findall(r"^\[\[items\]\]", text, flags=re.MULTILINE))
 
@@ -134,13 +149,21 @@ def serialize_item_block(item: dict) -> str:
         "link": item.get("link", ""),
         "content": item.get("content", ""),
         "purpose": item.get("purpose", ""),
+        "notes": item.get("notes", ""),
     }
     return tomli_w.dumps({"items": [ordered]}).rstrip("\n")
 
 
-def append_item(item: dict) -> Path:
-    """把 item 追加到当日日报 front matter 内（在闭合 +++ 之前）。"""
-    path = ensure_daily()
+def append_item(item: dict, target_date=None) -> Path:
+    """把 item 追加到指定日期日报 front matter 内（target_date=None 表示今天）。"""
+    path = ensure_daily(target_date)
+    # 保证 id 在该日报内唯一（冲突时追加 -2/-3）
+    existing = set(re.findall(r'^id\s*=\s*["\']([^"\']+)', path.read_text(encoding="utf-8"), re.M))
+    base = item.get("id") or "item"
+    nid, n = base, 2
+    while nid in existing:
+        nid = f"{base}-{n}"; n += 1
+    item["id"] = nid
     text = path.read_text(encoding="utf-8")
     lines = text.split("\n")
     # 找到第二个 +++ （闭合 front matter 的那一行）
@@ -161,7 +184,12 @@ def append_item(item: dict) -> Path:
 
 
 def build_item_from_form(data: dict) -> dict:
-    """从前端表单数据组装 item，自动补 id。"""
+    """从前端表单数据组装 item，自动补 id。data['date'] 指定目标日报日期。"""
+    target_date = None
+    try:
+        target_date = parse_target_date(data.get("date"))
+    except ValueError as e:
+        raise ValueError(str(e)) from None
     topics = data.get("topics", [])
     if isinstance(topics, str):
         topics = [t.strip() for t in topics.split(",") if t.strip()]
@@ -182,6 +210,7 @@ def build_item_from_form(data: dict) -> dict:
         "link": (data.get("link") or "").strip(),
         "content": (data.get("content") or "").strip(),
         "purpose": (data.get("purpose") or "").strip(),
+        "notes": data.get("notes", ""),
     }
     # 自动生成 id（纯中文/过短标题无法 slug 时，退化为 item-N，避免冲突）
     if not item["id"]:
@@ -189,9 +218,10 @@ def build_item_from_form(data: dict) -> dict:
         if len(slug) >= 3:
             item["id"] = slug
         else:
-            path = today_daily_path()
+            path = today_daily_path(target_date)
             n = count_items(path.read_text(encoding="utf-8")) if path.exists() else 0
             item["id"] = f"item-{n + 1}"
+    item["_target_date"] = target_date  # 仅供提交路由使用，不写入 item
     return item
 
 
@@ -216,7 +246,11 @@ def api_research():
 @app.route("/api/submit", methods=["POST"])
 def api_submit():
     data = request.get_json(force=True, silent=True) or {}
-    item = build_item_from_form(data)
+    try:
+        item = build_item_from_form(data)
+    except ValueError as e:
+        return jsonify({"ok": False, "errors": [str(e)]}), 400
+    target_date = item.pop("_target_date", None)
 
     # 校验
     errors = []
@@ -246,7 +280,7 @@ def api_submit():
     item["research"] = [r for r in item["research"] if r in vr]
 
     try:
-        path = append_item(item)
+        path = append_item(item, target_date)
     except Exception as e:  # noqa: BLE001
         return jsonify({"ok": False, "errors": [f"写入失败：{e}"]}), 500
 

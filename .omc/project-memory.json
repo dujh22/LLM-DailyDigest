@@ -140,8 +140,8 @@
   "hotPaths": [
     {
       "path": "backend/app.py",
-      "accessCount": 17,
-      "lastAccessed": 1786089987224,
+      "accessCount": 29,
+      "lastAccessed": 1786096747329,
       "type": "file"
     },
     {
@@ -152,8 +152,14 @@
     },
     {
       "path": "backend/templates/index.html",
-      "accessCount": 13,
-      "lastAccessed": 1786090054080,
+      "accessCount": 15,
+      "lastAccessed": 1786093864351,
+      "type": "file"
+    },
+    {
+      "path": "README_ZN.md",
+      "accessCount": 11,
+      "lastAccessed": 1786094851179,
       "type": "file"
     },
     {
@@ -163,9 +169,9 @@
       "type": "file"
     },
     {
-      "path": "README_ZN.md",
-      "accessCount": 7,
-      "lastAccessed": 1786093251211,
+      "path": "layouts/updates/single.html",
+      "accessCount": 9,
+      "lastAccessed": 1786094564114,
       "type": "file"
     },
     {
@@ -175,21 +181,27 @@
       "type": "file"
     },
     {
-      "path": "layouts/updates/single.html",
-      "accessCount": 5,
-      "lastAccessed": 1786092004253,
+      "path": "backend/migrate_topic.py",
+      "accessCount": 4,
+      "lastAccessed": 1786094596586,
       "type": "file"
     },
     {
       "path": "content/updates/template.md",
-      "accessCount": 3,
-      "lastAccessed": 1786088156981,
+      "accessCount": 4,
+      "lastAccessed": 1786094750378,
       "type": "file"
     },
     {
       "path": "layouts/research/single.html",
       "accessCount": 3,
       "lastAccessed": 1786090299145,
+      "type": "file"
+    },
+    {
+      "path": "archetypes/updates.md",
+      "accessCount": 3,
+      "lastAccessed": 1786094723468,
       "type": "file"
     },
     {
@@ -208,12 +220,6 @@
       "path": "content/updates/2026-08-07-test.md",
       "accessCount": 2,
       "lastAccessed": 1786088216834,
-      "type": "file"
-    },
-    {
-      "path": "archetypes/updates.md",
-      "accessCount": 2,
-      "lastAccessed": 1786089897231,
       "type": "file"
     },
     {

@@ -47,7 +47,8 @@ content/research/<项目>.md   研究项目页，自动聚合归属该研究的 
 | `research`                            | 研究项目数组，决定出现在哪些**研究页**（可留空） |
 | `source`                              | 来源（公众号 / arxiv 分类 / 站点）                     |
 | `paper` `code` `dataset` `link` | 论文 / 代码 / 数据集 / 原文链接（留空不显示）          |
-| `content` `purpose`                 | 正文 + 用途与启示（多行 Markdown）                     |
+| `content` `purpose`                 | 正文（LLM 浓缩） + 用途与启示（多行 Markdown）         |
+| `notes`                              | 原始逐字笔记（迁移脚本保留原文不浓缩，日报页可折叠展开） |
 
 > `topics` / `research` 取值需与 `content/topic/`、`content/research/` 的**文件名**一致。
 
@@ -81,6 +82,18 @@ python app.py          # → http://localhost:5050
 > 默认 GLM 网关 `https://api-gateway.glm.ai/v1`、模型 `gpt-5.6-sol`，可用 `LLM_BASE_URL` / `LLM_MODEL` 覆盖。
 
 **工作流**：粘原始信息 →「✨ LLM 抽取」自动填表（推荐主题/研究，最多 3 个新主题候选）→ 选主题（可手动新增，提交时自动建页）与研究 →「➕ 提交」追加一条 `[[items]]`。建议同时开 `hugo server`，提交后刷新即见。
+
+**历史迁移**：表单「目标日期」填 `YYYY-MM-DD`（或 `YYYYMMDD`）即可把条目写入对应历史日报（留空=今天）。可逐步把 `content/topic/*.md` 里的旧条目，按原始日期迁入对应日报并自动索引回主题页。
+
+**批量迁移**（全自动，LLM 驱动）：
+
+```bash
+./backend/venv/bin/python backend/migrate_topic.py --topic 智能体 --dry        # 预览
+./backend/venv/bin/python backend/migrate_topic.py --topic 智能体 --max 100    # 迁移单主题（上限 100/次）
+./backend/venv/bin/python backend/migrate_topic.py --all --workers 4           # 全部主题，4 并发
+```
+
+脚本把主题正文按日期/编号锚点拆条 → 逐条送 LLM 结构化（含日期推断）→ 按条目日期写入对应历史日报（原始逐字笔记存入 `notes`，不浓缩）→ **从 topic 正文移除已迁出条目，仅保留笔记/洞察/无日期内容**。`--max` 为**每个主题**本次上限；`--dry` 不写盘。
 
 | 方法 | 路径                                    | 说明                                   |
 | ---- | --------------------------------------- | -------------------------------------- |

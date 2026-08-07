@@ -167,6 +167,12 @@
             {{- end -}}
             {{- with $it.content -}}<div class="daily-item-content">{{- . | $.RenderString (dict "display" "block") -}}</div>{{- end -}}
             {{- with $it.purpose -}}<div class="daily-item-purpose" style="margin-top:.5rem;padding-left:.75rem;border-left:3px solid var(--global-link-hover-color,#6366f1);"><strong>用途与启示</strong>{{- . | $.RenderString (dict "display" "block") -}}</div>{{- end -}}
+            {{- with $it.notes -}}
+              <details class="daily-item-notes" style="margin-top:.5rem;font-size:.85rem;opacity:.82;">
+                <summary style="cursor:pointer;">📝 原始笔记（逐字保留）</summary>
+                <div style="margin-top:.4rem;padding:.5rem .75rem;border-radius:8px;background:var(--global-bg-secondary,rgba(99,102,241,.05));white-space:pre-wrap;word-break:break-word;">{{- . -}}</div>
+              </details>
+            {{- end -}}
           </article>
         {{- end -}}
       </section>

@@ -25,6 +25,8 @@ content = '''
 purpose = '''
 - 用途与启示
 '''
+notes = '''                # 可选：原始逐字笔记（迁移脚本自动填，保留原文不浓缩）
+'''
 
 [[items]]
 id = 'change-me-2'

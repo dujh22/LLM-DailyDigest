@@ -20,6 +20,7 @@ toc = true
 | `paper` / `code` / `dataset` / `link` | 论文 / 代码 / 数据集 / 原文链接，留空不显示 | 按需 |
 | `content` | 正文（TOML 三引号多行，支持 Markdown） | 按需 |
 | `purpose` | 用途与启示（多行 Markdown） | 按需 |
+| `notes` | **原始逐字笔记**（迁移脚本自动填，保留原文不浓缩；日报页可折叠展开） | 迁移填 |
 
 > `topics` 决定**出现在哪些主题页**；`subtopic` 决定**在主题页的哪个栏目（分组）**。
 

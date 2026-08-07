@@ -1,7 +1,7 @@
 {
   "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"cd \\\"/Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest/backend\\\"\\n./venv/bin/python -c \\\"import flask, tomli_w, openai; print('all deps OK')\\\" 2>&1\",\"description\":\"Verify deps in...",
-  "error": "Exit code 1\nTraceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nModuleNotFoundError: No module named 'flask'",
-  "timestamp": "2026-08-07T07:48:16.279Z",
+  "tool_input_preview": "{\"command\":\"sleep 180; echo \\\"=== 进程 ===\\\"; pgrep -fl migrate_topic || echo \\\"(已结束)\\\"; echo \\\"=== 日志行数 ===\\\"; wc -l < /tmp/migrate.log; echo \\\"=== 已生成的历史日报数 ===\\\"; ls content/updates/2025-*.md content...",
+  "error": "Exit code 143\nCommand timed out after 2m 0s",
+  "timestamp": "2026-08-07T09:32:44.791Z",
   "retry_count": 1
 }
