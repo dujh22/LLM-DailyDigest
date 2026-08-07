@@ -1,7 +1,7 @@
 {
   "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"sleep 180; echo \\\"=== 进程 ===\\\"; pgrep -fl migrate_topic || echo \\\"(已结束)\\\"; echo \\\"=== 日志行数 ===\\\"; wc -l < /tmp/migrate.log; echo \\\"=== 已生成的历史日报数 ===\\\"; ls content/updates/2025-*.md content...",
-  "error": "Exit code 143\nCommand timed out after 2m 0s",
-  "timestamp": "2026-08-07T09:32:44.791Z",
+  "tool_input_preview": "{\"command\":\"sleep 115; cd \\\"/Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest\\\"\\npgrep -fl migrate_topic >/dev/null && echo \\\"运行中\\\" || echo \\\"已结束\\\"\\necho -n \\\"已完成主题数: \\\"; grep -c '汇总' /tmp/m...",
+  "error": "Exit code 1\n运行中\n已完成主题数: 23\n2025-12-31 条目数: 160\n剩余 >60 行 topic:\n  逻辑推理:      159\n  软件工程:      234",
+  "timestamp": "2026-08-07T10:18:23.137Z",
   "retry_count": 1
 }

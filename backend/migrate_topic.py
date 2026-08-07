@@ -120,9 +120,9 @@ def process_topic(topic: str, args, client, topics, research, write_lock):
         except ValueError:
             iso = None
         if not iso:
-            nodate += 1; kept_chunks.append(chunk)    # 无日期无法落位，保留原文
-            print(f'  [{i}] · 无日期（保留原文）：{(payload.get("title") or "")[:30]!r}')
-            continue
+            nodate += 1
+            iso = args.fallback_date      # 无日期 → 归入 fallback（默认 2025-12-31）
+            print(f'  [{i}] · 无日期 → {iso}：{(payload.get("title") or "")[:30]!r}')
         its_topics = [topic]
         for t in (payload.get('topics') or []):
             if t in valid_set and t not in its_topics:
@@ -170,6 +170,7 @@ def main():
     ap.add_argument('--all', action='store_true', help='迁移全部主题')
     ap.add_argument('--max', type=int, default=100, help='每个主题本次最多处理条数（默认 100）')
     ap.add_argument('--workers', type=int, default=4, help='LLM 并发数（默认 4）')
+    ap.add_argument('--fallback-date', default='2025-12-31', help='无法推断日期的有效条目归入此日期（默认 2025-12-31）')
     ap.add_argument('--dry', action='store_true', help='只预览不写盘')
     args = ap.parse_args()
 
