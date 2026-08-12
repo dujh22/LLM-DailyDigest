@@ -303,17 +303,28 @@ def topic_page_is_boilerplate(path: Path) -> bool:
     return all(_TOPIC_BOILERPLATE_RE.match(l) for l in body.split("\n"))
 
 
-def merge_preview(topic_sources, topic_target, sub_sources, sub_target):
-    """dry-run：返回影响范围，不写盘。"""
-    idx = parse_updates_index()
-    topic_set = {t for t in topic_sources if t and t != topic_target}
-    sub_set = {s for s in sub_sources if s and s != sub_target}
+def _maps_from_groups(topic_groups=None, sub_groups=None):
+    """从 [{sources, target}, ...] 构建合并映射 {src: target}。
+    自动忽略 target 为空、src==target 的项；同一 src 出现多次以后者为准。"""
+    def build(groups):
+        m = {}
+        for g in groups or []:
+            tgt = (g.get("target") or "").strip()
+            if not tgt:
+                continue
+            for s in (g.get("sources") or []):
+                s = (s or "").strip()
+                if s and s != tgt:
+                    m[s] = tgt
+        return m
+    return build(topic_groups), build(sub_groups)
 
-    # item 级影响统计：复用 apply 逻辑但只计数
+
+def merge_report_maps(topic_map: dict, sub_map: dict):
+    """dry-run：基于映射表返回影响范围，不写盘。"""
+    # item 级影响统计
     items_affected = 0
     files_affected = []
-    do_topic = bool(topic_set and topic_target)
-    do_sub = bool(sub_set and sub_target)
     for f in sorted(glob.glob(str(UPDATES_DIR / "*.md"))):
         p = Path(f)
         if not re.match(r"^\d{4}-\d{2}-\d{2}", p.name):
@@ -327,70 +338,92 @@ def merge_preview(topic_sources, topic_target, sub_sources, sub_target):
             item = _parse_item_block(block)
             if not item:
                 continue
-            hit = False
-            if do_topic and any(t in topic_set for t in item.get("topics", [])):
-                hit = True
-            if do_sub and item.get("subtopic", "") in sub_set:
-                hit = True
+            hit = (topic_map and any(t in topic_map for t in item.get("topics", []))) \
+                  or (sub_map and item.get("subtopic", "") in sub_map)
             if hit:
                 file_hit += 1
         if file_hit:
             files_affected.append(p.name)
             items_affected += file_hit
 
-    # 主题页处理
-    to_delete, with_content = [], []
-    if do_topic:
-        for t in topic_set:
-            tp = TOPIC_DIR / f"{t}.md"
-            if tp.exists():
-                if topic_page_is_boilerplate(tp):
-                    to_delete.append(t)
-                else:
-                    with_content.append(t)
+    # 主题页：源页删除分类 + 目标页是否需新建
+    to_delete, with_content, to_create = [], [], []
+    for t in topic_map:
+        tp = TOPIC_DIR / f"{t}.md"
+        if tp.exists():
+            if topic_page_is_boilerplate(tp):
+                to_delete.append(t)
+            else:
+                with_content.append(t)
+    for tgt in sorted(set(topic_map.values())):
+        if not (TOPIC_DIR / f"{tgt}.md").exists():
+            to_create.append(tgt)
+
+    def pairs(m):
+        return [{"src": k, "tgt": v} for k, v in sorted(m.items())]
 
     return {
         "items_affected": items_affected,
         "files_affected": files_affected,
         "files_count": len(files_affected),
-        "topic_target": topic_target if do_topic else "",
-        "topic_sources": sorted(topic_set),
-        "sub_target": sub_target if do_sub else "",
-        "sub_sources": sorted(sub_set),
-        "topic_files_to_delete": to_delete,
-        "topic_files_with_content": with_content,
-        "target_topic_exists": (TOPIC_DIR / f"{topic_target}.md").exists() if do_topic else True,
+        "topic_pairs": pairs(topic_map),
+        "sub_pairs": pairs(sub_map),
+        "topic_files_to_delete": sorted(to_delete),
+        "topic_files_with_content": sorted(with_content),
+        "topic_files_to_create": to_create,
     }
 
 
-def merge_apply(topic_sources, topic_target, sub_sources, sub_target):
-    """执行归并写盘。返回 preview 同款汇总 + applied 标记。"""
-    do_topic = bool(topic_sources and topic_target)
-    do_sub = bool(sub_sources and sub_target)
-    if not (do_topic or do_sub):
-        return {"ok": False, "errors": ["未选择任何要归并的主题或子主题，或目标为空"]}
-    summary = merge_preview(topic_sources, topic_target, sub_sources, sub_target)
-    if summary["items_affected"] == 0 and not summary["topic_files_to_delete"]:
-        return {"ok": False, "errors": ["没有命中的条目，无需归并"]}
-    topic_map = {t: topic_target for t in summary["topic_sources"]} if do_topic else {}
-    sub_map = {s: sub_target for s in summary["sub_sources"]} if do_sub else {}
+def merge_apply_maps(topic_map: dict, sub_map: dict):
+    """基于映射表执行归并写盘。返回 report + ok/deleted。"""
+    if not topic_map and not sub_map:
+        return {"ok": False, "errors": ["未提供任何有效的归并映射（source==target 或目标为空已忽略）"]}
+    report = merge_report_maps(topic_map, sub_map)
+    if report["items_affected"] == 0 and not report["topic_files_to_delete"]:
+        return {"ok": False, "errors": ["没有命中的条目，无需归并"], "summary": report}
     with _MERGE_LOCK:
-        # 改写 item 字段
-        for fname in summary["files_affected"]:
+        for fname in report["files_affected"]:
             apply_merge_to_file(UPDATES_DIR / fname, topic_map, sub_map)
-        # 主题页：确保目标页存在
-        if do_topic and not (TOPIC_DIR / f"{topic_target}.md").exists():
-            create_topic(topic_target)
-        # 删除样板源主题页
+        for tgt in report["topic_files_to_create"]:
+            create_topic(tgt)
         deleted = []
-        for t in summary["topic_files_to_delete"]:
+        for t in report["topic_files_to_delete"]:
             tp = TOPIC_DIR / f"{t}.md"
             if tp.exists():
                 tp.unlink()
                 deleted.append(t)
-    summary["deleted_topic_pages"] = deleted
-    summary["ok"] = True
-    return summary
+    report["deleted_topic_pages"] = deleted
+    report["ok"] = True
+    return report
+
+
+def merge_preview(topic_sources, topic_target, sub_sources, sub_target):
+    """单组归并的 dry-run（向后兼容）。"""
+    topic_map, sub_map = _maps_from_groups(
+        [{"sources": topic_sources, "target": topic_target}] if topic_target else None,
+        [{"sources": sub_sources, "target": sub_target}] if sub_target else None)
+    report = merge_report_maps(topic_map, sub_map)
+    # 附加单组语义字段（前端兼容）
+    report["topic_sources"] = sorted(topic_map)
+    report["topic_target"] = topic_target if topic_map else ""
+    report["sub_sources"] = sorted(sub_map)
+    report["sub_target"] = sub_target if sub_map else ""
+    report["target_topic_exists"] = topic_target not in report["topic_files_to_create"] if topic_map else True
+    return report
+
+
+def merge_apply(topic_sources, topic_target, sub_sources, sub_target):
+    """单组归并执行（向后兼容）。"""
+    topic_map, sub_map = _maps_from_groups(
+        [{"sources": topic_sources, "target": topic_target}] if topic_target else None,
+        [{"sources": sub_sources, "target": sub_target}] if sub_target else None)
+    res = merge_apply_maps(topic_map, sub_map)
+    if res.get("ok"):
+        res["topic_sources"] = sorted(topic_map)
+        res["topic_target"] = topic_target if topic_map else ""
+        res["sub_sources"] = sorted(sub_map)
+        res["sub_target"] = sub_target if sub_map else ""
+    return res
 
 
 def merge_suggest():
@@ -1128,6 +1161,30 @@ def api_merge_preview():
 def api_merge_apply():
     ts, tt, ss, st = _merge_payload()
     res = merge_apply(ts, tt, ss, st)
+    code = 200 if res.get("ok") else 400
+    return jsonify(res), code
+
+
+def _merge_multi_payload():
+    """从请求读取批量归并组：{topic_groups:[{sources,target}], sub_groups:[...]}。"""
+    data = request.get_json(force=True, silent=True) or {}
+    return data.get("topic_groups") or [], data.get("sub_groups") or []
+
+
+@app.route("/api/merge/preview_multi", methods=["POST"])
+def api_merge_preview_multi():
+    tg, sg = _merge_multi_payload()
+    topic_map, sub_map = _maps_from_groups(tg, sg)
+    if not topic_map and not sub_map:
+        return jsonify({"ok": False, "errors": ["未提供有效归并组（每组需 ≥2 source 且有 target）"]}), 400
+    return jsonify({"ok": True, "summary": merge_report_maps(topic_map, sub_map)})
+
+
+@app.route("/api/merge/apply_multi", methods=["POST"])
+def api_merge_apply_multi():
+    tg, sg = _merge_multi_payload()
+    topic_map, sub_map = _maps_from_groups(tg, sg)
+    res = merge_apply_maps(topic_map, sub_map)
     code = 200 if res.get("ok") else 400
     return jsonify(res), code
 

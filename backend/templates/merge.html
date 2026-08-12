@@ -89,9 +89,11 @@
 
       <div class="card">
         <h2>🤖 LLM 归并推荐</h2>
-        <div class="hint" style="margin:0 0 8px">自动扫描近义/重复标签并聚类，可逐条采纳。</div>
+        <div class="hint" style="margin:0 0 8px">自动扫描近义/重复标签并聚类。可单条「采纳」填入左侧，或勾选多条「批量执行」。</div>
         <div class="actions" style="margin-top:0">
           <button id="btnSuggest">生成推荐</button>
+          <button class="ghost" id="btnSelectAll" disabled>全选</button>
+          <button id="btnBatch" disabled>⚡ 批量采纳并执行</button>
           <span class="hint" id="suggestHint"></span>
         </div>
         <div id="suggestions"></div>
@@ -194,12 +196,14 @@ $('btnApply').onclick = async ()=>{
   finally{ btn.disabled=false; btn.textContent=old; }
 };
 
-function renderSuggestion(rec, kind){
+function renderSuggestion(rec, kind, idx){
   // kind: 'topic' or 'sub'
   const tgt = rec.target;
   const sources = rec.sources;
   const why = rec.reason ? `<div class="why">${escapeHtml(rec.reason)}</div>` : '';
+  const data = escapeHtml(JSON.stringify({sources, target: tgt}));
   return `<div class="rec">
+    <input type="checkbox" class="rcheck" data-kind="${kind}" data-rec="${data}" style="margin-right:8px">
     <span class="pill">${kind==='topic'?'主题':'子主题'}</span>
     ${sources.map(s=>escapeHtml(s)).join('、')} → <span class="tg">${escapeHtml(tgt)}</span>
     ${why}
@@ -210,16 +214,85 @@ function renderSuggestion(rec, kind){
 $('btnSuggest').onclick = async ()=>{
   const btn = $('btnSuggest'); btn.disabled=true; const old=btn.textContent; btn.textContent='生成中…';
   $('suggestHint').textContent='调用 LLM 中…'; $('suggestions').innerHTML='';
+  $('btnSelectAll').disabled = true; $('btnBatch').disabled = true;
   try{
     const r = await fetch('/api/merge/suggest',{method:'POST'});
     const j = await r.json();
     if(!j.ok){ $('suggestions').innerHTML = `<div class="errlist">${(j.errors||[]).join('；')}</div>`; return; }
-    const all = [...(j.topics||[]).map(x=>renderSuggestion(x,'topic')), ...(j.subtopics||[]).map(x=>renderSuggestion(x,'sub'))];
+    let i = 0;
+    const all = [...(j.topics||[]).map(x=>renderSuggestion(x,'topic',i++)), ...(j.subtopics||[]).map(x=>renderSuggestion(x,'sub',i++))];
     $('suggestions').innerHTML = all.length ? all.join('') : '<div class="hint">未发现可归并的近义标签。</div>';
     $('suggestHint').textContent = `${(j.topics||[]).length + (j.subtopics||[]).length} 条推荐`;
+    $('btnSelectAll').disabled = !all.length;
+    $('btnBatch').disabled = true;  // 有勾选后才启用
     bindAdopt();
   }catch(e){ $('suggestions').innerHTML = `<div class="errlist">网络错误：${e}</div>`; }
   finally{ btn.disabled=false; btn.textContent=old; }
+};
+
+// 勾选状态变化 → 更新批量按钮文案
+function refreshBatchBtn(){
+  const n = document.querySelectorAll('input.rcheck:checked').length;
+  $('btnBatch').disabled = n === 0;
+  $('btnBatch').textContent = n ? `⚡ 批量采纳并执行（${n}）` : '⚡ 批量采纳并执行';
+}
+document.addEventListener('change', e=>{
+  if(e.target.classList && e.target.classList.contains('rcheck')) refreshBatchBtn();
+});
+
+$('btnSelectAll').onclick = ()=>{
+  const boxes = document.querySelectorAll('input.rcheck');
+  const allOn = [...boxes].every(c=>c.checked);
+  boxes.forEach(c=>c.checked = !allOn);
+  refreshBatchBtn();
+};
+
+$('btnBatch').onclick = async ()=>{
+  const checked = [...document.querySelectorAll('input.rcheck:checked')].map(c=>({
+    kind: c.getAttribute('data-kind'),
+    rec: JSON.parse(c.getAttribute('data-rec')),
+  }));
+  if(!checked.length) return;
+  const topic_groups = checked.filter(x=>x.kind==='topic').map(x=>({sources:x.rec.sources, target:x.rec.target}));
+  const sub_groups = checked.filter(x=>x.kind==='sub').map(x=>({sources:x.rec.sources, target:x.rec.target}));
+  // 先预览，给用户确认
+  let pre;
+  try{
+    const r = await fetch('/api/merge/preview_multi',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({topic_groups, sub_groups})});
+    pre = await r.json();
+  }catch(e){ alert('预览失败：'+e); return; }
+  if(!pre.ok){ alert('预览失败：'+(pre.errors||[]).join('；')); return; }
+  const s = pre.summary;
+  const msg = `将批量执行 ${checked.length} 组归并：\n`
+    + `影响 ${s.items_affected} 条 item / ${s.files_count} 个文件\n`
+    + (s.topic_files_to_delete.length ? `删除 ${s.topic_files_to_delete.length} 个空样板主题页\n` : '')
+    + (s.topic_files_with_content.length ? `⚠ ${s.topic_files_with_content.length} 个有内容主题页保留\n` : '')
+    + `\n可通过 git checkout 回退。确认执行？`;
+  if(!confirm(msg)) return;
+  const btn = $('btnBatch'); btn.disabled=true; const old=btn.textContent; btn.textContent='执行中…';
+  try{
+    const r = await fetch('/api/merge/apply_multi',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({topic_groups, sub_groups})});
+    const j = await r.json();
+    if(!j.ok){
+      showResult('批量执行失败：'+(j.errors||[]).join('；'),'errlist'); return;
+    }
+    let h = `✓ 批量完成：${checked.length} 组归并，改写 ${j.items_affected} 条 item / ${j.files_count} 个文件。`;
+    if(j.deleted_topic_pages && j.deleted_topic_pages.length) h += `\n已删除主题页：${j.deleted_topic_pages.join('、')}`;
+    if(j.topic_files_with_content && j.topic_files_with_content.length) h += `\n⚠ 保留有内容主题页：${j.topic_files_with_content.join('、')}`;
+    showResult(h.trim(),'oklist');
+    // 移除已执行勾选的推荐项
+    document.querySelectorAll('input.rcheck:checked').forEach(c=>{ const rec=c.closest('.rec'); if(rec) rec.remove(); });
+    if(!document.querySelectorAll('input.rcheck').length){
+      $('btnSelectAll').disabled = true; $('btnBatch').disabled = true;
+      if(!$('suggestions').innerHTML.trim()) $('suggestions').innerHTML = '<div class="hint">全部推荐已采纳。</div>';
+    }
+    refreshBatchBtn();
+    lastPreview = null; $('btnApply').disabled = true;
+    await loadIndex();
+  }catch(e){ showResult('网络错误：'+e,'errlist'); }
+  finally{ btn.disabled=false; btn.textContent=old; refreshBatchBtn(); }
 };
 
 function bindAdopt(){

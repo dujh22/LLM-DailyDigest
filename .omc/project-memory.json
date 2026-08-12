@@ -153,8 +153,8 @@
   "hotPaths": [
     {
       "path": "backend/app.py",
-      "accessCount": 71,
-      "lastAccessed": 1786508202985,
+      "accessCount": 75,
+      "lastAccessed": 1786509657472,
       "type": "file"
     },
     {
@@ -215,6 +215,12 @@
       "path": "backend/requirements.txt",
       "accessCount": 4,
       "lastAccessed": 1786508095257,
+      "type": "file"
+    },
+    {
+      "path": "backend/templates/merge.html",
+      "accessCount": 4,
+      "lastAccessed": 1786509720563,
       "type": "file"
     },
     {
@@ -359,12 +365,6 @@
       "path": "content/topic/训练.md",
       "accessCount": 1,
       "lastAccessed": 1786507896086,
-      "type": "file"
-    },
-    {
-      "path": "backend/templates/merge.html",
-      "accessCount": 1,
-      "lastAccessed": 1786508240774,
       "type": "file"
     }
   ],
