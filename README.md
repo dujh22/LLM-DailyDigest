@@ -66,7 +66,7 @@ hugo server --baseURL http://localhost:1313/ -D
 
 ## 🛠️ Message Submission Backend
 
-`backend/` provides a local web form to enter a single message and append it to today's digest, with LLM field extraction from raw text.
+`backend/` provides a local web form to enter a single message and append it to today's digest, with LLM field extraction from raw text. It also ships **batch entry** (`/batch/new`) and **topic merge** (`/merge`) maintenance pages.
 
 ```bash
 cd backend
@@ -80,13 +80,20 @@ python app.py          # → http://localhost:5050
 
 > Default GLM gateway `https://api-gateway.glm.ai/v1`, model `gpt-5.6-sol`; override with `LLM_BASE_URL` / `LLM_MODEL`.
 
-**Workflow**: paste raw text → "✨ LLM Extract" fills the form (recommended topics/research, up to 3 new topic candidates) → pick topics (can add manually; pages are created on submit) and research → "➕ Submit" appends one `[[items]]`. Keep `hugo server` running and refresh after submit.
+**Single submit**: paste raw text → "🔗 Resolve links" / "✨ LLM Extract" fills the form. Links to github / arxiv / HuggingFace / WeChat are **fetched automatically** and fed to the extractor; failed links can be supplemented manually (supplement text is used for extraction only, never written to `notes`). After review, "➕ Submit" appends one `[[items]]`. Keep `hugo server` running and refresh after submit.
+
+**Batch entry** `/batch/new`: upload a txt or paste multiple entries (blank-line separated) → "Process all" runs link-fetch + LLM extraction concurrently (default 100 workers) → each item flows to `review / intervention` status; intervene only where a link failed to fetch, review and submit the rest. Items with unfetchable links skip the LLM call entirely.
+
+**Topic merge** `/merge`: in a 3-level tree (topic ▸ subtopic ▸ article), select tags, enter a target name → preview impact → apply. Subtopics merge globally by string; rewrites are in-place for minimal diff and fully `git checkout`-reversible. Built-in "🤖 LLM suggestions" clusters near-duplicate tags; adopt singly or select several for batch apply.
 
 | Method | Path                                  | Description                                      |
 | ------ | ------------------------------------- | ------------------------------------------------ |
-| GET    | `/` `/api/topics` `/api/research`     | Form page / valid topics / research list         |
-| POST   | `/api/extract`                        | `{raw}` → structured field JSON                  |
+| GET    | `/` `/batch/new` `/merge`             | Single submit / batch / topic-merge pages        |
+| GET    | `/api/topics` `/api/research`         | Valid topics / research list                     |
+| POST   | `/api/extract`                        | `{raw, extra?}` → link fetch + structured JSON   |
 | POST   | `/api/submit`                         | Append item to today's digest (auto-create topics) |
+| POST   | `/api/batch/create` `/api/batch/<id>/process` | Create batch / concurrent processing    |
+| POST   | `/api/merge/preview_multi` `/api/merge/apply_multi` | Multi-group merge preview / batch apply |
 
 ## 🚀 How to Use
 
@@ -117,6 +124,12 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 ```
 
 ## 📅 Changelog
+
+**2026-08-12**
+
+- Submission backend: auto-fetch body text from github/arxiv/HuggingFace/WeChat links in raw input; manual supplement for unfetchable links (extraction-only, never written to `notes`)
+- Batch entry `/batch/new`: txt/paste with blank-line splitting, concurrent (default 100) fetch+extract, item status machine `review / intervention`
+- Topic merge `/merge`: 3-level tree select + preview/apply, global subtopic merge, LLM suggestions with batch adopt; in-place rewrites for minimal diff
 
 **2026-08-07**
 
