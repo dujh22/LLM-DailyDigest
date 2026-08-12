@@ -153,8 +153,8 @@
   "hotPaths": [
     {
       "path": "backend/app.py",
-      "accessCount": 59,
-      "lastAccessed": 1786506992796,
+      "accessCount": 64,
+      "lastAccessed": 1786507695396,
       "type": "file"
     },
     {
@@ -194,15 +194,15 @@
       "type": "file"
     },
     {
-      "path": "content/posts/llmdailydigest.md",
-      "accessCount": 6,
-      "lastAccessed": 1786086942815,
+      "path": "backend/templates/batch.html",
+      "accessCount": 7,
+      "lastAccessed": 1786507031688,
       "type": "file"
     },
     {
-      "path": "backend/templates/batch.html",
-      "accessCount": 5,
-      "lastAccessed": 1786505658254,
+      "path": "content/posts/llmdailydigest.md",
+      "accessCount": 6,
+      "lastAccessed": 1786086942815,
       "type": "file"
     },
     {

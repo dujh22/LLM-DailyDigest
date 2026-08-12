@@ -40,6 +40,11 @@ BATCH_DIR = REPO_ROOT / ".batch_sessions"  # 批处理会话（运行时产物�
 LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api-gateway.glm.ai/v1")
 LLM_MODEL = os.environ.get("LLM_MODEL", "gpt-5.6-sol")
 
+# ---- 批处理并发配置 ----
+# 同时处理的条目数（每条可能触发 1 次链接抓取 + 1 次 LLM 调用）。
+# 该 LLM 网关并发上限可达 100，默认即用满；可用环境变量 BATCH_WORKERS 覆盖。
+BATCH_WORKERS = max(1, int(os.environ.get("BATCH_WORKERS", "100")))
+
 app = Flask(__name__)
 
 
@@ -464,19 +469,23 @@ def load_batch(batch_id: str):
 
 
 def update_batch_entry(batch_id: str, idx: int, **fields):
-    batch = load_batch(batch_id)
-    if not batch:
-        return None
-    for e in batch.get("entries", []):
-        if e.get("idx") == idx:
-            e.update(fields)
-            break
-    save_batch(batch)
-    return batch
+    """原子地更新某条目（加锁，避免并发写竞争）。"""
+    with _BATCH_FILE_LOCK:
+        batch = load_batch(batch_id)
+        if not batch:
+            return None
+        for e in batch.get("entries", []):
+            if e.get("idx") == idx:
+                e.update(fields)
+                break
+        save_batch(batch)
+        return batch
 
 
 # 正在后台处理的批次 id 集合（防止重复启动）
 _RUNNING_BATCHES: set = set()
+_RUNNING_LOCK = threading.Lock()          # 保护 _RUNNING_BATCHES
+_BATCH_FILE_LOCK = threading.Lock()       # 保护批次 JSON 的读-改-写
 
 
 # ============================================================
@@ -615,22 +624,26 @@ def process_one_entry(batch_id: str, idx: int):
 
 
 def process_batch_background(batch_id: str) -> bool:
-    """后台顺序处理批次内所有 pending 条目。已在运行则返回 False。"""
-    import threading
-    if batch_id in _RUNNING_BATCHES:
-        return False
-    _RUNNING_BATCHES.add(batch_id)
+    """并发处理批次内所有 pending 条目（线程池，并发上限 BATCH_WORKERS）。
+    已在运行则返回 False。并发写状态由 _BATCH_FILE_LOCK 保护。"""
+    with _RUNNING_LOCK:
+        if batch_id in _RUNNING_BATCHES:
+            return False
+        _RUNNING_BATCHES.add(batch_id)
 
     def run():
         try:
             batch = load_batch(batch_id)
             if not batch:
                 return
-            for e in batch["entries"]:
-                if e.get("status") == "pending":
-                    process_one_entry(batch_id, e["idx"])
+            pending = [e["idx"] for e in batch["entries"] if e.get("status") == "pending"]
+            with ThreadPoolExecutor(max_workers=BATCH_WORKERS,
+                                    thread_name_prefix=f"batch-{batch_id[:8]}") as ex:
+                # map 会按提交顺序调度并在全部完成/异常后返回；逐个触发即可
+                list(ex.map(lambda i: process_one_entry(batch_id, i), pending))
         finally:
-            _RUNNING_BATCHES.discard(batch_id)
+            with _RUNNING_LOCK:
+                _RUNNING_BATCHES.discard(batch_id)
 
     threading.Thread(target=run, daemon=True).start()
     return True
