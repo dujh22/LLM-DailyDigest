@@ -9,9 +9,31 @@ toc = true
 
 # EvolveLLM
 
-> 研究方向：**大语言模型（LLM）的自我进化 / 自我改进**——通过自生成数据、自我奖励、自我博弈、自我精炼、推理时自我改进等范式，让 LLM 在缺乏（或尽量少依赖）人类标注的情况下持续提升自身能力。与聚焦“推理”的 [[EvolveLRM]] 互补，这里覆盖更通用的基础模型自进化。
+> 研究方向：**大语言模型（LLM）的自我进化 / 自我改进**——在尽量少依赖人工标注的前提下，让基础模型持续提升自身能力。与聚焦"推理"的 [[EvolveLRM]] 互补，覆盖更通用的基础模型自进化。
 
-## 公开相关资源
+## 研究范畴
+
+EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究方向，涵盖：自生成数据 / 自指令、自我奖励与偏好学习（Self-Rewarding、RLAIF、迭代 DPO）、自我博弈（Self-Play）、自我精炼 / 自我纠正（Self-Refine、CRITIC）、推理时自我改进（ITSI），以及持续学习与遗忘。社区关注的核心问题包括：自我改进的边界（提升是否单调、是否存在上限或退化）、自我奖励 / 自评判的系统性偏差如何度量与缓解、合成数据与自迭代是否引发模型崩溃（model collapse）、持续学习中如何平衡新能力与灾难性遗忘，以及推理时自我改进（不重训）的可靠性与成本。
+
+## 研究挑战
+
+- 奖励作弊（reward hacking）与退化解。
+- 偏差、幻觉与错误沿迭代累积。
+- 自我进化系统的对齐、安全与可控性。
+- 评测有效性：如何评估一个持续变化的系统。
+- 算力与数据成本随迭代轮次膨胀。
+
+## 自研项目
+
+- [EvolveLLM](https://github.com/dujh22/EvolveLLM)
+- [Daily-Work-Log-Public](https://github.com/dujh22/Daily-Work-Log-Public)
+- [Daily-Work-Log-Private](https://github.com/dujh22/Daily-Work-Log-Private)
+- [Dujinhua-wiki](https://github.com/dujh22/Dujinhua-wiki)
+- [Dujinhua-wiki-Source](https://github.com/dujh22/Dujinhua-wiki-Source)
+- [MetaEvaluation](https://github.com/dujh22/MetaEvaluation)
+- [AutoLLM](https://github.com/dujh22/AutoLLM)
+
+## 相关工作
 
 **代码 / 框架 / 资源仓库**
 - [Awesome-Self-Improving-Agents](https://github.com/selfimproving-agent/Awesome-Self-Improving-Agents) — 基础模型智能体自我改进的精选清单（★347）
@@ -31,12 +53,3 @@ toc = true
 
 **论文（前沿与边界）**
 - [On the Limits of Self-Improving in Large Language Models](https://arxiv.org/abs/2601.05280) — 自我改进的理论极限分析
-
-## 关键子主题
-
-- **自生成数据 / 自指令**：Self-Instruct 范式，用模型自身扩张指令与样本，相关 [[DataEvolve]]。
-- **自我奖励 / 偏好学习**：Self-Rewarding、RLAIF、迭代 DPO，模型充当自身裁判。
-- **自我博弈**：SPIN 等让模型与历史版本对抗以变强。
-- **自我精炼 / 自我纠正**：Self-Refine、CRITIC，推理时与训练时双轨。
-- **推理时自我改进（ITSI）**：不重训，仅在推理阶段提升输出质量。
-- **持续学习与遗忘**：避免灾难性遗忘的连续自我进化。

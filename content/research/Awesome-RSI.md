@@ -11,7 +11,26 @@ toc = true
 
 > 研究方向：**递归自我改进（Recursive Self-Improvement, RSI）**方向的精选资源与论文清单。
 
-## 公开相关资源
+## 研究范畴
+
+递归自我改进（RSI）指一个系统能够持续改进自身，且其"改进机制"本身也被纳入改进对象，从而形成自指式的提升闭环。本方向涵盖：自我改进 Agent、自我重写 / 自我修复、LLM-as-a-Judge 自迭代、开放式 RSI 任务，以及面向 RSI 的治理与安全框架。社区关注的核心问题包括：自我改进能否持续近似单调地提升、是否存在上限或退化、自我奖励 / 自评判信号是否存在系统性偏差、如何度量"改进"本身以避免被优化目标作弊，以及 RSI 与对齐、可控性的协同。
+
+## 研究挑战
+
+- 奖励作弊（reward hacking）与退化解、捷径行为。
+- 长期迭代的稳定性与灾难性遗忘。
+- 评测有效性：如何在快速自进化的系统中持续评估真实能力。
+- 安全治理：失控风险、红队、披露与审计。
+- 计算与数据成本随迭代轮次快速膨胀。
+
+## 自研项目
+
+- [Awesome-RSI](https://github.com/dujh22/Awesome-RSI)
+- [EvolveLLM](https://github.com/dujh22/EvolveLLM)
+- [LLM-DailyDigest](https://github.com/dujh22/LLM-DailyDigest)
+- [LLMDailyDigestWeb](https://github.com/dujh22/LLMDailyDigestWeb)
+
+## 相关工作
 
 **代码 / 框架**
 - [awesome_Recursive_Self-Improving_LLM](https://github.com/robert-lee2016/awesome_Recursive_Self-Improving_LLM) — RSI 精选清单（同名方向）

@@ -11,7 +11,23 @@ toc = true
 
 > 研究方向：**进化式评测**——随能力增长持续演化、抗污染的评测基准与方法。
 
-## 公开相关资源
+## 研究范畴
+
+进化式评测（evolutionary / dynamic evaluation）针对静态基准易被污染、快速过时的问题，主张让基准与方法随模型能力增长持续演化、抗污染。本方向涵盖：持续更新的 live benchmarks、动态 / 等价变体评测、自动出题（auto-benchmaking）、抗污染机制，以及自进化基准框架。社区关注的核心问题包括：如何持续、低成本地产生高质量新题并标定难度、如何抵抗训练数据污染与基准泄漏、动态评测如何与真实世界能力对齐避免指标漂移，以及多模态 / Agent / 长周期任务的评测有效性。
+
+## 研究挑战
+
+- 题目质量、ground truth 获取与难度一致性。
+- 防泄漏与可复现性的张力。
+- 评测本身的成本与算力。
+- 与快速迭代模型保持同步的运维负担。
+
+## 自研项目
+
+- [CLUB-benchmark](https://github.com/dujh22/CLUB-benchmark)
+- [EvolveLLM](https://github.com/dujh22/EvolveLLM)
+
+## 相关工作
 
 **代码 / 框架**
 - [meta-agents-research-environments](https://github.com/facebookresearch/meta-agents-research-environments) — Meta 智能体研究评测平台

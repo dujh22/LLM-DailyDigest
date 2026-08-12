@@ -11,7 +11,22 @@ toc = true
 
 > 研究方向：**评测 harness 的演进**——围绕 lm-evaluation-harness / SWE-bench 类工具的扩展与进化（本站已 fork 相关仓库）。
 
-## 公开相关资源
+## 研究范畴
+
+评测 / Agent harness 的演进，围绕 lm-evaluation-harness、SWE-bench 类工具及其扩展与进化展开。harness（含 Agent-Computer Interface、运行环境、工具与提示约定）显著影响甚至主导模型在 Agent 任务上的表现，因此其工程化与标准化日益重要。本方向涵盖：harness engineering、ACI 设计、真实运行环境构建，以及 harness 效应的度量和披露。社区关注的核心问题包括：harness 设计在多大程度上改变了模型间的相对排名、如何标准化披露 harness 配置以保证可比与可复现、环境真实度（realism）与隔离 / 安全的权衡，以及动态 / 长周期环境下的 harness 演进。
+
+## 研究挑战
+
+- 环境搭建与维护成本高、易腐化。
+- 跨模型公平性与配置漂移。
+- 安全隔离（沙箱、权限）与真实性的张力。
+- harness 效应本身的度量难度。
+
+## 自研项目
+
+- [EvolveLLM](https://github.com/dujh22/EvolveLLM)
+
+## 相关工作
 
 **代码 / 框架**
 - [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) — LM 少样本评测框架（本站已 fork）
