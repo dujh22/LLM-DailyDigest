@@ -14,9 +14,18 @@ import os
 import re
 import json
 import glob
-from datetime import date
+import time
+import threading
+import urllib.parse
+from concurrent.futures import ThreadPoolExecutor
+from datetime import date, datetime
 from pathlib import Path
 
+import requests
+from bs4 import BeautifulSoup
+from bs4 import XMLParsedAsHTMLWarning
+import warnings
+warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 from flask import Flask, request, jsonify, render_template
 
 # ---- 路径 ----
@@ -25,6 +34,7 @@ UPDATES_DIR = REPO_ROOT / "content" / "updates"
 TOPIC_DIR = REPO_ROOT / "content" / "topic"
 RESEARCH_DIR = REPO_ROOT / "content" / "research"
 API_KEY_FILE = REPO_ROOT / "api_key.txt"
+BATCH_DIR = REPO_ROOT / ".batch_sessions"  # 批处理会话（运行时产物，已 gitignore）
 
 # ---- LLM 配置（可被环境变量覆盖）----
 LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api-gateway.glm.ai/v1")
@@ -226,11 +236,440 @@ def build_item_from_form(data: dict) -> dict:
 
 
 # ============================================================
+# 链接抓取（github / arxiv / 微信公众号 / 通用网页）
+# 抓取内容仅供 LLM 抽取增强上下文，绝不写入 notes 原始笔记。
+# ============================================================
+_UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36")
+_LINK_TIMEOUT = 12
+_LINK_CACHE: dict = {}  # url -> {"t": ts, "data": result dict}
+_LINK_CACHE_TTL = 300
+
+_URL_RE = re.compile(r"https?://[^\s)\"'<>，。、；：）】\]]+")
+
+
+def classify_link(url: str) -> str:
+    u = url.lower()
+    if "github.com" in u:
+        return "github"
+    if "arxiv.org" in u:
+        return "arxiv"
+    if "huggingface.co" in u:
+        return "hf"
+    if "mp.weixin.qq.com" in u:
+        return "wechat"
+    return "web"
+
+
+def detect_links(text: str):
+    """从文本中提取去重后的 (url, kind) 列表。"""
+    out, seen = [], set()
+    for m in _URL_RE.finditer(text or ""):
+        url = m.group(0).rstrip(".,;)]\"'")
+        if url in seen:
+            continue
+        seen.add(url)
+        out.append((url, classify_link(url)))
+    return out
+
+
+def _http_get(url: str, **kw):
+    headers = {"User-Agent": _UA}
+    headers.update(kw.pop("headers", {}))
+    r = requests.get(url, headers=headers, timeout=_LINK_TIMEOUT, **kw)
+    r.raise_for_status()
+    return r
+
+
+def _clean_text(s: str, limit: int = 6000) -> str:
+    s = re.sub(r"[ \t]+\n", "\n", s)
+    s = re.sub(r"\n{3,}", "\n\n", s).strip()
+    return s[:limit]
+
+
+def fetch_arxiv(url: str) -> dict:
+    """通过 arxiv Atom API 取标题/作者/摘要。"""
+    m = re.search(r"(?:abs|pdf)/([0-9]{4}\.[0-9]{4,5}(?:v\d+)?|[a-z\-]+/[0-9]{7}(?:v\d+)?)", url)
+    if not m:
+        m = re.search(r"/([^/?#]+(?:v\d+)?)$", url)
+    if not m:
+        raise ValueError("无法从 URL 解析 arxiv id")
+    arxiv_id = m.group(1)
+    api = f"https://export.arxiv.org/api/query?id_list={urllib.parse.quote(arxiv_id)}"
+    soup = BeautifulSoup(_http_get(api).text, "html.parser")
+    entry = soup.find("entry")
+    if not entry:
+        raise ValueError("arxiv 未返回条目（id 可能无效）")
+    title = entry.find("title").get_text(strip=True)
+    summary = entry.find("summary").get_text(strip=True)
+    authors = [a.find("name").get_text(strip=True)
+               for a in entry.find_all("author") if a.find("name")]
+    link = entry.find("link", attrs={"title": "pdf"})
+    pdf = link.get("href") if link else ""
+    text = (f"标题：{title}\n作者：{', '.join(authors)}\n"
+            f"PDF：{pdf}\n摘要：{summary}")
+    return {"title": title, "text": text}
+
+
+def fetch_github(url: str) -> dict:
+    """GitHub API 取仓库描述 + raw README（节选）。"""
+    m = re.match(r"https?://github\.com/([^/]+)/([^/?#]+)", url)
+    if not m:
+        raise ValueError("非标准 github 仓库 URL")
+    owner, repo = m.group(1), m.group(2).rstrip(".git")
+    headers = {"Accept": "application/vnd.github+json", "User-Agent": _UA}
+    resp = requests.get(f"https://api.github.com/repos/{owner}/{repo}",
+                        headers=headers, timeout=_LINK_TIMEOUT)
+    resp.raise_for_status()
+    meta = resp.json()
+    desc = meta.get("description") or ""
+    topics = meta.get("topics") or []
+    stars = meta.get("stargazers_count")
+    homepage = meta.get("homepage") or ""
+    readme = ""
+    try:
+        rr = requests.get(f"https://raw.githubusercontent.com/{owner}/{repo}/HEAD/README.md",
+                          headers={"User-Agent": _UA}, timeout=_LINK_TIMEOUT)
+        if rr.status_code == 200:
+            readme = _clean_text(rr.text, 4000)
+    except Exception:  # noqa: BLE001
+        pass
+    text = (f"仓库：{owner}/{repo}\n描述：{desc}\nStars：{stars}\n"
+            f"Topics：{', '.join(topics)}\nHomepage：{homepage}\nREADME（节选）：\n{readme}")
+    return {"title": f"{owner}/{repo}", "text": text}
+
+
+def fetch_wechat(url: str) -> dict:
+    """微信公众号文章：定位 #js_content 正文。"""
+    r = _http_get(url)
+    r.encoding = r.apparent_encoding or "utf-8"
+    soup = BeautifulSoup(r.text, "html.parser")
+    h = soup.find("h1") or soup.find("title")
+    title = h.get_text(strip=True) if h else ""
+    body = soup.select_one("#js_content") or soup.select_one(".rich_media_content")
+    if body is None:
+        raise ValueError("未定位到微信正文（可能需要验证或非文章页）")
+    text = _clean_text(body.get_text("\n", strip=True), 6000)
+    return {"title": title, "text": f"标题：{title}\n正文：{text}"}
+
+
+def fetch_hf(url: str) -> dict:
+    """HuggingFace 链接：
+    - /papers/<arxiv_id> → 复用 arxiv 抓取器（取标题/作者/摘要）
+    - 其他（模型/数据集页等）→ 通用 HTML 正文抽取
+    """
+    m = re.search(r"huggingface\.co/papers/([^/?#]+)", url, re.IGNORECASE)
+    if m:
+        arxiv_id = m.group(1)
+        return fetch_arxiv(f"https://arxiv.org/abs/{arxiv_id}")
+    return fetch_generic(url)
+
+
+def fetch_generic(url: str) -> dict:
+    """通用网页正文抽取。"""
+    r = _http_get(url)
+    r.encoding = r.apparent_encoding or "utf-8"
+    soup = BeautifulSoup(r.text, "html.parser")
+    for s in soup(["script", "style", "noscript", "nav", "footer", "header"]):
+        s.decompose()
+    t = soup.find("title")
+    title = t.get_text(strip=True) if t else ""
+    # 优先取 <article> / <main>，否则整页正文
+    node = soup.find("article") or soup.find("main") or soup
+    text = _clean_text(node.get_text("\n", strip=True), 6000)
+    if len(text) < 120:
+        text = _clean_text(soup.get_text("\n", strip=True), 6000)
+    return {"title": title, "text": f"标题：{title}\n正文：{text}"}
+
+
+_FETCHERS = {"github": fetch_github, "arxiv": fetch_arxiv, "hf": fetch_hf,
+             "wechat": fetch_wechat, "web": fetch_generic}
+
+
+def resolve_link(url: str, kind: str, use_cache: bool = True) -> dict:
+    """抓取单个链接，返回带 ok 标记的结果（带 5 分钟缓存）。"""
+    if use_cache and url in _LINK_CACHE:
+        ent = _LINK_CACHE[url]
+        if time.time() - ent["t"] < _LINK_CACHE_TTL:
+            return dict(ent["data"])
+    fn = _FETCHERS.get(kind, fetch_generic)
+    try:
+        res = fn(url)
+        data = {"url": url, "kind": kind, "ok": True,
+                "title": res.get("title", ""), "chars": len(res.get("text", "")),
+                "text": res.get("text", "")}
+    except Exception as e:  # noqa: BLE001
+        data = {"url": url, "kind": kind, "ok": False,
+                "reason": str(e) or "抓取失败", "text": ""}
+    if use_cache:
+        _LINK_CACHE[url] = {"t": time.time(), "data": data}
+    return data
+
+
+def resolve_all(text: str):
+    """抓取文本中所有链接，返回 (resolved_list, unresolved_list, fetched_texts)。"""
+    resolved, unresolved, fetched_texts = [], [], []
+    for url, kind in detect_links(text):
+        r = resolve_link(url, kind)
+        if r["ok"]:
+            resolved.append({"url": url, "kind": kind,
+                             "title": r["title"], "chars": r["chars"]})
+            fetched_texts.append(f"【来自链接 {url}（{kind}）】\n{r['text']}")
+        else:
+            unresolved.append({"url": url, "kind": kind, "reason": r.get("reason", "")})
+    return resolved, unresolved, fetched_texts
+
+
+# ============================================================
+# 批处理会话（txt 多条录入，逐条交互）
+# ============================================================
+def parse_batch_entries(text: str):
+    """按空行分段解析为条目列表；去掉每段开头的列表标记（1. / - / * / 数字、）。"""
+    blocks = re.split(r"\n[ \t]*\n", text or "")
+    entries = []
+    for b in blocks:
+        b = b.strip()
+        if not b:
+            continue
+        # 去掉行首的列表标记
+        b = re.sub(r"(?m)^\s*(?:\d+[.)、]|[-*•·]\s*)+", "", b)
+        b = b.strip()
+        if b:
+            entries.append(b)
+    return entries
+
+
+def new_batch_id() -> str:
+    import secrets
+    return date.today().isoformat() + "-" + secrets.token_hex(3)
+
+
+def save_batch(batch: dict) -> Path:
+    BATCH_DIR.mkdir(parents=True, exist_ok=True)
+    p = BATCH_DIR / f"{batch['batch_id']}.json"
+    p.write_text(json.dumps(batch, ensure_ascii=False, indent=2), encoding="utf-8")
+    return p
+
+
+def load_batch(batch_id: str):
+    if not re.fullmatch(r"[A-Za-z0-9_\-]+", batch_id or ""):
+        return None
+    p = BATCH_DIR / f"{batch_id}.json"
+    if not p.exists():
+        return None
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def update_batch_entry(batch_id: str, idx: int, **fields):
+    batch = load_batch(batch_id)
+    if not batch:
+        return None
+    for e in batch.get("entries", []):
+        if e.get("idx") == idx:
+            e.update(fields)
+            break
+    save_batch(batch)
+    return batch
+
+
+# 正在后台处理的批次 id 集合（防止重复启动）
+_RUNNING_BATCHES: set = set()
+
+
+# ============================================================
+# LLM 抽取核心（单条与批处理共用）
+# ============================================================
+def llm_extract(raw: str, extra: str = "") -> dict:
+    """对单条 raw 执行：链接抓取 + LLM 抽取。返回标准结果字典（非 Flask 响应）。
+    成功：{"ok": True, "data": parsed, "resolved_links": [...], "unresolved_links": [...]}
+    失败：{"ok": False, "errors": [...], (可选) "raw": ...}
+    抓取内容与 extra 仅用于本次抽取，绝不写入 notes。
+    """
+    raw = (raw or "").strip()
+    if not raw:
+        return {"ok": False, "errors": ["raw 不能为空"]}
+    extra = (extra or "").strip()
+
+    resolved, unresolved, fetched_texts = resolve_all(raw)
+
+    api_key = load_api_key()
+    if not api_key:
+        return {"ok": False, "errors": [
+            f"未找到 API Key：请在仓库根目录创建 {API_KEY_FILE.relative_to(REPO_ROOT)} "
+            f"并填入你的 GLM/OpenAI 兼容 api_key。"]}
+
+    topics = valid_topics()
+    research = valid_research()
+    system_prompt = (
+        "你是大模型研究日报的结构化信息抽取助手。"
+        "从用户提供的原始文本中抽取【一条消息】的结构化字段，严格返回 JSON（不要代码块、不要额外解释）。"
+        "若文本中包含「来自链接」「用户补充内容」等参考区块，请充分利用其中信息填充字段。"
+        "字段定义：\n"
+        "- title: 标题，中文为主，可含英文术语，简洁。\n"
+        "- subtopic: 子主题，简短标签（2~6 字），用于在该主题页里归入栏目。\n"
+        f"- topics: 所属主题数组，优先从下面【已有】列表选取：{json.dumps(topics, ensure_ascii=False)}\n"
+        "- suggested_topics: 额外推断【最多 3 个尚不存在的新主题名】（每个 2~4 字中文），"
+        "作为候选供用户决定是否新建；不要与已有列表重复；无可推断时返回空数组 []。\n"
+        f"- research: 归属的研究项目数组，只能从下面列表选取，无匹配返回空数组 []：{json.dumps(research, ensure_ascii=False)}\n"
+        "- source: 来源（公众号名 / arxiv 分类 / 站点名），无法判断填 \"未知\"。\n"
+        "- summary: 一句话中文摘要。\n"
+        "- paper: 论文链接（arxiv URL），无则 \"\"。\n"
+        "- code: 代码链接（github URL），无则 \"\"。\n"
+        "- dataset: 数据集链接，无则 \"\"。\n"
+        "- link: 原文链接（非论文类消息，如微信文章），无则 \"\"。\n"
+        "- content: 正文，中文 3~5 句要点，可用 markdown。\n"
+        "- purpose: 用途与启示，markdown 无序列表（每条以 - 开头）。\n"
+        "只输出 JSON 对象。"
+    )
+
+    augmented = raw
+    if fetched_texts:
+        augmented += ("\n\n===== 以下为自动读取的链接内容（仅供抽取，不会写入原始笔记）=====\n\n"
+                      + "\n\n".join(fetched_texts))
+    if extra:
+        augmented += ("\n\n===== 以下为用户补充内容（仅供抽取，不会写入原始笔记）=====\n\n" + extra)
+
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
+        resp = client.chat.completions.create(
+            model=LLM_MODEL,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": augmented},
+            ],
+        )
+        content_str = resp.choices[0].message.content or ""
+    except Exception as e:  # noqa: BLE001
+        return {"ok": False, "errors": [f"LLM 调用失败：{e}"]}
+
+    cleaned = content_str.strip()
+    cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
+    cleaned = re.sub(r"\s*```$", "", cleaned)
+    try:
+        parsed = json.loads(cleaned)
+    except json.JSONDecodeError:
+        return {"ok": False, "errors": ["LLM 返回无法解析为 JSON"], "raw": content_str}
+
+    # 规范化
+    t = parsed.get("topics", [])
+    parsed["topics"] = [str(x) for x in ([t] if isinstance(t, str) else t)]
+    s = parsed.get("suggested_topics", [])
+    parsed["suggested_topics"] = [str(x).strip() for x in ([s] if isinstance(s, str) else s) if str(x).strip()]
+    r = parsed.get("research", [])
+    parsed["research"] = [str(x).strip() for x in ([r] if isinstance(r, str) else r) if str(x).strip()]
+
+    return {"ok": True, "data": parsed,
+            "resolved_links": resolved, "unresolved_links": unresolved}
+
+
+# ============================================================
+# 批处理自动处理（链接抓取 + LLM 抽取 → 待核对/待介入）
+# ============================================================
+def process_one_entry(batch_id: str, idx: int):
+    """处理单条：链接抓取 →（视情况）LLM 抽取，并更新状态。
+    状态流转：pending → processing → review(待核对) / intervention(待介入)。
+    有抓取失败的链接时，先不消耗 LLM，置为 intervention 等用户补充后手动抽取。
+    已 done 的条目不覆盖。"""
+    batch = load_batch(batch_id)
+    if not batch:
+        return
+    entry = next((e for e in batch["entries"] if e.get("idx") == idx), None)
+    if not entry or entry.get("status") == "done":
+        return
+    update_batch_entry(batch_id, idx, status="processing", error="")
+    raw = entry.get("raw", "")
+    resolved, unresolved, _ = resolve_all(raw)
+
+    if unresolved:
+        # 有链接抓不到 → 待介入（保存链接状态供前端展示，跳过 LLM 抽取）
+        update_batch_entry(batch_id, idx,
+                           status="intervention",
+                           resolved_links=resolved,
+                           unresolved_links=unresolved,
+                           data={},
+                           error="",
+                           processed_at=datetime.now().isoformat(timespec="seconds"))
+        return
+
+    res = llm_extract(raw)
+    if res["ok"]:
+        update_batch_entry(batch_id, idx,
+                           status="review",
+                           data=res.get("data", {}),
+                           resolved_links=res.get("resolved_links", resolved),
+                           unresolved_links=[],
+                           error="",
+                           processed_at=datetime.now().isoformat(timespec="seconds"))
+    else:
+        update_batch_entry(batch_id, idx,
+                           status="intervention",
+                           resolved_links=resolved,
+                           unresolved_links=[],
+                           data={},
+                           error="；".join(res.get("errors", [])),
+                           processed_at=datetime.now().isoformat(timespec="seconds"))
+
+
+def process_batch_background(batch_id: str) -> bool:
+    """后台顺序处理批次内所有 pending 条目。已在运行则返回 False。"""
+    import threading
+    if batch_id in _RUNNING_BATCHES:
+        return False
+    _RUNNING_BATCHES.add(batch_id)
+
+    def run():
+        try:
+            batch = load_batch(batch_id)
+            if not batch:
+                return
+            for e in batch["entries"]:
+                if e.get("status") == "pending":
+                    process_one_entry(batch_id, e["idx"])
+        finally:
+            _RUNNING_BATCHES.discard(batch_id)
+
+    threading.Thread(target=run, daemon=True).start()
+    return True
+
+
+# ============================================================
 # 路由
 # ============================================================
 @app.route("/")
 def index():
-    return render_template("index.html", topics=valid_topics(), research=valid_research())
+    # 支持 /?batch=<bid>&idx=<i>：从批处理会话预填某条 raw
+    batch_id = (request.args.get("batch") or "").strip()
+    idx_raw = (request.args.get("idx") or "").strip()
+    batch_ctx = None
+    if batch_id and idx_raw.isdigit():
+        batch = load_batch(batch_id)
+        if batch:
+            idx = int(idx_raw)
+            entry = next((e for e in batch["entries"] if e.get("idx") == idx), None)
+            if entry:
+                # 打开页时若仍是 pending，则同步自动处理一次 → review/intervention
+                if entry.get("status") == "pending":
+                    process_one_entry(batch_id, idx)
+                    entry = next((e for e in (load_batch(batch_id) or {}).get("entries", [])
+                                  if e.get("idx") == idx), entry)
+                total = len(batch["entries"])
+                batch_ctx = {
+                    "batch_id": batch_id,
+                    "idx": idx,
+                    "total": total,
+                    "raw": entry.get("raw", ""),
+                    "status": entry.get("status", "pending"),
+                    "data": entry.get("data") or {},
+                    "error": entry.get("error") or "",
+                    "resolved_links": entry.get("resolved_links") or [],
+                    "unresolved_links": entry.get("unresolved_links") or [],
+                }
+    return render_template("index.html", topics=valid_topics(),
+                           research=valid_research(), batch=batch_ctx)
 
 
 @app.route("/api/topics")
@@ -297,87 +736,167 @@ def api_submit():
     })
 
 
-@app.route("/api/extract", methods=["POST"])
-def api_extract():
+@app.route("/api/resolve_links", methods=["POST"])
+def api_resolve_links():
+    """解析原始文本中的链接并尝试抓取，返回每个链接的状态。
+    抓取到的正文不在此处返回（避免前端意外写入笔记），仅返回标题/字数等元信息；
+    抓取失败的链接由前端引导用户手动补充。"""
     data = request.get_json(force=True, silent=True) or {}
     raw = (data.get("raw") or "").strip()
     if not raw:
         return jsonify({"ok": False, "errors": ["raw 不能为空"]}), 400
+    resolved, unresolved, _ = resolve_all(raw)
+    status = []
+    for u, k in detect_links(raw):
+        hit = next((r for r in resolved if r["url"] == u), None)
+        miss = next((r for r in unresolved if r["url"] == u), None)
+        if hit:
+            status.append({"url": u, "kind": k, "ok": True,
+                           "title": hit["title"], "chars": hit["chars"]})
+        else:
+            status.append({"url": u, "kind": k, "ok": False,
+                           "reason": (miss["reason"] if miss else "抓取失败")})
+    return jsonify({
+        "ok": True,
+        "links": status,
+        "resolved": resolved,
+        "unresolved": unresolved,
+    })
 
-    api_key = load_api_key()
-    if not api_key:
-        return jsonify({
-            "ok": False,
-            "errors": [
-                f"未找到 API Key：请在仓库根目录创建 {API_KEY_FILE.relative_to(REPO_ROOT)} "
-                f"并填入你的 GLM/OpenAI 兼容 api_key（该文件已被 .gitignore 忽略，不会上传 git）。"
-            ],
-        }), 503
 
-    topics = valid_topics()
-    research = valid_research()
-    system_prompt = (
-        "你是大模型研究日报的结构化信息抽取助手。"
-        "从用户提供的原始文本中抽取【一条消息】的结构化字段，严格返回 JSON（不要代码块、不要额外解释）。"
-        "字段定义：\n"
-        "- title: 标题，中文为主，可含英文术语，简洁。\n"
-        "- subtopic: 子主题，简短标签（2~6 字），用于在该主题页里归入栏目。\n"
-        f"- topics: 所属主题数组，优先从下面【已有】列表选取：{json.dumps(topics, ensure_ascii=False)}\n"
-        "- suggested_topics: 额外推断【最多 3 个尚不存在的新主题名】（每个 2~4 字中文），"
-        "作为候选供用户决定是否新建；不要与已有列表重复；无可推断时返回空数组 []。\n"
-        f"- research: 归属的研究项目数组，只能从下面列表选取，无匹配返回空数组 []：{json.dumps(research, ensure_ascii=False)}\n"
-        "- source: 来源（公众号名 / arxiv 分类 / 站点名），无法判断填 \"未知\"。\n"
-        "- summary: 一句话中文摘要。\n"
-        "- paper: 论文链接（arxiv URL），无则 \"\"。\n"
-        "- code: 代码链接（github URL），无则 \"\"。\n"
-        "- dataset: 数据集链接，无则 \"\"。\n"
-        "- link: 原文链接（非论文类消息，如微信文章），无则 \"\"。\n"
-        "- content: 正文，中文 3~5 句要点，可用 markdown。\n"
-        "- purpose: 用途与启示，markdown 无序列表（每条以 - 开头）。\n"
-        "只输出 JSON 对象。"
-    )
+@app.route("/batch/new")
+def batch_new():
+    """空的批处理创建页。"""
+    return render_template("batch.html", batch=None)
 
+
+@app.route("/batch/<batch_id>")
+def batch_overview(batch_id):
+    batch = load_batch(batch_id)
+    if not batch:
+        return ("批次不存在或已删除", 404)
+    return render_template("batch.html", batch=batch)
+
+
+@app.route("/api/batch/create", methods=["POST"])
+def api_batch_create():
+    """创建批处理会话。接受 JSON {text} 或 multipart 文件上传（字段名 file）。"""
+    text = ""
+    if request.content_type and "multipart/form-data" in request.content_type:
+        f = request.files.get("file")
+        if not f or not f.filename:
+            return jsonify({"ok": False, "errors": ["未收到文件"]}), 400
+        raw_bytes = f.read()
+        for enc in ("utf-8", "utf-8-sig", "gbk"):
+            try:
+                text = raw_bytes.decode(enc)
+                break
+            except UnicodeDecodeError:
+                continue
+        else:
+            return jsonify({"ok": False, "errors": ["无法识别文件编码（请存为 UTF-8）"]}), 400
+    else:
+        data = request.get_json(force=True, silent=True) or {}
+        text = data.get("text") or ""
+
+    entries_raw = parse_batch_entries(text)
+    if not entries_raw:
+        return jsonify({"ok": False, "errors": ["未解析到任何条目（用空行分隔每条）"]}), 400
+
+    batch_id = new_batch_id()
+    batch = {
+        "batch_id": batch_id,
+        "created_at": batch_id.split("-")[0],  # YYYY-MM-DD
+        "title": f"批次 {batch_id}",
+        "entries": [{"idx": i, "raw": r, "status": "pending",
+                     "item_id": "", "file": ""} for i, r in enumerate(entries_raw)],
+    }
+    save_batch(batch)
+    return jsonify({"ok": True, "batch_id": batch_id,
+                    "count": len(batch["entries"])})
+
+
+@app.route("/api/batch/<batch_id>")
+def api_batch_status(batch_id):
+    batch = load_batch(batch_id)
+    if not batch:
+        return jsonify({"ok": False, "errors": ["批次不存在"]}), 404
+    # 返回精简状态（不含 raw / data 全文，避免总览页过大）
+    return jsonify({
+        "ok": True,
+        "batch_id": batch["batch_id"],
+        "running": batch_id in _RUNNING_BATCHES,
+        "entries": [{"idx": e["idx"],
+                     "preview": (e["raw"].splitlines()[0][:60] if e.get("raw") else ""),
+                     "chars": len(e.get("raw", "")),
+                     "status": e.get("status", "pending"),
+                     "item_id": e.get("item_id", ""),
+                     "file": e.get("file", ""),
+                     "error": e.get("error", ""),
+                     "has_unresolved": bool(e.get("unresolved_links"))}
+                    for e in batch["entries"]],
+    })
+
+
+@app.route("/api/batch/<batch_id>/process", methods=["POST"])
+def api_batch_process(batch_id):
+    """后台处理批次内所有 pending 条目。"""
+    if not load_batch(batch_id):
+        return jsonify({"ok": False, "errors": ["批次不存在"]}), 404
+    started = process_batch_background(batch_id)
+    return jsonify({"ok": True, "started": started,
+                    "running": batch_id in _RUNNING_BATCHES})
+
+
+@app.route("/api/batch/<batch_id>/process_one", methods=["POST"])
+def api_batch_process_one(batch_id):
+    """同步处理单条（重置并重跑：用于「重新处理」或链接已修复后）。"""
+    data = request.get_json(force=True, silent=True) or {}
     try:
-        from openai import OpenAI
-        client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
-        resp = client.chat.completions.create(
-            model=LLM_MODEL,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": raw},
-            ],
-        )
-        content_str = resp.choices[0].message.content or ""
-    except Exception as e:  # noqa: BLE001
-        return jsonify({"ok": False, "errors": [f"LLM 调用失败：{e}"]}), 502
+        idx = int(data.get("idx"))
+    except (TypeError, ValueError):
+        return jsonify({"ok": False, "errors": ["idx 无效"]}), 400
+    if not load_batch(batch_id):
+        return jsonify({"ok": False, "errors": ["批次不存在"]}), 404
+    process_one_entry(batch_id, idx)
+    return jsonify({"ok": True})
 
-    # 鲁棒解析 JSON（去掉可能的 ```json 代码块围栏）
-    cleaned = content_str.strip()
-    cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
-    cleaned = re.sub(r"\s*```$", "", cleaned)
+
+@app.route("/api/batch/mark", methods=["POST"])
+def api_batch_mark():
+    """标记某条目为已提交（由单条提交成功后调用）。"""
+    data = request.get_json(force=True, silent=True) or {}
+    batch_id = (data.get("batch_id") or "").strip()
+    idx = data.get("idx")
     try:
-        parsed = json.loads(cleaned)
-    except json.JSONDecodeError:
-        return jsonify({
-            "ok": False,
-            "errors": ["LLM 返回无法解析为 JSON"],
-            "raw": content_str,
-        }), 502
+        idx = int(idx)
+    except (TypeError, ValueError):
+        return jsonify({"ok": False, "errors": ["idx 无效"]}), 400
+    batch = update_batch_entry(batch_id, idx,
+                               status="done",
+                               item_id=(data.get("item_id") or ""),
+                               file=(data.get("file") or ""))
+    if not batch:
+        return jsonify({"ok": False, "errors": ["批次不存在"]}), 404
+    return jsonify({"ok": True})
 
-    # 规范化 topics / suggested_topics
-    t = parsed.get("topics", [])
-    if isinstance(t, str):
-        t = [t]
-    parsed["topics"] = [str(x) for x in t]
-    s = parsed.get("suggested_topics", [])
-    if isinstance(s, str):
-        s = [s]
-    parsed["suggested_topics"] = [str(x).strip() for x in s if str(x).strip()]
-    r = parsed.get("research", [])
-    if isinstance(r, str):
-        r = [r]
-    parsed["research"] = [str(x).strip() for x in r if str(x).strip()]
-    return jsonify({"ok": True, "data": parsed})
+
+@app.route("/api/extract", methods=["POST"])
+def api_extract():
+    data = request.get_json(force=True, silent=True) or {}
+    res = llm_extract(data.get("raw") or "", data.get("extra") or "")
+    if not res["ok"]:
+        # 兼容 503（无 api_key）/ 502（LLM 调用或解析失败）/ 400（空 raw）
+        errs = res.get("errors", [])
+        if any("API Key" in e for e in errs):
+            return jsonify({"ok": False, "errors": errs}), 503
+        if any(e == "raw 不能为空" for e in errs):
+            return jsonify({"ok": False, "errors": errs}), 400
+        out = {"ok": False, "errors": errs}
+        if "raw" in res:
+            out["raw"] = res["raw"]
+        return jsonify(out), 502
+    return jsonify(res)
 
 
 if __name__ == "__main__":

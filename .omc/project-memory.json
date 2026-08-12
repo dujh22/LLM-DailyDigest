@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1786084270175,
+  "lastScanned": 1786502278402,
   "projectRoot": "/Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest",
   "techStack": {
     "languages": [],
@@ -39,7 +39,7 @@
       "path": "Website",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1786084270162,
+      "lastAccessed": 1786502278390,
       "keyFiles": [
         "readme.md"
       ]
@@ -47,26 +47,39 @@
     "archetypes": {
       "path": "archetypes",
       "purpose": null,
-      "fileCount": 1,
-      "lastAccessed": 1786084270163,
+      "fileCount": 2,
+      "lastAccessed": 1786502278390,
       "keyFiles": [
-        "default.md"
+        "default.md",
+        "updates.md"
       ]
     },
     "assets": {
       "path": "assets",
       "purpose": "Static assets",
       "fileCount": 1,
-      "lastAccessed": 1786084270163,
+      "lastAccessed": 1786502278390,
       "keyFiles": [
         "jsconfig.json"
+      ]
+    },
+    "backend": {
+      "path": "backend",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1786502278391,
+      "keyFiles": [
+        "README.md",
+        "app.py",
+        "migrate_topic.py",
+        "requirements.txt"
       ]
     },
     "co_learner": {
       "path": "co_learner",
       "purpose": null,
       "fileCount": 18,
-      "lastAccessed": 1786084270163,
+      "lastAccessed": 1786502278391,
       "keyFiles": [
         "README.md",
         "README_ZH.md",
@@ -79,48 +92,48 @@
       "path": "content",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1786084270164,
+      "lastAccessed": 1786502278391,
       "keyFiles": []
     },
     "layouts": {
       "path": "layouts",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1786084270164,
+      "lastAccessed": 1786502278391,
       "keyFiles": []
     },
     "public": {
       "path": "public",
       "purpose": "Public files",
-      "fileCount": 5,
-      "lastAccessed": 1786084270164,
+      "fileCount": 7,
+      "lastAccessed": 1786502278392,
       "keyFiles": [
         "404.html",
-        "fixit.svg",
         "index.html",
+        "index.json",
         "index.xml",
-        "sitemap.xml"
+        "robots.txt"
       ]
     },
     "resources": {
       "path": "resources",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1786084270164,
+      "lastAccessed": 1786502278392,
       "keyFiles": []
     },
     "themes": {
       "path": "themes",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1786084270164,
+      "lastAccessed": 1786502278392,
       "keyFiles": []
     },
     "tools": {
       "path": "tools",
       "purpose": null,
       "fileCount": 29,
-      "lastAccessed": 1786084270165,
+      "lastAccessed": 1786502278392,
       "keyFiles": [
         "arx.py",
         "arx_batch_to_ch.py",
@@ -133,21 +146,21 @@
       "path": "public/lib",
       "purpose": "Library code",
       "fileCount": 0,
-      "lastAccessed": 1786084270165,
+      "lastAccessed": 1786502278393,
       "keyFiles": []
     }
   },
   "hotPaths": [
     {
       "path": "backend/app.py",
-      "accessCount": 30,
-      "lastAccessed": 1786103374542,
+      "accessCount": 59,
+      "lastAccessed": 1786506992796,
       "type": "file"
     },
     {
       "path": "backend/templates/index.html",
-      "accessCount": 20,
-      "lastAccessed": 1786103396254,
+      "accessCount": 34,
+      "lastAccessed": 1786505630263,
       "type": "file"
     },
     {
@@ -187,6 +200,12 @@
       "type": "file"
     },
     {
+      "path": "backend/templates/batch.html",
+      "accessCount": 5,
+      "lastAccessed": 1786505658254,
+      "type": "file"
+    },
+    {
       "path": "content/updates/template.md",
       "accessCount": 4,
       "lastAccessed": 1786094750378,
@@ -202,6 +221,12 @@
       "path": "archetypes/updates.md",
       "accessCount": 3,
       "lastAccessed": 1786094723468,
+      "type": "file"
+    },
+    {
+      "path": "backend/requirements.txt",
+      "accessCount": 3,
+      "lastAccessed": 1786502593804,
       "type": "file"
     },
     {
@@ -280,12 +305,6 @@
       "path": "content/updates/2025-08-07-精选.md",
       "accessCount": 1,
       "lastAccessed": 1786088437849,
-      "type": "file"
-    },
-    {
-      "path": "backend/requirements.txt",
-      "accessCount": 1,
-      "lastAccessed": 1786088809426,
       "type": "file"
     },
     {

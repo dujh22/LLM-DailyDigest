@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM-DailyDigest · 批处理</title>
+<style>
+  :root{
+    --primary:#6366f1; --accent:#a855f7; --bg:#0f1117; --card:#1a1b26;
+    --fg:#e6e6ec; --muted:#9aa0b5; --border:#2a2c3a; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"PingFang SC",sans-serif;
+    background:linear-gradient(160deg,#0f1117,#16182a 60%);color:var(--fg);min-height:100vh}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:1.6rem;margin:0 0 4px}
+  h1 span{background:linear-gradient(135deg,var(--primary),var(--accent));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);margin:0 0 24px;font-size:.92rem}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:18px 20px;margin-bottom:18px}
+  .card h2{font-size:1.05rem;margin:0 0 12px}
+  label{display:block;font-size:.82rem;color:var(--muted);margin:10px 0 4px}
+  textarea,input[type=file]{width:100%;background:#12131c;color:var(--fg);
+    border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:.92rem;font-family:inherit}
+  textarea{min-height:120px;resize:vertical}
+  input[type=file]{padding:7px}
+  button{cursor:pointer;border:none;border-radius:9px;padding:10px 18px;font-size:.92rem;font-weight:600;
+    background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;transition:transform .15s,opacity .15s}
+  button:hover{transform:translateY(-1px)} button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  button.ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
+  .actions{display:flex;gap:10px;align-items:center;margin-top:14px}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);
+    background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;
+    box-shadow:0 8px 30px rgba(0,0,0,.4);max-width:90vw;display:none;font-size:.9rem;z-index:99}
+  .toast.show{display:block} .toast.ok{border-color:var(--ok)} .toast.err{border-color:var(--err)}
+  .errlist{color:var(--err);font-size:.85rem;margin:8px 0}
+  .hint{font-size:.78rem;color:var(--muted)}
+  .progress{display:flex;gap:6px;align-items:center;margin-bottom:14px;font-size:.9rem}
+  .bar{flex:1;height:8px;background:#12131c;border-radius:5px;overflow:hidden}
+  .bar > i{display:block;height:100%;background:linear-gradient(135deg,var(--primary),var(--accent))}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+  th{color:var(--muted);font-weight:600;font-size:.8rem}
+  td.preview{max-width:380px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .chip{font-size:.72rem;border-radius:6px;padding:2px 8px;display:inline-block}
+  .chip.pending{background:rgba(154,160,181,.18);color:var(--muted)}
+  .chip.processing{background:rgba(99,102,241,.22);color:var(--primary)}
+  .chip.review{background:rgba(34,197,94,.18);color:var(--ok)}
+  .chip.intervention{background:rgba(245,158,11,.2);color:var(--warn)}
+  .chip.done{background:rgba(34,197,94,.28);color:var(--ok)}
+  .chip.skipped{background:rgba(245,158,11,.18);color:var(--warn)}
+  a{color:var(--primary)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span>LLM-DailyDigest</span> · 批处理录入</h1>
+  <p class="sub">上传 txt 或粘贴多段原始信息（<b>空行分隔每一条</b>），生成批次后逐条打开处理页交互。</p>
+
+  <!-- 创建批次 -->
+  <div class="card">
+    <h2>① 创建批次</h2>
+    <label>上传 txt 文件（每条之间空一行）</label>
+    <input type="file" id="file" accept=".txt,.md,text/plain">
+    <label>或直接粘贴（每条之间空一行；行首的 <code>1.</code> / <code>-</code> 等列表标记会被自动去除）</label>
+    <textarea id="text" placeholder="第一条原始信息（可含链接、可多行）&#10;&#10;第二条原始信息&#10;&#10;第三条..."></textarea>
+    <div class="actions">
+      <button id="btnCreate">📦 创建批次</button>
+      <button class="ghost" id="btnLoad">↺ 载入最近批次</button>
+      <input type="text" id="loadId" placeholder="或填入 batch_id 载入" style="max-width:220px;background:#12131c;border:1px solid var(--border);border-radius:8px;padding:9px 11px;color:var(--fg)">
+    </div>
+    <div id="createMsg"></div>
+  </div>
+
+  <!-- 总览 -->
+  <div class="card" id="overviewCard" style="display:none">
+    <h2>② 批次总览 <span class="hint" id="batchMeta"></span></h2>
+    <div class="progress">
+      <span id="progressText" class="hint"></span>
+      <div class="bar"><i id="progressBar" style="width:0%"></i></div>
+    </div>
+    <div class="actions" style="margin-top:0;margin-bottom:14px">
+      <button id="btnProcess">▶ 自动处理全部待处理</button>
+      <span class="hint" id="processHint">默认会自动抓取链接 + LLM 抽取；有链接读取失败的条目会进入「待介入」。</span>
+    </div>
+    <table>
+      <thead><tr><th style="width:40px">#</th><th>预览</th><th style="width:80px">字数</th><th style="width:90px">状态</th><th style="width:170px"></th></tr></thead>
+      <tbody id="entries"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+let CURRENT = null;  // {batch_id, entries:[...]}
+
+function toast(msg, kind){
+  const t = $('toast'); t.className='toast show '+(kind||'');
+  t.textContent = msg; clearTimeout(window.__tt);
+  window.__tt = setTimeout(()=>t.className='toast', 4000);
+}
+
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function renderOverview(batch){
+  CURRENT = batch;
+  $('overviewCard').style.display = '';
+  const entries = batch.entries || [];
+  const done = entries.filter(e=>e.status==='done').length;
+  const review = entries.filter(e=>e.status==='review').length;
+  $('batchMeta').textContent = batch.batch_id;
+  $('progressText').textContent = `已完成 ${done} / ${entries.length} · 待核对 ${review}`;
+  $('progressBar').style.width = (entries.length ? (done*100/entries.length) : 0) + '%';
+  // 处理按钮状态：运行中禁用；无 pending 则灰显
+  const hasPending = entries.some(e=>e.status==='pending');
+  const running = !!batch.running;
+  $('btnProcess').disabled = running || !hasPending;
+  $('processHint').textContent = running ? '⏳ 后台处理中…' : (hasPending ? '默认会自动抓取链接 + LLM 抽取；有链接读取失败的条目会进入「待介入」。' : '没有待处理条目。');
+  const chipCls = {pending:'pending', processing:'processing', review:'review', intervention:'intervention', done:'done', skipped:'skipped'};
+  const chipText = {pending:'待处理', processing:'处理中…', review:'待核对', intervention:'待介入', done:'已完成', skipped:'已跳过'};
+  $('entries').innerHTML = entries.map(e=>{
+    const note = (e.status==='intervention')
+      ? (e.error ? `：${escapeHtml(e.error.slice(0,40))}` : (e.has_unresolved ? '：有链接需补充' : ''))
+      : '';
+    return `
+    <tr>
+      <td>${e.idx+1}</td>
+      <td class="preview" title="${escapeHtml(e.preview)}">${escapeHtml(e.preview||'(空)')}</td>
+      <td>${e.chars}</td>
+      <td><span class="chip ${chipCls[e.status]||'pending'}" title="${escapeHtml(e.error||'')}">${chipText[e.status]||e.status}${note}</span></td>
+      <td>
+        <a href="/?batch=${encodeURIComponent(batch.batch_id)}&idx=${e.idx}" target="_blank">打开处理 ↗</a>
+        <a href="#" data-idx="${e.idx}" class="reproc" style="margin-left:8px;font-size:.78rem">重处理</a>
+      </td>
+    </tr>`;
+  }).join('');
+  // 绑定「重处理」
+  document.querySelectorAll('a.reproc').forEach(a=>{
+    a.onclick = async (ev)=>{
+      ev.preventDefault();
+      const idx = a.getAttribute('data-idx');
+      a.textContent = '…';
+      try{
+        await fetch(`/api/batch/${encodeURIComponent(batch.batch_id)}/process_one`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idx:Number(idx)})});
+      }catch(e){}
+      refresh();
+    };
+  });
+}
+
+async function refresh(){
+  if(!CURRENT) return;
+  try{
+    const r = await fetch('/api/batch/'+encodeURIComponent(CURRENT.batch_id));
+    const j = await r.json();
+    if(j.ok) renderOverview(j);
+  }catch(e){}
+}
+
+$('btnCreate').onclick = async ()=>{
+  $('createMsg').innerHTML='';
+  const file = $('file').files[0];
+  const text = $('text').value.trim();
+  if(!file && !text){ toast('请上传文件或粘贴文本','err'); return; }
+  const btn = $('btnCreate'); btn.disabled=true; const old=btn.textContent; btn.textContent='创建中…';
+  try{
+    let r;
+    if(file){
+      const fd = new FormData(); fd.append('file', file);
+      r = await fetch('/api/batch/create',{method:'POST',body:fd});
+    }else{
+      r = await fetch('/api/batch/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text})});
+    }
+    const j = await r.json();
+    if(!j.ok){ $('createMsg').innerHTML='<div class="errlist">'+(j.errors||[]).join('；')+'</div>'; toast('创建失败','err'); return; }
+    toast(`✓ 已创建批次（${j.count} 条）`,'ok');
+    $('file').value=''; $('text').value='';
+    await fetch('/api/batch/'+encodeURIComponent(j.batch_id)).then(r=>r.json()).then(jj=>{ if(jj.ok) renderOverview(jj); });
+  }catch(e){ toast('网络错误：'+e,'err'); }
+  finally{ btn.disabled=false; btn.textContent=old; }
+};
+
+async function loadById(id){
+  if(!id){ toast('请填入 batch_id','err'); return; }
+  const r = await fetch('/api/batch/'+encodeURIComponent(id));
+  const j = await r.json();
+  if(!j.ok){ toast('批次不存在','err'); return; }
+  renderOverview(j);
+}
+$('btnLoad').onclick = ()=>loadById($('loadId').value.trim());
+$('loadId').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('btnLoad').click(); }});
+
+// 自动处理全部 pending 条目（后台）
+$('btnProcess').onclick = async ()=>{
+  if(!CURRENT) return;
+  const btn = $('btnProcess'); btn.disabled=true; const old=btn.textContent; btn.textContent='启动中…';
+  try{
+    const r = await fetch(`/api/batch/${encodeURIComponent(CURRENT.batch_id)}/process`,{method:'POST'});
+    const j = await r.json();
+    if(!j.ok){ toast((j.errors||[]).join('；')||'启动失败','err'); return; }
+    toast(j.started ? '✓ 已启动后台处理' : '已在处理中', j.started?'ok':'err');
+    refresh();
+  }catch(e){ toast('网络错误：'+e,'err'); }
+  finally{ btn.textContent=old; }
+};
+
+// 标签页重新可见时刷新状态（用户从处理页返回）
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden) refresh(); });
+// 同时低频轮询，便于多标签同步
+setInterval(refresh, 4000);
+</script>
+</body>
+</html>

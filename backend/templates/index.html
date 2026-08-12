@@ -56,17 +56,30 @@
 <body>
 <div class="wrap">
   <h1><span>LLM-DailyDigest</span> · 消息提交</h1>
-  <p class="sub">填写一条消息 → 自动追加到当日日报（<code>content/updates/&lt;date&gt;.md</code>）。原始信息可直接用 LLM 抽取。</p>
+  <p class="sub">填写一条消息 → 自动追加到当日日报（<code>content/updates/&lt;date&gt;.md</code>）。原始信息可直接用 LLM 抽取。 · <a href="/batch/new">📦 批处理录入</a></p>
+
+  {% if batch %}
+  <div class="card" style="border-color:var(--accent);background:rgba(168,85,247,.08)">
+    <b>📦 批次处理</b> · 第 <span id="batchIdx">{{ batch.idx + 1 }}</span> / {{ batch.total }} 条
+    {% if batch.status == 'done' %}<span class="hint" style="color:var(--ok)">（已完成 ✓）</span>{% endif %}
+    <span class="hint">已自动填入本条原始信息；提交后将标记为已完成。</span>
+    <a href="/batch/{{ batch.batch_id }}" target="_blank" style="margin-left:8px">← 返回总览</a>
+  </div>
+  {% endif %}
 
   <!-- ① LLM 抽取 -->
   <div class="card">
     <h2>① 用 LLM 抽取 <span class="num">（可选）</span></h2>
-    <label>粘贴原始信息（公众号文章 / 论文摘要 / 一段文字）</label>
-    <textarea id="raw" placeholder="把未经整理的信息粘进来，点按钮自动填充下方表单…"></textarea>
+    <label>粘贴原始信息（公众号文章 / 论文摘要 / 一段文字 / 含链接的文本）</label>
+    <textarea id="raw" placeholder="把未经整理的信息粘进来。若其中含 github / arxiv / 微信公众号等链接，可先点「解析链接」自动抓取正文用于抽取…"></textarea>
     <div class="actions">
+      <button class="ghost" id="btnResolve">🔗 解析链接</button>
       <button id="btnExtract">✨ LLM 抽取</button>
       <button class="ghost" id="btnClear">清空表单</button>
     </div>
+    <div id="linkStatus"></div>
+    <label id="extraLabel" style="display:none">✍️ 补充内容（仅用于抽取，<b>不会</b>写入原始笔记）</label>
+    <textarea id="extra" style="display:none;min-height:90px" placeholder="上方无法自动读取的链接，请在此粘贴其正文/摘要，供 LLM 抽取使用 —— 该内容不会被保存到原始笔记。"></textarea>
     <div id="extractMsg"></div>
   </div>
 
@@ -143,8 +156,15 @@
 <div class="toast" id="toast"></div>
 
 <script>
+// 批次上下文（无批次时为 null）
+const BATCH = {{ batch | tojson }};
 const F = ["id","title","subtopic","source","summary","paper","code","dataset","link","content","purpose","notes"];
 const $ = id => document.getElementById(id);
+
+// 批次模式：预填本条原始信息
+if(BATCH && BATCH.raw){
+  $('raw').value = BATCH.raw;
+}
 
 function setVal(id,v){ if(v!==undefined && v!==null && v!=="") $(id).value = v; }
 function getCheckedTopics(){
@@ -178,6 +198,8 @@ function addTopicChip(name, isNew){
 }
 function clearForm(){
   F.forEach(id=>$(id).value="");
+  $('extra').value=''; $('extra').style.display='none'; $('extraLabel').style.display='none';
+  $('linkStatus').innerHTML='';
   // 清除所有「新」chip，原有主题/研究取消勾选
   document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove());
   document.querySelectorAll('#topics input, #research input').forEach(c=>c.checked=false);
@@ -198,24 +220,95 @@ $('btnAddTopic').onclick = ()=>{
 };
 $('newTopicInput').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('btnAddTopic').click(); } });
 
+// 渲染链接抓取状态：resolved/unresolved 来自 /api/resolve_links 或 /api/extract
+function renderLinkStatus(links){
+  const box = $('linkStatus');
+  if(!links || !links.length){ box.innerHTML=''; return; }
+  const kindName = {github:'GitHub', arxiv:'arXiv', hf:'HuggingFace', wechat:'微信', web:'网页'};
+  let html = '<div class="hint" style="margin-top:10px">链接解析结果：</div>';
+  links.forEach(l=>{
+    if(l.ok){
+      html += `<div class="hint" style="color:var(--ok)">✓ ${kindName[l.kind]||l.kind} · ${escapeHtml(l.title||l.url)} （${l.chars} 字）</div>`;
+    }else{
+      html += `<div class="hint" style="color:var(--err)">✗ ${kindName[l.kind]||l.kind} · ${escapeHtml(l.url)} —— ${escapeHtml(l.reason||'抓取失败')}，请在下方补充内容</div>`;
+    }
+  });
+  box.innerHTML = html;
+}
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+// 若存在抓取失败的链接，展开「补充内容」输入框
+function maybeShowExtra(links){
+  const hasFail = Array.isArray(links) && links.some(l=>!l.ok);
+  $('extra').style.display = hasFail ? '' : 'none';
+  $('extraLabel').style.display = hasFail ? '' : 'none';
+}
+
+// 把一次抽取结果应用到表单（单条抽取/批次预填共用）
+function applyExtraction(d, resolvedLinks, unresolvedLinks){
+  d = d || {};
+  F.forEach(id=>setVal(id, d[id]));
+  if(Array.isArray(d.topics)) checkTopics(d.topics);
+  if(Array.isArray(d.research)) checkGroup('research', d.research);
+  document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove());
+  if(Array.isArray(d.suggested_topics)) d.suggested_topics.forEach(t=>addTopicChip(t, true));
+  // notes 只回填用户原始信息（绝不写入抓取/补充内容）
+  setVal('notes', $('raw').value);
+  const links = [...(resolvedLinks||[]).map(l=>({...l,ok:true})),
+                 ...(unresolvedLinks||[]).map(l=>({...l,ok:false}))];
+  renderLinkStatus(links);
+  maybeShowExtra(links);
+}
+
+// 批次模式：页面加载时根据已处理状态自动渲染
+if(BATCH){
+  if(BATCH.raw) $('raw').value = BATCH.raw;
+  if(BATCH.data && Object.keys(BATCH.data).length){
+    // 待核对：已有抽取结果，直接填入表单供人工核对
+    applyExtraction(BATCH.data, BATCH.resolved_links, BATCH.unresolved_links);
+    if(BATCH.status === 'review'){
+      $('extractMsg').innerHTML = '<div class="hint" style="color:var(--ok)">✓ 已自动抽取，请核对后提交（如需修改可直接编辑或重新抽取）</div>';
+    }
+  }
+  if(BATCH.status === 'intervention'){
+    // 待介入：展示链接抓取状态，引导用户补充后点「LLM 抽取」
+    const links = [...(BATCH.resolved_links||[]).map(l=>({...l,ok:true})),
+                   ...(BATCH.unresolved_links||[]).map(l=>({...l,ok:false}))];
+    renderLinkStatus(links); maybeShowExtra(links);
+    let why = BATCH.error ? ('（'+escapeHtml(BATCH.error)+'）') : '（部分链接无法读取或抽取失败）';
+    $('extractMsg').innerHTML = '<div class="errlist">⚠ 待介入 '+why+'：请在下方补充内容后点「✨ LLM 抽取」</div>';
+  }
+}
+
+$('btnResolve').onclick = async ()=>{
+  const raw = $('raw').value.trim();
+  if(!raw){ toast('请先粘贴原始信息','err'); return; }
+  const btn = $('btnResolve'); btn.disabled=true; const old=btn.textContent; btn.textContent='解析中…';
+  try{
+    const r = await fetch('/api/resolve_links',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({raw})});
+    const j = await r.json();
+    if(!j.ok){ toast((j.errors||[]).join('；')||'解析失败','err'); return; }
+    if(!j.links.length){ $('linkStatus').innerHTML='<div class="hint">未在文本中检测到链接</div>'; maybeShowExtra([]); return; }
+    renderLinkStatus(j.links);
+    maybeShowExtra(j.links);
+    const fails = j.links.filter(l=>!l.ok).length;
+    toast(fails ? `检测到 ${j.links.length} 条链接，其中 ${fails} 条需手动补充` : `已抓取 ${j.links.length} 条链接`, fails?'err':'ok');
+  }catch(e){ toast('网络错误：'+e,'err'); }
+  finally{ btn.disabled=false; btn.textContent=old; }
+};
+
 $('btnExtract').onclick = async ()=>{
   const raw = $('raw').value.trim();
   if(!raw){ toast('请先粘贴原始信息','err'); return; }
   const btn = $('btnExtract'); btn.disabled = true; const old = btn.textContent;
   btn.textContent = '抽取中…'; $('extractMsg').innerHTML='';
   try{
-    const r = await fetch('/api/extract',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({raw})});
+    const body = {raw};
+    const extra = $('extra').value.trim();
+    if(extra) body.extra = extra;
+    const r = await fetch('/api/extract',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const j = await r.json();
     if(!j.ok){ $('extractMsg').innerHTML = '<div class="errlist">'+(j.errors||[]).join('；')+'</div>'; toast('抽取失败','err'); return; }
-    const d = j.data;
-    F.forEach(id=>setVal(id, d[id]));
-    if(Array.isArray(d.topics)) checkTopics(d.topics);
-    if(Array.isArray(d.research)) checkGroup('research', d.research);
-    // 清掉上一次的「新」候选，再渲染本次 LLM 推断的新主题
-    document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove());
-    if(Array.isArray(d.suggested_topics)) d.suggested_topics.forEach(t=>addTopicChip(t, true));
-    // 「原始笔记」逐字保留：把用户粘贴的原文回填（抽取不会覆盖已有内容）
-    setVal('notes', $('raw').value);
+    applyExtraction(j.data, j.resolved_links, j.unresolved_links);
     toast('已填充表单，请核对后提交','ok');
   }catch(e){ toast('网络错误：'+e,'err'); }
   finally{ btn.disabled=false; btn.textContent=old; }
@@ -234,6 +327,15 @@ $('btnSubmit').onclick = async ()=>{
     const j = await r.json();
     if(!j.ok){ $('submitMsg').innerHTML='<div class="errlist">'+(j.errors||[]).join('；')+'</div>'; toast('提交失败','err'); return; }
     toast('✓ '+j.message,'ok');
+    // 批次模式：通知总览页本条已完成
+    if(BATCH && BATCH.batch_id !== null){
+      try{
+        await fetch('/api/batch/mark',{method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({batch_id:BATCH.batch_id, idx:BATCH.idx, item_id:(j.item&&j.item.id)||'', file:j.file||''})});
+        $('batchIdx') && ($('batchIdx').parentElement.innerHTML +=
+          ' <span class="hint" style="color:var(--ok)">（已完成 ✓，可关闭本页或返回总览）</span>');
+      }catch(e){ /* 标记失败不影响提交结果 */ }
+    }
     // 提交成功后清空表单，保留以便连续录入
     ['id','title','subtopic','summary','paper','code','dataset','link','content','purpose','notes'].forEach(id=>$(id).value='');
     document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove()); // 新建的主题已落库，移除候选 chip

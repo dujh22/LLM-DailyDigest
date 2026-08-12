@@ -10,3 +10,6 @@ public/
 api_key.txt
 backend/venv/
 venv/
+
+# 批处理会话（运行时产物）
+.batch_sessions/
