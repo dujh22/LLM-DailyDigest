@@ -24,7 +24,7 @@ toc = true
 
 ## 自研项目
 
-- [EvolveLLM](https://github.com/dujh22/EvolveLLM)
+- [EvolveLLM](https://github.com/dujh22/EvolveLLM) — 博士课题《Toward True ASI》承载仓库，含 harness / agent 评测相关的方法论与综述沉淀。
 
 ## 相关工作
 

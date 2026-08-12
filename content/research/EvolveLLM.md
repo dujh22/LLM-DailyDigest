@@ -25,13 +25,13 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
 
 ## 自研项目
 
-- [EvolveLLM](https://github.com/dujh22/EvolveLLM)
-- [Daily-Work-Log-Public](https://github.com/dujh22/Daily-Work-Log-Public)
-- [Daily-Work-Log-Private](https://github.com/dujh22/Daily-Work-Log-Private)
-- [Dujinhua-wiki](https://github.com/dujh22/Dujinhua-wiki)
-- [Dujinhua-wiki-Source](https://github.com/dujh22/Dujinhua-wiki-Source)
-- [MetaEvaluation](https://github.com/dujh22/MetaEvaluation)
-- [AutoLLM](https://github.com/dujh22/AutoLLM)
+- [EvolveLLM](https://github.com/dujh22/EvolveLLM) — 博士课题《Toward True ASI / 走向真正的 ASI》承载仓库，含开题材料与综述《大语言模型复杂推理的自我进化机制：研究综述与前沿展望》。
+- [Daily-Work-Log-Public](https://github.com/dujh22/Daily-Work-Log-Public) — 公开个人工作日志：每日日志、LLM 学习笔记、工作记录、获奖与运动（中文撰写、英文 kebab-case 目录）。
+- [Daily-Work-Log-Private](https://github.com/dujh22/Daily-Work-Log-Private) — 私有科研知识库 / 个人科研操作系统，以 AI 学术研究（LLM 逻辑推理、自进化、评估、RLVR、蒸馏、推理时计算）为主线，含草稿、方法论 SOP 与沟通记录。
+- [Dujinhua-wiki](https://github.com/dujh22/Dujinhua-wiki) — 基于 MkDocs 的个人知识库 wiki。
+- [Dujinhua-wiki-Source](https://github.com/dujh22/Dujinhua-wiki-Source) — 上述 wiki 的源码仓库。
+- [MetaEvaluation](https://github.com/dujh22/MetaEvaluation) — 元评测（meta-evaluation）相关仓库。
+- [AutoLLM](https://github.com/dujh22/AutoLLM) — LLM 自动化相关仓库。
 
 ## 相关工作
 

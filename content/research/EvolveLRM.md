@@ -24,7 +24,7 @@ toc = true
 
 ## 自研项目
 
-- [LogicGLM](https://github.com/dujh22/LogicGLM)
+- [EvolveLRM](https://github.com/dujh22/EvolveLRM) — 面向逻辑推理的自我进化闭环框架，自动跑通"评测 → 数据选择 → 训练 → 再评测"；含 Evaluator / DataMaker / Trainer 三模块与 Planner / Adapter / Logger，支持 SFT 与 RL（PPO/GRPO/LoRA）及底层训练框架热插拔。
 
 ## 相关工作
 

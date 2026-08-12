@@ -24,8 +24,8 @@ toc = true
 
 ## 自研项目
 
-- [CLUB-benchmark](https://github.com/dujh22/CLUB-benchmark)
-- [EvolveLLM](https://github.com/dujh22/EvolveLLM)
+- [CLUB-benchmark (LogicEvolve)](https://github.com/dujh22/CLUB-benchmark) — 复杂逻辑推理的智能体评测与自进化平台，含元数据驱动的数据合成（Sudoku/迷宫/数独/Knights&Knaves/Zebra/代码推理等）与多基准（CLUB/CLUBv2/ToolCLUB/ExCLUB/BBH/SynLogic/LogiQA2）数据管线。
+- [EvolveLLM](https://github.com/dujh22/EvolveLLM) — 博士课题《Toward True ASI》承载仓库，含自进化机制综述与方法论沉淀。
 
 ## 相关工作
 

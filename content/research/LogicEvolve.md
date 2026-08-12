@@ -24,8 +24,8 @@ toc = true
 
 ## 自研项目
 
-- [CLUB-benchmark](https://github.com/dujh22/CLUB-benchmark)
-- [EvolveLLM](https://github.com/dujh22/EvolveLLM)
+- [CLUB-benchmark (LogicEvolve)](https://github.com/dujh22/CLUB-benchmark) — 复杂逻辑推理的智能体评测与自进化平台，统一演绎/归纳、多跳、符号、程序与博弈逻辑，支持 CLUB/CLUBv2/ToolCLUB/ExCLUB/BBH/SynLogic/LogiQA2 等多基准，覆盖数据合成、评测、训练（LLaMA-Factory/verl）与可视化榜单全链路。
+- [clubWeb](https://github.com/anonymous1Coder/clubWeb) — LogicEvolve/CLUB 的可视化榜单前端（React + TypeScript + Vite），即 clubweb.site。
 
 ## 相关工作
 

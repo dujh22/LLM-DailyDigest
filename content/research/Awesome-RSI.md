@@ -25,10 +25,11 @@ toc = true
 
 ## 自研项目
 
-- [Awesome-RSI](https://github.com/dujh22/Awesome-RSI)
-- [EvolveLLM](https://github.com/dujh22/EvolveLLM)
-- [LLM-DailyDigest](https://github.com/dujh22/LLM-DailyDigest)
-- [LLMDailyDigestWeb](https://github.com/dujh22/LLMDailyDigestWeb)
+- [Awesome-RSI](https://github.com/dujh22/Awesome-RSI) — 面向 RSI 的持续研究项目：维护综述、整理论文与资源、沉淀自动化采集/归并工具，先跑通"采集 → 去重归并论文库 → AI/人工笔记 → 综述引用位置"的最小可检查闭环。
+- [EvolveLLM](https://github.com/dujh22/EvolveLLM) — 博士课题《Toward True ASI / 走向真正的 ASI》承载仓库，含开题材料与综述《大语言模型复杂推理的自我进化机制》。
+- [LLM-DailyDigest](https://github.com/dujh22/LLM-DailyDigest) — LLM 论文/工具/资讯每日自动聚合系统（爬取→翻译→摘要），Hugo+FixIt 网站 + topic/research 双聚合 + Flask/LLM 抽取后端。
+- [LLMDailyDigestWeb](https://github.com/dujh22/LLMDailyDigestWeb) — LLM-DailyDigest 的线上静态站点（GitHub Pages 构建产物）。
+- [AML-LLM](https://github.com/dujh22/AML-LLM) — 教材《Advanced Machine Learning: Large Language Models》（唐杰、杜晋华，清华）配套仓库，Word+LaTeX，覆盖深度学习/Transformer/预训练/SFT/RLHF/评测对齐/Agent/安全/多模态/生成模型等章节。
 
 ## 相关工作
 
