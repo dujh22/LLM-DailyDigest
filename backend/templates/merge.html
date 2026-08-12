@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM-DailyDigest · 主题归并</title>
+<style>
+  :root{
+    --primary:#6366f1; --accent:#a855f7; --bg:#0f1117; --card:#1a1b26;
+    --fg:#e6e6ec; --muted:#9aa0b5; --border:#2a2c3a; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"PingFang SC",sans-serif;
+    background:linear-gradient(160deg,#0f1117,#16182a 60%);color:var(--fg);min-height:100vh}
+  .wrap{max-width:1280px;margin:0 auto;padding:28px 20px 80px}
+  h1{font-size:1.5rem;margin:0 0 4px}
+  h1 span{background:linear-gradient(135deg,var(--primary),var(--accent));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);margin:0 0 20px;font-size:.9rem}
+  .layout{display:grid;grid-template-columns:1.4fr 1fr;gap:18px;align-items:start}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:18px}
+  .card h2{font-size:1.02rem;margin:0 0 10px}
+  label{display:block;font-size:.82rem;color:var(--muted);margin:10px 0 4px}
+  input[type=text]{width:100%;background:#12131c;color:var(--fg);border:1px solid var(--border);
+    border-radius:8px;padding:9px 11px;font-size:.92rem;font-family:inherit}
+  input[type=text]:focus{outline:none;border-color:var(--primary)}
+  button{cursor:pointer;border:none;border-radius:9px;padding:10px 16px;font-size:.9rem;font-weight:600;
+    background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;transition:transform .15s,opacity .15s}
+  button:hover{transform:translateY(-1px)} button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  button.ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
+  button.sm{padding:5px 10px;font-size:.8rem}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  .hint{font-size:.78rem;color:var(--muted)}
+  .errlist{color:var(--err);font-size:.85rem;margin:8px 0}
+  .oklist{color:var(--ok);font-size:.85rem;margin:8px 0;white-space:pre-line}
+  .warnlist{color:var(--warn);font-size:.82rem;margin:8px 0;white-space:pre-line}
+  a{color:var(--primary)}
+  /* 树 */
+  .tree{font-size:.88rem;max-height:70vh;overflow:auto}
+  details{margin-left:14px}
+  details>summary{cursor:pointer;padding:3px 0;list-style:none}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary:before{content:"▸ ";color:var(--muted)}
+  details[open]>summary:before{content:"▾ "}
+  .top>details{margin-left:0}
+  input[type=checkbox]{accent-color:var(--primary);margin-right:6px;vertical-align:middle}
+  .freq{color:var(--muted);font-size:.74rem;margin-left:4px}
+  .art{color:var(--fg);font-size:.82rem;padding:2px 0 2px 18px;opacity:.85}
+  .art .src{color:var(--muted);font-size:.7rem;margin-left:6px}
+  .bar{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+  .bar input[type=text]{flex:1}
+  .rec{border:1px solid var(--border);border-radius:9px;padding:10px 12px;margin-top:8px;background:#12131c}
+  .rec .tg{color:var(--ok);font-weight:600}
+  .rec .why{color:var(--muted);font-size:.8rem;margin-top:4px}
+  .pill{font-size:.68rem;background:rgba(99,102,241,.18);color:var(--primary);border-radius:5px;padding:1px 6px;margin-right:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span>LLM-DailyDigest</span> · 主题 / 子主题归并</h1>
+  <p class="sub">左侧勾选若干主题或子主题 → 右侧填归并目标 → 预览 → 执行。<b>子主题按字符串全局归并</b>（跨所有主题）。 · <a href="/">← 返回提交</a></p>
+
+  <div class="layout">
+    <!-- 左：三级树 -->
+    <div class="card">
+      <h2>主题 ▸ 子主题 ▸ 文章 <span class="hint" id="meta"></span></h2>
+      <div class="bar">
+        <input type="text" id="filter" placeholder="过滤主题/子主题…">
+        <button class="ghost sm" id="btnExpand">展开命中</button>
+      </div>
+      <div class="tree top" id="tree"><div class="hint">加载中…</div></div>
+    </div>
+
+    <!-- 右：操作 -->
+    <div>
+      <div class="card">
+        <h2>归并目标</h2>
+        <label>① 归并后主题名（仅当选了主题时生效）</label>
+        <input type="text" id="topicTarget" placeholder="如：推理评估">
+        <label>② 归并后子主题名（仅当选了子主题时生效，全局）</label>
+        <input type="text" id="subTarget" placeholder="如：推理评估">
+        <div class="actions">
+          <button id="btnPreview">🔍 预览</button>
+          <button id="btnApply" disabled>✓ 执行归并</button>
+        </div>
+        <div id="result"></div>
+      </div>
+
+      <div class="card">
+        <h2>🤖 LLM 归并推荐</h2>
+        <div class="hint" style="margin:0 0 8px">自动扫描近义/重复标签并聚类，可逐条采纳。</div>
+        <div class="actions" style="margin-top:0">
+          <button id="btnSuggest">生成推荐</button>
+          <span class="hint" id="suggestHint"></span>
+        </div>
+        <div id="suggestions"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+let IDX = null;
+let lastPreview = null;
+
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function selectedTopics(){ return [...new Set([...document.querySelectorAll('input.tsel:checked')].map(c=>c.value))]; }
+function selectedSubs(){ return [...new Set([...document.querySelectorAll('input.ssel:checked')].map(c=>c.value))]; }
+
+function renderTree(){
+  if(!IDX) return;
+  const tree = IDX.tree, tf = IDX.topic_freq, sf = IDX.sub_freq;
+  const filter = $('filter').value.trim().toLowerCase();
+  const topics = Object.keys(tree).sort((a,b)=>(tf[b]||0)-(tf[a]||0));
+  let html = '';
+  let shown = 0;
+  for(const t of topics){
+    const subs = tree[t];
+    const hitT = !filter || t.toLowerCase().includes(filter) ||
+                 Object.keys(subs).some(s=>s.toLowerCase().includes(filter));
+    if(filter && !hitT) continue;
+    shown++;
+    const subHtml = Object.keys(subs).sort((a,b)=>(subs[b].length)-(subs[a].length)).map(s=>{
+      const arts = subs[s];
+      const hitS = !filter || s.toLowerCase().includes(filter) || t.toLowerCase().includes(filter);
+      const openS = filter && hitS ? ' open' : '';
+      const artsHtml = arts.map(a=>`<div class="art">• ${escapeHtml(a.title)}<span class="src">${escapeHtml(a.file)}</span></div>`).join('');
+      return `<details${openS}><summary><input type="checkbox" class="ssel" value="${escapeHtml(s)}">${escapeHtml(s)}<span class="freq">${arts.length}</span></summary>${artsHtml}</details>`;
+    }).join('');
+    const openT = filter ? ' open' : '';
+    html += `<details${openT}><summary><input type="checkbox" class="tsel" value="${escapeHtml(t)}">${escapeHtml(t)}<span class="freq">${tf[t]||0}</span></summary>${subHtml}</details>`;
+  }
+  $('tree').innerHTML = html || '<div class="hint">无匹配</div>';
+  $('meta').textContent = `（显示 ${shown} / ${topics.length} 主题）`;
+}
+
+async function loadIndex(){
+  $('tree').innerHTML = '<div class="hint">加载中…</div>';
+  const r = await fetch('/api/merge/index'); const j = await r.json();
+  IDX = j; renderTree();
+}
+
+$('filter').addEventListener('input', renderTree);
+$('btnExpand').onclick = ()=>{ document.querySelectorAll('#tree details').forEach(d=>d.open=true); };
+
+function showResult(html, cls){ $('result').innerHTML = `<div class="${cls}">${html}</div>`; }
+
+$('btnPreview').onclick = async ()=>{
+  const ts = selectedTopics(), ss = selectedSubs();
+  const tt = $('topicTarget').value.trim(), st = $('subTarget').value.trim();
+  if(!(ts.length&&tt) && !(ss.length&&st)){
+    showResult('请至少勾选若干主题或子主题，并填写对应目标名。','errlist'); return;
+  }
+  const btn = $('btnPreview'); btn.disabled=true; const old=btn.textContent; btn.textContent='预览中…';
+  try{
+    const r = await fetch('/api/merge/preview',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({topic_sources:ts, topic_target:tt, sub_sources:ss, sub_target:st})});
+    const j = await r.json();
+    if(!j.ok){ showResult((j.errors||[]).join('；'),'errlist'); $('btnApply').disabled=true; return; }
+    const s = j.summary;
+    lastPreview = {topic_sources:s.topic_sources, topic_target:s.topic_target, sub_sources:s.sub_sources, sub_target:s.sub_target};
+    let h = `将影响 <b>${s.items_affected}</b> 条 item / <b>${s.files_count}</b> 个日报文件。`;
+    if(s.topic_target) h += `\n主题：${s.topic_sources.join('、')} → <b>${s.topic_target}</b>${s.target_topic_exists?'':'（将新建主题页）'}`;
+    if(s.sub_target) h += `\n子主题（全局）：${s.sub_sources.join('、')} → <b>${s.sub_target}</b>`;
+    if(s.topic_files_to_delete.length) h += `\n将删除空样板主题页：${s.topic_files_to_delete.join('、')}`;
+    if(s.topic_files_with_content.length) h += `\n⚠ 以下源主题页有自定义内容，未删除（需手动处理）：${s.topic_files_with_content.join('、')}`;
+    showResult(h.trim(), 'oklist');
+    $('btnApply').disabled = false;
+  }catch(e){ showResult('网络错误：'+e,'errlist'); }
+  finally{ btn.disabled=false; btn.textContent=old; }
+};
+
+$('btnApply').onclick = async ()=>{
+  if(!lastPreview){ showResult('请先预览','errlist'); return; }
+  if(!confirm('确认执行归并？将改写 ' + $('result').textContent + '\n\n可通过 git checkout 回退。')) return;
+  const btn = $('btnApply'); btn.disabled=true; const old=btn.textContent; btn.textContent='执行中…';
+  try{
+    const r = await fetch('/api/merge/apply',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(lastPreview)});
+    const j = await r.json();
+    if(!j.ok){ showResult((j.errors||[]).join('；'),'errlist'); return; }
+    let h = `✓ 完成：改写 ${j.items_affected} 条 item / ${j.files_count} 个文件。`;
+    if(j.deleted_topic_pages && j.deleted_topic_pages.length) h += `\n已删除主题页：${j.deleted_topic_pages.join('、')}`;
+    if(j.topic_files_with_content && j.topic_files_with_content.length) h += `\n⚠ 保留的有内容主题页：${j.topic_files_with_content.join('、')}`;
+    showResult(h.trim(),'oklist');
+    $('btnApply').disabled = true; lastPreview = null;
+    document.querySelectorAll('input.tsel:checked, input.ssel:checked').forEach(c=>c.checked=false);
+    $('topicTarget').value=''; $('subTarget').value='';
+    await loadIndex();
+  }catch(e){ showResult('网络错误：'+e,'errlist'); }
+  finally{ btn.disabled=false; btn.textContent=old; }
+};
+
+function renderSuggestion(rec, kind){
+  // kind: 'topic' or 'sub'
+  const tgt = rec.target;
+  const sources = rec.sources;
+  const why = rec.reason ? `<div class="why">${escapeHtml(rec.reason)}</div>` : '';
+  return `<div class="rec">
+    <span class="pill">${kind==='topic'?'主题':'子主题'}</span>
+    ${sources.map(s=>escapeHtml(s)).join('、')} → <span class="tg">${escapeHtml(tgt)}</span>
+    ${why}
+    <div style="margin-top:6px"><button class="ghost sm" data-kind="${kind}" data-src='${JSON.stringify(sources)}' data-tgt="${escapeHtml(tgt)}">采纳</button></div>
+  </div>`;
+}
+
+$('btnSuggest').onclick = async ()=>{
+  const btn = $('btnSuggest'); btn.disabled=true; const old=btn.textContent; btn.textContent='生成中…';
+  $('suggestHint').textContent='调用 LLM 中…'; $('suggestions').innerHTML='';
+  try{
+    const r = await fetch('/api/merge/suggest',{method:'POST'});
+    const j = await r.json();
+    if(!j.ok){ $('suggestions').innerHTML = `<div class="errlist">${(j.errors||[]).join('；')}</div>`; return; }
+    const all = [...(j.topics||[]).map(x=>renderSuggestion(x,'topic')), ...(j.subtopics||[]).map(x=>renderSuggestion(x,'sub'))];
+    $('suggestions').innerHTML = all.length ? all.join('') : '<div class="hint">未发现可归并的近义标签。</div>';
+    $('suggestHint').textContent = `${(j.topics||[]).length + (j.subtopics||[]).length} 条推荐`;
+    bindAdopt();
+  }catch(e){ $('suggestions').innerHTML = `<div class="errlist">网络错误：${e}</div>`; }
+  finally{ btn.disabled=false; btn.textContent=old; }
+};
+
+function bindAdopt(){
+  document.querySelectorAll('#suggestions button[data-kind]').forEach(b=>{
+    b.onclick = ()=>{
+      const kind = b.getAttribute('data-kind');
+      const srcs = JSON.parse(b.getAttribute('data-src'));
+      const tgt = b.getAttribute('data-tgt');
+      const cls = kind==='topic' ? 'input.tsel' : 'input.ssel';
+      // 清空同组旧勾选
+      document.querySelectorAll(cls+':checked').forEach(c=>c.checked=false);
+      srcs.forEach(s=>{
+        // 多选同名（子主题可能跨主题出现）
+        document.querySelectorAll(`${cls}[value="${s}"]`).forEach(c=>c.checked=true);
+      });
+      if(kind==='topic') $('topicTarget').value = tgt; else $('subTarget').value = tgt;
+      // 滚到顶部并提示预览
+      window.scrollTo({top:0, behavior:'smooth'});
+      showResult(`已采纳：${srcs.join('、')} → ${tgt}，可点「预览」查看影响范围。`,'oklist');
+      $('btnApply').disabled = true; lastPreview = null;
+    };
+  });
+}
+
+loadIndex();
+</script>
+</body>
+</html>

@@ -123,6 +123,329 @@ def create_topic(name: str) -> Path:
     return path
 
 
+# ============================================================
+# 主题/子主题归并：索引 + 安全改写
+# ============================================================
+_MERGE_LOCK = threading.Lock()  # 保护归并写盘，避免与批次提交并发改同一文件
+_ITEMS_RE = re.compile(r"^\[\[items\]\]", re.MULTILINE)
+# 主题页样板特征：正文（去 front matter）只剩标题行/自动提示行
+_TOPIC_BOILERPLATE_RE = re.compile(
+    r"^(?:#\s.*|>\s.*本主题由提交工具自动创建.*|>\s.*历史条目已迁入.*|>\s.*本页「相关消息」自动聚合.*|\s*)$"
+)
+
+
+def split_front_matter(text: str):
+    """把文件文本切成 (前缀含开头+++, front matter 正文, 后缀含闭合+++及之后)。
+    返回 (pre, fm_body, post)；找不到闭合 +++ 时 fm_body=None。"""
+    lines = text.split("\n")
+    open_idx = close_idx = None
+    for i, ln in enumerate(lines):
+        if ln.strip() == "+++":
+            if open_idx is None:
+                open_idx = i
+            else:
+                close_idx = i
+                break
+    if open_idx is None or close_idx is None:
+        return text, None, None
+    pre = "\n".join(lines[:open_idx + 1]) + "\n"
+    fm_body = "\n".join(lines[open_idx + 1:close_idx])
+    post = "\n".join(lines[close_idx:])
+    return pre, fm_body, post
+
+
+def split_item_blocks(fm_body: str):
+    """把 front matter 正文切成 (prelude, [item_block_text...])。
+    prelude 为第一个 [[items]] 之前的内容；每个 block 从 [[items]] 行到下一个 [[items]] 或末尾。"""
+    matches = list(_ITEMS_RE.finditer(fm_body))
+    if not matches:
+        return fm_body, []
+    prelude = fm_body[:matches[0].start()]
+    blocks = []
+    for i, m in enumerate(matches):
+        start = m.start()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(fm_body)
+        blocks.append(fm_body[start:end])
+    return prelude, blocks
+
+
+def _parse_item_block(block: str):
+    """解析单个 [[items]] 块为 item dict（失败返回 None）。"""
+    import tomli
+    try:
+        return tomli.loads(block).get("items", [{}])[0]
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _reserialize_item_block(item: dict) -> str:
+    """按固定键顺序重写单个 item 块（与 serialize_item_block 一致，复用 tomli_w）。"""
+    import tomli_w
+    ordered = {
+        "id": item.get("id", ""),
+        "title": item.get("title", ""),
+        "subtopic": item.get("subtopic", ""),
+        "topics": item.get("topics", []),
+        "research": item.get("research", []),
+        "source": item.get("source", ""),
+        "summary": item.get("summary", ""),
+        "paper": item.get("paper", ""),
+        "code": item.get("code", ""),
+        "dataset": item.get("dataset", ""),
+        "link": item.get("link", ""),
+        "content": item.get("content", ""),
+        "purpose": item.get("purpose", ""),
+        "notes": item.get("notes", ""),
+    }
+    return tomli_w.dumps({"items": [ordered]}).rstrip("\n")
+
+
+def apply_merge_to_file(path: Path, topic_map: dict, sub_map: dict) -> int:
+    """对单个日报文件套用主题/子主题映射，仅原位替换发生变化的 item 块
+    （未变化块逐字保留，diff 最小）。返回改动 item 数。"""
+    text = path.read_text(encoding="utf-8")
+    pre, fm_body, post = split_front_matter(text)
+    if not fm_body:
+        return 0
+    spans = [m.span() for m in _ITEMS_RE.finditer(fm_body)]
+    if not spans:
+        return 0
+    changed = 0
+    new_fm = fm_body
+    # 从后往前替换，保持前面偏移有效
+    for i in range(len(spans) - 1, -1, -1):
+        start, _ = spans[i]
+        end = spans[i + 1][0] if i + 1 < len(spans) else len(fm_body)
+        block = new_fm[start:end]
+        item = _parse_item_block(block)
+        if item is None:
+            continue
+        # 主题：替换 + 去重保序
+        new_topics, seen, topics_changed = [], set(), False
+        for t in item.get("topics", []):
+            nt = topic_map.get(t, t)
+            if nt not in seen:
+                seen.add(nt)
+                new_topics.append(nt)
+            if nt != t:
+                topics_changed = True
+        # 子主题：全局字符串替换
+        old_sub = item.get("subtopic", "")
+        new_sub = sub_map.get(old_sub, old_sub)
+        if not (topics_changed or new_sub != old_sub):
+            continue
+        item["topics"] = new_topics
+        item["subtopic"] = new_sub
+        # 保留原 block 的尾部空白（块间空行），只替换核心内容
+        core = block.rstrip()
+        trailing = block[len(core):]
+        new_fm = new_fm[:start] + _reserialize_item_block(item) + trailing + new_fm[end:]
+        changed += 1
+    if changed:
+        path.write_text(pre + new_fm + "\n" + post, encoding="utf-8")
+    return changed
+
+
+def parse_updates_index():
+    """扫描全部 content/updates/*.md，构建：
+    tree: {topic: {subtopic: [{file,id,title}]}}
+    topic_freq / sub_freq: {name: count}
+    orphan_topics: [存在 content/topic/<name>.md 但无 item 引用的主题名]
+    """
+    tree, topic_freq, sub_freq = {}, {}, {}
+    files = sorted(glob.glob(str(UPDATES_DIR / "*.md")))
+    # 排除模板/摘要类文件
+    files = [f for f in files if re.match(r"^\d{4}-\d{2}-\d{2}", Path(f).name)]
+    for f in files:
+        path = Path(f)
+        text = path.read_text(encoding="utf-8")
+        _, fm_body, _ = split_front_matter(text)
+        if not fm_body:
+            continue
+        _, blocks = split_item_blocks(fm_body)
+        for block in blocks:
+            item = _parse_item_block(block)
+            if not item:
+                continue
+            topics = item.get("topics", []) or []
+            sub = item.get("subtopic", "") or "(无)"
+            entry = {"file": path.name, "id": item.get("id", ""),
+                     "title": item.get("title", "")}
+            sub_freq[sub] = sub_freq.get(sub, 0) + 1
+            for t in topics:
+                topic_freq[t] = topic_freq.get(t, 0) + 1
+                tree.setdefault(t, {}).setdefault(sub, []).append(entry)
+    # 孤立主题页
+    topic_files = {p.stem for p in TOPIC_DIR.glob("*.md")}
+    orphan_topics = sorted(topic_files - set(topic_freq.keys()))
+    return {"tree": tree, "topic_freq": topic_freq,
+            "sub_freq": sub_freq, "orphan_topics": orphan_topics}
+
+
+def topic_page_is_boilerplate(path: Path) -> bool:
+    """主题页正文（front matter 之后）是否仅含自动样板 → 可安全删除。"""
+    if not path.exists():
+        return True
+    lines = path.read_text(encoding="utf-8").split("\n")
+    seen = 0
+    body_start = None
+    for i, ln in enumerate(lines):
+        if ln.strip() == "+++":
+            seen += 1
+            if seen == 2:
+                body_start = i + 1
+                break
+    if body_start is None:
+        return True
+    body = "\n".join(lines[body_start:]).strip()
+    if not body:
+        return True
+    return all(_TOPIC_BOILERPLATE_RE.match(l) for l in body.split("\n"))
+
+
+def merge_preview(topic_sources, topic_target, sub_sources, sub_target):
+    """dry-run：返回影响范围，不写盘。"""
+    idx = parse_updates_index()
+    topic_set = {t for t in topic_sources if t and t != topic_target}
+    sub_set = {s for s in sub_sources if s and s != sub_target}
+
+    # item 级影响统计：复用 apply 逻辑但只计数
+    items_affected = 0
+    files_affected = []
+    do_topic = bool(topic_set and topic_target)
+    do_sub = bool(sub_set and sub_target)
+    for f in sorted(glob.glob(str(UPDATES_DIR / "*.md"))):
+        p = Path(f)
+        if not re.match(r"^\d{4}-\d{2}-\d{2}", p.name):
+            continue
+        _, fm_body, _ = split_front_matter(p.read_text(encoding="utf-8"))
+        if not fm_body:
+            continue
+        _, blocks = split_item_blocks(fm_body)
+        file_hit = 0
+        for block in blocks:
+            item = _parse_item_block(block)
+            if not item:
+                continue
+            hit = False
+            if do_topic and any(t in topic_set for t in item.get("topics", [])):
+                hit = True
+            if do_sub and item.get("subtopic", "") in sub_set:
+                hit = True
+            if hit:
+                file_hit += 1
+        if file_hit:
+            files_affected.append(p.name)
+            items_affected += file_hit
+
+    # 主题页处理
+    to_delete, with_content = [], []
+    if do_topic:
+        for t in topic_set:
+            tp = TOPIC_DIR / f"{t}.md"
+            if tp.exists():
+                if topic_page_is_boilerplate(tp):
+                    to_delete.append(t)
+                else:
+                    with_content.append(t)
+
+    return {
+        "items_affected": items_affected,
+        "files_affected": files_affected,
+        "files_count": len(files_affected),
+        "topic_target": topic_target if do_topic else "",
+        "topic_sources": sorted(topic_set),
+        "sub_target": sub_target if do_sub else "",
+        "sub_sources": sorted(sub_set),
+        "topic_files_to_delete": to_delete,
+        "topic_files_with_content": with_content,
+        "target_topic_exists": (TOPIC_DIR / f"{topic_target}.md").exists() if do_topic else True,
+    }
+
+
+def merge_apply(topic_sources, topic_target, sub_sources, sub_target):
+    """执行归并写盘。返回 preview 同款汇总 + applied 标记。"""
+    do_topic = bool(topic_sources and topic_target)
+    do_sub = bool(sub_sources and sub_target)
+    if not (do_topic or do_sub):
+        return {"ok": False, "errors": ["未选择任何要归并的主题或子主题，或目标为空"]}
+    summary = merge_preview(topic_sources, topic_target, sub_sources, sub_target)
+    if summary["items_affected"] == 0 and not summary["topic_files_to_delete"]:
+        return {"ok": False, "errors": ["没有命中的条目，无需归并"]}
+    topic_map = {t: topic_target for t in summary["topic_sources"]} if do_topic else {}
+    sub_map = {s: sub_target for s in summary["sub_sources"]} if do_sub else {}
+    with _MERGE_LOCK:
+        # 改写 item 字段
+        for fname in summary["files_affected"]:
+            apply_merge_to_file(UPDATES_DIR / fname, topic_map, sub_map)
+        # 主题页：确保目标页存在
+        if do_topic and not (TOPIC_DIR / f"{topic_target}.md").exists():
+            create_topic(topic_target)
+        # 删除样板源主题页
+        deleted = []
+        for t in summary["topic_files_to_delete"]:
+            tp = TOPIC_DIR / f"{t}.md"
+            if tp.exists():
+                tp.unlink()
+                deleted.append(t)
+    summary["deleted_topic_pages"] = deleted
+    summary["ok"] = True
+    return summary
+
+
+def merge_suggest():
+    """调用 LLM 对全部主题/子主题做近义聚类，返回归并推荐。"""
+    api_key = load_api_key()
+    if not api_key:
+        return {"ok": False, "errors": ["未找到 API Key，无法调用 LLM"]}
+    idx = parse_updates_index()
+    topics = sorted(idx["topic_freq"].keys(), key=lambda k: -idx["topic_freq"][k])
+    subs = sorted(idx["sub_freq"].keys(), key=lambda k: -idx["sub_freq"][k])
+    prompt = (
+        "你是数据清洗助手。下面是科研日报的【主题】和【子主题】标签列表（带出现频次）。"
+        "请找出其中【语义近义、重复、应归并】的标签组，每组给出推荐归并后的标准名与一句理由。"
+        "只合并真正同义/重复的；不要把语义不同的合并；单孤立标签不要输出。严格返回 JSON：\n"
+        '{"topics":[{"sources":["标签a","标签b"],"target":"标准名","reason":"..."}],'
+        '"subtopics":[{"sources":[...],"target":"...","reason":"..."}]}\n'
+        "不要代码块、不要解释。\n\n"
+        f"主题（name:频次）：{json.dumps([(t, idx['topic_freq'][t]) for t in topics], ensure_ascii=False)}\n\n"
+        f"子主题（name:频次）：{json.dumps([(s, idx['sub_freq'][s]) for s in subs], ensure_ascii=False)}"
+    )
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
+        resp = client.chat.completions.create(
+            model=LLM_MODEL,
+            messages=[{"role": "system", "content": "你是严谨的数据清洗助手，只输出 JSON。"},
+                      {"role": "user", "content": prompt}],
+        )
+        raw = (resp.choices[0].message.content or "").strip()
+    except Exception as e:  # noqa: BLE001
+        return {"ok": False, "errors": [f"LLM 调用失败：{e}"]}
+    raw = re.sub(r"^```(?:json)?\s*", "", raw)
+    raw = re.sub(r"\s*```$", "", raw)
+    try:
+        parsed = json.loads(raw)
+    except json.JSONDecodeError:
+        return {"ok": False, "errors": ["LLM 返回无法解析为 JSON"], "raw": raw}
+    # 规范化
+    def norm(group):
+        out = []
+        for g in (group or []):
+            src = g.get("sources", [])
+            if isinstance(src, str):
+                src = [src]
+            src = [str(x).strip() for x in src if str(x).strip()]
+            tgt = str(g.get("target", "")).strip()
+            if len(src) >= 2 and tgt:
+                out.append({"sources": src, "target": tgt,
+                            "reason": str(g.get("reason", ""))})
+        return out
+    return {"ok": True,
+            "topics": norm(parsed.get("topics")),
+            "subtopics": norm(parsed.get("subtopics"))}
+
+
 def today_daily_path(d=None) -> Path:
     d = d or date.today().isoformat()
     return UPDATES_DIR / f"{d}.md"
@@ -775,6 +1098,43 @@ def api_resolve_links():
         "resolved": resolved,
         "unresolved": unresolved,
     })
+
+
+@app.route("/merge")
+def merge_page():
+    return render_template("merge.html")
+
+
+@app.route("/api/merge/index")
+def api_merge_index():
+    return jsonify({"ok": True, **parse_updates_index()})
+
+
+def _merge_payload():
+    data = request.get_json(force=True, silent=True) or {}
+    return (data.get("topic_sources") or [], (data.get("topic_target") or "").strip(),
+            data.get("sub_sources") or [], (data.get("sub_target") or "").strip())
+
+
+@app.route("/api/merge/preview", methods=["POST"])
+def api_merge_preview():
+    ts, tt, ss, st = _merge_payload()
+    if not ((ts and tt) or (ss and st)):
+        return jsonify({"ok": False, "errors": ["请至少选择若干主题或子主题并填写对应目标名"]}), 400
+    return jsonify({"ok": True, "summary": merge_preview(ts, tt, ss, st)})
+
+
+@app.route("/api/merge/apply", methods=["POST"])
+def api_merge_apply():
+    ts, tt, ss, st = _merge_payload()
+    res = merge_apply(ts, tt, ss, st)
+    code = 200 if res.get("ok") else 400
+    return jsonify(res), code
+
+
+@app.route("/api/merge/suggest", methods=["POST"])
+def api_merge_suggest():
+    return jsonify(merge_suggest())
 
 
 @app.route("/batch/new")
