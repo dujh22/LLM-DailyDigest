@@ -146,14 +146,14 @@
   "hotPaths": [
     {
       "path": "backend/app.py",
-      "accessCount": 76,
-      "lastAccessed": 1786518138064,
+      "accessCount": 86,
+      "lastAccessed": 1786690920054,
       "type": "file"
     },
     {
       "path": "backend/templates/index.html",
-      "accessCount": 35,
-      "lastAccessed": 1786508245437,
+      "accessCount": 39,
+      "lastAccessed": 1786690936814,
       "type": "file"
     },
     {
@@ -176,8 +176,8 @@
     },
     {
       "path": "layouts/topic/single.html",
-      "accessCount": 9,
-      "lastAccessed": 1786090285658,
+      "accessCount": 10,
+      "lastAccessed": 1786691614331,
       "type": "file"
     },
     {
@@ -326,8 +326,14 @@
     },
     {
       "path": "layouts/_default/list.html",
-      "accessCount": 1,
-      "lastAccessed": 1786084898020,
+      "accessCount": 2,
+      "lastAccessed": 1786691589751,
+      "type": "file"
+    },
+    {
+      "path": "layouts/topic/list.html",
+      "accessCount": 2,
+      "lastAccessed": 1786691777522,
       "type": "file"
     },
     {
@@ -418,6 +424,18 @@
       "path": "README_网站介绍.md",
       "accessCount": 1,
       "lastAccessed": 1786510116479,
+      "type": "file"
+    },
+    {
+      "path": "backend/deploy.py",
+      "accessCount": 1,
+      "lastAccessed": 1786690867912,
+      "type": "file"
+    },
+    {
+      "path": "layouts/updates/list.html",
+      "accessCount": 1,
+      "lastAccessed": 1786691658727,
       "type": "file"
     }
   ],

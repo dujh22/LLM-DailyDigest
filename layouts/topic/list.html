@@ -1,0 +1,104 @@
+{{- define "title" -}}
+  {{- .Title }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+  {{- /* 聚合：每个主题在全部日报 items 中的文章数、子主题集合、最近活跃日期 */ -}}
+  {{- $updates := where .Site.RegularPages "Section" "updates" -}}
+  {{- $updates = where $updates "Draft" false -}}
+  {{- $counts := dict -}}
+  {{- $subs := dict -}}
+  {{- $last := dict -}}
+  {{- range $upd := $updates -}}
+    {{- $udate := $upd.Date -}}
+    {{- range $upd.Params.items -}}
+      {{- $sub := .subtopic | default "其他" -}}
+      {{- range .topics -}}
+        {{- $tk := . -}}
+        {{- $c := index $counts $tk | default 0 -}}
+        {{- $counts = merge $counts (dict $tk (add $c 1)) -}}
+        {{- $sarr := slice -}}
+        {{- with index $subs $tk -}}{{- $sarr = . -}}{{- end -}}
+        {{- if not (in $sarr $sub) -}}{{- $subs = merge $subs (dict $tk (append $sub $sarr)) -}}{{- end -}}
+        {{- $ld := index $last $tk | default $udate -}}
+        {{- if $udate.After $ld -}}{{- $last = merge $last (dict $tk $udate) -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- /* 组装行并按文章数降序 */ -}}
+  {{- $rows := slice -}}
+  {{- range $tp := .Pages -}}
+    {{- $key := $tp.File.TranslationBaseName -}}
+    {{- $rows = $rows | append (dict
+        "page" $tp
+        "count" (index $counts $key | default 0)
+        "subs" (index $subs $key | default slice)
+        "last" (index $last $key | default $tp.Date)) -}}
+  {{- end -}}
+  {{- $rows = sort $rows "count" "desc" -}}
+
+  <div class="page archive">
+    <h2 class="single-title animate__animated animate__pulse animate__faster">
+      {{- dict "Class" "fa-solid fa-tags fa-fw" | partial "plugin/icon.html" -}}
+      {{- .Title -}}&nbsp;<sup>{{- len $rows -}}</sup>
+    </h2>
+    <p style="opacity:.75;margin:.4rem 0 1.2rem;">共 {{ len $rows }} 个主题，按包含文章数排序。</p>
+
+    <div class="topic-grid">
+      {{- range $rows -}}
+        {{- $p := .page -}}
+        {{- $n := .count -}}
+        {{- $subList := .subs -}}
+        {{- $ld := .last -}}
+        <a class="topic-card{{ if eq $n 0 }} empty{{ end }}" href="{{ $p.RelPermalink }}">
+          <div class="topic-card-head">
+            <span class="topic-card-title">{{- $p.Title -}}</span>
+            <span class="topic-count" title="包含文章数">{{- $n -}}</span>
+          </div>
+          <div class="topic-card-subs">
+            {{- $shown := 0 -}}
+            {{- range $subList -}}
+              {{- if lt $shown 4 -}}<span class="topic-chip">{{ . }}</span>{{- $shown = add $shown 1 -}}{{- end -}}
+            {{- end -}}
+            {{- if gt (len $subList) 4 -}}<span class="topic-chip more">+{{ sub (len $subList) 4 }}</span>{{- end -}}
+            {{- if eq $n 0 -}}<span class="topic-chip more">暂无文章</span>{{- end -}}
+          </div>
+          {{- if $ld -}}
+            <div class="topic-card-foot">
+              {{- dict "Class" "fa-regular fa-clock fa-fw" | partial "plugin/icon.html" -}}
+              最近：{{- $ld | dateFormat "2006-01-02" -}}
+            </div>
+          {{- end -}}
+        </a>
+      {{- end -}}
+    </div>
+  </div>
+
+  <style>
+    .topic-grid{
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:.85rem;
+      margin-top:.5rem;
+    }
+    .topic-card{
+      display:flex; flex-direction:column; gap:.5rem;
+      padding:.85rem 1rem; border:1px solid var(--global-border-color,#e5e7eb); border-radius:12px;
+      background:var(--global-bg-secondary,rgba(99,102,241,.04));
+      text-decoration:none; color:inherit; transition:transform .15s, box-shadow .15s, border-color .15s;
+    }
+    .topic-card:hover{ transform:translateY(-2px); border-color:var(--global-link-hover-color,#6366f1);
+      box-shadow:0 6px 18px rgba(99,102,241,.12); }
+    .topic-card.empty{ opacity:.6; }
+    .topic-card-head{ display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+    .topic-card-title{ font-weight:600; font-size:1.02rem; line-height:1.3;
+      color:var(--global-link-color,#6366f1); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .topic-count{ flex:0 0 auto; min-width:1.6rem; text-align:center; font-size:.78rem; font-weight:700;
+      padding:.1rem .4rem; border-radius:999px; background:var(--global-link-hover-color,#6366f1); color:#fff; }
+    .topic-card.empty .topic-count{ background:var(--global-font-color,#999); }
+    .topic-card-subs{ display:flex; flex-wrap:wrap; gap:.3rem; }
+    .topic-chip{ font-size:.72rem; padding:.12rem .45rem; border-radius:6px;
+      background:var(--global-border-color,#eef); color:var(--secondary-color,#555); }
+    .topic-chip.more{ background:transparent; opacity:.65; }
+    .topic-card-foot{ font-size:.72rem; opacity:.6; }
+  </style>
+{{- end -}}

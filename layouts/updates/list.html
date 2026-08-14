@@ -1,0 +1,77 @@
+{{- define "title" -}}
+  {{- .Title }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+  <div class="page archive">
+    <h2 class="single-title animate__animated animate__pulse animate__faster">
+      {{- dict "Class" "fa-solid fa-newspaper fa-fw" | partial "plugin/icon.html" -}}
+      {{- .Title -}}&nbsp;<sup>{{- len .Pages -}}</sup>
+    </h2>
+
+    {{- if .Pages -}}
+      {{- $pager := .Paginate .Pages (.Site.Params.section.paginate | default 20) -}}
+      <div class="daily-grid">
+        {{- range $pager.Pages -}}
+          {{- /* 当日关键词：去重的子主题（最有信息量），其次主题 */ -}}
+          {{- $subs := slice -}}
+          {{- $n := 0 -}}
+          {{- range .Params.items -}}
+            {{- $n = add $n 1 -}}
+            {{- with .subtopic -}}{{- if not (in $subs .) -}}{{- $subs = $subs | append . -}}{{- end -}}{{- end -}}
+          {{- end -}}
+          <a class="daily-card" href="{{ .RelPermalink }}">
+            <div class="daily-card-date">
+              <span class="dd-day">{{- .Date | dateFormat "01-02" -}}</span>
+              <span class="dd-ym">{{- .Date | dateFormat "2006 / Jan" -}}</span>
+              <span class="dd-weekday">{{- .Date | dateFormat "Mon" -}}</span>
+            </div>
+            <div class="daily-card-body">
+              <div class="daily-card-title">{{- .Title -}}</div>
+              <div class="daily-card-meta">
+                {{- dict "Class" "fa-solid fa-list-ul fa-fw" | partial "plugin/icon.html" -}}
+                {{- $n -}} 条
+              </div>
+              <div class="daily-card-keys">
+                {{- $shown := 0 -}}
+                {{- range $subs -}}
+                  {{- if lt $shown 6 -}}<span class="daily-chip">{{ . }}</span>{{- $shown = add $shown 1 -}}{{- end -}}
+                {{- end -}}
+                {{- if gt (len $subs) 6 -}}<span class="daily-chip more">+{{ sub (len $subs) 6 }}</span>{{- end -}}
+                {{- if eq $n 0 -}}<span class="daily-chip more">无条目</span>{{- end -}}
+              </div>
+            </div>
+          </a>
+        {{- end -}}
+      </div>
+      {{- partial "paginator.html" . -}}
+    {{- end -}}
+  </div>
+
+  <style>
+    .daily-grid{ display:grid; grid-template-columns:1fr; gap:.7rem; margin-top:.5rem; }
+    .daily-card{
+      display:flex; align-items:stretch; gap:1rem;
+      padding:.9rem 1rem; border:1px solid var(--global-border-color,#e5e7eb); border-radius:12px;
+      background:var(--global-bg-secondary,rgba(99,102,241,.04));
+      text-decoration:none; color:inherit; transition:transform .15s, box-shadow .15s, border-color .15s;
+    }
+    .daily-card:hover{ transform:translateX(3px); border-color:var(--global-link-hover-color,#6366f1);
+      box-shadow:0 6px 18px rgba(99,102,241,.12); }
+    .daily-card-date{
+      flex:0 0 4.2rem; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:.3rem .2rem; border-radius:10px; background:var(--global-link-hover-color,#6366f1); color:#fff;
+    }
+    .dd-day{ font-size:1.5rem; font-weight:700; line-height:1; }
+    .dd-ym{ font-size:.66rem; opacity:.9; margin-top:.15rem; }
+    .dd-weekday{ font-size:.66rem; opacity:.8; }
+    .daily-card-body{ flex:1 1 auto; min-width:0; }
+    .daily-card-title{ font-weight:600; font-size:1.02rem; color:var(--global-link-color,#6366f1);
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .daily-card-meta{ font-size:.78rem; opacity:.7; margin:.2rem 0 .45rem; }
+    .daily-card-keys{ display:flex; flex-wrap:wrap; gap:.3rem; }
+    .daily-chip{ font-size:.74rem; padding:.15rem .5rem; border-radius:6px;
+      background:var(--global-border-color,#eef); color:var(--secondary-color,#555); }
+    .daily-chip.more{ background:transparent; opacity:.65; }
+  </style>
+{{- end -}}
