@@ -118,12 +118,20 @@ enableEmoji = true
     placeholder = '搜索文章 / 主题…'
     maxResultLength = 10
     snippetLength = 40
+    # contentLength：每段（按 h2/h3 分块）写入搜索索引的最大字符数。
+    # FixIt 主题默认仅 10 字符，会把长内容截断到几乎无法搜索，这里放开到 4000。
+    contentLength = 4000
     highlightTag = 'em'
     absoluteURL = false
     [params.search.fuse]
       isCaseSensitive = false
       minMatchCharLength = 2
       threshold = 0.3
+      # 中文/CJK 搜索关键项：关闭「位置惩罚」与「字段长度归一化」。
+      # 否则 Fuse.js 仅匹配字段开头约 100 字符内的内容，长正文中的命中会被丢弃。
+      ignoreLocation = true
+      ignoreFieldNorm = true
+      findAllMatches = true
 
   # 顶部 Header
   [params.header]

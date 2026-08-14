@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"grep -rn \\\"search\\\\|fuse\\\\|Search\\\\|Fuse\\\" hugo.toml hugo.yaml config.toml config.yaml 2>/dev/null | head; echo \\\"---search section---\\\"; sed -n '/\\\\[params.search\\\\]/,/^\\\\[/p' hugo.toml 2...",
+  "error": "Exit code 1\nhugo.toml:62:    identifier = 'research'\nhugo.toml:64:    url = '/research/'\nhugo.toml:115:  [params.search]\nhugo.toml:117:    type = 'fuse'\nhugo.toml:123:    [params.search.fuse]\n---search section---\n  [params.search]\n    enable = true\n    type = 'fuse'\n    placeholder = '搜索文章 / 主题…'\n    maxResultLength = 10\n    snippetLength = 40\n    highlightTag = 'em'\n    absoluteURL = false\n    [params.search.fuse]\n      isCaseSensitive = false\n      minMatchCharLength = 2\n      threshold = 0.3\n...",
+  "timestamp": "2026-08-14T06:36:04.463Z",
+  "retry_count": 1
+}

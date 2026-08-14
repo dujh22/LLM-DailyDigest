@@ -132,7 +132,7 @@
         {{- range $i, $it := . -}}
           {{- $id := $it.id | default (printf "item-%d" (add $i 1)) -}}
           <article id="{{ $id }}" class="summary-card daily-item" style="margin:1.25rem 0;padding:1rem 1.25rem;border:1px solid var(--global-border-color,#eee);border-radius:12px;">
-            <h2 class="daily-item-title" style="margin:0 0 .35rem;">{{- $it.title -}}</h2>
+            <h2 id="{{ $id }}-title" class="daily-item-title" style="margin:0 0 .35rem;">{{- $it.title -}}</h2>
             {{- with $it.summary -}}<p class="single-subtitle" style="margin:0 0 .6rem;opacity:.85;">{{ . }}</p>{{- end -}}
             {{- /* meta line */ -}}
             <p class="post-meta-line" style="font-size:.85rem;opacity:.8;margin:.25rem 0 .6rem;">

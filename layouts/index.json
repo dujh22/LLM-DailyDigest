@@ -1,0 +1,80 @@
+{{- /* Overrides themes/FixIt/layouts/index.json so structured [[items]] daily
+       entries are searchable. FixIt only indexes .Content (markdown body) +
+       h2/h3 chunks, but this site's daily items live in front-matter [[items]]
+       rendered by the template, so they were never indexed. We emit one entry
+       per item in addition to FixIt's default behavior. */ -}}
+{{- if .Site.Params.search -}}
+    {{- $index := slice -}}
+    {{- $pages := where .Site.RegularPages "Params.password" "eq" nil -}}
+    {{- if .Site.Params.page.hiddenFromSearch -}}
+        {{- $pages = where $pages "Params.hiddenfromsearch" false -}}
+    {{- else -}}
+        {{- $pages = where $pages "Params.hiddenfromsearch" "!=" true -}}
+    {{- end -}}
+    {{- range $pages -}}
+        {{- $page := . -}}
+        {{- $uri := .RelPermalink -}}
+        {{- if $.Site.Params.search.absoluteURL -}}
+            {{- $uri = .Permalink -}}
+        {{- end -}}
+        {{- $meta := dict "uri" $uri "title" .Title "tags" .Params.tags "categories" .Params.categories -}}
+        {{- $meta = $.Site.Params.dateFormat | default "2006-01-02" | .PublishDate.Format | dict "date" | merge $meta -}}
+
+        {{- /* Structured daily items: one searchable entry per item */ -}}
+        {{- with .Params.items -}}
+            {{- range $i, $it := . -}}
+                {{- $itemID := $it.id | default (printf "item-%d" (add $i 1)) -}}
+                {{- $parts := slice -}}
+                {{- with $it.title -}}{{- $parts = $parts | append . -}}{{- end -}}
+                {{- with $it.summary -}}{{- $parts = $parts | append . -}}{{- end -}}
+                {{- with $it.subtopic -}}{{- $parts = $parts | append (printf "子主题：%v" .) -}}{{- end -}}
+                {{- with $it.source -}}{{- $parts = $parts | append . -}}{{- end -}}
+                {{- with $it.content -}}{{- $parts = $parts | append ($page.RenderString (dict "display" "block") . | plainify | htmlUnescape) -}}{{- end -}}
+                {{- with $it.purpose -}}{{- $parts = $parts | append ($page.RenderString (dict "display" "block") . | plainify | htmlUnescape) -}}{{- end -}}
+                {{- with $it.notes -}}{{- $parts = $parts | append . -}}{{- end -}}
+                {{- with $it.paper -}}{{- $parts = $parts | append . -}}{{- end -}}
+                {{- with $it.code -}}{{- $parts = $parts | append . -}}{{- end -}}
+                {{- with $it.dataset -}}{{- $parts = $parts | append . -}}{{- end -}}
+                {{- $content := delimit $parts " | " -}}
+                {{- $content = $content | replaceRE `[\n\t ]+` " " -}}
+                {{- if gt $.Site.Params.search.contentLength 0 -}}
+                    {{- $content = substr $content 0 $.Site.Params.search.contentLength -}}
+                {{- end -}}
+                {{- $itemURI := printf "%v#%v" $uri $itemID -}}
+                {{- /* Hugo `merge` keeps the FIRST map's value for duplicate keys,
+                       so item title/uri must be in the first (overriding) map. */ -}}
+                {{- $itemMeta := dict "title" ($it.title | default $page.Title) "uri" $itemURI | merge $meta -}}
+                {{- $entry := dict "objectID" (printf "%v:%v" $uri $itemID) "content" $content | merge $itemMeta -}}
+                {{- $index = $index | append $entry -}}
+            {{- end -}}
+        {{- end -}}
+
+        {{- /* Default FixIt behavior: description + h2/h3 content chunks */ -}}
+        {{- with .Description -}}
+            {{- $index = $index | append (dict "content" . "objectID" $uri | merge $meta) -}}
+        {{- end -}}
+        {{- $params := .Params | merge $.Site.Params.page -}}
+        {{- $content := dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" -}}
+        {{- $content = $content | replaceRE `<span class="lnt?"> *\d*\n?</span>` "" -}}
+        {{- range $i, $contenti := split $content "<h2 id=" -}}
+            {{- if gt $i 0 -}}
+                {{- $contenti = printf "<h2 id=%v" $contenti -}}
+            {{- end -}}
+            {{- range $j, $contentj := split $contenti "<h3 id=" -}}
+                {{- if gt $j 0 -}}
+                    {{- $contentj = printf "<h3 id=%v" $contentj -}}
+                {{- end -}}
+                {{- $contentj = $contentj | plainify | htmlUnescape | replaceRE `[\n\t ]+` " " -}}
+                {{- if gt $.Site.Params.search.contentLength 0 -}}
+                    {{- $contentj = substr $contentj 0 $.Site.Params.search.contentLength -}}
+                {{- end -}}
+                {{- if $contentj | and (ne $contentj " ") -}}
+                    {{- $one := printf "%v:%v:%v" $uri $i $j | dict "content" $contentj "objectID" | merge $meta -}}
+                    {{- $index = $index | append $one -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- $index | jsonify | safeJS -}}
+{{- end -}}
