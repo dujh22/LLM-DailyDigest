@@ -28,6 +28,17 @@ import warnings
 warnings.filterwarnings("ignore", category=XMLParsedAsHTMLWarning)
 from flask import Flask, request, jsonify, render_template
 
+# 自动部署：写入 content/ 后防抖 commit+push 触发 CI 重建（见 backend/deploy.py）。
+# 导入失败时降级为空操作，绝不影响内容写入本身。
+try:
+    from deploy import trigger_deploy, deploy_now
+except Exception:  # noqa: BLE001
+    def trigger_deploy(*a, **k):
+        pass
+
+    def deploy_now(*a, **k):
+        return {"ok": False, "message": "deploy 模块未加载"}
+
 # ---- 路径 ----
 REPO_ROOT = Path(__file__).resolve().parents[1]
 UPDATES_DIR = REPO_ROOT / "content" / "updates"
@@ -1096,6 +1107,8 @@ def api_submit():
     msg = f"已追加到 {rel}（id={item['id']}）"
     if created_topics:
         msg += f"；新建主题：{created_topics}"
+    # 防抖触发部署：内容已落库，稍后自动 commit+push 触发 CI 重建索引
+    trigger_deploy(f"提交条目 {item['id']} → {rel}")
     return jsonify({
         "ok": True,
         "item": item,
@@ -1161,6 +1174,8 @@ def api_merge_preview():
 def api_merge_apply():
     ts, tt, ss, st = _merge_payload()
     res = merge_apply(ts, tt, ss, st)
+    if res.get("ok"):
+        trigger_deploy(f"主题归并 → {tt or st}")
     code = 200 if res.get("ok") else 400
     return jsonify(res), code
 
@@ -1185,6 +1200,8 @@ def api_merge_apply_multi():
     tg, sg = _merge_multi_payload()
     topic_map, sub_map = _maps_from_groups(tg, sg)
     res = merge_apply_maps(topic_map, sub_map)
+    if res.get("ok"):
+        trigger_deploy("批量主题归并")
     code = 200 if res.get("ok") else 400
     return jsonify(res), code
 
@@ -1192,6 +1209,16 @@ def api_merge_apply_multi():
 @app.route("/api/merge/suggest", methods=["POST"])
 def api_merge_suggest():
     return jsonify(merge_suggest())
+
+
+@app.route("/api/rebuild", methods=["POST"])
+def api_rebuild():
+    """手动触发部署：立即 commit+push 触发 CI 重建站点。
+    body: {force: bool} —— force=true 时即使无内容变更也空提交强制重建（改了配置/模板后用）。"""
+    data = request.get_json(silent=True) or {}
+    force = bool(data.get("force"))
+    res = deploy_now("手动触发重建", force=force)
+    return jsonify(res), (200 if res.get("ok") else 500)
 
 
 @app.route("/batch/new")

@@ -150,6 +150,15 @@
       <span class="hint">提交后刷新 <code>hugo server</code> 即可在日报页看到新条目。</span>
     </div>
     <div id="submitMsg"></div>
+
+    <div class="actions" style="margin-top:.6rem;">
+      <button type="button" class="ghost" id="btnRebuild">🚀 重建并部署站点</button>
+      <label class="hint" style="display:inline-flex;align-items:center;gap:.3rem;">
+        <input type="checkbox" id="rebuildForce"> 强制重建（无变更也触发，改配置/模板后用）
+      </label>
+      <span class="hint">提交内容已自动防抖部署；此处可手动立即部署。</span>
+    </div>
+    <div id="rebuildMsg"></div>
   </div>
 </div>
 
@@ -341,6 +350,20 @@ $('btnSubmit').onclick = async ()=>{
     document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove()); // 新建的主题已落库，移除候选 chip
     document.querySelectorAll('#topics input, #research input').forEach(c=>c.checked=false);
     $('raw').value='';
+  }catch(e){ toast('网络错误：'+e,'err'); }
+  finally{ btn.disabled=false; btn.textContent=old; }
+};
+
+// 手动重建并部署站点（POST /api/rebuild）
+$('btnRebuild').onclick = async ()=>{
+  const btn=$('btnRebuild'); const old=btn.textContent; btn.disabled=true; btn.textContent='部署中…';
+  $('rebuildMsg').innerHTML='';
+  const force = $('rebuildForce').checked;
+  try{
+    const r=await fetch('/api/rebuild',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({force})});
+    const j=await r.json();
+    toast(j.ok?'✓ '+j.message : '✗ '+(j.message||'部署失败'), j.ok?'ok':'err');
+    $('rebuildMsg').innerHTML='<div style="'+(j.ok?'color:var(--ok)':'color:var(--err)')+';margin-top:.4rem">'+j.message+'</div>';
   }catch(e){ toast('网络错误：'+e,'err'); }
   finally{ btn.disabled=false; btn.textContent=old; }
 };
