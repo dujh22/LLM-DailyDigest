@@ -67,7 +67,7 @@ hugo server --baseURL http://localhost:1313/ -D
 
 ## 🛠️ 消息提交后端
 
-`backend/` 提供本地 Web 表单，录入单条消息并自动追加到当日日报，支持 LLM 从原始文本抽取字段。另含**批处理录入**（`/batch/new`）与**主题归并**（`/merge`）两个维护页面。
+`backend/` 提供本地 Web 表单，录入单条消息并自动追加到当日日报，支持 LLM 从原始文本抽取字段。另含**批处理录入**（`/batch/new`）、**当日推荐**（`/recommend`）与**主题归并**（`/merge`）三个辅助页面。
 
 ```bash
 cd backend
@@ -95,17 +95,22 @@ python app.py          # → http://localhost:5050
 
 脚本把主题正文按日期/编号锚点拆条 → 逐条送 LLM 结构化（含日期推断）→ 按条目日期写入对应历史日报（原始逐字笔记存入 `notes`，不浓缩）→ **从 topic 正文移除已迁出条目，仅保留笔记/洞察/无日期内容**。`--max` 为**每个主题**本次上限；`--dry` 不写盘。
 
-**批处理录入** `/batch/new`：上传 txt 或粘贴多段（空行分隔每条）→ 生成批次 → 「自动处理全部」并发跑链接抓取 + LLM 抽取（默认 100 并发）→ 逐条状态流转到 `待核对 / 待介入`，人工只在「待介入」条目补充抓取失败的链接、在「待核对」条目核对提交。有链接失败的条目不消耗 LLM。
+**批处理录入** `/batch/new`：上传 txt 或粘贴多段（空行分隔每条）→ 生成批次 → 「自动处理全部」并发跑链接抓取 + LLM 抽取（默认 100 并发）→ 逐条状态流转到 `待核对 / 待介入`，人工只在「待介入」条目补充抓取失败的链接、在「待核对」条目核对提交。有链接失败的条目不消耗 LLM。「⚡ 一键自动处理并提交」可跳过人工核对整批直接提交（待介入条目除外，自动提交失败者保留待核对并显示原因）。
+
+**当日推荐** `/recommend`：自动采集最近 24h 内与研究相关的内容，LLM 按各研究项目的「研究方向+范畴」画像判定相关性，勾选后一键导入批处理。公众号三级通道（appmsg 实时可选凭据增强 → 量子位官网实时 → [Wechat-Scholar](https://github.com/osnsyc/Wechat-Scholar) 学术 RSS 兜底 ≤12h）+ arXiv（cs.CL/cs.AI/cs.LG，24h 空窗自动放宽 48h/72h），按标题去重；**默认零配置可用**。结果按日缓存 `.recommend_cache/`，详见 `backend/README.md`。
 
 **主题归并** `/merge`：左侧三级树「主题 ▸ 子主题 ▸ 文章」勾选若干标签 → 右侧填目标名 → 预览影响范围 → 执行。子主题按字符串全局归并；改写为原位替换、diff 最小，可 `git checkout` 回退。内置「🤖 LLM 归并推荐」自动聚类近义标签，支持单条采纳或勾选多条批量执行。
 
 | 方法 | 路径                                    | 说明                                   |
 | ---- | --------------------------------------- | -------------------------------------- |
-| GET  | `/` `/batch/new` `/merge` | 单条提交 / 批处理 / 主题归并 页面      |
+| GET  | `/` `/batch/new` `/recommend` `/merge` | 单条提交 / 批处理 / 当日推荐 / 主题归并 页面 |
 | GET  | `/api/topics` `/api/research` | 合法主题 / 研究列表                    |
 | POST | `/api/extract`                        | `{raw, extra?}` → 链接抓取 + 结构化 JSON |
 | POST | `/api/submit`                         | 追加 item 到当日日报（新主题自动建页） |
 | POST | `/api/batch/create` `/api/batch/<id>/process` | 建批次 / 后台并发处理           |
+| POST | `/api/batch/<id>/auto_submit` | 一键自动处理并提交（跳过核对） |
+| GET/POST | `/api/recommend/status` `/api/recommend/collect` `/api/recommend/credentials` | 推荐状态/采集/凭据 |
+| POST | `/api/recommend/to_batch` | 选中候选导入批处理 |
 | POST | `/api/merge/preview_multi` `/api/merge/apply_multi` | 多组归并预览 / 批量执行   |
 
 ## 🚀 使用方法
@@ -137,6 +142,12 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 ```
 
 ## 📅 更新日志
+
+**2026-08-16**
+
+- 当日推荐 `/recommend`：自动采集最近 24h 相关内容（量子位官网 + 机器之心/新智元 Wechat-Scholar 学术 RSS + 可选 appmsg 实时增强 + arXiv 三分类，标题去重），LLM 按研究画像判定相关性，勾选一键导入批处理；默认零配置可用
+- 批处理新增「⚡ 一键自动处理并提交」：跳过人工核对整批提交（待介入条目除外）
+- arXiv 采集 24h 空窗自动放宽 48h/72h（公告批次时差）
 
 **2026-08-12**
 

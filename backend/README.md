@@ -1,6 +1,6 @@
 # 提交工具后端（本地）
 
-交互式填写单条消息，追加到当日日报；支持 LLM 从原始文本自动抽取结构化字段。另含**批处理录入**与**主题/子主题归并**两个维护页面。
+交互式填写单条消息，追加到当日日报；支持 LLM 从原始文本自动抽取结构化字段。另含**批处理录入**、**当日推荐采集**与**主题/子主题归并**三个辅助页面。
 
 ## 安装
 
@@ -58,6 +58,27 @@ python app.py
 - 「▶ 自动处理全部」并发执行链接抓取 + LLM 抽取（默认 `BATCH_WORKERS=100`，可用环境变量覆盖）。
 - 每条状态：`待处理` → `处理中` → **`待核对`**（抽取完成，人工核对提交）/ **`待介入`**（有链接抓不到或抽取失败，需补充）→ `已完成`。
 - 有抓取失败链接的条目**不消耗 LLM**，直接进入「待介入」等用户补充。
+- 「⚡ 一键自动处理并提交」：跳过人工核对——待处理条目先自动抽取，随后全部「待核对」条目直接按抽取结果提交（`notes` 逐字保留原文、候选新主题默认并入），适合信任抽取质量的整批快速录入。「待介入」条目不会被自动提交；自动提交失败的条目保持「待核对」并显示原因。
+
+### 当日推荐 `/recommend`
+
+自动采集**最近 24 小时**内与你研究相关的内容，LLM 判定相关性后勾选导入批处理，形成「推荐 → 抽取 → 提交」的完整链路。
+
+**采集通道（公众号三级 + arXiv，按标题自动去重、高层级优先）：**
+
+| 优先级 | 通道 | 覆盖 | 时效 | 前置条件 |
+| --- | --- | --- | --- | --- |
+| 1（可选） | 微信公众平台 appmsg 接口 | 量子位 / 机器之心 / 新智元 | 实时 | 手动维护 cookie+token，限流风险高 |
+| 2 | 量子位官网 qbitai.com | 量子位 | 实时 | 无 |
+| 3 | [Wechat-Scholar](https://github.com/osnsyc/Wechat-Scholar) 学术公众号 RSS | 三号全（可扩展） | ≤12h | 无 |
+| — | arXiv Atom API（cs.CL/cs.AI/cs.LG） | 论文 | 实时 | 无 |
+
+- **默认零配置可用**（官网 + RSS + arXiv）。appmsg 为可选实时增强：`/recommend` 页粘贴 mp.weixin.qq.com 的 Cookie + token（F12 找 appmsg 请求），保存时自动测试；微信限流（ret 200013，`freq control`）时自动静默回落到默认通道，只有某公众号所有通道都取不到时才报警。
+- 相关性判定：解析 `content/research/*.md` 各项目的「研究方向 + 研究范畴」构建画像，候选（标题+摘要）分 chunk 并发送 LLM 打分（`FILTER_CHUNK=40`、`FILTER_WORKERS=8`），返回 相关/不相关 + 匹配的研究项目 + 一句理由；单 chunk 失败降级为「未判定」，不影响整批。
+- arXiv 严格 24h 窗口为空时自动放宽到 48h/72h（arXiv 按公告批次入库，刚公告论文的 submittedDate 常在 1~2 天前），页面会注明实际窗口。
+- 结果按日缓存到 `.recommend_cache/recommend-<date>.json`（gitignored），同一天重开页面不重复采集；「强制重新采集」忽略缓存。
+- 「📦 导入所选到批次」：勾选条目生成批处理会话（raw = 标题 + 链接 + 摘要，链接独立成行便于批处理阶段重新抓取），跳转批次总览页走既有流程；勾选状态存 localStorage，刷新不丢。
+- 增删 RSS 公众号：改 `backend/recommend.py` 的 `WECHAT_SCHOLAR_FEEDS` 字典（feed 地址见 Wechat-Scholar 仓库 `channels.json`）。
 
 ### 主题 / 子主题归并 `/merge`
 
@@ -73,7 +94,7 @@ python app.py
 | 方法 | 路径 | 说明 |
 | --- | --- | --- |
 | GET | `/` | 单条提交表单页 |
-| GET | `/batch/new` `/merge` | 批处理录入 / 主题归并 页面 |
+| GET | `/batch/new` `/recommend` `/merge` | 批处理录入 / 当日推荐 / 主题归并 页面 |
 | GET | `/api/topics` `/api/research` | 合法主题 / 研究列表 |
 | POST | `/api/resolve_links` | `{raw}` → 解析并抓取其中的链接，返回状态 |
 | POST | `/api/extract` | `{raw, extra?}` → 链接抓取 + LLM 抽取为结构化字段 JSON |
@@ -81,6 +102,13 @@ python app.py
 | POST | `/api/batch/create` | 上传 txt 或 `{text}` → 创建批次（空行分段） |
 | GET | `/api/batch/<id>` | 批次状态（条目状态/进度） |
 | POST | `/api/batch/<id>/process` | 后台并发处理所有待处理条目 |
+| POST | `/api/batch/<id>/process_one` | `{idx}` 同步重跑单条（重新处理/链接修复后） |
+| POST | `/api/batch/<id>/auto_submit` | 一键自动处理：抽取后跳过核对直接提交全部待核对条目 |
+| POST | `/api/batch/mark` | 标记某条目已提交（单条页提交成功后回调） |
+| GET | `/api/recommend/status` | 采集运行状态 + 当日缓存候选列表 |
+| POST | `/api/recommend/collect` | `{force}` 启动一次采集（后台异步） |
+| GET/POST | `/api/recommend/credentials` | appmsg 凭据状态 / 保存并测试（不回显 cookie） |
+| POST | `/api/recommend/to_batch` | `{keys}` 把选中候选生成为批处理会话 |
 | POST | `/api/merge/index` | 全部主题/子主题的三级树 + 频次 |
 | POST | `/api/merge/preview` `/api/merge/preview_multi` | 单组 / 多组归并 dry-run |
 | POST | `/api/merge/apply` `/api/merge/apply_multi` | 单组 / 多组归并执行 |

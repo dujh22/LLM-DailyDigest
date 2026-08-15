@@ -56,7 +56,7 @@
 <body>
 <div class="wrap">
   <h1><span>LLM-DailyDigest</span> · 批处理录入</h1>
-  <p class="sub">上传 txt 或粘贴多段原始信息（<b>空行分隔每一条</b>），生成批次后逐条打开处理页交互。 · <a href="/">← 单条提交</a> · <a href="/merge">🧩 主题归并</a></p>
+  <p class="sub">上传 txt 或粘贴多段原始信息（<b>空行分隔每一条</b>），生成批次后逐条打开处理页交互。 · <a href="/">← 单条提交</a> · <a href="/recommend">🌟 当日推荐</a> · <a href="/merge">🧩 主题归并</a></p>
 
   <!-- 创建批次 -->
   <div class="card">
@@ -82,6 +82,7 @@
     </div>
     <div class="actions" style="margin-top:0;margin-bottom:14px">
       <button id="btnProcess">▶ 自动处理全部待处理</button>
+      <button id="btnAuto" style="background:linear-gradient(135deg,#16a34a,#22c55e)">⚡ 一键自动处理并提交</button>
       <span class="hint" id="processHint">并发抓取链接 + LLM 抽取（限流并发）；有链接读取失败的条目会进入「待介入」。</span>
     </div>
     <table>
@@ -116,8 +117,10 @@ function renderOverview(batch){
   $('progressBar').style.width = (entries.length ? (done*100/entries.length) : 0) + '%';
   // 处理按钮状态：运行中禁用；无 pending 则灰显
   const hasPending = entries.some(e=>e.status==='pending');
+  const hasReview = entries.some(e=>e.status==='review');
   const running = !!batch.running;
   $('btnProcess').disabled = running || !hasPending;
+  $('btnAuto').disabled = running || !(hasPending || hasReview);
   $('processHint').textContent = running ? '⏳ 后台并发处理中…' : (hasPending ? '并发抓取链接 + LLM 抽取（限流并发）；有链接读取失败的条目会进入「待介入」。' : '没有待处理条目。');
   const chipCls = {pending:'pending', processing:'processing', review:'review', intervention:'intervention', done:'done', skipped:'skipped'};
   const chipText = {pending:'待处理', processing:'处理中…', review:'待核对', intervention:'待介入', done:'已完成', skipped:'已跳过'};
@@ -205,6 +208,23 @@ $('btnProcess').onclick = async ()=>{
     refresh();
   }catch(e){ toast('网络错误：'+e,'err'); }
   finally{ btn.textContent=old; }
+};
+
+// 一键自动处理：pending 先抽取，全部待核对条目跳过人工核对直接提交（后台）
+$('btnAuto').onclick = async ()=>{
+  if(!CURRENT) return;
+  const n = CURRENT.entries.filter(e=>e.status==='review'||e.status==='pending').length;
+  if(!n){ toast('没有可自动处理的条目','err'); return; }
+  if(!confirm(`将跳过人工核对，直接提交 ${n} 条（待处理条目会先自动抽取再提交）；「待介入」条目仍需手动处理。确定继续？`)) return;
+  const btn = $('btnAuto'); btn.disabled=true; const old=btn.innerHTML; btn.textContent='启动中…';
+  try{
+    const r = await fetch(`/api/batch/${encodeURIComponent(CURRENT.batch_id)}/auto_submit`,{method:'POST'});
+    const j = await r.json();
+    if(!j.ok){ toast((j.errors||[]).join('；')||'启动失败','err'); return; }
+    toast('✓ 已启动一键自动处理，提交完成后条目会逐条变为「已完成」','ok');
+    refresh();
+  }catch(e){ toast('网络错误：'+e,'err'); }
+  finally{ btn.disabled=false; btn.innerHTML=old; }
 };
 
 // 标签页重新可见时刷新状态（用户从处理页返回）

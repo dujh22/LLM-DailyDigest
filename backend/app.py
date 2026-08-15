@@ -6,6 +6,8 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
   GET  /api/topics    返回 content/topic/ 下的合法主题名
   POST /api/extract   用 LLM 从原始文本抽取结构化字段（JSON）
   POST /api/submit    把一条 item 追加到当日日报 content/updates/<date>.md 的 [[items]]
+  POST /api/batch/<id>/auto_submit  一键自动处理批次：抽取后跳过人工核对直接提交
+  GET  /recommend     当日推荐页（采集公众号 + arXiv 最近 24h 内容，LLM 相关性筛选）
 
 API Key：读取仓库根目录 api_key.txt；不存在则禁用 LLM 抽取并提示用户。
 运行：python backend/app.py  （然后浏览器打开 http://localhost:5050）
@@ -38,6 +40,12 @@ except Exception:  # noqa: BLE001
 
     def deploy_now(*a, **k):
         return {"ok": False, "message": "deploy 模块未加载"}
+
+# 当日推荐采集模块（见 backend/recommend.py）。导入失败时相关路由返回 503。
+try:
+    import recommend as recommend_mod
+except Exception:  # noqa: BLE001
+    recommend_mod = None
 
 # ---- 路径 ----
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -1017,6 +1025,78 @@ def process_batch_background(batch_id: str) -> bool:
 
 
 # ============================================================
+# 一键自动处理：跳过人工核对，抽取结果直接提交
+# ============================================================
+def submit_review_entry(batch_id: str, idx: int) -> dict:
+    """把一条 review（待核对）条目的抽取结果直接提交写入日报。
+    组装逻辑与人工核对页的默认行为一致：
+    - notes 逐字保留原始信息 raw；
+    - suggested_topics（候选新主题）在人工页默认勾选，此处同样并入 topics 一并提交。
+    提交成功后标记 done；失败则保留 review 状态并记录 error。"""
+    batch = load_batch(batch_id)
+    if not batch:
+        return {"ok": False, "errors": ["批次不存在"]}
+    entry = next((e for e in batch["entries"] if e.get("idx") == idx), None)
+    if not entry or entry.get("status") != "review":
+        return {"ok": False, "errors": ["条目不在待核对状态"]}
+    data = entry.get("data") or {}
+    topics = [t for t in (data.get("topics") or []) if str(t).strip()]
+    for t in (data.get("suggested_topics") or []):
+        t = str(t).strip()
+        if t and t not in topics:
+            topics.append(t)
+    payload = {k: data.get(k) or "" for k in
+               ("title", "subtopic", "source", "summary", "paper",
+                "code", "dataset", "link", "content", "purpose")}
+    payload.update({
+        "id": "",
+        "topics": topics,
+        "research": data.get("research") or [],
+        "notes": entry.get("raw", ""),
+    })
+    ok, res = do_submit(payload)
+    if ok:
+        update_batch_entry(batch_id, idx, status="done", error="",
+                           item_id=res["item"]["id"], file=res["file"])
+    else:
+        update_batch_entry(batch_id, idx,
+                           error="自动提交失败：" + "；".join(res.get("errors", [])))
+    return res
+
+
+def auto_submit_batch_background(batch_id: str) -> bool:
+    """后台一键自动处理：先并发跑完所有 pending（抓取+LLM 抽取），
+    再把全部 review 条目逐条直接提交（跳过人工核对）。
+    intervention（待介入）条目不自动提交，仍需人工处理。已在运行则返回 False。"""
+    with _RUNNING_LOCK:
+        if batch_id in _RUNNING_BATCHES:
+            return False
+        _RUNNING_BATCHES.add(batch_id)
+
+    def run():
+        try:
+            batch = load_batch(batch_id)
+            if not batch:
+                return
+            pending = [e["idx"] for e in batch["entries"] if e.get("status") == "pending"]
+            with ThreadPoolExecutor(max_workers=BATCH_WORKERS,
+                                    thread_name_prefix=f"batch-{batch_id[:8]}") as ex:
+                list(ex.map(lambda i: process_one_entry(batch_id, i), pending))
+            # 重新加载：抽取完成后把全部 review 条目逐条提交
+            # （同一日报文件为读-改-写，必须串行；do_submit 内部有 _SUBMIT_LOCK）
+            batch = load_batch(batch_id) or {"entries": []}
+            for e in batch["entries"]:
+                if e.get("status") == "review":
+                    submit_review_entry(batch_id, e["idx"])
+        finally:
+            with _RUNNING_LOCK:
+                _RUNNING_BATCHES.discard(batch_id)
+
+    threading.Thread(target=run, daemon=True).start()
+    return True
+
+
+# ============================================================
 # 路由
 # ============================================================
 @app.route("/")
@@ -1062,13 +1142,15 @@ def api_research():
     return jsonify({"research": valid_research()})
 
 
-@app.route("/api/submit", methods=["POST"])
-def api_submit():
-    data = request.get_json(force=True, silent=True) or {}
+_SUBMIT_LOCK = threading.Lock()  # 串行化日报文件的读-改-写（自动提交与手动提交并发时）
+
+
+def do_submit(data: dict):
+    """执行单条提交（校验 → 建主题 → 写入日报），返回 (ok, 响应 dict)。"""
     try:
         item = build_item_from_form(data)
     except ValueError as e:
-        return jsonify({"ok": False, "errors": [str(e)]}), 400
+        return False, {"ok": False, "errors": [str(e)]}
     target_date = item.pop("_target_date", None)
 
     # 校验
@@ -1078,7 +1160,7 @@ def api_submit():
     if not item["topics"]:
         errors.append("topics 不能为空（至少选一个主题）")
     if errors:
-        return jsonify({"ok": False, "errors": errors}), 400
+        return False, {"ok": False, "errors": errors}
 
     # 主题自动扩展：选中的主题若 content/topic/ 里不存在，则自动新建
     valid = set(valid_topics())
@@ -1092,16 +1174,17 @@ def api_submit():
             except Exception as e:  # noqa: BLE001
                 errors.append(f"无法创建主题「{t}」：{e}")
     if errors:
-        return jsonify({"ok": False, "errors": errors}), 400
+        return False, {"ok": False, "errors": errors}
 
     # 研究项目：固定集合，过滤掉未知项（不自动新建）
     vr = set(valid_research())
     item["research"] = [r for r in item["research"] if r in vr]
 
     try:
-        path = append_item(item, target_date)
+        with _SUBMIT_LOCK:
+            path = append_item(item, target_date)
     except Exception as e:  # noqa: BLE001
-        return jsonify({"ok": False, "errors": [f"写入失败：{e}"]}), 500
+        return False, {"ok": False, "errors": [f"写入失败：{e}"]}
 
     rel = path.relative_to(REPO_ROOT)
     msg = f"已追加到 {rel}（id={item['id']}）"
@@ -1109,13 +1192,20 @@ def api_submit():
         msg += f"；新建主题：{created_topics}"
     # 防抖触发部署：内容已落库，稍后自动 commit+push 触发 CI 重建索引
     trigger_deploy(f"提交条目 {item['id']} → {rel}")
-    return jsonify({
+    return True, {
         "ok": True,
         "item": item,
         "file": str(rel),
         "created_topics": created_topics,
         "message": msg,
-    })
+    }
+
+
+@app.route("/api/submit", methods=["POST"])
+def api_submit():
+    data = request.get_json(force=True, silent=True) or {}
+    ok, res = do_submit(data)
+    return jsonify(res), (200 if ok else 400)
 
 
 @app.route("/api/resolve_links", methods=["POST"])
@@ -1319,6 +1409,19 @@ def api_batch_process_one(batch_id):
     return jsonify({"ok": True})
 
 
+@app.route("/api/batch/<batch_id>/auto_submit", methods=["POST"])
+def api_batch_auto_submit(batch_id):
+    """一键自动处理：pending 条目先自动抽取，然后全部待核对条目跳过人工核对直接提交。
+    待介入条目不自动提交，仍需人工处理。后台异步执行，前端轮询进度。"""
+    if not load_batch(batch_id):
+        return jsonify({"ok": False, "errors": ["批次不存在"]}), 404
+    if batch_id in _RUNNING_BATCHES:
+        return jsonify({"ok": False, "errors": ["批次正在处理中，请稍候再试"]}), 409
+    started = auto_submit_batch_background(batch_id)
+    return jsonify({"ok": True, "started": started,
+                    "running": batch_id in _RUNNING_BATCHES})
+
+
 @app.route("/api/batch/mark", methods=["POST"])
 def api_batch_mark():
     """标记某条目为已提交（由单条提交成功后调用）。"""
@@ -1354,6 +1457,105 @@ def api_extract():
             out["raw"] = res["raw"]
         return jsonify(out), 502
     return jsonify(res)
+
+
+# ============================================================
+# 当日推荐（逻辑在 recommend.py；模块未加载时全部 503）
+# ============================================================
+def _recommend_or_503():
+    if recommend_mod is None:
+        return jsonify({"ok": False,
+                        "errors": ["recommend 模块未加载（检查 backend/recommend.py）"]}), 503
+    return None
+
+
+@app.route("/recommend")
+def recommend_page():
+    return render_template("recommend.html")
+
+
+@app.route("/api/recommend/status")
+def api_recommend_status():
+    err = _recommend_or_503()
+    if err:
+        return err
+    state = recommend_mod.get_state()
+    cache = recommend_mod.load_cache()
+    return jsonify({
+        "ok": True,
+        "running": state["running"],
+        "phase": state["phase"],
+        "has_cache": cache is not None,
+        "generated_at": (cache or {}).get("generated_at", ""),
+        "sources": (cache or {}).get("sources", {}),
+        "errors": (cache or {}).get("errors", []),
+        "credentials": recommend_mod.credentials_status(),
+        "items": (cache or {}).get("items", []),
+    })
+
+
+@app.route("/api/recommend/collect", methods=["POST"])
+def api_recommend_collect():
+    """启动一次采集（公众号 + arXiv + LLM 判定，后台异步）。body: {force: bool}。"""
+    err = _recommend_or_503()
+    if err:
+        return err
+    data = request.get_json(silent=True) or {}
+    started = recommend_mod.start_collection(bool(data.get("force")))
+    state = recommend_mod.get_state()
+    return jsonify({"ok": True, "started": started,
+                    "running": state["running"]}), (409 if not started and state["running"] else 200)
+
+
+@app.route("/api/recommend/credentials", methods=["GET", "POST"])
+def api_recommend_credentials():
+    err = _recommend_or_503()
+    if err:
+        return err
+    if request.method == "GET":
+        # 不回显 cookie 内容
+        return jsonify({"ok": True, **recommend_mod.credentials_status()})
+    data = request.get_json(force=True, silent=True) or {}
+    res = recommend_mod.save_credentials(data.get("cookie") or "", data.get("token") or "")
+    return jsonify(res), (200 if res["ok"] else 400)
+
+
+@app.route("/api/recommend/to_batch", methods=["POST"])
+def api_recommend_to_batch():
+    """把选中的候选条目生成为批处理会话（复用现有批次基础设施与流程）。"""
+    err = _recommend_or_503()
+    if err:
+        return err
+    data = request.get_json(force=True, silent=True) or {}
+    keys = data.get("keys") or []
+    if not keys:
+        return jsonify({"ok": False, "errors": ["未选择任何条目"]}), 400
+    cache = recommend_mod.load_cache()
+    if not cache:
+        return jsonify({"ok": False, "errors": ["无当日推荐缓存，请先采集"]}), 400
+    by_key = {it["key"]: it for it in cache.get("items", [])}
+    picked = [by_key[k] for k in keys if k in by_key]
+    if not picked:
+        return jsonify({"ok": False, "errors": ["所选条目不在缓存中"]}), 400
+    # raw 文本格式：URL 独立成行，便于批处理 llm_extract 的链接正则命中重新抓取；
+    # 摘要已在 raw 中，链接抓取失败时（待介入）也有兜底信息。
+    def to_raw(it):
+        src = it["source"] if it["source"] == "arXiv" else f"{it['source']}（微信公众号）"
+        return (f"标题：{it.get('title', '')}\n"
+                f"来源：{src}\n"
+                f"链接：{it.get('link', '')}\n"
+                f"摘要：{(it.get('summary') or '').strip()[:800]}")
+    batch_id = new_batch_id()
+    batch = {
+        "batch_id": batch_id,
+        "created_at": batch_id.split("-")[0],
+        "title": f"当日推荐 {batch_id.split('-')[0]}",
+        "entries": [{"idx": i, "raw": to_raw(it), "status": "pending",
+                     "item_id": "", "file": ""} for i, it in enumerate(picked)],
+    }
+    save_batch(batch)
+    return jsonify({"ok": True, "batch_id": batch_id,
+                    "count": len(batch["entries"])})
 
 
 if __name__ == "__main__":

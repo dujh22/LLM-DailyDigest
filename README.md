@@ -66,7 +66,7 @@ hugo server --baseURL http://localhost:1313/ -D
 
 ## 🛠️ Message Submission Backend
 
-`backend/` provides a local web form to enter a single message and append it to today's digest, with LLM field extraction from raw text. It also ships **batch entry** (`/batch/new`) and **topic merge** (`/merge`) maintenance pages.
+`backend/` provides a local web form to enter a single message and append it to today's digest, with LLM field extraction from raw text. It also ships **batch entry** (`/batch/new`), **daily recommendation** (`/recommend`), and **topic merge** (`/merge`) pages.
 
 ```bash
 cd backend
@@ -82,17 +82,22 @@ python app.py          # → http://localhost:5050
 
 **Single submit**: paste raw text → "🔗 Resolve links" / "✨ LLM Extract" fills the form. Links to github / arxiv / HuggingFace / WeChat are **fetched automatically** and fed to the extractor; failed links can be supplemented manually (supplement text is used for extraction only, never written to `notes`). After review, "➕ Submit" appends one `[[items]]`. Keep `hugo server` running and refresh after submit.
 
-**Batch entry** `/batch/new`: upload a txt or paste multiple entries (blank-line separated) → "Process all" runs link-fetch + LLM extraction concurrently (default 100 workers) → each item flows to `review / intervention` status; intervene only where a link failed to fetch, review and submit the rest. Items with unfetchable links skip the LLM call entirely.
+**Batch entry** `/batch/new`: upload a txt or paste multiple entries (blank-line separated) → "Process all" runs link-fetch + LLM extraction concurrently (default 100 workers) → each item flows to `review / intervention` status; intervene only where a link failed to fetch, review and submit the rest. Items with unfetchable links skip the LLM call entirely. "⚡ Auto-process & submit" submits the whole batch in one click, skipping manual review (intervention items excluded; failures stay in review with reasons shown).
+
+**Daily recommendation** `/recommend`: auto-collects the last 24h of research-relevant content, scores relevance with an LLM against each research project's profile (direction + scope from `content/research/*.md`), then imports selected items into the batch pipeline. WeChat channels are tiered with title-based dedup — optional real-time appmsg credentials → QbitAI official site (real-time) → [Wechat-Scholar](https://github.com/osnsyc/Wechat-Scholar) academic RSS fallback (≤12h latency) — plus arXiv (cs.CL/cs.AI/cs.LG, auto-widens to 48h/72h when the 24h window is empty). **Works with zero configuration.** Daily cache in `.recommend_cache/`; see `backend/README.md` for details.
 
 **Topic merge** `/merge`: in a 3-level tree (topic ▸ subtopic ▸ article), select tags, enter a target name → preview impact → apply. Subtopics merge globally by string; rewrites are in-place for minimal diff and fully `git checkout`-reversible. Built-in "🤖 LLM suggestions" clusters near-duplicate tags; adopt singly or select several for batch apply.
 
 | Method | Path                                  | Description                                      |
 | ------ | ------------------------------------- | ------------------------------------------------ |
-| GET    | `/` `/batch/new` `/merge`             | Single submit / batch / topic-merge pages        |
+| GET    | `/` `/batch/new` `/recommend` `/merge` | Single submit / batch / recommend / topic-merge pages |
 | GET    | `/api/topics` `/api/research`         | Valid topics / research list                     |
 | POST   | `/api/extract`                        | `{raw, extra?}` → link fetch + structured JSON   |
 | POST   | `/api/submit`                         | Append item to today's digest (auto-create topics) |
 | POST   | `/api/batch/create` `/api/batch/<id>/process` | Create batch / concurrent processing    |
+| POST   | `/api/batch/<id>/auto_submit`         | One-click auto-process & submit (skip review)    |
+| GET/POST | `/api/recommend/status` `/api/recommend/collect` `/api/recommend/credentials` | Recommend status / collect / credentials |
+| POST   | `/api/recommend/to_batch`             | Import selected candidates into a batch          |
 | POST   | `/api/merge/preview_multi` `/api/merge/apply_multi` | Multi-group merge preview / batch apply |
 
 ## 🚀 How to Use
@@ -124,6 +129,12 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 ```
 
 ## 📅 Changelog
+
+**2026-08-16**
+
+- Daily recommendation `/recommend`: auto-collect last-24h research-relevant content (QbitAI official site + MachineHeart/NewZhiYuan via Wechat-Scholar academic RSS + optional real-time appmsg enhancement + arXiv 3 categories, title-deduped), LLM relevance scoring against research profiles, one-click import into the batch pipeline; zero-config ready
+- Batch entry: "⚡ auto-process & submit" submits the whole batch skipping manual review (intervention items excluded)
+- arXiv collection auto-widens 24h → 48h/72h on empty windows (announcement-batch lag)
 
 **2026-08-12**
 

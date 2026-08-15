@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM-DailyDigest · 当日推荐</title>
+<style>
+  :root{
+    --primary:#6366f1; --accent:#a855f7; --bg:#0f1117; --card:#1a1b26;
+    --fg:#e6e6ec; --muted:#9aa0b5; --border:#2a2c3a; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"PingFang SC",sans-serif;
+    background:linear-gradient(160deg,#0f1117,#16182a 60%);color:var(--fg);min-height:100vh}
+  .wrap{max-width:920px;margin:0 auto;padding:32px 20px 80px}
+  h1{font-size:1.6rem;margin:0 0 4px}
+  h1 span{background:linear-gradient(135deg,var(--primary),var(--accent));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);margin:0 0 24px;font-size:.92rem}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:18px 20px;margin-bottom:18px}
+  .card h2{font-size:1.05rem;margin:0 0 12px}
+  label{display:block;font-size:.82rem;color:var(--muted);margin:10px 0 4px}
+  textarea,input[type=text],input[type=password]{width:100%;background:#12131c;color:var(--fg);
+    border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:.92rem;font-family:inherit}
+  textarea{min-height:80px;resize:vertical}
+  button{cursor:pointer;border:none;border-radius:9px;padding:10px 18px;font-size:.92rem;font-weight:600;
+    background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;transition:transform .15s,opacity .15s}
+  button:hover{transform:translateY(-1px)} button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  button.ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
+  button.green{background:linear-gradient(135deg,#16a34a,#22c55e)}
+  .actions{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);
+    background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 18px;
+    box-shadow:0 8px 30px rgba(0,0,0,.4);max-width:90vw;display:none;font-size:.9rem;z-index:99}
+  .toast.show{display:block} .toast.ok{border-color:var(--ok)} .toast.err{border-color:var(--err)}
+  .errlist{color:var(--err);font-size:.85rem;margin:8px 0}
+  .hint{font-size:.78rem;color:var(--muted)}
+  .chip{font-size:.72rem;border-radius:6px;padding:2px 8px;display:inline-block}
+  .chip.ok{background:rgba(34,197,94,.18);color:var(--ok)}
+  .chip.muted{background:rgba(154,160,181,.18);color:var(--muted)}
+  .chip.warn{background:rgba(245,158,11,.2);color:var(--warn)}
+  .chip.topic{background:rgba(99,102,241,.2);color:var(--primary);margin-left:4px}
+  .banner{border:1px solid var(--border);border-left:3px solid var(--warn);border-radius:8px;
+    background:rgba(245,158,11,.06);padding:10px 12px;font-size:.82rem;margin:10px 0;color:var(--warn)}
+  .banner.err{border-left-color:var(--err);background:rgba(239,68,68,.06);color:var(--err)}
+  .bar{height:8px;background:#12131c;border-radius:5px;overflow:hidden;margin:8px 0}
+  .bar > i{display:block;height:100%;background:linear-gradient(135deg,var(--primary),var(--accent));
+    transition:width .4s}
+  .item{display:flex;gap:10px;align-items:flex-start;padding:10px 6px;border-bottom:1px solid var(--border)}
+  .item:last-child{border-bottom:none}
+  .item input[type=checkbox]{margin-top:4px;accent-color:var(--primary);flex:none}
+  .item .body{min-width:0;flex:1}
+  .item .title{font-size:.92rem;margin:0 0 3px}
+  .item .meta{font-size:.76rem;color:var(--muted);margin:0 0 3px;word-break:break-all}
+  .item .reason{font-size:.76rem;color:var(--muted);margin:0}
+  .item .summary{font-size:.8rem;color:var(--muted);margin:3px 0 0;display:-webkit-box;
+    -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .group h3{font-size:.9rem;margin:14px 0 4px;color:var(--fg)}
+  .group .hint{margin-bottom:2px}
+  details{margin-top:8px} details summary{cursor:pointer;font-size:.85rem;color:var(--muted)}
+  a{color:var(--primary)}
+  .empty{color:var(--muted);font-size:.88rem;padding:16px 0;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span>LLM-DailyDigest</span> · 当日推荐</h1>
+  <p class="sub">自动采集最近 24 小时内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
+
+  <!-- ① 微信凭据 -->
+  <div class="card">
+    <h2>① 公众号采集通道 <span class="chip ok">RSS + 官网兜底，无需配置</span></h2>
+    <div class="hint">默认通道：<b>量子位官网</b>（实时）+ <b>Wechat-Scholar 学术 RSS</b>（量子位 / 机器之心 / 新智元，≤12h 延迟，<a href="https://github.com/osnsyc/Wechat-Scholar" target="_blank">项目仓库</a>）。下方 appmsg 凭据为<b>可选实时增强</b>：配置后公众号文章实时抓取（优先级最高，与默认通道按标题自动去重）；微信对该接口限流较严（ret 200013），失效时自动回落到默认通道。</div>
+    <details>
+      <summary>更新凭据</summary>
+      <label>Cookie（整段粘贴）</label>
+      <textarea id="credCookie" placeholder="ua_id=...; wxuin=...; ..."></textarea>
+      <label>token（appmsg 请求参数里的数字串）</label>
+      <input type="text" id="credToken" placeholder="如 1896974313">
+      <div class="actions">
+        <button class="ghost" id="btnSaveCred">💾 保存并测试</button>
+        <span class="hint" id="credMsg"></span>
+      </div>
+    </details>
+  </div>
+
+  <!-- ② 采集 -->
+  <div class="card">
+    <h2>② 采集最近 24 小时</h2>
+    <div class="hint" id="collectMeta"></div>
+    <div class="bar" id="progressWrap" style="display:none"><i id="progressBar" style="width:30%"></i></div>
+    <div id="sourceErrors"></div>
+    <div class="actions">
+      <button id="btnCollect">🔄 采集</button>
+      <button class="ghost" id="btnForce">🔄 强制重新采集（忽略当日缓存）</button>
+      <span class="hint" id="phaseText"></span>
+    </div>
+  </div>
+
+  <!-- ③ 候选列表 -->
+  <div class="card" id="listCard" style="display:none">
+    <h2>③ 候选列表 <span class="hint" id="listMeta"></span></h2>
+    <div class="actions" style="margin:0 0 8px">
+      <button class="ghost" id="btnCheckRelevant">☑ 只勾选「相关」</button>
+      <button class="ghost" id="btnUncheckAll">☐ 全部取消</button>
+    </div>
+    <div id="groups"></div>
+  </div>
+
+  <!-- ④ 导入 -->
+  <div class="card" id="importCard" style="display:none">
+    <h2>④ 导入批处理</h2>
+    <div class="hint">所选条目将生成批处理会话（raw = 标题 + 链接 + 摘要），后续走现有的「LLM 抽取 → 待核对 / 一键自动提交」流程。</div>
+    <div class="actions">
+      <button class="green" id="btnImport">📦 导入所选到批次 (0)</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+let ITEMS = [];       // 当前候选
+let POLL = null;      // 轮询句柄
+
+function toast(msg, kind){
+  const t = $('toast'); t.className='toast show '+(kind||'');
+  t.textContent = msg; clearTimeout(window.__tt);
+  window.__tt = setTimeout(()=>t.className='toast', 4000);
+}
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+const PHASE_TEXT = {idle:'', wechat:'正在抓取公众号文章…', arxiv:'正在抓取 arXiv 最近 24h…',
+  filter:'LLM 相关性判定中…', done:'完成', error:'采集出错'};
+
+// ---- 凭据（可选实时增强；未配置/失效时走 RSS+官网默认通道） ----
+function renderCred(c){
+  if(!c || !c.configured){ $('credMsg').textContent = 'appmsg 凭据未配置（默认通道采集中）'; return; }
+  $('credMsg').textContent = c.tested_ok
+    ? 'appmsg 凭据有效（实时增强已启用）· 上次更新：'+(c.updated_at||'')
+    : 'appmsg 凭据可能过期/限流（已回落默认通道）· 上次更新：'+(c.updated_at||'');
+}
+$('btnSaveCred').onclick = async ()=>{
+  const btn = $('btnSaveCred'); btn.disabled=true; const old=btn.textContent; btn.textContent='测试中…';
+  try{
+    const r = await fetch('/api/recommend/credentials',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({cookie:$('credCookie').value.trim(), token:$('credToken').value.trim()})});
+    const j = await r.json();
+    if(!j.ok || !j.tested_ok){ toast('✗ '+(j.message||'保存失败'),'err'); $('credMsg').textContent=j.message||''; }
+    else{ toast('✓ 凭据有效，已保存','ok'); $('credCookie').value=''; $('credToken').value=''; refreshStatus(); }
+  }catch(e){ toast('网络错误：'+e,'err'); }
+  finally{ btn.disabled=false; btn.textContent=old; }
+};
+
+// ---- 状态 / 采集 ----
+function renderStatus(j){
+  renderCred(j.credentials);
+  const phase = $('phaseText');
+  phase.textContent = PHASE_TEXT[j.phase] || j.phase;
+  $('btnCollect').disabled = j.running;
+  $('btnForce').disabled = j.running;
+  $('progressWrap').style.display = j.running ? '' : 'none';
+  // 源级错误横幅（凭据过期给指引）
+  const errs = j.errors || [];
+  const expired = errs.some(e=>e.credentials_expired);
+  let html = '';
+  errs.forEach(e=>{
+    html += `<div class="banner ${e.credentials_expired?'':'err'}">⚠ ${escapeHtml(e.source)}：${escapeHtml(e.error)}</div>`;
+  });
+  if(expired){
+    html += `<div class="banner">公众号凭据缺失或过期：展开上方「更新凭据」，到 mp.weixin.qq.com 复制最新 Cookie 与 token 后保存。arXiv 结果不受影响。</div>`;
+  }
+  $('sourceErrors').innerHTML = html;
+  const srcParts = Object.entries(j.sources||{}).map(([k,v])=>`${k} ${v}`);
+  $('collectMeta').textContent = (j.generated_at ? `上次采集：${j.generated_at}` : '尚未采集') +
+    (srcParts.length ? ` · ${srcParts.join(' · ')}` : '');
+  if(j.running){ $('listCard').style.display='none'; $('importCard').style.display='none'; return; }
+  if(j.has_cache && (j.items||[]).length){ renderItems(j); }
+  else if(j.has_cache){ $('listCard').style.display=''; $('groups').innerHTML='<div class="empty">最近 24 小时没有采集到内容。</div>'; $('importCard').style.display='none'; }
+}
+
+async function refreshStatus(){
+  try{
+    const r = await fetch('/api/recommend/status');
+    const j = await r.json();
+    if(j.ok) renderStatus(j);
+  }catch(e){}
+}
+
+async function collect(force){
+  const btn = force ? $('btnForce') : $('btnCollect');
+  btn.disabled = true;
+  try{
+    const r = await fetch('/api/recommend/collect',{method:'POST',
+      headers:{'Content-Type':'application/json'},body:JSON.stringify({force:!!force})});
+    const j = await r.json();
+    if(!j.ok){ toast((j.errors||[]).join('；')||'启动失败','err'); return; }
+    if(!j.running && !j.started){ /* 409 已在运行 */ }
+  }catch(e){ toast('网络错误：'+e,'err'); }
+  finally{ btn.disabled = false; startPolling(); }
+}
+function startPolling(){
+  if(POLL) return;
+  POLL = setInterval(async ()=>{
+    await refreshStatus();
+    try{
+      const r = await fetch('/api/recommend/status'); const j = await r.json();
+      if(j.ok && !j.running){ clearInterval(POLL); POLL = null; }
+    }catch(e){}
+  }, 2000);
+}
+$('btnCollect').onclick = ()=>collect(false);
+$('btnForce').onclick = ()=>collect(true);
+
+// ---- 候选列表 ----
+function checkedStore(){
+  try{ return JSON.parse(localStorage.getItem('recommend_checked')||'{}'); }catch(e){ return {}; }
+}
+function saveChecked(map){ localStorage.setItem('recommend_checked', JSON.stringify(map)); }
+
+function renderItems(j){
+  ITEMS = j.items || [];
+  $('listCard').style.display = '';
+  $('importCard').style.display = '';
+  const stored = checkedStore();
+  // 按 source 分组
+  const groups = {};
+  ITEMS.forEach(it=>{ (groups[it.source] = groups[it.source]||[]).push(it); });
+  const relChip = it => it.relevant===true ? '<span class="chip ok">相关</span>'
+    : it.relevant===false ? '<span class="chip muted">不相关</span>'
+    : '<span class="chip warn">未判定</span>';
+  let html = '';
+  for(const [src, list] of Object.entries(groups)){
+    html += `<div class="group"><h3>${escapeHtml(src)} <span class="hint">(${list.length})</span></h3>`;
+    list.forEach(it=>{
+      const checked = it.key in stored ? !!stored[it.key] : (it.relevant===true);
+      const topics = (it.research||[]).map(r=>`<span class="chip topic">${escapeHtml(r)}</span>`).join('');
+      html += `
+      <div class="item">
+        <input type="checkbox" data-key="${escapeHtml(it.key)}" ${checked?'checked':''}>
+        <div class="body">
+          <p class="title">${relChip(it)}${topics} <a href="${escapeHtml(it.link)}" target="_blank">${escapeHtml(it.title||'(无标题)')}</a></p>
+          <p class="meta">${escapeHtml(it.published||'')}</p>
+          ${it.summary ? `<p class="summary">${escapeHtml(it.summary.slice(0,160))}</p>` : ''}
+          ${it.reason ? `<p class="reason">${escapeHtml(it.reason)}</p>` : ''}
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+  $('groups').innerHTML = html;
+  const nRel = ITEMS.filter(i=>i.relevant===true).length;
+  $('listMeta').textContent = `共 ${ITEMS.length} 条 · 相关 ${nRel} 条`;
+  // 勾选事件：写 localStorage
+  document.querySelectorAll('#groups input[type=checkbox]').forEach(cb=>{
+    cb.onchange = ()=>{
+      const m = checkedStore(); m[cb.getAttribute('data-key')] = cb.checked; saveChecked(m);
+      updateImportBtn();
+    };
+  });
+  updateImportBtn();
+}
+function updateImportBtn(){
+  const n = document.querySelectorAll('#groups input[type=checkbox]:checked').length;
+  $('btnImport').textContent = `📦 导入所选到批次 (${n})`;
+  $('btnImport').disabled = !n;
+}
+$('btnCheckRelevant').onclick = ()=>{
+  const m = {};
+  document.querySelectorAll('#groups .item').forEach(div=>{
+    const cb = div.querySelector('input[type=checkbox]');
+    const key = cb.getAttribute('data-key');
+    const it = ITEMS.find(i=>i.key===key);
+    cb.checked = !!(it && it.relevant===true);
+    m[key] = cb.checked;
+  });
+  saveChecked(m); updateImportBtn();
+};
+$('btnUncheckAll').onclick = ()=>{
+  document.querySelectorAll('#groups input[type=checkbox]').forEach(cb=>cb.checked=false);
+  saveChecked({}); updateImportBtn();
+};
+
+// ---- 导入批处理 ----
+$('btnImport').onclick = async ()=>{
+  const keys = [...document.querySelectorAll('#groups input[type=checkbox]:checked')]
+    .map(cb=>cb.getAttribute('data-key'));
+  if(!keys.length){ toast('请先勾选条目','err'); return; }
+  const btn = $('btnImport'); btn.disabled=true; const old=btn.textContent; btn.textContent='创建中…';
+  try{
+    const r = await fetch('/api/recommend/to_batch',{method:'POST',
+      headers:{'Content-Type':'application/json'},body:JSON.stringify({keys})});
+    const j = await r.json();
+    if(!j.ok){ toast((j.errors||[]).join('；')||'导入失败','err'); return; }
+    toast(`✓ 已创建批次（${j.count} 条），正在跳转…`,'ok');
+    // 清掉本页勾选状态（已进入批处理流程）
+    saveChecked({});
+    setTimeout(()=>{ location.href = '/batch/'+encodeURIComponent(j.batch_id); }, 600);
+  }catch(e){ toast('网络错误：'+e,'err'); }
+  finally{ btn.disabled=false; btn.textContent=old; }
+};
+
+// ---- 初始化：无缓存且未运行则自动采集 ----
+(async ()=>{
+  await refreshStatus();
+  try{
+    const r = await fetch('/api/recommend/status'); const j = await r.json();
+    if(j.ok && !j.running && !j.has_cache) collect(false);
+    else if(j.ok && j.running) startPolling();
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
