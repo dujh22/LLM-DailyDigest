@@ -833,13 +833,16 @@ def save_batch(batch: dict) -> Path:
 
 def load_batch(batch_id: str):
     if not re.fullmatch(r"[A-Za-z0-9_\-]+", batch_id or ""):
+        app.logger.warning("load_batch 拒绝非法 id: %r", batch_id)
         return None
     p = BATCH_DIR / f"{batch_id}.json"
     if not p.exists():
+        app.logger.warning("load_batch 文件不存在: %s (BATCH_DIR=%s)", p, BATCH_DIR)
         return None
     try:
         return json.loads(p.read_text(encoding="utf-8"))
-    except Exception:  # noqa: BLE001
+    except Exception as e:  # noqa: BLE001
+        app.logger.warning("load_batch 解析失败 %s: %s", p, e)
         return None
 
 

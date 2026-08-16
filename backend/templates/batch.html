@@ -69,6 +69,7 @@
       <button id="btnCreate">📦 创建批次</button>
       <button class="ghost" id="btnLoad">↺ 载入最近批次</button>
       <input type="text" id="loadId" placeholder="或填入 batch_id 载入" style="max-width:220px;background:#12131c;border:1px solid var(--border);border-radius:8px;padding:9px 11px;color:var(--fg)">
+      <a href="#" id="lastRecommend" style="font-size:.8rem;display:none"></a>
     </div>
     <div id="createMsg"></div>
   </div>
@@ -195,6 +196,17 @@ async function loadById(id){
 }
 $('btnLoad').onclick = ()=>loadById($('loadId').value.trim());
 $('loadId').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); $('btnLoad').click(); }});
+
+// 上次「当日推荐」导入的批次快捷入口（记录在 localStorage）
+try{
+  const lastB = localStorage.getItem('recommend_last_batch');
+  if(lastB && /^\w[-\w]*$/.test(lastB)){
+    const a = $('lastRecommend');
+    a.href = '/batch/'+encodeURIComponent(lastB);
+    a.textContent = '🌟 上次推荐批次 '+lastB;
+    a.style.display = '';
+  }
+}catch(e){}
 
 // 自动处理全部 pending 条目（后台）
 $('btnProcess').onclick = async ()=>{
