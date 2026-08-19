@@ -59,7 +59,7 @@ FILTER_WORKERS = 8         # 判定并发数
 
 _UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36")
-_TIMEOUT = 15
+_TIMEOUT = (10, 30)  # (连接超时, 读取超时)，连接超时单独收紧以便快速重试
 
 # 采集运行状态（仿 app.py 的 _RUNNING_LOCK / _RUNNING_BATCHES 模式）
 _STATE_LOCK = threading.Lock()
@@ -79,12 +79,25 @@ def get_state() -> dict:
         return {"running": _RECOMMEND_RUNNING, **_STATE}
 
 
-def _get(url: str, params=None, headers=None):
+def _get(url: str, params=None, headers=None, retries: int = 3):
+    """带重试的 GET：本地代理瞬断（ProxyError/超时）时退避重试后可自愈。"""
     h = {"User-Agent": _UA}
     h.update(headers or {})
-    r = requests.get(url, params=params, headers=h, timeout=_TIMEOUT)
-    r.raise_for_status()
-    return r
+    last_exc = None
+    for attempt in range(retries):
+        try:
+            r = requests.get(url, params=params, headers=h, timeout=_TIMEOUT)
+            r.raise_for_status()
+            return r
+        except requests.HTTPError as e:
+            if e.response is not None and e.response.status_code < 500:
+                raise  # 4xx 重试无意义
+            last_exc = e
+        except requests.RequestException as e:  # ProxyError / 连接与读取超时
+            last_exc = e
+        if attempt < retries - 1:
+            time.sleep(1.5 * (attempt + 1))
+    raise last_exc
 
 
 # ============================================================

@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"env | grep -iE \\\"proxy\\\" ; echo \\\"---shell rc---\\\"; grep -iE \\\"proxy\\\" ~/.zshrc ~/.zprofile ~/.zshenv 2>/dev/null\",\"description\":\"Check proxy env vars in current shell and rc files\"}",
+  "error": "Exit code 2\nHTTP_PROXY=http://127.0.0.1:7897\nhttp_proxy=http://127.0.0.1:7897\nHTTPS_PROXY=http://127.0.0.1:7897\nhttps_proxy=http://127.0.0.1:7897\nNO_PROXY=localhost,127.0.0.1,api-gateway.glm.ai\nno_proxy=localhost,127.0.0.1,api-gateway.glm.ai\n---shell rc---\n/Users/djh/.zshrc:export NO_PROXY=\"api-gateway.glm.ai\"\n/Users/djh/.zshrc:export no_proxy=\"$NO_PROXY\"\n/Users/djh/.zshrc:export http_proxy=\"http://127.0.0.1:7897\"\n/Users/djh/.zshrc:export HTTP_PROXY=\"http://127.0.0.1:7897\"\n/Users/djh/.zshrc:expo...",
+  "timestamp": "2026-08-19T03:49:19.567Z",
+  "retry_count": 1
+}

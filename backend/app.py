@@ -621,7 +621,7 @@ def build_item_from_form(data: dict) -> dict:
 # ============================================================
 _UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36")
-_LINK_TIMEOUT = 12
+_LINK_TIMEOUT = (10, 30)  # (连接超时, 读取超时)，连接超时单独收紧以便快速重试
 _LINK_CACHE: dict = {}  # url -> {"t": ts, "data": result dict}
 _LINK_CACHE_TTL = 300
 
@@ -653,12 +653,25 @@ def detect_links(text: str):
     return out
 
 
-def _http_get(url: str, **kw):
+def _http_get(url: str, retries: int = 3, **kw):
+    """带重试的 GET：本地代理瞬断（ProxyError/超时）时退避重试后可自愈。"""
     headers = {"User-Agent": _UA}
     headers.update(kw.pop("headers", {}))
-    r = requests.get(url, headers=headers, timeout=_LINK_TIMEOUT, **kw)
-    r.raise_for_status()
-    return r
+    last_exc = None
+    for attempt in range(retries):
+        try:
+            r = requests.get(url, headers=headers, timeout=_LINK_TIMEOUT, **kw)
+            r.raise_for_status()
+            return r
+        except requests.HTTPError as e:
+            if e.response is not None and e.response.status_code < 500:
+                raise  # 4xx 重试无意义
+            last_exc = e
+        except requests.RequestException as e:  # ProxyError / 连接与读取超时
+            last_exc = e
+        if attempt < retries - 1:
+            time.sleep(1.5 * (attempt + 1))
+    raise last_exc
 
 
 def _clean_text(s: str, limit: int = 6000) -> str:
@@ -697,9 +710,8 @@ def fetch_github(url: str) -> dict:
     if not m:
         raise ValueError("非标准 github 仓库 URL")
     owner, repo = m.group(1), m.group(2).rstrip(".git")
-    headers = {"Accept": "application/vnd.github+json", "User-Agent": _UA}
-    resp = requests.get(f"https://api.github.com/repos/{owner}/{repo}",
-                        headers=headers, timeout=_LINK_TIMEOUT)
+    headers = {"Accept": "application/vnd.github+json"}
+    resp = _http_get(f"https://api.github.com/repos/{owner}/{repo}", headers=headers)
     resp.raise_for_status()
     meta = resp.json()
     desc = meta.get("description") or ""
@@ -708,8 +720,7 @@ def fetch_github(url: str) -> dict:
     homepage = meta.get("homepage") or ""
     readme = ""
     try:
-        rr = requests.get(f"https://raw.githubusercontent.com/{owner}/{repo}/HEAD/README.md",
-                          headers={"User-Agent": _UA}, timeout=_LINK_TIMEOUT)
+        rr = _http_get(f"https://raw.githubusercontent.com/{owner}/{repo}/HEAD/README.md")
         if rr.status_code == 200:
             readme = _clean_text(rr.text, 4000)
     except Exception:  # noqa: BLE001
