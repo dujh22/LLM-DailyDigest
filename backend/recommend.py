@@ -2,8 +2,12 @@
 当日推荐采集模块（无 Flask 依赖，被 backend/app.py 导入）。
 
 功能：
-  - 微信公众号（量子位 / 机器之心 / 新智元）最近 24h 文章列表采集
-    （mp.weixin.qq.com appmsg 接口，凭据存仓库根目录 wechat_credentials.json，手动更新）
+  - 微信公众号（量子位 / 机器之心 / 新智元）最近 24h 文章列表采集，四级通道按序兜底：
+    1. mp.weixin.qq.com appmsg 接口（凭据存仓库根目录 wechat_credentials.json，手动更新，实时）
+    2. 量子位官网直采（免凭据，实时）
+    3. Wechat-Scholar RSS（免凭据，≤12h 延迟）
+    4. wechat2rss 公共 RSS（免凭据，~24h 内收录）
+    各 RSS/官网通道之间按标题去重
   - arXiv 最近 24h cs.CL / cs.AI / cs.LG 论文采集（export.arxiv.org Atom API）
   - 基于 content/research/*.md 的研究画像构建
   - LLM 相关性批量判定（候选分 chunk 并发打分）
@@ -43,6 +47,14 @@ WECHAT_SCHOLAR_FEEDS = {
     "量子位": "https://raw.githubusercontent.com/osnsyc/Wechat-Scholar/main/channels/gh_114e76fd6e5d.xml",
     "机器之心": "https://raw.githubusercontent.com/osnsyc/Wechat-Scholar/main/channels/gh_dbc0a5474692.xml",
     "新智元": "https://raw.githubusercontent.com/osnsyc/Wechat-Scholar/main/channels/gh_108f2a2a27f4.xml",
+}
+# wechat2rss 公共托管服务（tttmr/Wechat2RSS，免凭据，~24h 内收录）。
+# 与 Wechat-Scholar 相互独立的第二 RSS 兜底，两家同时断供才报警；
+# feed id 来自 https://wechat2rss.xlab.app/list/all.html，私有部署见项目仓库。
+WECHAT2RSS_FEEDS = {
+    "量子位": "https://wechat2rss.xlab.app/feed/7131b577c61365cb47e81000738c10d872685908.xml",
+    "机器之心": "https://wechat2rss.xlab.app/feed/51e92aad2728acdd1fda7314be32b16639353001.xml",
+    "新智元": "https://wechat2rss.xlab.app/feed/ede30346413ea70dbef5d485ea5cbb95cca446e7.xml",
 }
 ARXIV_CATEGORIES = ["cs.CL", "cs.AI", "cs.LG"]
 ARXIV_API = "https://export.arxiv.org/api/query"
@@ -320,15 +332,15 @@ def _norm_title(t: str) -> str:
 
 
 # ============================================================
-# 采集：Wechat-Scholar 学术公众号 RSS（免凭据兜底，≤12h 延迟）
+# 采集：公众号 RSS 兜底（Wechat-Scholar / wechat2rss，均免凭据）
 # ============================================================
-def collect_wechat_scholar(since_dt: datetime) -> dict:
-    """拉取 Wechat-Scholar 托管的公众号 RSS（RSS 2.0，stdlib ElementTree 解析），
+def _collect_rss(feeds: dict, since_dt: datetime, label: str) -> dict:
+    """拉取公众号 RSS 2.0 订阅源（stdlib ElementTree 解析），
     过滤出 since_dt 之后发布的文章。返回 {"items": [...], "errors": [...]}。"""
     import xml.etree.ElementTree as ET
     from email.utils import parsedate_to_datetime
     items, errors = [], []
-    for name, url in WECHAT_SCHOLAR_FEEDS.items():
+    for name, url in feeds.items():
         try:
             r = _get(url)
             root = ET.fromstring(r.text)
@@ -348,13 +360,23 @@ def collect_wechat_scholar(since_dt: datetime) -> dict:
                         pub = pd.isoformat(timespec="seconds")
                 except (TypeError, ValueError):
                     pass  # 日期解析失败 → 不按时间过滤，保留（宁多勿漏）
-                # description 通常无正文（该服务不输出全文），留空由批处理阶段重抓
+                # description 可能无正文（取决于服务是否输出全文），留空由批处理阶段重抓
                 items.append({"key": link, "source": name,
                               "title": t, "summary": "", "link": link,
                               "published": pub})
         except Exception as e:  # noqa: BLE001
-            errors.append({"source": f"{name}（RSS）", "error": f"RSS 拉取失败：{e}"})
+            errors.append({"source": f"{name}（{label}）", "error": f"RSS 拉取失败：{e}"})
     return {"items": items, "errors": errors}
+
+
+def collect_wechat_scholar(since_dt: datetime) -> dict:
+    """Wechat-Scholar 托管源（每日三次更新，≤12h 延迟）。"""
+    return _collect_rss(WECHAT_SCHOLAR_FEEDS, since_dt, "RSS")
+
+
+def collect_wechat2rss(since_dt: datetime) -> dict:
+    """wechat2rss 公共托管源（~24h 内收录），与 Wechat-Scholar 相互独立。"""
+    return _collect_rss(WECHAT2RSS_FEEDS, since_dt, "RSS2")
 
 
 # ============================================================
@@ -595,15 +617,23 @@ def run_collection():
         seen_titles |= {_norm_title(q["title"]) for q in qbitai_items}
         source_errors.extend(qbitai["errors"])
 
-        # 3) Wechat-Scholar RSS（免凭据兜底，≤12h 延迟；与前两级按标题去重）
+        # 3) Wechat-Scholar RSS（免凭据兜底之一，≤12h 延迟；与前两级按标题去重）
         scholar = collect_wechat_scholar(now - timedelta(hours=24))
         scholar_items = [s for s in scholar["items"]
                          if _norm_title(s["title"]) not in seen_titles]
+        seen_titles |= {_norm_title(s["title"]) for s in scholar_items}
         source_errors.extend(scholar["errors"])
+
+        # 4) wechat2rss 公共 RSS（免凭据兜底之二，与前三级按标题去重）
+        w2r = collect_wechat2rss(now - timedelta(hours=24))
+        w2r_items = [w for w in w2r["items"]
+                     if _norm_title(w["title"]) not in seen_titles]
+        source_errors.extend(w2r["errors"])
 
         all_items.extend(wechat_items)
         all_items.extend(qbitai_items)
         all_items.extend(scholar_items)
+        all_items.extend(w2r_items)
 
         # appmsg 降级提示：仅在其本该覆盖的公众号没有被任何通道取到时才报警，
         # 已由官网/RSS 兜底的号不再重复提示（避免限流错误刷屏）
@@ -613,7 +643,8 @@ def run_collection():
             uncovered = [n for n, _ in WECHAT_ACCOUNTS if n not in covered]
             if uncovered:
                 source_errors.append({"source": "、".join(uncovered),
-                                      "error": "无可用采集通道（未配置 appmsg 凭据）"})
+                                      "error": "最近 24h 所有通道均未取到文章"
+                                               "（大概率该号未发文；appmsg 未配置，无法实时核实）"})
 
         # 3) arXiv（24h 窗口为空时逐级放宽到 48h/72h：arXiv 按公告批次入库，
         #    刚公告的论文 submittedDate 常在 1~2 天前，严格 24h 会漏掉最新批次）

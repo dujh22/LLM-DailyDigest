@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"echo \\\"=== feeddd·新智元 ===\\\"; curl -sL --max-time 25 \\\"https://feed.hamibot.com/api/feeds/61aa18e9486e3727fb090ba1/json\\\" | python3 -c \\\"\\nimport sys, json\\nd = json.load(sys.stdin)\\nitems ...",
+  "error": "Exit code 1\n=== feeddd·新智元 ===\nTraceback (most recent call last):\n  File \"<string>\", line 3, in <module>\n  File \"/Users/djh/miniconda3/lib/python3.9/json/__init__.py\", line 293, in load\n    return loads(fp.read(),\n  File \"/Users/djh/miniconda3/lib/python3.9/json/__init__.py\", line 346, in loads\n    return _default_decoder.decode(s)\n  File \"/Users/djh/miniconda3/lib/python3.9/json/decoder.py\", line 337, in decode\n    obj, end = self.raw_decode(s, idx=_w(s, 0).end())\n  File \"/Users/djh/miniconda3/...",
+  "timestamp": "2026-08-21T05:56:30.095Z",
+  "retry_count": 1
+}
