@@ -60,6 +60,8 @@ ARXIV_CATEGORIES = ["cs.CL", "cs.AI", "cs.LG"]
 ARXIV_API = "https://export.arxiv.org/api/query"
 ARXIV_PAGE_SIZE = 100
 ARXIV_MAX_TOTAL = 500
+# arXiv API 礼仪：UA 需含身份标识，请求间隔 ≥3s（下方分页 sleep）
+ARXIV_UA = "LLM-DailyDigest/1.0 (recommendation collector; github.com/dujh22/LLM-DailyDigest)"
 
 # LLM 配置与 app.py 保持一致（环境变量可覆盖）
 import os
@@ -92,7 +94,8 @@ def get_state() -> dict:
 
 
 def _get(url: str, params=None, headers=None, retries: int = 3):
-    """带重试的 GET：本地代理瞬断（ProxyError/超时）时退避重试后可自愈。"""
+    """带重试的 GET：本地代理瞬断（ProxyError/超时）时退避重试后可自愈。
+    429（arXiv 等限速）按 Retry-After / 递增退避重试，其余 4xx 不重试。"""
     h = {"User-Agent": _UA}
     h.update(headers or {})
     last_exc = None
@@ -102,8 +105,19 @@ def _get(url: str, params=None, headers=None, retries: int = 3):
             r.raise_for_status()
             return r
         except requests.HTTPError as e:
-            if e.response is not None and e.response.status_code < 500:
-                raise  # 4xx 重试无意义
+            status = e.response.status_code if e.response is not None else 0
+            if status == 429:
+                # 限速：优先遵守 Retry-After，缺省时递增退避（5s/15s/30s）
+                wait = int(e.response.headers.get("Retry-After", 0) or 0)
+                if not wait:
+                    wait = 5 * (attempt + 1)
+                if attempt < retries - 1:
+                    time.sleep(min(wait, 60))
+                    last_exc = e
+                    continue
+                raise
+            if status < 500:
+                raise  # 其余 4xx 重试无意义
             last_exc = e
         except requests.RequestException as e:  # ProxyError / 连接与读取超时
             last_exc = e
@@ -402,7 +416,8 @@ def collect_arxiv(since_dt: datetime, now_dt: datetime = None) -> dict:
             r = _get(ARXIV_API, params={
                 "search_query": query, "start": start,
                 "max_results": ARXIV_PAGE_SIZE,
-                "sortBy": "submittedDate", "sortOrder": "descending"})
+                "sortBy": "submittedDate", "sortOrder": "descending"},
+                headers={"User-Agent": ARXIV_UA})
         except Exception as e:  # noqa: BLE001
             errors.append({"source": "arXiv", "error": f"arXiv API 请求失败：{e}"})
             break
@@ -659,6 +674,8 @@ def run_collection():
                         "source": "arXiv",
                         "error": f"最近 24h 无新提交（公告批次未覆盖），已回退到 {hours}h 窗口（{len(res['items'])} 篇）"})
                 break
+            if any("429" in e["error"] for e in res["errors"]):
+                time.sleep(10)  # 刚被限速，放宽窗口前先冷却
 
         # 3) LLM 相关性判定
         _set_state("filter", counts=_count_by_source(all_items))
