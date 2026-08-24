@@ -1,6 +1,6 @@
 # 提交工具后端（本地）
 
-交互式填写单条消息，追加到当日日报；支持 LLM 从原始文本自动抽取结构化字段。另含**批处理录入**、**当日推荐采集**与**主题/子主题归并**三个辅助页面。
+交互式填写单条消息，追加到当日日报；支持 LLM 从原始文本自动抽取结构化字段。另含**批处理录入**、**当日推荐采集**、**主题/子主题归并**与**条目去重归并**四个辅助页面。
 
 ## 安装
 
@@ -89,16 +89,27 @@ python app.py
 - 「🤖 LLM 归并推荐」自动聚类近义标签，可单条「采纳」或勾选多条「⚡ 批量采纳并执行」。
 - 改写采用**原位替换**，未变化的 item 逐字保留，diff 最小；全程可 `git checkout -- content/updates/` 回退。
 
+### 条目去重归并 `/dedup`
+
+条目可能当日内部重复，也可能与过去若干天跨文件重复（同一工作被多个来源/多天反复报道）。本页以 **URL 判重**做条目级归并：
+
+- **判重规则**：`paper` / `code` / `dataset` / `link` 四个字段任一非空值**规范化后相同**即视为同一内容。规范化 = 小写域名、去默认端口与尾 `/`、剥 `utm_*` / `spm` / `ref` 等跟踪参数、丢 fragment、arXiv `abs`/`pdf`/`html` + 版本号统一为 `abs/<id>`（`https://arxiv.org/pdf/2401.12345v2` ≡ `http://arxiv.org/abs/2401.12345`）。无任何 URL 的条目永不参与判重。
+- **归并语义（吸收合并）**：每组保留**最早出现**条目（最早文件日期，同文件则最早位置）并吸收后续重复条目的字段——标量字段（title/subtopic/source/四个 URL）空则补；`topics`/`research` 并集保序；summary/content/purpose 取更完整一方；`notes` 原始笔记差异以 `[合并自 日期 id]` 标记追加、**永不丢弃**。其余重复条目删除。
+- **两步操作**：填扫描窗口天数（默认 7，可 14/30…90）→ **🔍 扫描重复**预览分组（共享 URL、保留/删除条目、字段吸收 diff）→ 勾选若干组「⚡ 执行选中」或「✓ 全部执行」（也可单组执行）。执行后自动重扫刷新。
+- **🤖 LLM 合并解析字段**（可选）：执行时勾选后，每组的 `summary`/`content`/`purpose` 交由 LLM 以保留条目为基础整合为一份连贯内容（替代规则拼接，不带 `[合并自]` 标记）；`notes`/`title` 等仍走规则（原始笔记逐字保留）。单组 LLM 失败自动回退规则合并并计数提示；LLM 调用在锁外并发执行（8 并发），不阻塞提交。
+- **提交时自动查重**：每次 `/api/submit`（含批处理一键提交）在写入前自动检查新条目与**目标日期向前 7 天至今天**窗口内已有条目是否同链接，命中则**硬阻断**并显示重复对象（日期/文件/id/标题/匹配链接）；确要保留可勾选「允许重复提交」或在报错上一键「仍要提交」放行。
+- 改写同样为**原位替换**（变化块重写、删除块移除、未变化块逐字保留），可 `git checkout` 回退；执行时锁内重新扫描校验，预览后被并发修改的组自动跳过。
+
 ## 接口
 
 | 方法 | 路径 | 说明 |
 | --- | --- | --- |
 | GET | `/` | 单条提交表单页 |
-| GET | `/batch/new` `/recommend` `/merge` | 批处理录入 / 当日推荐 / 主题归并 页面 |
+| GET | `/batch/new` `/recommend` `/merge` `/dedup` | 批处理录入 / 当日推荐 / 主题归并 / 条目去重 页面 |
 | GET | `/api/topics` `/api/research` | 合法主题 / 研究列表 |
 | POST | `/api/resolve_links` | `{raw}` → 解析并抓取其中的链接，返回状态 |
 | POST | `/api/extract` | `{raw, extra?}` → 链接抓取 + LLM 抽取为结构化字段 JSON |
-| POST | `/api/submit` | 提交 item，追加到当日（或指定日期）日报 |
+| POST | `/api/submit` | 提交 item，追加到当日（或指定日期）日报；写入前自动查重（近 7 天同链接硬阻断，`{allow_dup:1}` 放行） |
 | POST | `/api/batch/create` | 上传 txt 或 `{text}` → 创建批次（空行分段） |
 | GET | `/api/batch/<id>` | 批次状态（条目状态/进度） |
 | POST | `/api/batch/<id>/process` | 后台并发处理所有待处理条目 |
@@ -113,3 +124,5 @@ python app.py
 | POST | `/api/merge/preview` `/api/merge/preview_multi` | 单组 / 多组归并 dry-run |
 | POST | `/api/merge/apply` `/api/merge/apply_multi` | 单组 / 多组归并执行 |
 | POST | `/api/merge/suggest` | LLM 归并推荐 |
+| POST | `/api/dedup/preview` | `{days}` → 扫描窗口内重复条目组（纯读：分组/保留者/吸收 diff） |
+| POST | `/api/dedup/apply` | `{days, groups?: [{file,id}], llm?}` → 执行去重归并；`groups` 仅执行选中组，`llm` 用 LLM 合并解析字段 |

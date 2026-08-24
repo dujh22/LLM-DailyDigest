@@ -66,7 +66,7 @@ hugo server --baseURL http://localhost:1313/ -D
 
 ## 🛠️ Message Submission Backend
 
-`backend/` provides a local web form to enter a single message and append it to today's digest, with LLM field extraction from raw text. It also ships **batch entry** (`/batch/new`), **daily recommendation** (`/recommend`), and **topic merge** (`/merge`) pages.
+`backend/` provides a local web form to enter a single message and append it to today's digest, with LLM field extraction from raw text. It also ships **batch entry** (`/batch/new`), **daily recommendation** (`/recommend`), **topic merge** (`/merge`), and **item dedup** (`/dedup`) pages.
 
 ```bash
 cd backend
@@ -88,17 +88,20 @@ python app.py          # → http://localhost:5050
 
 **Topic merge** `/merge`: in a 3-level tree (topic ▸ subtopic ▸ article), select tags, enter a target name → preview impact → apply. Subtopics merge globally by string; rewrites are in-place for minimal diff and fully `git checkout`-reversible. Built-in "🤖 LLM suggestions" clusters near-duplicate tags; adopt singly or select several for batch apply.
 
+**Item dedup** `/dedup`: detects duplicate items across the scan window (default 7 days back, up to 90) by normalized-URL matching on `paper`/`code`/`dataset`/`link` (tracking params stripped, arXiv abs/pdf/html unified). Each group keeps the **earliest** occurrence and absorbs the others' fields (fill empty URLs, union topics, append differing notes with a merge marker — never dropped); later duplicates are removed. Preview groups → apply selected / all / singly. Optional "🤖 LLM merge" rewrites summary/content/purpose into one coherent text per group (falls back to rule-based merge on failure). Every `/api/submit` auto-checks the last 7 days and **hard-blocks** same-link submissions with duplicate details shown (override via "allow duplicate"). See `backend/README.md`.
+
 | Method | Path                                  | Description                                      |
 | ------ | ------------------------------------- | ------------------------------------------------ |
-| GET    | `/` `/batch/new` `/recommend` `/merge` | Single submit / batch / recommend / topic-merge pages |
+| GET    | `/` `/batch/new` `/recommend` `/merge` `/dedup` | Single submit / batch / recommend / topic-merge / dedup pages |
 | GET    | `/api/topics` `/api/research`         | Valid topics / research list                     |
 | POST   | `/api/extract`                        | `{raw, extra?}` → link fetch + structured JSON   |
-| POST   | `/api/submit`                         | Append item to today's digest (auto-create topics) |
+| POST   | `/api/submit`                         | Append item to today's digest (auto-create topics; same-link dup check over last 7 days, `allow_dup` to override) |
 | POST   | `/api/batch/create` `/api/batch/<id>/process` | Create batch / concurrent processing    |
 | POST   | `/api/batch/<id>/auto_submit`         | One-click auto-process & submit (skip review)    |
 | GET/POST | `/api/recommend/status` `/api/recommend/collect` `/api/recommend/credentials` | Recommend status / collect / credentials |
 | POST   | `/api/recommend/to_batch`             | Import selected candidates into a batch          |
 | POST   | `/api/merge/preview_multi` `/api/merge/apply_multi` | Multi-group merge preview / batch apply |
+| POST   | `/api/dedup/preview` `/api/dedup/apply` | Item-dedup scan / apply (`days` window, `groups` selection, `llm` smart merge) |
 
 ## 🚀 How to Use
 
@@ -129,6 +132,12 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 ```
 
 ## 📅 Changelog
+
+**2026-08-24**
+
+- Item dedup `/dedup`: normalized-URL duplicate detection on paper/code/dataset/link (tracking params stripped, arXiv unified); keeps the earliest occurrence and absorbs fields, removes the rest; scan window default 7 days (up to 90); preview → apply selected / all / singly
+- Dedup supports "🤖 LLM merge" of parsed fields: summary/content/purpose integrated into one coherent text per group (8-way concurrent, outside locks; auto-fallback to rule-based merge on failure)
+- Submit-time auto-check: every `/api/submit` (incl. batch auto-submit) checks the last 7 days for same-link items and hard-blocks with duplicate details; "allow duplicate" override available
 
 **2026-08-16**
 

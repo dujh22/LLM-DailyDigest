@@ -67,7 +67,7 @@ hugo server --baseURL http://localhost:1313/ -D
 
 ## 🛠️ 消息提交后端
 
-`backend/` 提供本地 Web 表单，录入单条消息并自动追加到当日日报，支持 LLM 从原始文本抽取字段。另含**批处理录入**（`/batch/new`）、**当日推荐**（`/recommend`）与**主题归并**（`/merge`）三个辅助页面。
+`backend/` 提供本地 Web 表单，录入单条消息并自动追加到当日日报，支持 LLM 从原始文本抽取字段。另含**批处理录入**（`/batch/new`）、**当日推荐**（`/recommend`）、**主题归并**（`/merge`）与**条目去重**（`/dedup`）四个辅助页面。
 
 ```bash
 cd backend
@@ -101,17 +101,20 @@ python app.py          # → http://localhost:5050
 
 **主题归并** `/merge`：左侧三级树「主题 ▸ 子主题 ▸ 文章」勾选若干标签 → 右侧填目标名 → 预览影响范围 → 执行。子主题按字符串全局归并；改写为原位替换、diff 最小，可 `git checkout` 回退。内置「🤖 LLM 归并推荐」自动聚类近义标签，支持单条采纳或勾选多条批量执行。
 
+**条目去重** `/dedup`：以 `paper`/`code`/`dataset`/`link` 四字段的 URL 规范化判重（剥跟踪参数、arXiv abs/pdf/html 统一），组内保留**最早出现**条目并吸收后续条目字段（URL 空则补、topics 并集、notes 差异标记追加永不丢弃），其余删除。扫描窗口默认当日向前 7 天（可 14/30…），预览分组 → 勾选多组/全选/单组执行；可选「🤖 LLM 合并解析字段」把 summary/content/purpose 整合为连贯内容（失败自动回退规则合并）。每次提交时自动查重近 7 天，同链接**硬阻断**并显示重复对象（可勾选「允许重复」放行）。详见 `backend/README.md`。
+
 | 方法 | 路径                                    | 说明                                   |
 | ---- | --------------------------------------- | -------------------------------------- |
-| GET  | `/` `/batch/new` `/recommend` `/merge` | 单条提交 / 批处理 / 当日推荐 / 主题归并 页面 |
+| GET  | `/` `/batch/new` `/recommend` `/merge` `/dedup` | 单条提交 / 批处理 / 当日推荐 / 主题归并 / 条目去重 页面 |
 | GET  | `/api/topics` `/api/research` | 合法主题 / 研究列表                    |
 | POST | `/api/extract`                        | `{raw, extra?}` → 链接抓取 + 结构化 JSON |
-| POST | `/api/submit`                         | 追加 item 到当日日报（新主题自动建页） |
+| POST | `/api/submit`                         | 追加 item 到当日日报（新主题自动建页；近 7 天同链接自动查重阻断，`allow_dup` 放行） |
 | POST | `/api/batch/create` `/api/batch/<id>/process` | 建批次 / 后台并发处理           |
 | POST | `/api/batch/<id>/auto_submit` | 一键自动处理并提交（跳过核对） |
 | GET/POST | `/api/recommend/status` `/api/recommend/collect` `/api/recommend/credentials` | 推荐状态/采集/凭据 |
 | POST | `/api/recommend/to_batch` | 选中候选导入批处理 |
 | POST | `/api/merge/preview_multi` `/api/merge/apply_multi` | 多组归并预览 / 批量执行   |
+| POST | `/api/dedup/preview` `/api/dedup/apply` | 条目去重扫描 / 执行（`days` 窗口、`groups` 选中组、`llm` 智能合并） |
 
 ## 🚀 使用方法
 
@@ -142,6 +145,12 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 ```
 
 ## 📅 更新日志
+
+**2026-08-24**
+
+- 条目去重 `/dedup`：paper/code/dataset/link 四字段 URL 规范化判重（剥跟踪参数、arXiv 统一），组内保留最早条目并吸收字段、其余删除；扫描窗口默认 7 天可扩，预览 → 多选/全选/单组执行
+- 去重支持「🤖 LLM 合并解析字段」：summary/content/purpose 由 LLM 整合为连贯内容（锁外 8 并发，失败自动回退规则合并）
+- 提交时自动查重：每次 `/api/submit`（含批处理一键提交）写入前检查近 7 天同链接并硬阻断，显示重复对象详情；可勾选「允许重复」放行
 
 **2026-08-16**
 
