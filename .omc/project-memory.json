@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1787291084291,
+  "lastScanned": 1787571614779,
   "projectRoot": "/Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest",
   "techStack": {
     "languages": [],
@@ -39,7 +39,7 @@
       "path": "Website",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1787291084234,
+      "lastAccessed": 1787571614762,
       "keyFiles": [
         "readme.md"
       ]
@@ -48,7 +48,7 @@
       "path": "archetypes",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1787291084260,
+      "lastAccessed": 1787571614762,
       "keyFiles": [
         "default.md",
         "updates.md"
@@ -58,7 +58,7 @@
       "path": "assets",
       "purpose": "Static assets",
       "fileCount": 2,
-      "lastAccessed": 1787291084265,
+      "lastAccessed": 1787571614763,
       "keyFiles": [
         "jsconfig.json"
       ]
@@ -67,7 +67,7 @@
       "path": "backend",
       "purpose": null,
       "fileCount": 7,
-      "lastAccessed": 1787291084268,
+      "lastAccessed": 1787571614763,
       "keyFiles": [
         "README.md",
         "app.py",
@@ -80,7 +80,7 @@
       "path": "co_learner",
       "purpose": null,
       "fileCount": 18,
-      "lastAccessed": 1787291084269,
+      "lastAccessed": 1787571614763,
       "keyFiles": [
         "README.md",
         "README_ZH.md",
@@ -93,14 +93,14 @@
       "path": "content",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1787291084275,
+      "lastAccessed": 1787571614763,
       "keyFiles": []
     },
     "layouts": {
       "path": "layouts",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1787291084278,
+      "lastAccessed": 1787571614764,
       "keyFiles": [
         "index.json"
       ]
@@ -109,7 +109,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 8,
-      "lastAccessed": 1787291084284,
+      "lastAccessed": 1787571614764,
       "keyFiles": [
         "404.html",
         "index.html",
@@ -122,21 +122,21 @@
       "path": "resources",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1787291084285,
+      "lastAccessed": 1787571614765,
       "keyFiles": []
     },
     "themes": {
       "path": "themes",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1787291084285,
+      "lastAccessed": 1787571614765,
       "keyFiles": []
     },
     "tools": {
       "path": "tools",
       "purpose": null,
       "fileCount": 30,
-      "lastAccessed": 1787291084287,
+      "lastAccessed": 1787571614765,
       "keyFiles": [
         "arx.py",
         "arx_batch_to_ch.py",
@@ -149,302 +149,38 @@
   "hotPaths": [
     {
       "path": "backend/app.py",
-      "accessCount": 91,
-      "lastAccessed": 1787111569243,
+      "accessCount": 26,
+      "lastAccessed": 1787572430598,
+      "type": "file"
+    },
+    {
+      "path": "backend/templates/dedup.html",
+      "accessCount": 8,
+      "lastAccessed": 1787572466893,
       "type": "file"
     },
     {
       "path": "backend/templates/index.html",
-      "accessCount": 39,
-      "lastAccessed": 1786690936814,
-      "type": "file"
-    },
-    {
-      "path": "hugo.toml",
-      "accessCount": 18,
-      "lastAccessed": 1786689767380,
-      "type": "file"
-    },
-    {
-      "path": "README_ZN.md",
-      "accessCount": 14,
-      "lastAccessed": 1786510143639,
-      "type": "file"
-    },
-    {
-      "path": "backend/recommend.py",
-      "accessCount": 13,
-      "lastAccessed": 1787291996823,
-      "type": "file"
-    },
-    {
-      "path": "layouts/updates/single.html",
-      "accessCount": 11,
-      "lastAccessed": 1786689777553,
-      "type": "file"
-    },
-    {
-      "path": "layouts/topic/single.html",
-      "accessCount": 10,
-      "lastAccessed": 1786691614331,
-      "type": "file"
-    },
-    {
-      "path": "backend/migrate_topic.py",
-      "accessCount": 8,
-      "lastAccessed": 1786098340333,
-      "type": "file"
-    },
-    {
-      "path": "backend/templates/batch.html",
-      "accessCount": 8,
-      "lastAccessed": 1786508252112,
-      "type": "file"
-    },
-    {
-      "path": "content/posts/llmdailydigest.md",
-      "accessCount": 6,
-      "lastAccessed": 1786086942815,
-      "type": "file"
-    },
-    {
-      "path": "content/research/LogicEvolve.md",
       "accessCount": 5,
-      "lastAccessed": 1786520042119,
-      "type": "file"
-    },
-    {
-      "path": "content/research/Groom.md",
-      "accessCount": 5,
-      "lastAccessed": 1786520051938,
-      "type": "file"
-    },
-    {
-      "path": "content/research/EvolveLLM.md",
-      "accessCount": 5,
-      "lastAccessed": 1786520052751,
-      "type": "file"
-    },
-    {
-      "path": "content/updates/template.md",
-      "accessCount": 4,
-      "lastAccessed": 1786094750378,
-      "type": "file"
-    },
-    {
-      "path": "backend/requirements.txt",
-      "accessCount": 4,
-      "lastAccessed": 1786508095257,
+      "lastAccessed": 1787572253907,
       "type": "file"
     },
     {
       "path": "backend/templates/merge.html",
-      "accessCount": 4,
-      "lastAccessed": 1786509720563,
-      "type": "file"
-    },
-    {
-      "path": "backend/README.md",
-      "accessCount": 4,
-      "lastAccessed": 1786510131339,
-      "type": "file"
-    },
-    {
-      "path": "README.md",
-      "accessCount": 4,
-      "lastAccessed": 1786520006906,
-      "type": "file"
-    },
-    {
-      "path": "content/research/Awesome-RSI.md",
-      "accessCount": 4,
-      "lastAccessed": 1786520040265,
-      "type": "file"
-    },
-    {
-      "path": "content/research/DataEvolve.md",
-      "accessCount": 4,
-      "lastAccessed": 1786520040768,
-      "type": "file"
-    },
-    {
-      "path": "content/research/EvalEvolve.md",
-      "accessCount": 4,
-      "lastAccessed": 1786520041230,
-      "type": "file"
-    },
-    {
-      "path": "content/research/EvolveLRM.md",
-      "accessCount": 4,
-      "lastAccessed": 1786520041535,
-      "type": "file"
-    },
-    {
-      "path": "content/research/HarnessEvolve.md",
-      "accessCount": 4,
-      "lastAccessed": 1786520041791,
-      "type": "file"
-    },
-    {
-      "path": "layouts/research/single.html",
-      "accessCount": 3,
-      "lastAccessed": 1786090299145,
-      "type": "file"
-    },
-    {
-      "path": "archetypes/updates.md",
-      "accessCount": 3,
-      "lastAccessed": 1786094723468,
-      "type": "file"
-    },
-    {
-      "path": "assets/css/_custom.scss",
       "accessCount": 2,
-      "lastAccessed": 1786085223060,
-      "type": "file"
-    },
-    {
-      "path": "layouts/partials/head/link.html",
-      "accessCount": 2,
-      "lastAccessed": 1786086038542,
-      "type": "file"
-    },
-    {
-      "path": "content/updates/2026-08-07-test.md",
-      "accessCount": 2,
-      "lastAccessed": 1786088216834,
-      "type": "file"
-    },
-    {
-      "path": "Website/readme.md",
-      "accessCount": 2,
-      "lastAccessed": 1786091610419,
-      "type": "file"
-    },
-    {
-      "path": "content/topic/软件工程.md",
-      "accessCount": 2,
-      "lastAccessed": 1786098948372,
-      "type": "file"
-    },
-    {
-      "path": "layouts/index.json",
-      "accessCount": 2,
-      "lastAccessed": 1786689966037,
-      "type": "file"
-    },
-    {
-      "path": "layouts/_default/list.html",
-      "accessCount": 2,
-      "lastAccessed": 1786691589751,
-      "type": "file"
-    },
-    {
-      "path": "layouts/topic/list.html",
-      "accessCount": 2,
-      "lastAccessed": 1786691777522,
-      "type": "file"
-    },
-    {
-      "path": "static/logo.svg",
-      "accessCount": 1,
-      "lastAccessed": 1786085196340,
-      "type": "file"
-    },
-    {
-      "path": "ScreenShot_2026-08-07_145547_800.png",
-      "accessCount": 1,
-      "lastAccessed": 1786085805149,
-      "type": "file"
-    },
-    {
-      "path": "ScreenShot_2026-08-07_150240_524.png",
-      "accessCount": 1,
-      "lastAccessed": 1786086228206,
-      "type": "file"
-    },
-    {
-      "path": "archetypes/items.md",
-      "accessCount": 1,
-      "lastAccessed": 1786087726931,
-      "type": "file"
-    },
-    {
-      "path": "layouts/items/single.html",
-      "accessCount": 1,
-      "lastAccessed": 1786087735148,
-      "type": "file"
-    },
-    {
-      "path": "content/items/test-hop-skip-overthink.md",
-      "accessCount": 1,
-      "lastAccessed": 1786087780428,
-      "type": "file"
-    },
-    {
-      "path": "content/updates/2025-08-07-精选.md",
-      "accessCount": 1,
-      "lastAccessed": 1786088437849,
-      "type": "file"
-    },
-    {
-      "path": "api_key.txt.example",
-      "accessCount": 1,
-      "lastAccessed": 1786088824416,
-      "type": "file"
-    },
-    {
-      "path": "backend/test_append.py",
-      "accessCount": 1,
-      "lastAccessed": 1786088942502,
-      "type": "file"
-    },
-    {
-      "path": "ScreenShot_2026-08-07_163814_698.png",
-      "accessCount": 1,
-      "lastAccessed": 1786091980263,
-      "type": "file"
-    },
-    {
-      "path": "content/tech/_index.md",
-      "accessCount": 1,
-      "lastAccessed": 1786102269714,
-      "type": "file"
-    },
-    {
-      "path": "content/papers/_index.md",
-      "accessCount": 1,
-      "lastAccessed": 1786102269962,
-      "type": "file"
-    },
-    {
-      "path": "content/topic/推理.md",
-      "accessCount": 1,
-      "lastAccessed": 1786507896013,
-      "type": "file"
-    },
-    {
-      "path": "content/topic/训练.md",
-      "accessCount": 1,
-      "lastAccessed": 1786507896086,
-      "type": "file"
-    },
-    {
-      "path": "README_网站介绍.md",
-      "accessCount": 1,
-      "lastAccessed": 1786510116479,
+      "lastAccessed": 1787571874368,
       "type": "file"
     },
     {
       "path": "backend/deploy.py",
       "accessCount": 1,
-      "lastAccessed": 1786690867912,
+      "lastAccessed": 1787571692214,
       "type": "file"
     },
     {
-      "path": "layouts/updates/list.html",
+      "path": "backend/recommend.py",
       "accessCount": 1,
-      "lastAccessed": 1786691658727,
+      "lastAccessed": 1787571709625,
       "type": "file"
     }
   ],

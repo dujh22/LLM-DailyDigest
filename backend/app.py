@@ -8,6 +8,8 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
   POST /api/submit    把一条 item 追加到当日日报 content/updates/<date>.md 的 [[items]]
   POST /api/batch/<id>/auto_submit  一键自动处理批次：抽取后跳过人工核对直接提交
   GET  /recommend     当日推荐页（采集公众号 + arXiv 最近 24h 内容，LLM 相关性筛选）
+  GET  /dedup         条目去重归并页（URL 判重，预览 + 应用两步）
+  POST /api/dedup/preview|apply  去重扫描 / 执行（days 默认 7，可指定 14、30 等更大窗口）
 
 API Key：读取仓库根目录 api_key.txt；不存在则禁用 LLM 抽取并提示用户。
 运行：python backend/app.py  （然后浏览器打开 http://localhost:5050）
@@ -20,7 +22,7 @@ import time
 import threading
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 import requests
@@ -337,6 +339,383 @@ def _maps_from_groups(topic_groups=None, sub_groups=None):
                     m[s] = tgt
         return m
     return build(topic_groups), build(sub_groups)
+
+
+# ============================================================
+# 条目级去重归并：URL 规范化 + 扫描分组 + 吸收合并
+# ============================================================
+_URL_FIELDS = ("paper", "code", "dataset", "link")
+_ARXIV_PATH_RE = re.compile(
+    r"^/(?:abs|pdf|html)/([0-9]{4}\.[0-9]{4,5}|[a-z-]+/[0-9]{7})(?:v\d+)?$", re.I)
+_TRACKING_PARAM_PREFIXES = ("utm_", "spm", "vd_source", "share_", "ref", "source")
+# 提交时自动查重窗口（今天 + 向前 7 天）
+DEDUP_SUBMIT_DAYS = 7
+# 归并时可交给 LLM 智能整合的解析字段（notes 原始笔记逐字保留，不经 LLM）
+_LLM_MERGE_FIELDS = ("summary", "content", "purpose")
+
+
+def normalize_url(url: str) -> str:
+    """规范化 URL 用于重复判定：纯字符串确定性变换，不联网。
+    非 http(s) 链接返回 ""（空值永不参与匹配）。"""
+    u = (url or "").strip()
+    if not re.match(r"^https?://", u, re.I):
+        return ""
+    parts = urllib.parse.urlsplit(u)
+    scheme = parts.scheme.lower()
+    netloc = parts.netloc.lower()
+    if scheme == "http" and netloc.endswith(":80"):
+        netloc = netloc[:-3]
+    elif scheme == "https" and netloc.endswith(":443"):
+        netloc = netloc[:-4]
+    path = parts.path or "/"
+    if len(path) > 1:
+        path = path.rstrip("/") or "/"
+    # arXiv 归一：abs/pdf/html 统一为 abs，去版本号
+    if netloc == "arxiv.org":
+        m = _ARXIV_PATH_RE.match(path)
+        if m:
+            return f"https://arxiv.org/abs/{m.group(1).lower()}"
+    # 丢弃跟踪参数（utm_* / spm / ref 等），其余按原序重编码；fragment 整体丢弃
+    q = [(k, v) for k, v in urllib.parse.parse_qsl(parts.query, keep_blank_values=True)
+         if not k.lower().startswith(_TRACKING_PARAM_PREFIXES)]
+    query = urllib.parse.urlencode(q) if q else ""
+    return urllib.parse.urlunsplit((scheme, netloc, path, query, ""))
+
+
+def item_url_keys(item: dict) -> set:
+    """item 四个 URL 字段的规范化非空值集合；空集合的条目永不参与去重。"""
+    keys = set()
+    for f in _URL_FIELDS:
+        k = normalize_url(item.get(f, "") or "")
+        if k:
+            keys.add(k)
+    return keys
+
+
+def daily_files_in_window(days: int, end_date=None):
+    """窗口内存在的日报文件 [(date_str, Path)...]，按日期旧→新排序。
+    窗口 = end_date（默认今天）向前 days 天（含当日共 days+1 个日期）。"""
+    end = date.fromisoformat(end_date) if end_date else date.today()
+    out = []
+    for i in range(days, -1, -1):
+        d = (end - timedelta(days=i)).isoformat()
+        p = today_daily_path(d)
+        if p.exists():
+            out.append((d, p))
+    return out
+
+
+def absorb_items(kept: dict, dup: dict, dup_date: str) -> dict:
+    """吸收合并：kept 吸收 dup 的更完整字段，返回新 dict（不改入参）。
+    确定性规则：标量字段 kept 非空优先；列表字段并集保序；
+    长文本取更长方，较短方有独立信息时以 [合并自 …] 标记追加；notes 差异永不丢弃。"""
+    merged = dict(kept)
+    tag = f"[合并自 {dup_date} {dup.get('id', '')}]"
+    for f in ("title", "subtopic", "source", "paper", "code", "dataset", "link"):
+        if not (merged.get(f) or "").strip() and (dup.get(f) or "").strip():
+            merged[f] = dup[f].strip()
+    for f in ("topics", "research"):
+        base = list(merged.get(f) or [])
+        seen = set(base)
+        for v in (dup.get(f) or []):
+            if v not in seen:
+                seen.add(v)
+                base.append(v)
+        merged[f] = base
+    for f in ("summary", "content", "purpose"):
+        a, b = (merged.get(f) or "").strip(), (dup.get(f) or "").strip()
+        if not b or b == a:
+            continue
+        if not a:
+            merged[f] = b
+            continue
+        longer, shorter = (a, b) if len(a) >= len(b) else (b, a)
+        if len(shorter) >= 30 and shorter not in longer:
+            merged[f] = f"{longer}\n\n{tag}\n{shorter}"
+        else:
+            merged[f] = longer
+    an, bn = (merged.get("notes") or "").strip(), (dup.get("notes") or "").strip()
+    if bn and bn != an:
+        merged["notes"] = f"{an}\n\n{tag}\n{bn}" if an else bn
+    return merged
+
+
+def _iter_window_items(days: int, end_date=None):
+    """遍历窗口内所有日报条目，产出 {"date","file","index","item","keys"}。"""
+    for d, path in daily_files_in_window(days, end_date):
+        _, fm_body, _ = split_front_matter(path.read_text(encoding="utf-8"))
+        if not fm_body:
+            continue
+        _, blocks = split_item_blocks(fm_body)
+        for idx, block in enumerate(blocks):
+            item = _parse_item_block(block)
+            if not item:
+                continue
+            keys = item_url_keys(item)
+            if not keys:
+                continue
+            yield {"date": d, "file": path.name, "index": idx, "item": item, "keys": keys}
+
+
+def scan_duplicate_groups(days: int = 7, end_date=None):
+    """扫描窗口内重复条目组（纯读不写）。组 = 任意共享规范化 URL 的条目集合
+    （多个 key 命中不同组时用并查集合并）。每组保留最早出现条目（最早文件日期，
+    同文件则最早位置），并预演吸收合并结果。返回按保留条目出现位置排序的组列表。"""
+    occurrences = list(_iter_window_items(days, end_date))
+    # ---- URL key 上的小型并查集 ----
+    parent = {}
+
+    def find(x):
+        root = x
+        while parent[root] != root:
+            root = parent[root]
+        while parent[x] != root:
+            parent[x], x = root, parent[x]
+        return root
+
+    members = {}  # root key -> [occurrence 下标]（按出现顺序）
+    for i, occ in enumerate(occurrences):
+        roots = set()
+        for k in occ["keys"]:
+            if k not in parent:
+                parent[k] = k
+            roots.add(find(k))
+        root = min(roots)  # 固定以字符串最小 key 为组代表，保证确定性
+        for r in roots:
+            if r != root:
+                parent[r] = root
+                members[root] = members.get(root, []) + members.pop(r, [])
+        members.setdefault(root, []).append(i)
+
+    groups = []
+    for idxs in members.values():
+        if len(idxs) < 2:
+            continue
+        idxs = sorted(idxs)  # occurrences 本身按 日期→文件内位置 有序
+        occs = [occurrences[i] for i in idxs]
+        keep, dups = occs[0], occs[1:]
+        merged = dict(keep["item"])
+        for dup in dups:
+            merged = absorb_items(merged, dup["item"], dup["date"])
+        # 吸收 diff 预览（keep 原值 → 合并后新值）
+        absorb = []
+        for f in ("title", "subtopic", "source", "paper", "code", "dataset", "link",
+                  "topics", "research", "summary", "content", "purpose", "notes"):
+            old, new = keep["item"].get(f), merged.get(f)
+            if old != new:
+                absorb.append({"field": f, "old": old, "new": new})
+        groups.append({
+            "keys": sorted({k for occ in occs for k in occ["keys"]}),
+            "keep": {"date": keep["date"], "file": keep["file"],
+                     "index": keep["index"], "item": keep["item"]},
+            "dups": [{"date": d["date"], "file": d["file"],
+                      "index": d["index"], "item": d["item"]} for d in dups],
+            "absorb": absorb,
+            "merged": merged,  # 仅供 apply 使用，preview 路由返回前剔除
+        })
+    groups.sort(key=lambda g: (g["keep"]["date"], g["keep"]["file"], g["keep"]["index"]))
+    return groups
+
+
+def rewrite_daily_items(path: Path, replace=None, delete=None) -> int:
+    """对单个日报文件做条目级改写：replace 为 {块下标: 新 item}，delete 为待删块下标集合。
+    与 apply_merge_to_file 同机制（span 从后往前处理，未变化块逐字保留）；
+    删除时连同块自身尾部空白一起移除。返回改动块数。"""
+    replace, delete = replace or {}, delete or set()
+    if not replace and not delete:
+        return 0
+    text = path.read_text(encoding="utf-8")
+    pre, fm_body, post = split_front_matter(text)
+    if not fm_body:
+        return 0
+    spans = [m.span() for m in _ITEMS_RE.finditer(fm_body)]
+    if not spans:
+        return 0
+    changed = 0
+    new_fm = fm_body
+    for i in range(len(spans) - 1, -1, -1):
+        start, _ = spans[i]
+        end = spans[i + 1][0] if i + 1 < len(spans) else len(fm_body)
+        block = new_fm[start:end]
+        if i in delete:
+            # 块 span 已含自身尾部空行；前一块的尾随 \n\n 成为与下一块的分隔
+            new_fm = new_fm[:start] + new_fm[end:]
+            changed += 1
+            continue
+        if i in replace:
+            item = replace[i]
+            core = block.rstrip()
+            trailing = block[len(core):]
+            new_block = _reserialize_item_block(item) + trailing
+            if new_block != block:
+                new_fm = new_fm[:start] + new_block + new_fm[end:]
+                changed += 1
+    if changed:
+        if delete:
+            # 删除可能让 fm_body 末尾残留多余空行（如删掉最后一个块），归一为单个换行
+            new_fm = new_fm.rstrip("\n") + "\n" if new_fm.strip() else new_fm
+        path.write_text(pre + new_fm + "\n" + post, encoding="utf-8")
+    return changed
+
+
+def _plan_dedup_writes(groups: list):
+    """把分组结果转成按文件的改写计划 {file: (replace, delete)}。"""
+    per_file = {}
+    removed = 0
+    for g in groups:
+        kf = g["keep"]["file"]
+        rep, dele = per_file.setdefault(kf, ({}, set()))
+        rep[g["keep"]["index"]] = g["merged"]
+        for dup in g["dups"]:
+            drep, ddele = per_file.setdefault(dup["file"], ({}, set()))
+            ddele.add(dup["index"])
+            removed += 1
+    return per_file, removed
+
+
+def apply_dedup_groups(days: int, only=None, use_llm=False) -> dict:
+    """执行条目去重归并写盘。only=[{file,id}] 时仅归并保留条目匹配的组；
+    use_llm=True 时先用 LLM 合并各组的解析字段（summary/content/purpose），
+    失败的组回退规则合并。锁序固定 _SUBMIT_LOCK → _MERGE_LOCK（do_submit 只取
+    前者、merge_apply 只取后者，无环不死锁）。LLM 调用慢，在锁外完成；
+    锁内重新扫描并校验各组未被并发修改（签名不一致的组跳过）。"""
+    groups = scan_duplicate_groups(days)
+    if only:
+        sel = {(g["file"], g["id"]) for g in only}
+        groups = [g for g in groups
+                  if (g["keep"]["file"], g["keep"]["item"].get("id")) in sel]
+    if not groups:
+        return {"ok": False, "errors": ["窗口内没有可归并的重复条目"]}
+
+    llm_merged, llm_errors = 0, []
+    if use_llm:
+        api_key = load_api_key()
+        if not api_key:
+            return {"ok": False, "errors": [
+                f"未找到 API Key：请在仓库根目录创建 {API_KEY_FILE.relative_to(REPO_ROOT)}，"
+                "或取消勾选 LLM 合并。"]}
+        with ThreadPoolExecutor(max_workers=8, thread_name_prefix="dedup-llm") as ex:
+            futures = [(g, ex.submit(llm_merge_group, g)) for g in groups]
+            for g, fu in futures:
+                try:
+                    vals = fu.result()
+                except Exception as e:  # noqa: BLE001
+                    llm_errors.append(f"{g['keep']['item'].get('id', '')}: {e}")
+                    continue
+                hit = False
+                for f in _LLM_MERGE_FIELDS:
+                    v = (vals.get(f) or "").strip() if isinstance(vals.get(f), str) else ""
+                    if v:
+                        g["merged"][f] = v
+                        hit = True
+                if hit:
+                    llm_merged += 1
+
+    def sig(x):
+        keep = (x["keep"]["file"], x["keep"]["item"].get("id", ""))
+        dups = tuple(sorted((d["file"], d["item"].get("id", "")) for d in x["dups"]))
+        return keep + dups
+
+    prepared = {sig(g): g for g in groups}
+    with _SUBMIT_LOCK, _MERGE_LOCK:
+        fresh_sigs = {sig(x) for x in scan_duplicate_groups(days)}
+        usable = [g for s, g in prepared.items() if s in fresh_sigs]
+        skipped = len(prepared) - len(usable)
+        if not usable:
+            return {"ok": False, "errors": [
+                "预览后条目已被修改（组结构变化），请重新扫描后再执行"]}
+        per_file, removed = _plan_dedup_writes(usable)
+        files_touched = []
+        for fname, (rep, dele) in sorted(per_file.items()):
+            n = rewrite_daily_items(UPDATES_DIR / fname, replace=rep, delete=dele)
+            if n:
+                files_touched.append(fname)
+    if files_touched:
+        reason = f"条目去重归并：{len(usable)} 组 / 删除 {removed} 条"
+        if llm_merged:
+            reason += f"（LLM 合并 {llm_merged} 组解析字段）"
+        trigger_deploy(reason)
+    res = {"ok": True, "groups": len(usable), "removed": removed,
+           "files": files_touched, "llm_merged": llm_merged,
+           "skipped_stale": skipped}
+    if llm_errors:
+        res["llm_errors"] = llm_errors[:5]
+    return res
+
+
+def llm_merge_group(group: dict) -> dict:
+    """对单个重复组调用 LLM 把各条目的解析字段（summary/content/purpose）
+    整合为一份连贯结果。返回 {"summary","content","purpose"}；失败抛异常，
+    由调用方回退规则合并。notes/title 等字段不经 LLM（原始笔记逐字保留）。"""
+    from openai import OpenAI
+    api_key = load_api_key()
+    if not api_key:
+        raise RuntimeError("未找到 API Key")
+    occs = [dict(group["keep"], role="保留")] + \
+           [dict(d, role="重复") for d in group["dups"]]
+    entries = []
+    for occ in occs:
+        it = occ["item"]
+        entries.append({
+            "出现日期": occ["date"], "角色": occ["role"],
+            "id": it.get("id", ""), "标题": it.get("title", ""),
+            "summary": it.get("summary", "") or "",
+            "content": it.get("content", "") or "",
+            "purpose": it.get("purpose", "") or "",
+        })
+    system_prompt = (
+        "你是大模型研究日报的条目合并助手。同一工作的多个重复日报条目需要合并为一条，"
+        "只合并以下解析字段：\n"
+        "- summary: 一句话中文摘要。\n"
+        "- content: 正文要点，中文 3~5 句，可用 markdown。\n"
+        "- purpose: 用途与启示，markdown 无序列表（每条以 - 开头）。\n"
+        "要求：以「保留」条目为基础，整合「重复」条目的补充信息，语义去重、信息补全，"
+        "不虚构事实，保持中文为主、术语风格一致；某字段所有条目均为空时返回空字符串。"
+        "严格返回 JSON 对象（不要代码块、不要解释）："
+        '{"summary": "...", "content": "...", "purpose": "..."}'
+    )
+    client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
+    resp = client.chat.completions.create(
+        model=LLM_MODEL,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": json.dumps(entries, ensure_ascii=False)},
+        ],
+    )
+    cleaned = (resp.choices[0].message.content or "").strip()
+    cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
+    cleaned = re.sub(r"\s*```$", "", cleaned)
+    parsed = json.loads(cleaned)
+    return {f: (parsed.get(f) or "") for f in _LLM_MERGE_FIELDS}
+
+
+def find_dup_for_item(item: dict, days: int = DEDUP_SUBMIT_DAYS, target_date=None):
+    """提交前查重：返回窗口内最早的重条目描述（含 matched_url）或 None。
+    窗口 = min(target_date, today) - days .. today（补录历史日期时也查其后已有条目）。"""
+    keys = item_url_keys(item)
+    if not keys:
+        return None
+    base = target_date or date.today().isoformat()
+    start = date.fromisoformat(base) - timedelta(days=days)
+    end = date.today()
+    cur = start
+    while cur <= end:
+        ds = cur.isoformat()
+        p = today_daily_path(ds)
+        if p.exists():
+            _, fm_body, _ = split_front_matter(p.read_text(encoding="utf-8"))
+            if fm_body:
+                _, blocks = split_item_blocks(fm_body)
+                for idx, block in enumerate(blocks):
+                    ex = _parse_item_block(block)
+                    if not ex:
+                        continue
+                    hit = keys & item_url_keys(ex)
+                    if hit:
+                        return {"date": ds, "file": p.name, "index": idx,
+                                "item": ex, "matched_url": sorted(hit)[0]}
+        cur += timedelta(days=1)
+    return None
 
 
 def merge_report_maps(topic_map: dict, sub_map: dict):
@@ -1195,7 +1574,15 @@ def do_submit(data: dict):
     item["research"] = [r for r in item["research"] if r in vr]
 
     try:
+        allow_dup = bool(data.get("allow_dup"))
         with _SUBMIT_LOCK:
+            # 提交前查重（与写入同锁，保证检查-追加原子性）；命中则硬阻断，可勾选允许重复放行
+            dup = find_dup_for_item(item, target_date=target_date)
+            if dup and not allow_dup:
+                return False, {"ok": False, "errors": [
+                    f"疑似重复：与 {dup['date']} 日报（{dup['file']}，id={dup['item'].get('id', '')}"
+                    f"「{dup['item'].get('title', '')}」）共享链接 {dup['matched_url']}。"
+                    "可到 /dedup 页归并；确要保留请勾选「允许重复提交」。"], "dup": dup}
             path = append_item(item, target_date)
     except Exception as e:  # noqa: BLE001
         return False, {"ok": False, "errors": [f"写入失败：{e}"]}
@@ -1204,6 +1591,8 @@ def do_submit(data: dict):
     msg = f"已追加到 {rel}（id={item['id']}）"
     if created_topics:
         msg += f"；新建主题：{created_topics}"
+    if dup and allow_dup:
+        msg += f"；⚠ 已允许与 {dup['date']}（id={dup['item'].get('id', '')}）重复提交"
     # 防抖触发部署：内容已落库，稍后自动 commit+push 触发 CI 重建索引
     trigger_deploy(f"提交条目 {item['id']} → {rel}")
     return True, {
@@ -1313,6 +1702,62 @@ def api_merge_apply_multi():
 @app.route("/api/merge/suggest", methods=["POST"])
 def api_merge_suggest():
     return jsonify(merge_suggest())
+
+
+@app.route("/dedup")
+def dedup_page():
+    return render_template("dedup.html")
+
+
+def _dedup_days_param(data: dict):
+    """解析并校验 days 参数（缺省 7，clamp 1..90）。返回 (days, None) 或 (None, 错误响应)。"""
+    raw = data.get("days")
+    if raw is None or raw == "":
+        days = 7
+    else:
+        try:
+            days = int(raw)
+        except (TypeError, ValueError):
+            return None, (jsonify({"ok": False, "errors": ["days 必须是整数"]}), 400)
+    if not 1 <= days <= 90:
+        return None, (jsonify({"ok": False, "errors": ["days 需在 1..90 之间"]}), 400)
+    return days, None
+
+
+@app.route("/api/dedup/preview", methods=["POST"])
+def api_dedup_preview():
+    """扫描窗口内重复条目组（纯读不写）。body: {days}，窗口 = 今天向前 days 天。"""
+    data = request.get_json(force=True, silent=True) or {}
+    days, err = _dedup_days_param(data)
+    if err:
+        return err
+    files = daily_files_in_window(days)
+    groups = scan_duplicate_groups(days)
+    for g in groups:
+        g.pop("merged", None)  # 内部字段，不暴露给前端
+    return jsonify({
+        "ok": True,
+        "days": days,
+        "window": {"from": files[0][0] if files else None,
+                   "to": files[-1][0] if files else None,
+                   "files_scanned": len(files)},
+        "groups": groups,
+        "group_count": len(groups),
+    })
+
+
+@app.route("/api/dedup/apply", methods=["POST"])
+def api_dedup_apply():
+    """执行去重归并。body: {days, groups?: [{file, id}], llm?: bool} ——
+    groups 用于「仅执行选中组」；llm=true 时先用 LLM 合并解析字段（失败回退规则合并）。"""
+    data = request.get_json(force=True, silent=True) or {}
+    days, err = _dedup_days_param(data)
+    if err:
+        return err
+    only = data.get("groups") or None
+    res = apply_dedup_groups(days, only, use_llm=bool(data.get("llm")))
+    code = 200 if res.get("ok") else 400
+    return jsonify(res), code
 
 
 @app.route("/api/rebuild", methods=["POST"])

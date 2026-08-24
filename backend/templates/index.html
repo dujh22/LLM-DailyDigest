@@ -56,7 +56,7 @@
 <body>
 <div class="wrap">
   <h1><span>LLM-DailyDigest</span> · 消息提交</h1>
-  <p class="sub">填写一条消息 → 自动追加到当日日报（<code>content/updates/&lt;date&gt;.md</code>）。原始信息可直接用 LLM 抽取。 · <a href="/batch/new">📦 批处理录入</a> · <a href="/recommend">🌟 当日推荐</a> · <a href="/merge">🧩 主题归并</a></p>
+  <p class="sub">填写一条消息 → 自动追加到当日日报（<code>content/updates/&lt;date&gt;.md</code>）。原始信息可直接用 LLM 抽取。 · <a href="/batch/new">📦 批处理录入</a> · <a href="/recommend">🌟 当日推荐</a> · <a href="/merge">🧩 主题归并</a> · <a href="/dedup">🧹 条目去重</a></p>
 
   {% if batch %}
   <div class="card" style="border-color:var(--accent);background:rgba(168,85,247,.08)">
@@ -147,6 +147,9 @@
 
     <div class="actions">
       <button id="btnSubmit">➕ 提交（追加到当日日报）</button>
+      <label class="hint" style="display:inline-flex;align-items:center;gap:.3rem;">
+        <input type="checkbox" id="allowDup"> 允许重复提交（与近 7 天已有条目同链接时强制提交）
+      </label>
       <span class="hint">提交后刷新 <code>hugo server</code> 即可在日报页看到新条目。</span>
     </div>
     <div id="submitMsg"></div>
@@ -323,18 +326,30 @@ $('btnExtract').onclick = async ()=>{
   finally{ btn.disabled=false; btn.textContent=old; }
 };
 
-$('btnSubmit').onclick = async ()=>{
+$('btnSubmit').onclick = async (force)=>{
   $('submitMsg').innerHTML='';
   const payload = {};
   F.forEach(id=>payload[id]=$(id).value);
   payload.date = $('date').value;            // 目标日报日期（迁移历史用，留空=今天）
   payload.topics = getCheckedTopics();
   payload.research = getCheckedResearch();
+  if(force || $('allowDup').checked) payload.allow_dup = 1;
   const btn = $('btnSubmit'); btn.disabled=true; const old=btn.textContent; btn.textContent='提交中…';
   try{
     const r = await fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     const j = await r.json();
-    if(!j.ok){ $('submitMsg').innerHTML='<div class="errlist">'+(j.errors||[]).join('；')+'</div>'; toast('提交失败','err'); return; }
+    if(!j.ok){
+      let h='<div class="errlist">'+(j.errors||[]).join('；')+'</div>';
+      // 疑似重复：给出重复详情 + 一键「仍要提交」
+      if(j.dup && j.dup.item){
+        const d=j.dup;
+        h += `<div class="hint" style="margin-top:.4rem">重复对象：${d.date} · ${d.file} · id=${d.item.id||''}「${d.item.title||''}」 · 匹配链接 <code>${d.matched_url}</code> · <a href="/dedup" target="_blank">去重页归并 →</a></div>`
+           + '<div style="margin-top:.4rem"><button type="button" class="ghost" id="btnForceDup">仍要提交（允许重复）</button></div>';
+      }
+      $('submitMsg').innerHTML=h; toast('提交失败','err');
+      const fd=$('btnForceDup'); if(fd) fd.onclick=()=>{ $('allowDup').checked=true; $('btnSubmit').onclick(true); };
+      return;
+    }
     toast('✓ '+j.message,'ok');
     // 批次模式：通知总览页本条已完成
     if(BATCH && BATCH.batch_id !== null){

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM-DailyDigest · 条目去重归并</title>
+<style>
+  :root{
+    --primary:#6366f1; --accent:#a855f7; --bg:#0f1117; --card:#1a1b26;
+    --fg:#e6e6ec; --muted:#9aa0b5; --border:#2a2c3a; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"PingFang SC",sans-serif;
+    background:linear-gradient(160deg,#0f1117,#16182a 60%);color:var(--fg);min-height:100vh}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px}
+  h1{font-size:1.5rem;margin:0 0 4px}
+  h1 span{background:linear-gradient(135deg,var(--primary),var(--accent));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);margin:0 0 20px;font-size:.9rem}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:18px}
+  .card h2{font-size:1.02rem;margin:0 0 10px}
+  label{display:block;font-size:.82rem;color:var(--muted);margin:10px 0 4px}
+  input[type=number]{width:110px;background:#12131c;color:var(--fg);border:1px solid var(--border);
+    border-radius:8px;padding:9px 11px;font-size:.92rem;font-family:inherit}
+  input[type=number]:focus{outline:none;border-color:var(--primary)}
+  button{cursor:pointer;border:none;border-radius:9px;padding:10px 16px;font-size:.9rem;font-weight:600;
+    background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;transition:transform .15s,opacity .15s}
+  button:hover{transform:translateY(-1px)} button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+  button.ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
+  button.sm{padding:5px 10px;font-size:.8rem}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  .hint{font-size:.78rem;color:var(--muted)}
+  .errlist{color:var(--err);font-size:.85rem;margin:8px 0;white-space:pre-line}
+  .oklist{color:var(--ok);font-size:.85rem;margin:8px 0;white-space:pre-line}
+  a{color:var(--primary)}
+  .pill{font-size:.68rem;background:rgba(99,102,241,.18);color:var(--primary);border-radius:5px;padding:1px 6px;margin-right:4px;
+    word-break:break-all;display:inline-block;margin-bottom:2px}
+  .group{border:1px solid var(--border);border-radius:11px;padding:12px 14px;margin-top:12px;background:#12131c}
+  .group summary{cursor:pointer;list-style:none;font-size:.92rem}
+  .group summary::-webkit-details-marker{display:none}
+  .group summary:before{content:"▸ ";color:var(--muted)}
+  .group[open] summary:before{content:"▾ "}
+  .entry{display:flex;gap:8px;align-items:baseline;padding:3px 0 3px 16px;font-size:.85rem}
+  .badge{font-size:.68rem;border-radius:5px;padding:1px 7px;font-weight:600;flex:none}
+  .badge.keep{background:rgba(34,197,94,.16);color:var(--ok)}
+  .badge.del{background:rgba(239,68,68,.16);color:var(--err)}
+  .entry .meta{color:var(--muted);font-size:.74rem}
+  .diff{margin:8px 0 0 16px;border-collapse:collapse;font-size:.8rem;width:calc(100% - 16px)}
+  .diff th,.diff td{border:1px solid var(--border);padding:5px 8px;text-align:left;vertical-align:top}
+  .diff th{color:var(--muted);font-weight:600}
+  .diff td.field{color:var(--warn);white-space:nowrap}
+  .diff td.val{word-break:break-all;white-space:pre-wrap;max-width:320px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span>LLM-DailyDigest</span> · 条目去重归并</h1>
+  <p class="sub">以 paper / code / dataset / link 四个字段的 URL 判定重复（规范化后精确匹配）：
+    同组保留<b>最早出现</b>条目并吸收后续条目的字段，其余删除。两步操作：先扫描预览，确认后执行。 ·
+    <a href="/">← 提交</a> · <a href="/merge">主题归并 →</a></p>
+
+  <div class="card">
+    <h2>扫描窗口</h2>
+    <label>向前天数（含当日；默认 7，可填 14、30 等更大窗口）</label>
+    <div class="actions" style="margin-top:6px">
+      <input type="number" id="days" value="7" min="1" max="90">
+      <button id="btnScan">🔍 扫描重复</button>
+      <button class="ghost" id="btnSelAll" disabled>☑ 全选</button>
+      <button id="btnApplySel" disabled>⚡ 执行选中</button>
+      <button id="btnApplyAll" disabled>✓ 全部执行</button>
+    </div>
+    <div class="actions" style="margin-top:4px">
+      <label class="hint" style="display:inline-flex;align-items:center;gap:.3rem;margin:0">
+        <input type="checkbox" id="useLlm"> 🤖 用 LLM 合并解析字段（summary / content / purpose，失败自动回退规则合并）
+      </label>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <div class="card" id="groupsCard" style="display:none">
+    <h2>重复分组 <span class="hint" id="meta"></span></h2>
+    <div id="groups"></div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function showResult(html, cls){ $('result').innerHTML = `<div class="${cls}">${html}</div>`; }
+
+function fmtVal(v){
+  if(v === null || v === undefined) return '(空)';
+  if(Array.isArray(v)) return v.join('、');
+  return String(v);
+}
+
+function renderEntry(e, kept){
+  const badge = kept ? '<span class="badge keep">保留</span>' : '<span class="badge del">删除</span>';
+  const it = e.item || {};
+  return `<div class="entry">${badge}
+    <span>${escapeHtml(it.title||it.id||'(无标题)')}</span>
+    <span class="meta">${escapeHtml(e.date)} · ${escapeHtml(e.file)} · id=${escapeHtml(it.id||'')} · 块#${e.index}</span>
+  </div>`;
+}
+
+function renderGroup(g, gi){
+  const pills = (g.keys||[]).map(k=>`<span class="pill">${escapeHtml(k)}</span>`).join('');
+  const dupsHtml = (g.dups||[]).map(d=>renderEntry(d,false)).join('');
+  let diffHtml = '';
+  if((g.absorb||[]).length){
+    const rows = g.absorb.map(d=>
+      `<tr><td class="field">${escapeHtml(d.field)}</td>
+       <td class="val">${escapeHtml(fmtVal(d.old))}</td>
+       <td class="val">${escapeHtml(fmtVal(d.new))}</td></tr>`).join('');
+    diffHtml = `<table class="diff"><tr><th>字段</th><th>原值</th><th>吸收后</th></tr>${rows}</table>`;
+  } else {
+    diffHtml = '<div class="hint" style="margin:6px 0 0 16px">保留条目无需吸收任何字段。</div>';
+  }
+  const sel = escapeHtml(JSON.stringify({file:g.keep.file, id:(g.keep.item||{}).id||''}));
+  return `<details class="group" open>
+    <summary><input type="checkbox" class="gcheck" data-sel="${sel}" onclick="event.stopPropagation()" style="margin-right:6px">组 ${gi+1}：${escapeHtml((g.keep.item||{}).title||'')} <span class="hint">（${(g.dups||[]).length+1} 条）</span></summary>
+    <div style="margin:8px 0 2px 16px">${pills}</div>
+    ${renderEntry(g.keep, true)}
+    ${dupsHtml}
+    ${diffHtml}
+    <div class="actions"><button class="ghost sm btn-only" data-only="${escapeHtml(JSON.stringify([{file:g.keep.file, id:(g.keep.item||{}).id||''}]))}">仅执行此组</button></div>
+  </details>`;
+}
+
+let DAYS = 7;
+
+async function scan(){
+  const days = parseInt($('days').value, 10);
+  if(!(days >= 1 && days <= 90)){ showResult('天数需在 1..90 之间','errlist'); return; }
+  DAYS = days;
+  const btn = $('btnScan'); btn.disabled=true; const old=btn.textContent; btn.textContent='扫描中…';
+  $('btnApplyAll').disabled = true; $('btnApplySel').disabled = true; $('btnSelAll').disabled = true;
+  try{
+    const r = await fetch('/api/dedup/preview',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({days})});
+    const j = await r.json();
+    if(!j.ok){ showResult((j.errors||[]).join('；'),'errlist'); return; }
+    const w = j.window || {};
+    if(!(j.groups||[]).length){
+      showResult(`✓ 窗口 ${w.from||'—'} ~ ${w.to||'—'}（${w.files_scanned||0} 个文件）内没有重复条目。`,'oklist');
+      $('groupsCard').style.display='none'; $('groups').innerHTML='';
+      return;
+    }
+    const totalDup = j.groups.reduce((n,g)=>n+(g.dups||[]).length, 0);
+    showResult(`窗口 ${w.from} ~ ${w.to}（${w.files_scanned} 个文件）：发现 <b>${j.group_count}</b> 组重复，待删除 <b>${totalDup}</b> 条。`,'oklist');
+    $('meta').textContent = `（${j.group_count} 组 / 将删除 ${totalDup} 条）`;
+    $('groups').innerHTML = j.groups.map((g,i)=>renderGroup(g,i)).join('');
+    $('groupsCard').style.display='';
+    $('btnApplyAll').disabled = false;
+    $('btnSelAll').disabled = false;
+    refreshSelBtn();
+    bindOnly();
+  }catch(e){ showResult('网络错误：'+e,'errlist'); }
+  finally{ btn.disabled=false; btn.textContent=old; }
+}
+
+function selectedGroups(){
+  return [...document.querySelectorAll('input.gcheck:checked')].map(c=>JSON.parse(c.getAttribute('data-sel')));
+}
+
+function refreshSelBtn(){
+  const n = selectedGroups().length;
+  $('btnApplySel').disabled = n === 0;
+  $('btnApplySel').textContent = n ? `⚡ 执行选中（${n}）` : '⚡ 执行选中';
+  const boxes = [...document.querySelectorAll('input.gcheck')];
+  const allOn = boxes.length && boxes.every(c=>c.checked);
+  $('btnSelAll').textContent = allOn ? '☐ 全不选' : '☑ 全选';
+}
+
+document.addEventListener('change', e=>{
+  if(e.target.classList && e.target.classList.contains('gcheck')) refreshSelBtn();
+});
+
+$('btnSelAll').onclick = ()=>{
+  const boxes = [...document.querySelectorAll('input.gcheck')];
+  const allOn = boxes.length && boxes.every(c=>c.checked);
+  boxes.forEach(c=>c.checked = !allOn);
+  refreshSelBtn();
+};
+
+async function apply(groups){
+  const nSel = groups ? groups.length : document.querySelectorAll('input.gcheck').length;
+  const useLlm = $('useLlm').checked;
+  const what = groups ? `选中的 ${nSel} 组` : `全部 ${nSel} 组`;
+  let msg = `确认执行${what}的归并？将改写日报文件（保留最早条目并吸收字段，删除重复条目）。`;
+  if(useLlm) msg += '\n已勾选 LLM 合并：summary / content / purpose 将由 LLM 整合为一份连贯内容（其余字段仍按规则合并）。';
+  msg += '\n可通过 git checkout 回退。';
+  if(!confirm(msg)) return;
+  const body = {days: DAYS};
+  if(groups) body.groups = groups;
+  if(useLlm) body.llm = true;
+  const btns = [$('btnApplyAll'), $('btnApplySel'), $('btnSelAll')];
+  btns.forEach(b=>b.disabled=true);
+  try{
+    const r = await fetch('/api/dedup/apply',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(body)});
+    const j = await r.json();
+    if(!j.ok){ showResult((j.errors||[]).join('；'),'errlist'); return; }
+    let h = `✓ 完成：归并 ${j.groups} 组，删除 ${j.removed} 条，改写文件：${(j.files||[]).join('、')||'（无变化）'}。`;
+    if(useLlm){
+      h += `\nLLM 合并解析字段：${j.llm_merged||0} 组成功` + ((j.llm_errors||[]).length ? `，${j.llm_errors.length} 组失败已回退规则合并` : '');
+    }
+    if(j.skipped_stale) h += `\n⚠ ${j.skipped_stale} 组因预览后内容变化被跳过。`;
+    showResult(h.trim(),'oklist');
+    await scan();  // 重新扫描刷新剩余分组
+  }catch(e){ showResult('网络错误：'+e,'errlist'); }
+  finally{ btns.forEach(b=>b.disabled=false); refreshSelBtn(); }
+}
+
+function bindOnly(){
+  document.querySelectorAll('button.btn-only').forEach(b=>{
+    b.onclick = ()=>{ apply(JSON.parse(b.getAttribute('data-only'))); };
+  });
+}
+
+$('btnScan').onclick = scan;
+$('btnApplyAll').onclick = ()=>apply(null);
+$('btnApplySel').onclick = ()=>apply(selectedGroups());
+$('days').addEventListener('keydown', e=>{ if(e.key==='Enter') scan(); });
+</script>
+</body>
+</html>
