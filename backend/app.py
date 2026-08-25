@@ -6,7 +6,7 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
   GET  /api/topics    返回 content/topic/ 下的合法主题名
   POST /api/extract   用 LLM 从原始文本抽取结构化字段（JSON）
   POST /api/submit    把一条 item 追加到当日日报 content/updates/<date>.md 的 [[items]]
-  POST /api/batch/<id>/auto_submit  一键自动处理批次：抽取后跳过人工核对直接提交
+  POST /api/batch/<id>/auto_submit  一键自动处理批次：抽取后跳过人工核对直接提交；疑似重复自动归并
   GET  /recommend     当日推荐页（采集公众号 + arXiv 最近 24h 内容，LLM 相关性筛选）
   GET  /dedup         条目去重归并页（URL 判重，预览 + 应用两步）
   POST /api/dedup/preview|apply  去重扫描 / 执行（days 默认 7，可指定 14、30 等更大窗口）
@@ -1420,12 +1420,28 @@ def process_batch_background(batch_id: str) -> bool:
 # ============================================================
 # 一键自动处理：跳过人工核对，抽取结果直接提交
 # ============================================================
+def _auto_absorb_into_dup(payload: dict, dup: dict) -> str:
+    """把被查重拦截的新条目自动吸收归并进已有日报条目，返回归并描述。
+    复用 /dedup 的 absorb_items 确定性规则：旧条目非空字段优先、列表字段
+    取并集、长文本取更完整方、notes 差异以 [合并自 …] 标记追加。"""
+    item = build_item_from_form(payload)
+    item.pop("_target_date", None)
+    merged = absorb_items(dup["item"], item, date.today().isoformat())
+    path = today_daily_path(dup["date"])
+    with _SUBMIT_LOCK:
+        changed = rewrite_daily_items(path, replace={dup["index"]: merged})
+    if changed:
+        trigger_deploy(f"自动归并条目 {item['id']} → {path.name}")
+    return f"已自动归并到 {dup['date']} 日报（{dup['file']}，id={dup['item'].get('id', '')}）"
+
+
 def submit_review_entry(batch_id: str, idx: int) -> dict:
     """把一条 review（待核对）条目的抽取结果直接提交写入日报。
     组装逻辑与人工核对页的默认行为一致：
     - notes 逐字保留原始信息 raw；
     - suggested_topics（候选新主题）在人工页默认勾选，此处同样并入 topics 一并提交。
-    提交成功后标记 done；失败则保留 review 状态并记录 error。"""
+    命中查重时不阻断：自动吸收归并进已有条目并标记 done（归并说明记入 note）。
+    其余提交失败则保留 review 状态并记录 error。"""
     batch = load_batch(batch_id)
     if not batch:
         return {"ok": False, "errors": ["批次不存在"]}
@@ -1451,15 +1467,28 @@ def submit_review_entry(batch_id: str, idx: int) -> dict:
     if ok:
         update_batch_entry(batch_id, idx, status="done", error="",
                            item_id=res["item"]["id"], file=res["file"])
-    else:
-        update_batch_entry(batch_id, idx,
-                           error="自动提交失败：" + "；".join(res.get("errors", [])))
+        return res
+    if res.get("dup"):
+        # 疑似重复：不阻断一键流程，自动吸收归并进旧条目
+        try:
+            note = _auto_absorb_into_dup(payload, res["dup"])
+        except Exception as e:  # noqa: BLE001
+            update_batch_entry(batch_id, idx,
+                               error="自动归并失败：" + str(e))
+            return res
+        update_batch_entry(batch_id, idx, status="done", error="", note=note,
+                           item_id=res["dup"]["item"].get("id", ""),
+                           file=res["dup"]["file"])
+        return {"ok": True, "message": note, "merged": True}
+    update_batch_entry(batch_id, idx,
+                       error="自动提交失败：" + "；".join(res.get("errors", [])))
     return res
 
 
 def auto_submit_batch_background(batch_id: str) -> bool:
     """后台一键自动处理：先并发跑完所有 pending（抓取+LLM 抽取），
     再把全部 review 条目逐条直接提交（跳过人工核对）。
+    命中查重的条目自动吸收归并进已有日报条目后标记 done；
     intervention（待介入）条目不自动提交，仍需人工处理。已在运行则返回 False。"""
     with _RUNNING_LOCK:
         if batch_id in _RUNNING_BATCHES:

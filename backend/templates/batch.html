@@ -128,13 +128,13 @@ function renderOverview(batch){
   $('entries').innerHTML = entries.map(e=>{
     const note = (e.status==='intervention' || e.status==='review')
       ? (e.error ? `：${escapeHtml(e.error.slice(0,40))}` : (e.has_unresolved ? '：有链接需补充' : ''))
-      : '';
+      : (e.status==='done' && e.note ? `：${escapeHtml(e.note.slice(0,40))}` : '');
     return `
     <tr>
       <td>${e.idx+1}</td>
       <td class="preview" title="${escapeHtml(e.preview)}">${escapeHtml(e.preview||'(空)')}</td>
       <td>${e.chars}</td>
-      <td><span class="chip ${chipCls[e.status]||'pending'}" title="${escapeHtml(e.error||'')}">${chipText[e.status]||e.status}${note}</span></td>
+      <td><span class="chip ${chipCls[e.status]||'pending'}" title="${escapeHtml(e.error||e.note||'')}">${chipText[e.status]||e.status}${note}</span></td>
       <td>
         <a href="/?batch=${encodeURIComponent(batch.batch_id)}&idx=${e.idx}" target="_blank">打开处理 ↗</a>
         <a href="#" data-idx="${e.idx}" class="reproc" style="margin-left:8px;font-size:.78rem">重处理</a>

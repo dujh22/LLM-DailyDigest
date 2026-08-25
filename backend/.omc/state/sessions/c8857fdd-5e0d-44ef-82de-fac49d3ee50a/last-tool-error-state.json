@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"python3 -m py_compile app.py && python3 - <<'EOF'\\nimport tempfile, pathlib\\nimport app as A\\n\\n# 1) 构造一个与真实结构一致的临时日报（两条目）\\ntmp = pathlib.Path(tempfile.mkdtemp()) / \\\"2026-08-21.md\\\"\\nold_...",
+  "error": "Exit code 1\nTraceback (most recent call last):\n  File \"<stdin>\", line 34, in <module>\n  File \"/Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest/backend/app.py\", line 181, in split_item_blocks\n    matches = list(_ITEMS_RE.finditer(fm_body))\nTypeError: expected string or bytes-like object",
+  "timestamp": "2026-08-25T13:24:40.933Z",
+  "retry_count": 1
+}
