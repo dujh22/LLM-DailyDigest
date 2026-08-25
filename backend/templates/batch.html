@@ -126,7 +126,7 @@ function renderOverview(batch){
   const chipCls = {pending:'pending', processing:'processing', review:'review', intervention:'intervention', done:'done', skipped:'skipped'};
   const chipText = {pending:'待处理', processing:'处理中…', review:'待核对', intervention:'待介入', done:'已完成', skipped:'已跳过'};
   $('entries').innerHTML = entries.map(e=>{
-    const note = (e.status==='intervention')
+    const note = (e.status==='intervention' || e.status==='review')
       ? (e.error ? `：${escapeHtml(e.error.slice(0,40))}` : (e.has_unresolved ? '：有链接需补充' : ''))
       : '';
     return `
