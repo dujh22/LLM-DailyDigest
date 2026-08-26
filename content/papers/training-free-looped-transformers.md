@@ -172,5 +172,5 @@ $$
 
 ## 关联
 
-- 相关研究主题：[EvolveLRM](/research/evolvelrm/)（推理时计算方向）
+- 相关研究主题：[EvolveLRM]({{< relref "/research/EvolveLRM" >}})（推理时计算方向）
 - 对比工作：Recirculation（[arXiv 2608.17981](https://arxiv.org/abs/2608.17981)）——同样免训练，但作用于 prefill 阶段的循环与信念状态追踪，二者可对照阅读。
