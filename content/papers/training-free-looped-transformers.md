@@ -1,5 +1,5 @@
 +++
-title = 'Training-Free Looped Transformers'
+title = '无需训练的循环 Transformer｜Training-Free Looped Transformers'
 date = 2026-08-26T00:00:00+08:00
 draft = false
 toc = true
@@ -16,7 +16,7 @@ published = '2026-05-22'
 
 ## 论文信息
 
-- **arXiv**：<https://arxiv.org/abs/2605.23872>（2026-05-22）
+- **arXiv**：[https://arxiv.org/abs/2605.23872](https://arxiv.org/abs/2605.23872)（2026-05-22）
 - **作者**：Lizhang Chen, Jonathan Li, Chen Liang, Ni Lao, Qiang Liu
 - **方向标签**：免训练 ‧ 循环架构 ‧ 推理时计算 ‧ 深度循环（looping） ‧ ODE 数值视角
 
@@ -25,11 +25,8 @@ published = '2026-05-22'
 核心问题：**如何在不进行任何额外训练、微调、持续训练或架构修改的情况下，将循环（recurrence/looping）机制应用于现成的（frozen）预训练 Transformer，以提升推理性能。**具体针对四个挑战：
 
 1. **训练时循环与现成模型的不匹配**。传统循环 Transformer（Universal Transformers、Deep Equilibrium Models 等）需要在训练阶段就把循环结构嵌入架构和权重；而绝大多数公开发布的模型（Qwen3、Llama-3.2、DeepSeek 等）按标准多阶段流水线（持续预训练 → SFT → RLHF/DPO）训练发布，并未考虑循环结构，现成 checkpoint 无法直接套用这些方法。
-
 2. **朴素循环导致性能退化**。直接在推理时对冻结模型块朴素重复应用（naive reapplication）通常显著掉点：预训练模型的后循环层（post-loop layers）被训练为接收特定时间步（t=1）的隐藏状态，朴素循环会把状态推进到 t=K，造成分布偏移。
-
 3. **无需训练的推理时计算扩展**。探索"训练无关"（training-free）的替代方案：通过推理时的轻量 wrapper，对冻结 checkpoint 中连续中间层块多次迭代，在不更新任何参数的情况下暴露潜在的推理时计算能力（latent inference-time computation）。
-
 4. **MoE 模型的特殊挑战**。对 MoE 架构，简单的块级循环（block-mode）会导致专家路由在迭代间剧烈变化（routing thrash）并累积噪声；论文提出层模式（layer-mode）迭代来解决，确保每层的专家选择在整个循环过程中保持一致。
 
 ## Q2：与相关工作有何区别？
@@ -37,6 +34,7 @@ published = '2026-05-22'
 **CoT 类推理时计算**：本文方法不修改输出序列长度，而是在**单次前向传播内**通过循环中间层增加每 token 的计算量。
 
 **数值分析方法**：
+
 - 残差块作为 ODE 前向欧拉步：将预归一化 Transformer 层视为残差 ODE ẋ = F_g(x) 的离散化，步长 h=1。
 - 固定点加速算法：Anderson Acceleration、Heavy-ball、Aitken Δ² 外推；以及高阶 Runge-Kutta 求解器（RK4、Heun、中点法）。
 - **关键发现**：这些经典固定点加速方法在循环 Transformer 块上并不稳健，因为该块并非压缩映射（contractive map）；相比之下，简单的阻尼子步或 K 阶段 Runge-Kutta 更有效。
@@ -53,7 +51,9 @@ published = '2026-05-22'
 
 **正确视角**：循环不应是推进到 t=K，而是对**同一积分终点 x(t=1)** 的更精确近似——把一个大步拆成 K 个步长 h=1/K 的阻尼子步：
 
-$$x_{k+1} = \left(1-\tfrac{1}{K}\right)x_k + \tfrac{1}{K}\,g(x_k)$$
+$$
+x_{k+1} = \left(1-\tfrac{1}{K}\right)x_k + \tfrac{1}{K}\,g(x_k)
+$$
 
 ### 2. 迭代模式：块模式 vs 层模式
 
@@ -78,14 +78,14 @@ $$x_{k+1} = \left(1-\tfrac{1}{K}\right)x_k + \tfrac{1}{K}\,g(x_k)$$
 
 ### 模型与架构覆盖
 
-| 模型家族 | 规模 | 架构特点 | 类型 |
-|---|---|---|---|
-| Qwen3 | 0.6B / 1.7B / 4B（Base & Instruct） | 标准 MHA | 密集 |
-| Qwen3-MoE | 30B-A3B-Instruct | MoE | 稀疏 |
-| Qwen1.5-MoE | A2.7B-Chat | MoE（24 层） | 稀疏/蒸馏 |
-| Llama-3.2 | 1B / 3B-Instruct | 标准 MHA | 密集/蒸馏 |
-| DeepSeek-V2-Lite | 16B / 2.4B 激活 | MLA + 64 专家 MoE | 稀疏 |
-| Moonlight | 16B-A3B-Instruct | MLA + MoE | 稀疏 |
+| 模型家族         | 规模                                | 架构特点          | 类型      |
+| ---------------- | ----------------------------------- | ----------------- | --------- |
+| Qwen3            | 0.6B / 1.7B / 4B（Base & Instruct） | 标准 MHA          | 密集      |
+| Qwen3-MoE        | 30B-A3B-Instruct                    | MoE               | 稀疏      |
+| Qwen1.5-MoE      | A2.7B-Chat                          | MoE（24 层）      | 稀疏/蒸馏 |
+| Llama-3.2        | 1B / 3B-Instruct                    | 标准 MHA          | 密集/蒸馏 |
+| DeepSeek-V2-Lite | 16B / 2.4B 激活                     | MLA + 64 专家 MoE | 稀疏      |
+| Moonlight        | 16B-A3B-Instruct                    | MLA + MoE         | 稀疏      |
 
 ### 基准测试
 
@@ -94,10 +94,12 @@ $$x_{k+1} = \left(1-\tfrac{1}{K}\right)x_k + \tfrac{1}{K}\,g(x_k)$$
 ### 主要结果（单一开箱即用配置：中间 4 层、3 阶段 Runge-Kutta、密集用块模式 / MoE 用层模式、无逐单元格调参）
 
 **显著提升（>2 pp）**：
+
 - Qwen3-4B-Instruct：MMLU-Pro **+2.64 pp**，GPQA-Main **+2.01 pp**
 - Qwen1.5-MoE-A2.7B：ARC-Challenge **+2.30 pp**
 
 **其他代表性提升**：
+
 - Qwen3-30B-A3B-Instruct：CommonsenseQA +1.14 pp
 - Moonlight-16B-A3B：OpenBookQA +1.20 pp
 - Llama-3.2-3B-Instruct：GPQA-Main +1.12 pp，MMLU-Pro +0.71 pp
@@ -150,6 +152,7 @@ $$x_{k+1} = \left(1-\tfrac{1}{K}\right)x_k + \tfrac{1}{K}\,g(x_k)$$
 **结果**：7 个模型家族（密集/MoE/MLA，0.6B–30B）、45 个测试单元格，知识密集型多项选择任务提升最显著；87% 单元格非负，且显著优于朴素循环（K=4 时困惑度爆炸至 1054）。
 
 **四大贡献**：
+
 1. **训练无关循环 wrapper**——首个适用于任意现成冻结 checkpoint、无需参数更新的循环方法；
 2. **ODE 解释框架**——将 Transformer 循环统一重解释为 ODE 积分细化，涵盖阻尼欧拉、Runge-Kutta 等策略；
 3. **MoE 稳定性方案**——层模式迭代解决 MoE 路由不稳定；
