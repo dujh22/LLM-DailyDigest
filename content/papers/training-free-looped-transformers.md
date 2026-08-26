@@ -10,8 +10,6 @@ authors = 'Lizhang Chen, Jonathan Li, Chen Liang, Ni Lao, Qiang Liu'
 published = '2026-05-22'
 +++
 
-# Training-Free Looped Transformers（无需训练的循环 Transformer）
-
 > **一句话速读**：用一个轻量推理时 wrapper，把冻结 checkpoint 中连续的中间层块循环执行——不做任何微调、继续训练或架构改动，即可让现成大模型普遍涨点（Qwen3-4B MMLU-Pro **+2.64 pp**，87% 测试单元格非负）。
 
 ## 论文信息
@@ -22,7 +20,7 @@ published = '2026-05-22'
 
 ## Q1：这篇论文试图解决什么问题？
 
-核心问题：**如何在不进行任何额外训练、微调、持续训练或架构修改的情况下，将循环（recurrence/looping）机制应用于现成的（frozen）预训练 Transformer，以提升推理性能。**具体针对四个挑战：
+核心问题：** 如何在不进行任何额外训练、微调、持续训练或架构修改的情况下，将循环（recurrence/looping）机制应用于现成的（frozen）预训练 Transformer，以提升推理性能。** 具体针对四个挑战：
 
 1. **训练时循环与现成模型的不匹配**。传统循环 Transformer（Universal Transformers、Deep Equilibrium Models 等）需要在训练阶段就把循环结构嵌入架构和权重；而绝大多数公开发布的模型（Qwen3、Llama-3.2、DeepSeek 等）按标准多阶段流水线（持续预训练 → SFT → RLHF/DPO）训练发布，并未考虑循环结构，现成 checkpoint 无法直接套用这些方法。
 2. **朴素循环导致性能退化**。直接在推理时对冻结模型块朴素重复应用（naive reapplication）通常显著掉点：预训练模型的后循环层（post-loop layers）被训练为接收特定时间步（t=1）的隐藏状态，朴素循环会把状态推进到 t=K，造成分布偏移。
