@@ -190,9 +190,21 @@
       "type": "file"
     },
     {
+      "path": "content/papers/training-free-looped-transformers.md",
+      "accessCount": 3,
+      "lastAccessed": 1787711964060,
+      "type": "file"
+    },
+    {
       "path": "backend/templates/merge.html",
       "accessCount": 2,
       "lastAccessed": 1787571874368,
+      "type": "file"
+    },
+    {
+      "path": "content/updates/2026-08-25.md",
+      "accessCount": 2,
+      "lastAccessed": 1787711700229,
       "type": "file"
     },
     {
@@ -205,6 +217,12 @@
       "path": "backend/recommend.py",
       "accessCount": 1,
       "lastAccessed": 1787571709625,
+      "type": "file"
+    },
+    {
+      "path": "content/research/EvolveLRM.md",
+      "accessCount": 1,
+      "lastAccessed": 1787711550623,
       "type": "file"
     }
   ],
