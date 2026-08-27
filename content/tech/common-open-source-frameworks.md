@@ -91,4 +91,4 @@ toc = true
 
 ## 延伸阅读
 
-更多微调 / RL / 部署框架（LLaMA-Factory、ms-swift、Unsloth、OpenRLHF、ROLL、TRL、vLLM 等）见资源页[《开源框架》](/resources/开源框架/)。
+更多微调 / RL / 部署框架（LLaMA-Factory、ms-swift、Unsloth、OpenRLHF、ROLL、TRL、vLLM 等）见资源页[《开源框架》]({{< relref "/resources/开源框架" >}})。
