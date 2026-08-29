@@ -1309,27 +1309,37 @@ def llm_extract(raw: str, extra: str = "") -> dict:
     if extra:
         augmented += ("\n\n===== 以下为用户补充内容（仅供抽取，不会写入原始笔记）=====\n\n" + extra)
 
-    try:
-        from openai import OpenAI
-        client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
-        resp = client.chat.completions.create(
-            model=LLM_MODEL,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": augmented},
-            ],
-        )
-        content_str = resp.choices[0].message.content or ""
-    except Exception as e:  # noqa: BLE001
-        return {"ok": False, "errors": [f"LLM 调用失败：{e}"]}
-
-    cleaned = content_str.strip()
-    cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
-    cleaned = re.sub(r"\s*```$", "", cleaned)
-    try:
-        parsed = json.loads(cleaned)
-    except json.JSONDecodeError:
-        return {"ok": False, "errors": ["LLM 返回无法解析为 JSON"], "raw": content_str}
+    content_str, errors = "", []
+    for attempt in range(3):  # 限流/瞬断/偶发坏输出：退避重试，避免一有问题就待介入
+        try:
+            from openai import OpenAI
+            client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
+            resp = client.chat.completions.create(
+                model=LLM_MODEL,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": augmented},
+                ],
+            )
+            content_str = resp.choices[0].message.content or ""
+        except Exception as e:  # noqa: BLE001
+            errors = [f"LLM 调用失败：{e}"]
+            if attempt < 2:
+                time.sleep(2 * (attempt + 1))
+                continue
+            return {"ok": False, "errors": errors}
+        cleaned = content_str.strip()
+        cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
+        cleaned = re.sub(r"\s*```$", "", cleaned)
+        try:
+            parsed = json.loads(cleaned)
+            break
+        except json.JSONDecodeError:
+            errors = ["LLM 返回无法解析为 JSON"]
+            if attempt < 2:
+                time.sleep(2 * (attempt + 1))
+                continue
+            return {"ok": False, "errors": errors, "raw": content_str}
 
     # 规范化
     t = parsed.get("topics", [])
@@ -1362,7 +1372,23 @@ def process_one_entry(batch_id: str, idx: int):
     resolved, unresolved, _ = resolve_all(raw)
 
     if unresolved:
-        # 有链接抓不到 → 待介入（保存链接状态供前端展示，跳过 LLM 抽取）
+        # 瞬时抖动（代理断连/反爬限流）重抓几轮再判死；成功结果会进缓存，
+        # 供下方 llm_extract 内部的 resolve_all 直接复用。
+        for attempt in range(2):
+            time.sleep(2 * (attempt + 1))
+            still = []
+            for u in unresolved:
+                r = resolve_link(u["url"], u["kind"], use_cache=False)
+                if r["ok"]:
+                    resolved.append({"url": u["url"], "kind": u["kind"],
+                                     "title": r["title"], "chars": r["chars"]})
+                else:
+                    still.append(u)
+            unresolved = still
+            if not unresolved:
+                break
+    if unresolved:
+        # 仍有链接抓不到 → 待介入（保存链接状态供前端展示，跳过 LLM 抽取）
         update_batch_entry(batch_id, idx,
                            status="intervention",
                            resolved_links=resolved,
