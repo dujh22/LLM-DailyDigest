@@ -197,15 +197,16 @@ function checkTopics(want){
   });
 }
 // 新增一个主题 chip（isNew=true 时标记「新」并默认勾选）
-function addTopicChip(name, isNew){
+function addTopicChip(name, isNew, checked){
   name = (name||'').trim();
   if(!name) return;
+  if(checked === undefined) checked = isNew;
   // 去重：已存在同 value 的 checkbox 就只勾选
   const existed = document.querySelector(`#topics input[value="${name}"]`);
-  if(existed){ existed.checked = true; return; }
+  if(existed){ if(checked) existed.checked = true; return; }
   const lbl = document.createElement('label');
   if(isNew) lbl.className = 'is-new';
-  lbl.innerHTML = `<input type="checkbox" value="${name}" ${isNew?'checked':''}> ${name}${isNew?'<span class="badge-new">新</span>':''}`;
+  lbl.innerHTML = `<input type="checkbox" value="${name}" ${checked?'checked':''}> ${name}${isNew?'<span class="badge-new">新</span>':''}`;
   $('topics').appendChild(lbl);
 }
 function clearForm(){
@@ -262,7 +263,7 @@ function applyExtraction(d, resolvedLinks, unresolvedLinks){
   if(Array.isArray(d.topics)) checkTopics(d.topics);
   if(Array.isArray(d.research)) checkGroup('research', d.research);
   document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove());
-  if(Array.isArray(d.suggested_topics)) d.suggested_topics.forEach(t=>addTopicChip(t, true));
+  if(Array.isArray(d.suggested_topics)) d.suggested_topics.forEach(t=>addTopicChip(t, true, false));
   // notes 只回填用户原始信息（绝不写入抓取/补充内容）
   setVal('notes', $('raw').value);
   const links = [...(resolvedLinks||[]).map(l=>({...l,ok:true})),

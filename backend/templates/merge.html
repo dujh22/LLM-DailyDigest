@@ -89,14 +89,19 @@
 
       <div class="card">
         <h2>🤖 LLM 归并推荐</h2>
-        <div class="hint" style="margin:0 0 8px">自动扫描近义/重复标签并聚类。可单条「采纳」填入左侧，或勾选多条「批量执行」。</div>
+        <div class="hint" style="margin:0 0 8px">主题与子主题<b>分开</b>生成：每次对全部标签分批<b>完整遍历</b>，把同义/近义标签归并并统一为标准术语（技术名词 / 公认研究方向）。仅生成推荐，采纳后才会改写文件。</div>
         <div class="actions" style="margin-top:0">
-          <button id="btnSuggest">生成推荐</button>
+          <button id="btnSuggestTopics">生成主题推荐</button>
+          <button id="btnSuggestSubs">生成子主题推荐</button>
           <button class="ghost" id="btnSelectAll" disabled>全选</button>
           <button id="btnBatch" disabled>⚡ 批量采纳并执行</button>
-          <span class="hint" id="suggestHint"></span>
         </div>
-        <div id="suggestions"></div>
+        <div id="suggestions">
+          <div class="hint" id="hint-topics"></div>
+          <div id="sug-topics"></div>
+          <div class="hint" id="hint-subtopics" style="margin-top:10px"></div>
+          <div id="sug-subtopics"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -196,39 +201,85 @@ $('btnApply').onclick = async ()=>{
   finally{ btn.disabled=false; btn.textContent=old; }
 };
 
-function renderSuggestion(rec, kind, idx){
+function renderSuggestion(rec, kind){
   // kind: 'topic' or 'sub'
   const tgt = rec.target;
   const sources = rec.sources;
   const why = rec.reason ? `<div class="why">${escapeHtml(rec.reason)}</div>` : '';
+  const newPill = rec.new_target ? '<span class="pill">新词</span>' : '';
   const data = escapeHtml(JSON.stringify({sources, target: tgt}));
   return `<div class="rec">
     <input type="checkbox" class="rcheck" data-kind="${kind}" data-rec="${data}" style="margin-right:8px">
-    <span class="pill">${kind==='topic'?'主题':'子主题'}</span>
+    <span class="pill">${kind==='topic'?'主题':'子主题'}</span>${newPill}
     ${sources.map(s=>escapeHtml(s)).join('、')} → <span class="tg">${escapeHtml(tgt)}</span>
     ${why}
     <div style="margin-top:6px"><button class="ghost sm" data-kind="${kind}" data-src='${JSON.stringify(sources)}' data-tgt="${escapeHtml(tgt)}">采纳</button></div>
   </div>`;
 }
 
-$('btnSuggest').onclick = async ()=>{
-  const btn = $('btnSuggest'); btn.disabled=true; const old=btn.textContent; btn.textContent='生成中…';
-  $('suggestHint').textContent='调用 LLM 中…'; $('suggestions').innerHTML='';
-  $('btnSelectAll').disabled = true; $('btnBatch').disabled = true;
-  try{
-    const r = await fetch('/api/merge/suggest',{method:'POST'});
-    const j = await r.json();
-    if(!j.ok){ $('suggestions').innerHTML = `<div class="errlist">${(j.errors||[]).join('；')}</div>`; return; }
-    let i = 0;
-    const all = [...(j.topics||[]).map(x=>renderSuggestion(x,'topic',i++)), ...(j.subtopics||[]).map(x=>renderSuggestion(x,'sub',i++))];
-    $('suggestions').innerHTML = all.length ? all.join('') : '<div class="hint">未发现可归并的近义标签。</div>';
-    $('suggestHint').textContent = `${(j.topics||[]).length + (j.subtopics||[]).length} 条推荐`;
-    $('btnSelectAll').disabled = !all.length;
-    $('btnBatch').disabled = true;  // 有勾选后才启用
-    bindAdopt();
-  }catch(e){ $('suggestions').innerHTML = `<div class="errlist">网络错误：${e}</div>`; }
-  finally{ btn.disabled=false; btn.textContent=old; }
+const SUGGEST_KINDS = {
+  topics:    {btn:'btnSuggestTopics', hint:'hint-topics',    box:'sug-topics',    label:'主题',   recKind:'topic'},
+  subtopics: {btn:'btnSuggestSubs',   hint:'hint-subtopics', box:'sug-subtopics', label:'子主题', recKind:'sub'},
 };
+
+function refreshSelectAll(){
+  $('btnSelectAll').disabled = !document.querySelectorAll('input.rcheck').length;
+}
+
+async function startSuggest(kind){
+  const cfg = SUGGEST_KINDS[kind];
+  $(cfg.btn).disabled = true;
+  $(cfg.hint).textContent = `${cfg.label}：启动中…`;
+  $(cfg.box).innerHTML = '';
+  try{
+    const r = await fetch('/api/merge/suggest/start',{method:'POST',
+      headers:{'Content-Type':'application/json'}, body:JSON.stringify({kind})});
+    const j = await r.json();
+    if(!j.ok){
+      $(cfg.box).innerHTML = `<div class="errlist">${(j.errors||[]).join('；')}</div>`;
+      $(cfg.hint).textContent = ''; $(cfg.btn).disabled = false; return;
+    }
+    pollSuggest(kind);
+  }catch(e){
+    $(cfg.box).innerHTML = `<div class="errlist">网络错误：${e}</div>`;
+    $(cfg.hint).textContent = ''; $(cfg.btn).disabled = false;
+  }
+}
+
+async function pollSuggest(kind){
+  const cfg = SUGGEST_KINDS[kind];
+  let j;
+  try{
+    const r = await fetch('/api/merge/suggest/status?kind='+kind);
+    j = await r.json();
+  }catch(e){ setTimeout(()=>pollSuggest(kind), 4000); return; }
+  if(j.status === 'running'){
+    $(cfg.btn).disabled = true;
+    const p = j.progress || {};
+    $(cfg.hint).textContent = `${cfg.label}遍历中：第 ${p.done||0}/${p.total||'?'} 批…`;
+    setTimeout(()=>pollSuggest(kind), 2500);
+    return;
+  }
+  $(cfg.btn).disabled = false;
+  if(j.status === 'error'){
+    $(cfg.box).innerHTML = `<div class="errlist">${(j.errors||[]).join('；')}</div>`;
+    $(cfg.hint).textContent = ''; return;
+  }
+  if(j.status !== 'done' || !j.result){ return; }  // idle：无历史任务
+  const groups = j.result.groups || [];
+  $(cfg.box).innerHTML = groups.length
+    ? groups.map(g=>renderSuggestion(g, cfg.recKind)).join('')
+    : '<div class="hint">未发现可归并的近义标签。</div>';
+  let h = `${cfg.label}：已完整遍历 ${j.result.total_labels} 个标签 → ${groups.length} 组推荐（涉及 ${j.result.changed_labels} 个标签）`;
+  if((j.warnings||[]).length) h += `；⚠ ${j.warnings.join('；')}`;
+  $(cfg.hint).textContent = h;
+  refreshSelectAll(); refreshBatchBtn(); bindAdopt();
+}
+
+$('btnSuggestTopics').onclick = ()=>startSuggest('topics');
+$('btnSuggestSubs').onclick = ()=>startSuggest('subtopics');
+// 页面加载时恢复可能仍在跑 / 已完成的任务状态
+pollSuggest('topics'); pollSuggest('subtopics');
 
 // 勾选状态变化 → 更新批量按钮文案
 function refreshBatchBtn(){

@@ -10,6 +10,9 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
   GET  /recommend     当日推荐页（采集公众号 + arXiv 最近 24h 内容，LLM 相关性筛选）
   GET  /dedup         条目去重归并页（URL 判重，预览 + 应用两步）
   POST /api/dedup/preview|apply  去重扫描 / 执行（days 默认 7，可指定 14、30 等更大窗口）
+  GET  /merge         主题/子主题归并页；LLM 推荐为主题、子主题分开的全量分批遍历
+  POST /api/merge/suggest/start  启动一种标签（topics/subtopics）的推荐后台任务
+  GET  /api/merge/suggest/status 查询推荐任务进度与结果（人工采纳后才写盘）
 
 API Key：读取仓库根目录 api_key.txt；不存在则禁用 LLM 抽取并提示用户。
 运行：python backend/app.py  （然后浏览器打开 http://localhost:5050）
@@ -86,6 +89,40 @@ def valid_research():
     for f in glob.glob(str(RESEARCH_DIR / "*.md")):
         names.append(Path(f).stem)
     return sorted(names)
+
+
+# 抽取 prompt 用的常用标签词表（带频次、短 TTL 缓存：批处理并发高，避免每条都全量扫盘）
+_VOCAB_CACHE = {"ts": 0.0, "data": None}
+_VOCAB_TTL = 300  # 秒；归并执行后会主动失效
+_VOCAB_LOCK = threading.Lock()
+
+
+def label_vocab():
+    """返回 {"topics": [名称,...], "subs": [名称,...]}，均按使用频次降序。
+    只收出现 ≥2 次的标签：一次性标签多为待归并噪声，不应鼓励模型复用。"""
+    now = time.time()
+    with _VOCAB_LOCK:
+        cached = _VOCAB_CACHE["data"]
+        if cached is not None and now - _VOCAB_CACHE["ts"] < _VOCAB_TTL:
+            return cached
+    idx = parse_updates_index()
+
+    def common(freq):
+        pairs = [(k, v) for k, v in freq.items() if v >= 2 and k and k != "(无)"]
+        pairs.sort(key=lambda kv: (-kv[1], kv[0]))
+        return [k for k, _ in pairs[:800]]
+
+    data = {"topics": common(idx["topic_freq"]), "subs": common(idx["sub_freq"])}
+    with _VOCAB_LOCK:
+        _VOCAB_CACHE["ts"] = now
+        _VOCAB_CACHE["data"] = data
+    return data
+
+
+def invalidate_label_vocab():
+    with _VOCAB_LOCK:
+        _VOCAB_CACHE["ts"] = 0.0
+        _VOCAB_CACHE["data"] = None
 
 
 def load_api_key():
@@ -792,6 +829,7 @@ def merge_apply_maps(topic_map: dict, sub_map: dict):
                 deleted.append(t)
     report["deleted_topic_pages"] = deleted
     report["ok"] = True
+    invalidate_label_vocab()  # 标签已改写，抽取词表立即重建
     return report
 
 
@@ -824,57 +862,149 @@ def merge_apply(topic_sources, topic_target, sub_sources, sub_target):
     return res
 
 
-def merge_suggest():
-    """调用 LLM 对全部主题/子主题做近义聚类，返回归并推荐。"""
-    api_key = load_api_key()
-    if not api_key:
-        return {"ok": False, "errors": ["未找到 API Key，无法调用 LLM"]}
-    idx = parse_updates_index()
-    topics = sorted(idx["topic_freq"].keys(), key=lambda k: -idx["topic_freq"][k])
-    subs = sorted(idx["sub_freq"].keys(), key=lambda k: -idx["sub_freq"][k])
-    prompt = (
-        "你是数据清洗助手。下面是科研日报的【主题】和【子主题】标签列表（带出现频次）。"
-        "请找出其中【语义近义、重复、应归并】的标签组，每组给出推荐归并后的标准名与一句理由。"
-        "只合并真正同义/重复的；不要把语义不同的合并；单孤立标签不要输出。严格返回 JSON：\n"
-        '{"topics":[{"sources":["标签a","标签b"],"target":"标准名","reason":"..."}],'
-        '"subtopics":[{"sources":[...],"target":"...","reason":"..."}]}\n'
-        "不要代码块、不要解释。\n\n"
-        f"主题（name:频次）：{json.dumps([(t, idx['topic_freq'][t]) for t in topics], ensure_ascii=False)}\n\n"
-        f"子主题（name:频次）：{json.dumps([(s, idx['sub_freq'][s]) for s in subs], ensure_ascii=False)}"
+# ---- LLM 归并推荐：主题 / 子主题分开、每次全量分批遍历、映射到标准术语 ----
+# 每批交给 LLM 的标签数。批内互相归并 + 复用已确立标准词表，
+# 顺序遍历完所有批次即保证每个标签都被 LLM 审视过一次（完整遍历）。
+_SUGGEST_CHUNK = 120
+_SUGGEST_JOBS = {}        # kind("topics"/"subtopics") -> 任务状态字典
+_SUGGEST_JOBS_LOCK = threading.Lock()
+
+_SUGGEST_KIND_DESC = {
+    "topics": (
+        "主题（topic）标签：条目的研究方向 / 技术领域标签，一条内容可带多个，粒度较宽",
+        "「强化学习」「多模态」「智能体」「检索增强生成」「模型评估」「数据合成」",
+    ),
+    "subtopics": (
+        "子主题（subtopic）标签：比主题细一级的具体方向，每条内容只有一个，粒度较细",
+        "「数学推理」「奖励建模」「形式化证明」「视频生成」「模型发布」",
+    ),
+}
+
+
+def _suggest_chunk_call(client, kind: str, vocab: set, chunk_pairs: list) -> dict:
+    """单批调用：把本批每个标签映射到标准词。返回 {标签: 标准词}，失败抛异常。"""
+    desc, examples = _SUGGEST_KIND_DESC[kind]
+    system_prompt = (
+        f"你是科研日报的标签标准化助手。下面是{desc}。"
+        "任务：把【本批标签】逐一映射到规范的标准词。规则：\n"
+        f"1. 标准词必须是专用技术名词或学界公认的研究方向代名词（如 {examples}），"
+        "避免口语化、含糊或自造的说法。\n"
+        "2. 同义、近义、中英混写、繁简、单复数、写法差异的标签必须映射到同一个标准词；"
+        "优先复用【已确立标准词】里已有的词。\n"
+        "3. 标签本身已是规范术语且无同义词时，映射到它自己。\n"
+        "4. 标签不够规范但存在公认术语时，映射到该术语（词表里还没有也可以）。\n"
+        "5. 含义确实不同（哪怕相关）的标签不要合并；宁可保留，不要错并。\n"
+        '严格返回 JSON（不要代码块、不要解释）：{"map": {"标签": "标准词", ...}}。'
+        "map 必须覆盖【本批标签】中的每一个标签，一个都不能漏。"
     )
-    try:
-        from openai import OpenAI
-        client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
-        resp = client.chat.completions.create(
-            model=LLM_MODEL,
-            messages=[{"role": "system", "content": "你是严谨的数据清洗助手，只输出 JSON。"},
-                      {"role": "user", "content": prompt}],
-        )
-        raw = (resp.choices[0].message.content or "").strip()
-    except Exception as e:  # noqa: BLE001
-        return {"ok": False, "errors": [f"LLM 调用失败：{e}"]}
+    user_prompt = (
+        f"【已确立标准词】{json.dumps(sorted(vocab), ensure_ascii=False)}\n\n"
+        f"【本批标签】（名称, 出现次数）：{json.dumps(chunk_pairs, ensure_ascii=False)}"
+    )
+    resp = client.chat.completions.create(
+        model=LLM_MODEL,
+        messages=[{"role": "system", "content": system_prompt},
+                  {"role": "user", "content": user_prompt}],
+    )
+    raw = (resp.choices[0].message.content or "").strip()
     raw = re.sub(r"^```(?:json)?\s*", "", raw)
     raw = re.sub(r"\s*```$", "", raw)
+    parsed = json.loads(raw)
+    m = parsed.get("map")
+    if not isinstance(m, dict):
+        raise ValueError("LLM 返回缺少 map 字段")
+    return {str(k): str(v) for k, v in m.items()}
+
+
+def _clean_canonical(label: str, tgt: str) -> str:
+    """清洗 LLM 给出的标准词；不可用时回退为原标签（等于不改）。"""
+    tgt = re.sub(r"\s+", " ", (tgt or "").strip())
+    tgt = re.sub(r"[\\/]+", "", tgt).replace("'", "").replace('"', "")
+    if not tgt or tgt in (".", "..") or len(tgt) > 40:
+        return label
+    return tgt
+
+
+def _resolve_chains(mapping: dict) -> dict:
+    """消解链式映射（A→B、B→C ⇒ A→C），遇环则保持原标签不动。"""
+    def final(label, seen):
+        tgt = mapping.get(label, label)
+        if tgt == label or tgt in seen:
+            return tgt
+        seen.add(label)
+        return final(tgt, seen)
+    return {src: final(src, set()) for src in mapping}
+
+
+def _suggest_groups(mapping: dict, freq: dict) -> list:
+    """把 标签→标准词 映射整理成按目标聚合的推荐组，按影响条目数降序。"""
+    mapping = _resolve_chains(mapping)
+    by_tgt = {}
+    for src, tgt in mapping.items():
+        if src != tgt:
+            by_tgt.setdefault(tgt, set()).add(src)
+    groups = []
+    for tgt, srcs in by_tgt.items():
+        srcs = sorted(srcs, key=lambda s: (-freq.get(s, 0), s))
+        refs = sum(freq.get(s, 0) for s in srcs) + freq.get(tgt, 0)
+        is_new = tgt not in freq
+        reason = ("统一为标准词（当前尚无此标签）" if is_new else "归并到既有标准词") \
+            + f"，合计 {refs} 次引用"
+        groups.append({"sources": srcs, "target": tgt, "reason": reason,
+                       "new_target": is_new, "refs": refs})
+    groups.sort(key=lambda g: -g["refs"])
+    return groups
+
+
+def _run_suggest_job(kind: str):
+    """后台线程：对某一种标签做全量分批遍历，结果写回 _SUGGEST_JOBS[kind]。"""
+    job = _SUGGEST_JOBS[kind]
     try:
-        parsed = json.loads(raw)
-    except json.JSONDecodeError:
-        return {"ok": False, "errors": ["LLM 返回无法解析为 JSON"], "raw": raw}
-    # 规范化
-    def norm(group):
-        out = []
-        for g in (group or []):
-            src = g.get("sources", [])
-            if isinstance(src, str):
-                src = [src]
-            src = [str(x).strip() for x in src if str(x).strip()]
-            tgt = str(g.get("target", "")).strip()
-            if len(src) >= 2 and tgt:
-                out.append({"sources": src, "target": tgt,
-                            "reason": str(g.get("reason", ""))})
-        return out
-    return {"ok": True,
-            "topics": norm(parsed.get("topics")),
-            "subtopics": norm(parsed.get("subtopics"))}
+        from openai import OpenAI
+        api_key = load_api_key()
+        if not api_key:
+            raise RuntimeError("未找到 API Key，无法调用 LLM")
+        idx = parse_updates_index()
+        freq = idx["topic_freq"] if kind == "topics" else idx["sub_freq"]
+        freq = {k: v for k, v in freq.items() if k and k != "(无)"}
+        # 高频在前：先确立高频锚点词，低频/孤立标签在后续批次向其靠拢
+        labels = sorted(freq, key=lambda k: (-freq[k], k))
+        chunks = [labels[i:i + _SUGGEST_CHUNK]
+                  for i in range(0, len(labels), _SUGGEST_CHUNK)]
+        job["progress"] = {"done": 0, "total": len(chunks)}
+        client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
+        mapping, vocab, warnings = {}, set(), []
+        for ci, chunk in enumerate(chunks):
+            pairs = [(l, freq[l]) for l in chunk]
+            m, err = None, None
+            for _attempt in range(2):
+                try:
+                    m = _suggest_chunk_call(client, kind, vocab, pairs)
+                    break
+                except Exception as e:  # noqa: BLE001
+                    err = e
+            if m is None:
+                warnings.append(f"第 {ci + 1} 批 LLM 调用失败，该批标签按原样保留：{err}")
+                m = {}
+            missing = sum(1 for l in chunk if l not in m)
+            if m and missing:
+                warnings.append(f"第 {ci + 1} 批有 {missing} 个标签未被 LLM 覆盖，按原样保留")
+            for l in chunk:
+                tgt = _clean_canonical(l, m.get(l, l))
+                mapping[l] = tgt
+                vocab.add(tgt)
+            job["progress"]["done"] = ci + 1
+        groups = _suggest_groups(mapping, freq)
+        job["result"] = {
+            "groups": groups,
+            "total_labels": len(labels),
+            "changed_labels": sum(1 for s, t in _resolve_chains(mapping).items() if s != t),
+        }
+        job["warnings"] = warnings
+        job["status"] = "done"
+    except Exception as e:  # noqa: BLE001
+        job["errors"] = [f"{e}"]
+        job["status"] = "error"
 
 
 def today_daily_path(d=None) -> Path:
@@ -1278,7 +1408,7 @@ def llm_extract(raw: str, extra: str = "") -> dict:
             f"未找到 API Key：请在仓库根目录创建 {API_KEY_FILE.relative_to(REPO_ROOT)} "
             f"并填入你的 GLM/OpenAI 兼容 api_key。"]}
 
-    topics = valid_topics()
+    vocab = label_vocab()
     research = valid_research()
     system_prompt = (
         "你是大模型研究日报的结构化信息抽取助手。"
@@ -1286,10 +1416,15 @@ def llm_extract(raw: str, extra: str = "") -> dict:
         "若文本中包含「来自链接」「用户补充内容」等参考区块，请充分利用其中信息填充字段。"
         "字段定义：\n"
         "- title: 标题，中文为主，可含英文术语，简洁。\n"
-        "- subtopic: 子主题，简短标签（2~6 字），用于在该主题页里归入栏目。\n"
-        f"- topics: 所属主题数组，优先从下面【已有】列表选取：{json.dumps(topics, ensure_ascii=False)}\n"
-        "- suggested_topics: 额外推断【最多 3 个尚不存在的新主题名】（每个 2~4 字中文），"
-        "作为候选供用户决定是否新建；不要与已有列表重复；无可推断时返回空数组 []。\n"
+        "- subtopic: 子主题，单个短标签（2~6 字）。必须优先复用下面【已有子主题】中语义匹配的词；"
+        "确实无匹配才可新建，新建必须是专用技术名词或公认的研究方向代名词，"
+        "禁止口语化表述、含糊大词或自造缩写。\n"
+        f"  【已有子主题】（按使用频次降序）：{json.dumps(vocab['subs'], ensure_ascii=False)}\n"
+        "- topics: 所属主题数组（1~5 个），【只能】从下面常用主题词表中选取，不得自造；"
+        f"按相关度从高到低排列：{json.dumps(vocab['topics'], ensure_ascii=False)}\n"
+        "- suggested_topics: 仅当常用主题词表确实覆盖不了内容的核心方向时，提名最多 2 个候选新主题"
+        "（须为专用技术名词或公认研究方向代名词，2~6 字中文，不与词表重复），供用户决定是否新建；"
+        "绝大多数情况应返回空数组 []。\n"
         f"- research: 归属的研究项目数组，只能从下面列表选取，无匹配返回空数组 []：{json.dumps(research, ensure_ascii=False)}\n"
         "- source: 来源（公众号名 / arxiv 分类 / 站点名），无法判断填 \"未知\"。\n"
         "- summary: 一句话中文摘要。\n"
@@ -1341,11 +1476,21 @@ def llm_extract(raw: str, extra: str = "") -> dict:
                 continue
             return {"ok": False, "errors": errors, "raw": content_str}
 
-    # 规范化
+    # 规范化 + 词表校验：模型自造的主题一律降级为候选，由人决定是否新建
     t = parsed.get("topics", [])
-    parsed["topics"] = [str(x) for x in ([t] if isinstance(t, str) else t)]
+    t = [str(x).strip() for x in ([t] if isinstance(t, str) else t) if str(x).strip()]
     s = parsed.get("suggested_topics", [])
-    parsed["suggested_topics"] = [str(x).strip() for x in ([s] if isinstance(s, str) else s) if str(x).strip()]
+    s = [str(x).strip() for x in ([s] if isinstance(s, str) else s) if str(x).strip()]
+    allowed = set(vocab["topics"]) | set(valid_topics())
+    topics_ok, seen = [], set()
+    suggested = []
+    for x in t + s:
+        if x in seen:
+            continue
+        seen.add(x)
+        (topics_ok if x in allowed else suggested).append(x)
+    parsed["topics"] = topics_ok
+    parsed["suggested_topics"] = suggested
     r = parsed.get("research", [])
     parsed["research"] = [str(x).strip() for x in ([r] if isinstance(r, str) else r) if str(x).strip()]
 
@@ -1463,9 +1608,10 @@ def _auto_absorb_into_dup(payload: dict, dup: dict) -> str:
 
 def submit_review_entry(batch_id: str, idx: int) -> dict:
     """把一条 review（待核对）条目的抽取结果直接提交写入日报。
-    组装逻辑与人工核对页的默认行为一致：
     - notes 逐字保留原始信息 raw；
-    - suggested_topics（候选新主题）在人工页默认勾选，此处同样并入 topics 一并提交。
+    - suggested_topics（候选新主题）自动流程默认【不】采纳，避免每条消息都扩充
+      主题词表、抬高归并成本；未采纳的候选记入条目 note 供人工回看。
+      仅当已有主题为空（提交会被拒）时才兜底并入候选。
     命中查重时不阻断：自动吸收归并进已有条目并标记 done（归并说明记入 note）。
     其余提交失败则保留 review 状态并记录 error。"""
     batch = load_batch(batch_id)
@@ -1476,10 +1622,13 @@ def submit_review_entry(batch_id: str, idx: int) -> dict:
         return {"ok": False, "errors": ["条目不在待核对状态"]}
     data = entry.get("data") or {}
     topics = [t for t in (data.get("topics") or []) if str(t).strip()]
-    for t in (data.get("suggested_topics") or []):
-        t = str(t).strip()
-        if t and t not in topics:
-            topics.append(t)
+    suggested = [str(t).strip() for t in (data.get("suggested_topics") or [])
+                 if str(t).strip() and str(t).strip() not in topics]
+    skipped_note = ""
+    if not topics and suggested:
+        topics = suggested  # 兜底：没有任何已有主题时才采纳候选，保证可提交
+    elif suggested:
+        skipped_note = "候选新主题未自动采纳：" + "、".join(suggested)
     payload = {k: data.get(k) or "" for k in
                ("title", "subtopic", "source", "summary", "paper",
                 "code", "dataset", "link", "content", "purpose")}
@@ -1491,8 +1640,11 @@ def submit_review_entry(batch_id: str, idx: int) -> dict:
     })
     ok, res = do_submit(payload)
     if ok:
-        update_batch_entry(batch_id, idx, status="done", error="",
-                           item_id=res["item"]["id"], file=res["file"])
+        fields = {"status": "done", "error": "",
+                  "item_id": res["item"]["id"], "file": res["file"]}
+        if skipped_note:
+            fields["note"] = skipped_note
+        update_batch_entry(batch_id, idx, **fields)
         return res
     if res.get("dup"):
         # 疑似重复：不阻断一键流程，自动吸收归并进旧条目
@@ -1754,9 +1906,37 @@ def api_merge_apply_multi():
     return jsonify(res), code
 
 
-@app.route("/api/merge/suggest", methods=["POST"])
-def api_merge_suggest():
-    return jsonify(merge_suggest())
+@app.route("/api/merge/suggest/start", methods=["POST"])
+def api_merge_suggest_start():
+    """启动一种标签（topics/subtopics）的全量遍历归并推荐后台任务。"""
+    data = request.get_json(force=True, silent=True) or {}
+    kind = (data.get("kind") or "").strip()
+    if kind not in ("topics", "subtopics"):
+        return jsonify({"ok": False, "errors": ["kind 需为 topics 或 subtopics"]}), 400
+    if not load_api_key():
+        return jsonify({"ok": False, "errors": ["未找到 API Key，无法调用 LLM"]}), 400
+    with _SUGGEST_JOBS_LOCK:
+        job = _SUGGEST_JOBS.get(kind)
+        if job and job.get("status") == "running":
+            return jsonify({"ok": True, "already_running": True})
+        _SUGGEST_JOBS[kind] = {"status": "running",
+                               "progress": {"done": 0, "total": 0},
+                               "result": None, "errors": [], "warnings": []}
+    threading.Thread(target=_run_suggest_job, args=(kind,), daemon=True,
+                     name=f"merge-suggest-{kind}").start()
+    return jsonify({"ok": True})
+
+
+@app.route("/api/merge/suggest/status")
+def api_merge_suggest_status():
+    """查询归并推荐任务状态：idle / running（含进度）/ done（含结果）/ error。"""
+    kind = (request.args.get("kind") or "").strip()
+    if kind not in ("topics", "subtopics"):
+        return jsonify({"ok": False, "errors": ["kind 需为 topics 或 subtopics"]}), 400
+    job = _SUGGEST_JOBS.get(kind)
+    if not job:
+        return jsonify({"ok": True, "status": "idle"})
+    return jsonify({"ok": True, **job})
 
 
 @app.route("/dedup")
