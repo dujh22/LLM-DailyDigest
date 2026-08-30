@@ -57,7 +57,7 @@ content/research/<项目>.md   研究项目页，自动聚合归属该研究的 
 - **主题页**：底部「相关消息」，按 `subtopic` 分栏。
 - **研究页**：底部「相关工作」，页头展示**提出者**与**最早研究时间**。
 
-当前研究项目（提出者：杜晋华）：LogicEvolve (2025-05)、EvolveLRM (2026-01)、HarnessEvolve / SwarmEvolve (2026-03)、Groom (2026-05)、Awesome-RSI (2026-06)、DataEvolve / EvalEvolve (2026-08)。
+当前研究项目（提出者：杜晋华）：LogicEvolve (2025-05)、EvolveLRM (2026-01)、HarnessEvolve / SwarmEvolve (2026-03)、Groom (2026-05)、Awesome-RSI (2026-06)、DataEvolve / EvalEvolve (2026-08)、MemoryEvolve / ResearchEvolve (2026-08)。
 
 ### 本地预览
 

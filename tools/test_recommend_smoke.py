@@ -72,9 +72,10 @@ print("arxiv collect+dedup ok:", [i["key"] for i in res["items"]])
 
 # ---------- 3) 研究画像 ----------
 prof = R.build_research_profile()
-assert len(prof) == 9, [p["name"] for p in prof]
-sw = next(p for p in prof if p["name"] == "SwarmEvolve")
-assert sw["scope"] == ""
+n_files = len(list(Path(R.RESEARCH_DIR).glob("*.md")))
+assert len(prof) == n_files, [p["name"] for p in prof]
+bad = [p["name"] for p in prof if not p["direction"] or not p["scope"]]
+assert not bad, f"研究页缺「> 研究方向：」或「## 研究范畴」: {bad}"
 ev = next(p for p in prof if p["name"] == "EvolveLLM")
 assert "自我进化" in ev["direction"] and ev["scope"]
 print("research profile ok:", len(prof), "projects")
@@ -121,20 +122,22 @@ class FakeResp2:
         pass
 
 
+# 新文章时间相对当前动态生成，避免测试随日期推移过期
+_fresh = datetime.now().astimezone() - timedelta(hours=1)
 PAGES = {
     "https://www.qbitai.com/": FakeResp2(homepage),
     "https://www.qbitai.com/2026/08/473001.html": FakeResp2(
-        '<span class="date">2026-08-16</span><span class="time">09:30</span>'
+        f'<span class="date">{_fresh:%Y-%m-%d}</span><span class="time">{_fresh:%H:%M}</span>'
         '<meta property="og:description" content="  这是 摘要。 ">'),
     "https://www.qbitai.com/2026/08/473002.html": FakeResp2(
         '<span class="date">2020-01-01</span>'),
     "https://www.qbitai.com/2026/08/473003.html": FakeResp2("no meta"),
 }
 R._get = lambda url, params=None, headers=None: PAGES[url]
-res = R.collect_qbitai(datetime.now(timezone.utc))
+res = R.collect_qbitai(datetime.now(timezone.utc) - timedelta(hours=24))
 assert len(res["items"]) == 1, res["items"]
 assert res["items"][0]["summary"] == "这是 摘要。"
-assert res["items"][0]["published"].startswith("2026-08-16"), res["items"][0]
+assert res["items"][0]["published"].startswith(f"{_fresh:%Y-%m-%d}"), res["items"][0]
 print("qbitai collect ok:", res["items"][0]["title"], res["items"][0]["published"])
 
 # 标题归一化去重辅助

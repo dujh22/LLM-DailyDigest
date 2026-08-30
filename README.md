@@ -56,7 +56,7 @@ content/research/<project>.md Research page; auto-aggregates items under this re
 - **Topic pages**: "Related Messages" at the bottom, grouped by `subtopic`.
 - **Research pages**: "Related Work" at the bottom; header shows **proposer** and **earliest research date**.
 
-Current research projects (proposer: Jinhua Du): LogicEvolve (2025-05), EvolveLRM (2026-01), HarnessEvolve / SwarmEvolve (2026-03), Groom (2026-05), Awesome-RSI (2026-06), DataEvolve / EvalEvolve (2026-08).
+Current research projects (proposer: Jinhua Du): LogicEvolve (2025-05), EvolveLRM (2026-01), HarnessEvolve / SwarmEvolve (2026-03), Groom (2026-05), Awesome-RSI (2026-06), DataEvolve / EvalEvolve (2026-08), MemoryEvolve / ResearchEvolve (2026-08).
 
 ### Local Preview
 
