@@ -100,6 +100,125 @@ python app.py
 - **提交时自动查重**：每次 `/api/submit`（含批处理一键提交）在写入前自动检查新条目与**目标日期向前 7 天至今天**窗口内已有条目是否同链接，命中则**硬阻断**并显示重复对象（日期/文件/id/标题/匹配链接）；确要保留可勾选「允许重复提交」或在报错上一键「仍要提交」放行。
 - 改写同样为**原位替换**（变化块重写、删除块移除、未变化块逐字保留），可 `git checkout` 回退；执行时锁内重新扫描校验，预览后被并发修改的组自动跳过。
 
+### 导出接口（供外部项目调用）`/api/export/*`
+
+两个导出能力，三种调用方式（输入输出完全一致，均返回**导出文件的绝对路径**）：
+
+1. **HTTP API**：先 `python app.py` 启动服务，POST 调用（跨语言通用）。
+2. **命令行子进程（外部项目推荐）**：用本仓库自带的 venv python 执行 `export_cli.py`，环境与命名空间完全隔离，调用方**无需安装本仓库任何依赖**。
+3. **Python 直接 import**：仅建议在本仓库内或共享同一 venv 的脚本中使用，见下文注意事项。
+
+#### 1. 链接内容完整下载为 md —— `POST /api/export/link`
+
+抓取一个链接的**完整内容**（不做 LLM 抽取、不截断正文）并保存为 markdown 文件。按链接类型自动选择抓取器：GitHub（API 描述 + 完整 README）/ arXiv（标题、作者、摘要）/ HuggingFace `/papers/<id>`（复用 arXiv）/ 微信公众号（正文）/ 其他（通用网页正文）。
+
+**输入**（JSON body）：
+
+| 字段 | 必填 | 说明 |
+| --- | --- | --- |
+| `url` | 是 | http(s) 链接 |
+| `out_dir` | 是 | 导出目录；相对路径按仓库根解析，不存在自动创建 |
+
+**输出**：
+
+```json
+{"ok": true, "file": "/abs/path/link-<标题slug>-<url哈希8位>.md",
+ "kind": "github", "title": "...", "chars": 8794}
+```
+
+失败时 `{"ok": false, "errors": ["..."]}`（HTTP 400），常见原因：非 http(s) 链接、`out_dir` 为空、链接抓取失败（404/需登录/反爬等）。
+
+**调用示例**：
+
+```bash
+curl -X POST http://localhost:5050/api/export/link \
+  -H 'Content-Type: application/json' \
+  -d '{"url": "https://arxiv.org/abs/2401.10020", "out_dir": "/tmp/exports"}'
+```
+
+```bash
+# 外部项目推荐：子进程调用（stdout 输出一行 JSON）
+<仓库>/backend/venv/bin/python <仓库>/backend/export_cli.py \
+  link https://arxiv.org/abs/2401.10020 /tmp/exports
+```
+
+导出文件结构：标题 + 元信息（链接 / 类型 / 抓取时间）+ 分隔线 + 完整正文。同一 URL 重复导出会覆盖同名文件（文件名含 URL 哈希，不同 URL 不冲突）。
+
+#### 2. 研究完整内容导出 —— `POST /api/export/research`
+
+把某个研究（`content/research/<Name>.md`）的**介绍页正文 + 全部相关日报条目**集成为单个 markdown 文件，用户在一个文件里即可获得该研究的全部内容，无需逐条跳转链接。
+
+**输入**（JSON body）：
+
+| 字段 | 必填 | 说明 |
+| --- | --- | --- |
+| `name` | 是 | 研究名，**不区分大小写**（如 `dataevolve` 命中 `DataEvolve`） |
+| `out_dir` | 是 | 导出目录；相对路径按仓库根解析，不存在自动创建 |
+
+**输出**：
+
+```json
+{"ok": true, "file": "/abs/path/research-DataEvolve-2026-09-01.md",
+ "research": ["DataEvolve"], "matched": true, "items": 28}
+```
+
+- `matched: true`：精确命中该研究，文件名 `research-<研究名>-<日期>.md`。
+- **研究名不存在时不报错**：自动降级为把**全部研究统一集成**导出为一个文件（`research-all-<日期>.md`，`matched: false`，文件头注明未找到的名称）。
+- `items` 为收录的日报条目总数。失败仅发生在 `out_dir` 非法或 `content/research/` 为空（HTTP 400）。
+
+**调用示例**：
+
+```bash
+curl -X POST http://localhost:5050/api/export/research \
+  -H 'Content-Type: application/json' \
+  -d '{"name": "dataevolve", "out_dir": "/tmp/exports"}'
+```
+
+```bash
+# 外部项目推荐：子进程调用
+<仓库>/backend/venv/bin/python <仓库>/backend/export_cli.py \
+  research dataevolve /tmp/exports
+```
+
+**导出文件内容**：研究介绍页正文（研究方向、范畴、挑战、自研项目、相关工作）→ `## 相关日报条目（N 条）` → 每条一个小节（按日期升序），含：标题、日期、条目 id、来源、主题/子主题、归属研究、论文/代码/数据集/原文链接、摘要、要点、用途与启示、原始笔记（引用块）。
+
+#### 从外部项目调用的注意事项
+
+**推荐：子进程调用 `export_cli.py`**（环境与命名空间完全隔离，调用方无需装本仓库依赖）：
+
+```python
+# 在任意外部项目中（任何 Python 环境均可）
+import json, subprocess
+
+BACKEND = "/path/to/LLM-DailyDigest/backend"
+
+def digest_export(*args):  # ("link", url, out_dir) 或 ("research", name, out_dir)
+    p = subprocess.run([f"{BACKEND}/venv/bin/python", f"{BACKEND}/export_cli.py", *args],
+                       capture_output=True, text=True)
+    return json.loads(p.stdout)
+
+res = digest_export("research", "dataevolve", "/tmp/exports")
+print(res["file"])
+```
+
+- stdout 输出一行 JSON（与 HTTP API 返回结构一致）；退出码：`0` 成功 / `1` 导出失败（JSON 含 `errors`）/ `2` 用法错误。
+- 与调用方工作目录无关（内部路径均按本仓库位置解析），代理等环境变量随子进程继承。
+
+**不推荐直接 `import`（仅限本仓库内脚本或共享同一 venv 时）**，跨项目 import 有两个坑：
+
+1. **模块名冲突**：本模块名为 `app`（且内部会 import 同目录的 `deploy`、`recommend`），都是常见名字。`sys.path.insert(0, ".../backend")` 后会遮蔽调用方自己的同名模块（比如调用方也是 Flask 项目、有自己的 `app.py`），反之亦然。
+2. **依赖环境**：调用方 Python 环境须已安装本仓库 `requirements.txt` 全部依赖（flask/requests/bs4/tomli/tomli_w 等）；本仓库依赖装在 `backend/venv` 中，外部环境通常没有。
+
+若确要 import：`import app` 不会启动服务、不启动后台线程、导出函数不触发 git 提交，功能上是安全的；示例：
+
+```python
+import sys; sys.path.insert(0, "/path/to/LLM-DailyDigest/backend")
+from app import export_link_to_md, export_research_to_md
+res = export_research_to_md("dataevolve", "/tmp/exports")
+```
+
+> 抓取走本机网络环境；若直连不通（arXiv/GitHub 等），请先确保代理可用（如 `export https_proxy=http://127.0.0.1:7897`）再启动服务或执行脚本。
+
 ## 接口
 
 | 方法 | 路径 | 说明 |
@@ -126,3 +245,5 @@ python app.py
 | POST | `/api/merge/suggest` | LLM 归并推荐 |
 | POST | `/api/dedup/preview` | `{days}` → 扫描窗口内重复条目组（纯读：分组/保留者/吸收 diff） |
 | POST | `/api/dedup/apply` | `{days, groups?: [{file,id}], llm?}` → 执行去重归并；`groups` 仅执行选中组，`llm` 用 LLM 合并解析字段 |
+| POST | `/api/export/link` | `{url, out_dir}` → 抓取链接完整内容保存为 md，返回文件绝对路径 |
+| POST | `/api/export/research` | `{name, out_dir}` → 研究介绍页 + 全部相关日报条目集成导出为单个 md（name 不区分大小写，不存在 → 全部研究统一集成） |

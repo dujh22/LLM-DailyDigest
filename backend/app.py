@@ -13,6 +13,11 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
   GET  /merge         主题/子主题归并页；LLM 推荐为主题、子主题分开的全量分批遍历
   POST /api/merge/suggest/start  启动一种标签（topics/subtopics）的推荐后台任务
   GET  /api/merge/suggest/status 查询推荐任务进度与结果（人工采纳后才写盘）
+  POST /api/export/link     抓取链接完整内容并保存为 md 文件（body: {url, out_dir}）
+  POST /api/export/research 研究介绍页 + 全部相关日报条目集成导出为单个 md
+                            （body: {name, out_dir}；name 不区分大小写，
+                             不存在的研究名 → 全部研究统一集成导出）
+  外部项目也可直接 import 本模块调用 export_link_to_md / export_research_to_md。
 
 API Key：读取仓库根目录 api_key.txt；不存在则禁用 LLM 抽取并提示用户。
 运行：python backend/app.py  （然后浏览器打开 http://localhost:5050）
@@ -1213,8 +1218,8 @@ def fetch_arxiv(url: str) -> dict:
     return {"title": title, "text": text}
 
 
-def fetch_github(url: str) -> dict:
-    """GitHub API 取仓库描述 + raw README（节选）。"""
+def fetch_github(url: str, readme_limit: int = 4000) -> dict:
+    """GitHub API 取仓库描述 + raw README（默认节选，可调大 readme_limit 取全文）。"""
     m = re.match(r"https?://github\.com/([^/]+)/([^/?#]+)", url)
     if not m:
         raise ValueError("非标准 github 仓库 URL")
@@ -1231,7 +1236,7 @@ def fetch_github(url: str) -> dict:
     try:
         rr = _http_get(f"https://raw.githubusercontent.com/{owner}/{repo}/HEAD/README.md")
         if rr.status_code == 200:
-            readme = _clean_text(rr.text, 4000)
+            readme = _clean_text(rr.text, readme_limit)
     except Exception:  # noqa: BLE001
         pass
     text = (f"仓库：{owner}/{repo}\n描述：{desc}\nStars：{stars}\n"
@@ -1239,7 +1244,7 @@ def fetch_github(url: str) -> dict:
     return {"title": f"{owner}/{repo}", "text": text}
 
 
-def fetch_wechat(url: str) -> dict:
+def fetch_wechat(url: str, limit: int = 6000) -> dict:
     """微信公众号文章：定位 #js_content 正文。"""
     r = _http_get(url)
     r.encoding = r.apparent_encoding or "utf-8"
@@ -1249,11 +1254,11 @@ def fetch_wechat(url: str) -> dict:
     body = soup.select_one("#js_content") or soup.select_one(".rich_media_content")
     if body is None:
         raise ValueError("未定位到微信正文（可能需要验证或非文章页）")
-    text = _clean_text(body.get_text("\n", strip=True), 6000)
+    text = _clean_text(body.get_text("\n", strip=True), limit)
     return {"title": title, "text": f"标题：{title}\n正文：{text}"}
 
 
-def fetch_hf(url: str) -> dict:
+def fetch_hf(url: str, limit: int = 6000) -> dict:
     """HuggingFace 链接：
     - /papers/<arxiv_id> → 复用 arxiv 抓取器（取标题/作者/摘要）
     - 其他（模型/数据集页等）→ 通用 HTML 正文抽取
@@ -1262,10 +1267,10 @@ def fetch_hf(url: str) -> dict:
     if m:
         arxiv_id = m.group(1)
         return fetch_arxiv(f"https://arxiv.org/abs/{arxiv_id}")
-    return fetch_generic(url)
+    return fetch_generic(url, limit)
 
 
-def fetch_generic(url: str) -> dict:
+def fetch_generic(url: str, limit: int = 6000) -> dict:
     """通用网页正文抽取。"""
     r = _http_get(url)
     r.encoding = r.apparent_encoding or "utf-8"
@@ -1276,9 +1281,9 @@ def fetch_generic(url: str) -> dict:
     title = t.get_text(strip=True) if t else ""
     # 优先取 <article> / <main>，否则整页正文
     node = soup.find("article") or soup.find("main") or soup
-    text = _clean_text(node.get_text("\n", strip=True), 6000)
+    text = _clean_text(node.get_text("\n", strip=True), limit)
     if len(text) < 120:
-        text = _clean_text(soup.get_text("\n", strip=True), 6000)
+        text = _clean_text(soup.get_text("\n", strip=True), limit)
     return {"title": title, "text": f"标题：{title}\n正文：{text}"}
 
 
@@ -2250,6 +2255,219 @@ def api_recommend_to_batch():
     save_batch(batch)
     return jsonify({"ok": True, "batch_id": batch_id,
                     "count": len(batch["entries"])})
+
+
+# ============================================================
+# 导出功能（供外部项目调用：HTTP API 或直接 import 本模块调函数）
+#   export_link_to_md(url, out_dir)       抓取链接完整内容并保存为 md
+#   export_research_to_md(name, out_dir)  研究介绍页 + 全部相关日报条目集成为单个 md
+# ============================================================
+_EXPORT_FETCH_LIMIT = 200_000  # 导出时的正文截断上限（约等于不截断）
+
+
+def _out_dir_path(out_dir: str) -> Path:
+    """校验并创建导出目录，返回绝对 Path；不可用时抛 ValueError。"""
+    if not (out_dir or "").strip():
+        raise ValueError("out_dir 不能为空")
+    p = Path(out_dir).expanduser()
+    if not p.is_absolute():
+        p = REPO_ROOT / p
+    p = p.resolve()
+    if p.exists() and not p.is_dir():
+        raise ValueError(f"out_dir 不是目录：{p}")
+    p.mkdir(parents=True, exist_ok=True)
+    return p
+
+
+def _export_filename_slug(title: str, url: str) -> str:
+    """标题优先生成文件名 slug；纯中文标题 slug 为空时退化为 URL 路径。"""
+    s = slugify(title)
+    if len(s) >= 3:
+        return s
+    parts = urllib.parse.urlsplit(url)
+    return slugify(f"{parts.netloc}-{parts.path}") or "page"
+
+
+def fetch_link_full(url: str) -> dict:
+    """按链接类型抓取完整内容（不走 LLM 抽取用的 6000 字符截断）。
+    返回 {"kind", "title", "text"}；失败抛异常。"""
+    kind = classify_link(url)
+    if kind == "github":
+        res = fetch_github(url, readme_limit=_EXPORT_FETCH_LIMIT)
+    elif kind == "arxiv":
+        res = fetch_arxiv(url)
+    elif kind == "hf":
+        res = fetch_hf(url, limit=_EXPORT_FETCH_LIMIT)
+    elif kind == "wechat":
+        res = fetch_wechat(url, limit=_EXPORT_FETCH_LIMIT)
+    else:
+        res = fetch_generic(url, limit=_EXPORT_FETCH_LIMIT)
+    return {"kind": kind, "title": res.get("title", ""), "text": res.get("text", "")}
+
+
+def export_link_to_md(url: str, out_dir: str) -> dict:
+    """功能一：抓取链接内容并完整保存为 md 文件。
+    输入：url（http/https 链接）、out_dir（导出目录，相对路径按仓库根解析）。
+    输出：{"ok": True, "file": 文件绝对路径, "kind", "title", "chars"}；
+    失败：{"ok": False, "errors": [...]}。"""
+    url = (url or "").strip()
+    if not re.match(r"^https?://", url, re.I):
+        return {"ok": False, "errors": [f"url 必须是 http(s) 链接：{url!r}"]}
+    try:
+        target = _out_dir_path(out_dir)
+    except ValueError as e:
+        return {"ok": False, "errors": [str(e)]}
+    try:
+        res = fetch_link_full(url)
+    except Exception as e:  # noqa: BLE001
+        return {"ok": False, "errors": [f"抓取失败：{e}"]}
+    import hashlib
+    slug = _export_filename_slug(res["title"], url)
+    digest = hashlib.md5(url.encode("utf-8")).hexdigest()[:8]
+    path = target / f"link-{slug}-{digest}.md"
+    fetched_at = datetime.now().isoformat(timespec="seconds")
+    md = (
+        f"# {res['title'] or url}\n\n"
+        f"- 链接：{url}\n"
+        f"- 类型：{res['kind']}\n"
+        f"- 抓取时间：{fetched_at}\n\n"
+        "---\n\n"
+        f"{res['text']}\n"
+    )
+    path.write_text(md, encoding="utf-8")
+    return {"ok": True, "file": str(path), "kind": res["kind"],
+            "title": res["title"], "chars": len(res["text"])}
+
+
+def _md_body_after_front_matter(text: str) -> str:
+    """返回 md 文件 front matter 之后的正文（无 front matter 时原样返回）。"""
+    _, fm_body, post = split_front_matter(text)
+    if fm_body is None:
+        return text.strip()
+    # post 首行是闭合 +++，正文从下一行开始
+    return post.split("\n", 1)[1].strip() if "\n" in post else ""
+
+
+def _collect_research_items(names: list) -> dict:
+    """扫描全部日报，按研究名收集相关条目：{研究名: [(日期, item), ...]}。
+    匹配不区分大小写；条目按日期→文件内顺序排列。"""
+    wanted = {n.lower(): n for n in names}
+    out = {n: [] for n in names}
+    files = sorted(glob.glob(str(UPDATES_DIR / "*.md")))
+    files = [f for f in files if re.match(r"^\d{4}-\d{2}-\d{2}", Path(f).name)]
+    for f in files:
+        path = Path(f)
+        d = path.name[:10]
+        _, fm_body, _ = split_front_matter(path.read_text(encoding="utf-8"))
+        if not fm_body:
+            continue
+        _, blocks = split_item_blocks(fm_body)
+        for block in blocks:
+            item = _parse_item_block(block)
+            if not item:
+                continue
+            for r in item.get("research", []) or []:
+                canon = wanted.get(str(r).strip().lower())
+                if canon:
+                    out[canon].append((d, item))
+    return out
+
+
+def _render_item_md(d: str, item: dict) -> str:
+    """把单条日报 item 渲染为 markdown 小节（### 级）。"""
+    lines = [f"### {item.get('title') or '(无标题)'}", ""]
+    lines.append(f"- 日期：{d}")
+    if item.get("id"):
+        lines.append(f"- 条目 id：{item['id']}")
+    if item.get("source"):
+        lines.append(f"- 来源：{item['source']}")
+    if item.get("subtopic"):
+        lines.append(f"- 子主题：{item['subtopic']}")
+    if item.get("topics"):
+        lines.append("- 主题：" + "、".join(item["topics"]))
+    if item.get("research"):
+        lines.append("- 研究：" + "、".join(item["research"]))
+    for label, f in (("论文", "paper"), ("代码", "code"),
+                     ("数据集", "dataset"), ("原文", "link")):
+        if (item.get(f) or "").strip():
+            lines.append(f"- {label}：{item[f].strip()}")
+    for label, f in (("摘要", "summary"), ("要点", "content"), ("用途与启示", "purpose")):
+        v = (item.get(f) or "").strip()
+        if v:
+            lines += ["", f"**{label}**", "", v]
+    notes = (item.get("notes") or "").strip()
+    if notes:
+        quoted = "\n".join("> " + ln for ln in notes.split("\n"))
+        lines += ["", "**原始笔记**", "", quoted]
+    return "\n".join(lines)
+
+
+def export_research_to_md(name: str, out_dir: str) -> dict:
+    """功能二：把某研究的介绍页 + 全部相关日报条目集成导出为单个 md。
+    输入：name（研究名，不区分大小写，如 dataevolve）、out_dir（导出目录）。
+    研究不存在时不报错，改为把全部研究统一集成导出为一个文件。
+    输出：{"ok": True, "file": 文件绝对路径, "research": [导出的研究名],
+          "matched": 是否精确命中, "items": 条目总数}；
+    失败：{"ok": False, "errors": [...]}。"""
+    try:
+        target = _out_dir_path(out_dir)
+    except ValueError as e:
+        return {"ok": False, "errors": [str(e)]}
+    all_names = valid_research()
+    if not all_names:
+        return {"ok": False, "errors": ["content/research/ 下没有任何研究页"]}
+    query = (name or "").strip()
+    canon = next((n for n in all_names if n.lower() == query.lower()), None) \
+        if query else None
+    matched = canon is not None
+    selected = [canon] if matched else all_names
+
+    items_by_research = _collect_research_items(selected)
+    today = date.today().isoformat()
+    sections = []
+    total = 0
+    for n in selected:
+        page = RESEARCH_DIR / f"{n}.md"
+        body = _md_body_after_front_matter(page.read_text(encoding="utf-8")) \
+            if page.exists() else f"# {n}\n\n（未找到研究介绍页）"
+        items = items_by_research.get(n, [])
+        total += len(items)
+        sec = body + f"\n\n---\n\n## 相关日报条目（{len(items)} 条）\n"
+        if items:
+            sec += "\n" + "\n\n---\n\n".join(_render_item_md(d, it) for d, it in items)
+        else:
+            sec += "\n（暂无相关日报条目）"
+        sections.append(sec)
+
+    if matched:
+        path = target / f"research-{canon}-{today}.md"
+        head = ""
+    else:
+        path = target / f"research-all-{today}.md"
+        head = "# 全部研究内容汇总\n\n"
+        if query:
+            head += f"> 未找到研究「{query}」，已统一集成全部 {len(selected)} 个研究。\n\n"
+        head += f"> 导出日期：{today}；收录研究：{'、'.join(selected)}\n\n---\n\n"
+    path.write_text(head + "\n\n---\n\n".join(sections) + "\n", encoding="utf-8")
+    return {"ok": True, "file": str(path), "research": selected,
+            "matched": matched, "items": total}
+
+
+@app.route("/api/export/link", methods=["POST"])
+def api_export_link():
+    """抓取链接完整内容并保存为 md。body: {url, out_dir} → {ok, file, ...}。"""
+    data = request.get_json(force=True, silent=True) or {}
+    res = export_link_to_md(data.get("url") or "", data.get("out_dir") or "")
+    return jsonify(res), (200 if res.get("ok") else 400)
+
+
+@app.route("/api/export/research", methods=["POST"])
+def api_export_research():
+    """研究完整内容导出。body: {name, out_dir} → {ok, file, research, matched, items}。
+    name 不区分大小写；不存在的研究名 → 全部研究统一集成导出。"""
+    data = request.get_json(force=True, silent=True) or {}
+    res = export_research_to_md(data.get("name") or "", data.get("out_dir") or "")
+    return jsonify(res), (200 if res.get("ok") else 400)
 
 
 if __name__ == "__main__":

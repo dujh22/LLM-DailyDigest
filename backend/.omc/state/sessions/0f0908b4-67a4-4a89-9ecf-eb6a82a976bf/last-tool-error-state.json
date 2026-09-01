@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"grep -n 'import\\\\|^[A-Za-z_]* = \\\\|threading\\\\|Thread\\\\|\\\\.start()' /Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest/backend/deploy.py | head -20; echo ===; grep -n 'Thread\\\\|\\\\...",
+  "error": "Exit code 1\n16:import os\n17:import time\n18:import threading\n19:import subprocess\n20:from pathlib import Path\n22:REPO_ROOT = Path(__file__).resolve().parents[1]\n23:DEBOUNCE_SEC = float(os.environ.get(\"DEPLOY_DEBOUNCE\", \"30\"))\n24:PUSH_TIMEOUT = int(os.environ.get(\"DEPLOY_PUSH_TIMEOUT\", \"120\"))\n26:_deploy_lock = threading.Lock()       # 同一时刻只允许一个 commit+push\n27:_cond = threading.Condition()\n28:_pending = []                          # 累积的触发原因\n29:_last_trigger = [time.monotonic()]\n30:_started = False...",
+  "timestamp": "2026-09-01T06:07:24.877Z",
+  "retry_count": 1
+}
