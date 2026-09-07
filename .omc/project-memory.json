@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1788241029048,
+  "lastScanned": 1788767439927,
   "projectRoot": "/Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest",
   "techStack": {
     "languages": [],
@@ -39,7 +39,7 @@
       "path": "Website",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1788241029009,
+      "lastAccessed": 1788767439721,
       "keyFiles": [
         "readme.md"
       ]
@@ -48,7 +48,7 @@
       "path": "archetypes",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1788241029019,
+      "lastAccessed": 1788767439741,
       "keyFiles": [
         "default.md",
         "updates.md"
@@ -58,7 +58,7 @@
       "path": "assets",
       "purpose": "Static assets",
       "fileCount": 2,
-      "lastAccessed": 1788241029020,
+      "lastAccessed": 1788767439744,
       "keyFiles": [
         "jsconfig.json"
       ]
@@ -66,21 +66,21 @@
     "backend": {
       "path": "backend",
       "purpose": null,
-      "fileCount": 7,
-      "lastAccessed": 1788241029020,
+      "fileCount": 8,
+      "lastAccessed": 1788767439746,
       "keyFiles": [
         "README.md",
         "app.py",
         "deploy.py",
-        "migrate_topic.py",
-        "recommend.py"
+        "export_cli.py",
+        "migrate_topic.py"
       ]
     },
     "co_learner": {
       "path": "co_learner",
       "purpose": null,
       "fileCount": 18,
-      "lastAccessed": 1788241029021,
+      "lastAccessed": 1788767439748,
       "keyFiles": [
         "README.md",
         "README_ZH.md",
@@ -93,14 +93,14 @@
       "path": "content",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1788241029021,
+      "lastAccessed": 1788767439749,
       "keyFiles": []
     },
     "layouts": {
       "path": "layouts",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1788241029021,
+      "lastAccessed": 1788767439750,
       "keyFiles": [
         "index.json"
       ]
@@ -109,7 +109,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 8,
-      "lastAccessed": 1788241029022,
+      "lastAccessed": 1788767439753,
       "keyFiles": [
         "404.html",
         "index.html",
@@ -122,21 +122,21 @@
       "path": "resources",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1788241029022,
+      "lastAccessed": 1788767439756,
       "keyFiles": []
     },
     "themes": {
       "path": "themes",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1788241029022,
+      "lastAccessed": 1788767439760,
       "keyFiles": []
     },
     "tools": {
       "path": "tools",
       "purpose": null,
       "fileCount": 30,
-      "lastAccessed": 1788241029022,
+      "lastAccessed": 1788767439769,
       "keyFiles": [
         "arx.py",
         "arx_batch_to_ch.py",
@@ -149,8 +149,14 @@
   "hotPaths": [
     {
       "path": "backend/app.py",
-      "accessCount": 43,
-      "lastAccessed": 1788241751384,
+      "accessCount": 47,
+      "lastAccessed": 1788767825423,
+      "type": "file"
+    },
+    {
+      "path": "backend/recommend.py",
+      "accessCount": 14,
+      "lastAccessed": 1788767802304,
       "type": "file"
     },
     {
@@ -163,6 +169,12 @@
       "path": "backend/templates/dedup.html",
       "accessCount": 8,
       "lastAccessed": 1787572466893,
+      "type": "file"
+    },
+    {
+      "path": "backend/templates/recommend.html",
+      "accessCount": 7,
+      "lastAccessed": 1788767892347,
       "type": "file"
     },
     {
@@ -211,12 +223,6 @@
       "path": "backend/deploy.py",
       "accessCount": 1,
       "lastAccessed": 1787571692214,
-      "type": "file"
-    },
-    {
-      "path": "backend/recommend.py",
-      "accessCount": 1,
-      "lastAccessed": 1787571709625,
       "type": "file"
     },
     {

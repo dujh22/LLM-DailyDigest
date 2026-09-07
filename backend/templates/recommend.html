@@ -21,8 +21,11 @@
     padding:18px 20px;margin-bottom:18px}
   .card h2{font-size:1.05rem;margin:0 0 12px}
   label{display:block;font-size:.82rem;color:var(--muted);margin:10px 0 4px}
-  textarea,input[type=text],input[type=password]{width:100%;background:#12131c;color:var(--fg);
+  textarea,input[type=text],input[type=password],input[type=datetime-local]{width:100%;background:#12131c;color:var(--fg);
     border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:.92rem;font-family:inherit}
+  input[type=datetime-local]{width:auto;color-scheme:dark}
+  .timerange{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:4px}
+  .timerange label{margin-top:0}
   textarea{min-height:80px;resize:vertical}
   button{cursor:pointer;border:none;border-radius:9px;padding:10px 18px;font-size:.92rem;font-weight:600;
     background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;transition:transform .15s,opacity .15s}
@@ -66,7 +69,7 @@
 <body>
 <div class="wrap">
   <h1><span>LLM-DailyDigest</span> · 当日推荐</h1>
-  <p class="sub">自动采集最近 24 小时内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
+  <p class="sub">自动采集指定时间窗口（默认最近 24 小时）内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
 
   <!-- ① 微信凭据 -->
   <div class="card">
@@ -87,7 +90,17 @@
 
   <!-- ② 采集 -->
   <div class="card">
-    <h2>② 采集最近 24 小时</h2>
+    <h2>② 采集 <span class="hint">时间窗口留空 = 最近 24 小时</span></h2>
+    <div class="timerange">
+      <div>
+        <label>起始时间（留空 = 截止前 24 小时）</label>
+        <input type="datetime-local" id="startTime">
+      </div>
+      <div>
+        <label>截止时间（留空 = 当前时间）</label>
+        <input type="datetime-local" id="endTime">
+      </div>
+    </div>
     <div class="hint" id="collectMeta"></div>
     <div class="bar" id="progressWrap" style="display:none"><i id="progressBar" style="width:30%"></i></div>
     <div id="sourceErrors"></div>
@@ -133,7 +146,7 @@ function toast(msg, kind){
 }
 function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-const PHASE_TEXT = {idle:'', wechat:'正在抓取公众号文章…', arxiv:'正在抓取 arXiv 最近 24h…',
+const PHASE_TEXT = {idle:'', wechat:'正在抓取公众号文章…', arxiv:'正在抓取 arXiv…',
   filter:'LLM 相关性判定中…', done:'完成', error:'采集出错'};
 
 // ---- 凭据（可选实时增强；未配置/失效时走 RSS+官网默认通道） ----
@@ -176,11 +189,14 @@ function renderStatus(j){
   }
   $('sourceErrors').innerHTML = html;
   const srcParts = Object.entries(j.sources||{}).map(([k,v])=>`${k} ${v}`);
+  const w = j.window||{};
+  const fmt = s=>(s||'').replace('T',' ').slice(0,16);
+  const winText = w.since ? ` · 窗口：${fmt(w.since)} ~ ${fmt(w.until)}` : '';
   $('collectMeta').textContent = (j.generated_at ? `上次采集：${j.generated_at}` : '尚未采集') +
-    (srcParts.length ? ` · ${srcParts.join(' · ')}` : '');
+    winText + (srcParts.length ? ` · ${srcParts.join(' · ')}` : '');
   if(j.running){ $('listCard').style.display='none'; $('importCard').style.display='none'; return; }
   if(j.has_cache && (j.items||[]).length){ renderItems(j); }
-  else if(j.has_cache){ $('listCard').style.display=''; $('groups').innerHTML='<div class="empty">最近 24 小时没有采集到内容。</div>'; $('importCard').style.display='none'; }
+  else if(j.has_cache){ $('listCard').style.display=''; $('groups').innerHTML='<div class="empty">采集窗口内没有采集到内容。</div>'; $('importCard').style.display='none'; }
 }
 
 async function refreshStatus(){
@@ -195,8 +211,12 @@ async function collect(force){
   const btn = force ? $('btnForce') : $('btnCollect');
   btn.disabled = true;
   try{
+    const body = {force:!!force};
+    const st = $('startTime').value, et = $('endTime').value;
+    if(st) body.start = st;
+    if(et) body.end = et;
     const r = await fetch('/api/recommend/collect',{method:'POST',
-      headers:{'Content-Type':'application/json'},body:JSON.stringify({force:!!force})});
+      headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const j = await r.json();
     if(!j.ok){ toast((j.errors||[]).join('；')||'启动失败','err'); return; }
     if(!j.running && !j.started){ /* 409 已在运行 */ }

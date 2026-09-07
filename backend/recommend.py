@@ -2,13 +2,14 @@
 当日推荐采集模块（无 Flask 依赖，被 backend/app.py 导入）。
 
 功能：
-  - 微信公众号（量子位 / 机器之心 / 新智元）最近 24h 文章列表采集，四级通道按序兜底：
+  - 微信公众号（量子位 / 机器之心 / 新智元）文章列表采集（起止时间窗口可配，
+    默认最近 24h），四级通道按序兜底：
     1. mp.weixin.qq.com appmsg 接口（凭据存仓库根目录 wechat_credentials.json，手动更新，实时）
     2. 量子位官网直采（免凭据，实时）
     3. Wechat-Scholar RSS（免凭据，≤12h 延迟）
     4. wechat2rss 公共 RSS（免凭据，~24h 内收录）
     各 RSS/官网通道之间按标题去重
-  - arXiv 最近 24h cs.CL / cs.AI / cs.LG 论文采集（export.arxiv.org Atom API）
+  - arXiv cs.CL / cs.AI / cs.LG 论文采集（export.arxiv.org Atom API，同一时间窗口）
   - 基于 content/research/*.md 的研究画像构建
   - LLM 相关性批量判定（候选分 chunk 并发打分）
   - 按日缓存到 .recommend_cache/recommend-<date>.json
@@ -209,15 +210,15 @@ def credentials_status() -> dict:
 # ============================================================
 # 采集：微信公众号
 # ============================================================
-def collect_wechat(cred: dict, since_ts: int) -> dict:
-    """采集三个公众号最近 24h 的文章列表。
+def collect_wechat(cred: dict, since_ts: int, until_ts: int) -> dict:
+    """采集三个公众号在 [since_ts, until_ts] 窗口内的文章列表。
     返回 {"items": [...], "errors": [ {source, error} ]}。
     凭据失效时 errors 里带 credentials_expired=True，items 为空。"""
     items, errors = [], []
     for name, fakeid in WECHAT_ACCOUNTS:
         try:
             begin, pages = 0, 0
-            while pages < 3:  # 每号每天 ~5-15 篇，3 页(×10)足够覆盖 24h
+            while pages < 3:  # 每号每天 ~5-15 篇，3 页(×10)足够覆盖 24h 窗口
                 ret, msg_list, j = _appmsg_request(cred, fakeid, begin, 10)
                 if ret != 0:
                     err_msg = (j.get("base_resp") or {}).get("err_msg", "")
@@ -232,6 +233,8 @@ def collect_wechat(cred: dict, since_ts: int) -> dict:
                     if ct < since_ts:
                         stopped = True  # 列表按新→旧排序，越界即停
                         break
+                    if ct > until_ts:
+                        continue  # 比截止时间还新的先跳过，继续往旧翻
                     link = m.get("link") or ""
                     if not link:
                         continue
@@ -292,8 +295,9 @@ def _fetch_qbitai_meta(url: str):
     return pub, summ
 
 
-def collect_qbitai(since_dt: datetime) -> dict:
-    """从量子位官网首页提取最近文章，抓正文页取发布时间与摘要，过滤出 since 之后。
+def collect_qbitai(since_dt: datetime, until_dt: datetime) -> dict:
+    """从量子位官网首页提取最近文章，抓正文页取发布时间与摘要，
+    过滤出 [since_dt, until_dt] 窗口内的文章。
     返回 {"items": [...], "errors": [...]}。"""
     try:
         r = _get(QBITAI_HOME)
@@ -327,6 +331,8 @@ def collect_qbitai(since_dt: datetime) -> dict:
         if pub_dt < since_dt and not (not has_time and
                                       pub_dt.date() >= since_dt.astimezone().date()):
             return None
+        if pub_dt > until_dt:
+            return None
         return {"key": c["url"], "source": "量子位",
                 "title": c["title"], "summary": summ, "link": c["url"],
                 "published": pub_dt.isoformat(timespec="seconds")}
@@ -348,9 +354,9 @@ def _norm_title(t: str) -> str:
 # ============================================================
 # 采集：公众号 RSS 兜底（Wechat-Scholar / wechat2rss，均免凭据）
 # ============================================================
-def _collect_rss(feeds: dict, since_dt: datetime, label: str) -> dict:
+def _collect_rss(feeds: dict, since_dt: datetime, until_dt: datetime, label: str) -> dict:
     """拉取公众号 RSS 2.0 订阅源（stdlib ElementTree 解析），
-    过滤出 since_dt 之后发布的文章。返回 {"items": [...], "errors": [...]}。"""
+    过滤出 [since_dt, until_dt] 窗口内发布的文章。返回 {"items": [...], "errors": [...]}。"""
     import xml.etree.ElementTree as ET
     from email.utils import parsedate_to_datetime
     items, errors = [], []
@@ -369,7 +375,7 @@ def _collect_rss(feeds: dict, since_dt: datetime, label: str) -> dict:
                     if pd is not None:
                         if pd.tzinfo is None:
                             pd = pd.astimezone()  # 无时区标记按本地
-                        if pd < since_dt:
+                        if pd < since_dt or pd > until_dt:
                             continue
                         pub = pd.isoformat(timespec="seconds")
                 except (TypeError, ValueError):
@@ -383,14 +389,14 @@ def _collect_rss(feeds: dict, since_dt: datetime, label: str) -> dict:
     return {"items": items, "errors": errors}
 
 
-def collect_wechat_scholar(since_dt: datetime) -> dict:
+def collect_wechat_scholar(since_dt: datetime, until_dt: datetime) -> dict:
     """Wechat-Scholar 托管源（每日三次更新，≤12h 延迟）。"""
-    return _collect_rss(WECHAT_SCHOLAR_FEEDS, since_dt, "RSS")
+    return _collect_rss(WECHAT_SCHOLAR_FEEDS, since_dt, until_dt, "RSS")
 
 
-def collect_wechat2rss(since_dt: datetime) -> dict:
+def collect_wechat2rss(since_dt: datetime, until_dt: datetime) -> dict:
     """wechat2rss 公共托管源（~24h 内收录），与 Wechat-Scholar 相互独立。"""
-    return _collect_rss(WECHAT2RSS_FEEDS, since_dt, "RSS2")
+    return _collect_rss(WECHAT2RSS_FEEDS, since_dt, until_dt, "RSS2")
 
 
 # ============================================================
@@ -403,7 +409,7 @@ def _arxiv_window(since_dt: datetime, now_dt: datetime):
 
 
 def collect_arxiv(since_dt: datetime, now_dt: datetime = None) -> dict:
-    """采集 arXiv 最近 24h（cs.CL/cs.AI/cs.LG）论文，按 id 去重。
+    """采集 [since_dt, now_dt] 提交窗口内的 arXiv（cs.CL/cs.AI/cs.LG）论文，按 id 去重。
     返回 {"items": [...], "errors": [...]}。"""
     now_dt = now_dt or datetime.now(timezone.utc)
     lo, hi = _arxiv_window(since_dt, now_dt)
@@ -606,12 +612,17 @@ def date_str() -> str:
     return datetime.now().strftime("%Y-%m-%d")
 
 
-def run_collection():
+def run_collection(since_dt: datetime = None, until_dt: datetime = None):
     """完整采集编排（在后台线程执行）：公众号 → arXiv → LLM 判定 → 写缓存。
+    采集窗口 [since_dt, until_dt]：默认截止=当前时间，起始=截止前 24h。
     由路由层负责防重入（_RECOMMEND_RUNNING），缓存命中判断在 start_collection。"""
     global _RECOMMEND_RUNNING
-    now = datetime.now(timezone.utc)
-    since_ts = int(now.timestamp()) - 24 * 3600
+    until_dt = until_dt or datetime.now(timezone.utc)
+    since_dt = since_dt or until_dt - timedelta(hours=24)
+    since_ts, until_ts = int(since_dt.timestamp()), int(until_dt.timestamp())
+    window_hours = (until_dt - since_dt).total_seconds() / 3600
+    window_desc = (f"{since_dt.astimezone().strftime('%Y-%m-%d %H:%M')} ~ "
+                   f"{until_dt.astimezone().strftime('%Y-%m-%d %H:%M')}")
     all_items, source_errors = [], []
 
     try:
@@ -620,12 +631,12 @@ def run_collection():
         cred = load_credentials()
         wechat_items, _appmsg_errors = [], []
         if cred:
-            res = collect_wechat(cred, since_ts)
+            res = collect_wechat(cred, since_ts, until_ts)
             wechat_items = res["items"]
             _appmsg_errors = res["errors"]
 
         # 2) 量子位官网（无需凭据，实时）
-        qbitai = collect_qbitai(now - timedelta(hours=24))
+        qbitai = collect_qbitai(since_dt, until_dt)
         seen_titles = {_norm_title(w["title"]) for w in wechat_items}
         qbitai_items = [q for q in qbitai["items"]
                         if _norm_title(q["title"]) not in seen_titles]
@@ -633,14 +644,14 @@ def run_collection():
         source_errors.extend(qbitai["errors"])
 
         # 3) Wechat-Scholar RSS（免凭据兜底之一，≤12h 延迟；与前两级按标题去重）
-        scholar = collect_wechat_scholar(now - timedelta(hours=24))
+        scholar = collect_wechat_scholar(since_dt, until_dt)
         scholar_items = [s for s in scholar["items"]
                          if _norm_title(s["title"]) not in seen_titles]
         seen_titles |= {_norm_title(s["title"]) for s in scholar_items}
         source_errors.extend(scholar["errors"])
 
         # 4) wechat2rss 公共 RSS（免凭据兜底之二，与前三级按标题去重）
-        w2r = collect_wechat2rss(now - timedelta(hours=24))
+        w2r = collect_wechat2rss(since_dt, until_dt)
         w2r_items = [w for w in w2r["items"]
                      if _norm_title(w["title"]) not in seen_titles]
         source_errors.extend(w2r["errors"])
@@ -658,21 +669,22 @@ def run_collection():
             uncovered = [n for n, _ in WECHAT_ACCOUNTS if n not in covered]
             if uncovered:
                 source_errors.append({"source": "、".join(uncovered),
-                                      "error": "最近 24h 所有通道均未取到文章"
+                                      "error": f"采集窗口（{window_desc}）内所有通道均未取到文章"
                                                "（大概率该号未发文；appmsg 未配置，无法实时核实）"})
 
-        # 3) arXiv（24h 窗口为空时逐级放宽到 48h/72h：arXiv 按公告批次入库，
-        #    刚公告的论文 submittedDate 常在 1~2 天前，严格 24h 会漏掉最新批次）
+        # 3) arXiv（窗口为空时逐级向前放宽起始时间 24h/48h：arXiv 按公告批次入库，
+        #    刚公告的论文 submittedDate 常在 1~2 天前，窗口太窄会漏掉最新批次）
         _set_state("arxiv", counts=_count_by_source(all_items))
-        for hours in (24, 48, 72):
-            res = collect_arxiv(now - timedelta(hours=hours), now)
+        for extra in (0, 24, 48):
+            res = collect_arxiv(since_dt - timedelta(hours=extra), until_dt)
             all_items.extend(res["items"])
             source_errors.extend(res["errors"])
             if res["items"]:
-                if hours != 24:
+                if extra:
                     source_errors.append({
                         "source": "arXiv",
-                        "error": f"最近 24h 无新提交（公告批次未覆盖），已回退到 {hours}h 窗口（{len(res['items'])} 篇）"})
+                        "error": f"设定窗口（{window_desc}）内无新提交（公告批次未覆盖），"
+                                 f"已把起始时间前移 {extra}h（{len(res['items'])} 篇）"})
                 break
             if any("429" in e["error"] for e in res["errors"]):
                 time.sleep(10)  # 刚被限速，放宽窗口前先冷却
@@ -684,6 +696,9 @@ def run_collection():
         # 4) 写缓存
         save_cache({"sources": _count_by_source(all_items),
                     "errors": source_errors,
+                    "window": {"since": since_dt.astimezone().isoformat(timespec="seconds"),
+                               "until": until_dt.astimezone().isoformat(timespec="seconds"),
+                               "hours": round(window_hours, 1)},
                     "items": all_items})
         _set_state("done", counts=_count_by_source(all_items),
                    errors=source_errors)
@@ -701,14 +716,19 @@ def _count_by_source(items):
     return out
 
 
-def start_collection(force: bool = False) -> bool:
-    """后台启动一次采集（今日缓存存在且非 force 时直接复用）。已在运行返回 False。"""
+def start_collection(force: bool = False,
+                     since_dt: datetime = None, until_dt: datetime = None) -> bool:
+    """后台启动一次采集（今日缓存存在且非 force 时直接复用）。已在运行返回 False。
+    since_dt/until_dt 为自定义采集窗口（任一指定即视为定制采集，忽略缓存重新采）；
+    均为 None 时用默认窗口（截止=当前，起始=24h 前）。"""
     global _RECOMMEND_RUNNING
-    if not force and load_cache():
+    custom_window = since_dt is not None or until_dt is not None
+    if not force and not custom_window and load_cache():
         return True  # 缓存命中，无需采集
     with _STATE_LOCK:
         if _RECOMMEND_RUNNING:
             return False
         _RECOMMEND_RUNNING = True
-    threading.Thread(target=run_collection, daemon=True).start()
+    threading.Thread(target=run_collection, args=(since_dt, until_dt),
+                     daemon=True).start()
     return True

@@ -7,7 +7,7 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
   POST /api/extract   用 LLM 从原始文本抽取结构化字段（JSON）
   POST /api/submit    把一条 item 追加到当日日报 content/updates/<date>.md 的 [[items]]
   POST /api/batch/<id>/auto_submit  一键自动处理批次：抽取后跳过人工核对直接提交；疑似重复自动归并
-  GET  /recommend     当日推荐页（采集公众号 + arXiv 最近 24h 内容，LLM 相关性筛选）
+  GET  /recommend     当日推荐页（采集公众号 + arXiv 指定时间窗口内容，默认最近 24h，LLM 相关性筛选）
   GET  /dedup         条目去重归并页（URL 判重，预览 + 应用两步）
   POST /api/dedup/preview|apply  去重扫描 / 执行（days 默认 7，可指定 14、30 等更大窗口）
   GET  /merge         主题/子主题归并页；LLM 推荐为主题、子主题分开的全量分批遍历
@@ -2186,6 +2186,7 @@ def api_recommend_status():
         "phase": state["phase"],
         "has_cache": cache is not None,
         "generated_at": (cache or {}).get("generated_at", ""),
+        "window": (cache or {}).get("window", {}),
         "sources": (cache or {}).get("sources", {}),
         "errors": (cache or {}).get("errors", []),
         "credentials": recommend_mod.credentials_status(),
@@ -2195,12 +2196,38 @@ def api_recommend_status():
 
 @app.route("/api/recommend/collect", methods=["POST"])
 def api_recommend_collect():
-    """启动一次采集（公众号 + arXiv + LLM 判定，后台异步）。body: {force: bool}。"""
+    """启动一次采集（公众号 + arXiv + LLM 判定，后台异步）。
+    body: {force: bool, start: str, end: str}。
+    start/end 为 ISO 时间（如 2026-09-06T10:00，无时区按本地），指定采集窗口；
+    默认 end=当前时间、start=end 前 24h；任一指定即忽略当日缓存重新采集。"""
     err = _recommend_or_503()
     if err:
         return err
     data = request.get_json(silent=True) or {}
-    started = recommend_mod.start_collection(bool(data.get("force")))
+
+    def parse_dt(key):
+        raw = (data.get(key) or "").strip()
+        if not raw:
+            return None
+        try:
+            dt = datetime.fromisoformat(raw)
+        except ValueError:
+            raise ValueError(f"{key} 时间格式无效：{raw}（应为 ISO 格式，如 2026-09-06T10:00）")
+        return dt.astimezone()  # 无时区标记按本地时区
+
+    try:
+        since_dt, until_dt = parse_dt("start"), parse_dt("end")
+    except ValueError as e:
+        return jsonify({"ok": False, "errors": [str(e)]}), 400
+    now = datetime.now().astimezone()
+    if until_dt is None and since_dt is not None:
+        until_dt = now
+    if since_dt is not None and since_dt >= until_dt:
+        return jsonify({"ok": False, "errors": ["起始时间必须早于截止时间"]}), 400
+    if since_dt is not None and since_dt > now:
+        return jsonify({"ok": False, "errors": ["起始时间不能晚于当前时间"]}), 400
+    started = recommend_mod.start_collection(bool(data.get("force")),
+                                             since_dt=since_dt, until_dt=until_dt)
     state = recommend_mod.get_state()
     return jsonify({"ok": True, "started": started,
                     "running": state["running"]}), (409 if not started and state["running"] else 200)
