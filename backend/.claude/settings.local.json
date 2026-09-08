@@ -42,7 +42,9 @@
       "Bash(curl *)",
       "Bash(node *)",
       "Bash(lsof -iTCP -sTCP:LISTEN -P)",
-      "Bash(claude logs *)"
+      "Bash(claude logs *)",
+      "Bash(export https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897)",
+      "Bash(export https_proxy=http://127.0.0.1:7897)"
     ]
   }
 }
