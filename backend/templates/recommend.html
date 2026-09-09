@@ -69,7 +69,7 @@
 <body>
 <div class="wrap">
   <h1><span>LLM-DailyDigest</span> · 当日推荐</h1>
-  <p class="sub">自动采集指定时间窗口（默认最近 24 小时）内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
+  <p class="sub">自动采集指定时间窗口（默认最近 24 小时）内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ 新智元 ASI 爆点页 + AIHOT 每日精选 + AIbase 快讯 + AI工具集日报 + 智源热门论文榜 + arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
 
   <!-- ① 微信凭据 -->
   <div class="card">
@@ -146,7 +146,9 @@ function toast(msg, kind){
 }
 function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-const PHASE_TEXT = {idle:'', wechat:'正在抓取公众号文章…', arxiv:'正在抓取 arXiv…',
+const PHASE_TEXT = {idle:'', wechat:'正在抓取公众号文章…',
+  aiera:'正在抓取聚合站点（ASI爆点/AIHOT/AIbase/AI工具集/智源）…',
+  arxiv:'正在抓取 arXiv…',
   filter:'LLM 相关性判定中…', done:'完成', error:'采集出错'};
 
 // ---- 凭据（可选实时增强；未配置/失效时走 RSS+官网默认通道） ----

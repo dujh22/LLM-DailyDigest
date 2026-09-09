@@ -1152,6 +1152,8 @@ def classify_link(url: str) -> str:
         return "hf"
     if "mp.weixin.qq.com" in u:
         return "wechat"
+    if "aiera.com.cn" in u:
+        return "aiera"
     return "web"
 
 
@@ -1270,6 +1272,39 @@ def fetch_hf(url: str, limit: int = 6000) -> dict:
     return fetch_generic(url, limit)
 
 
+_AIERA_FEED_JSON = "https://aiera.com.cn/asi-preview/feed.json"
+
+
+def fetch_aiera(url: str, limit: int = 6000) -> dict:
+    """新智元 aiera.com.cn「ASI 爆点」条目（asi-item.html?id=<id>）：
+    详情页是 JS 壳，全文存于同目录 feed.json，按 id 提取。
+    条目结构 {t:标题, d:[摘要], s:信源, b:[[块类型,内容],...]}，
+    块类型 h=小标题 / p=段落 / i=图片（跳过）。"""
+    m = re.search(r"[?&]id=([A-Za-z0-9_-]+)", url)
+    if not m:
+        return fetch_generic(url, limit)  # 非条目页（首页等）走通用抽取
+    item_id = m.group(1)
+    db = _http_get(_AIERA_FEED_JSON).json()
+    it = db.get(item_id)
+    if not it:
+        raise ValueError(f"feed.json 中无该条目（id={item_id}，可能已滚出保留窗口）")
+    title = (it.get("t") or "").strip()
+    parts = []
+    for blk in it.get("b") or []:
+        if not (isinstance(blk, list) and len(blk) >= 2):
+            continue
+        kind, val = blk[0], str(blk[1]).strip()
+        if kind == "h" and val:
+            parts.append(f"## {val}")
+        elif kind == "p" and val:
+            parts.append(val)
+    body = "\n\n".join(parts) or "\n".join(str(d) for d in (it.get("d") or []))
+    src = (it.get("s") or "").strip()
+    text = _clean_text(body, limit)
+    return {"title": title,
+            "text": f"标题：{title}\n来源：新智元 ASI爆点（信源：{src}）\n正文：\n{text}"}
+
+
 def fetch_generic(url: str, limit: int = 6000) -> dict:
     """通用网页正文抽取。"""
     r = _http_get(url)
@@ -1288,7 +1323,7 @@ def fetch_generic(url: str, limit: int = 6000) -> dict:
 
 
 _FETCHERS = {"github": fetch_github, "arxiv": fetch_arxiv, "hf": fetch_hf,
-             "wechat": fetch_wechat, "web": fetch_generic}
+             "wechat": fetch_wechat, "aiera": fetch_aiera, "web": fetch_generic}
 
 
 def resolve_link(url: str, kind: str, use_cache: bool = True) -> dict:
@@ -2266,7 +2301,11 @@ def api_recommend_to_batch():
     # raw 文本格式：URL 独立成行，便于批处理 llm_extract 的链接正则命中重新抓取；
     # 摘要已在 raw 中，链接抓取失败时（待介入）也有兜底信息。
     def to_raw(it):
-        src = it["source"] if it["source"] == "arXiv" else f"{it['source']}（微信公众号）"
+        if it["source"] == "arXiv":
+            src = it["source"]
+        else:
+            src = recommend_mod.SOURCE_RAW_LABELS.get(
+                it["source"], f"{it['source']}（微信公众号）")
         return (f"标题：{it.get('title', '')}\n"
                 f"来源：{src}\n"
                 f"链接：{it.get('link', '')}\n"
@@ -2327,6 +2366,8 @@ def fetch_link_full(url: str) -> dict:
         res = fetch_hf(url, limit=_EXPORT_FETCH_LIMIT)
     elif kind == "wechat":
         res = fetch_wechat(url, limit=_EXPORT_FETCH_LIMIT)
+    elif kind == "aiera":
+        res = fetch_aiera(url, limit=_EXPORT_FETCH_LIMIT)
     else:
         res = fetch_generic(url, limit=_EXPORT_FETCH_LIMIT)
     return {"kind": kind, "title": res.get("title", ""), "text": res.get("text", "")}

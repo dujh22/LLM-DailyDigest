@@ -9,6 +9,14 @@
     3. Wechat-Scholar RSS（免凭据，≤12h 延迟）
     4. wechat2rss 公共 RSS（免凭据，~24h 内收录）
     各 RSS/官网通道之间按标题去重
+  - 新智元 aiera.com.cn「ASI 爆点」页采集（免凭据，实时，滚动最近约 3 天；
+    与公众号通道按标题去重）
+  - AIHOT（aihot.virxact.com）每日精选 RSS 采集（免凭据，约 10 条/天，
+    与前述通道按标题去重）
+  - AIbase 快讯（aibase.com/zh/news）与 AI工具集日报（ai-bot.cn/daily-ai-news）
+    网页直采（免凭据，服务端渲染；与前述通道按标题去重）
+  - 智源社区热门论文（hub.baai.ac.cn/papers，每日 0 点更新的当日热度榜，
+    榜单型来源不按时间窗口过滤；后续 arXiv 采集与其按标题去重）
   - arXiv cs.CL / cs.AI / cs.LG 论文采集（export.arxiv.org Atom API，同一时间窗口）
   - 基于 content/research/*.md 的研究画像构建
   - LLM 相关性批量判定（候选分 chunk 并发打分）
@@ -56,6 +64,33 @@ WECHAT2RSS_FEEDS = {
     "量子位": "https://wechat2rss.xlab.app/feed/7131b577c61365cb47e81000738c10d872685908.xml",
     "机器之心": "https://wechat2rss.xlab.app/feed/51e92aad2728acdd1fda7314be32b16639353001.xml",
     "新智元": "https://wechat2rss.xlab.app/feed/ede30346413ea70dbef5d485ea5cbb95cca446e7.xml",
+}
+# 新智元 aiera.com.cn「ASI 爆点」页（免凭据，实时）：
+# 页面内嵌 var FEED=[[时间, 月/日, 标题, 摘要, 原始信源, id, 置顶], ...]，
+# 逐条详情页为 asi-item.html?id=<id>（JS 壳，全文在 feed.json，由 app.py fetch_aiera 抓取）
+AIERA_BAODIAN_URL = "https://aiera.com.cn/asi-preview/asi-baodian.html"
+AIERA_ITEM_URL = "https://aiera.com.cn/asi-preview/asi-item.html?id="
+AIERA_SOURCE = "ASI爆点"
+# AIHOT（aihot.virxact.com）AI 行业动态聚合：
+# feed.xml=每日精选（~10 条/天，保留 50 条约 5 天），feed/all.xml=全量流（50 条仅覆盖数小时，弃用）
+AIHOT_FEED_URL = "https://aihot.virxact.com/feed.xml"
+AIHOT_SOURCE = "AIHOT精选"
+# AIbase AI 快讯（Next.js 服务端渲染，列表含相对时间/标题/摘要）
+AIBASE_NEWS_URL = "https://www.aibase.com/zh/news"
+AIBASE_SOURCE = "AIbase"
+# AI工具集每日 AI 快讯（服务端渲染，按日期分组，条目链接直指原文）
+AIBOT_DAILY_URL = "https://ai-bot.cn/daily-ai-news/"
+AIBOT_SOURCE = "AI工具集日报"
+# 智源社区热门论文（每日 0 点更新「最热·今天」榜，10 篇，热度=全网互动数）
+BAAI_PAPERS_URL = "https://hub.baai.ac.cn/papers"
+BAAI_SOURCE = "智源热门论文"
+# 非公众号来源在批处理 raw 文本中的来源标注（app.py to_raw 用；缺省按微信公众号标注）
+SOURCE_RAW_LABELS = {
+    AIERA_SOURCE: "新智元 ASI爆点（aiera.com.cn）",
+    AIHOT_SOURCE: "AIHOT 每日精选（aihot.virxact.com）",
+    AIBASE_SOURCE: "AIbase 快讯（aibase.com）",
+    AIBOT_SOURCE: "AI工具集日报（ai-bot.cn）",
+    BAAI_SOURCE: "智源社区热门论文（hub.baai.ac.cn）",
 }
 ARXIV_CATEGORIES = ["cs.CL", "cs.AI", "cs.LG"]
 ARXIV_API = "https://export.arxiv.org/api/query"
@@ -400,6 +435,298 @@ def collect_wechat2rss(since_dt: datetime, until_dt: datetime) -> dict:
 
 
 # ============================================================
+# 采集：新智元 aiera.com.cn「ASI 爆点」（免凭据，实时）
+# ============================================================
+_AIERA_FEED_RE = re.compile(r"var\s+FEED\s*=\s*(\[.*?\])\s*;", re.S)
+
+
+def collect_aiera(since_dt: datetime, until_dt: datetime) -> dict:
+    """采集新智元 aiera.com.cn「秒追 ASI」时间线（页面滚动保留最近约 3 天）。
+    页面内嵌 var FEED 数组是合法 JSON，直接正则截取后解析；
+    条目时间为北京时间「HH:MM」+「MM/DD」（无年份，按当前年推断，跨年回退），
+    过滤出 [since_dt, until_dt] 窗口内条目。返回 {"items": [...], "errors": [...]}。"""
+    try:
+        r = _get(AIERA_BAODIAN_URL)
+        r.encoding = "utf-8"  # 响应头无 charset，requests 会误判 ISO-8859-1
+        m = _AIERA_FEED_RE.search(r.text)
+        if not m:
+            raise ValueError("页面未找到 FEED 数据（结构可能已改版）")
+        rows = json.loads(m.group(1))
+    except Exception as e:  # noqa: BLE001
+        return {"items": [], "errors": [{"source": AIERA_SOURCE,
+                                         "error": f"页面抓取/解析失败：{e}"}]}
+    items = []
+    now = datetime.now().astimezone()
+    for row in rows:
+        if not isinstance(row, list) or len(row) < 6:
+            continue
+        hm, md = str(row[0]), str(row[1])
+        title = str(row[2] or "").strip()
+        summary = str(row[3] or "").strip()
+        orig = str(row[4] or "").strip()
+        iid = str(row[5] or "").strip()
+        if not title or not iid:
+            continue
+        pub_dt = None
+        try:
+            mo, dy = md.split("/")
+            h, mi = hm.split(":")
+            pub_dt = datetime(now.year, int(mo), int(dy),
+                              int(h), int(mi)).astimezone()
+            if pub_dt - now > timedelta(days=2):  # 12 月末抓到去年条目 → 回退一年
+                pub_dt = pub_dt.replace(year=now.year - 1)
+        except ValueError:
+            pass  # 时间解析失败 → 不按时间过滤，保留（宁多勿漏）
+        if pub_dt is not None and (pub_dt < since_dt or pub_dt > until_dt):
+            continue
+        # 非新智元自采条目标注原始信源（X 账号 / 网站等），便于人工与 LLM 判读
+        if orig and orig != "新智元":
+            summary = f"（信源：{orig}）{summary}"
+        link = AIERA_ITEM_URL + iid
+        items.append({"key": link, "source": AIERA_SOURCE,
+                      "title": title, "summary": summary, "link": link,
+                      "published": pub_dt.isoformat(timespec="seconds") if pub_dt else ""})
+    return {"items": items, "errors": []}
+
+
+# ============================================================
+# 采集：AIHOT 每日精选（aihot.virxact.com，免凭据，标准 RSS）
+# ============================================================
+_AIHOT_ORIG_RE = re.compile(r'href="(https?://[^"]+)"[^>]*>\s*阅读原文')
+
+
+def collect_aihot(since_dt: datetime, until_dt: datetime) -> dict:
+    """采集 AIHOT 每日精选 RSS（feed 保留 50 条，约覆盖 5 天）。
+    与 _collect_rss 的差异：description 含正文摘要与「阅读原文」链接，
+    摘要提取后标注信源域名（不放完整 URL，避免批处理阶段误抓 x.com 等不可达原文）。
+    返回 {"items": [...], "errors": [...]}。"""
+    import xml.etree.ElementTree as ET
+    from email.utils import parsedate_to_datetime
+    try:
+        r = _get(AIHOT_FEED_URL)
+        r.encoding = "utf-8"
+        root = ET.fromstring(r.text)
+    except Exception as e:  # noqa: BLE001
+        return {"items": [], "errors": [{"source": AIHOT_SOURCE,
+                                         "error": f"RSS 拉取/解析失败：{e}"}]}
+    items = []
+    for it in root.iter("item"):
+        title = (it.findtext("title") or "").strip()
+        link = (it.findtext("link") or "").strip()
+        if not title or not link:
+            continue
+        pub = ""
+        try:
+            pd = parsedate_to_datetime(it.findtext("pubDate") or "")
+            if pd is not None:
+                if pd.tzinfo is None:
+                    pd = pd.astimezone()
+                if pd < since_dt or pd > until_dt:
+                    continue
+                pub = pd.astimezone().isoformat(timespec="seconds")
+        except (TypeError, ValueError):
+            pass  # 日期解析失败 → 不按时间过滤，保留（宁多勿漏）
+        desc = it.findtext("description") or ""
+        # 摘要 = 「🔗 阅读原文」之前的正文段落（去 HTML 标签）
+        summary = re.sub(r"<[^>]+>", "", desc.split("🔗")[0])
+        summary = re.sub(r"\s+", " ", summary).strip()
+        m = _AIHOT_ORIG_RE.search(desc)
+        if m:
+            netloc = re.sub(r"^https?://(www\.)?", "", m.group(1)).split("/")[0]
+            summary = f"（信源：{netloc}）{summary}"
+        items.append({"key": link, "source": AIHOT_SOURCE,
+                      "title": title, "summary": summary, "link": link,
+                      "published": pub})
+    return {"items": items, "errors": []}
+
+
+# ============================================================
+# 采集：AIbase 快讯 / AI工具集日报 / 智源热门论文（均免凭据，网页直采）
+# ============================================================
+def _year_guess(mo: int, dy: int, now: datetime) -> datetime:
+    """把无年份的「月/日」按当前年补全；结果比现在晚 2 天以上视为去年（跨年）。"""
+    d = datetime(now.year, mo, dy).astimezone()
+    if d - now > timedelta(days=2):
+        d = d.replace(year=now.year - 1)
+    return d
+
+
+def _parse_rel_time(s: str, now: datetime):
+    """解析「刚刚 / N分钟前 / N小时前 / 昨天 / N天前 / M月D日 / YYYY-MM-DD」为 datetime；
+    无法解析返回 None（调用方按「宁多勿漏」保留该条）。"""
+    s = (s or "").strip()
+    if not s:
+        return None
+    if s == "刚刚":
+        return now
+    m = re.match(r"(\d+)\s*分钟前", s)
+    if m:
+        return now - timedelta(minutes=int(m.group(1)))
+    m = re.match(r"(\d+)\s*小时前", s)
+    if m:
+        return now - timedelta(hours=int(m.group(1)))
+    if s.startswith("昨天"):
+        return now - timedelta(days=1)
+    m = re.match(r"(\d+)\s*天前", s)
+    if m:
+        return now - timedelta(days=int(m.group(1)))
+    m = re.match(r"(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})", s)
+    if m:
+        try:
+            return datetime(int(m.group(1)), int(m.group(2)),
+                            int(m.group(3))).astimezone()
+        except ValueError:
+            return None
+    m = re.match(r"(\d{1,2})月(\d{1,2})", s)
+    if m:
+        try:
+            return _year_guess(int(m.group(1)), int(m.group(2)), now)
+        except ValueError:
+            return None
+    return None
+
+
+def collect_aibase(since_dt: datetime, until_dt: datetime) -> dict:
+    """采集 AIbase AI 快讯列表页（服务端渲染）。
+    卡片结构：<a href="/news/<id>"> 内含相对时间 span、<h3> 标题、摘要 div。
+    相对时间解析失败的条目保留（宁多勿漏）。返回 {"items": [...], "errors": [...]}。"""
+    try:
+        r = _get(AIBASE_NEWS_URL)
+        r.encoding = "utf-8"
+        soup = BeautifulSoup(r.text, "html.parser")
+    except Exception as e:  # noqa: BLE001
+        return {"items": [], "errors": [{"source": AIBASE_SOURCE,
+                                         "error": f"页面抓取/解析失败：{e}"}]}
+    items, now, seen = [], datetime.now().astimezone(), set()
+    for a in soup.find_all("a", href=re.compile(r"^/news/\d+$")):
+        href = a["href"]
+        if href in seen:
+            continue
+        seen.add(href)
+        h3 = a.find("h3")
+        title = h3.get_text(strip=True) if h3 else ""
+        if not title:
+            continue
+        # 卡片头部第一个 span 是相对时间（刚刚 / N小时前 / …）
+        rel = ""
+        meta = a.find("div", class_=re.compile(r"text-gray-400"))
+        if meta and meta.find("span"):
+            rel = meta.find("span").get_text(strip=True)
+        pub_dt = _parse_rel_time(rel, now)
+        # 相对时间是近似值，且「刚刚」解析为当前时刻会晚于运行前取的 until_dt 几毫秒，
+        # 上界放 10 分钟宽限（自定义历史窗口不受影响：宽限远小于窗口间隔）
+        if pub_dt is not None and (pub_dt < since_dt or
+                                   pub_dt > until_dt + timedelta(minutes=10)):
+            continue
+        summary = ""
+        sdiv = a.find("div", class_=re.compile(r"text-surface-500"))
+        if sdiv:
+            summary = re.sub(r"\s+", " ", sdiv.get_text(strip=True))
+        link = "https://www.aibase.com/zh" + href
+        items.append({"key": link, "source": AIBASE_SOURCE,
+                      "title": title, "summary": summary, "link": link,
+                      "published": pub_dt.isoformat(timespec="seconds") if pub_dt else ""})
+    return {"items": items, "errors": []}
+
+
+def collect_aibot(since_dt: datetime, until_dt: datetime) -> dict:
+    """采集 AI工具集每日 AI 快讯页（服务端渲染，全部历史在同一页面按日期分组）。
+    结构：div.news-date（「M月D·周X」，无年份）后跟随该日的 div.news-item
+    （h2>a=标题+原文链接，p=摘要，span.news-time=「来源：XX」）。
+    页面 div 存在未闭合嵌套（bs4 解析后 news-list 互相包含），故不按分组遍历，
+    改为按文档顺序线性扫描：news-item 归属最近一个 news-date。
+    日期仅到天粒度，按日与窗口比较。返回 {"items": [...], "errors": [...]}。"""
+    try:
+        r = _get(AIBOT_DAILY_URL)
+        r.encoding = "utf-8"
+        soup = BeautifulSoup(r.text, "html.parser")
+    except Exception as e:  # noqa: BLE001
+        return {"items": [], "errors": [{"source": AIBOT_SOURCE,
+                                         "error": f"页面抓取/解析失败：{e}"}]}
+    items, now = [], datetime.now().astimezone()
+    lo, hi = since_dt.astimezone().date(), until_dt.astimezone().date()
+    cur_day = None
+    for node in soup.find_all("div", class_=re.compile(r"^news-(date|item)$")):
+        if "news-date" in (node.get("class") or []):
+            cur_day = None
+            m = re.match(r"(\d{1,2})月(\d{1,2})", node.get_text(strip=True))
+            if m:
+                try:
+                    cur_day = _year_guess(int(m.group(1)), int(m.group(2)), now)
+                except ValueError:
+                    pass
+            continue
+        if cur_day is None or not (lo <= cur_day.date() <= hi):
+            continue
+        h2 = node.find("h2")
+        a = h2.find("a") if h2 else None
+        if not a or not a.get("href"):
+            continue
+        title = a.get_text(strip=True)
+        link = a["href"].strip()
+        if not title or not link.startswith("http"):
+            continue
+        summary, src = "", ""
+        p = node.find("p")
+        if p:
+            t_span = p.find("span", class_=re.compile(r"news-time"))
+            if t_span:
+                src = t_span.get_text(strip=True).replace("来源：", "").strip()
+                t_span.extract()
+            summary = re.sub(r"\s+", " ", p.get_text(strip=True))
+        if src:
+            summary = f"（信源：{src}）{summary}"
+        items.append({"key": link, "source": AIBOT_SOURCE,
+                      "title": title, "summary": summary, "link": link,
+                      "published": cur_day.date().isoformat()})
+    return {"items": items, "errors": []}
+
+
+def collect_baai_papers() -> dict:
+    """采集智源社区「AI 热门论文」当日热度榜（每日 0 点更新，10 篇，服务端渲染）。
+    榜单型来源：不按采集窗口过滤（榜上论文发表日期新旧混杂），published 记论文日期；
+    摘要用榜单自带的中文一句话摘要并标注热度。返回 {"items": [...], "errors": [...]}。"""
+    try:
+        r = _get(BAAI_PAPERS_URL)
+        r.encoding = "utf-8"
+        soup = BeautifulSoup(r.text, "html.parser")
+    except Exception as e:  # noqa: BLE001
+        return {"items": [], "errors": [{"source": BAAI_SOURCE,
+                                         "error": f"页面抓取/解析失败：{e}"}]}
+    items, now, seen = [], datetime.now().astimezone(), set()
+    for a in soup.find_all("a", href=re.compile(r"^/paper/[0-9a-f-]{36}$")):
+        href = a["href"]
+        if href in seen:
+            continue
+        seen.add(href)
+        tnode = a.find(class_="paper-item-title")
+        title = tnode.get_text(strip=True) if tnode else ""
+        if not title:
+            continue
+        pub = ""
+        tm = a.find(class_="paper-item-time")
+        m = re.match(r"(\d{4})年(\d{1,2})月(\d{1,2})日",
+                     tm.get_text(strip=True)) if tm else None
+        if m:
+            try:
+                pub = datetime(int(m.group(1)), int(m.group(2)), int(m.group(3))
+                               ).date().isoformat()
+            except ValueError:
+                pass
+        snode = a.find(class_="paper-item-summary")
+        summary = re.sub(r"\s+", " ", snode.get_text(strip=True)) if snode else ""
+        hot = a.find(class_="paper-item-popularity_num")
+        hot_n = re.sub(r"\D", "", hot.get_text()) if hot else ""
+        if hot_n:
+            summary = f"（今日热度 {hot_n}）{summary}"
+        link = "https://hub.baai.ac.cn" + href
+        items.append({"key": link, "source": BAAI_SOURCE,
+                      "title": title, "summary": summary, "link": link,
+                      "published": pub})
+    return {"items": items, "errors": []}
+
+
+# ============================================================
 # arXiv（Atom API，分类全量 + 提交时间窗口）
 # ============================================================
 def _arxiv_window(since_dt: datetime, now_dt: datetime):
@@ -654,12 +981,54 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
         w2r = collect_wechat2rss(since_dt, until_dt)
         w2r_items = [w for w in w2r["items"]
                      if _norm_title(w["title"]) not in seen_titles]
+        seen_titles |= {_norm_title(w["title"]) for w in w2r_items}
         source_errors.extend(w2r["errors"])
+
+        # 5) 新智元 aiera.com.cn「ASI 爆点」页（免凭据，实时；
+        #    置顶条目即新智元公众号头条，与前四级按标题去重）
+        _set_state("aiera")
+        aiera = collect_aiera(since_dt, until_dt)
+        aiera_items = [a for a in aiera["items"]
+                       if _norm_title(a["title"]) not in seen_titles]
+        seen_titles |= {_norm_title(a["title"]) for a in aiera_items}
+        source_errors.extend(aiera["errors"])
+
+        # 6) AIHOT 每日精选 RSS（免凭据；聚合源，与前五级按标题去重）
+        aihot = collect_aihot(since_dt, until_dt)
+        aihot_items = [a for a in aihot["items"]
+                       if _norm_title(a["title"]) not in seen_titles]
+        seen_titles |= {_norm_title(a["title"]) for a in aihot_items}
+        source_errors.extend(aihot["errors"])
+
+        # 7) AIbase 快讯 + AI工具集日报（免凭据，网页直采；与前述通道按标题去重）
+        aibase = collect_aibase(since_dt, until_dt)
+        aibase_items = [a for a in aibase["items"]
+                        if _norm_title(a["title"]) not in seen_titles]
+        seen_titles |= {_norm_title(a["title"]) for a in aibase_items}
+        source_errors.extend(aibase["errors"])
+        aibot = collect_aibot(since_dt, until_dt)
+        aibot_items = [a for a in aibot["items"]
+                       if _norm_title(a["title"]) not in seen_titles]
+        seen_titles |= {_norm_title(a["title"]) for a in aibot_items}
+        source_errors.extend(aibot["errors"])
+
+        # 8) 智源热门论文（当日热度榜，榜单型不按窗口过滤；
+        #    标题记入 seen_titles，后续 arXiv 窗口采集遇同名论文时以榜单条目为准）
+        baai = collect_baai_papers()
+        baai_items = [b for b in baai["items"]
+                      if _norm_title(b["title"]) not in seen_titles]
+        seen_titles |= {_norm_title(b["title"]) for b in baai_items}
+        source_errors.extend(baai["errors"])
 
         all_items.extend(wechat_items)
         all_items.extend(qbitai_items)
         all_items.extend(scholar_items)
         all_items.extend(w2r_items)
+        all_items.extend(aiera_items)
+        all_items.extend(aihot_items)
+        all_items.extend(aibase_items)
+        all_items.extend(aibot_items)
+        all_items.extend(baai_items)
 
         # appmsg 降级提示：仅在其本该覆盖的公众号没有被任何通道取到时才报警，
         # 已由官网/RSS 兜底的号不再重复提示（避免限流错误刷屏）
@@ -677,7 +1046,9 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
         _set_state("arxiv", counts=_count_by_source(all_items))
         for extra in (0, 24, 48):
             res = collect_arxiv(since_dt - timedelta(hours=extra), until_dt)
-            all_items.extend(res["items"])
+            # 与智源热门论文榜按标题去重（榜单条目带热度与中文摘要，优先保留）
+            all_items.extend(x for x in res["items"]
+                             if _norm_title(x["title"]) not in seen_titles)
             source_errors.extend(res["errors"])
             if res["items"]:
                 if extra:

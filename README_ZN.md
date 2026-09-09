@@ -146,6 +146,11 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 
 ## 📅 更新日志
 
+**2026-09-10**
+
+- 当日推荐 `/recommend` 新增 5 个免凭据采集通道：新智元 ASI 爆点页（aiera.com.cn，页面内嵌数据 + `feed.json` 全文）、AIHOT 每日精选（RSS）、AIbase 快讯、AI工具集日报（条目直链原文、摘要带信源）、智源社区热门论文榜（每日 10 篇，带热度与官方中文摘要）；均与公众号通道按标题去重，智源榜单论文与 arXiv 窗口采集同名自动让位
+- 链接抓取新增 `aiera` 类型：ASI 爆点详情页为 JS 壳，改从站内 `feed.json` 按 id 提取全文，批处理/导出可直接重抓；批次来源标注改为 `SOURCE_RAW_LABELS` 查表统一维护
+
 **2026-08-24**
 
 - 条目去重 `/dedup`：paper/code/dataset/link 四字段 URL 规范化判重（剥跟踪参数、arXiv 统一），组内保留最早条目并吸收字段、其余删除；扫描窗口默认 7 天可扩，预览 → 多选/全选/单组执行

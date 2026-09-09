@@ -133,6 +133,11 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 
 ## 📅 Changelog
 
+**2026-09-10**
+
+- Daily recommendation `/recommend` adds 5 credential-free collection channels: NewZhiYuan ASI hotspot page (aiera.com.cn, inline page data + `feed.json` full text), AIHOT daily picks (RSS), AIbase news, AI-bot.cn daily AI news (items link to original sources, summaries carry source tags), and BAAI hub hot-papers board (10 papers/day with hotness scores and official Chinese abstracts); all title-deduped against WeChat channels, and BAAI board papers take precedence over same-title arXiv window results
+- Link fetching adds `aiera` kind: ASI hotspot detail pages are JS shells, so full text is extracted from the site's `feed.json` by id — batch/export re-fetching works directly; batch source labels unified via a `SOURCE_RAW_LABELS` lookup table
+
 **2026-08-24**
 
 - Item dedup `/dedup`: normalized-URL duplicate detection on paper/code/dataset/link (tracking params stripped, arXiv unified); keeps the earliest occurrence and absorbs fields, removes the rest; scan window default 7 days (up to 90); preview → apply selected / all / singly

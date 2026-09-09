@@ -47,7 +47,7 @@ python app.py
 
 原始信息里若含 `github.com` / `arxiv.org` / `huggingface.co` / `mp.weixin.qq.com` 等链接，抽取时会**自动读取正文**供 LLM 使用：
 
-- GitHub → API 取描述 + raw README；arXiv → 官方 API 取标题/作者/摘要；HuggingFace `/papers/<id>` → 复用 arXiv；微信公众号 → 取 `#js_content` 正文；其他 → 通用网页正文抽取。
+- GitHub → API 取描述 + raw README；arXiv → 官方 API 取标题/作者/摘要；HuggingFace `/papers/<id>` → 复用 arXiv；微信公众号 → 取 `#js_content` 正文；新智元 ASI 爆点（aiera.com.cn `asi-item.html?id=<id>`）→ 从站内 `feed.json` 按 id 取全文；其他 → 通用网页正文抽取。
 - 抓取失败的链接会展开「✍️ 补充内容」框，手动粘贴正文后重抽即可。
 - **抓取内容与补充内容仅用于本次抽取，绝不写入 `notes` 原始笔记**（`notes` 只回填你粘贴的原文）。
 
@@ -64,13 +64,18 @@ python app.py
 
 自动采集**最近 24 小时**内与你研究相关的内容，LLM 判定相关性后勾选导入批处理，形成「推荐 → 抽取 → 提交」的完整链路。
 
-**采集通道（公众号三级 + arXiv，按标题自动去重、高层级优先）：**
+**采集通道（公众号三级 + 聚合站点五源 + arXiv，按标题自动去重、高层级优先）：**
 
 | 优先级 | 通道 | 覆盖 | 时效 | 前置条件 |
 | --- | --- | --- | --- | --- |
 | 1（可选） | 微信公众平台 appmsg 接口 | 量子位 / 机器之心 / 新智元 | 实时 | 手动维护 cookie+token，限流风险高 |
 | 2 | 量子位官网 qbitai.com | 量子位 | 实时 | 无 |
 | 3 | [Wechat-Scholar](https://github.com/osnsyc/Wechat-Scholar) 学术公众号 RSS | 三号全（可扩展） | ≤12h | 无 |
+| — | 新智元 [ASI 爆点页](https://aiera.com.cn/asi-preview/asi-baodian.html)（aiera.com.cn） | 新智元自采 + X/外站信源速递（滚动约 3 天） | 实时 | 无 |
+| — | [AIHOT 每日精选](https://aihot.virxact.com/) RSS | AI 行业动态聚合（~10 条/天，feed 保留约 5 天） | 实时 | 无 |
+| — | [AIbase 快讯](https://www.aibase.com/zh/news) | AI 产品/行业快讯列表页直采 | 实时 | 无 |
+| — | [AI工具集日报](https://ai-bot.cn/daily-ai-news/) | 每日 AI 快讯（条目链接直指原文，摘要带信源） | 实时（日粒度） | 无 |
+| — | [智源社区热门论文](https://hub.baai.ac.cn/papers) | 当日热度榜 10 篇（榜单型，不按窗口过滤；arXiv 通道遇同名论文自动让位） | 每日 0 点更新 | 无 |
 | — | arXiv Atom API（cs.CL/cs.AI/cs.LG） | 论文 | 实时 | 无 |
 
 - **默认零配置可用**（官网 + RSS + arXiv）。appmsg 为可选实时增强：`/recommend` 页粘贴 mp.weixin.qq.com 的 Cookie + token（F12 找 appmsg 请求），保存时自动测试；微信限流（ret 200013，`freq control`）时自动静默回落到默认通道，只有某公众号所有通道都取不到时才报警。
