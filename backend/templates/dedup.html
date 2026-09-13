@@ -71,7 +71,7 @@
     </div>
     <div class="actions" style="margin-top:4px">
       <label class="hint" style="display:inline-flex;align-items:center;gap:.3rem;margin:0">
-        <input type="checkbox" id="useLlm"> 🤖 用 LLM 合并解析字段（summary / content / purpose，失败自动回退规则合并）
+        <input type="checkbox" id="useLlm" checked> 🤖 用 LLM 合并解析字段（summary / content / purpose，失败自动回退规则合并）
       </label>
     </div>
     <div id="result"></div>
@@ -195,7 +195,7 @@ async function apply(groups){
   if(!confirm(msg)) return;
   const body = {days: DAYS};
   if(groups) body.groups = groups;
-  if(useLlm) body.llm = true;
+  body.llm = useLlm;
   const btns = [$('btnApplyAll'), $('btnApplySel'), $('btnSelAll')];
   btns.forEach(b=>b.disabled=true);
   try{

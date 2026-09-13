@@ -615,7 +615,7 @@ def _plan_dedup_writes(groups: list):
     return per_file, removed
 
 
-def apply_dedup_groups(days: int, only=None, use_llm=False) -> dict:
+def apply_dedup_groups(days: int, only=None, use_llm=True) -> dict:
     """执行条目去重归并写盘。only=[{file,id}] 时仅归并保留条目匹配的组；
     use_llm=True 时先用 LLM 合并各组的解析字段（summary/content/purpose），
     失败的组回退规则合并。锁序固定 _SUBMIT_LOCK → _MERGE_LOCK（do_submit 只取
@@ -2024,13 +2024,14 @@ def api_dedup_preview():
 @app.route("/api/dedup/apply", methods=["POST"])
 def api_dedup_apply():
     """执行去重归并。body: {days, groups?: [{file, id}], llm?: bool} ——
-    groups 用于「仅执行选中组」；llm=true 时先用 LLM 合并解析字段（失败回退规则合并）。"""
+    groups 用于「仅执行选中组」；llm 默认 true，用 LLM 合并解析字段（失败回退规则合并），
+    显式传 false 才纯规则合并。"""
     data = request.get_json(force=True, silent=True) or {}
     days, err = _dedup_days_param(data)
     if err:
         return err
     only = data.get("groups") or None
-    res = apply_dedup_groups(days, only, use_llm=bool(data.get("llm")))
+    res = apply_dedup_groups(days, only, use_llm=bool(data.get("llm", True)))
     code = 200 if res.get("ok") else 400
     return jsonify(res), code
 

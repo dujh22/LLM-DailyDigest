@@ -45,7 +45,10 @@
       "Bash(claude logs *)",
       "Bash(export https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897)",
       "Bash(export https_proxy=http://127.0.0.1:7897)",
-      "Bash(echo \"exit=$?\")"
+      "Bash(echo \"exit=$?\")",
+      "Bash(/opt/miniconda3/bin/python3.12 -c \"import flask, openai, bs4, requests; print\\('ok'\\)\")",
+      "Bash(/opt/miniconda3/bin/conda env *)",
+      "Bash(/opt/miniconda3/bin/python3.12 *)"
     ]
   }
 }
