@@ -1180,8 +1180,9 @@ def _http_get(url: str, retries: int = 3, **kw):
             r.raise_for_status()
             return r
         except requests.HTTPError as e:
-            if e.response is not None and e.response.status_code < 500:
-                raise  # 4xx 重试无意义
+            code = e.response.status_code if e.response is not None else 0
+            if code and code < 500 and code != 429:
+                raise  # 4xx 重试无意义（429 限流除外，退避后可自愈）
             last_exc = e
         except requests.RequestException as e:  # ProxyError / 连接与读取超时
             last_exc = e
@@ -1196,8 +1197,64 @@ def _clean_text(s: str, limit: int = 6000) -> str:
     return s[:limit]
 
 
-def fetch_arxiv(url: str) -> dict:
-    """通过 arxiv Atom API 取标题/作者/摘要。"""
+# arXiv 全局限速：API 官方要求 ≥3 秒/请求，abs 网页也按 1 秒/请求自我约束
+# （批处理 100 并发同时打同一主机会触发限流封禁，封禁期直连+代理同封）。
+# 锁内只做起跑间隔控制后立即释放，不在锁内等待响应，避免慢请求拖住整个队列。
+_ARXIV_API_LOCK = threading.Lock()
+_ARXIV_API_LAST = [0.0]
+_ARXIV_WEB_LOCK = threading.Lock()
+_ARXIV_WEB_LAST = [0.0]
+
+# arXiv API 熔断：连续失败达到阈值后，冷却期内直接走 abs 页面降级。
+# 计数竞态最多导致熔断早/晚触发一次，无碍正确性，不加锁。
+_ARXIV_API_BREAKER = {"fails": 0, "until": 0.0}
+_ARXIV_BREAKER_THRESHOLD = 3
+_ARXIV_BREAKER_COOLDOWN = 600.0
+
+
+def _paced_get(url: str, lock: threading.Lock, last: list, interval: float,
+               retries: int = 3, **kw):
+    """全局限速 GET：同一 (lock, last) 组的请求起跑间隔 ≥ interval 秒。"""
+    with lock:
+        wait = interval - (time.monotonic() - last[0])
+        if wait > 0:
+            time.sleep(wait)
+        last[0] = time.monotonic()
+    return _http_get(url, retries=retries, **kw)
+
+
+def _arxiv_api_get(api_url: str, retries: int = 3):
+    return _paced_get(api_url, _ARXIV_API_LOCK, _ARXIV_API_LAST, 3.0, retries=retries)
+
+
+def fetch_arxiv_abs_page(arxiv_id: str) -> dict:
+    """直接解析 arxiv.org/abs 页面的 citation_* meta 标签，
+    作为 Atom API 被限流/封禁时的降级通道（网页与 API 是不同基础设施，
+    API 封禁期间 abs 页面通常仍可达）。"""
+    r = _paced_get(f"https://arxiv.org/abs/{arxiv_id}",
+                   _ARXIV_WEB_LOCK, _ARXIV_WEB_LAST, 1.0)
+    soup = BeautifulSoup(r.text, "html.parser")
+
+    def meta(name):
+        t = soup.find("meta", attrs={"name": name})
+        return (t.get("content") or "").strip() if t else ""
+
+    title = meta("citation_title")
+    abstract = re.sub(r"\s+", " ", meta("citation_abstract"))
+    if not title or not abstract:
+        raise ValueError("arXiv abs 页未解析出标题/摘要（可能被反爬拦截或 id 无效）")
+    authors = [(t.get("content") or "").strip()
+               for t in soup.find_all("meta", attrs={"name": "citation_author"})]
+    pdf = meta("citation_pdf_url")
+    text = (f"标题：{title}\n作者：{', '.join(authors)}\n"
+            f"PDF：{pdf}\n摘要：{abstract}")
+    return {"title": title, "text": text}
+
+
+def fetch_arxiv(url: str, retries: int = 3) -> dict:
+    """通过 arxiv Atom API 取标题/作者/摘要；API 失败（限流/封禁）时
+    降级解析 arxiv.org/abs 页面。连续失败触发熔断后一段时间内直接走降级，
+    避免封禁期每条链接死等 API 超时、且持续请求延长封禁。"""
     m = re.search(r"(?:abs|pdf)/([0-9]{4}\.[0-9]{4,5}(?:v\d+)?|[a-z\-]+/[0-9]{7}(?:v\d+)?)", url)
     if not m:
         m = re.search(r"/([^/?#]+(?:v\d+)?)$", url)
@@ -1205,7 +1262,19 @@ def fetch_arxiv(url: str) -> dict:
         raise ValueError("无法从 URL 解析 arxiv id")
     arxiv_id = m.group(1)
     api = f"https://export.arxiv.org/api/query?id_list={urllib.parse.quote(arxiv_id)}"
-    soup = BeautifulSoup(_http_get(api).text, "html.parser")
+    br = _ARXIV_API_BREAKER
+    if time.monotonic() < br["until"]:
+        return fetch_arxiv_abs_page(arxiv_id)
+    try:
+        resp = _arxiv_api_get(api, retries=retries)
+    except Exception:  # noqa: BLE001  # 仅网络/HTTP 层失败计入熔断
+        br["fails"] += 1
+        if br["fails"] >= _ARXIV_BREAKER_THRESHOLD:
+            br["until"] = time.monotonic() + _ARXIV_BREAKER_COOLDOWN
+            br["fails"] = 0
+        return fetch_arxiv_abs_page(arxiv_id)
+    br["fails"] = 0
+    soup = BeautifulSoup(resp.text, "html.parser")
     entry = soup.find("entry")
     if not entry:
         raise ValueError("arxiv 未返回条目（id 可能无效）")
@@ -1221,26 +1290,35 @@ def fetch_arxiv(url: str) -> dict:
 
 
 def fetch_github(url: str, readme_limit: int = 4000) -> dict:
-    """GitHub API 取仓库描述 + raw README（默认节选，可调大 readme_limit 取全文）。"""
+    """GitHub API 取仓库描述 + raw README（默认节选，可调大 readme_limit 取全文）。
+    环境变量 GITHUB_TOKEN 存在时带上鉴权（未鉴权 API 限额仅 60 次/小时）；
+    API 失败（限流等）但 README 已到手时，降级为仅用 README。"""
     m = re.match(r"https?://github\.com/([^/]+)/([^/?#]+)", url)
     if not m:
         raise ValueError("非标准 github 仓库 URL")
     owner, repo = m.group(1), m.group(2).rstrip(".git")
+    readme = ""
+    try:
+        rr = _http_get(f"https://raw.githubusercontent.com/{owner}/{repo}/HEAD/README.md")
+        readme = _clean_text(rr.text, readme_limit)
+    except Exception:  # noqa: BLE001
+        pass
     headers = {"Accept": "application/vnd.github+json"}
-    resp = _http_get(f"https://api.github.com/repos/{owner}/{repo}", headers=headers)
-    resp.raise_for_status()
-    meta = resp.json()
+    token = os.environ.get("GITHUB_TOKEN", "").strip()
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    try:
+        resp = _http_get(f"https://api.github.com/repos/{owner}/{repo}", headers=headers)
+        meta = resp.json()
+    except Exception:  # noqa: BLE001
+        if not readme:
+            raise
+        return {"title": f"{owner}/{repo}",
+                "text": f"仓库：{owner}/{repo}\nREADME（节选）：\n{readme}"}
     desc = meta.get("description") or ""
     topics = meta.get("topics") or []
     stars = meta.get("stargazers_count")
     homepage = meta.get("homepage") or ""
-    readme = ""
-    try:
-        rr = _http_get(f"https://raw.githubusercontent.com/{owner}/{repo}/HEAD/README.md")
-        if rr.status_code == 200:
-            readme = _clean_text(rr.text, readme_limit)
-    except Exception:  # noqa: BLE001
-        pass
     text = (f"仓库：{owner}/{repo}\n描述：{desc}\nStars：{stars}\n"
             f"Topics：{', '.join(topics)}\nHomepage：{homepage}\nREADME（节选）：\n{readme}")
     return {"title": f"{owner}/{repo}", "text": text}
@@ -1260,15 +1338,34 @@ def fetch_wechat(url: str, limit: int = 6000) -> dict:
     return {"title": title, "text": f"标题：{title}\n正文：{text}"}
 
 
+def fetch_hf_paper_page(url: str, limit: int = 6000) -> dict:
+    """直接解析 HF 论文页（h1 标题 + p.text-gray-600 完整摘要），
+    作为 arXiv API 被限流/封禁时的降级通道。"""
+    r = _http_get(url)
+    soup = BeautifulSoup(r.text, "html.parser")
+    h1 = soup.find("h1")
+    title = h1.get_text(strip=True) if h1 else ""
+    abs_p = soup.find("p", class_="text-gray-600")
+    abstract = abs_p.get_text(" ", strip=True) if abs_p else ""
+    if not title or not abstract:
+        raise ValueError("HF 论文页未解析出标题/摘要（页面结构可能已变化）")
+    text = _clean_text(f"标题：{title}\n摘要：{abstract}", limit)
+    return {"title": title, "text": text}
+
+
 def fetch_hf(url: str, limit: int = 6000) -> dict:
     """HuggingFace 链接：
-    - /papers/<arxiv_id> → 复用 arxiv 抓取器（取标题/作者/摘要）
+    - /papers/<arxiv_id> → 复用 arxiv 抓取器（取标题/作者/摘要）；
+      arXiv API 失败（限流/封禁）时降级为直接解析 HF 论文页
     - 其他（模型/数据集页等）→ 通用 HTML 正文抽取
     """
     m = re.search(r"huggingface\.co/papers/([^/?#]+)", url, re.IGNORECASE)
     if m:
         arxiv_id = m.group(1)
-        return fetch_arxiv(f"https://arxiv.org/abs/{arxiv_id}")
+        try:
+            return fetch_arxiv(f"https://arxiv.org/abs/{arxiv_id}", retries=1)
+        except Exception:  # noqa: BLE001
+            return fetch_hf_paper_page(f"https://huggingface.co/papers/{arxiv_id}", limit)
     return fetch_generic(url, limit)
 
 
@@ -1544,8 +1641,9 @@ def llm_extract(raw: str, extra: str = "") -> dict:
 def process_one_entry(batch_id: str, idx: int):
     """处理单条：链接抓取 →（视情况）LLM 抽取，并更新状态。
     状态流转：pending → processing → review(待核对) / intervention(待介入)。
-    有抓取失败的链接时，先不消耗 LLM，置为 intervention 等用户补充后手动抽取。
-    已 done 的条目不覆盖。"""
+    链接抓取失败时不硬性卡死：原文本身有足够上下文（标题/摘要等）就照常
+    LLM 抽取并进 review（未抓到的链接记入 note 供回看）；只有原文近乎
+    光秃 URL、无内容可抽时才置 intervention 等用户补充。已 done 的条目不覆盖。"""
     batch = load_batch(batch_id)
     if not batch:
         return
@@ -1573,30 +1671,35 @@ def process_one_entry(batch_id: str, idx: int):
             if not unresolved:
                 break
     if unresolved:
-        # 仍有链接抓不到 → 待介入（保存链接状态供前端展示，跳过 LLM 抽取）
-        update_batch_entry(batch_id, idx,
-                           status="intervention",
-                           resolved_links=resolved,
-                           unresolved_links=unresolved,
-                           data={},
-                           error="",
-                           processed_at=datetime.now().isoformat(timespec="seconds"))
-        return
+        # 原文去掉 URL 后剩余内容太少 → 无从抽取，待介入（保存链接状态供前端展示）
+        context = _URL_RE.sub("", raw).strip()
+        if len(context) < 40:
+            update_batch_entry(batch_id, idx,
+                               status="intervention",
+                               resolved_links=resolved,
+                               unresolved_links=unresolved,
+                               data={},
+                               error="",
+                               processed_at=datetime.now().isoformat(timespec="seconds"))
+            return
 
     res = llm_extract(raw)
     if res["ok"]:
-        update_batch_entry(batch_id, idx,
-                           status="review",
-                           data=res.get("data", {}),
-                           resolved_links=res.get("resolved_links", resolved),
-                           unresolved_links=[],
-                           error="",
-                           processed_at=datetime.now().isoformat(timespec="seconds"))
+        fields = {"status": "review",
+                  "data": res.get("data", {}),
+                  "resolved_links": res.get("resolved_links", resolved),
+                  "unresolved_links": res.get("unresolved_links", unresolved),
+                  "error": "",
+                  "processed_at": datetime.now().isoformat(timespec="seconds")}
+        if unresolved:
+            fields["note"] = ("部分链接未抓取成功，抽取仅基于原文与已抓到内容："
+                              + "、".join(u["url"] for u in unresolved))
+        update_batch_entry(batch_id, idx, **fields)
     else:
         update_batch_entry(batch_id, idx,
                            status="intervention",
                            resolved_links=resolved,
-                           unresolved_links=[],
+                           unresolved_links=unresolved,
                            data={},
                            error="；".join(res.get("errors", [])),
                            processed_at=datetime.now().isoformat(timespec="seconds"))
@@ -1683,7 +1786,8 @@ def submit_review_entry(batch_id: str, idx: int) -> dict:
         fields = {"status": "done", "error": "",
                   "item_id": res["item"]["id"], "file": res["file"]}
         if skipped_note:
-            fields["note"] = skipped_note
+            prev = (entry.get("note") or "").strip()
+            fields["note"] = f"{prev}；{skipped_note}" if prev else skipped_note
         update_batch_entry(batch_id, idx, **fields)
         return res
     if res.get("dup"):
