@@ -100,7 +100,10 @@
       "Bash(rm -rf /tmp/hugo_verify)",
       "Bash(hugo --destination /tmp/hugo_verify --quiet)",
       "Read(//private/var/folders/gp/018m_22947xf5_ypxyw1q57c0000gn/T/digest-export-5rexgybi/**)",
-      "Bash(https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897 venv/bin/python *)"
+      "Bash(https_proxy=http://127.0.0.1:7897 http_proxy=http://127.0.0.1:7897 venv/bin/python *)",
+      "Bash(backend/venv/bin/python *)",
+      "Bash(git -C /Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest status --short)",
+      "Bash(venv/bin/python -c ' *)"
     ]
   }
 }

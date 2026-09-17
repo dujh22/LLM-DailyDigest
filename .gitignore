@@ -17,3 +17,4 @@ venv/
 # 当日推荐：公众号凭据（绝不入库）与按日采集缓存
 wechat_credentials.json
 .recommend_cache/
+/.omc

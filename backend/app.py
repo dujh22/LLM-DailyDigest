@@ -394,6 +394,8 @@ _TRACKING_PARAM_PREFIXES = ("utm_", "spm", "vd_source", "share_", "ref", "source
 DEDUP_SUBMIT_DAYS = 7
 # 归并时可交给 LLM 智能整合的解析字段（notes 原始笔记逐字保留，不经 LLM）
 _LLM_MERGE_FIELDS = ("summary", "content", "purpose")
+# absorb_items 规则拼接标记的前缀；解析字段出现它说明需要 LLM 整合
+_MERGE_TAG_PREFIX = "[合并自"
 
 
 def normalize_url(url: str) -> str:
@@ -1736,17 +1738,35 @@ def process_batch_background(batch_id: str) -> bool:
 # ============================================================
 def _auto_absorb_into_dup(payload: dict, dup: dict) -> str:
     """把被查重拦截的新条目自动吸收归并进已有日报条目，返回归并描述。
-    复用 /dedup 的 absorb_items 确定性规则：旧条目非空字段优先、列表字段
-    取并集、长文本取更完整方、notes 差异以 [合并自 …] 标记追加。"""
+    先用 /dedup 的 absorb_items 确定性规则合并；解析字段若发生拼接
+    （出现 [合并自 …] 标记），与 /dedup 默认行为一致，交给 LLM 整合为
+    一份连贯内容，失败回退规则结果。notes 逐字保留不经 LLM。
+    LLM 调用慢，在 _SUBMIT_LOCK 外完成。"""
     item = build_item_from_form(payload)
     item.pop("_target_date", None)
-    merged = absorb_items(dup["item"], item, date.today().isoformat())
+    today_s = date.today().isoformat()
+    merged = absorb_items(dup["item"], item, today_s)
+    llm_note = ""
+    if any(_MERGE_TAG_PREFIX in (merged.get(f) or "") for f in _LLM_MERGE_FIELDS):
+        try:
+            vals = llm_merge_group({
+                "keep": {"date": dup["date"], "item": dup["item"]},
+                "dups": [{"date": today_s, "item": item}],
+            })
+            for f in _LLM_MERGE_FIELDS:
+                v = (vals.get(f) or "").strip()
+                if v and _MERGE_TAG_PREFIX not in v:
+                    merged[f] = v
+            llm_note = "；LLM 已整合解析字段"
+        except Exception as e:  # noqa: BLE001
+            llm_note = f"；LLM 整合失败已回退规则合并：{e}"
     path = today_daily_path(dup["date"])
     with _SUBMIT_LOCK:
         changed = rewrite_daily_items(path, replace={dup["index"]: merged})
     if changed:
         trigger_deploy(f"自动归并条目 {item['id']} → {path.name}")
-    return f"已自动归并到 {dup['date']} 日报（{dup['file']}，id={dup['item'].get('id', '')}）"
+    return (f"已自动归并到 {dup['date']} 日报（{dup['file']}，"
+            f"id={dup['item'].get('id', '')}）{llm_note}")
 
 
 def submit_review_entry(batch_id: str, idx: int) -> dict:
