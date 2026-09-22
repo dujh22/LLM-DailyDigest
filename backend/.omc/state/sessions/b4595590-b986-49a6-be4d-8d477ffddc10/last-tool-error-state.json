@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"/Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest/backend\\\" && ./venv/bin/python /tmp/test_finalize.py\",\"description\":\"Run offline finalize feature tests\"}",
+  "error": "Exit code 1\nPASS notes 提取 arXiv（pdf+版本号归一） \nPASS notes 提取第二个 arXiv \nPASS notes 提取 GitHub（去 .git） \nPASS link 字段仍参与 \nPASS 跨条目 key 相交（paper vs notes） \nPASS 语义归并 1 组 / 删 1 条 \nPASS paper 反证组被拒绝 \nPASS a2 被吸收删除 \nPASS 规则吸收：paper 从 a2 补全 \nPASS 规则吸收：purpose 补全 \nPASS LLM 字段覆盖 summary \nPASS c1/c2 未被错并 \nTraceback (most recent call last):\n  File \"/tmp/test_finalize.py\", line 94, in <module>\n    check(\"重复执行收敛（组成员缺失即跳过）\", res2[\"groups\"] == 0 and res2[\"skipped_stale\"] == 1, str(res2))\nKeyError: 'skipped_stale'",
+  "timestamp": "2026-09-22T09:27:51.879Z",
+  "retry_count": 1
+}

@@ -149,8 +149,8 @@
   "hotPaths": [
     {
       "path": "backend/app.py",
-      "accessCount": 30,
-      "lastAccessed": 1789627080663,
+      "accessCount": 41,
+      "lastAccessed": 1790068898727,
       "type": "file"
     },
     {
@@ -160,15 +160,15 @@
       "type": "file"
     },
     {
-      "path": "backend/templates/recommend.html",
-      "accessCount": 6,
-      "lastAccessed": 1788961917368,
+      "path": "backend/README.md",
+      "accessCount": 8,
+      "lastAccessed": 1790069345172,
       "type": "file"
     },
     {
-      "path": "backend/README.md",
+      "path": "backend/templates/recommend.html",
       "accessCount": 6,
-      "lastAccessed": 1788972997783,
+      "lastAccessed": 1788961917368,
       "type": "file"
     },
     {
@@ -185,14 +185,20 @@
     },
     {
       "path": "backend/deploy.py",
-      "accessCount": 1,
-      "lastAccessed": 1789443735386,
+      "accessCount": 2,
+      "lastAccessed": 1790066745538,
       "type": "file"
     },
     {
       "path": "backend/backfill_llm_merge.py",
       "accessCount": 1,
       "lastAccessed": 1789626636180,
+      "type": "file"
+    },
+    {
+      "path": "layouts/updates/single.html",
+      "accessCount": 1,
+      "lastAccessed": 1790066396027,
       "type": "file"
     }
   ],

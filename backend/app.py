@@ -10,6 +10,9 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
   GET  /recommend     当日推荐页（采集公众号 + arXiv 指定时间窗口内容，默认最近 24h，LLM 相关性筛选）
   GET  /dedup         条目去重归并页（URL 判重，预览 + 应用两步）
   POST /api/dedup/preview|apply  去重扫描 / 执行（days 默认 7，可指定 14、30 等更大窗口）
+  POST /api/finalize  当日整备：URL+语义去重（LLM 判同一工作，自动应用）→ 重生成日报头部摘要
+                      （幂等，可重复执行）。批次自动提交完成后自动执行一次；
+                      单条提交后防抖执行（FINALIZE_DEBOUNCE 秒，默认 600）
   GET  /merge         主题/子主题归并页；LLM 推荐为主题、子主题分开的全量分批遍历
   POST /api/merge/suggest/start  启动一种标签（topics/subtopics）的推荐后台任务
   GET  /api/merge/suggest/status 查询推荐任务进度与结果（人工采纳后才写盘）
@@ -426,13 +429,31 @@ def normalize_url(url: str) -> str:
     return urllib.parse.urlunsplit((scheme, netloc, path, query, ""))
 
 
+# notes 原始笔记内的 arXiv / GitHub 链接提取（信源常把论文链接留在正文而未填入
+# paper 字段，提取后可让「同一工作、不同信源」的条目共享硬证据 key）
+_ARXIV_ID_IN_TEXT_RE = re.compile(
+    r"arxiv\.org/(?:abs|pdf|html)/([0-9]{4}\.[0-9]{4,5}|[a-z-]+/[0-9]{7})", re.I)
+_GITHUB_REPO_IN_TEXT_RE = re.compile(r"github\.com/([\w.-]+)/([\w.-]+)", re.I)
+_GITHUB_NON_REPO_OWNERS = {"features", "topics", "orgs", "search", "settings",
+                           "site", "about", "collections", "sponsors", "marketplace"}
+
+
 def item_url_keys(item: dict) -> set:
-    """item 四个 URL 字段的规范化非空值集合；空集合的条目永不参与去重。"""
+    """item 参与去重的规范化 key 集合：四个 URL 字段 + notes 里出现的
+    arXiv / GitHub 链接。空集合的条目永不参与去重。"""
     keys = set()
     for f in _URL_FIELDS:
         k = normalize_url(item.get(f, "") or "")
         if k:
             keys.add(k)
+    notes = item.get("notes", "") or ""
+    for m in _ARXIV_ID_IN_TEXT_RE.finditer(notes):
+        keys.add(f"https://arxiv.org/abs/{m.group(1).lower()}")
+    for m in _GITHUB_REPO_IN_TEXT_RE.finditer(notes):
+        owner = m.group(1)
+        repo = re.sub(r"\.git$", "", m.group(2)).rstrip(".")
+        if repo and owner.lower() not in _GITHUB_NON_REPO_OWNERS:
+            keys.add(f"https://github.com/{owner}/{repo}")
     return keys
 
 
@@ -617,13 +638,14 @@ def _plan_dedup_writes(groups: list):
     return per_file, removed
 
 
-def apply_dedup_groups(days: int, only=None, use_llm=True) -> dict:
+def apply_dedup_groups(days: int, only=None, use_llm=True, end_date=None) -> dict:
     """执行条目去重归并写盘。only=[{file,id}] 时仅归并保留条目匹配的组；
     use_llm=True 时先用 LLM 合并各组的解析字段（summary/content/purpose），
-    失败的组回退规则合并。锁序固定 _SUBMIT_LOCK → _MERGE_LOCK（do_submit 只取
+    失败的组回退规则合并；end_date 指定窗口截止日（默认今天）。
+    锁序固定 _SUBMIT_LOCK → _MERGE_LOCK（do_submit 只取
     前者、merge_apply 只取后者，无环不死锁）。LLM 调用慢，在锁外完成；
     锁内重新扫描并校验各组未被并发修改（签名不一致的组跳过）。"""
-    groups = scan_duplicate_groups(days)
+    groups = scan_duplicate_groups(days, end_date)
     if only:
         sel = {(g["file"], g["id"]) for g in only}
         groups = [g for g in groups
@@ -662,7 +684,7 @@ def apply_dedup_groups(days: int, only=None, use_llm=True) -> dict:
 
     prepared = {sig(g): g for g in groups}
     with _SUBMIT_LOCK, _MERGE_LOCK:
-        fresh_sigs = {sig(x) for x in scan_duplicate_groups(days)}
+        fresh_sigs = {sig(x) for x in scan_duplicate_groups(days, end_date)}
         usable = [g for s, g in prepared.items() if s in fresh_sigs]
         skipped = len(prepared) - len(usable)
         if not usable:
@@ -760,6 +782,325 @@ def find_dup_for_item(item: dict, days: int = DEDUP_SUBMIT_DAYS, target_date=Non
                                 "item": ex, "matched_url": sorted(hit)[0]}
         cur += timedelta(days=1)
     return None
+
+
+# ============================================================
+# 当日整备（finalize）：URL 去重 → LLM 语义去重 → 重生成头部摘要
+# 幂等设计：每步基于文件当前状态全量重算（去重收敛、摘要整块替换），
+# 一天内批处理 / 当日推荐多次提交后重复执行，结果自然收敛。
+# ============================================================
+_SUMMARY_START = "<!-- daily-summary:start -->"
+_SUMMARY_END = "<!-- daily-summary:end -->"
+_FINALIZE_DEBOUNCE = float(os.environ.get("FINALIZE_DEBOUNCE", "600"))
+_FINALIZE_RUN_LOCK = threading.Lock()   # 同一时刻只跑一个 finalize，避免重复 LLM 开销
+_FINALIZE_STATE = {"timer": None, "dates": set()}
+_FINALIZE_STATE_LOCK = threading.Lock()
+
+
+def parse_day_items(d: str):
+    """解析某日日报的全部条目，返回 [(块下标, item), ...]（解析失败的块跳过）。"""
+    path = today_daily_path(d)
+    if not path.exists():
+        return []
+    _, fm_body, _ = split_front_matter(path.read_text(encoding="utf-8"))
+    if not fm_body:
+        return []
+    _, blocks = split_item_blocks(fm_body)
+    out = []
+    for idx, block in enumerate(blocks):
+        item = _parse_item_block(block)
+        if item:
+            out.append((idx, item))
+    return out
+
+
+def _llm_chat(system_prompt: str, user_payload, want_json=False, retries: int = 2):
+    """调用 LLM 返回文本（want_json=True 时解析为 JSON）。去代码块围栏；
+    调用失败或 JSON 解析失败均退避重试，仍失败上抛。"""
+    from openai import OpenAI
+    api_key = load_api_key()
+    if not api_key:
+        raise RuntimeError("未找到 API Key")
+    client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
+    user = user_payload if isinstance(user_payload, str) \
+        else json.dumps(user_payload, ensure_ascii=False)
+    last = None
+    for attempt in range(retries):
+        try:
+            resp = client.chat.completions.create(
+                model=LLM_MODEL,
+                messages=[{"role": "system", "content": system_prompt},
+                          {"role": "user", "content": user}],
+            )
+            raw = (resp.choices[0].message.content or "").strip()
+            raw = re.sub(r"^```(?:json|markdown)?\s*", "", raw)
+            raw = re.sub(r"\s*```$", "", raw)
+            return json.loads(raw) if want_json else raw
+        except Exception as e:  # noqa: BLE001
+            last = e
+            if attempt < retries - 1:
+                time.sleep(2 * (attempt + 1))
+    raise last
+
+
+def llm_semantic_day_groups(day_items: list) -> list:
+    """LLM 对单日条目做语义查重：找出「同一工作/事件因不同信源被重复收录」的条目组。
+    返回 [{"ids": [...], "evidence": "..."}]；失败抛异常。"""
+    entries = []
+    for _idx, it in day_items:
+        entries.append({
+            "id": it.get("id", ""),
+            "标题": it.get("title", ""),
+            "摘要": it.get("summary", "") or "",
+            "来源": it.get("source", "") or "",
+            "论文": it.get("paper", "") or "",
+            "代码": it.get("code", "") or "",
+            "原文": it.get("link", "") or "",
+        })
+    system_prompt = (
+        "你是大模型研究日报的查重助手。输入为同一天日报的全部条目（id、标题、摘要、来源、链接）。"
+        "任务：找出「指向同一项工作或同一事件」的条目组——同一篇论文、同一模型/系统发布、"
+        "同一开源项目、同一新闻事件，因来自不同信源、表述不同而被重复收录。\n"
+        "判定规则：\n"
+        "1. 只有确信是同一项工作/事件才归为一组；相关、相似、同方向、同机构的【不同】工作绝不归组。\n"
+        "2. 链接是硬证据：论文链接指向不同 arXiv 论文的条目不是同一工作。\n"
+        "3. 综述、周报、多工作合辑类条目一律不参与归组。\n"
+        "4. 拿不准就不归组：宁可漏合，不可错合。\n"
+        "5. 每组给出 evidence：一句话说明判定依据（如共同的论文名/模型名/事件）。\n"
+        '严格返回 JSON（不要代码块、不要解释）：{"groups": [{"ids": ["id1", "id2"], "evidence": "..."}]}；'
+        '没有重复时返回 {"groups": []}。ids 只能取自输入条目的 id，每组至少 2 个。'
+    )
+    parsed = _llm_chat(system_prompt, entries, want_json=True)
+    groups = parsed.get("groups")
+    if not isinstance(groups, list):
+        raise ValueError("LLM 返回缺少 groups 字段")
+    return groups
+
+
+def apply_semantic_groups(d: str) -> dict:
+    """对某日日报执行 LLM 语义去重归并（自动应用）。
+    流程：LLM 分组（锁外）→ 组内规则吸收合并 + LLM 整合解析字段（锁外）→
+    锁内按 id 重新定位、基于最新条目重算合并后写盘（成员缺失的组跳过）。
+    防错并护栏：组内条目 paper 字段指向 ≥2 篇不同论文时整组拒绝。"""
+    path = today_daily_path(d)
+    day = parse_day_items(d)
+    if len(day) < 2:
+        return {"ok": True, "groups": 0, "removed": 0}
+    by_id = {}
+    for idx, it in day:
+        iid = it.get("id", "")
+        if iid and iid not in by_id:
+            by_id[iid] = (idx, it)
+    proposals = llm_semantic_day_groups(day)
+    used, groups, rejected = set(), [], []
+    for g in proposals:
+        ids = [i for i in dict.fromkeys(g.get("ids") or [])
+               if i in by_id and i not in used]
+        if len(ids) < 2:
+            continue
+        papers = {k for i in ids
+                  for k in [normalize_url(by_id[i][1].get("paper", "") or "")] if k}
+        if len(papers) >= 2:
+            rejected.append({"ids": ids, "reason": "组内 paper 指向不同论文，拒绝合并"})
+            continue
+        used.update(ids)
+        ids.sort(key=lambda i: by_id[i][0])
+        keep_id, dup_ids = ids[0], ids[1:]
+        groups.append({
+            "keep_id": keep_id, "dup_ids": dup_ids,
+            "evidence": (str(g.get("evidence") or ""))[:200],
+            "keep": {"date": d, "item": by_id[keep_id][1]},
+            "dups": [{"date": d, "item": by_id[i][1]} for i in dup_ids],
+            "llm_fields": {},
+        })
+    if not groups:
+        return {"ok": True, "groups": 0, "removed": 0, "rejected": rejected}
+    # LLM 整合解析字段（锁外、慢调用），失败回退规则合并结果
+    llm_errors = []
+    for g in groups:
+        try:
+            vals = llm_merge_group(g)
+            for f in _LLM_MERGE_FIELDS:
+                v = (vals.get(f) or "").strip() if isinstance(vals.get(f), str) else ""
+                if v and _MERGE_TAG_PREFIX not in v:
+                    g["llm_fields"][f] = v
+        except Exception as e:  # noqa: BLE001
+            llm_errors.append(f"{g['keep_id']}: {e}")
+    applied, removed, skipped, evidences = 0, 0, 0, []
+    with _SUBMIT_LOCK, _MERGE_LOCK:
+        fresh = {}
+        for idx, it in parse_day_items(d):
+            iid = it.get("id", "")
+            if iid and iid not in fresh:
+                fresh[iid] = (idx, it)
+        replace, delete = {}, set()
+        for g in groups:
+            member_ids = [g["keep_id"]] + g["dup_ids"]
+            if any(i not in fresh for i in member_ids):
+                skipped += 1
+                continue
+            # 基于最新条目重算规则合并，再覆盖 LLM 整合的解析字段
+            merged = dict(fresh[g["keep_id"]][1])
+            for i in g["dup_ids"]:
+                merged = absorb_items(merged, fresh[i][1], d)
+            merged.update(g["llm_fields"])
+            replace[fresh[g["keep_id"]][0]] = merged
+            delete |= {fresh[i][0] for i in g["dup_ids"]}
+            applied += 1
+            removed += len(g["dup_ids"])
+            evidences.append(f"{g['keep_id']} ← {'、'.join(g['dup_ids'])}（{g['evidence']}）")
+        changed = rewrite_daily_items(path, replace=replace, delete=delete) \
+            if (replace or delete) else 0
+    if changed:
+        trigger_deploy(f"语义去重归并 {d}：{applied} 组 / 删除 {removed} 条")
+    res = {"ok": True, "groups": applied, "removed": removed,
+           "skipped_stale": skipped, "evidence": evidences}
+    if rejected:
+        res["rejected"] = rejected
+    if llm_errors:
+        res["llm_errors"] = llm_errors[:5]
+    return res
+
+
+def llm_daily_summary(d: str, day_items: list) -> str:
+    """生成日报头部摘要 markdown（两节：今日概览 / 对当前研究的启发）。失败抛异常。"""
+    entries = []
+    for _idx, it in day_items:
+        entries.append({
+            "id": it.get("id", ""),
+            "标题": it.get("title", ""),
+            "摘要": it.get("summary", "") or "",
+            "子主题": it.get("subtopic", "") or "",
+            "主题": it.get("topics", []) or [],
+            "研究标签": it.get("research", []) or [],
+        })
+    intros = []
+    for n in valid_research():
+        p = RESEARCH_DIR / f"{n}.md"
+        body = ""
+        if p.exists():
+            body = _md_body_after_front_matter(p.read_text(encoding="utf-8"))
+            body = re.sub(r"\s+", " ", body).strip()[:400]
+        intros.append({"研究": n, "简介": body})
+    system_prompt = (
+        "你是大模型研究日报的每日摘要撰写助手。输入为当天日报全部条目"
+        "（id、标题、摘要、主题、研究标签）和我们团队各研究项目的简介。"
+        "生成放在日报最上方的摘要，markdown 格式，恰好包含以下两节：\n"
+        "## 今日概览\n"
+        "3~6 个要点（- 开头）：按主线聚类概括今天发生了什么，每个要点点明方向并举代表性工作，"
+        "可注明条目数量；提到具体条目时用 [标题](#条目id) 锚点链接。不要逐条流水账。\n"
+        "## 对当前研究的启发\n"
+        "若干要点（- 开头），格式：**研究名**：一句话启发。只列今天条目确实带来关键启发的研究，"
+        "无关的研究不要出现、不要硬凑；启发必须具体（哪项工作、能为该研究带来什么），一句话说清。"
+        "条目的研究标签是主要依据，也可指出未打标签条目与某研究的关联。\n"
+        "只输出这两节 markdown 本身：以「## 今日概览」开头，不要额外解释、不要代码块。"
+    )
+    out = _llm_chat(system_prompt, {"日期": d, "条目": entries, "研究项目": intros})
+    if "## 今日概览" not in out:
+        raise ValueError("LLM 摘要输出缺少「## 今日概览」小节")
+    return out
+
+
+def write_daily_summary(d: str, block_md: str) -> bool:
+    """把摘要块写入日报正文（front matter 之后）：已有标记对则整块替换，
+    否则追加到文末。整块替换保证幂等：重复生成时摘要始终只有一份最新版。"""
+    path = today_daily_path(d)
+    if not path.exists():
+        return False
+    body = block_md.strip().replace(_SUMMARY_START, "").replace(_SUMMARY_END, "").strip()
+    block = f"{_SUMMARY_START}\n\n{body}\n\n{_SUMMARY_END}"
+    with _SUBMIT_LOCK:
+        text = path.read_text(encoding="utf-8")
+        if _SUMMARY_START in text and _SUMMARY_END in text:
+            new = re.sub(re.escape(_SUMMARY_START) + r".*?" + re.escape(_SUMMARY_END),
+                         lambda _m: block, text, count=1, flags=re.S)
+        else:
+            new = text.rstrip("\n") + "\n\n" + block + "\n"
+        if new == text:
+            return False
+        path.write_text(new, encoding="utf-8")
+    return True
+
+
+def finalize_day(d=None, use_llm=True) -> dict:
+    """当日整备（幂等，可重复执行）：
+    ① 当日 URL 去重（含 notes 内 arXiv/GitHub 链接提取）→ ② LLM 语义去重 →
+    ③ 重生成头部摘要。先去重后摘要，保证摘要不统计重复条目；
+    无 API Key 时仅做规则 URL 去重。"""
+    d = d or date.today().isoformat()
+    path = today_daily_path(d)
+    if not path.exists():
+        return {"ok": False, "date": d, "errors": [f"日报不存在：{path.name}"]}
+    res = {"ok": True, "date": d, "errors": []}
+    has_llm = use_llm and bool(load_api_key())
+    with _FINALIZE_RUN_LOCK:
+        try:
+            r = apply_dedup_groups(0, use_llm=has_llm, end_date=d)
+            if r.get("ok"):
+                res["url_dedup"] = {"groups": r.get("groups", 0),
+                                    "removed": r.get("removed", 0)}
+            else:
+                res["url_dedup"] = {"groups": 0, "removed": 0}
+                res["errors"] += [e for e in r.get("errors", []) if "没有可归并" not in e]
+        except Exception as e:  # noqa: BLE001
+            res["errors"].append(f"URL 去重失败：{e}")
+        if has_llm:
+            try:
+                res["semantic"] = apply_semantic_groups(d)
+            except Exception as e:  # noqa: BLE001
+                res["errors"].append(f"语义去重失败：{e}")
+            try:
+                day = parse_day_items(d)
+                if day:
+                    md = llm_daily_summary(d, day)
+                    if write_daily_summary(d, md):
+                        res["summary"] = "updated"
+                        trigger_deploy(f"重生成日报摘要 {d}")
+                    else:
+                        res["summary"] = "unchanged"
+            except Exception as e:  # noqa: BLE001
+                res["errors"].append(f"摘要生成失败：{e}")
+        else:
+            res["errors"].append("无 API Key 或已禁用 LLM：跳过语义去重与摘要生成")
+    return res
+
+
+def _run_pending_finalize():
+    with _FINALIZE_STATE_LOCK:
+        dates = sorted(_FINALIZE_STATE["dates"])
+        _FINALIZE_STATE["dates"].clear()
+        _FINALIZE_STATE["timer"] = None
+    for d in dates:
+        try:
+            finalize_day(d)
+        except Exception as e:  # noqa: BLE001
+            app.logger.warning("当日整备 %s 失败: %s", d, e)
+
+
+def trigger_finalize(d=None):
+    """防抖触发当日整备：短时间内多次提交合并为一次（最后一次提交后静默
+    FINALIZE_DEBOUNCE 秒执行）。批次自动提交结束时会直接 finalize_now，
+    并顺带清掉该日期的防抖待办，不会重复执行。"""
+    d = d or date.today().isoformat()
+    with _FINALIZE_STATE_LOCK:
+        _FINALIZE_STATE["dates"].add(d)
+        if _FINALIZE_STATE["timer"] is not None:
+            _FINALIZE_STATE["timer"].cancel()
+        t = threading.Timer(_FINALIZE_DEBOUNCE, _run_pending_finalize)
+        t.daemon = True
+        t.start()
+        _FINALIZE_STATE["timer"] = t
+
+
+def finalize_now(d=None) -> dict:
+    """立即执行当日整备，并清除该日期的防抖待办。"""
+    d = d or date.today().isoformat()
+    with _FINALIZE_STATE_LOCK:
+        _FINALIZE_STATE["dates"].discard(d)
+        if not _FINALIZE_STATE["dates"] and _FINALIZE_STATE["timer"] is not None:
+            _FINALIZE_STATE["timer"].cancel()
+            _FINALIZE_STATE["timer"] = None
+    return finalize_day(d)
 
 
 def merge_report_maps(topic_map: dict, sub_map: dict):
@@ -1852,6 +2193,11 @@ def auto_submit_batch_background(batch_id: str) -> bool:
             for e in batch["entries"]:
                 if e.get("status") == "review":
                     submit_review_entry(batch_id, e["idx"])
+            # 全部提交完成后立即做当日整备：URL+语义去重 → 重生成摘要（幂等）
+            try:
+                finalize_now()
+            except Exception as e:  # noqa: BLE001
+                app.logger.warning("批次 %s 当日整备失败: %s", batch_id, e)
         finally:
             with _RUNNING_LOCK:
                 _RUNNING_BATCHES.discard(batch_id)
@@ -1966,6 +2312,8 @@ def do_submit(data: dict):
         msg += f"；⚠ 已允许与 {dup['date']}（id={dup['item'].get('id', '')}）重复提交"
     # 防抖触发部署：内容已落库，稍后自动 commit+push 触发 CI 重建索引
     trigger_deploy(f"提交条目 {item['id']} → {rel}")
+    # 防抖触发当日整备（语义去重 + 摘要）：零散提交静默一段时间后统一整备
+    trigger_finalize(target_date)
     return True, {
         "ok": True,
         "item": item,
@@ -2158,6 +2506,23 @@ def api_dedup_apply():
     res = apply_dedup_groups(days, only, use_llm=bool(data.get("llm", True)))
     code = 200 if res.get("ok") else 400
     return jsonify(res), code
+
+
+@app.route("/api/finalize", methods=["POST"])
+def api_finalize():
+    """当日整备：URL+语义去重 → 重生成日报头部摘要（幂等，可重复执行）。
+    body: {date?: "YYYY-MM-DD", llm?: bool}；date 缺省为今天。
+    同步执行（含多次 LLM 调用，可能需要 1~2 分钟）。"""
+    data = request.get_json(silent=True) or {}
+    try:
+        d = parse_target_date(data.get("date") or "")
+    except ValueError as e:
+        return jsonify({"ok": False, "errors": [str(e)]}), 400
+    if data.get("llm", True):
+        res = finalize_now(d)
+    else:
+        res = finalize_day(d, use_llm=False)
+    return jsonify(res), (200 if res.get("ok") else 400)
 
 
 @app.route("/api/rebuild", methods=["POST"])
