@@ -48,7 +48,10 @@
       "Bash(echo \"exit=$?\")",
       "Bash(/opt/miniconda3/bin/python3.12 -c \"import flask, openai, bs4, requests; print\\('ok'\\)\")",
       "Bash(/opt/miniconda3/bin/conda env *)",
-      "Bash(/opt/miniconda3/bin/python3.12 *)"
+      "Bash(/opt/miniconda3/bin/python3.12 *)",
+      "mcp__plugin_oh-my-claudecode_t__session_search",
+      "Read(//Users/djh/Documents/备份/一般/工作/代码/LLM/github/**)",
+      "Bash(mdfind -name \"JevEvolve\")"
     ]
   }
 }
