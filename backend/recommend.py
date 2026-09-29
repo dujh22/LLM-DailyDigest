@@ -939,6 +939,29 @@ def date_str() -> str:
     return datetime.now().strftime("%Y-%m-%d")
 
 
+CACHE_KEEP_DAYS = 3
+_CACHE_NAME_RE = re.compile(r"^recommend-(\d{4}-\d{2}-\d{2})\.json$")
+
+
+def prune_cache(keep_days: int = CACHE_KEEP_DAYS) -> list:
+    """删除 .recommend_cache 中日期早于「今天 - (keep_days-1)」的按日缓存，返回已删文件名。
+    只处理 recommend-<date>.json 命名的文件，其他文件不动；删除失败静默跳过。"""
+    if not RECOMMEND_DIR.exists():
+        return []
+    cutoff = (datetime.now() - timedelta(days=max(keep_days, 1) - 1)).strftime("%Y-%m-%d")
+    removed = []
+    for p in RECOMMEND_DIR.iterdir():
+        m = _CACHE_NAME_RE.match(p.name)
+        if not m or m.group(1) >= cutoff:
+            continue
+        try:
+            p.unlink()
+            removed.append(p.name)
+        except OSError:
+            pass
+    return removed
+
+
 def run_collection(since_dt: datetime = None, until_dt: datetime = None):
     """完整采集编排（在后台线程执行）：公众号 → arXiv → LLM 判定 → 写缓存。
     采集窗口 [since_dt, until_dt]：默认截止=当前时间，起始=截止前 24h。
@@ -951,6 +974,7 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
     window_desc = (f"{since_dt.astimezone().strftime('%Y-%m-%d %H:%M')} ~ "
                    f"{until_dt.astimezone().strftime('%Y-%m-%d %H:%M')}")
     all_items, source_errors = [], []
+    prune_cache()
 
     try:
         # 1) 微信公众号·appmsg 接口（需凭据，实时；限流/未配置时由下两级兜底）

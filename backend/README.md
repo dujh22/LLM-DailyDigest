@@ -62,7 +62,7 @@ python app.py
 
 ### 当日推荐 `/recommend`
 
-自动采集**最近 24 小时**内与你研究相关的内容，LLM 判定相关性后勾选导入批处理，形成「推荐 → 抽取 → 提交」的完整链路。
+采集指定时间窗口（默认**最近 24 小时**）内与你研究相关的内容，LLM 判定相关性后勾选导入批处理，形成「推荐 → 抽取 → 提交」的完整链路。页面打开时只读取状态，**不会自动采集**：先选时间窗口（留空 = 最近 24h），再点「采集」触发，避免自动采集与手动选窗口后二次启动重复。
 
 **采集通道（公众号三级 + 聚合站点五源 + arXiv，按标题自动去重、高层级优先）：**
 
@@ -81,7 +81,7 @@ python app.py
 - **默认零配置可用**（官网 + RSS + arXiv）。appmsg 为可选实时增强：`/recommend` 页粘贴 mp.weixin.qq.com 的 Cookie + token（F12 找 appmsg 请求），保存时自动测试；微信限流（ret 200013，`freq control`）时自动静默回落到默认通道，只有某公众号所有通道都取不到时才报警。
 - 相关性判定：解析 `content/research/*.md` 各项目的「研究方向 + 研究范畴」构建画像，候选（标题+摘要）分 chunk 并发送 LLM 打分（`FILTER_CHUNK=40`、`FILTER_WORKERS=8`），返回 相关/不相关 + 匹配的研究项目 + 一句理由；单 chunk 失败降级为「未判定」，不影响整批。
 - arXiv 严格 24h 窗口为空时自动放宽到 48h/72h（arXiv 按公告批次入库，刚公告论文的 submittedDate 常在 1~2 天前），页面会注明实际窗口。
-- 结果按日缓存到 `.recommend_cache/recommend-<date>.json`（gitignored），同一天重开页面不重复采集；「强制重新采集」忽略缓存。
+- 结果按日缓存到 `.recommend_cache/recommend-<date>.json`（gitignored），同一天重开页面不重复采集；「强制重新采集」忽略缓存。每次启动新采集时自动清理，只保留最近 3 天（含当天）的缓存文件（`recommend.py` 的 `CACHE_KEEP_DAYS`）。
 - 「📦 导入所选到批次」：勾选条目生成批处理会话（raw = 标题 + 链接 + 摘要，链接独立成行便于批处理阶段重新抓取），跳转批次总览页走既有流程；勾选状态存 localStorage，刷新不丢。
 - 增删 RSS 公众号：改 `backend/recommend.py` 的 `WECHAT_SCHOLAR_FEEDS` 字典（feed 地址见 Wechat-Scholar 仓库 `channels.json`）。
 

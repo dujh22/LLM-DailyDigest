@@ -69,7 +69,7 @@
 <body>
 <div class="wrap">
   <h1><span>LLM-DailyDigest</span> · 当日推荐</h1>
-  <p class="sub">自动采集指定时间窗口（默认最近 24 小时）内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ 新智元 ASI 爆点页 + AIHOT 每日精选 + AIbase 快讯 + AI工具集日报 + 智源热门论文榜 + arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
+  <p class="sub">采集指定时间窗口（默认最近 24 小时）内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ 新智元 ASI 爆点页 + AIHOT 每日精选 + AIbase 快讯 + AI工具集日报 + 智源热门论文榜 + arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。页面打开不会自动采集，选好时间窗口后点「采集」开始。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
 
   <!-- ① 微信凭据 -->
   <div class="card">
@@ -194,7 +194,7 @@ function renderStatus(j){
   const w = j.window||{};
   const fmt = s=>(s||'').replace('T',' ').slice(0,16);
   const winText = w.since ? ` · 窗口：${fmt(w.since)} ~ ${fmt(w.until)}` : '';
-  $('collectMeta').textContent = (j.generated_at ? `上次采集：${j.generated_at}` : '尚未采集') +
+  $('collectMeta').textContent = (j.generated_at ? `上次采集：${j.generated_at}` : '尚未采集：选好时间窗口（留空 = 最近 24 小时）后点「采集」开始') +
     winText + (srcParts.length ? ` · ${srcParts.join(' · ')}` : '');
   if(j.running){ $('listCard').style.display='none'; $('importCard').style.display='none'; return; }
   if(j.has_cache && (j.items||[]).length){ renderItems(j); }
@@ -331,13 +331,12 @@ $('btnImport').onclick = async ()=>{
   finally{ btn.disabled=false; btn.textContent=old; }
 };
 
-// ---- 初始化：无缓存且未运行则自动采集 ----
+// ---- 初始化：只读状态，不自动采集（由用户选好时间窗口后点「采集」触发）；若后台已在跑则接上轮询 ----
 (async ()=>{
   await refreshStatus();
   try{
     const r = await fetch('/api/recommend/status'); const j = await r.json();
-    if(j.ok && !j.running && !j.has_cache) collect(false);
-    else if(j.ok && j.running) startPolling();
+    if(j.ok && j.running) startPolling();
   }catch(e){}
 })();
 </script>
