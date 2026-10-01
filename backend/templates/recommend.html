@@ -57,6 +57,13 @@
   .item .title{font-size:.92rem;margin:0 0 3px}
   .item .meta{font-size:.76rem;color:var(--muted);margin:0 0 3px;word-break:break-all}
   .item .reason{font-size:.76rem;color:var(--muted);margin:0}
+  .chip.s3{background:#dcfce7;color:#166534;font-weight:600}
+  .chip.s2{background:#dbeafe;color:#1e40af}
+  .chip.s1{background:#f3f4f6;color:#6b7280}
+  .chip.s0{background:#f3f4f6;color:#9ca3af;text-decoration:line-through}
+  .rule{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:.84rem;margin:0 0 8px}
+  .rule input[type=number]{width:72px;padding:3px 6px;border:1px solid var(--border,#ddd);border-radius:6px}
+  .rule .hint{margin:0}
   .item .summary{font-size:.8rem;color:var(--muted);margin:3px 0 0;display:-webkit-box;
     -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
   .group h3{font-size:.9rem;margin:14px 0 4px;color:var(--fg)}
@@ -114,9 +121,12 @@
   <!-- ③ 候选列表 -->
   <div class="card" id="listCard" style="display:none">
     <h2>③ 候选列表 <span class="hint" id="listMeta"></span></h2>
-    <div class="actions" style="margin:0 0 8px">
-      <button class="ghost" id="btnCheckRelevant">☑ 只勾选「相关」</button>
+    <div class="rule">
+      <label>默认勾选分数 ≥ <input type="number" id="ruleScoreMin" min="0" max="3" step="1"></label>
+      <label>每日导入上限 <input type="number" id="ruleCap" min="1" max="500" step="1"></label>
+      <button class="ghost" id="btnApplyRule">☑ 按规则勾选</button>
       <button class="ghost" id="btnUncheckAll">☐ 全部取消</button>
+      <span class="hint">相关性分：<b>3</b> 重点必读 · <b>2</b> 相关 · <b>1</b> 弱相关（默认不导入）· <b>0</b> 不相关。超出上限的候选按「分数 → 有研究标签 → 精选信源 → 时间」排序后截断。</span>
     </div>
     <div id="groups"></div>
   </div>
@@ -201,9 +211,20 @@ function renderStatus(j){
   else if(j.has_cache){ $('listCard').style.display=''; $('groups').innerHTML='<div class="empty">采集窗口内没有采集到内容。</div>'; $('importCard').style.display='none'; }
 }
 
+// 导入规则（分数阈值 / 每日上限）持久化到 localStorage，刷新、轮询结束后保持一致
+function ruleStore(){
+  try{ return JSON.parse(localStorage.getItem('recommend_rule')||'null') || {}; }catch(e){ return {}; }
+}
+function saveRule(rule){ localStorage.setItem('recommend_rule', JSON.stringify(rule)); }
+function statusUrl(){
+  const q = new URLSearchParams(); const rule = ruleStore();
+  if(rule.score_min!==undefined) q.set('score_min', rule.score_min);
+  if(rule.cap!==undefined) q.set('cap', rule.cap);
+  const qs = q.toString(); return '/api/recommend/status' + (qs ? '?'+qs : '');
+}
 async function refreshStatus(){
   try{
-    const r = await fetch('/api/recommend/status');
+    const r = await fetch(statusUrl());
     const j = await r.json();
     if(j.ok) renderStatus(j);
   }catch(e){}
@@ -230,7 +251,7 @@ function startPolling(){
   POLL = setInterval(async ()=>{
     await refreshStatus();
     try{
-      const r = await fetch('/api/recommend/status'); const j = await r.json();
+      const r = await fetch(statusUrl()); const j = await r.json();
       if(j.ok && !j.running){ clearInterval(POLL); POLL = null; }
     }catch(e){}
   }, 2000);
@@ -244,28 +265,44 @@ function checkedStore(){
 }
 function saveChecked(map){ localStorage.setItem('recommend_checked', JSON.stringify(map)); }
 
+let DEFAULT_KEYS = new Set();   // 后端按「分数阈值 + 每日上限」算出的默认勾选集合
+let IMPORT_RULE = {score_min:2, cap:40};
+const SCORE_TEXT = {3:'3 重点', 2:'2 相关', 1:'1 弱相关', 0:'0 不相关'};
+function scoreChip(it){
+  if(it.score===null || it.score===undefined){
+    // 旧缓存只有 relevant 布尔
+    if(it.relevant===true) return '<span class="chip s2">相关</span>';
+    if(it.relevant===false) return '<span class="chip s0">不相关</span>';
+    return '<span class="chip warn">未判定</span>';
+  }
+  return `<span class="chip s${it.score}">★ ${SCORE_TEXT[it.score]||it.score}</span>`;
+}
 function renderItems(j){
   ITEMS = j.items || [];
+  DEFAULT_KEYS = new Set(j.default_keys || []);
+  IMPORT_RULE = j.import_rule || IMPORT_RULE;
+  if(document.activeElement !== $('ruleScoreMin')) $('ruleScoreMin').value = IMPORT_RULE.score_min;
+  if(document.activeElement !== $('ruleCap')) $('ruleCap').value = IMPORT_RULE.cap;
   $('listCard').style.display = '';
   $('importCard').style.display = '';
   const stored = checkedStore();
-  // 按 source 分组
+  // 按 source 分组；组内按分数降序（未判定排最后）
   const groups = {};
   ITEMS.forEach(it=>{ (groups[it.source] = groups[it.source]||[]).push(it); });
-  const relChip = it => it.relevant===true ? '<span class="chip ok">相关</span>'
-    : it.relevant===false ? '<span class="chip muted">不相关</span>'
-    : '<span class="chip warn">未判定</span>';
+  const sc = it => (it.score===null||it.score===undefined) ? -1 : it.score;
+  Object.values(groups).forEach(list=>list.sort((a,b)=>sc(b)-sc(a)));
   let html = '';
   for(const [src, list] of Object.entries(groups)){
-    html += `<div class="group"><h3>${escapeHtml(src)} <span class="hint">(${list.length})</span></h3>`;
+    const nDef = list.filter(it=>DEFAULT_KEYS.has(it.key)).length;
+    html += `<div class="group"><h3>${escapeHtml(src)} <span class="hint">(${list.length} 条 · 默认导入 ${nDef})</span></h3>`;
     list.forEach(it=>{
-      const checked = it.key in stored ? !!stored[it.key] : (it.relevant===true);
+      const checked = it.key in stored ? !!stored[it.key] : DEFAULT_KEYS.has(it.key);
       const topics = (it.research||[]).map(r=>`<span class="chip topic">${escapeHtml(r)}</span>`).join('');
       html += `
       <div class="item">
         <input type="checkbox" data-key="${escapeHtml(it.key)}" ${checked?'checked':''}>
         <div class="body">
-          <p class="title">${relChip(it)}${topics} <a href="${escapeHtml(it.link)}" target="_blank">${escapeHtml(it.title||'(无标题)')}</a></p>
+          <p class="title">${scoreChip(it)}${topics} <a href="${escapeHtml(it.link)}" target="_blank">${escapeHtml(it.title||'(无标题)')}</a></p>
           <p class="meta">${escapeHtml(it.published||'')}</p>
           ${it.summary ? `<p class="summary">${escapeHtml(it.summary.slice(0,160))}</p>` : ''}
           ${it.reason ? `<p class="reason">${escapeHtml(it.reason)}</p>` : ''}
@@ -275,8 +312,10 @@ function renderItems(j){
     html += '</div>';
   }
   $('groups').innerHTML = html;
-  const nRel = ITEMS.filter(i=>i.relevant===true).length;
-  $('listMeta').textContent = `共 ${ITEMS.length} 条 · 相关 ${nRel} 条`;
+  const cnt = {3:0,2:0,1:0,0:0}; ITEMS.forEach(i=>{ if(i.score in cnt) cnt[i.score]++; });
+  const over = ITEMS.filter(i=>sc(i)>=IMPORT_RULE.score_min).length - DEFAULT_KEYS.size;
+  $('listMeta').textContent = `共 ${ITEMS.length} 条 · 重点 ${cnt[3]} · 相关 ${cnt[2]} · 弱相关 ${cnt[1]} · 不相关 ${cnt[0]}`
+    + ` · 默认导入 ${DEFAULT_KEYS.size} 条` + (over>0 ? `（另有 ${over} 条达标但超出上限未勾选）` : '');
   // 勾选事件：写 localStorage
   document.querySelectorAll('#groups input[type=checkbox]').forEach(cb=>{
     cb.onchange = ()=>{
@@ -291,16 +330,19 @@ function updateImportBtn(){
   $('btnImport').textContent = `📦 导入所选到批次 (${n})`;
   $('btnImport').disabled = !n;
 }
-$('btnCheckRelevant').onclick = ()=>{
-  const m = {};
-  document.querySelectorAll('#groups .item').forEach(div=>{
-    const cb = div.querySelector('input[type=checkbox]');
-    const key = cb.getAttribute('data-key');
-    const it = ITEMS.find(i=>i.key===key);
-    cb.checked = !!(it && it.relevant===true);
-    m[key] = cb.checked;
-  });
-  saveChecked(m); updateImportBtn();
+// 按当前阈值 / 上限向后端重新计算默认勾选集合，并应用到复选框（覆盖手动勾选记录）
+$('btnApplyRule').onclick = async ()=>{
+  saveRule({score_min: $('ruleScoreMin').value, cap: $('ruleCap').value});
+  try{
+    const r = await fetch(statusUrl()); const j = await r.json();
+    if(!j.ok){ toast('获取规则失败','err'); return; }
+    saveChecked({});
+    renderItems(j);
+    // 把按规则得到的勾选结果落盘，后续刷新/轮询不会回退
+    const m = {}; document.querySelectorAll('#groups input[type=checkbox]').forEach(cb=>{ m[cb.getAttribute('data-key')] = cb.checked; });
+    saveChecked(m);
+    toast(`已按「分数 ≥ ${j.import_rule.score_min}，上限 ${j.import_rule.cap}」勾选 ${(j.default_keys||[]).length} 条`,'ok');
+  }catch(e){ toast('网络错误：'+e,'err'); }
 };
 $('btnUncheckAll').onclick = ()=>{
   document.querySelectorAll('#groups input[type=checkbox]').forEach(cb=>cb.checked=false);

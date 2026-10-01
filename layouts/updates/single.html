@@ -126,56 +126,114 @@
       {{- end -}}
     </div>
 
-    {{- /* Structured items ([[items]] in front matter) */ -}}
+    {{- /* Structured items ([[items]] in front matter) — 分层展示
+         ① 重点（页面 featured 列表，由当日整备时 LLM 挑选）：完整卡片
+         ② 相关（有研究标签）：按研究项目分组，同子主题 ≥3 条合并为专题卡，其余折叠行
+         ③ 其他（无研究标签）：折叠行 / 专题卡，默认收起
+         小日报（无 featured 且 ≤ 30 条）保持平铺完整卡片 */ -}}
     {{- with .Params.items -}}
-      <section class="daily-items" style="margin-top:1.5rem;">
-        {{- range $i, $it := . -}}
-          {{- $id := $it.id | default (printf "item-%d" (add $i 1)) -}}
-          <article id="{{ $id }}" class="summary-card daily-item" style="margin:1.25rem 0;padding:1rem 1.25rem;border:1px solid var(--global-border-color,#eee);border-radius:12px;">
-            <h2 id="{{ $id }}-title" class="daily-item-title" style="margin:0 0 .35rem;">{{- $it.title -}}</h2>
-            {{- with $it.summary -}}<p class="single-subtitle" style="margin:0 0 .6rem;opacity:.85;">{{ . }}</p>{{- end -}}
-            {{- /* meta line */ -}}
-            <p class="post-meta-line" style="font-size:.85rem;opacity:.8;margin:.25rem 0 .6rem;">
-              {{- with $it.subtopic -}}<span>{{- dict "Class" "fa-solid fa-layer-group fa-fw me-1" | partial "plugin/icon.html" -}}子主题：{{ . }}</span>&nbsp;{{- end -}}
-              {{- with $it.source -}}<span>{{- dict "Class" "fa-solid fa-rss fa-fw me-1" | partial "plugin/icon.html" -}}{{ . }}</span>&nbsp;{{- end -}}
-              {{- with $it.research -}}
-                <span class="post-research">
-                  {{- range . -}}
-                    {{- $rp := partialCached "function/path.html" . . | printf "/research/%v" | $.Site.GetPage -}}
-                    {{- with $rp -}}&nbsp;{{- dict "Class" "fa-solid fa-flask fa-fw" | partial "plugin/icon.html" -}}<a href="{{- .RelPermalink -}}">{{- .Title -}}</a>{{- else -}}&nbsp;{{- dict "Class" "fa-solid fa-flask fa-fw" | partial "plugin/icon.html" -}}{{ . }}{{- end -}}
-                  {{- end -}}
-                </span>
-              {{- end -}}
-            </p>
-            {{- /* 主题 tag 行（放在子主题/来源之后） */ -}}
-            {{- with $it.topics -}}
-              <p class="post-topics" style="font-size:.8rem;margin:0 0 .6rem;">
-                {{- range . -}}
-                  {{- $tp := partialCached "function/path.html" . . | printf "/topic/%v" | $.Site.GetPage -}}
-                  {{- with $tp -}}<a href="{{- .RelPermalink -}}" style="text-decoration:none;margin-right:.5rem;">{{- dict "Class" "fa-solid fa-tag fa-fw" | partial "plugin/icon.html" -}}&nbsp;{{- .Title -}}</a>{{- end -}}
-                {{- end -}}
-              </p>
-            {{- end -}}
-            {{- /* resource card */ -}}
-            {{- if or $it.paper $it.code $it.dataset $it.link -}}
-              <div style="margin:.25rem 0 .6rem;padding:.5rem .75rem;border-radius:8px;background:var(--global-bg-secondary,rgba(99,102,241,.05));font-size:.9rem;">
-                {{- with $it.paper -}}<div>{{- dict "Class" "fa-solid fa-file-lines fa-fw" | partial "plugin/icon.html" -}} <strong>论文</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
-                {{- with $it.code -}}<div>{{- dict "Class" "fa-brands fa-github fa-fw" | partial "plugin/icon.html" -}} <strong>代码</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
-                {{- with $it.dataset -}}<div>{{- dict "Class" "fa-solid fa-database fa-fw" | partial "plugin/icon.html" -}} <strong>数据集</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
-                {{- with $it.link -}}<div>{{- dict "Class" "fa-solid fa-link fa-fw" | partial "plugin/icon.html" -}} <strong>原文</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
-              </div>
-            {{- end -}}
-            {{- with $it.content -}}<div class="daily-item-content">{{- . | $.RenderString (dict "display" "block") -}}</div>{{- end -}}
-            {{- with $it.purpose -}}<div class="daily-item-purpose" style="margin-top:.5rem;padding-left:.75rem;border-left:3px solid var(--global-link-hover-color,#6366f1);"><strong>用途与启示</strong>{{- . | $.RenderString (dict "display" "block") -}}</div>{{- end -}}
-            {{- with $it.notes -}}
-              <details class="daily-item-notes" style="margin-top:.5rem;font-size:.85rem;opacity:.82;">
-                <summary style="cursor:pointer;">📝 原始笔记（逐字保留）</summary>
-                <div style="margin-top:.4rem;padding:.5rem .75rem;border-radius:8px;background:var(--global-bg-secondary,rgba(99,102,241,.05));white-space:pre-wrap;word-break:break-word;">{{- . -}}</div>
-              </details>
-            {{- end -}}
-          </article>
+      {{- $page := $ -}}
+      {{- $featuredIds := $page.Params.featured | default (slice) -}}
+      {{- $flatMax := 30 -}}
+      {{- $s := newScratch -}}
+      {{- $s.Set "all" (slice) -}}
+      {{- range $i, $raw := . -}}
+        {{- $id := $raw.id | default (printf "item-%d" (add $i 1)) -}}
+        {{- $s.Add "all" (slice (merge $raw (dict "_id" $id))) -}}
+      {{- end -}}
+      {{- $all := $s.Get "all" -}}
+      {{- if and (not $featuredIds) (le (len $all) $flatMax) -}}
+        <section class="daily-items">
+          {{- range $all -}}{{- partial "daily/item-card.html" (dict "it" . "page" $page "compact" false) -}}{{- end -}}
+        </section>
+      {{- else -}}
+        {{- $s.Set "featured" (slice) -}}{{- $s.Set "related" (slice) -}}{{- $s.Set "other" (slice) -}}
+        {{- range $fid := $featuredIds -}}
+          {{- range where $all "_id" $fid -}}{{- $s.Add "featured" (slice .) -}}{{- end -}}
         {{- end -}}
-      </section>
+        {{- range $all -}}
+          {{- if in $featuredIds ._id -}}
+          {{- else if .research -}}
+            {{- $s.Add "related" (slice .) -}}
+            {{- $r := index .research 0 -}}
+            {{- $s.Add "rnames" (slice $r) -}}
+            {{- $s.Add (printf "r:%s" $r) (slice .) -}}
+          {{- else -}}
+            {{- $s.Add "other" (slice .) -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $featured := $s.Get "featured" -}}
+        {{- $related := $s.Get "related" -}}
+        {{- $other := $s.Get "other" -}}
+        {{- $rnames := uniq ($s.Get "rnames" | default (slice)) -}}
+        <section class="daily-items daily-tiered">
+          <nav class="daily-nav">
+            <span class="daily-nav-label">共 {{ len $all }} 条</span>
+            {{- if $featured }}<a href="#daily-featured">⭐ 重点 {{ len $featured }}</a>{{ end -}}
+            {{- if $related }}<a href="#daily-related">🔬 相关 {{ len $related }}</a>{{ end -}}
+            {{- if $other }}<a href="#daily-other">📎 其他 {{ len $other }}</a>{{ end -}}
+            <button type="button" class="daily-nav-btn" data-daily-toggle="open">全部展开</button>
+            <button type="button" class="daily-nav-btn" data-daily-toggle="close">全部收起</button>
+          </nav>
+
+          {{- with $featured -}}
+          <h2 id="daily-featured" class="daily-tier-title">⭐ 重点条目 <span class="daily-count">{{ len . }} 条</span></h2>
+          <p class="daily-tier-hint">由当日整备时的 LLM 从全部条目中挑选，完整展开。</p>
+          {{- range . -}}{{- partial "daily/item-card.html" (dict "it" . "page" $page "compact" false) -}}{{- end -}}
+          {{- end -}}
+
+          {{- with $related -}}
+          <h2 id="daily-related" class="daily-tier-title">🔬 相关条目 <span class="daily-count">{{ len . }} 条 · 按研究项目分组</span></h2>
+          <p class="daily-tier-hint">点击标题展开完整内容；同子主题 3 条以上合并为专题卡。</p>
+          {{- range $rname := $rnames -}}
+            {{- $grp := $s.Get (printf "r:%s" $rname) -}}
+            {{- $rp := partialCached "function/path.html" $rname $rname | printf "/research/%v" | $page.Site.GetPage -}}
+            <details class="daily-group" open>
+              <summary class="daily-group-title">
+                {{- dict "Class" "fa-solid fa-flask fa-fw me-1" | partial "plugin/icon.html" -}}
+                {{- with $rp -}}<a href="{{ .RelPermalink }}" onclick="event.stopPropagation()">{{ .Title }}</a>{{- else -}}{{ $rname }}{{- end -}}
+                <span class="daily-count">{{ len $grp }} 条</span>
+              </summary>
+              <div class="daily-group-body">
+                {{- partial "daily/cluster-or-rows.html" (dict "items" $grp "page" $page) -}}
+              </div>
+            </details>
+          {{- end -}}
+          {{- end -}}
+
+          {{- with $other -}}
+          <details class="daily-group daily-group-other" id="daily-other">
+            <summary class="daily-group-title"><h2 class="daily-tier-title">📎 其他相关 <span class="daily-count">{{ len . }} 条 · 未归入研究项目，默认收起</span></h2></summary>
+            <div class="daily-group-body">
+              {{- partial "daily/cluster-or-rows.html" (dict "items" . "page" $page) -}}
+            </div>
+          </details>
+          {{- end -}}
+        </section>
+        <script>
+        (function(){
+          // 锚点命中折叠行 / 分组时自动展开（概览里的 [标题](#id) 链接、分享链接都能直达）
+          function reveal(){
+            var h = location.hash.slice(1);
+            if(!h) return;
+            try{ h = decodeURIComponent(h); }catch(e){ /* 非法编码的 hash，按原文查找 */ }
+            var el = document.getElementById(h);
+            if(!el) return;
+            var p = el;
+            while(p){ if(p.tagName === 'DETAILS') p.open = true; p = p.parentElement; }
+            el.scrollIntoView({block:'start'});
+          }
+          window.addEventListener('hashchange', reveal);
+          if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', reveal); else reveal();
+          document.querySelectorAll('[data-daily-toggle]').forEach(function(b){
+            b.addEventListener('click', function(){
+              var open = b.getAttribute('data-daily-toggle') === 'open';
+              document.querySelectorAll('.daily-tiered details').forEach(function(d){ d.open = open; });
+            });
+          });
+        })();
+        </script>
+      {{- end -}}
     {{- end -}}
 
     {{- /* Comment */ -}}

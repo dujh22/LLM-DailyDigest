@@ -1,0 +1,38 @@
+{{- /*
+  渲染一组条目：同子主题 ≥ CLUSTER_MIN 条时合并为「专题卡」（代表作展开 1~2 条，
+  其余折叠行），否则逐条折叠行。上下文：dict "items" "page"（每次调用独立 newScratch）
+*/ -}}
+{{- $items := .items -}}
+{{- $page := .page -}}
+{{- $clusterMin := 3 -}}
+{{- $s := newScratch -}}
+{{- range $items -}}
+  {{- $st := .subtopic | default "" -}}
+  {{- $s.Add "subs" (slice $st) -}}
+  {{- $s.Add (printf "sub:%s" $st) (slice .) -}}
+{{- end -}}
+{{- range $st := uniq ($s.Get "subs") -}}
+  {{- $grp := $s.Get (printf "sub:%s" $st) -}}
+  {{- if and $st (ge (len $grp) $clusterMin) -}}
+    {{- /* 代表作优先级：手动录入或 3 分 > 其他；各自保持原顺序 */ -}}
+    {{- $hi := slice -}}{{- $lo := slice -}}
+    {{- range $grp -}}
+      {{- if or (not (isset . "score")) (eq .score 3) -}}{{- $hi = $hi | append . -}}{{- else -}}{{- $lo = $lo | append . -}}{{- end -}}
+    {{- end -}}
+    {{- $ordered := $hi | append $lo -}}
+    {{- $lead := first 2 $ordered -}}
+    {{- $rest := after 2 $ordered -}}
+    <section class="daily-cluster">
+      <h3 class="daily-cluster-title">{{- dict "Class" "fa-solid fa-layer-group fa-fw me-1" | partial "plugin/icon.html" -}}专题：{{ $st }} <span class="daily-count">{{ len $grp }} 条</span></h3>
+      {{- range $lead -}}{{- partial "daily/item-card.html" (dict "it" . "page" $page "compact" true) -}}{{- end -}}
+      {{- with $rest -}}
+        <div class="daily-cluster-rest">
+          <p class="daily-cluster-rest-label">同专题其余 {{ len . }} 条</p>
+          {{- range . -}}{{- partial "daily/item-row.html" (dict "it" . "page" $page) -}}{{- end -}}
+        </div>
+      {{- end -}}
+    </section>
+  {{- else -}}
+    {{- range $grp -}}{{- partial "daily/item-row.html" (dict "it" . "page" $page) -}}{{- end -}}
+  {{- end -}}
+{{- end -}}

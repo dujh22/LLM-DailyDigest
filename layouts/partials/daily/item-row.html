@@ -1,0 +1,21 @@
+{{- /* 折叠行：默认只露标题 + 一句摘要，点开即完整内容。上下文：dict "it" "page" */ -}}
+{{- $it := .it -}}
+<details id="{{ $it._id }}" class="daily-row">
+  <summary>
+    <span class="daily-row-title">
+      {{- if isset $it "score" -}}<span class="daily-score daily-score-{{ $it.score }}">★{{ $it.score }}</span> {{ end -}}
+      <strong>{{ $it.title }}</strong>
+      <span class="daily-row-meta">
+        {{- with $it.source }}{{ . }}{{ end -}}
+        {{- with $it.subtopic }} · {{ . }}{{ end -}}
+        {{- with $it.paper }} · <a href="{{ . | safeURL }}" target="_blank" rel="noopener" onclick="event.stopPropagation()">论文</a>{{ end -}}
+        {{- with $it.code }} · <a href="{{ . | safeURL }}" target="_blank" rel="noopener" onclick="event.stopPropagation()">代码</a>{{ end -}}
+        {{- with $it.link }} · <a href="{{ . | safeURL }}" target="_blank" rel="noopener" onclick="event.stopPropagation()">原文</a>{{ end -}}
+      </span>
+    </span>
+    {{- with $it.summary }}<span class="daily-row-summary">{{ . }}</span>{{ end -}}
+  </summary>
+  <div class="daily-row-body">
+    {{- partial "daily/item-body.html" (dict "it" $it "page" .page "compact" false) -}}
+  </div>
+</details>

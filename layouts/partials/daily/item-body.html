@@ -1,0 +1,53 @@
+{{- /*
+  日报条目正文（元信息行 / 主题 / 资源卡 / 内容 / 用途与启示 / 原始笔记）。
+  完整卡片与折叠行共用。上下文：dict "it" 条目 "page" 页面 "compact" bool
+  compact=true 时正文（content）折叠进 details，只直接展示「用途与启示」。
+*/ -}}
+{{- $it := .it -}}
+{{- $page := .page -}}
+{{- $compact := .compact | default false -}}
+<p class="post-meta-line daily-item-meta">
+  {{- if isset $it "score" -}}<span class="daily-score daily-score-{{ $it.score }}" title="推荐判定相关性分（3 重点 / 2 相关 / 1 弱相关）">★ {{ $it.score }}</span>&nbsp;{{- end -}}
+  {{- with $it.subtopic -}}<span>{{- dict "Class" "fa-solid fa-layer-group fa-fw me-1" | partial "plugin/icon.html" -}}子主题：{{ . }}</span>&nbsp;{{- end -}}
+  {{- with $it.source -}}<span>{{- dict "Class" "fa-solid fa-rss fa-fw me-1" | partial "plugin/icon.html" -}}{{ . }}</span>&nbsp;{{- end -}}
+  {{- with $it.research -}}
+    <span class="post-research">
+      {{- range . -}}
+        {{- $rp := partialCached "function/path.html" . . | printf "/research/%v" | $page.Site.GetPage -}}
+        {{- with $rp -}}&nbsp;{{- dict "Class" "fa-solid fa-flask fa-fw" | partial "plugin/icon.html" -}}<a href="{{- .RelPermalink -}}">{{- .Title -}}</a>{{- else -}}&nbsp;{{- dict "Class" "fa-solid fa-flask fa-fw" | partial "plugin/icon.html" -}}{{ . }}{{- end -}}
+      {{- end -}}
+    </span>
+  {{- end -}}
+</p>
+{{- with $it.topics -}}
+  <p class="post-topics daily-item-topics">
+    {{- range . -}}
+      {{- $tp := partialCached "function/path.html" . . | printf "/topic/%v" | $page.Site.GetPage -}}
+      {{- with $tp -}}<a href="{{- .RelPermalink -}}">{{- dict "Class" "fa-solid fa-tag fa-fw" | partial "plugin/icon.html" -}}&nbsp;{{- .Title -}}</a>{{- end -}}
+    {{- end -}}
+  </p>
+{{- end -}}
+{{- if or $it.paper $it.code $it.dataset $it.link -}}
+  <div class="daily-item-resources">
+    {{- with $it.paper -}}<div>{{- dict "Class" "fa-solid fa-file-lines fa-fw" | partial "plugin/icon.html" -}} <strong>论文</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
+    {{- with $it.code -}}<div>{{- dict "Class" "fa-brands fa-github fa-fw" | partial "plugin/icon.html" -}} <strong>代码</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
+    {{- with $it.dataset -}}<div>{{- dict "Class" "fa-solid fa-database fa-fw" | partial "plugin/icon.html" -}} <strong>数据集</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
+    {{- with $it.link -}}<div>{{- dict "Class" "fa-solid fa-link fa-fw" | partial "plugin/icon.html" -}} <strong>原文</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
+  </div>
+{{- end -}}
+{{- with $it.content -}}
+  {{- if $compact -}}
+    <details class="daily-item-content-fold"><summary>📄 详细内容</summary>
+      <div class="daily-item-content">{{- . | $page.RenderString (dict "display" "block") -}}</div>
+    </details>
+  {{- else -}}
+    <div class="daily-item-content">{{- . | $page.RenderString (dict "display" "block") -}}</div>
+  {{- end -}}
+{{- end -}}
+{{- with $it.purpose -}}<div class="daily-item-purpose"><strong>用途与启示</strong>{{- . | $page.RenderString (dict "display" "block") -}}</div>{{- end -}}
+{{- with $it.notes -}}
+  <details class="daily-item-notes">
+    <summary>📝 原始笔记（逐字保留）</summary>
+    <div class="daily-item-notes-body">{{- . -}}</div>
+  </details>
+{{- end -}}

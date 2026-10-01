@@ -106,6 +106,11 @@ LLM_MODEL = os.environ.get("LLM_MODEL", "gpt-5.6-sol")
 
 FILTER_CHUNK = 40          # 每次 LLM 判定的候选数
 FILTER_WORKERS = 8         # 判定并发数
+# 相关性分级（0~3）：3 重点必读 / 2 相关值得了解 / 1 弱相关仅领域相近 / 0 不相关。
+# 推荐页默认只勾选 score >= IMPORT_SCORE_MIN 的候选，并按分数、研究标签、来源排序后
+# 截断到 DAILY_IMPORT_CAP 条，从源头控制每日日报篇幅（可用环境变量覆盖）。
+IMPORT_SCORE_MIN = max(0, min(3, int(os.environ.get("RECOMMEND_IMPORT_SCORE_MIN", "2"))))
+DAILY_IMPORT_CAP = max(1, int(os.environ.get("RECOMMEND_DAILY_CAP", "40")))
 
 _UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36")
@@ -831,11 +836,15 @@ def _filter_chunk(profile, chunk, api_key):
         for it in chunk)
     prompt = (
         "你是科研日报的相关性判定助手。下面是用户的【研究项目列表】和【候选内容列表】"
-        "（每行格式：编号 | 标题 | 摘要）。请判断每条候选与任一研究项目是否相关。"
-        "判定标准：内容的方法、问题、领域与研究方向有实质关联才算相关；"
-        "仅同为 AI/LLM 泛泛新闻不算相关。严格返回 JSON 数组，不要代码块：\n"
-        '[{"idx":编号,"relevant":true/false,"research":["匹配的研究项目名",...],"reason":"一句中文理由"}]\n'
-        "research 只能从研究项目列表中选，无匹配给空数组。\n\n"
+        "（每行格式：编号 | 标题 | 摘要）。请给每条候选打一个 0~3 的相关性分数：\n"
+        "3 = 重点必读：直接命中某研究项目的核心问题或核心方法，或是会改变该方向判断的重大发布/结果；\n"
+        "2 = 相关：与某研究项目的方法、问题有实质关联，值得了解，但不是核心；\n"
+        "1 = 弱相关：仅领域相近、泛泛沾边（同为 LLM/智能体话题但不涉及研究项目关心的具体问题）；\n"
+        "0 = 不相关。\n"
+        "打分要严格：每批候选中 3 分应是少数，拿不准时降一档。"
+        "research 为该候选匹配到的研究项目名，只能从研究项目列表中选；分数 >= 2 时至少给一个，"
+        "分数 <= 1 时给空数组。严格返回 JSON 数组，不要代码块：\n"
+        '[{"idx":编号,"score":0~3,"research":["匹配的研究项目名",...],"reason":"一句中文理由"}]\n\n'
         f"研究项目列表：\n{prof_text}\n\n候选内容列表：\n{cand_text}"
     )
     client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
@@ -857,7 +866,16 @@ def _filter_chunk(profile, chunk, api_key):
         except (TypeError, ValueError):
             continue
         research = [str(r) for r in (v.get("research") or []) if str(r) in valid_names]
-        out[idx] = {"relevant": bool(v.get("relevant")),
+        try:
+            score = int(v.get("score"))
+        except (TypeError, ValueError):
+            # 兼容旧格式（只有 relevant 布尔）：相关=2，不相关=0
+            score = 2 if v.get("relevant") else 0
+        score = max(0, min(3, score))
+        if score <= 1:
+            research = []
+        out[idx] = {"score": score,
+                    "relevant": score >= IMPORT_SCORE_MIN,
                     "research": research,
                     "reason": str(v.get("reason") or "")[:120]}
     return out
@@ -865,11 +883,13 @@ def _filter_chunk(profile, chunk, api_key):
 
 def filter_relevance(candidates, api_key=None):
     """对全部候选做 LLM 相关性判定（分 chunk 并发）。
-    就地把结果合并进每个候选：relevant(True/False/None)、research、reason。
-    chunk 级失败 → 该批候选保持 relevant=None（前端显示「未判定」）。"""
+    就地把结果合并进每个候选：score(0~3 / None)、relevant(True/False/None)、research、reason。
+    relevant = score >= IMPORT_SCORE_MIN，仅为兼容旧前端/缓存保留。
+    chunk 级失败 → 该批候选保持 score=None / relevant=None（前端显示「未判定」）。"""
     api_key = api_key or _load_api_key()
     if not api_key:
         for c in candidates:
+            c.setdefault("score", None)
             c.setdefault("relevant", None)
             c.setdefault("research", [])
             c.setdefault("reason", "无 API Key，未判定")
@@ -891,15 +911,64 @@ def filter_relevance(candidates, api_key=None):
     for c in candidates:
         v = verdicts.get(c["_i"])
         if v:
+            c["score"] = v["score"]
             c["relevant"] = v["relevant"]
             c["research"] = v["research"]
             c["reason"] = v["reason"]
         else:
+            c["score"] = None
             c["relevant"] = None
             c["research"] = []
             c["reason"] = c.get("reason") or "LLM 判定失败，未判定"
         del c["_i"]
     return candidates
+
+
+# 来源优先级：同分时非 arXiv 的精选信源（人工编辑过的新闻/榜单）排在 arXiv 原始论文流之前
+_SOURCE_RANK = {"arXiv": 1}
+
+
+def effective_score(it: dict):
+    """候选的有效分数：新判定直接用 score；旧缓存只有 relevant 布尔时相关=2、不相关=0；
+    未判定返回 None。"""
+    sc = it.get("score")
+    if sc is not None:
+        return int(sc)
+    rel = it.get("relevant")
+    if rel is None:
+        return None
+    return 2 if rel else 0
+
+
+def import_rank_key(it: dict):
+    """推荐候选的导入排序键：分数降序 → 有研究标签优先 → 精选信源优先。
+    发布时间降序由 default_import_keys 预排序提供（稳定排序叠加）。"""
+    score = effective_score(it)
+    score = -1 if score is None else score
+    return (-score,
+            0 if it.get("research") else 1,
+            _SOURCE_RANK.get(it.get("source", ""), 0))
+
+
+def parse_int_arg(v, default: int, lo: int, hi: int) -> int:
+    """解析查询参数为 [lo, hi] 内的 int；空/非法返回 default。"""
+    try:
+        n = int(str(v).strip())
+    except (TypeError, ValueError):
+        return default
+    return max(lo, min(hi, n))
+
+
+def default_import_keys(items: list, score_min: int = None, cap: int = None) -> list:
+    """按分数阈值 + 每日上限计算默认勾选导入的候选 key 列表（前端初始勾选依据）。"""
+    score_min = IMPORT_SCORE_MIN if score_min is None else score_min
+    cap = DAILY_IMPORT_CAP if cap is None else cap
+    picked = [it for it in items
+              if effective_score(it) is not None and effective_score(it) >= score_min]
+    # 稳定排序：先按发布时间降序，再按主键排序，保证同分同类时新内容靠前
+    picked.sort(key=lambda it: it.get("published") or "", reverse=True)
+    picked.sort(key=import_rank_key)
+    return [it["key"] for it in picked[:cap]]
 
 
 def _safe_filter_chunk(profile, chunk, api_key):

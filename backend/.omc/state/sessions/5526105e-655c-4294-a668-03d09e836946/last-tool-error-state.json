@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd \\\"/Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest/backend\\\" && timeout 120 ./venv/bin/python - <<'EOF'\\nimport sys, tempfile, pathlib, traceback\\nsys.argv=[\\\"x\\\"]\\nimport ap...",
+  "error": "Exit code 127\n(eval):1: command not found: timeout",
+  "timestamp": "2026-10-01T08:37:14.209Z",
+  "retry_count": 1
+}

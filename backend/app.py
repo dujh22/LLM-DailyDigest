@@ -244,6 +244,31 @@ def _parse_item_block(block: str):
         return None
 
 
+def parse_score(v):
+    """把表单/推荐传来的相关性分数规范为 0~3 的 int；空/非法返回 None（不写入条目）。"""
+    if v is None or v == "":
+        return None
+    try:
+        n = int(v)
+    except (TypeError, ValueError):
+        return None
+    return max(0, min(3, n))
+
+
+def _attach_score(ordered: dict, item: dict) -> None:
+    """序列化时仅在条目带有效 score 时写入（手动录入的条目没有该字段；模板在专题卡内
+    把无 score 视同 3 分优先展开）。放在 research 之后、source 之前，便于阅读。"""
+    sc = parse_score(item.get("score"))
+    if sc is None:
+        return
+    keys = list(ordered.keys())
+    pos = keys.index("source")
+    items = list(ordered.items())
+    items.insert(pos, ("score", sc))
+    ordered.clear()
+    ordered.update(items)
+
+
 def _reserialize_item_block(item: dict) -> str:
     """按固定键顺序重写单个 item 块（与 serialize_item_block 一致，复用 tomli_w）。"""
     import tomli_w
@@ -263,6 +288,7 @@ def _reserialize_item_block(item: dict) -> str:
         "purpose": item.get("purpose", ""),
         "notes": item.get("notes", ""),
     }
+    _attach_score(ordered, item)
     return tomli_w.dumps({"items": [ordered]}).rstrip("\n")
 
 
@@ -502,6 +528,10 @@ def absorb_items(kept: dict, dup: dict, dup_date: str) -> dict:
     an, bn = (merged.get("notes") or "").strip(), (dup.get("notes") or "").strip()
     if bn and bn != an:
         merged["notes"] = f"{an}\n\n{tag}\n{bn}" if an else bn
+    scores = [x for x in (parse_score(kept.get("score")), parse_score(dup.get("score")))
+              if x is not None]
+    if scores:
+        merged["score"] = max(scores)
     return merged
 
 
@@ -962,18 +992,27 @@ def apply_semantic_groups(d: str) -> dict:
     return res
 
 
-def llm_daily_summary(d: str, day_items: list) -> str:
-    """生成日报头部摘要 markdown（两节：今日概览 / 对当前研究的启发）。失败抛异常。"""
+FEATURED_MIN = 8    # 每日「重点条目」数量区间（LLM 挑选，模板完整展开，其余折叠）
+FEATURED_MAX = 15
+
+
+def llm_daily_summary(d: str, day_items: list):
+    """生成日报头部摘要 markdown（两节：今日概览 / 对当前研究的启发），
+    并让 LLM 同时挑出当日「重点条目」id 列表。返回 (markdown, featured_ids)。失败抛异常。"""
     entries = []
     for _idx, it in day_items:
-        entries.append({
+        e = {
             "id": it.get("id", ""),
             "标题": it.get("title", ""),
             "摘要": it.get("summary", "") or "",
             "子主题": it.get("subtopic", "") or "",
             "主题": it.get("topics", []) or [],
             "研究标签": it.get("research", []) or [],
-        })
+            "来源": it.get("source", "") or "",
+        }
+        sc = parse_score(it.get("score"))
+        e["相关性分"] = sc if sc is not None else "手动录入"
+        entries.append(e)
     intros = []
     for n in valid_research():
         p = RESEARCH_DIR / f"{n}.md"
@@ -982,33 +1021,102 @@ def llm_daily_summary(d: str, day_items: list) -> str:
             body = _md_body_after_front_matter(p.read_text(encoding="utf-8"))
             body = re.sub(r"\s+", " ", body).strip()[:400]
         intros.append({"研究": n, "简介": body})
+    n_items = len(entries)
+    want_min = min(FEATURED_MIN, n_items)
+    want_max = min(FEATURED_MAX, n_items)
     system_prompt = (
         "你是大模型研究日报的每日摘要撰写助手。输入为当天日报全部条目"
-        "（id、标题、摘要、主题、研究标签）和我们团队各研究项目的简介。"
-        "生成放在日报最上方的摘要，markdown 格式，恰好包含以下两节：\n"
+        "（id、标题、摘要、主题、研究标签、来源、相关性分）和我们团队各研究项目的简介。"
+        "请完成两件事。\n\n"
+        "【一】生成放在日报最上方的摘要，markdown 格式，恰好包含以下两节：\n"
         "## 今日概览\n"
         "3~6 个要点（- 开头）：按主线聚类概括今天发生了什么，每个要点点明方向并举代表性工作，"
-        "可注明条目数量；提到具体条目时用 [标题](#条目id) 锚点链接。不要逐条流水账。\n"
+        "可注明条目数量；提到具体条目时用 [标题](#<id>) 锚点链接，<id> 替换为该条目 id 字段的原文"
+        "（例如 id 为 memcodex 的条目写成 [MemCodex……](#memcodex)），不要加任何前缀。不要逐条流水账。\n"
         "## 对当前研究的启发\n"
         "若干要点（- 开头），格式：**研究名**：一句话启发。只列今天条目确实带来关键启发的研究，"
         "无关的研究不要出现、不要硬凑；启发必须具体（哪项工作、能为该研究带来什么），一句话说清。"
-        "条目的研究标签是主要依据，也可指出未打标签条目与某研究的关联。\n"
-        "只输出这两节 markdown 本身：以「## 今日概览」开头，不要额外解释、不要代码块。"
+        "条目的研究标签是主要依据，也可指出未打标签条目与某研究的关联。\n\n"
+        f"【二】从全部条目中挑出 {want_min}~{want_max} 条「重点条目」，按重要性降序给出 id 列表。"
+        "重点条目会在日报中完整展开，其余条目折叠只显示标题，所以要挑真正值得通读的：\n"
+        "- 优先：相关性分为 3 或「手动录入」的、带研究标签的、概览中作为代表性工作点名的；\n"
+        "- 优先：重大发布 / 改变方向判断的结果 / 对某研究项目有直接可用启发的工作；\n"
+        "- 同一子主题下多篇相近论文只挑最强的 1~2 篇，其余留给折叠区；\n"
+        "- 不要为了凑数把弱相关条目选进来，宁少勿滥。\n\n"
+        "输出格式：先输出两节 markdown（以「## 今日概览」开头），然后另起一行输出且仅输出一行\n"
+        "<!-- featured: id1, id2, id3 -->\n"
+        "（HTML 注释，id 用英文逗号分隔，只能取自输入条目的 id）。不要代码块、不要额外解释。"
     )
-    out = _llm_chat(system_prompt, {"日期": d, "条目": entries, "研究项目": intros})
+    raw = _llm_chat(system_prompt, {"日期": d, "条目": entries, "研究项目": intros})
+    m = _FEATURED_RE.search(raw)
+    out = _FEATURED_RE.sub("", raw).strip()
+    # 兜底：模型偶尔把提示里的占位前缀原样写进锚点（如 #条目xxx / #idxxx），统一清掉
+    out = re.sub(r"\]\(#(?:条目[:：]?|(?:id|ID)[:：])\s*", "](#", out)
     if "## 今日概览" not in out:
         raise ValueError("LLM 摘要输出缺少「## 今日概览」小节")
-    return out
+    if not m:
+        # 模型漏写 featured 行：摘要仍然可用，重点列表保持页面现状（返回 None 表示不改动）
+        app.logger.warning("日报 %s 摘要缺少 <!-- featured --> 行，重点列表未更新", d)
+        return out, None
+    valid_ids = {e["id"] for e in entries if e["id"]}
+    featured = []
+    for i in re.split(r"[,，\s]+", m.group(1)):
+        i = i.strip().strip("`\"'#")
+        if i in valid_ids and i not in featured:
+            featured.append(i)
+    if not featured:
+        app.logger.warning("日报 %s 的 featured 列表未命中任何条目 id，重点列表未更新", d)
+        return out, None
+    return out, featured[:FEATURED_MAX]
 
 
-def write_daily_summary(d: str, block_md: str) -> bool:
+_FEATURED_RE = re.compile(r"<!--\s*featured\s*[:：]\s*(.*?)\s*-->", re.S)
+
+
+# 匹配已有的页面级列表：单行形式 `key = [...]` 或 tomli_w 的多行形式（`]` 独占一行）；
+# 结尾允许换行或文件末尾（无条目的日报 prelude 不带尾随换行）。
+_PAGE_LIST_RE_TMPL = r"^{key}\s*=\s*(?:\[[^\n]*\]|\[.*?^\])[ \t]*(?:\n|\Z)"
+
+
+def write_page_list_param(path: Path, key: str, values: list) -> bool:
+    """把页面级 TOML 列表参数（如 featured）写入日报 front matter 的 prelude
+    （第一个 [[items]] 之前；TOML 要求顶层键必须在表数组之前）。已存在则整体替换，
+    值相同时不写盘。调用方负责持锁。返回是否改动。"""
+    import tomli_w
+    text = path.read_text(encoding="utf-8")
+    pre, fm_body, post = split_front_matter(text)
+    if fm_body is None:
+        return False
+    prelude, blocks = split_item_blocks(fm_body)
+    block = tomli_w.dumps({key: list(values)})          # 'key = [\n  "a",\n]\n'
+    pat = re.compile(_PAGE_LIST_RE_TMPL.format(key=re.escape(key)), re.M | re.S)
+    if pat.search(prelude):
+        new_prelude = pat.sub(lambda _m: block, prelude, count=1)
+    else:
+        new_prelude = prelude.rstrip("\n") + "\n" + block
+    if new_prelude == prelude:
+        return False
+    # 有条目：prelude 与首个 [[items]] 之间恰好一个空行；无条目：不留尾随空行
+    new_prelude = new_prelude.rstrip("\n") + ("\n\n" if blocks else "")
+    # 与 split_front_matter 的切分方式对称：fm_body 与闭合 +++ 之间补回换行
+    new_text = pre + new_prelude + "".join(blocks) + "\n" + post
+    if new_text == text:
+        return False
+    path.write_text(new_text, encoding="utf-8")
+    return True
+
+
+def write_daily_summary(d: str, block_md: str, featured: list = None) -> bool:
     """把摘要块写入日报正文（front matter 之后）：已有标记对则整块替换，
-    否则追加到文末。整块替换保证幂等：重复生成时摘要始终只有一份最新版。"""
+    否则追加到文末。整块替换保证幂等：重复生成时摘要始终只有一份最新版。
+    featured 不为 None 时同时把重点条目 id 列表写入页面 front matter（featured = [...]）。
+    返回是否有任何改动。"""
     path = today_daily_path(d)
     if not path.exists():
         return False
     body = block_md.strip().replace(_SUMMARY_START, "").replace(_SUMMARY_END, "").strip()
     block = f"{_SUMMARY_START}\n\n{body}\n\n{_SUMMARY_END}"
+    changed = False
     with _SUBMIT_LOCK:
         text = path.read_text(encoding="utf-8")
         if _SUMMARY_START in text and _SUMMARY_END in text:
@@ -1016,10 +1124,12 @@ def write_daily_summary(d: str, block_md: str) -> bool:
                          lambda _m: block, text, count=1, flags=re.S)
         else:
             new = text.rstrip("\n") + "\n\n" + block + "\n"
-        if new == text:
-            return False
-        path.write_text(new, encoding="utf-8")
-    return True
+        if new != text:
+            path.write_text(new, encoding="utf-8")
+            changed = True
+        if featured is not None:
+            changed = write_page_list_param(path, "featured", featured) or changed
+    return changed
 
 
 def finalize_day(d=None, use_llm=True) -> dict:
@@ -1052,8 +1162,9 @@ def finalize_day(d=None, use_llm=True) -> dict:
             try:
                 day = parse_day_items(d)
                 if day:
-                    md = llm_daily_summary(d, day)
-                    if write_daily_summary(d, md):
+                    md, featured = llm_daily_summary(d, day)
+                    res["featured"] = len(featured) if featured is not None else "unchanged"
+                    if write_daily_summary(d, md, featured):
                         res["summary"] = "updated"
                         trigger_deploy(f"重生成日报摘要 {d}")
                     else:
@@ -1398,6 +1509,7 @@ def serialize_item_block(item: dict) -> str:
         "purpose": item.get("purpose", ""),
         "notes": item.get("notes", ""),
     }
+    _attach_score(ordered, item)
     return tomli_w.dumps({"items": [ordered]}).rstrip("\n")
 
 
@@ -1459,6 +1571,9 @@ def build_item_from_form(data: dict) -> dict:
         "purpose": (data.get("purpose") or "").strip(),
         "notes": data.get("notes", ""),
     }
+    sc = parse_score(data.get("score"))
+    if sc is not None:
+        item["score"] = sc
     # 自动生成 id（纯中文/过短标题无法 slug 时，退化为 item-N，避免冲突）
     if not item["id"]:
         slug = slugify(item["title"])
@@ -2136,12 +2251,19 @@ def submit_review_entry(batch_id: str, idx: int) -> dict:
     payload = {k: data.get(k) or "" for k in
                ("title", "subtopic", "source", "summary", "paper",
                 "code", "dataset", "link", "content", "purpose")}
+    meta = entry.get("meta") or {}
+    research = list(data.get("research") or [])
+    for r in meta.get("research") or []:
+        if r not in research:
+            research.append(r)
     payload.update({
         "id": "",
         "topics": topics,
-        "research": data.get("research") or [],
+        "research": research,
         "notes": entry.get("raw", ""),
     })
+    if meta.get("score") is not None:
+        payload["score"] = meta["score"]
     ok, res = do_submit(payload)
     if ok:
         fields = {"status": "done", "error": "",
@@ -2237,6 +2359,7 @@ def index():
                     "error": entry.get("error") or "",
                     "resolved_links": entry.get("resolved_links") or [],
                     "unresolved_links": entry.get("unresolved_links") or [],
+                    "meta": entry.get("meta") or {},
                 }
     return render_template("index.html", topics=valid_topics(),
                            research=valid_research(), batch=batch_ctx)
@@ -2705,6 +2828,12 @@ def api_recommend_status():
         return err
     state = recommend_mod.get_state()
     cache = recommend_mod.load_cache()
+    items = (cache or {}).get("items", [])
+    # 前端可通过 ?score_min=&cap= 调整默认勾选规则（不改缓存，仅影响返回的 default_keys）
+    score_min = recommend_mod.parse_int_arg(request.args.get("score_min"),
+                                            recommend_mod.IMPORT_SCORE_MIN, 0, 3)
+    cap = recommend_mod.parse_int_arg(request.args.get("cap"),
+                                      recommend_mod.DAILY_IMPORT_CAP, 1, 10000)
     return jsonify({
         "ok": True,
         "running": state["running"],
@@ -2715,7 +2844,11 @@ def api_recommend_status():
         "sources": (cache or {}).get("sources", {}),
         "errors": (cache or {}).get("errors", []),
         "credentials": recommend_mod.credentials_status(),
-        "items": (cache or {}).get("items", []),
+        "items": items,
+        "import_rule": {"score_min": score_min, "cap": cap,
+                        "default_score_min": recommend_mod.IMPORT_SCORE_MIN,
+                        "default_cap": recommend_mod.DAILY_IMPORT_CAP},
+        "default_keys": recommend_mod.default_import_keys(items, score_min, cap),
     })
 
 
@@ -2801,12 +2934,19 @@ def api_recommend_to_batch():
                 f"链接：{it.get('link', '')}\n"
                 f"摘要：{(it.get('summary') or '').strip()[:800]}")
     batch_id = new_batch_id()
+    # 推荐判定结果（分数 / 匹配研究项目 / 理由）随条目带入批处理：
+    # 提交时 research 与抽取结果取并集、score 写入条目，避免判定信息在导入环节丢失。
+    def to_meta(it):
+        return {"score": it.get("score"),
+                "research": list(it.get("research") or []),
+                "reason": it.get("reason") or ""}
     batch = {
         "batch_id": batch_id,
         "created_at": batch_id.split("-")[0],
         "title": f"当日推荐 {batch_id.split('-')[0]}",
         "entries": [{"idx": i, "raw": to_raw(it), "status": "pending",
-                     "item_id": "", "file": ""} for i, it in enumerate(picked)],
+                     "item_id": "", "file": "", "meta": to_meta(it)}
+                    for i, it in enumerate(picked)],
     }
     save_batch(batch)
     return jsonify({"ok": True, "batch_id": batch_id,

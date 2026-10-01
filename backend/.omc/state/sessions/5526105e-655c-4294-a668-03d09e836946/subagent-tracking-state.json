@@ -1,0 +1,26 @@
+{
+  "agents": [
+    {
+      "agent_id": "areviewer-0faf2f3712e1fc5f",
+      "agent_type": "reviewer",
+      "started_at": "2026-10-01T08:55:00.587Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-10-01T08:56:37.784Z",
+      "duration_ms": 97197
+    },
+    {
+      "agent_id": "areviewer2-633d66030e349447",
+      "agent_type": "reviewer2",
+      "started_at": "2026-10-01T08:54:56.174Z",
+      "parent_mode": "none",
+      "status": "completed",
+      "completed_at": "2026-10-01T08:56:13.690Z",
+      "duration_ms": 77516
+    }
+  ],
+  "total_spawned": 5,
+  "total_completed": 5,
+  "total_failed": 0,
+  "last_updated": "2026-10-01T08:56:37.886Z"
+}

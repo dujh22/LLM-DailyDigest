@@ -261,7 +261,10 @@ function applyExtraction(d, resolvedLinks, unresolvedLinks){
   d = d || {};
   F.forEach(id=>setVal(id, d[id]));
   if(Array.isArray(d.topics)) checkTopics(d.topics);
-  if(Array.isArray(d.research)) checkGroup('research', d.research);
+  // 研究项目：抽取结果 ∪ 推荐页判定时匹配到的项目（批次 meta），避免判定信息在导入环节丢失
+  const recResearch = (BATCH && BATCH.meta && Array.isArray(BATCH.meta.research)) ? BATCH.meta.research : [];
+  const research = [...new Set([...(Array.isArray(d.research)?d.research:[]), ...recResearch])];
+  if(research.length) checkGroup('research', research);
   document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove());
   if(Array.isArray(d.suggested_topics)) d.suggested_topics.forEach(t=>addTopicChip(t, true, false));
   // notes 只回填用户原始信息（绝不写入抓取/补充内容）
@@ -334,6 +337,8 @@ $('btnSubmit').onclick = async (force)=>{
   payload.date = $('date').value;            // 目标日报日期（迁移历史用，留空=今天）
   payload.topics = getCheckedTopics();
   payload.research = getCheckedResearch();
+  // 推荐判定的相关性分（0~3）随条目写入日报，供模板分层展示；手动录入无此字段
+  if(BATCH && BATCH.meta && BATCH.meta.score!==null && BATCH.meta.score!==undefined) payload.score = BATCH.meta.score;
   if(force || $('allowDup').checked) payload.allow_dup = 1;
   const btn = $('btnSubmit'); btn.disabled=true; const old=btn.textContent; btn.textContent='提交中…';
   try{

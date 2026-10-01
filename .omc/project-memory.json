@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1790731050667,
+  "lastScanned": 1790840611482,
   "projectRoot": "/Users/djh/Documents/备份/一般/工作/代码/LLM/github/LLM-DailyDigest",
   "techStack": {
     "languages": [],
@@ -39,7 +39,7 @@
       "path": "Website",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1790731050648,
+      "lastAccessed": 1790840611464,
       "keyFiles": [
         "readme.md"
       ]
@@ -48,7 +48,7 @@
       "path": "archetypes",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1790731050649,
+      "lastAccessed": 1790840611465,
       "keyFiles": [
         "default.md",
         "updates.md"
@@ -58,7 +58,7 @@
       "path": "assets",
       "purpose": "Static assets",
       "fileCount": 2,
-      "lastAccessed": 1790731050650,
+      "lastAccessed": 1790840611466,
       "keyFiles": [
         "jsconfig.json"
       ]
@@ -67,7 +67,7 @@
       "path": "backend",
       "purpose": null,
       "fileCount": 9,
-      "lastAccessed": 1790731050651,
+      "lastAccessed": 1790840611467,
       "keyFiles": [
         "README.md",
         "app.py",
@@ -80,7 +80,7 @@
       "path": "co_learner",
       "purpose": null,
       "fileCount": 18,
-      "lastAccessed": 1790731050653,
+      "lastAccessed": 1790840611468,
       "keyFiles": [
         "README.md",
         "README_ZH.md",
@@ -93,14 +93,14 @@
       "path": "content",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1790731050656,
+      "lastAccessed": 1790840611468,
       "keyFiles": []
     },
     "layouts": {
       "path": "layouts",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1790731050656,
+      "lastAccessed": 1790840611469,
       "keyFiles": [
         "index.json"
       ]
@@ -109,7 +109,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 8,
-      "lastAccessed": 1790731050657,
+      "lastAccessed": 1790840611470,
       "keyFiles": [
         "404.html",
         "index.html",
@@ -122,21 +122,21 @@
       "path": "resources",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1790731050657,
+      "lastAccessed": 1790840611471,
       "keyFiles": []
     },
     "themes": {
       "path": "themes",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1790731050658,
+      "lastAccessed": 1790840611473,
       "keyFiles": []
     },
     "tools": {
       "path": "tools",
       "purpose": null,
       "fileCount": 30,
-      "lastAccessed": 1790731050658,
+      "lastAccessed": 1790840611474,
       "keyFiles": [
         "arx.py",
         "arx_batch_to_ch.py",
@@ -146,91 +146,6 @@
       ]
     }
   },
-  "hotPaths": [
-    {
-      "path": "backend/app.py",
-      "accessCount": 42,
-      "lastAccessed": 1790568720166,
-      "type": "file"
-    },
-    {
-      "path": "backend/recommend.py",
-      "accessCount": 21,
-      "lastAccessed": 1790569656653,
-      "type": "file"
-    },
-    {
-      "path": "backend/templates/recommend.html",
-      "accessCount": 11,
-      "lastAccessed": 1790568588243,
-      "type": "file"
-    },
-    {
-      "path": "backend/README.md",
-      "accessCount": 11,
-      "lastAccessed": 1790569665829,
-      "type": "file"
-    },
-    {
-      "path": "README_ZN.md",
-      "accessCount": 2,
-      "lastAccessed": 1788972944422,
-      "type": "file"
-    },
-    {
-      "path": "README.md",
-      "accessCount": 2,
-      "lastAccessed": 1788972997501,
-      "type": "file"
-    },
-    {
-      "path": "backend/deploy.py",
-      "accessCount": 2,
-      "lastAccessed": 1790066745538,
-      "type": "file"
-    },
-    {
-      "path": "backend/backfill_llm_merge.py",
-      "accessCount": 1,
-      "lastAccessed": 1789626636180,
-      "type": "file"
-    },
-    {
-      "path": "layouts/updates/single.html",
-      "accessCount": 1,
-      "lastAccessed": 1790066396027,
-      "type": "file"
-    },
-    {
-      "path": "content/research/DataEvolve.md",
-      "accessCount": 1,
-      "lastAccessed": 1790217965554,
-      "type": "file"
-    },
-    {
-      "path": "content/research/Awesome-RSI.md",
-      "accessCount": 1,
-      "lastAccessed": 1790217978783,
-      "type": "file"
-    },
-    {
-      "path": "content/research/EvalEvolve.md",
-      "accessCount": 1,
-      "lastAccessed": 1790223319225,
-      "type": "file"
-    },
-    {
-      "path": "content/research/JevEvolve.md",
-      "accessCount": 1,
-      "lastAccessed": 1790223884825,
-      "type": "file"
-    },
-    {
-      "path": "content/research/EnvironmentEvolve.md",
-      "accessCount": 1,
-      "lastAccessed": 1790223885150,
-      "type": "file"
-    }
-  ],
+  "hotPaths": [],
   "userDirectives": []
 }
