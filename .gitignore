@@ -17,4 +17,7 @@ venv/
 # 当日推荐：公众号凭据（绝不入库）与按日采集缓存
 wechat_credentials.json
 .recommend_cache/
-/.omc
+# oh-my-claudecode 运行时状态（任意层级，如 .omc/ 与 backend/.omc/）；
+# 仅 .omc/skills/ 下的项目级技能允许入库
+**/.omc/*
+!**/.omc/skills/
