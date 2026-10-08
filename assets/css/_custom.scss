@@ -126,6 +126,7 @@ $single-link-hover-color-dark: $brand-accent !default;
 }
 .daily-score-3 { background: rgba(22, 163, 74, .15); color: #15803d; font-weight: 600; }
 .daily-score-2 { background: rgba(37, 99, 235, .12); color: #1d4ed8; }
+.daily-score-1, .daily-score-0 { color: #6b7280; opacity: .8; }
 
 /* 导航条 */
 .daily-nav {
@@ -157,8 +158,13 @@ $single-link-hover-color-dark: $brand-accent !default;
 .daily-group > summary::before { content: "▸"; display: inline-block; width: 1em; opacity: .6; transition: transform .15s; }
 .daily-group[open] > summary::before { transform: rotate(90deg); }
 .daily-group-body { padding: 0 1rem .75rem; }
-.daily-group-other > summary .daily-tier-title { display: inline; margin: 0; font-size: 1.2rem; }
-.daily-group-other { margin-top: 2rem; }
+.daily-group-other > summary .daily-tier-title,
+.daily-group-hot > summary .daily-tier-title { display: inline; margin: 0; font-size: 1.2rem; }
+.daily-group-other, .daily-group-hot { margin-top: 2rem; }
+/* 热点延伸：暖色侧边，与研究项目分组区分 */
+.daily-group-hot { border-color: rgba(234, 88, 12, .35); }
+.daily-group-hot > summary { color: #c2410c; }
+.daily-group-hot .daily-tier-hint { margin: .25rem 0 .5rem; }
 
 /* 专题卡 */
 .daily-cluster {

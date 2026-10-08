@@ -1042,7 +1042,9 @@ def llm_daily_summary(d: str, day_items: list):
         "- 优先：相关性分为 3 或「手动录入」的、带研究标签的、概览中作为代表性工作点名的；\n"
         "- 优先：重大发布 / 改变方向判断的结果 / 对某研究项目有直接可用启发的工作；\n"
         "- 同一子主题下多篇相近论文只挑最强的 1~2 篇，其余留给折叠区；\n"
-        "- 不要为了凑数把弱相关条目选进来，宁少勿滥。\n\n"
+        "- 不要为了凑数把弱相关条目选进来，宁少勿滥；\n"
+        "- 相关性分为 0 或 1 的条目是有意收录的「热点延伸」（当日热门但非主要研究方向），"
+        "一律不选入重点，日报会单独成栏展示；今日概览可用一个要点简述这些热点。\n\n"
         "输出格式：先输出两节 markdown（以「## 今日概览」开头），然后另起一行输出且仅输出一行\n"
         "<!-- featured: id1, id2, id3 -->\n"
         "（HTML 注释，id 用英文逗号分隔，只能取自输入条目的 id）。不要代码块、不要额外解释。"
@@ -2096,6 +2098,34 @@ def llm_extract(raw: str, extra: str = "") -> dict:
 # ============================================================
 # 批处理自动处理（链接抓取 + LLM 抽取 → 待核对/待介入）
 # ============================================================
+def _score_entry_relevance(data: dict, raw: str) -> dict:
+    """手工批次条目补做相关性判定：与推荐页同一套 0~3 打分 + 匹配研究项目。
+    推荐页导入的条目已带 meta.score，不重复判定。返回要并入 entry.meta 的字段；
+    无 API Key / LLM 失败时返回 {}，条目照常进入 review，只是不带分数。"""
+    if recommend_mod is None:
+        return {}
+    title = (data.get("title") or "").strip()
+    if not title:
+        first = next((ln.strip() for ln in (raw or "").splitlines() if ln.strip()), "")
+        title = first[:120]
+    summary = (data.get("summary") or "").strip() or (data.get("content") or "").strip()[:300]
+    if not title and not summary:
+        return {}
+    cand = [{"title": title, "summary": summary}]
+    try:
+        recommend_mod.filter_relevance(cand)
+    except Exception as e:  # noqa: BLE001
+        app.logger.warning("批次条目相关性判定失败（%s），跳过打分", e)
+        return {}
+    c = cand[0]
+    if c.get("score") is None:
+        return {}
+    return {"score": c["score"],
+            "research": list(c.get("research") or []),
+            "reason": c.get("reason") or "",
+            "scored_by": "batch"}
+
+
 def process_one_entry(batch_id: str, idx: int):
     """处理单条：链接抓取 →（视情况）LLM 抽取，并更新状态。
     状态流转：pending → processing → review(待核对) / intervention(待介入)。
@@ -2152,6 +2182,14 @@ def process_one_entry(batch_id: str, idx: int):
         if unresolved:
             fields["note"] = ("部分链接未抓取成功，抽取仅基于原文与已抓到内容："
                               + "、".join(u["url"] for u in unresolved))
+        # 手工批次没有推荐判定结果 → 用抽取出的标题/摘要补一次打分，
+        # 提交时与推荐导入条目一样写入 score 并合并 research
+        meta = dict(entry.get("meta") or {})
+        if meta.get("score") is None:
+            scored = _score_entry_relevance(fields["data"], raw)
+            if scored:
+                meta.update(scored)
+                fields["meta"] = meta
         update_batch_entry(batch_id, idx, **fields)
     else:
         update_batch_entry(batch_id, idx,

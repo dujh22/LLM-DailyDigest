@@ -90,11 +90,6 @@ print(app.valid_research())
 print([p for p in recommend.build_research_profile() if not p['direction'] or not p['scope']] or '画像提取全部 OK')
 "
 
-# 2. 推荐链路冒烟测试（mock LLM，不耗 token）
-#    会动态统计 content/research/*.md 数量，并校验每个研究页都有
-#    「> 研究方向：」与「## 研究范畴」——新增研究后无需修改该测试
-python tools/test_recommend_smoke.py
-
-# 3. 本地预览网站
+# 2. 本地预览网站
 hugo server --baseURL http://localhost:1313/ -D   # 访问 /research/
 ```

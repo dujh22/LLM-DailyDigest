@@ -130,6 +130,8 @@
          ① 重点（页面 featured 列表，由当日整备时 LLM 挑选）：完整卡片
          ② 相关（有研究标签）：按研究项目分组，同子主题 ≥3 条合并为专题卡，其余折叠行
          ③ 其他（无研究标签）：折叠行 / 专题卡，默认收起
+         ④ 热点延伸（相关性分 0~1，手工批次有意录入）：当日热门但非主要研究方向，仍有启发；
+            单独成栏，不与「其他」混排
          小日报（无 featured 且 ≤ 30 条）保持平铺完整卡片 */ -}}
     {{- with .Params.items -}}
       {{- $page := $ -}}
@@ -147,12 +149,14 @@
           {{- range $all -}}{{- partial "daily/item-card.html" (dict "it" . "page" $page "compact" false) -}}{{- end -}}
         </section>
       {{- else -}}
-        {{- $s.Set "featured" (slice) -}}{{- $s.Set "related" (slice) -}}{{- $s.Set "other" (slice) -}}
+        {{- $s.Set "featured" (slice) -}}{{- $s.Set "related" (slice) -}}{{- $s.Set "other" (slice) -}}{{- $s.Set "hot" (slice) -}}
         {{- range $fid := $featuredIds -}}
           {{- range where $all "_id" $fid -}}{{- $s.Add "featured" (slice .) -}}{{- end -}}
         {{- end -}}
         {{- range $all -}}
           {{- if in $featuredIds ._id -}}
+          {{- else if and (isset . "score") (le .score 1) -}}
+            {{- $s.Add "hot" (slice .) -}}
           {{- else if .research -}}
             {{- $s.Add "related" (slice .) -}}
             {{- $r := index .research 0 -}}
@@ -165,6 +169,7 @@
         {{- $featured := $s.Get "featured" -}}
         {{- $related := $s.Get "related" -}}
         {{- $other := $s.Get "other" -}}
+        {{- $hot := $s.Get "hot" -}}
         {{- $rnames := uniq ($s.Get "rnames" | default (slice)) -}}
         <section class="daily-items daily-tiered">
           <nav class="daily-nav">
@@ -172,6 +177,7 @@
             {{- if $featured }}<a href="#daily-featured">⭐ 重点 {{ len $featured }}</a>{{ end -}}
             {{- if $related }}<a href="#daily-related">🔬 相关 {{ len $related }}</a>{{ end -}}
             {{- if $other }}<a href="#daily-other">📎 其他 {{ len $other }}</a>{{ end -}}
+            {{- if $hot }}<a href="#daily-hot">🔥 热点 {{ len $hot }}</a>{{ end -}}
             <button type="button" class="daily-nav-btn" data-daily-toggle="open">全部展开</button>
             <button type="button" class="daily-nav-btn" data-daily-toggle="close">全部收起</button>
           </nav>
@@ -205,6 +211,16 @@
           <details class="daily-group daily-group-other" id="daily-other">
             <summary class="daily-group-title"><h2 class="daily-tier-title">📎 其他相关 <span class="daily-count">{{ len . }} 条 · 未归入研究项目，默认收起</span></h2></summary>
             <div class="daily-group-body">
+              {{- partial "daily/cluster-or-rows.html" (dict "items" . "page" $page) -}}
+            </div>
+          </details>
+          {{- end -}}
+
+          {{- with $hot -}}
+          <details class="daily-group daily-group-hot" id="daily-hot" open>
+            <summary class="daily-group-title"><h2 class="daily-tier-title">🔥 热点延伸 <span class="daily-count">{{ len . }} 条 · 当日热门但非主要研究方向，仍有启发</span></h2></summary>
+            <div class="daily-group-body">
+              <p class="daily-tier-hint">这些条目相关性判定为 0~1 分，是有意收录的当日热点；不进入重点与研究项目分组，点击标题展开。</p>
               {{- partial "daily/cluster-or-rows.html" (dict "items" . "page" $page) -}}
             </div>
           </details>
