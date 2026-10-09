@@ -7,7 +7,7 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
   POST /api/extract   用 LLM 从原始文本抽取结构化字段（JSON）
   POST /api/submit    把一条 item 追加到当日日报 content/updates/<date>.md 的 [[items]]
   POST /api/batch/<id>/auto_submit  一键自动处理批次：抽取后跳过人工核对直接提交；疑似重复自动归并
-  GET  /recommend     当日推荐页（采集公众号 + arXiv 指定时间窗口内容，默认最近 24h，LLM 相关性筛选）
+  GET  /recommend     当日推荐页（采集公众号 + arXiv 指定时间窗口内容，默认接续上一次日报的采集截止时间，LLM 相关性筛选）
   GET  /dedup         条目去重归并页（URL 判重，预览 + 应用两步）
   POST /api/dedup/preview|apply  去重扫描 / 执行（days 默认 7，可指定 14、30 等更大窗口）
   POST /api/finalize  当日整备：URL+语义去重（LLM 判同一工作，自动应用）→ 重生成日报头部摘要
@@ -1077,25 +1077,28 @@ _FEATURED_RE = re.compile(r"<!--\s*featured\s*[:：]\s*(.*?)\s*-->", re.S)
 
 # 匹配已有的页面级列表：单行形式 `key = [...]` 或 tomli_w 的多行形式（`]` 独占一行）；
 # 结尾允许换行或文件末尾（无条目的日报 prelude 不带尾随换行）。
-_PAGE_LIST_RE_TMPL = r"^{key}\s*=\s*(?:\[[^\n]*\]|\[.*?^\])[ \t]*(?:\n|\Z)"
+# 页面级 TOML 参数行：单行列表 / 多行列表（到行首 ] 为止）/ 单行标量（字符串、数字等）
+_PAGE_PARAM_RE_TMPL = r"^{key}\s*=\s*(?:\[[^\n]*\][^\n]*|\[[^\n]*\n.*?^\]|[^\[\n][^\n]*)[ \t]*(?:\n|\Z)"
 
 
-def write_page_list_param(path: Path, key: str, values: list) -> bool:
-    """把页面级 TOML 列表参数（如 featured）写入日报 front matter 的 prelude
-    （第一个 [[items]] 之前；TOML 要求顶层键必须在表数组之前）。已存在则整体替换，
-    值相同时不写盘。调用方负责持锁。返回是否改动。"""
+def write_page_params(path: Path, params: dict) -> bool:
+    """把若干页面级 TOML 参数（列表或标量，如 featured / collect_since）写入日报 front matter
+    的 prelude（第一个 [[items]] 之前；TOML 要求顶层键必须在表数组之前）。已存在则整行（块）
+    替换，值相同时不写盘。调用方负责持锁。返回是否改动。"""
     import tomli_w
     text = path.read_text(encoding="utf-8")
     pre, fm_body, post = split_front_matter(text)
     if fm_body is None:
         return False
     prelude, blocks = split_item_blocks(fm_body)
-    block = tomli_w.dumps({key: list(values)})          # 'key = [\n  "a",\n]\n'
-    pat = re.compile(_PAGE_LIST_RE_TMPL.format(key=re.escape(key)), re.M | re.S)
-    if pat.search(prelude):
-        new_prelude = pat.sub(lambda _m: block, prelude, count=1)
-    else:
-        new_prelude = prelude.rstrip("\n") + "\n" + block
+    new_prelude = prelude
+    for key, value in params.items():
+        block = tomli_w.dumps({key: value})          # 'key = [\n  "a",\n]\n' / 'key = "v"\n'
+        pat = re.compile(_PAGE_PARAM_RE_TMPL.format(key=re.escape(key)), re.M | re.S)
+        if pat.search(new_prelude):
+            new_prelude = pat.sub(lambda _m: block, new_prelude, count=1)
+        else:
+            new_prelude = new_prelude.rstrip("\n") + "\n" + block
     if new_prelude == prelude:
         return False
     # 有条目：prelude 与首个 [[items]] 之间恰好一个空行；无条目：不留尾随空行
@@ -1106,6 +1109,55 @@ def write_page_list_param(path: Path, key: str, values: list) -> bool:
         return False
     path.write_text(new_text, encoding="utf-8")
     return True
+
+
+def write_page_list_param(path: Path, key: str, values: list) -> bool:
+    """write_page_params 的列表参数便捷封装（featured 等）。调用方负责持锁。"""
+    return write_page_params(path, {key: list(values)})
+
+
+def record_daily_collect_window(path: Path, since_iso: str, until_iso: str) -> dict:
+    """把推荐采集窗口写入日报页面级字段 collect_since / collect_until（ISO 时间，含时区）。
+    同一日报多次导入时取并集：起始取更早、截止取更晚，保证下次默认窗口能接续本日报
+    覆盖到的最晚时间。调用方负责持锁。返回写入后的 {"since", "until", "changed"}；
+    日报 front matter 不完整（无闭合 +++）时抛 RuntimeError，而不是静默当作已写入。"""
+    text = path.read_text(encoding="utf-8")
+    if split_front_matter(text)[1] is None:
+        raise RuntimeError(f"{path.name} 缺少闭合 +++，无法写入采集窗口")
+    cur = recommend_mod.read_daily_window(text)
+    since_dt = recommend_mod.parse_iso_dt(since_iso)
+    until_dt = recommend_mod.parse_iso_dt(until_iso)
+    for key, new_dt, pick in (("since", since_dt, min), ("until", until_dt, max)):
+        try:
+            old_dt = recommend_mod.parse_iso_dt(cur[key]) if cur.get(key) else None
+        except ValueError:
+            old_dt = None  # 旧值损坏：直接覆盖
+        if old_dt is not None:
+            new_dt = pick(old_dt, new_dt)
+        cur[key] = new_dt.isoformat(timespec="seconds")
+    changed = write_page_params(path, {"collect_since": cur["since"],
+                                       "collect_until": cur["until"]})
+    return {"since": cur["since"], "until": cur["until"], "changed": changed}
+
+
+def record_batch_window(batch_id: str, file_name: str) -> dict:
+    """批次条目成功写入日报后，把该批次留档的推荐采集窗口记到目标日报（collect_since/until）。
+    用于「导入时当日日报尚不存在」的延后写入：不在导入时凭空创建日报，而是跟随首条真实提交。
+    无窗口 / 目标文件不存在时不动；返回 {"file", "since", "until", "changed"} 或 None，失败不抛。"""
+    batch = load_batch(batch_id) if batch_id else None
+    window = (batch or {}).get("window") or {}
+    if not (window.get("since") and window.get("until")):
+        return None
+    path = UPDATES_DIR / (file_name or "")
+    if not file_name or not path.exists():
+        return None
+    try:
+        with _SUBMIT_LOCK:
+            rec = record_daily_collect_window(path, window["since"], window["until"])
+    except Exception as e:  # noqa: BLE001
+        app.logger.warning("记录采集窗口到 %s 失败：%s", file_name, e)
+        return None
+    return {"file": file_name, **rec}
 
 
 def write_daily_summary(d: str, block_md: str, featured: list = None) -> bool:
@@ -2310,6 +2362,7 @@ def submit_review_entry(batch_id: str, idx: int) -> dict:
             prev = (entry.get("note") or "").strip()
             fields["note"] = f"{prev}；{skipped_note}" if prev else skipped_note
         update_batch_entry(batch_id, idx, **fields)
+        record_batch_window(batch_id, res["file"])
         return res
     if res.get("dup"):
         # 疑似重复：不阻断一键流程，自动吸收归并进旧条目
@@ -2823,6 +2876,7 @@ def api_batch_mark():
                                file=(data.get("file") or ""))
     if not batch:
         return jsonify({"ok": False, "errors": ["批次不存在"]}), 404
+    record_batch_window(batch_id, data.get("file") or "")
     return jsonify({"ok": True})
 
 
@@ -2879,6 +2933,8 @@ def api_recommend_status():
         "has_cache": cache is not None,
         "generated_at": (cache or {}).get("generated_at", ""),
         "window": (cache or {}).get("window", {}),
+        # 本次点「采集」且起止留空时将采用的窗口（起始接续上一次日报的 collect_until）
+        "default_window": recommend_mod.default_window_info(),
         "sources": (cache or {}).get("sources", {}),
         "errors": (cache or {}).get("errors", []),
         "credentials": recommend_mod.credentials_status(),
@@ -2895,7 +2951,8 @@ def api_recommend_collect():
     """启动一次采集（公众号 + arXiv + LLM 判定，后台异步）。
     body: {force: bool, start: str, end: str}。
     start/end 为 ISO 时间（如 2026-09-06T10:00，无时区按本地），指定采集窗口；
-    默认 end=当前时间、start=end 前 24h；任一指定即忽略当日缓存重新采集。"""
+    默认 end=当前时间、start=上一次日报记录的采集截止时间（recommend.default_window，
+    无记录回退 end 前 24h）；任一指定即忽略当日缓存重新采集。"""
     err = _recommend_or_503()
     if err:
         return err
@@ -2986,9 +3043,27 @@ def api_recommend_to_batch():
                      "item_id": "", "file": "", "meta": to_meta(it)}
                     for i, it in enumerate(picked)],
     }
+    # 采集窗口随批次留档，并写入当日日报页面级字段 collect_since / collect_until：
+    # 日报由此标识「本期推荐覆盖的采集时段」，下次采集默认从 collect_until 接续
+    # 当日日报尚不存在时不在此凭空创建（避免发布空日报），改为该批次首条提交成功时
+    # 由 record_batch_window 跟随写入
+    window = cache.get("window") or {}
+    batch["window"] = window
     save_batch(batch)
+    digest = None
+    if window.get("since") and window.get("until"):
+        path = today_daily_path()
+        if path.exists():
+            try:
+                with _SUBMIT_LOCK:
+                    rec = record_daily_collect_window(path, window["since"], window["until"])
+                digest = {"file": path.name, **rec}
+            except Exception as e:  # noqa: BLE001
+                digest = {"error": f"日报采集窗口写入失败：{e}"}
+        else:
+            digest = {"deferred": True, "file": path.name}
     return jsonify({"ok": True, "batch_id": batch_id,
-                    "count": len(batch["entries"])})
+                    "count": len(batch["entries"]), "digest_window": digest})
 
 
 # ============================================================

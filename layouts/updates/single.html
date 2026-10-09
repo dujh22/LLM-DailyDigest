@@ -73,6 +73,15 @@
             {{- printf `<time datetime="%v">%v</time>` . . | safeHTML -}}
           </span>&nbsp;
         {{- end -}}
+        {{- /* 推荐采集窗口（页面级 collect_since / collect_until，由推荐导入时写入） */ -}}
+        {{- with .Params.collect_until -}}
+          {{- $cu := time . -}}
+          {{- $cs := "" -}}{{- with $.Params.collect_since }}{{ $cs = time . }}{{ end -}}
+          <span class="daily-collect-window" title="本期推荐的采集时段：{{ with $cs }}{{ .Format "2006-01-02 15:04" }}{{ end }} ~ {{ $cu.Format "2006-01-02 15:04" }}（下一期默认从截止时间接续采集）">
+            {{- dict "Class" "fa-solid fa-hourglass-half fa-fw me-1" | partial "plugin/icon.html" -}}
+            采集 {{ with $cs }}{{ .Format "01-02 15:04" }}{{ end }} ~ {{ $cu.Format "01-02 15:04" }}
+          </span>&nbsp;
+        {{- end -}}
         {{- if $params.wordCount -}}
           <span title="{{ T "single.wordCount" .WordCount }}">
             {{- dict "Class" "fa-solid fa-pencil-alt fa-fw me-1" | partial "plugin/icon.html" -}}

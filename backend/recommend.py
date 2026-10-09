@@ -3,7 +3,8 @@
 
 功能：
   - 微信公众号（量子位 / 机器之心 / 新智元）文章列表采集（起止时间窗口可配，
-    默认最近 24h），四级通道按序兜底：
+    默认起始 = 上一次日报记录的采集截止时间、截止 = 当前，接续采集不漏不重；
+    无记录时回退最近 24h），四级通道按序兜底：
     1. mp.weixin.qq.com appmsg 接口（凭据存仓库根目录 wechat_credentials.json，手动更新，实时）
     2. 量子位官网直采（免凭据，实时）
     3. Wechat-Scholar RSS（免凭据，≤12h 延迟）
@@ -21,6 +22,8 @@
   - 基于 content/research/*.md 的研究画像构建
   - LLM 相关性批量判定（候选分 chunk 并发打分）
   - 按日缓存到 .recommend_cache/recommend-<date>.json
+  - 日报采集窗口标识：导入推荐到批次时，app.py 把本次窗口写入当日日报 front matter
+    页面级字段 collect_since / collect_until（ISO 时间）；下次默认窗口由此接续
 
 各采集源相互独立：单个源失败只记录 error，不影响其他源。
 """
@@ -43,6 +46,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 RESEARCH_DIR = REPO_ROOT / "content" / "research"
 WECHAT_CRED_FILE = REPO_ROOT / "wechat_credentials.json"
 RECOMMEND_DIR = REPO_ROOT / ".recommend_cache"
+UPDATES_DIR = REPO_ROOT / "content" / "updates"
+# 无日报采集窗口记录时的默认回退窗口长度（小时）
+DEFAULT_WINDOW_HOURS = 24
 
 # 公众号（名称, fakeid）——fakeid 稳定不变，来自 co_learner/spider_lib/gzh.py
 WECHAT_ACCOUNTS = [
@@ -1031,13 +1037,94 @@ def prune_cache(keep_days: int = CACHE_KEEP_DAYS) -> list:
     return removed
 
 
+# ============================================================
+# 日报采集窗口标识（content/updates/<date>.md 页面级字段 collect_since / collect_until）
+# ============================================================
+_DAILY_NAME_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})\.md$")
+_WINDOW_FIELD_RE = {
+    "since": re.compile(r"""^collect_since\s*=\s*["']([^"'\n]+)["']""", re.M),
+    "until": re.compile(r"""^collect_until\s*=\s*["']([^"'\n]+)["']""", re.M),
+}
+
+
+def read_daily_window(text: str) -> dict:
+    """从日报文本读取采集窗口标识：只看 front matter 的页面级区域（首个 [[items]] 之前）。
+    返回 {"since": iso, "until": iso}（缺哪个就没有哪个键）。"""
+    m = re.match(r"^\+\+\+\n(.*?)\n\+\+\+", text, re.S)
+    prelude = (m.group(1) if m else "").split("\n[[items]]", 1)[0]
+    out = {}
+    for key, pat in _WINDOW_FIELD_RE.items():
+        mm = pat.search(prelude)
+        if mm:
+            out[key] = mm.group(1).strip()
+    return out
+
+
+def parse_iso_dt(s: str) -> datetime:
+    """解析 ISO 时间为带时区 datetime（无时区标记按本地时区）；格式无效抛 ValueError。"""
+    s = s.strip()
+    if s.endswith("Z"):  # Python 3.9 的 fromisoformat 不认 Z 后缀
+        s = s[:-1] + "+00:00"
+    dt = datetime.fromisoformat(s)
+    return dt.astimezone()  # naive → 本地时区；aware 保持原值
+
+
+def last_digest_window() -> dict:
+    """最近一份带采集窗口标识（collect_until）的日报：{"date", "since", "until"}；没有返回 None。
+    按文件名日期倒序扫描 content/updates/<YYYY-MM-DD>.md，只认最新的一份。"""
+    if not UPDATES_DIR.exists():
+        return None
+    files = sorted((p for p in UPDATES_DIR.iterdir() if _DAILY_NAME_RE.match(p.name)),
+                   key=lambda p: p.name, reverse=True)
+    for p in files:
+        try:
+            w = read_daily_window(p.read_text(encoding="utf-8"))
+        except OSError:
+            continue
+        if w.get("until"):
+            return {"date": p.stem, "since": w.get("since", ""), "until": w["until"]}
+    return None
+
+
+def default_window(until_dt: datetime = None) -> dict:
+    """默认采集窗口：截止 = until_dt（缺省当前时间）；起始 = 上一次日报记录的采集截止时间
+    （接续采集，不漏不重）。无记录、记录无法解析或不早于截止时，回退为截止前 DEFAULT_WINDOW_HOURS。
+    返回 {"since": dt, "until": dt, "basis": "digest"|"fallback", "basis_date": 日报日期|None}。"""
+    until_dt = until_dt or datetime.now().astimezone()
+    last = last_digest_window()
+    if last:
+        try:
+            since_dt = parse_iso_dt(last["until"])
+        except ValueError:
+            since_dt = None
+        if since_dt is not None and since_dt < until_dt:
+            return {"since": since_dt, "until": until_dt,
+                    "basis": "digest", "basis_date": last["date"]}
+    return {"since": until_dt - timedelta(hours=DEFAULT_WINDOW_HOURS), "until": until_dt,
+            "basis": "fallback", "basis_date": None}
+
+
+def default_window_info() -> dict:
+    """default_window() 的可 JSON 序列化版本（供状态接口 / 页面提示用）。"""
+    w = default_window()
+    return {"since": w["since"].isoformat(timespec="seconds"),
+            "until": w["until"].isoformat(timespec="seconds"),
+            "hours": round((w["until"] - w["since"]).total_seconds() / 3600, 1),
+            "basis": w["basis"], "basis_date": w["basis_date"]}
+
+
 def run_collection(since_dt: datetime = None, until_dt: datetime = None):
     """完整采集编排（在后台线程执行）：公众号 → arXiv → LLM 判定 → 写缓存。
-    采集窗口 [since_dt, until_dt]：默认截止=当前时间，起始=截止前 24h。
+    采集窗口 [since_dt, until_dt]：截止缺省 = 当前时间；起始缺省见 default_window()
+    （接续上一次日报的采集截止时间，无记录回退 24h）。
     由路由层负责防重入（_RECOMMEND_RUNNING），缓存命中判断在 start_collection。"""
     global _RECOMMEND_RUNNING
-    until_dt = until_dt or datetime.now(timezone.utc)
-    since_dt = since_dt or until_dt - timedelta(hours=24)
+    until_dt = until_dt or datetime.now().astimezone()
+    if since_dt is None:
+        dw = default_window(until_dt)
+        since_dt, basis, basis_date = dw["since"], dw["basis"], dw["basis_date"]
+    else:
+        basis, basis_date = "custom", None
     since_ts, until_ts = int(since_dt.timestamp()), int(until_dt.timestamp())
     window_hours = (until_dt - since_dt).total_seconds() / 3600
     window_desc = (f"{since_dt.astimezone().strftime('%Y-%m-%d %H:%M')} ~ "
@@ -1162,7 +1249,9 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
                     "errors": source_errors,
                     "window": {"since": since_dt.astimezone().isoformat(timespec="seconds"),
                                "until": until_dt.astimezone().isoformat(timespec="seconds"),
-                               "hours": round(window_hours, 1)},
+                               "hours": round(window_hours, 1),
+                               # basis：digest=接续上一次日报采集截止 / fallback=默认 24h / custom=手动指定
+                               "basis": basis, "basis_date": basis_date},
                     "items": all_items})
         _set_state("done", counts=_count_by_source(all_items),
                    errors=source_errors)
@@ -1184,7 +1273,7 @@ def start_collection(force: bool = False,
                      since_dt: datetime = None, until_dt: datetime = None) -> bool:
     """后台启动一次采集（今日缓存存在且非 force 时直接复用）。已在运行返回 False。
     since_dt/until_dt 为自定义采集窗口（任一指定即视为定制采集，忽略缓存重新采）；
-    均为 None 时用默认窗口（截止=当前，起始=24h 前）。"""
+    均为 None 时用默认窗口（截止=当前，起始=上一次日报采集截止时间，见 default_window）。"""
     global _RECOMMEND_RUNNING
     custom_window = since_dt is not None or until_dt is not None
     if not force and not custom_window and load_cache():

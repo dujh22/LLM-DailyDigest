@@ -97,7 +97,7 @@ python app.py          # → http://localhost:5050
 
 **批处理录入** `/batch/new`：上传 txt 或粘贴多段（空行分隔每条）→ 生成批次 → 「自动处理全部」并发跑链接抓取 + LLM 抽取（默认 100 并发）→ 逐条状态流转到 `待核对 / 待介入`，人工只在「待介入」条目补充抓取失败的链接、在「待核对」条目核对提交。有链接失败的条目不消耗 LLM。「⚡ 一键自动处理并提交」可跳过人工核对整批直接提交（待介入条目除外，自动提交失败者保留待核对并显示原因）。
 
-**当日推荐** `/recommend`：自动采集最近 24h 内与研究相关的内容，LLM 按各研究项目的「研究方向+范畴」画像判定相关性，勾选后一键导入批处理。公众号三级通道（appmsg 实时可选凭据增强 → 量子位官网实时 → [Wechat-Scholar](https://github.com/osnsyc/Wechat-Scholar) 学术 RSS 兜底 ≤12h）+ arXiv（cs.CL/cs.AI/cs.LG，24h 空窗自动放宽 48h/72h），按标题去重；**默认零配置可用**。结果按日缓存 `.recommend_cache/`，详见 `backend/README.md`。
+**当日推荐** `/recommend`：自动采集指定窗口（默认从上一次日报记录的采集截止时间接续到现在，导入时把窗口写入日报 `collect_since` / `collect_until` 作为采集时段标识）内与研究相关的内容，LLM 按各研究项目的「研究方向+范畴」画像判定相关性，勾选后一键导入批处理。公众号三级通道（appmsg 实时可选凭据增强 → 量子位官网实时 → [Wechat-Scholar](https://github.com/osnsyc/Wechat-Scholar) 学术 RSS 兜底 ≤12h）+ arXiv（cs.CL/cs.AI/cs.LG，24h 空窗自动放宽 48h/72h），按标题去重；**默认零配置可用**。结果按日缓存 `.recommend_cache/`，详见 `backend/README.md`。
 
 **主题归并** `/merge`：左侧三级树「主题 ▸ 子主题 ▸ 文章」勾选若干标签 → 右侧填目标名 → 预览影响范围 → 执行。子主题按字符串全局归并；改写为原位替换、diff 最小，可 `git checkout` 回退。内置「🤖 LLM 归并推荐」自动聚类近义标签，支持单条采纳或勾选多条批量执行。
 
@@ -145,6 +145,10 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 ```
 
 ## 📅 更新日志
+
+**2026-10-09**
+
+- 当日推荐 `/recommend` 采集窗口改为**接续上一次日报**：默认起始 = 最近一份日报记录的采集截止时间、截止 = 当前（无记录回退 24h），页面预填默认起止可直接改；导入到批次时把窗口写入当日日报页面级字段 `collect_since` / `collect_until`，日报页头部显示采集时段；已为 09-28 ~ 10-08 日报补齐窗口标识
 
 **2026-09-10**
 

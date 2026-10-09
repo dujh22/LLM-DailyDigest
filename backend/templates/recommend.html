@@ -76,7 +76,7 @@
 <body>
 <div class="wrap">
   <h1><span>LLM-DailyDigest</span> · 当日推荐</h1>
-  <p class="sub">采集指定时间窗口（默认最近 24 小时）内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ 新智元 ASI 爆点页 + AIHOT 每日精选 + AIbase 快讯 + AI工具集日报 + 智源热门论文榜 + arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。页面打开不会自动采集，选好时间窗口后点「采集」开始。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
+  <p class="sub">采集指定时间窗口（默认从上一次日报记录的采集截止时间接续到现在；无记录时取最近 24 小时）内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ 新智元 ASI 爆点页 + AIHOT 每日精选 + AIbase 快讯 + AI工具集日报 + 智源热门论文榜 + arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。页面打开不会自动采集，选好时间窗口后点「采集」开始。导入到批次时会把本次窗口写入当日日报（<code>collect_since</code> / <code>collect_until</code>），作为日报的采集时段标识，下次默认窗口由此接续。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
 
   <!-- ① 微信凭据 -->
   <div class="card">
@@ -97,15 +97,19 @@
 
   <!-- ② 采集 -->
   <div class="card">
-    <h2>② 采集 <span class="hint">时间窗口留空 = 最近 24 小时</span></h2>
+    <h2>② 采集 <span class="hint">已预填默认窗口：起始 = 上一次日报的采集截止时间，截止 = 当前时间；可直接改</span></h2>
     <div class="timerange">
       <div>
-        <label>起始时间（留空 = 截止前 24 小时）</label>
+        <label>起始时间（默认 = 上一次日报的采集截止时间；无记录 = 截止前 24 小时）</label>
         <input type="datetime-local" id="startTime">
       </div>
       <div>
-        <label>截止时间（留空 = 当前时间）</label>
+        <label>截止时间（默认 = 当前时间）</label>
         <input type="datetime-local" id="endTime">
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <button class="ghost" id="btnResetWindow" title="放弃手动改动，恢复为默认窗口（随状态刷新自动更新）">↺ 恢复默认窗口</button>
       </div>
     </div>
     <div class="hint" id="collectMeta"></div>
@@ -203,9 +207,17 @@ function renderStatus(j){
   const srcParts = Object.entries(j.sources||{}).map(([k,v])=>`${k} ${v}`);
   const w = j.window||{};
   const fmt = s=>(s||'').replace('T',' ').slice(0,16);
-  const winText = w.since ? ` · 窗口：${fmt(w.since)} ~ ${fmt(w.until)}` : '';
-  $('collectMeta').textContent = (j.generated_at ? `上次采集：${j.generated_at}` : '尚未采集：选好时间窗口（留空 = 最近 24 小时）后点「采集」开始') +
-    winText + (srcParts.length ? ` · ${srcParts.join(' · ')}` : '');
+  const BASIS_TEXT = {digest:'接续 %s 日报采集截止', fallback:'默认 24 小时', custom:'手动指定'};
+  const basisText = b=>(BASIS_TEXT[b.basis]||'').replace('%s', b.basis_date||'上一次');
+  const winText = w.since ? ` · 窗口：${fmt(w.since)} ~ ${fmt(w.until)}（${w.hours||''}h${w.basis?'，'+basisText(w):''}）` : '';
+  const dw = j.default_window||{};
+  const defText = dw.since ? `默认窗口 = ${fmt(dw.since)} ~ ${fmt(dw.until)}（${basisText(dw)}，约 ${dw.hours}h）` : '';
+  $('collectMeta').textContent = (j.generated_at ? `上次采集：${j.generated_at}` : '尚未采集：确认时间窗口后点「采集」开始') +
+    winText + (srcParts.length ? ` · ${srcParts.join(' · ')}` : '') + (defText ? ` · ${defText}` : '');
+  $('startTime').title = defText;
+  // 预填默认窗口（datetime-local 取到分钟）；用户手动改过的输入框不再覆盖
+  if(dw.since && !EDITED.start) $('startTime').value = fmt(dw.since).replace(' ','T');
+  if(dw.until && !EDITED.end) $('endTime').value = fmt(dw.until).replace(' ','T');
   if(j.running){ $('listCard').style.display='none'; $('importCard').style.display='none'; return; }
   if(j.has_cache && (j.items||[]).length){ renderItems(j); }
   else if(j.has_cache){ $('listCard').style.display=''; $('groups').innerHTML='<div class="empty">采集窗口内没有采集到内容。</div>'; $('importCard').style.display='none'; }
@@ -230,14 +242,21 @@ async function refreshStatus(){
   }catch(e){}
 }
 
+// 输入框是否被用户手动改过：未改过时沿用服务端默认窗口（起始接续上一次日报、截止=点击时刻），
+// 不把预填值回传，这样默认采集仍能命中当日缓存，且截止时间精确到点击那一刻
+const EDITED = {start:false, end:false};
+$('startTime').addEventListener('input', ()=>{ EDITED.start = true; });
+$('endTime').addEventListener('input', ()=>{ EDITED.end = true; });
+$('btnResetWindow').onclick = ()=>{ EDITED.start = EDITED.end = false; refreshStatus(); };
+
 async function collect(force){
   const btn = force ? $('btnForce') : $('btnCollect');
   btn.disabled = true;
   try{
     const body = {force:!!force};
     const st = $('startTime').value, et = $('endTime').value;
-    if(st) body.start = st;
-    if(et) body.end = et;
+    if(EDITED.start && st) body.start = st;
+    if(EDITED.end && et) body.end = et;
     const r = await fetch('/api/recommend/collect',{method:'POST',
       headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const j = await r.json();
@@ -366,12 +385,22 @@ $('btnImport').onclick = async ()=>{
       `<div style="border:1px solid var(--ok);border-radius:8px;background:rgba(34,197,94,.08);padding:12px 14px;margin-top:12px">`+
       `<div style="color:var(--ok);font-size:.95rem">✓ 批次已创建（${j.count} 条）</div>`+
       `<div style="margin-top:6px;font-size:.9rem">batch_id：<code style="background:#12131c;padding:2px 8px;border-radius:6px;user-select:all">${escapeHtml(j.batch_id)}</code></div>`+
+      digestWindowHtml(j.digest_window)+
       `<div class="hint" style="margin-top:6px">到 <a href="/batch/new" target="_blank">批处理页</a> 填入该 id 载入，或 <a href="/batch/${encodeURIComponent(j.batch_id)}" target="_blank">直接打开批次 ↗</a></div></div>`;
     toast(`✓ 批次 ${j.batch_id} 已创建（${j.count} 条）`,'ok');
     updateImportBtn();
   }catch(e){ toast('网络错误：'+e,'err'); }
   finally{ btn.disabled=false; btn.textContent=old; }
 };
+
+// 导入结果里展示采集窗口写入日报的情况（写入 / 延后到首条提交 / 失败）
+function digestWindowHtml(d){
+  if(!d) return '';
+  const fmt = s=>(s||'').replace('T',' ').slice(0,16);
+  if(d.error) return `<div class="hint" style="margin-top:6px;color:var(--err)">⚠ ${escapeHtml(d.error)}（日报将缺少采集窗口标识，下次默认窗口可能不接续）</div>`;
+  if(d.deferred) return `<div class="hint" style="margin-top:6px">采集窗口将在该批次首条提交成功后写入 ${escapeHtml(d.file)}（collect_since / collect_until）</div>`;
+  return `<div class="hint" style="margin-top:6px">采集窗口已写入 ${escapeHtml(d.file)}：${fmt(d.since)} ~ ${fmt(d.until)}${d.changed?'':'（与已记录相同）'}</div>`;
+}
 
 // ---- 初始化：只读状态，不自动采集（由用户选好时间窗口后点「采集」触发）；若后台已在跑则接上轮询 ----
 (async ()=>{

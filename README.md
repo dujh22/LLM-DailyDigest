@@ -84,7 +84,7 @@ python app.py          # → http://localhost:5050
 
 **Batch entry** `/batch/new`: upload a txt or paste multiple entries (blank-line separated) → "Process all" runs link-fetch + LLM extraction concurrently (default 100 workers) → each item flows to `review / intervention` status; intervene only where a link failed to fetch, review and submit the rest. Items with unfetchable links skip the LLM call entirely. "⚡ Auto-process & submit" submits the whole batch in one click, skipping manual review (intervention items excluded; failures stay in review with reasons shown).
 
-**Daily recommendation** `/recommend`: auto-collects the last 24h of research-relevant content, scores relevance with an LLM against each research project's profile (direction + scope from `content/research/*.md`), then imports selected items into the batch pipeline. WeChat channels are tiered with title-based dedup — optional real-time appmsg credentials → QbitAI official site (real-time) → [Wechat-Scholar](https://github.com/osnsyc/Wechat-Scholar) academic RSS fallback (≤12h latency) — plus arXiv (cs.CL/cs.AI/cs.LG, auto-widens to 48h/72h when the 24h window is empty). **Works with zero configuration.** Daily cache in `.recommend_cache/`; see `backend/README.md` for details.
+**Daily recommendation** `/recommend`: collects research-relevant content for a time window that by default continues from the previous digest's recorded collection end time up to now (the window is written into the digest as `collect_since` / `collect_until` on import), scores relevance with an LLM against each research project's profile (direction + scope from `content/research/*.md`), then imports selected items into the batch pipeline. WeChat channels are tiered with title-based dedup — optional real-time appmsg credentials → QbitAI official site (real-time) → [Wechat-Scholar](https://github.com/osnsyc/Wechat-Scholar) academic RSS fallback (≤12h latency) — plus arXiv (cs.CL/cs.AI/cs.LG, auto-widens to 48h/72h when the 24h window is empty). **Works with zero configuration.** Daily cache in `.recommend_cache/`; see `backend/README.md` for details.
 
 **Topic merge** `/merge`: in a 3-level tree (topic ▸ subtopic ▸ article), select tags, enter a target name → preview impact → apply. Subtopics merge globally by string; rewrites are in-place for minimal diff and fully `git checkout`-reversible. Built-in "🤖 LLM suggestions" clusters near-duplicate tags; adopt singly or select several for batch apply.
 
@@ -132,6 +132,10 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 ```
 
 ## 📅 Changelog
+
+**2026-10-09**
+
+- Daily recommendation `/recommend` now chains collection windows across digests: default start = the latest digest's recorded collection end time, end = now (falls back to 24h when no record); the page prefills both times for editing. Importing to a batch writes the window into the daily digest's page-level `collect_since` / `collect_until` fields, shown in the digest header; backfilled for the 09-28 ~ 10-08 digests
 
 **2026-09-10**
 
