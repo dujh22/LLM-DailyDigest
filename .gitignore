@@ -21,3 +21,6 @@ wechat_credentials.json
 # 仅 .omc/skills/ 下的项目级技能允许入库
 **/.omc/*
 !**/.omc/skills/
+
+# 趋势字段回填脚本的 OpenAlex 未命中/LLM 空结果缓存（运行时产物）
+backend/.trends_backfill_cache.json

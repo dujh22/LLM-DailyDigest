@@ -1,0 +1,339 @@
+{{- define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end -}}
+
+{{- define "content" -}}
+  {{- /* 趋势栏目：数据由 tools/trends_build.py 预计算为页面资源 trends.json，前端用 ECharts 渲染。
+         设置 Scratch 让 FixIt 加载 lib/echarts 并注册 light/dark 主题；图表容器用 .trend-chart
+         （不用 .echarts，避免被主题的短代码初始化逻辑接管）。 */ -}}
+  {{- .Page.Scratch.SetInMap "this" "echarts" true -}}
+  {{- $data := .Resources.GetMatch "trends.json" -}}
+  {{- /* 词云 / 研究项目的跳转链接：Hugo 会把路径小写化，且关键词未必有主题页，
+         所以在构建期按真实页面生成 名称→RelPermalink 映射，只对存在的页面出链 */ -}}
+  {{- $topicLinks := dict -}}
+  {{- $researchLinks := dict -}}
+  {{- if $data -}}
+    {{- $j := $data | transform.Unmarshal -}}
+    {{- $need := dict -}}
+    {{- range (slice "all" "recent30" "prev30") -}}
+      {{- range index $j.keywords . -}}{{- $need = merge $need (dict (index . 0) true) -}}{{- end -}}
+    {{- end -}}
+    {{- range where site.RegularPages "Section" "topic" -}}
+      {{- $n := .File.ContentBaseName -}}
+      {{- if index $need $n -}}{{- $topicLinks = merge $topicLinks (dict $n .RelPermalink) -}}{{- end -}}
+    {{- end -}}
+    {{- range where site.RegularPages "Section" "research" -}}
+      {{- $researchLinks = merge $researchLinks (dict .File.ContentBaseName .RelPermalink) -}}
+    {{- end -}}
+  {{- end -}}
+  <article class="page single trends-page">
+    <div class="header">
+      <h1 class="single-title animate__animated animate__flipInX">
+        {{- dict "Class" "fa-solid fa-chart-line fa-fw me-2" | partial "plugin/icon.html" -}}{{ .Title }}
+      </h1>
+      {{- with .Description }}<p class="single-subtitle">{{ . }}</p>{{ end -}}
+    </div>
+    <div class="content" id="content">
+      {{- .Content -}}
+      {{- if not $data -}}
+        <div class="trend-note trend-note-warn">尚未生成趋势数据：请运行 <code>python3 tools/trends_build.py</code>。</div>
+      {{- else -}}
+      <div id="trendRoot" data-src="{{ $data.RelPermalink }}" data-topic-links='{{ $topicLinks | jsonify }}' data-research-links='{{ $researchLinks | jsonify }}'>
+        <div class="trend-note" id="trendCaveat">加载中…</div>
+
+        <section class="trend-section" id="trend-heat">
+          <h2>① 关注热度 <span class="trend-hint">按周条目数（4 周滑动平均）或占当周总条目比</span></h2>
+          <div class="trend-controls">
+            <label>维度
+              <select id="heatMode"><option value="research">研究项目</option><option value="tracks">技术赛道</option></select>
+            </label>
+            <label>指标
+              <select id="heatMetric"><option value="ma4">条目数（4 周均值）</option><option value="share">占比</option><option value="counts">条目数（原始）</option></select>
+            </label>
+            <label>默认显示前 <input type="number" id="heatTop" min="1" max="30" value="8" style="width:4em"> 个（图例可切换）</label>
+          </div>
+          <div class="trend-chart" id="chartHeat" style="height:26rem"></div>
+          <p class="trend-hint">占比 = 该维度当周条目 ÷ 当周全部条目，可抵消采集源扩张带来的总量变化；条目可属多个项目/赛道，占比之和可大于 1。</p>
+        </section>
+
+        <section class="trend-section" id="trend-rising">
+          <h2>② 升温 / 降温榜 <span class="trend-hint" id="risingHint"></span></h2>
+          <div class="trend-grid3">
+            <div><h3>技术赛道</h3><div class="trend-chart" id="chartRiseTracks" style="height:22rem"></div></div>
+            <div><h3>关键词</h3><div class="trend-chart" id="chartRiseKeywords" style="height:22rem"></div></div>
+            <div><h3>子主题</h3><div class="trend-chart" id="chartRiseSubtopics" style="height:22rem"></div></div>
+          </div>
+          <p class="trend-hint">条形长度 = 占比变化（百分点）：该名称在最近窗口的条目占比 − 上一窗口占比，已抵消采集总量增长；只统计两窗口合计 ≥ 3 的名称。短窗口受单日大批导入影响较大，宜与 ① 对照。</p>
+        </section>
+
+        <section class="trend-section" id="trend-cloud">
+          <h2>③ 技术词云 <span class="trend-hint" id="cloudHint"></span></h2>
+          <div class="trend-controls trend-tabs" id="cloudTabs">
+            <button type="button" data-slice="recent30" class="active">最近 30 天</button>
+            <button type="button" data-slice="prev30">之前 30 天</button>
+            <button type="button" data-slice="all">全部</button>
+          </div>
+          <div class="trend-cloud" id="cloudBox"></div>
+          <details class="trend-details"><summary>本期新出现的词（最近 30 天有、之前 30 天没有）</summary><div class="trend-taglist" id="cloudNew"></div></details>
+        </section>
+
+        <section class="trend-section" id="trend-orgs">
+          <h2>④ 研究机构 <span class="trend-hint" id="orgsHint"></span></h2>
+          <div class="trend-grid2">
+            <div><h3>发文量 Top 20</h3><div class="trend-chart" id="chartOrgsTop" style="height:30rem"></div></div>
+            <div><h3>机构 × 研究项目</h3><div class="trend-chart" id="chartOrgsMatrix" style="height:30rem"></div></div>
+          </div>
+          <h3>Top 机构按月活跃度</h3>
+          <div class="trend-chart" id="chartOrgsMonthly" style="height:20rem"></div>
+        </section>
+
+        <section class="trend-section" id="trend-projects">
+          <h2>⑤ 研究项目时间线 <span class="trend-hint">各项目相关条目按月数量；虚线为项目提出月份</span></h2>
+          <div class="trend-grid3" id="projectGrid"></div>
+        </section>
+
+        <section class="trend-section" id="trend-sources">
+          <h2>⑥ 来源构成 <span class="trend-hint">按月堆叠；采集源随时间扩张，解读绝对量时请参考本图</span></h2>
+          <div class="trend-chart" id="chartSources" style="height:22rem"></div>
+          <details class="trend-details" id="srcUnrecognized" style="display:none"><summary>未归类的来源写法（可补充到 tools/trends_build.py 的 SOURCE_FAMILIES）</summary><div class="trend-taglist" id="srcUnrecognizedList"></div></details>
+        </section>
+      </div>
+      {{- end -}}
+    </div>
+  </article>
+
+  {{- if $data -}}
+  <script>
+  (function(){
+    'use strict';
+    var root = document.getElementById('trendRoot');
+    if(!root) return;
+    var SRC = root.dataset.src;
+    var TOPIC_LINKS = {}, RESEARCH_LINKS = {};
+    try{ TOPIC_LINKS = JSON.parse(root.dataset.topicLinks || '{}'); RESEARCH_LINKS = JSON.parse(root.dataset.researchLinks || '{}'); }catch(e){}
+    var D = null;                 // trends.json
+    var charts = {};              // id -> echarts instance
+    var builders = {};            // id -> function(instance) 设置 option（主题切换时重建）
+    var cloudSlice = 'recent30';
+    var PALETTE = ['#6366f1','#a855f7','#06b6d4','#22c55e','#f59e0b','#ef4444','#ec4899','#14b8a6','#8b5cf6','#84cc16','#f97316','#0ea5e9','#d946ef','#64748b','#10b981','#eab308'];
+
+    function isDark(){ return (window.fixit && typeof window.fixit.isDark === 'boolean') ? window.fixit.isDark : document.body.dataset.theme === 'dark'; }
+    function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+    function fmtRange(a,b){ return a.slice(5).replace('-','/') + ' ~ ' + b.slice(5).replace('-','/'); }
+    function weekLabel(w){ return w.slice(2).replace(/-/g,'/'); }
+
+    function mount(id, build){
+      builders[id] = build;
+      var el = document.getElementById(id);
+      if(!el) return;
+      if(charts[id]) charts[id].dispose();
+      var inst = echarts.init(el, isDark() ? 'dark' : 'light', {renderer:'canvas'});
+      charts[id] = inst;
+      var opt = build();
+      opt.backgroundColor = 'transparent';
+      opt.color = opt.color || PALETTE;
+      inst.setOption(opt, true);
+    }
+    function remountAll(){ Object.keys(builders).forEach(function(id){ mount(id, builders[id]); }); }
+    function resizeAll(){ Object.keys(charts).forEach(function(id){ charts[id].resize(); }); }
+
+    // ---- 顶部口径卡 ----
+    function renderCaveat(){
+      var t = D.totals, kc = D.keywords.coverage, oc = D.orgs.coverage, tc = D.track_coverage;
+      var pct = function(a,b){ return b ? Math.round(100*a/b) + '%' : '—'; };
+      var gaps = (D.digests.gaps||[]).slice(-4).map(function(g){ return fmtRange(g[0], g[1]); });
+      document.getElementById('trendCaveat').innerHTML =
+        '<b>口径</b>：基于 ' + t.digests + ' 期日报、' + t.items + ' 条精选条目（' + D.range.from + ' ~ ' + D.range.to + '），按<b>日报日期</b>统计，反映「我们关注到」的时间；' +
+        '条目经 LLM 相关性筛选且每日有上限，绝对量受采集源扩张影响，比较趋势时优先看占比与滑动平均。' +
+        '<br><b>覆盖</b>：赛道映射 ' + pct(tc.mapped_items, tc.mapped_items + tc.unmapped_items) +
+        ' · 关键词字段 ' + pct(kc.items_with_keywords, kc.total) +
+        ' · 机构字段 ' + pct(oc.items_with_orgs, oc.total) + '（arXiv 条目 ' + pct(oc.arxiv_with_orgs, oc.arxiv_items) + '）' +
+        (gaps.length ? '<br><b>日报空档</b>（≥3 天）：' + gaps.join('，') + '，空档周计 0，曲线会出现断崖' : '') +
+        '<br><span class="trend-hint">生成时间 ' + D.generated_at.replace('T',' ').slice(0,16) + '</span>';
+    }
+
+    // ---- ① 关注热度 ----
+    function heatOption(){
+      var mode = document.getElementById('heatMode').value;
+      var metric = document.getElementById('heatMetric').value;
+      var top = parseInt(document.getElementById('heatTop').value, 10) || 8;
+      var src = D[mode];
+      var names = Object.keys(src).filter(function(n){ return n !== '其他' || mode !== 'tracks'; })
+        .sort(function(a,b){ return src[b].total - src[a].total; });
+      var selected = {};
+      names.forEach(function(n,i){ selected[n] = i < top; });
+      var isShare = metric === 'share';
+      return {
+        tooltip: {trigger:'axis', valueFormatter: function(v){ return isShare ? (100*v).toFixed(1) + '%' : v; }},
+        legend: {type:'scroll', bottom: 0, selected: selected},
+        grid: {left: 48, right: 16, top: 24, bottom: 56},
+        xAxis: {type:'category', data: D.week_starts.map(weekLabel), axisLabel:{interval: Math.ceil(D.week_starts.length/14)}},
+        yAxis: {type:'value', axisLabel:{formatter: isShare ? function(v){ return Math.round(100*v)+'%'; } : '{value}'}},
+        dataZoom: [{type:'inside'}, {type:'slider', height: 16, bottom: 28}],
+        series: names.map(function(n){ return {name:n, type:'line', smooth:true, showSymbol:false, data: src[n][metric]}; })
+      };
+    }
+
+    // ---- ② 升温 / 降温 ----
+    function risingOption(rows){
+      rows = rows.slice().sort(function(a,b){ return a.delta - b.delta; });
+      return {
+        tooltip: {trigger:'axis', axisPointer:{type:'shadow'}, formatter: function(ps){ var p = ps[0]; var r = rows[p.dataIndex];
+          return esc(r.name) + '<br>最近 ' + r.recent + ' 条（' + (100*r.recent_share).toFixed(1) + '%） · 之前 ' + r.prev + ' 条（' + (100*r.prev_share).toFixed(1) + '%）<br>占比变化 ' + (r.delta>0?'+':'') + r.delta + ' 个百分点' + (r.ratio ? '（×' + r.ratio + '）' : '（新出现）'); }},
+        grid: {left: 4, right: 36, top: 8, bottom: 8, containLabel: true},
+        xAxis: {type:'value', splitLine:{show:false}},
+        yAxis: {type:'category', data: rows.map(function(r){ return r.name; }), axisLabel:{width: 110, overflow:'truncate'}},
+        series: [{type:'bar', data: rows.map(function(r){ return {value: r.delta, itemStyle:{color: r.delta >= 0 ? '#22c55e' : '#ef4444'}}; }),
+                  label:{show:true, position:'right', formatter: function(p){ return (p.value>0?'+':'') + p.value.toFixed(1); }}, barMaxWidth: 16}]
+      };
+    }
+
+    // ---- ③ 词云（CSS 标签云，无额外依赖）----
+    function renderCloud(){
+      var list = D.keywords[cloudSlice] || [];
+      var box = document.getElementById('cloudBox');
+      if(!list.length){ box.innerHTML = '<div class="trend-empty">该时段没有数据</div>'; return; }
+      var max = list[0][1], min = list[list.length-1][1];
+      var html = list.slice(0, 120).map(function(kv, i){
+        var w = kv[0], c = kv[1];
+        var t = max === min ? 1 : Math.sqrt((c - min) / (max - min));
+        var size = (0.8 + 1.6 * t).toFixed(2);
+        var color = PALETTE[i % PALETTE.length];
+        var style = 'font-size:' + size + 'em;color:' + color;
+        return TOPIC_LINKS[w]
+          ? '<a class="trend-word" href="' + esc(TOPIC_LINKS[w]) + '" style="' + style + '" title="' + c + ' 条 · 打开主题页">' + esc(w) + '</a>'
+          : '<span class="trend-word" style="' + style + '" title="' + c + ' 条">' + esc(w) + '</span>';
+      });
+      // 打散顺序，避免大词全部堆在前面
+      for(var i = html.length - 1; i > 0; i--){ var j = (i * 7919) % (i + 1); var tmp = html[i]; html[i] = html[j]; html[j] = tmp; }
+      box.innerHTML = html.join(' ');
+      var prev = {}; (D.keywords.prev30||[]).forEach(function(kv){ prev[kv[0]] = 1; });
+      var fresh = (D.keywords.recent30||[]).filter(function(kv){ return !prev[kv[0]] && kv[1] >= 2; }).slice(0, 40);
+      document.getElementById('cloudNew').innerHTML = fresh.length ? fresh.map(function(kv){ return '<span class="trend-tag">' + esc(kv[0]) + ' <small>' + kv[1] + '</small></span>'; }).join('') : '<span class="trend-hint">无</span>';
+    }
+
+    // ---- ④ 机构 ----
+    function orgsTopOption(){
+      var top = D.orgs.top.slice(0, 20).reverse();
+      return {
+        tooltip: {trigger:'axis', axisPointer:{type:'shadow'}},
+        grid: {left: 4, right: 36, top: 8, bottom: 8, containLabel: true},
+        xAxis: {type:'value', splitLine:{show:false}},
+        yAxis: {type:'category', data: top.map(function(kv){ return kv[0]; }), axisLabel:{width: 140, overflow:'truncate'}},
+        series: [{type:'bar', data: top.map(function(kv){ return kv[1]; }), label:{show:true, position:'right'}, barMaxWidth: 16, itemStyle:{color:'#6366f1'}}]
+      };
+    }
+    function orgsMatrixOption(){
+      var m = D.orgs.research_matrix;
+      var max = m.values.reduce(function(a,v){ return Math.max(a, v[2]); }, 1);
+      return {
+        tooltip: {formatter: function(p){ return esc(m.orgs[p.value[0]]) + ' × ' + esc(m.research[p.value[1]]) + '：' + p.value[2] + ' 条'; }},
+        grid: {left: 4, right: 16, top: 8, bottom: 60, containLabel: true},
+        xAxis: {type:'category', data: m.orgs, axisLabel:{rotate: 45, width: 90, overflow:'truncate'}},
+        yAxis: {type:'category', data: m.research},
+        visualMap: {min: 0, max: max, orient:'horizontal', left:'center', bottom: 0, inRange:{color:['#eef2ff','#6366f1','#312e81']}},
+        series: [{type:'heatmap', data: m.values, label:{show:true}, emphasis:{itemStyle:{shadowBlur:6}}}]
+      };
+    }
+    function orgsMonthlyOption(){
+      var names = Object.keys(D.orgs.monthly);
+      return {
+        tooltip: {trigger:'axis'},
+        legend: {type:'scroll', bottom: 0},
+        grid: {left: 40, right: 16, top: 16, bottom: 48},
+        xAxis: {type:'category', data: D.months},
+        yAxis: {type:'value'},
+        series: names.map(function(n){ return {name: n, type:'line', smooth:true, showSymbol:false, data: D.orgs.monthly[n]}; })
+      };
+    }
+
+    // ---- ⑤ 研究项目时间线 ----
+    function renderProjects(){
+      var grid = document.getElementById('projectGrid');
+      var names = Object.keys(D.projects).sort(function(a,b){ return (D.projects[a].proposed||'9999') < (D.projects[b].proposed||'9999') ? -1 : 1; });
+      grid.innerHTML = names.map(function(n, i){
+        var p = D.projects[n];
+        var head = RESEARCH_LINKS[n] ? '<a href="' + esc(RESEARCH_LINKS[n]) + '">' + esc(n) + '</a>' : esc(n);
+        return '<div class="trend-proj"><h3>' + head + ' <small>' + p.total + ' 条' + (p.proposed ? ' · 提出 ' + p.proposed : '') + '</small></h3><div class="trend-chart" id="chartProj' + i + '" style="height:11rem"></div></div>';
+      }).join('');
+      names.forEach(function(n, i){
+        var p = D.projects[n];
+        mount('chartProj' + i, function(){
+          var mark = p.proposed && D.months.indexOf(p.proposed) >= 0 ? {silent:true, symbol:'none', lineStyle:{type:'dashed', color:'#a855f7'}, label:{formatter:'提出', position:'insideEndTop'}, data:[{xAxis: p.proposed}]} : null;
+          return {
+            tooltip: {trigger:'axis'},
+            grid: {left: 32, right: 12, top: 10, bottom: 24},
+            xAxis: {type:'category', data: D.months, axisLabel:{interval: Math.ceil(D.months.length/5), fontSize: 10}},
+            yAxis: {type:'value', minInterval: 1, axisLabel:{fontSize: 10}},
+            series: [{type:'bar', data: p.monthly, itemStyle:{color: PALETTE[i % PALETTE.length]}, barMaxWidth: 12, markLine: mark || undefined}]
+          };
+        });
+      });
+    }
+
+    // ---- ⑥ 来源构成 ----
+    function sourcesOption(){
+      return {
+        tooltip: {trigger:'axis', axisPointer:{type:'shadow'}},
+        legend: {type:'scroll', bottom: 0},
+        grid: {left: 40, right: 16, top: 16, bottom: 48},
+        xAxis: {type:'category', data: D.months},
+        yAxis: {type:'value'},
+        series: D.sources.families.map(function(f){ return {name: f, type:'bar', stack:'src', data: D.sources.per_month[f], barMaxWidth: 28}; })
+      };
+    }
+
+    function renderAll(){
+      renderCaveat();
+      mount('chartHeat', heatOption);
+      var r = D.rising;
+      document.getElementById('risingHint').textContent = '最近 ' + r.window_weeks + ' 周（' + r.recent_from + ' 起，' + r.recent_total + ' 条）vs 之前 ' + r.window_weeks + ' 周（' + r.prev_from + ' 起，' + r.prev_total + ' 条），按占比比较';
+      mount('chartRiseTracks', function(){ return risingOption(r.tracks); });
+      mount('chartRiseKeywords', function(){ return risingOption(r.keywords); });
+      mount('chartRiseSubtopics', function(){ return risingOption(r.subtopics); });
+      var k = D.keywords;
+      document.getElementById('cloudHint').textContent = '最近 ' + k.recent_days + ' 天 = ' + k.recent_from + ' 起；词 = ' + k.source;
+      renderCloud();
+      var oc = D.orgs.coverage;
+      var orgsSec = document.getElementById('trend-orgs');
+      if(!D.orgs.top.length){
+        orgsSec.querySelectorAll('.trend-grid2, h3, .trend-chart').forEach(function(e){ e.style.display = 'none'; });
+        document.getElementById('orgsHint').textContent = '机构字段尚未回填（0 / ' + oc.total + ' 条），回填后自动出现';
+      } else {
+        document.getElementById('orgsHint').textContent = '机构字段覆盖 ' + oc.items_with_orgs + ' / ' + oc.total + ' 条，低覆盖时仅供参考';
+        mount('chartOrgsTop', orgsTopOption);
+        mount('chartOrgsMatrix', orgsMatrixOption);
+        mount('chartOrgsMonthly', orgsMonthlyOption);
+      }
+      renderProjects();
+      mount('chartSources', sourcesOption);
+      var un = D.sources.unrecognized_top || [];
+      if(un.length){
+        document.getElementById('srcUnrecognized').style.display = '';
+        document.getElementById('srcUnrecognizedList').innerHTML = un.map(function(kv){ return '<span class="trend-tag">' + esc(kv[0]) + ' <small>' + kv[1] + '</small></span>'; }).join('');
+      }
+    }
+
+    function bind(){
+      ['heatMode','heatMetric','heatTop'].forEach(function(id){ document.getElementById(id).addEventListener('change', function(){ mount('chartHeat', heatOption); }); });
+      document.querySelectorAll('#cloudTabs button').forEach(function(b){ b.addEventListener('click', function(){
+        document.querySelectorAll('#cloudTabs button').forEach(function(x){ x.classList.remove('active'); });
+        b.classList.add('active'); cloudSlice = b.dataset.slice; renderCloud(); }); });
+      if(window.fixit){
+        if(window.fixit.switchThemeEventSet) window.fixit.switchThemeEventSet.add(remountAll);
+        if(window.fixit.resizeEventSet) window.fixit.resizeEventSet.add(resizeAll);
+      }
+      window.addEventListener('resize', resizeAll);
+    }
+
+    function whenReady(fn, tries){
+      if(window.echarts && window.fixit){ fn(); return; }
+      if(tries > 100){ document.getElementById('trendCaveat').textContent = '图表库加载失败（echarts 未就绪）'; return; }
+      setTimeout(function(){ whenReady(fn, tries + 1); }, 100);
+    }
+    fetch(SRC).then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function(j){
+      D = j;
+      whenReady(function(){ renderAll(); bind(); }, 0);
+    }).catch(function(e){ document.getElementById('trendCaveat').textContent = '趋势数据加载失败：' + e; });
+  })();
+  </script>
+  {{- end -}}
+{{- end -}}

@@ -185,3 +185,58 @@ $single-link-hover-color-dark: $brand-accent !default;
 .daily-row-summary { display: block; font-size: .86rem; opacity: .8; margin-top: .15rem; }
 .daily-row[open] > summary { background: var(--global-bg-secondary, rgba(99, 102, 241, .04)); border-radius: 8px; }
 .daily-row-body { padding: .4rem .5rem .8rem; }
+
+// =====================================================================================
+// 趋势栏目（layouts/trends/list.html）
+// =====================================================================================
+.trends-page {
+  .single-subtitle { opacity: .8; }
+  .trend-note {
+    border: 1px solid rgba(99, 102, 241, .35);
+    background: rgba(99, 102, 241, .06);
+    border-radius: 10px;
+    padding: .8rem 1rem;
+    margin: 1rem 0 1.5rem;
+    font-size: .9rem;
+    line-height: 1.7;
+    &.trend-note-warn { border-color: rgba(245, 158, 11, .5); background: rgba(245, 158, 11, .08); }
+  }
+  .trend-section {
+    margin: 2.2rem 0;
+    h2 { font-size: 1.25rem; margin-bottom: .6rem; }
+    h3 { font-size: 1rem; margin: .4rem 0; opacity: .9; }
+  }
+  .trend-hint { font-size: .8rem; font-weight: 400; opacity: .7; }
+  .trend-controls {
+    display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; align-items: center;
+    font-size: .85rem; margin: .4rem 0 .6rem;
+    select, input { margin-left: .3rem; font-size: .85rem; padding: .1rem .3rem; border-radius: 6px;
+      border: 1px solid rgba(128, 128, 128, .4); background: transparent; color: inherit; }
+  }
+  .trend-tabs button {
+    border: 1px solid rgba(128, 128, 128, .4); background: transparent; color: inherit;
+    border-radius: 999px; padding: .2rem .8rem; cursor: pointer; font-size: .85rem;
+    &.active { background: #{$brand-primary}; border-color: #{$brand-primary}; color: #fff; }
+  }
+  .trend-chart { width: 100%; }
+  .trend-grid2, .trend-grid3 { display: grid; gap: 1rem; }
+  .trend-grid2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .trend-grid3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .trend-cloud {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .35em .7em;
+    padding: 1rem .5rem; line-height: 1.2; min-height: 12rem;
+    border: 1px dashed rgba(128, 128, 128, .3); border-radius: 10px;
+  }
+  .trend-word { text-decoration: none; white-space: nowrap; transition: transform .15s;
+    &:hover { transform: scale(1.12); text-decoration: underline; } }
+  .trend-taglist { display: flex; flex-wrap: wrap; gap: .4rem; padding: .5rem 0; }
+  .trend-tag { font-size: .8rem; padding: .1rem .55rem; border-radius: 999px;
+    background: rgba(99, 102, 241, .12); small { opacity: .7; } }
+  .trend-details { margin-top: .6rem; font-size: .9rem; summary { cursor: pointer; opacity: .85; } }
+  .trend-proj { border: 1px solid rgba(128, 128, 128, .25); border-radius: 10px; padding: .5rem .7rem .2rem;
+    h3 { margin: 0 0 .2rem; font-size: .95rem; small { font-weight: 400; opacity: .7; } } }
+  .trend-empty { opacity: .6; padding: 2rem; text-align: center; width: 100%; }
+}
+[data-theme='dark'] .trends-page {
+  .trend-tag { background: rgba(129, 140, 248, .2); }
+}

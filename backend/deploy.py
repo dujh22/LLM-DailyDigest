@@ -14,6 +14,7 @@ push 到 main 时触发。后端写入 content/ 之后，必须有一次 commit+
 只暂存 content/ 目录，不会误提交 .omc/ 等运行时产物；部署失败绝不阻断内容写入。
 """
 import os
+import sys
 import time
 import threading
 import subprocess
@@ -49,9 +50,28 @@ def _has_content_changes():
     return r.returncode == 0 and bool(r.stdout.strip())
 
 
+TRENDS_BUILD = REPO_ROOT / "tools" / "trends_build.py"
+
+
+def _rebuild_trends() -> str:
+    """提交前重算趋势栏目数据 content/trends/trends.json（纯本地聚合，秒级）。
+    失败只返回说明文字写进提交信息，绝不阻断内容提交。返回空串表示成功或未启用。"""
+    if not TRENDS_BUILD.exists():
+        return ""
+    try:
+        r = subprocess.run([sys.executable, str(TRENDS_BUILD), "--quiet"],
+                           capture_output=True, text=True, timeout=60, cwd=str(REPO_ROOT))
+        if r.returncode != 0:
+            return "趋势数据重算失败：" + (r.stderr or r.stdout).strip()[-200:]
+        return ""
+    except Exception as e:  # noqa: BLE001
+        return f"趋势数据重算失败：{e}"
+
+
 def _commit_and_push(reasons, force=False):
     """暂存 content/ 并 commit + push。返回结果 dict，永不抛异常。"""
     try:
+        trends_note = _rebuild_trends()
         _git(["add", "--", "content/"])
         changed = _has_content_changes()
         if not changed and not force:
@@ -59,6 +79,8 @@ def _commit_and_push(reasons, force=False):
                     "message": "无内容变更，跳过提交（如改了配置/模板，勾选「强制重建」再试）"}
 
         msg = "auto(content): 更新日报内容\n\n" + "\n".join(f"- {r}" for r in reasons)
+        if trends_note:
+            msg += f"\n- {trends_note}"
         cargs = ["commit"]
         if not changed and force:
             cargs.append("--allow-empty")

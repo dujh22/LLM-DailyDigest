@@ -10,12 +10,13 @@
 ```
 LLM-DailyDigest/
 ├── co_learner/          # 自动化系统：爬虫 + 内容代理（auto/briefing/info/content_agent）
-├── tools/               # ArXiv 下载 / 批量翻译 / 论文总结 / 定时脚本
+├── tools/               # ArXiv 下载 / 批量翻译 / 论文总结 / 定时脚本 / 趋势数据生成（trends_build.py）
 ├── backend/             # 消息提交后端（Flask + LLM 抽取）
 ├── content/             # Hugo 内容
 │   ├── updates/         # 每日日报（[[items]] 结构化）
 │   ├── topic/           # 主题（自动聚合）
 │   ├── research/        # 研究项目（自动聚合「相关工作」）
+│   ├── trends/          # 趋势栏目（trends.json 由 tools/trends_build.py 生成）
 │   ├── resources/       # 学习资源
 │   └── posts/           # 项目介绍
 ├── layouts/             # 布局（updates/topic/research 聚合逻辑）
@@ -58,6 +59,16 @@ content/research/<项目>.md   研究项目页，自动聚合归属该研究的 
 - **研究页**：底部「相关工作」，页头展示**提出者**与**最早研究时间**。
 
 当前研究项目（提出者：杜晋华）：LogicEvolve (2025-05)、EvolveLRM (2026-01)、HarnessEvolve / SwarmEvolve (2026-03)、Groom (2026-05)、Awesome-RSI (2026-06)、DataEvolve / EvalEvolve (2026-08)、MemoryEvolve / ResearchEvolve (2026-08)、EnvironmentEvolve / JevEvolve (2026-09)、PromptEvolve (2026-10)。
+
+### 趋势栏目 `/trends/`
+
+在日报条目之上做二次统计与可视化（ECharts）：**① 关注热度**（研究项目 / 技术赛道按周曲线，可切换条目数、4 周均值、占比）、**② 升温 / 降温榜**（赛道、关键词、子主题最近 4 周 vs 之前 4 周）、**③ 技术词云**（最近 30 天 / 之前 30 天 / 全部，附本期新出现的词）、**④ 研究机构**（发文量 Top 20、机构 × 研究项目热力图、按月活跃度）、**⑤ 研究项目时间线**（按月条目数，标注提出月份）、**⑥ 来源构成**（按月堆叠）。页面顶部给出数据口径与覆盖率。
+
+- 数据：`python3 tools/trends_build.py` 读取全部日报 → `content/trends/trends.json`（页面资源，纯聚合不调 LLM，秒级）；后端自动部署（`backend/deploy.py`）提交前会自动重算。手动提交内容后请先运行一次再推送，否则线上趋势数据会滞后。
+- 赛道：`tools/trends/tracks.json` 把一千多个细粒度主题映射到 17 个赛道（`tools/trends/build_tracks.py` 用 LLM 生成，增量维护，可手工修正）。
+- 来源族：`tools/trends_build.py` 的 `SOURCE_FAMILIES` 把 `source` 的各种写法归到少数来源族；页面底部列出未归类写法便于补表。
+- 条目新增可选字段 `keywords`（3~5 个规范术语）与 `orgs`（机构规范名）：提交抽取时自动填充；历史条目用 `backend/backfill_trends_fields.py` 回填（关键词走 LLM，机构优先 OpenAlex 按 arXiv id 查询）。未回填前词云退化为「主题 + 子主题」词频，机构图自动隐藏并提示覆盖率。
+- 口径：按**日报日期**统计（反映我们关注到的时间）；条目经相关性筛选且每日有上限，绝对量受采集源扩张影响，比较趋势优先看占比与滑动平均；日报空档周计 0。
 
 ### 本地预览
 
@@ -148,6 +159,7 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 
 **2026-10-09**
 
+- 新增**趋势栏目** `/trends/`：关注热度（研究项目 / 赛道按周）、升温降温榜、技术词云、研究机构、研究项目时间线、来源构成六个模块；数据由 `tools/trends_build.py` 预计算为 `content/trends/trends.json`，自动部署前重算；主题→赛道映射 `tools/trends/tracks.json`（LLM 生成、可维护）；条目新增 `keywords` / `orgs` 字段与回填脚本 `backend/backfill_trends_fields.py`
 - 当日推荐 `/recommend` 采集窗口改为**接续上一次日报**：默认起始 = 最近一份日报记录的采集截止时间、截止 = 当前（无记录回退 24h），页面预填默认起止可直接改；导入到批次时把窗口写入当日日报页面级字段 `collect_since` / `collect_until`，日报页头部显示采集时段；已为 09-28 ~ 10-08 日报补齐窗口标识
 
 **2026-09-10**

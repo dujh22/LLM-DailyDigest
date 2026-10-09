@@ -130,6 +130,17 @@
     <label>一句话摘要</label>
     <input type="text" id="summary">
 
+    <div class="row">
+      <div>
+        <label>关键词（趋势统计用，逗号分隔，3~5 个规范术语，可空）</label>
+        <input type="text" id="keywords" placeholder="如：强化学习, RLVR, 过程奖励模型">
+      </div>
+      <div>
+        <label>机构（趋势统计用，逗号分隔，仅有依据时填，可空）</label>
+        <input type="text" id="orgs" placeholder="如：清华大学, OpenAI">
+      </div>
+    </div>
+
     <div class="row3">
       <div><label>📄 论文</label><input type="text" id="paper" placeholder="arxiv URL"></div>
       <div><label>💻 代码</label><input type="text" id="code" placeholder="github URL"></div>
@@ -170,7 +181,7 @@
 <script>
 // 批次上下文（无批次时为 null）
 const BATCH = {{ batch | tojson }};
-const F = ["id","title","subtopic","source","summary","paper","code","dataset","link","content","purpose","notes"];
+const F = ["id","title","subtopic","source","summary","keywords","orgs","paper","code","dataset","link","content","purpose","notes"];
 const $ = id => document.getElementById(id);
 
 // 批次模式：预填本条原始信息
@@ -178,7 +189,7 @@ if(BATCH && BATCH.raw){
   $('raw').value = BATCH.raw;
 }
 
-function setVal(id,v){ if(v!==undefined && v!==null && v!=="") $(id).value = v; }
+function setVal(id,v){ if(Array.isArray(v)) v = v.join(', '); if(v!==undefined && v!==null && v!=="") $(id).value = v; }
 function getCheckedTopics(){
   return [...document.querySelectorAll('#topics input:checked')].map(c=>c.value);
 }
@@ -367,7 +378,7 @@ $('btnSubmit').onclick = async (force)=>{
       }catch(e){ /* 标记失败不影响提交结果 */ }
     }
     // 提交成功后清空表单，保留以便连续录入
-    ['id','title','subtopic','summary','paper','code','dataset','link','content','purpose','notes'].forEach(id=>$(id).value='');
+    ['id','title','subtopic','summary','keywords','orgs','paper','code','dataset','link','content','purpose','notes'].forEach(id=>$(id).value='');
     document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove()); // 新建的主题已落库，移除候选 chip
     document.querySelectorAll('#topics input, #research input').forEach(c=>c.checked=false);
     $('raw').value='';

@@ -244,6 +244,158 @@ def _parse_item_block(block: str):
         return None
 
 
+# ---- 趋势栏目用的可选条目字段（见 .omc/plans/trends-contract.md）----
+# keywords: 3~5 个规范技术术语；orgs: 作者/发布方机构规范名。两者缺省不写入。
+_TRENDS_LIST_FIELDS = ("keywords", "orgs")
+
+# 机构别名 → 规范名（小写匹配；OpenAlex 的 "Xxx (Country)" 后缀会先去掉）。
+# 唯一维护点：抽取、回填脚本、归并都经 normalize_orgs() 走这张表。
+ORG_ALIASES = {
+    # 国内高校 / 研究机构
+    "tsinghua university": "清华大学", "tsinghua": "清华大学", "thu": "清华大学",
+    "peking university": "北京大学", "pku": "北京大学",
+    "zhejiang university": "浙江大学", "zju": "浙江大学",
+    "fudan university": "复旦大学",
+    "shanghai jiao tong university": "上海交通大学", "sjtu": "上海交通大学",
+    "nanjing university": "南京大学",
+    "university of science and technology of china": "中国科学技术大学", "ustc": "中国科学技术大学",
+    "renmin university of china": "中国人民大学", "ruc": "中国人民大学",
+    "wuhan university": "武汉大学",
+    "sun yat-sen university": "中山大学",
+    "xi'an jiaotong university": "西安交通大学", "xi’an jiaotong university": "西安交通大学",
+    "harbin institute of technology": "哈尔滨工业大学", "hit": "哈尔滨工业大学",
+    "beihang university": "北京航空航天大学",
+    "beijing university of aeronautics and astronautics": "北京航空航天大学",
+    "beijing institute of technology": "北京理工大学",
+    "beijing university of posts and telecommunications": "北京邮电大学", "bupt": "北京邮电大学",
+    "huazhong university of science and technology": "华中科技大学", "hust": "华中科技大学",
+    "university of electronic science and technology of china": "电子科技大学", "uestc": "电子科技大学",
+    "northwestern polytechnical university": "西北工业大学",
+    "tongji university": "同济大学", "nankai university": "南开大学",
+    "tianjin university": "天津大学", "sichuan university": "四川大学",
+    "shandong university": "山东大学", "xiamen university": "厦门大学",
+    "east china normal university": "华东师范大学",
+    "dalian university of technology": "大连理工大学",
+    "southern university of science and technology": "南方科技大学", "sustech": "南方科技大学",
+    "westlake university": "西湖大学", "shenzhen university": "深圳大学",
+    "chinese academy of sciences": "中国科学院",
+    "university of chinese academy of sciences": "中国科学院大学", "ucas": "中国科学院大学",
+    "institute of automation": "中国科学院自动化研究所",
+    "institute of automation, chinese academy of sciences": "中国科学院自动化研究所",
+    "institute of computing technology": "中国科学院计算技术研究所",
+    "institute of computing technology, chinese academy of sciences": "中国科学院计算技术研究所",
+    "shanghai ai lab": "上海人工智能实验室", "shanghai ai laboratory": "上海人工智能实验室",
+    "shanghai artificial intelligence laboratory": "上海人工智能实验室",
+    "上海ai实验室": "上海人工智能实验室", "上海ai lab": "上海人工智能实验室",
+    "beijing academy of artificial intelligence": "智源研究院", "baai": "智源研究院",
+    "北京智源人工智能研究院": "智源研究院", "智源": "智源研究院",
+    "hong kong university of science and technology": "香港科技大学", "hkust": "香港科技大学",
+    "the hong kong university of science and technology": "香港科技大学",
+    "university of hong kong": "香港大学", "the university of hong kong": "香港大学", "hku": "香港大学",
+    "chinese university of hong kong": "香港中文大学", "the chinese university of hong kong": "香港中文大学",
+    "cuhk": "香港中文大学",
+    "city university of hong kong": "香港城市大学", "hong kong polytechnic university": "香港理工大学",
+    "the hong kong polytechnic university": "香港理工大学", "hong kong baptist university": "香港浸会大学",
+    # 国内企业
+    "alibaba": "阿里巴巴", "alibaba group": "阿里巴巴", "alibaba cloud": "阿里巴巴", "alibaba damo academy": "阿里巴巴",
+    "damo academy": "阿里巴巴", "qwen": "阿里巴巴", "qwen team": "阿里巴巴", "tongyi": "阿里巴巴",
+    "tongyi lab": "阿里巴巴", "阿里": "阿里巴巴", "阿里云": "阿里巴巴", "通义": "阿里巴巴", "通义实验室": "阿里巴巴",
+    "bytedance": "字节跳动", "bytedance seed": "字节跳动", "seed": "字节跳动", "doubao": "字节跳动",
+    "字节": "字节跳动", "豆包": "字节跳动", "volcano engine": "字节跳动", "火山引擎": "字节跳动",
+    "tencent": "腾讯", "tencent ai lab": "腾讯", "tencent hunyuan": "腾讯", "hunyuan": "腾讯", "腾讯混元": "腾讯",
+    "baidu": "百度", "baidu research": "百度", "ernie": "百度", "文心": "百度",
+    "huawei": "华为", "huawei technologies": "华为", "huawei noah's ark lab": "华为", "noah's ark lab": "华为",
+    "华为诺亚方舟实验室": "华为", "华为云": "华为",
+    "deepseek": "DeepSeek", "deepseek-ai": "DeepSeek", "deepseek ai": "DeepSeek", "深度求索": "DeepSeek",
+    "zhipu": "智谱AI", "zhipu ai": "智谱AI", "z.ai": "智谱AI", "智谱": "智谱AI", "智谱ai": "智谱AI", "glm": "智谱AI",
+    "moonshot": "月之暗面", "moonshot ai": "月之暗面", "kimi": "月之暗面",
+    "stepfun": "阶跃星辰", "step fun": "阶跃星辰",
+    "minimax": "MiniMax", "01.ai": "零一万物", "01 ai": "零一万物",
+    "xiaomi": "小米", "xiaomi corporation": "小米", "meituan": "美团", "kuaishou": "快手",
+    "kuaishou technology": "快手", "kling": "快手", "可灵": "快手",
+    "ant group": "蚂蚁集团", "蚂蚁": "蚂蚁集团", "jd": "京东", "jd.com": "京东", "京东": "京东",
+    "sensetime": "商汤科技", "商汤": "商汤科技", "iflytek": "科大讯飞", "讯飞": "科大讯飞",
+    # 海外企业 / 实验室
+    "openai": "OpenAI", "anthropic": "Anthropic",
+    "google deepmind": "Google DeepMind", "deepmind": "Google DeepMind", "google brain": "Google DeepMind",
+    "google": "Google", "google research": "Google", "google llc": "Google", "google inc": "Google",
+    "meta": "Meta", "meta ai": "Meta", "fair": "Meta", "meta fair": "Meta", "meta platforms": "Meta",
+    "facebook": "Meta", "facebook ai research": "Meta", "meta superintelligence labs": "Meta",
+    "microsoft": "Microsoft", "microsoft research": "Microsoft", "microsoft research asia": "Microsoft",
+    "msra": "Microsoft", "microsoft corporation": "Microsoft",
+    "nvidia": "NVIDIA", "nvidia corporation": "NVIDIA", "nvidia research": "NVIDIA",
+    "amazon": "Amazon", "aws": "Amazon", "amazon web services": "Amazon", "amazon ai": "Amazon",
+    "apple": "Apple", "apple inc": "Apple",
+    "hugging face": "Hugging Face", "huggingface": "Hugging Face",
+    "mistral": "Mistral AI", "mistral ai": "Mistral AI", "xai": "xAI", "x.ai": "xAI",
+    "cohere": "Cohere", "cohere for ai": "Cohere", "together ai": "Together AI",
+    "salesforce": "Salesforce", "salesforce research": "Salesforce", "salesforce ai research": "Salesforce",
+    "ibm": "IBM", "ibm research": "IBM", "intel": "Intel", "intel labs": "Intel",
+    "samsung": "Samsung", "samsung research": "Samsung", "naver": "NAVER", "naver ai lab": "NAVER",
+    "allen institute for artificial intelligence": "AI2", "allen institute for ai": "AI2", "ai2": "AI2",
+    "mila": "Mila", "mila - quebec artificial intelligence institute": "Mila", "mila - quebec ai institute": "Mila",
+    # 海外高校
+    "stanford university": "斯坦福大学", "stanford": "斯坦福大学",
+    "massachusetts institute of technology": "MIT", "mit": "MIT",
+    "university of california, berkeley": "UC Berkeley", "uc berkeley": "UC Berkeley", "berkeley": "UC Berkeley",
+    "carnegie mellon university": "CMU", "cmu": "CMU",
+    "university of illinois urbana-champaign": "UIUC", "uiuc": "UIUC",
+    "university of california, los angeles": "UCLA", "ucla": "UCLA",
+    "university of california, san diego": "UCSD", "ucsd": "UCSD",
+    "university of washington": "华盛顿大学", "princeton university": "普林斯顿大学",
+    "harvard university": "哈佛大学", "yale university": "耶鲁大学", "cornell university": "康奈尔大学",
+    "columbia university": "哥伦比亚大学", "new york university": "纽约大学", "nyu": "纽约大学",
+    "johns hopkins university": "约翰斯·霍普金斯大学", "jhu": "约翰斯·霍普金斯大学",
+    "university of michigan": "密歇根大学", "university of michigan–ann arbor": "密歇根大学",
+    "university of michigan-ann arbor": "密歇根大学",
+    "university of maryland": "马里兰大学", "university of maryland, college park": "马里兰大学",
+    "university of texas at austin": "德克萨斯大学奥斯汀分校", "the university of texas at austin": "德克萨斯大学奥斯汀分校",
+    "ut austin": "德克萨斯大学奥斯汀分校",
+    "georgia institute of technology": "佐治亚理工学院", "georgia tech": "佐治亚理工学院",
+    "university of oxford": "牛津大学", "oxford": "牛津大学", "university of cambridge": "剑桥大学",
+    "university of edinburgh": "爱丁堡大学", "the university of edinburgh": "爱丁堡大学",
+    "eth zurich": "ETH Zurich", "eth zürich": "ETH Zurich", "epfl": "EPFL",
+    "university of toronto": "多伦多大学", "university of waterloo": "滑铁卢大学",
+    "national university of singapore": "新加坡国立大学", "nus": "新加坡国立大学",
+    "nanyang technological university": "南洋理工大学", "ntu": "南洋理工大学",
+    "korea advanced institute of science and technology": "KAIST", "kaist": "KAIST",
+    "seoul national university": "首尔大学", "university of tokyo": "东京大学", "the university of tokyo": "东京大学",
+}
+_ORG_COUNTRY_SUFFIX_RE = re.compile(r"\s*\((?:[A-Z][A-Za-z .'-]+)\)\s*$")
+
+
+def _norm_str_list(v) -> list:
+    """把 list / 逗号或顿号分隔字符串规范为去空白、去重（保序）的字符串列表。"""
+    if v is None:
+        return []
+    if isinstance(v, str):
+        v = re.split(r"[,，、;；\n]", v)
+    out, seen = [], set()
+    for x in v:
+        x = str(x or "").strip()
+        if x and x not in seen:
+            seen.add(x)
+            out.append(x)
+    return out
+
+
+def normalize_orgs(orgs) -> list:
+    """机构名规范化：去掉 OpenAlex 式国家后缀与多余空白，按 ORG_ALIASES 归一到规范名，
+    去重保序；表外名称原样保留。接受 list 或分隔字符串。"""
+    out, seen = [], set()
+    for raw in _norm_str_list(orgs):
+        name = _ORG_COUNTRY_SUFFIX_RE.sub("", raw).strip().rstrip(".")
+        name = re.sub(r"\s+", " ", name)
+        key = name.lower()
+        if key.startswith("the ") and key[4:] in ORG_ALIASES:
+            key = key[4:]
+        canon = ORG_ALIASES.get(key, name)
+        if canon and canon not in seen:
+            seen.add(canon)
+            out.append(canon)
+    return out
+
+
 def parse_score(v):
     """把表单/推荐传来的相关性分数规范为 0~3 的 int；空/非法返回 None（不写入条目）。"""
     if v is None or v == "":
@@ -269,6 +421,20 @@ def _attach_score(ordered: dict, item: dict) -> None:
     ordered.update(items)
 
 
+def _attach_trends_fields(ordered: dict, item: dict) -> None:
+    """序列化时写入趋势栏目用的可选列表字段 keywords / orgs：仅非空时写入，
+    放在 research 之后（两处序列化器共用，保证改写/归并后字段不丢）。"""
+    extras = [(f, _norm_str_list(item.get(f))) for f in _TRENDS_LIST_FIELDS]
+    extras = [(f, v) for f, v in extras if v]
+    if not extras:
+        return
+    items = list(ordered.items())
+    pos = [k for k, _ in items].index("research") + 1
+    items[pos:pos] = extras
+    ordered.clear()
+    ordered.update(items)
+
+
 def _reserialize_item_block(item: dict) -> str:
     """按固定键顺序重写单个 item 块（与 serialize_item_block 一致，复用 tomli_w）。"""
     import tomli_w
@@ -288,6 +454,7 @@ def _reserialize_item_block(item: dict) -> str:
         "purpose": item.get("purpose", ""),
         "notes": item.get("notes", ""),
     }
+    _attach_trends_fields(ordered, item)
     _attach_score(ordered, item)
     return tomli_w.dumps({"items": [ordered]}).rstrip("\n")
 
@@ -513,6 +680,10 @@ def absorb_items(kept: dict, dup: dict, dup_date: str) -> dict:
                 seen.add(v)
                 base.append(v)
         merged[f] = base
+    for f in _TRENDS_LIST_FIELDS:  # 并集保序；两边都没有时不引入空字段
+        union = _norm_str_list(list(merged.get(f) or []) + list(dup.get(f) or []))
+        if union:
+            merged[f] = normalize_orgs(union) if f == "orgs" else union
     for f in ("summary", "content", "purpose"):
         a, b = (merged.get(f) or "").strip(), (dup.get(f) or "").strip()
         if not b or b == a:
@@ -595,7 +766,8 @@ def scan_duplicate_groups(days: int = 7, end_date=None):
         # 吸收 diff 预览（keep 原值 → 合并后新值）
         absorb = []
         for f in ("title", "subtopic", "source", "paper", "code", "dataset", "link",
-                  "topics", "research", "summary", "content", "purpose", "notes"):
+                  "topics", "research", "keywords", "orgs", "summary", "content",
+                  "purpose", "notes"):
             old, new = keep["item"].get(f), merged.get(f)
             if old != new:
                 absorb.append({"field": f, "old": old, "new": new})
@@ -1563,6 +1735,7 @@ def serialize_item_block(item: dict) -> str:
         "purpose": item.get("purpose", ""),
         "notes": item.get("notes", ""),
     }
+    _attach_trends_fields(ordered, item)
     _attach_score(ordered, item)
     return tomli_w.dumps({"items": [ordered]}).rstrip("\n")
 
@@ -1625,6 +1798,12 @@ def build_item_from_form(data: dict) -> dict:
         "purpose": (data.get("purpose") or "").strip(),
         "notes": data.get("notes", ""),
     }
+    keywords = _norm_str_list(data.get("keywords"))
+    if keywords:
+        item["keywords"] = keywords
+    orgs = normalize_orgs(data.get("orgs"))
+    if orgs:
+        item["orgs"] = orgs
     sc = parse_score(data.get("score"))
     if sc is not None:
         item["score"] = sc
@@ -2083,6 +2262,11 @@ def llm_extract(raw: str, extra: str = "") -> dict:
         "- link: 原文链接（非论文类消息，如微信文章），无则 \"\"。\n"
         "- content: 正文，中文 3~5 句要点，可用 markdown。\n"
         "- purpose: 用途与启示，markdown 无序列表（每条以 - 开头）。\n"
+        "- keywords: 3~5 个规范技术术语数组（中文或公认英文缩写，如 \"强化学习\"、\"RLVR\"、"
+        "\"工具调用\"、\"过程奖励模型\"），优先复用上面子主题/主题词表中的写法；"
+        "禁止泛词（大模型、人工智能、方法、研究、模型、论文）。\n"
+        "- orgs: 作者/发布方机构规范名数组（如 \"清华大学\"、\"OpenAI\"、\"Google DeepMind\"、"
+        "\"上海人工智能实验室\"），仅当文本中确有依据时填写，否则返回空数组 []；不要猜测。\n"
         "只输出 JSON 对象。"
     )
 
@@ -2142,6 +2326,8 @@ def llm_extract(raw: str, extra: str = "") -> dict:
     parsed["suggested_topics"] = suggested
     r = parsed.get("research", [])
     parsed["research"] = [str(x).strip() for x in ([r] if isinstance(r, str) else r) if str(x).strip()]
+    parsed["keywords"] = _norm_str_list(parsed.get("keywords"))[:5]
+    parsed["orgs"] = normalize_orgs(parsed.get("orgs"))
 
     return {"ok": True, "data": parsed,
             "resolved_links": resolved, "unresolved_links": unresolved}
@@ -2350,6 +2536,8 @@ def submit_review_entry(batch_id: str, idx: int) -> dict:
         "id": "",
         "topics": topics,
         "research": research,
+        "keywords": list(data.get("keywords") or []),
+        "orgs": list(data.get("orgs") or []),
         "notes": entry.get("raw", ""),
     })
     if meta.get("score") is not None:

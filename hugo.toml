@@ -45,38 +45,45 @@ enableEmoji = true
     [menu.main.params]
       icon = 'fa-solid fa-newspaper'
   [[menu.main]]
+    identifier = 'trends'
+    name = '趋势'
+    url = '/trends/'
+    weight = 3
+    [menu.main.params]
+      icon = 'fa-solid fa-chart-line'
+  [[menu.main]]
     identifier = 'topic'
     name = '主题'
     url = '/topic/'
-    weight = 3
+    weight = 4
     [menu.main.params]
       icon = 'fa-solid fa-layer-group'
   [[menu.main]]
     identifier = 'tech'
     name = '技术'
     url = '/tech/'
-    weight = 4
+    weight = 5
     [menu.main.params]
       icon = 'fa-solid fa-microchip'
   [[menu.main]]
     identifier = 'research'
     name = '研究'
     url = '/research/'
-    weight = 5
+    weight = 6
     [menu.main.params]
       icon = 'fa-solid fa-flask'
   [[menu.main]]
     identifier = 'resources'
     name = '资源'
     url = '/resources/'
-    weight = 6
+    weight = 7
     [menu.main.params]
       icon = 'fa-solid fa-box-archive'
   [[menu.main]]
     identifier = 'papers'
     name = '论文'
     url = '/papers/'
-    weight = 7
+    weight = 8
     [menu.main.params]
       icon = 'fa-solid fa-file-lines'
 
