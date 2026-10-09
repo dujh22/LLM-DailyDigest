@@ -1113,6 +1113,22 @@ def default_window_info() -> dict:
             "basis": w["basis"], "basis_date": w["basis_date"]}
 
 
+def cache_is_fresh(cache: dict) -> bool:
+    """今日缓存是否仍可复用：缓存窗口的截止时间必须晚于当前默认窗口的起始时间。
+    同一天采集并导入过一次后，日报的 collect_until 会推进到上次截止，默认起始随之后移；
+    此时旧缓存已整段落在新窗口之前，应视为过期重新采集（无需用户点「强制」）。
+    缓存缺窗口信息（旧格式）时按新鲜处理，保持原行为。"""
+    if not cache:
+        return False
+    until = (cache.get("window") or {}).get("until")
+    if not until:
+        return True
+    try:
+        return parse_iso_dt(until) > default_window()["since"]
+    except ValueError:
+        return True
+
+
 def run_collection(since_dt: datetime = None, until_dt: datetime = None):
     """完整采集编排（在后台线程执行）：公众号 → arXiv → LLM 判定 → 写缓存。
     采集窗口 [since_dt, until_dt]：截止缺省 = 当前时间；起始缺省见 default_window()
@@ -1276,8 +1292,8 @@ def start_collection(force: bool = False,
     均为 None 时用默认窗口（截止=当前，起始=上一次日报采集截止时间，见 default_window）。"""
     global _RECOMMEND_RUNNING
     custom_window = since_dt is not None or until_dt is not None
-    if not force and not custom_window and load_cache():
-        return True  # 缓存命中，无需采集
+    if not force and not custom_window and cache_is_fresh(load_cache()):
+        return True  # 缓存命中且仍覆盖默认窗口，无需采集
     with _STATE_LOCK:
         if _RECOMMEND_RUNNING:
             return False
