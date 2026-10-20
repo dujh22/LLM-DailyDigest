@@ -1315,21 +1315,30 @@ def record_daily_collect_window(path: Path, since_iso: str, until_iso: str) -> d
 def record_batch_window(batch_id: str, file_name: str) -> dict:
     """批次条目成功写入日报后，把该批次留档的推荐采集窗口记到目标日报（collect_since/until）。
     用于「导入时当日日报尚不存在」的延后写入：不在导入时凭空创建日报，而是跟随首条真实提交。
-    无窗口 / 目标文件不存在时不动；返回 {"file", "since", "until", "changed"} 或 None，失败不抛。"""
+    file_name 兼容两种来源：do_submit 返回的仓库相对路径（content/updates/<date>.md）和前端
+    /api/batch/mark 传来的裸文件名（<date>.md），统一只取文件名再拼到 UPDATES_DIR 下
+    （直接 UPDATES_DIR / 相对路径会拼出 content/updates/content/updates/…，永远不存在，
+    导致延后写入静默失效、下次采集默认窗口回退到更早的日报）。
+    无窗口 / 不是日报文件 / 目标文件不存在时不动；返回 {"file", "since", "until", "changed"}
+    或 None，失败不抛。"""
     batch = load_batch(batch_id) if batch_id else None
     window = (batch or {}).get("window") or {}
     if not (window.get("since") and window.get("until")):
         return None
-    path = UPDATES_DIR / (file_name or "")
-    if not file_name or not path.exists():
+    name = Path(file_name).name if file_name else ""
+    if not re.match(r"^\d{4}-\d{2}-\d{2}\.md$", name):
+        return None
+    path = UPDATES_DIR / name
+    if not path.exists():
+        app.logger.warning("记录采集窗口：日报 %s 不存在（批次 %s 传入 %r）", name, batch_id, file_name)
         return None
     try:
         with _SUBMIT_LOCK:
             rec = record_daily_collect_window(path, window["since"], window["until"])
     except Exception as e:  # noqa: BLE001
-        app.logger.warning("记录采集窗口到 %s 失败：%s", file_name, e)
+        app.logger.warning("记录采集窗口到 %s 失败：%s", name, e)
         return None
-    return {"file": file_name, **rec}
+    return {"file": name, **rec}
 
 
 def write_daily_summary(d: str, block_md: str, featured: list = None) -> bool:
