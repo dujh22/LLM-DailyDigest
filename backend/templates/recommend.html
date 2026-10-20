@@ -31,6 +31,7 @@
     background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;transition:transform .15s,opacity .15s}
   button:hover{transform:translateY(-1px)} button:disabled{opacity:.5;cursor:not-allowed;transform:none}
   button.ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}
+  button.ghost.attn{border-color:var(--err);color:var(--err)}
   button.green{background:linear-gradient(135deg,#16a34a,#22c55e)}
   .actions{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
   .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);
@@ -76,7 +77,7 @@
 <body>
 <div class="wrap">
   <h1><span>LLM-DailyDigest</span> · 当日推荐</h1>
-  <p class="sub">采集指定时间窗口（默认从上一次日报记录的采集截止时间接续到现在；无记录时取最近 24 小时）内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ 新智元 ASI 爆点页 + AIHOT 每日精选 + AIbase 快讯 + AI工具集日报 + 智源热门论文榜 + arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。页面打开不会自动采集，选好时间窗口后点「采集」开始。导入到批次时会把本次窗口写入当日日报（<code>collect_since</code> / <code>collect_until</code>），作为日报的采集时段标识，下次默认窗口由此接续。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
+  <p class="sub">采集指定时间窗口（默认从上一次日报记录的采集截止时间接续到现在；无记录时取最近 24 小时）内与你的研究相关的内容：量子位（官网+RSS）/ 机器之心 / 新智元（RSS，可配 appmsg 实时增强）+ 新智元 ASI 爆点页 + AIHOT 每日精选 + AIbase 快讯 + AI工具集日报 + 智源热门论文榜 + arXiv（cs.CL / cs.AI / cs.LG），LLM 判定相关性后勾选导入批处理。页面打开不会自动采集，选好时间窗口后点「采集」开始。某个来源（典型是 arXiv 被限流）失败时，可用「仅重采 arXiv」单独补采，不重跑其他来源。导入到批次时会把本次窗口写入当日日报（<code>collect_since</code> / <code>collect_until</code>），作为日报的采集时段标识，下次默认窗口由此接续。 · <a href="/">← 单条提交</a> · <a href="/batch/new">📦 批处理</a> · <a href="/merge">🧩 主题归并</a></p>
 
   <!-- ① 微信凭据 -->
   <div class="card">
@@ -118,6 +119,7 @@
     <div class="actions">
       <button id="btnCollect">🔄 采集</button>
       <button class="ghost" id="btnForce">🔄 强制重新采集（忽略当日缓存）</button>
+      <button class="ghost" id="btnArxiv" title="沿用当日缓存的采集窗口，只重新抓取 arXiv 并只对新条目做 LLM 判定；其他来源的条目、判定与勾选状态保持不变。arXiv 限流（429）恢复后用这个补采即可">📄 仅重采 arXiv</button>
       <span class="hint" id="phaseText"></span>
     </div>
   </div>
@@ -192,6 +194,10 @@ function renderStatus(j){
   phase.textContent = PHASE_TEXT[j.phase] || j.phase;
   $('btnCollect').disabled = j.running;
   $('btnForce').disabled = j.running;
+  // 仅重采 arXiv 需要当日缓存（沿用其窗口与其他源结果）
+  $('btnArxiv').disabled = j.running || !j.has_cache;
+  const arxivErr = (j.errors||[]).some(e=>e.source==='arXiv' && /429|timed out|请求失败/.test(e.error||''));
+  $('btnArxiv').classList.toggle('attn', !j.running && j.has_cache && arxivErr);
   $('progressWrap').style.display = j.running ? '' : 'none';
   // 源级错误横幅（凭据过期给指引）
   const errs = j.errors || [];
@@ -212,8 +218,9 @@ function renderStatus(j){
   const winText = w.since ? ` · 窗口：${fmt(w.since)} ~ ${fmt(w.until)}（${w.hours||''}h${w.basis?'，'+basisText(w):''}）` : '';
   const dw = j.default_window||{};
   const defText = dw.since ? `默认窗口 = ${fmt(dw.since)} ~ ${fmt(dw.until)}（${basisText(dw)}，约 ${dw.hours}h）` : '';
+  const arxivText = j.arxiv_recollected_at ? ` · arXiv 补采：${j.arxiv_recollected_at}` : '';
   $('collectMeta').textContent = (j.generated_at ? `上次采集：${j.generated_at}` : '尚未采集：确认时间窗口后点「采集」开始') +
-    winText + (srcParts.length ? ` · ${srcParts.join(' · ')}` : '') + (defText ? ` · ${defText}` : '');
+    arxivText + winText + (srcParts.length ? ` · ${srcParts.join(' · ')}` : '') + (defText ? ` · ${defText}` : '');
   $('startTime').title = defText;
   // 预填默认窗口（datetime-local 取到分钟）；用户手动改过的输入框不再覆盖
   if(dw.since && !EDITED.start) $('startTime').value = fmt(dw.since).replace(' ','T');
@@ -277,6 +284,21 @@ function startPolling(){
 }
 $('btnCollect').onclick = ()=>collect(false);
 $('btnForce').onclick = ()=>collect(true);
+
+// 仅重采 arXiv：POST /api/recommend/recollect {source:'arXiv'}，窗口沿用当日缓存，不传起止时间
+async function recollectArxiv(){
+  const btn = $('btnArxiv');
+  btn.disabled = true;
+  try{
+    const r = await fetch('/api/recommend/recollect',{method:'POST',
+      headers:{'Content-Type':'application/json'},body:JSON.stringify({source:'arXiv'})});
+    const j = await r.json();
+    if(!j.ok){ toast((j.errors||[]).join('；')||'启动失败','err'); return; }
+    toast('已开始仅重采 arXiv（其他来源保持不变）','ok');
+  }catch(e){ toast('网络错误：'+e,'err'); }
+  finally{ btn.disabled = false; startPolling(); }  // 轮询到 running 时 renderStatus 会再次禁用
+}
+$('btnArxiv').onclick = recollectArxiv;
 
 // ---- 候选列表 ----
 function checkedStore(){

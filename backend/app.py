@@ -3129,11 +3129,14 @@ def api_recommend_status():
         "phase": state["phase"],
         "has_cache": cache is not None,
         "generated_at": (cache or {}).get("generated_at", ""),
+        "arxiv_recollected_at": (cache or {}).get("arxiv_recollected_at", ""),
         "window": (cache or {}).get("window", {}),
         # 本次点「采集」且起止留空时将采用的窗口（起始接续上一次日报的 collect_until）
         "default_window": recommend_mod.default_window_info(),
         "sources": (cache or {}).get("sources", {}),
-        "errors": (cache or {}).get("errors", []),
+        # 采集线程异常结束时，失败原因只在内存状态里（缓存未更新），此时以状态为准
+        "errors": (state.get("errors") if state["phase"] == "error" and state.get("errors")
+                   else (cache or {}).get("errors", [])),
         "credentials": recommend_mod.credentials_status(),
         "items": items,
         "import_rule": {"score_min": score_min, "cap": cap,
@@ -3181,6 +3184,27 @@ def api_recommend_collect():
     state = recommend_mod.get_state()
     return jsonify({"ok": True, "started": started,
                     "running": state["running"]}), (409 if not started and state["running"] else 200)
+
+
+@app.route("/api/recommend/recollect", methods=["POST"])
+def api_recommend_recollect():
+    """仅重采单个来源（后台异步），不动当日缓存中其他来源的条目与 LLM 判定结果。
+    body: {source: "arXiv"}（目前仅支持 arXiv：它是最易被限流/超时的源，
+    且采集阶段独立于其他源，适合在 429 恢复后单独补采）。
+    采集窗口沿用当日缓存记录的窗口；无缓存时返回 400 提示先做完整采集。"""
+    err = _recommend_or_503()
+    if err:
+        return err
+    data = request.get_json(silent=True) or {}
+    source = str(data.get("source") or "arXiv").strip()
+    if source != "arXiv":
+        return jsonify({"ok": False, "errors": [f"暂不支持单独重采来源：{source}（仅支持 arXiv）"]}), 400
+    started, msg = recommend_mod.start_arxiv_recollect()
+    state = recommend_mod.get_state()
+    if not started:
+        return jsonify({"ok": False, "started": False, "running": state["running"],
+                        "errors": [msg]}), (409 if state["running"] else 400)
+    return jsonify({"ok": True, "started": True, "running": state["running"]})
 
 
 @app.route("/api/recommend/credentials", methods=["GET", "POST"])

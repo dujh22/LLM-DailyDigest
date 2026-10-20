@@ -1002,12 +1002,22 @@ def load_cache():
         return None
 
 
-def save_cache(payload: dict) -> None:
+def save_cache(payload: dict, touch_generated_at: bool = True) -> None:
+    """写当日缓存。touch_generated_at=False 用于局部更新（如仅重采 arXiv），
+    保留完整采集的 generated_at 作为「上次采集」时间。"""
     RECOMMEND_DIR.mkdir(parents=True, exist_ok=True)
     payload["date"] = date_str()
-    payload["generated_at"] = datetime.now().isoformat(timespec="seconds")
-    cache_path(date_str()).write_text(json.dumps(payload, ensure_ascii=False, indent=2),
-                                      encoding="utf-8")
+    if touch_generated_at or not payload.get("generated_at"):
+        payload["generated_at"] = datetime.now().isoformat(timespec="seconds")
+    # 先写临时文件再原子替换：避免轮询 status 时读到写了一半的 JSON（表现为缓存瞬间消失）
+    dst = cache_path(date_str())
+    tmp = dst.with_suffix(".json.tmp")
+    try:
+        tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        os.replace(tmp, dst)
+    except Exception:
+        tmp.unlink(missing_ok=True)
+        raise
 
 
 def date_str() -> str:
@@ -1237,24 +1247,11 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
                                       "error": f"采集窗口（{window_desc}）内所有通道均未取到文章"
                                                "（大概率该号未发文；appmsg 未配置，无法实时核实）"})
 
-        # 3) arXiv（窗口为空时逐级向前放宽起始时间 24h/48h：arXiv 按公告批次入库，
-        #    刚公告的论文 submittedDate 常在 1~2 天前，窗口太窄会漏掉最新批次）
+        # 3) arXiv（逻辑见 _arxiv_stage；可由「仅重采 arXiv」单独重跑）
         _set_state("arxiv", counts=_count_by_source(all_items))
-        for extra in (0, 24, 48):
-            res = collect_arxiv(since_dt - timedelta(hours=extra), until_dt)
-            # 与智源热门论文榜按标题去重（榜单条目带热度与中文摘要，优先保留）
-            all_items.extend(x for x in res["items"]
-                             if _norm_title(x["title"]) not in seen_titles)
-            source_errors.extend(res["errors"])
-            if res["items"]:
-                if extra:
-                    source_errors.append({
-                        "source": "arXiv",
-                        "error": f"设定窗口（{window_desc}）内无新提交（公告批次未覆盖），"
-                                 f"已把起始时间前移 {extra}h（{len(res['items'])} 篇）"})
-                break
-            if any("429" in e["error"] for e in res["errors"]):
-                time.sleep(10)  # 刚被限速，放宽窗口前先冷却
+        arxiv_items, arxiv_errors = _arxiv_stage(since_dt, until_dt, seen_titles, window_desc)
+        all_items.extend(arxiv_items)
+        source_errors.extend(arxiv_errors)
 
         # 3) LLM 相关性判定
         _set_state("filter", counts=_count_by_source(all_items))
@@ -1276,6 +1273,85 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
     finally:
         with _STATE_LOCK:
             _RECOMMEND_RUNNING = False
+
+
+def _arxiv_stage(since_dt: datetime, until_dt: datetime, seen_titles: set,
+                 window_desc: str):
+    """arXiv 采集阶段：窗口为空时逐级向前放宽起始时间 24h/48h（arXiv 按公告批次入库，
+    刚公告的论文 submittedDate 常在 1~2 天前，窗口太窄会漏掉最新批次）。
+    seen_titles 为其他源已取到的标题（规范化），用于与智源热门论文榜等去重
+    （榜单条目带热度与中文摘要，优先保留）。返回 (items, errors)。"""
+    items, errors = [], []
+    for extra in (0, 24, 48):
+        res = collect_arxiv(since_dt - timedelta(hours=extra), until_dt)
+        items.extend(x for x in res["items"]
+                     if _norm_title(x["title"]) not in seen_titles)
+        errors.extend(res["errors"])
+        if res["items"]:
+            if extra:
+                errors.append({
+                    "source": "arXiv",
+                    "error": f"设定窗口（{window_desc}）内无新提交（公告批次未覆盖），"
+                             f"已把起始时间前移 {extra}h（{len(res['items'])} 篇）"})
+            break
+        if any("429" in e["error"] for e in res["errors"]):
+            time.sleep(10)  # 刚被限速，放宽窗口前先冷却
+    return items, errors
+
+
+def run_arxiv_recollect(cache: dict):
+    """仅重采 arXiv（在后台线程执行）：复用当日缓存 cache 的采集窗口与其他源结果，
+    只替换缓存中的 arXiv 条目及其错误记录，LLM 判定也只对新取到的 arXiv 条目跑。
+    用于 arXiv API 限流（429）恢复后补采，避免「强制重新采集」把其他源和判定全部重跑。
+    前置条件（当日缓存存在且带窗口信息）由 start_arxiv_recollect 校验并传入 cache。"""
+    global _RECOMMEND_RUNNING
+    try:
+        w = cache.get("window") or {}
+        since_dt, until_dt = parse_iso_dt(w["since"]), parse_iso_dt(w["until"])
+        window_desc = (f"{since_dt.astimezone().strftime('%Y-%m-%d %H:%M')} ~ "
+                       f"{until_dt.astimezone().strftime('%Y-%m-%d %H:%M')}")
+        kept_items = [it for it in cache.get("items", []) if it.get("source") != "arXiv"]
+        kept_errors = [e for e in cache.get("errors", []) if e.get("source") != "arXiv"]
+        seen_titles = {_norm_title(it.get("title", "")) for it in kept_items}
+
+        _set_state("arxiv", counts=_count_by_source(kept_items), errors=[])
+        arxiv_items, arxiv_errors = _arxiv_stage(since_dt, until_dt, seen_titles, window_desc)
+        all_items = kept_items + arxiv_items
+        source_errors = kept_errors + arxiv_errors
+
+        _set_state("filter", counts=_count_by_source(all_items))
+        filter_relevance(arxiv_items)  # 其他源条目沿用缓存中的判定结果
+
+        cache.update({"sources": _count_by_source(all_items),
+                      "errors": source_errors,
+                      "items": all_items,
+                      "arxiv_recollected_at": datetime.now().isoformat(timespec="seconds")})
+        save_cache(cache, touch_generated_at=False)  # window / generated_at 原样保留
+        _set_state("done", counts=_count_by_source(all_items), errors=source_errors)
+    except Exception as e:  # noqa: BLE001
+        _set_state("error", errors=(cache.get("errors") or []) +
+                   [{"source": "arXiv 重采", "error": str(e)}])
+    finally:
+        with _STATE_LOCK:
+            _RECOMMEND_RUNNING = False
+
+
+def start_arxiv_recollect():
+    """后台启动「仅重采 arXiv」。返回 (started, message)：
+    缓存缺失/无窗口信息时 (False, 原因)；已有采集在运行时 (False, "已在运行")。"""
+    global _RECOMMEND_RUNNING
+    cache = load_cache()
+    if not cache:
+        return False, "当日尚无采集缓存，请先点「采集」做一次完整采集"
+    w = cache.get("window") or {}
+    if not (w.get("since") and w.get("until")):
+        return False, "当日缓存缺少采集窗口信息（旧格式），请用「强制重新采集」"
+    with _STATE_LOCK:
+        if _RECOMMEND_RUNNING:
+            return False, "已有采集在运行"
+        _RECOMMEND_RUNNING = True
+    threading.Thread(target=run_arxiv_recollect, args=(cache,), daemon=True).start()
+    return True, ""
 
 
 def _count_by_source(items):
