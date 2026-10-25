@@ -2024,18 +2024,59 @@ def fetch_github(url: str, readme_limit: int = 4000) -> dict:
     return {"title": f"{owner}/{repo}", "text": text}
 
 
+def _wechat_meta(soup, prop: str) -> str:
+    tag = soup.find("meta", property=prop) or soup.find("meta", attrs={"name": prop})
+    return (tag.get("content") or "").strip() if tag else ""
+
+
+def _wechat_js_str(html: str, key: str) -> str:
+    """从页面脚本中抽取 window.cgiDataNew / window.<key> 里的字符串字面量。"""
+    m = (re.search(r"\b" + key + r"\s*:\s*'((?:[^'\\]|\\.)*)'", html)
+         or re.search(r"window\." + key + r"\s*=\s*'((?:[^'\\]|\\.)*)'", html))
+    if not m:
+        return ""
+    raw = m.group(1)
+    try:
+        raw = raw.encode("utf-8").decode("unicode_escape").encode("latin-1").decode("utf-8")
+    except (UnicodeDecodeError, UnicodeEncodeError):
+        pass
+    return raw.strip()
+
+
 def fetch_wechat(url: str, limit: int = 6000) -> dict:
-    """微信公众号文章：定位 #js_content 正文。"""
+    """微信公众号文章：优先定位 #js_content 正文；图片/文字/视频等非图文消息
+    （页面无 #js_content，正文在 og:description / window.cgiDataNew 中）走元数据回退。"""
     r = _http_get(url)
     r.encoding = r.apparent_encoding or "utf-8"
-    soup = BeautifulSoup(r.text, "html.parser")
-    h = soup.find("h1") or soup.find("title")
-    title = h.get_text(strip=True) if h else ""
+    if "wappoc_appmsgcaptcha" in r.url or "wappoc_appmsgcaptcha" in r.text[:3000]:
+        raise ValueError("触发微信环境验证（验证码页），需更换出口 IP 或稍后重试")
+    html = r.text
+    soup = BeautifulSoup(html, "html.parser")
+    title = _wechat_meta(soup, "og:title")
+    if not title:
+        h = soup.find("h1") or soup.find("title")
+        title = h.get_text(strip=True) if h else ""
     body = soup.select_one("#js_content") or soup.select_one(".rich_media_content")
-    if body is None:
-        raise ValueError("未定位到微信正文（可能需要验证或非文章页）")
-    text = _clean_text(body.get_text("\n", strip=True), limit)
-    return {"title": title, "text": f"标题：{title}\n正文：{text}"}
+    if body is not None:
+        text = _clean_text(body.get_text("\n", strip=True), limit)
+        return {"title": title, "text": f"标题：{title}\n正文：{text}"}
+    # 回退：图片分享（item_show_type=8）、纯文字（10）、视频等消息类型
+    show_type = re.search(r"window\.item_show_type\s*=\s*'(\d+)'", html)
+    show_type = show_type.group(1) if show_type else ""
+    text = (_wechat_js_str(html, "content_noencode")
+            or _wechat_meta(soup, "og:description")
+            or _wechat_meta(soup, "description"))
+    text = text.replace("\\x0a", "\n").replace("\x0a", "\n")
+    imgs = re.findall(r"\bcdn_url\s*:\s*'([^']+)'", html)
+    imgs = list(dict.fromkeys(i.replace("\\x26amp;", "&").replace("&amp;", "&") for i in imgs))
+    if not text and not imgs:
+        hint = f"item_show_type={show_type}" if show_type else "可能已删除、需登录或非文章页"
+        raise ValueError(f"未定位到微信正文（{hint}）")
+    kind = {"8": "图片消息", "10": "文字消息", "5": "视频消息"}.get(show_type, "非图文消息")
+    parts = [f"标题：{title}", f"类型：{kind}", f"正文：{_clean_text(text, limit)}"]
+    if imgs:
+        parts.append("图片：\n" + "\n".join(imgs[:20]))
+    return {"title": title, "text": "\n".join(parts)}
 
 
 def fetch_hf_paper_page(url: str, limit: int = 6000) -> dict:
