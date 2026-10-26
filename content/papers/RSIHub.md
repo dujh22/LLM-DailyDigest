@@ -1,3 +1,15 @@
++++
+title = 'RSIHub：一种用于智能体演进方法的可组合框架'
+date = 2026-10-23T00:00:00+08:00
+draft = false
+toc = true
+
+[extra]
+paper = 'https://arxiv.org/abs/2610.32253'
+authors = 'Zimu Wang, Xiaobo Wang, Siyu Ye, Jiaqi Li, Silin Chen, Yuling Shi, Ruobing Wang, Jingjing Zhang, Chaofan Wang, Kai Wu, Mengnan Qi, Kai Cai, Xiaodong Gu, Zilong Zheng'
+published = '2026-10-23'
++++
+
 # RSIHub：一种用于智能体演进方法的可组合框架
 
 [论文双语版](https://pan.baidu.com/s/1xBXMuVBD--pBzmQPy227gQ?pwd=iz3q)  [Huggingface](https://huggingface.co/papers/2610.32253)
