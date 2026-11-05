@@ -84,8 +84,8 @@ python app.py
 - **默认零配置可用**（官网 + RSS + arXiv）。appmsg 为可选实时增强：`/recommend` 页粘贴 mp.weixin.qq.com 的 Cookie + token（F12 找 appmsg 请求），保存时自动测试；微信限流（ret 200013，`freq control`）时自动静默回落到默认通道，只有某公众号所有通道都取不到时才报警。
 - 相关性判定：解析 `content/research/*.md` 各项目的「研究方向 + 研究范畴」构建画像，候选（标题+摘要）分 chunk 并发送 LLM 打分（`FILTER_CHUNK=40`、`FILTER_WORKERS=8`），返回 **0~3 相关性分**（3 重点必读 / 2 相关 / 1 弱相关 / 0 不相关）+ 匹配的研究项目 + 一句理由；单 chunk 失败降级为「未判定」，不影响整批。
 - **默认勾选规则 = 分数阈值 + 每日上限**（从源头控制日报篇幅）：只勾选分数 ≥ `RECOMMEND_IMPORT_SCORE_MIN`（默认 2）的候选，按「分数 → 有研究标签 → 精选信源优先于 arXiv → 发布时间」排序后截断到 `RECOMMEND_DAILY_CAP`（默认 40）条；页面可临时改阈值/上限后「按规则勾选」，列表头部会提示有多少达标条目因上限未勾选。两个默认值可用同名环境变量覆盖。
-- arXiv 设定窗口为空时自动把起始前移 24h/48h（arXiv 按公告批次入库，刚公告论文的 submittedDate 常在 1~2 天前），页面会注明实际窗口。
-- 结果按日缓存到 `.recommend_cache/recommend-<date>.json`（gitignored），同一天重开页面不重复采集；但若上次结果已导入日报（日报 `collect_until` 已推进到缓存截止之后），缓存视为过期、点「采集」会自动按新默认窗口重采，同一天可多次「采集 → 导入」，日报的 `collect_until` 随之推进到最新。「强制重新采集」忽略缓存。每次启动新采集时自动清理，只保留最近 3 天（含当天）的缓存文件（`recommend.py` 的 `CACHE_KEEP_DAYS`）。
+- arXiv 采集起点**不跟随推荐窗口**：论文提交后 1~2 天才公告入库，按「上次采集时间」卡 submittedDate 会永久漏掉「上次采集前提交、之后才公告」的论文。实际起点 = 往日推荐缓存中已采到的最新提交时间（水位线）回退 `ARXIV_OVERLAP_HOURS`（6h），最多回溯 `ARXIV_MAX_LOOKBACK_HOURS`（168h，单次上限 `ARXIV_MAX_TOTAL`=3500 篇）；往日缓存无 arXiv 记录时为推荐窗口起点前移 48h。结果按 key 剔除往日缓存中出现过的论文；某天 arXiv 请求失败（如 429）时该天不推进水位线，下次采集自动回补。API 每页 500 篇、读超时 90s（限流时 429 会被拖慢到 30s 以上才返回，过短的超时会误报成超时并立刻重试、延长封禁）；API 一篇都取不到时降级 `rss.arxiv.org` 取最近一个公告批次。「仅重采 arXiv」只追加缓存里没有的论文，原有条目与判定保留，失败时缓存不动。页面会注明实际起点与去重前后篇数。
+- 结果按日缓存到 `.recommend_cache/recommend-<date>.json`（gitignored），同一天重开页面不重复采集；但若上次结果已导入日报（日报 `collect_until` 已推进到缓存截止之后），缓存视为过期、点「采集」会自动按新默认窗口重采，同一天可多次「采集 → 导入」，日报的 `collect_until` 随之推进到最新。「强制重新采集」忽略缓存。每次启动新采集时自动清理，只保留最近 8 天（含当天）的缓存文件（arXiv 水位线与去重依赖往日缓存）（`recommend.py` 的 `CACHE_KEEP_DAYS`）。
 - 「📦 导入所选到批次」：勾选条目生成批处理会话（raw = 标题 + 链接 + 摘要，链接独立成行便于批处理阶段重新抓取），跳转批次总览页走既有流程；勾选状态存 localStorage，刷新不丢。判定结果（分数 / 匹配研究项目 / 理由）随条目带入批次 `meta`：提交时 `research` 取「抽取结果 ∪ 推荐判定」的并集，分数写入条目 `score` 字段（手动录入的条目没有该字段），供日报模板分层展示。
 - 增删 RSS 公众号：改 `backend/recommend.py` 的 `WECHAT_SCHOLAR_FEEDS` 字典（feed 地址见 Wechat-Scholar 仓库 `channels.json`）。
 

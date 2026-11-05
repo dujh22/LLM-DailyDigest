@@ -100,8 +100,19 @@ SOURCE_RAW_LABELS = {
 }
 ARXIV_CATEGORIES = ["cs.CL", "cs.AI", "cs.LG"]
 ARXIV_API = "https://export.arxiv.org/api/query"
-ARXIV_PAGE_SIZE = 100
-ARXIV_MAX_TOTAL = 500
+ARXIV_PAGE_SIZE = 500     # 大页少请求：限流按请求次数计，日常 1~2 次、7 天回溯约 6 次请求
+# 限流时 API 会把 429 拖到 15~30s+ 才返回，默认 30s 读超时会把它误报成超时并立刻重试
+ARXIV_TIMEOUT = (10, 90)
+# API 失败时的降级通道：rss.arxiv.org 是独立基础设施，不受 API 限流影响，
+# 但只含最近一个公告批次（周末为空），只能部分兜底
+ARXIV_RSS = "https://rss.arxiv.org/rss/" + "+".join(["cs.CL", "cs.AI", "cs.LG"])
+ARXIV_MAX_TOTAL = 3500   # 覆盖 ARXIV_MAX_LOOKBACK_HOURS 的提交量（cs.CL/AI/LG 工作日 ~430 篇/天）
+# arXiv 采集起点不跟随推荐窗口，而是接续往日缓存中已采到的最新提交时间（水位线）：
+# 论文提交后 1~2 天才公告入库，按「上次采集时间」卡 submittedDate 会永久漏掉
+# 上次采集前提交、之后才公告的论文；某天采集失败（429）时水位线不前进，下次自动回补。
+ARXIV_OVERLAP_HOURS = 6        # 水位线回退量，兜住 API 非严格按提交顺序入库的情况（重复按 key 去重）
+ARXIV_MAX_LOOKBACK_HOURS = 168  # 起点最多回溯到 until 前 7 天：连续几天采集失败/没采集也能自动补齐
+ARXIV_NO_MARK_LOOKBACK_HOURS = 48  # 往日缓存都无 arXiv 条目时，起点 = 推荐窗口起点前移 48h
 # arXiv API 礼仪：UA 需含身份标识，请求间隔 ≥3s（下方分页 sleep）
 ARXIV_UA = "LLM-DailyDigest/1.0 (recommendation collector; github.com/dujh22/LLM-DailyDigest)"
 
@@ -140,7 +151,7 @@ def get_state() -> dict:
         return {"running": _RECOMMEND_RUNNING, **_STATE}
 
 
-def _get(url: str, params=None, headers=None, retries: int = 3):
+def _get(url: str, params=None, headers=None, retries: int = 3, timeout=_TIMEOUT):
     """带重试的 GET：本地代理瞬断（ProxyError/超时）时退避重试后可自愈。
     429（arXiv 等限速）按 Retry-After / 递增退避重试，其余 4xx 不重试。"""
     h = {"User-Agent": _UA}
@@ -148,7 +159,7 @@ def _get(url: str, params=None, headers=None, retries: int = 3):
     last_exc = None
     for attempt in range(retries):
         try:
-            r = requests.get(url, params=params, headers=h, timeout=_TIMEOUT)
+            r = requests.get(url, params=params, headers=h, timeout=timeout)
             r.raise_for_status()
             return r
         except requests.HTTPError as e:
@@ -761,7 +772,7 @@ def collect_arxiv(since_dt: datetime, now_dt: datetime = None) -> dict:
                 "search_query": query, "start": start,
                 "max_results": ARXIV_PAGE_SIZE,
                 "sortBy": "submittedDate", "sortOrder": "descending"},
-                headers={"User-Agent": ARXIV_UA})
+                headers={"User-Agent": ARXIV_UA}, timeout=ARXIV_TIMEOUT)
         except Exception as e:  # noqa: BLE001
             errors.append({"source": "arXiv", "error": f"arXiv API 请求失败：{e}"})
             break
@@ -793,6 +804,35 @@ def collect_arxiv(since_dt: datetime, now_dt: datetime = None) -> dict:
             break
         start += ARXIV_PAGE_SIZE
         time.sleep(3)  # arXiv API 礼仪间隔
+    return {"items": items, "errors": errors}
+
+
+def collect_arxiv_rss() -> dict:
+    """arXiv RSS 降级通道：取最近一个公告批次中的新投稿与交叉投稿（不含替换版本）。
+    published 为公告日期而非提交时间。返回 {"items": [...], "errors": [...]}。"""
+    import xml.etree.ElementTree as ET
+    from email.utils import parsedate_to_datetime
+    ns = {"arxiv": "http://arxiv.org/schemas/atom"}
+    items, errors = [], []
+    try:
+        r = _get(ARXIV_RSS, headers={"User-Agent": ARXIV_UA}, timeout=ARXIV_TIMEOUT)
+        for it in ET.fromstring(r.content).iter("item"):
+            if (it.findtext("arxiv:announce_type", "", ns) or "").strip() not in ("new", "cross"):
+                continue
+            link = (it.findtext("link") or "").strip()
+            title = re.sub(r"\s+", " ", it.findtext("title") or "").strip()
+            if not link or not title:
+                continue
+            desc = it.findtext("description") or ""
+            summary = re.sub(r"\s+", " ", desc.split("Abstract:", 1)[-1]).strip()
+            try:
+                pub = parsedate_to_datetime(it.findtext("pubDate") or "").isoformat(timespec="seconds")
+            except (TypeError, ValueError):
+                pub = ""
+            items.append({"key": link, "source": "arXiv", "title": title,
+                          "summary": summary, "link": link, "published": pub})
+    except Exception as e:  # noqa: BLE001
+        errors.append({"source": "arXiv", "error": f"arXiv RSS 降级通道也失败：{e}"})
     return {"items": items, "errors": errors}
 
 
@@ -1024,7 +1064,7 @@ def date_str() -> str:
     return datetime.now().strftime("%Y-%m-%d")
 
 
-CACHE_KEEP_DAYS = 3
+CACHE_KEEP_DAYS = 8  # 需覆盖 ARXIV_MAX_LOOKBACK_HOURS，供 arXiv 水位线与去重使用
 _CACHE_NAME_RE = re.compile(r"^recommend-(\d{4}-\d{2}-\d{2})\.json$")
 
 
@@ -1157,6 +1197,9 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
                    f"{until_dt.astimezone().strftime('%Y-%m-%d %H:%M')}")
     all_items, source_errors = [], []
     prune_cache()
+    # 今日缓存已导入日报（默认窗口已越过其截止）时，其 arXiv 条目也算「往日已推荐」
+    today_cache = load_cache()
+    today_imported = bool(today_cache) and not cache_is_fresh(today_cache)
 
     try:
         # 1) 微信公众号·appmsg 接口（需凭据，实时；限流/未配置时由下两级兜底）
@@ -1249,7 +1292,8 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
 
         # 3) arXiv（逻辑见 _arxiv_stage；可由「仅重采 arXiv」单独重跑）
         _set_state("arxiv", counts=_count_by_source(all_items))
-        arxiv_items, arxiv_errors = _arxiv_stage(since_dt, until_dt, seen_titles, window_desc)
+        arxiv_items, arxiv_errors = _arxiv_stage(since_dt, until_dt, seen_titles, window_desc,
+                                                 include_today=today_imported)
         all_items.extend(arxiv_items)
         source_errors.extend(arxiv_errors)
 
@@ -1275,33 +1319,90 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
             _RECOMMEND_RUNNING = False
 
 
+def _arxiv_history(include_today: bool = False):
+    """扫描往日推荐缓存中的 arXiv 条目：返回 (水位线, 已出现过的 key 集合)。
+    水位线 = 已采到的最新提交时间（无则 None）。今日缓存默认不参与，避免当日重采把自己
+    去重掉；仅当今日缓存已导入日报（同日「采集 → 导入 → 再采集」）时 include_today=True。
+    arXiv 请求中途失败的缓存只贡献 key 不贡献水位线：分页按提交时间倒序，失败时缺的是
+    较早一段，若水位线照常前进这段会永久漏采。"""
+    mark, keys = None, set()
+    if not RECOMMEND_DIR.exists():
+        return mark, keys
+    today = date_str()
+    for p in RECOMMEND_DIR.iterdir():
+        m = _CACHE_NAME_RE.match(p.name)
+        if not m or m.group(1) > today or (m.group(1) == today and not include_today):
+            continue
+        try:
+            cache = json.loads(p.read_text(encoding="utf-8"))
+        except Exception:  # noqa: BLE001
+            continue
+        failed = any(e.get("source") == "arXiv" and "请求失败" in e.get("error", "")
+                     for e in cache.get("errors", []))
+        for it in cache.get("items", []):
+            if it.get("source") != "arXiv":
+                continue
+            keys.add(it.get("key") or it.get("link") or "")
+            if failed:
+                continue
+            try:
+                pub = parse_iso_dt(it.get("published") or "")
+            except ValueError:
+                continue
+            if mark is None or pub > mark:
+                mark = pub
+    keys.discard("")
+    return mark, keys
+
+
 def _arxiv_stage(since_dt: datetime, until_dt: datetime, seen_titles: set,
-                 window_desc: str):
-    """arXiv 采集阶段：窗口为空时逐级向前放宽起始时间 24h/48h（arXiv 按公告批次入库，
-    刚公告的论文 submittedDate 常在 1~2 天前，窗口太窄会漏掉最新批次）。
+                 window_desc: str, include_today: bool = False):
+    """arXiv 采集阶段：起点取往日缓存水位线（见 ARXIV_OVERLAP_HOURS 等常量说明），
+    并剔除往日推荐中已出现过的论文（按 key）。
     seen_titles 为其他源已取到的标题（规范化），用于与智源热门论文榜等去重
     （榜单条目带热度与中文摘要，优先保留）。返回 (items, errors)。"""
-    items, errors = [], []
-    for extra in (0, 24, 48):
-        res = collect_arxiv(since_dt - timedelta(hours=extra), until_dt)
-        items.extend(x for x in res["items"]
-                     if _norm_title(x["title"]) not in seen_titles)
-        errors.extend(res["errors"])
-        if res["items"]:
-            if extra:
-                errors.append({
-                    "source": "arXiv",
-                    "error": f"设定窗口（{window_desc}）内无新提交（公告批次未覆盖），"
-                             f"已把起始时间前移 {extra}h（{len(res['items'])} 篇）"})
-            break
-        if any("429" in e["error"] for e in res["errors"]):
-            time.sleep(10)  # 刚被限速，放宽窗口前先冷却
+    mark, seen_keys = _arxiv_history(include_today)
+    if mark is not None:
+        lo = mark - timedelta(hours=ARXIV_OVERLAP_HOURS)
+        basis = f"接续往日已采到的最新提交 {mark.astimezone().strftime('%m-%d %H:%M')}"
+    else:
+        lo = since_dt - timedelta(hours=ARXIV_NO_MARK_LOOKBACK_HOURS)
+        basis = f"往日缓存无 arXiv 记录，推荐窗口起点前移 {ARXIV_NO_MARK_LOOKBACK_HOURS}h"
+    floor = until_dt - timedelta(hours=ARXIV_MAX_LOOKBACK_HOURS)
+    if lo < floor:
+        lo = floor
+        basis += f"（超出上限，截断到 {ARXIV_MAX_LOOKBACK_HOURS}h 内）"
+    lo = min(lo, since_dt)  # 不比推荐窗口更窄
+
+    res = collect_arxiv(lo, until_dt)
+    errors = list(res["errors"])
+    if not res["items"] and errors:
+        # API 一篇没取到（多为限流）→ RSS 兜底最近一个公告批次。API 的「请求失败」错误保留，
+        # 使本日缓存不推进水位线（见 _arxiv_history），下次采集仍从原水位线回补
+        rss = collect_arxiv_rss()
+        errors.extend(rss["errors"])
+        if rss["items"]:
+            errors.append({"source": "arXiv",
+                           "error": f"API 不可用，已从 RSS 降级取最近一个公告批次 {len(rss['items'])} 篇"
+                                    "（只覆盖一个批次，API 恢复后可点「仅重采 arXiv」补全）"})
+        res = rss
+    items = [x for x in res["items"]
+             if x["key"] not in seen_keys and _norm_title(x["title"]) not in seen_titles]
+    if lo < since_dt:
+        errors.append({
+            "source": "arXiv",
+            "error": f"arXiv 按提交时间 {lo.astimezone().strftime('%Y-%m-%d %H:%M')} 起采集"
+                     f"（{basis}；推荐窗口 {window_desc}），"
+                     f"取到 {len(res['items'])} 篇，去掉往日已推荐后剩 {len(items)} 篇"})
+    if len(res["items"]) >= ARXIV_MAX_TOTAL:
+        errors.append({"source": "arXiv",
+                       "error": f"达到单次采集上限 {ARXIV_MAX_TOTAL} 篇，最早一段提交可能未覆盖"})
     return items, errors
 
 
 def run_arxiv_recollect(cache: dict):
     """仅重采 arXiv（在后台线程执行）：复用当日缓存 cache 的采集窗口与其他源结果，
-    只替换缓存中的 arXiv 条目及其错误记录，LLM 判定也只对新取到的 arXiv 条目跑。
+    追加缓存中尚无的 arXiv 条目、替换 arXiv 错误记录，LLM 判定只对新增条目跑。
     用于 arXiv API 限流（429）恢复后补采，避免「强制重新采集」把其他源和判定全部重跑。
     前置条件（当日缓存存在且带窗口信息）由 start_arxiv_recollect 校验并传入 cache。"""
     global _RECOMMEND_RUNNING
@@ -1315,12 +1416,21 @@ def run_arxiv_recollect(cache: dict):
         seen_titles = {_norm_title(it.get("title", "")) for it in kept_items}
 
         _set_state("arxiv", counts=_count_by_source(kept_items), errors=[])
-        arxiv_items, arxiv_errors = _arxiv_stage(since_dt, until_dt, seen_titles, window_desc)
-        all_items = kept_items + arxiv_items
+        old_arxiv = [it for it in cache.get("items", []) if it.get("source") == "arXiv"]
+        old_keys = {it.get("key") for it in old_arxiv}
+        fetched, arxiv_errors = _arxiv_stage(since_dt, until_dt, seen_titles, window_desc)
+        # 只追加缓存里没有的论文：原有条目及其判定保留（避免 RSS 降级的单批次覆盖掉更全的 API 结果）
+        arxiv_items = [x for x in fetched if x["key"] not in old_keys]
+        if not arxiv_items:
+            # 本次没取到新论文（限流等）：缓存原样保留，只在状态里报告本次错误
+            _set_state("done", counts=_count_by_source(cache.get("items", [])),
+                       errors=kept_errors + arxiv_errors)
+            return
+        all_items = kept_items + old_arxiv + arxiv_items
         source_errors = kept_errors + arxiv_errors
 
         _set_state("filter", counts=_count_by_source(all_items))
-        filter_relevance(arxiv_items)  # 其他源条目沿用缓存中的判定结果
+        filter_relevance(arxiv_items)  # 其他源及原有 arXiv 条目沿用缓存中的判定结果
 
         cache.update({"sources": _count_by_source(all_items),
                       "errors": source_errors,
