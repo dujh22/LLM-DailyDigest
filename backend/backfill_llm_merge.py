@@ -1,9 +1,9 @@
 """
 一次性回填脚本：把此前「未勾选 LLM 合并」的去重归并条目补做 LLM 字段整合。
 
-背景：/dedup 执行时未勾选 LLM 合并的组，summary/content/purpose 按规则合并，
+背景：/dedup 执行时未勾选 LLM 合并的组，summary/content/purpose/insight 按规则合并，
 会留下 "[合并自 <日期> <id>]" 标记拼接的多段文本。本脚本扫描 content/updates/
-全部日报，找出解析字段（summary/content/purpose）中含该标记的条目，逐条调用
+全部日报，找出解析字段（summary/content/purpose/insight）中含该标记的条目，逐条调用
 LLM 整合为一份连贯内容后原位改写。notes 原始笔记逐字保留，永不改动。
 
 用法：
@@ -31,12 +31,13 @@ _SYSTEM_PROMPT = (
     "整合为一份连贯内容：\n"
     "- summary: 一句话中文摘要。\n"
     "- content: 正文要点，中文 3~5 句，可用 markdown。\n"
-    "- purpose: 用途与启示，markdown 无序列表（每条以 - 开头）。\n"
+    "- purpose: 用途（旧条目可能是「用途与启示」列表，保持其原有形式）。\n"
+    "- insight: 启示，一句话。\n"
     "要求：语义去重、信息补全，不虚构事实，不丢失任何独有信息，"
     "删除所有「[合并自 …]」标记，保持中文为主、术语风格一致；"
     "输入中某字段为空时该字段返回空字符串。"
     "严格返回 JSON 对象（不要代码块、不要解释）："
-    '{"summary": "...", "content": "...", "purpose": "..."}'
+    '{"summary": "...", "content": "...", "purpose": "...", "insight": "..."}'
 )
 
 
@@ -61,7 +62,7 @@ def scan_tagged_items():
 
 
 def llm_consolidate(entry, api_key) -> dict:
-    """对单条目调用 LLM 整合三个解析字段，返回 {字段: 新值}（仅含通过校验的字段）。"""
+    """对单条目调用 LLM 整合解析字段，返回 {字段: 新值}（仅含通过校验的字段）。"""
     from openai import OpenAI
     it = entry["item"]
     payload = {
@@ -69,6 +70,7 @@ def llm_consolidate(entry, api_key) -> dict:
         "summary": it.get("summary", "") or "",
         "content": it.get("content", "") or "",
         "purpose": it.get("purpose", "") or "",
+        "insight": it.get("insight", "") or "",
     }
     client = OpenAI(api_key=api_key, base_url=app.LLM_BASE_URL)
     resp = client.chat.completions.create(

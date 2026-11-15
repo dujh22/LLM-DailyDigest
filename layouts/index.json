@@ -31,6 +31,7 @@
                 {{- with $it.source -}}{{- $parts = $parts | append . -}}{{- end -}}
                 {{- with $it.content -}}{{- $parts = $parts | append ($page.RenderString (dict "display" "block") . | plainify | htmlUnescape) -}}{{- end -}}
                 {{- with $it.purpose -}}{{- $parts = $parts | append ($page.RenderString (dict "display" "block") . | plainify | htmlUnescape) -}}{{- end -}}
+                {{- with $it.insight -}}{{- $parts = $parts | append ($page.RenderString (dict "display" "block") . | plainify | htmlUnescape) -}}{{- end -}}
                 {{- with $it.notes -}}{{- $parts = $parts | append . -}}{{- end -}}
                 {{- with $it.paper -}}{{- $parts = $parts | append . -}}{{- end -}}
                 {{- with $it.code -}}{{- $parts = $parts | append . -}}{{- end -}}

@@ -3,5 +3,5 @@
 <article id="{{ $it._id }}" class="summary-card daily-item{{ if .compact }} daily-item-medium{{ end }}">
   <h2 id="{{ $it._id }}-title" class="daily-item-title">{{- $it.title -}}</h2>
   {{- with $it.summary -}}<p class="single-subtitle daily-item-summary">{{ . }}</p>{{- end -}}
-  {{- partial "daily/item-body.html" (dict "it" $it "page" .page "compact" .compact) -}}
+  {{- partial "daily/item-body.html" (dict "it" $it "page" .page) -}}
 </article>

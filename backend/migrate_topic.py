@@ -55,10 +55,8 @@ def build_prompt(chunk: str, topic: str, topics: list, research: list) -> str:
         f"- topics: 主题数组，必须包含 \"{topic}\"，并可从已有列表补充：{json.dumps(topics, ensure_ascii=False)}\n"
         "- date: 从文本推断的日期，格式 YYYY-MM-DD；无法判断返回 null\n"
         "- source: 来源（公众号/arxiv 分类/站点），未知填 \"未知\"\n"
-        "- summary: 一句话中文摘要\n"
         "- paper / code / dataset / link: 论文/代码/数据集/原文链接，无则 \"\"\n"
-        "- content: 正文，中文 3~5 句，可用 markdown\n"
-        "- purpose: 用途与启示，markdown 无序列表\n"
+        + app.ITEM_FIELD_SPEC +
         "只输出 JSON 对象。"
     )
 
@@ -140,6 +138,7 @@ def process_topic(topic: str, args, client, topics, research, write_lock):
             'link': (payload.get('link') or '').strip(),
             'content': (payload.get('content') or '').strip(),
             'purpose': (payload.get('purpose') or '').strip(),
+            'insight': (payload.get('insight') or '').strip(),
             'notes': chunk,   # 原始逐字笔记，原样保留进 item
         }
         if not item['title']:

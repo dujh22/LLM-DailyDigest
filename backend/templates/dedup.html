@@ -71,7 +71,7 @@
     </div>
     <div class="actions" style="margin-top:4px">
       <label class="hint" style="display:inline-flex;align-items:center;gap:.3rem;margin:0">
-        <input type="checkbox" id="useLlm" checked> 🤖 用 LLM 合并解析字段（summary / content / purpose，失败自动回退规则合并）
+        <input type="checkbox" id="useLlm" checked> 🤖 用 LLM 合并解析字段（summary / content / purpose / insight，失败自动回退规则合并）
       </label>
     </div>
     <div id="result"></div>
@@ -190,7 +190,7 @@ async function apply(groups){
   const useLlm = $('useLlm').checked;
   const what = groups ? `选中的 ${nSel} 组` : `全部 ${nSel} 组`;
   let msg = `确认执行${what}的归并？将改写日报文件（保留最早条目并吸收字段，删除重复条目）。`;
-  if(useLlm) msg += '\n已勾选 LLM 合并：summary / content / purpose 将由 LLM 整合为一份连贯内容（其余字段仍按规则合并）。';
+  if(useLlm) msg += '\n已勾选 LLM 合并：summary / content / purpose / insight 将由 LLM 整合为一份连贯内容（其余字段仍按规则合并）。';
   msg += '\n可通过 git checkout 回退。';
   if(!confirm(msg)) return;
   const body = {days: DAYS};

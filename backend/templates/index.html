@@ -149,10 +149,12 @@
     <label>🔗 原文（非论文类）</label>
     <input type="text" id="link">
 
-    <label>内容正文（支持 Markdown）</label>
+    <label>内容正文（结构化：问题 / 旧法为何失效 / 方法 / 实验，支持 Markdown）</label>
     <textarea id="content"></textarea>
-    <label>用途与启示（支持 Markdown 列表）</label>
+    <label>用途（一句话：用在哪里 / 如何用）</label>
     <textarea id="purpose"></textarea>
+    <label>启示（一句话：这项工作带来的根本性洞见）</label>
+    <textarea id="insight"></textarea>
     <label>📝 原始笔记（逐字保留，支持纯文本换行）</label>
     <textarea id="notes" placeholder="粘贴原始信息全文，提交后将在日报页以折叠区块逐字保留"></textarea>
 
@@ -181,7 +183,7 @@
 <script>
 // 批次上下文（无批次时为 null）
 const BATCH = {{ batch | tojson }};
-const F = ["id","title","subtopic","source","summary","keywords","orgs","paper","code","dataset","link","content","purpose","notes"];
+const F = ["id","title","subtopic","source","summary","keywords","orgs","paper","code","dataset","link","content","purpose","insight","notes"];
 const $ = id => document.getElementById(id);
 
 // 批次模式：预填本条原始信息
@@ -378,7 +380,7 @@ $('btnSubmit').onclick = async (force)=>{
       }catch(e){ /* 标记失败不影响提交结果 */ }
     }
     // 提交成功后清空表单，保留以便连续录入
-    ['id','title','subtopic','summary','keywords','orgs','paper','code','dataset','link','content','purpose','notes'].forEach(id=>$(id).value='');
+    ['id','title','subtopic','summary','keywords','orgs','paper','code','dataset','link','content','purpose','insight','notes'].forEach(id=>$(id).value='');
     document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove()); // 新建的主题已落库，移除候选 chip
     document.querySelectorAll('#topics input, #research input').forEach(c=>c.checked=false);
     $('raw').value='';

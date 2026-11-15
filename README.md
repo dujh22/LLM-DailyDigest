@@ -48,7 +48,8 @@ content/research/<project>.md Research page; auto-aggregates items under this re
 | `research`                              | Research array; which **research pages** (can be empty)          |
 | `source`                                | Source (WeChat account / arxiv category / site)                  |
 | `paper` `code` `dataset` `link`         | Paper / code / dataset / original link (hidden if empty)         |
-| `content` `purpose`                     | Body + purpose & takeaways (multi-line Markdown)                 |
+| `content`                               | Structured body: problem / why prior methods fail / method / experiments (/ limitations & follow-ups); folded on cards |
+| `purpose` `insight`                     | Use (one sentence: where / how to apply) + insight (one sentence: the core new finding). Legacy items have no `insight` and keep `purpose` as a "use & takeaways" list |
 
 > `topics` / `research` values must match **filenames** under `content/topic/` and `content/research/`.
 
@@ -99,7 +100,7 @@ python app.py          # → http://localhost:5050
 
 **Topic merge** `/merge`: in a 3-level tree (topic ▸ subtopic ▸ article), select tags, enter a target name → preview impact → apply. Subtopics merge globally by string; rewrites are in-place for minimal diff and fully `git checkout`-reversible. Built-in "🤖 LLM suggestions" clusters near-duplicate tags; adopt singly or select several for batch apply.
 
-**Item dedup** `/dedup`: detects duplicate items across the scan window (default 7 days back, up to 90) by normalized-URL matching on `paper`/`code`/`dataset`/`link` (tracking params stripped, arXiv abs/pdf/html unified). Each group keeps the **earliest** occurrence and absorbs the others' fields (fill empty URLs, union topics, append differing notes with a merge marker — never dropped); later duplicates are removed. Preview groups → apply selected / all / singly. Optional "🤖 LLM merge" rewrites summary/content/purpose into one coherent text per group (falls back to rule-based merge on failure). Every `/api/submit` auto-checks the last 7 days and **hard-blocks** same-link submissions with duplicate details shown (override via "allow duplicate"). See `backend/README.md`.
+**Item dedup** `/dedup`: detects duplicate items across the scan window (default 7 days back, up to 90) by normalized-URL matching on `paper`/`code`/`dataset`/`link` (tracking params stripped, arXiv abs/pdf/html unified). Each group keeps the **earliest** occurrence and absorbs the others' fields (fill empty URLs, union topics, append differing notes with a merge marker — never dropped); later duplicates are removed. Preview groups → apply selected / all / singly. Optional "🤖 LLM merge" rewrites summary/content/purpose/insight into one coherent text per group (falls back to rule-based merge on failure). Every `/api/submit` auto-checks the last 7 days and **hard-blocks** same-link submissions with duplicate details shown (override via "allow duplicate"). See `backend/README.md`.
 
 | Method | Path                                  | Description                                      |
 | ------ | ------------------------------------- | ------------------------------------------------ |
@@ -157,7 +158,7 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 **2026-08-24**
 
 - Item dedup `/dedup`: normalized-URL duplicate detection on paper/code/dataset/link (tracking params stripped, arXiv unified); keeps the earliest occurrence and absorbs fields, removes the rest; scan window default 7 days (up to 90); preview → apply selected / all / singly
-- Dedup supports "🤖 LLM merge" of parsed fields: summary/content/purpose integrated into one coherent text per group (8-way concurrent, outside locks; auto-fallback to rule-based merge on failure)
+- Dedup supports "🤖 LLM merge" of parsed fields: summary/content/purpose/insight integrated into one coherent text per group (8-way concurrent, outside locks; auto-fallback to rule-based merge on failure)
 - Submit-time auto-check: every `/api/submit` (incl. batch auto-submit) checks the last 7 days for same-link items and hard-blocks with duplicate details; "allow duplicate" override available
 
 **2026-08-16**

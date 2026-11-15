@@ -48,7 +48,8 @@ content/research/<项目>.md   研究项目页，自动聚合归属该研究的 
 | `research`                            | 研究项目数组，决定出现在哪些**研究页**（可留空） |
 | `source`                              | 来源（公众号 / arxiv 分类 / 站点）                     |
 | `paper` `code` `dataset` `link` | 论文 / 代码 / 数据集 / 原文链接（留空不显示）          |
-| `content` `purpose`                 | 正文（LLM 浓缩） + 用途与启示（多行 Markdown）         |
+| `content`                           | 结构化正文：问题 / 旧法为何失效 / 方法 / 实验（/ 局限与后续），卡片上默认折叠 |
+| `purpose` `insight`                 | 用途（一句话：用在哪里 / 如何用）+ 启示（一句话：最核心的新洞见）；旧条目无 `insight`，`purpose` 仍是「用途与启示」列表 |
 | `notes`                              | 原始逐字笔记（迁移脚本保留原文不浓缩，日报页可折叠展开） |
 
 > `topics` / `research` 取值需与 `content/topic/`、`content/research/` 的**文件名**一致。
@@ -112,7 +113,7 @@ python app.py          # → http://localhost:5050
 
 **主题归并** `/merge`：左侧三级树「主题 ▸ 子主题 ▸ 文章」勾选若干标签 → 右侧填目标名 → 预览影响范围 → 执行。子主题按字符串全局归并；改写为原位替换、diff 最小，可 `git checkout` 回退。内置「🤖 LLM 归并推荐」自动聚类近义标签，支持单条采纳或勾选多条批量执行。
 
-**条目去重** `/dedup`：以 `paper`/`code`/`dataset`/`link` 四字段的 URL 规范化判重（剥跟踪参数、arXiv abs/pdf/html 统一），组内保留**最早出现**条目并吸收后续条目字段（URL 空则补、topics 并集、notes 差异标记追加永不丢弃），其余删除。扫描窗口默认当日向前 7 天（可 14/30…），预览分组 → 勾选多组/全选/单组执行；可选「🤖 LLM 合并解析字段」把 summary/content/purpose 整合为连贯内容（失败自动回退规则合并）。每次提交时自动查重近 7 天，同链接**硬阻断**并显示重复对象（可勾选「允许重复」放行）。详见 `backend/README.md`。
+**条目去重** `/dedup`：以 `paper`/`code`/`dataset`/`link` 四字段的 URL 规范化判重（剥跟踪参数、arXiv abs/pdf/html 统一），组内保留**最早出现**条目并吸收后续条目字段（URL 空则补、topics 并集、notes 差异标记追加永不丢弃），其余删除。扫描窗口默认当日向前 7 天（可 14/30…），预览分组 → 勾选多组/全选/单组执行；可选「🤖 LLM 合并解析字段」把 summary/content/purpose/insight 整合为连贯内容（失败自动回退规则合并）。每次提交时自动查重近 7 天，同链接**硬阻断**并显示重复对象（可勾选「允许重复」放行）。详见 `backend/README.md`。
 
 | 方法 | 路径                                    | 说明                                   |
 | ---- | --------------------------------------- | -------------------------------------- |
@@ -170,7 +171,7 @@ chmod +x tools/arx_dairy_summarizer_tmux.sh
 **2026-08-24**
 
 - 条目去重 `/dedup`：paper/code/dataset/link 四字段 URL 规范化判重（剥跟踪参数、arXiv 统一），组内保留最早条目并吸收字段、其余删除；扫描窗口默认 7 天可扩，预览 → 多选/全选/单组执行
-- 去重支持「🤖 LLM 合并解析字段」：summary/content/purpose 由 LLM 整合为连贯内容（锁外 8 并发，失败自动回退规则合并）
+- 去重支持「🤖 LLM 合并解析字段」：summary/content/purpose/insight 由 LLM 整合为连贯内容（锁外 8 并发，失败自动回退规则合并）
 - 提交时自动查重：每次 `/api/submit`（含批处理一键提交）写入前检查近 7 天同链接并硬阻断，显示重复对象详情；可勾选「允许重复」放行
 
 **2026-08-16**

@@ -435,6 +435,12 @@ def _attach_trends_fields(ordered: dict, item: dict) -> None:
     ordered.update(items)
 
 
+def _insight_field(item: dict) -> dict:
+    """「启示」字段（与「用途」purpose 分开）。仅非空时写入，旧条目序列化结果不变。"""
+    v = (item.get("insight") or "").strip()
+    return {"insight": v} if v else {}
+
+
 def _reserialize_item_block(item: dict) -> str:
     """按固定键顺序重写单个 item 块（与 serialize_item_block 一致，复用 tomli_w）。"""
     import tomli_w
@@ -452,6 +458,7 @@ def _reserialize_item_block(item: dict) -> str:
         "link": item.get("link", ""),
         "content": item.get("content", ""),
         "purpose": item.get("purpose", ""),
+        **_insight_field(item),
         "notes": item.get("notes", ""),
     }
     _attach_trends_fields(ordered, item)
@@ -589,7 +596,27 @@ _TRACKING_PARAM_PREFIXES = ("utm_", "spm", "vd_source", "share_", "ref", "source
 # 提交时自动查重窗口（今天 + 向前 7 天）
 DEDUP_SUBMIT_DAYS = 7
 # 归并时可交给 LLM 智能整合的解析字段（notes 原始笔记逐字保留，不经 LLM）
-_LLM_MERGE_FIELDS = ("summary", "content", "purpose")
+_LLM_MERGE_FIELDS = ("summary", "content", "purpose", "insight")
+# 条目解析字段的撰写规范（抽取 / 合并 / 回填共用）。目标：保留的信息足以完整代表该工作，
+# 读者无需再看原文；同时极简——卡片只露 summary / 用途 / 启示，content 折叠。
+ITEM_FIELD_SPEC = (
+    "（以下字段一律为 JSON 字符串，不要输出数组；content 是包含 markdown 列表的单个字符串。）\n"
+    "- summary: 一句话（≤60 字），让无任何背景的读者也能看懂："
+    "「用〈什么新思路〉解决〈什么此前没解决好的问题〉」，可附一个最关键的量化结果。"
+    "不要复述标题，不要「从 A 走向 B」式套话，术语用大白话带过。"
+    "非研究类消息（产品发布 / 工具 / 行业新闻）写「〈谁〉推出〈什么〉，让〈谁〉能〈做什么〉」。\n"
+    "- content: 结构化 markdown 无序列表，每行 1~2 句，保留关键机制名与关键数字：\n"
+    "  - **问题**：要解决什么问题、为什么重要\n"
+    "  - **旧法为何失效**：已有方法的具体缺陷\n"
+    "  - **方法**：核心做法与关键机制（不罗列实现细节）\n"
+    "  - **实验**：在什么基准 / 设置上、与谁对比、关键结果数字\n"
+    "  - **局限与后续**：作者承认的局限或明确提出的后续方向（原文没提就省略此行）\n"
+    "  非论文类消息改用 **是什么** / **关键能力** / **限制** 三行。原文没有的信息整行省略，不得编造。\n"
+    "- purpose: 用途，一句话（不要列表），必须直接可行：在〈什么场景 / 系统〉中〈怎么用〉"
+    "（直接调用其代码 / 数据、借鉴其某个机制、作为基线或评测等）。\n"
+    "- insight: 启示，一句话（不要列表）：这项工作带来的根本性洞见——此前工作没指出、"
+    "最能代表其核心创新的经验发现或方法论原则；不要复述方法步骤或实验数字。\n"
+)
 # absorb_items 规则拼接标记的前缀；解析字段出现它说明需要 LLM 整合
 _MERGE_TAG_PREFIX = "[合并自"
 
@@ -684,7 +711,7 @@ def absorb_items(kept: dict, dup: dict, dup_date: str) -> dict:
         union = _norm_str_list(list(merged.get(f) or []) + list(dup.get(f) or []))
         if union:
             merged[f] = normalize_orgs(union) if f == "orgs" else union
-    for f in ("summary", "content", "purpose"):
+    for f in _LLM_MERGE_FIELDS:
         a, b = (merged.get(f) or "").strip(), (dup.get(f) or "").strip()
         if not b or b == a:
             continue
@@ -767,7 +794,7 @@ def scan_duplicate_groups(days: int = 7, end_date=None):
         absorb = []
         for f in ("title", "subtopic", "source", "paper", "code", "dataset", "link",
                   "topics", "research", "keywords", "orgs", "summary", "content",
-                  "purpose", "notes"):
+                  "purpose", "insight", "notes"):
             old, new = keep["item"].get(f), merged.get(f)
             if old != new:
                 absorb.append({"field": f, "old": old, "new": new})
@@ -842,7 +869,7 @@ def _plan_dedup_writes(groups: list):
 
 def apply_dedup_groups(days: int, only=None, use_llm=True, end_date=None) -> dict:
     """执行条目去重归并写盘。only=[{file,id}] 时仅归并保留条目匹配的组；
-    use_llm=True 时先用 LLM 合并各组的解析字段（summary/content/purpose），
+    use_llm=True 时先用 LLM 合并各组的解析字段（summary/content/purpose/insight），
     失败的组回退规则合并；end_date 指定窗口截止日（默认今天）。
     锁序固定 _SUBMIT_LOCK → _MERGE_LOCK（do_submit 只取
     前者、merge_apply 只取后者，无环不死锁）。LLM 调用慢，在锁外完成；
@@ -912,8 +939,8 @@ def apply_dedup_groups(days: int, only=None, use_llm=True, end_date=None) -> dic
 
 
 def llm_merge_group(group: dict) -> dict:
-    """对单个重复组调用 LLM 把各条目的解析字段（summary/content/purpose）
-    整合为一份连贯结果。返回 {"summary","content","purpose"}；失败抛异常，
+    """对单个重复组调用 LLM 把各条目的解析字段（summary/content/purpose/insight）
+    整合为一份连贯结果。返回 {"summary","content","purpose","insight"}；失败抛异常，
     由调用方回退规则合并。notes/title 等字段不经 LLM（原始笔记逐字保留）。"""
     from openai import OpenAI
     api_key = load_api_key()
@@ -930,17 +957,16 @@ def llm_merge_group(group: dict) -> dict:
             "summary": it.get("summary", "") or "",
             "content": it.get("content", "") or "",
             "purpose": it.get("purpose", "") or "",
+            "insight": it.get("insight", "") or "",
         })
     system_prompt = (
         "你是大模型研究日报的条目合并助手。同一工作的多个重复日报条目需要合并为一条，"
         "只合并以下解析字段：\n"
-        "- summary: 一句话中文摘要。\n"
-        "- content: 正文要点，中文 3~5 句，可用 markdown。\n"
-        "- purpose: 用途与启示，markdown 无序列表（每条以 - 开头）。\n"
+        + ITEM_FIELD_SPEC +
         "要求：以「保留」条目为基础，整合「重复」条目的补充信息，语义去重、信息补全，"
         "不虚构事实，保持中文为主、术语风格一致；某字段所有条目均为空时返回空字符串。"
         "严格返回 JSON 对象（不要代码块、不要解释）："
-        '{"summary": "...", "content": "...", "purpose": "..."}'
+        '{"summary": "...", "content": "...", "purpose": "...", "insight": "..."}'
     )
     client = OpenAI(api_key=api_key, base_url=LLM_BASE_URL)
     resp = client.chat.completions.create(
@@ -1164,6 +1190,7 @@ def apply_semantic_groups(d: str) -> dict:
     return res
 
 
+_LIMITS_RE = re.compile(r"\*\*局限与后续\*\*\s*[:：]\s*(.+)")
 FEATURED_MIN = 8    # 每日「重点条目」数量区间（LLM 挑选，模板完整展开，其余折叠）
 FEATURED_MAX = 15
 
@@ -1183,6 +1210,15 @@ def llm_daily_summary(d: str, day_items: list):
             "来源": it.get("source", "") or "",
         }
         sc = parse_score(it.get("score"))
+        if sc is None or sc >= 2:
+            # 只给可能入选重点 / 启发的条目补充依据（0~1 分热点只列锚点，不需要）。
+            # 新条目用途、启示各一句；旧条目 purpose 是多行列表，截断控制大日报体量。
+            # 正文只取「局限与后续」一行（延续类启发的依据），整段正文太长不送。
+            e["用途"] = (it.get("purpose", "") or "")[:120]
+            e["启示"] = (it.get("insight", "") or "")[:120]
+            lim = _LIMITS_RE.search(it.get("content", "") or "")
+            if lim:
+                e["局限与后续"] = lim.group(1).strip()
         e["相关性分"] = sc if sc is not None else "手动录入"
         entries.append(e)
     intros = []
@@ -1198,25 +1234,38 @@ def llm_daily_summary(d: str, day_items: list):
     want_max = min(FEATURED_MAX, n_items)
     system_prompt = (
         "你是大模型研究日报的每日摘要撰写助手。输入为当天日报全部条目"
-        "（id、标题、摘要、主题、研究标签、来源、相关性分）和我们团队各研究项目的简介。"
-        "请完成两件事。\n\n"
+        "（id、标题、摘要、用途、启示、局限与后续、主题、研究标签、来源、相关性分）和我们团队各研究项目的简介。"
+        "请先在心中确定【二】的重点条目，再据此写【一】（输出顺序仍是先两节 markdown、最后 featured 行）。总原则：极简、有效——每句话都要让读者"
+        "不看原文也知道这项工作做了什么、对我们有什么用；人和 AI 的注意力都有限，宁短勿长。\n\n"
         "【一】生成放在日报最上方的摘要，markdown 格式，恰好包含以下两节：\n"
         "## 今日概览\n"
-        "3~6 个要点（- 开头）：按主线聚类概括今天发生了什么，每个要点点明方向并举代表性工作，"
-        "可注明条目数量；提到具体条目时用 [标题](#<id>) 锚点链接，<id> 替换为该条目 id 字段的原文"
-        "（例如 id 为 memcodex 的条目写成 [MemCodex……](#memcodex)），不要加任何前缀。不要逐条流水账。\n"
+        "除最后的「热点延伸」行外，只覆盖【二】挑出的重点条目，每个工作单独一个子点，不要把多个工作揉进一句话。"
+        "按主线分组：组标题为 ≤8 字的名词短语（如「- **长程记忆**」），不写叙述；"
+        "组下每个子点（两个空格缩进 + -）格式为 `[工作名](#<id>)：一句话`。"
+        "工作名取标题中冒号前的专名（无专名就用标题），<id> 替换为该条目 id 字段原文"
+        "（例如 id 为 memcodex 的条目写成 [MemCodex](#memcodex)），不要加任何前缀。"
+        "这句话说清「用什么创新思路解决了什么此前没解决好的问题」，可附一个关键数字；"
+        "必须让没有任何背景的人也能看懂（术语用大白话），禁止「从 A 走向 B」「进一步」「开始」这类空泛套话。"
+        "最后可加一行「- **热点延伸**：」只列相关性分 0~1 条目的锚点链接，用顿号分隔，不展开描述。\n"
         "## 对当前研究的启发\n"
-        "若干要点（- 开头），格式：**研究名**：一句话启发。只列今天条目确实带来关键启发的研究，"
-        "无关的研究不要出现、不要硬凑；启发必须具体（哪项工作、能为该研究带来什么），一句话说清。"
+        "按研究分组：组标题「- **研究名**」，组下每个子点（两个空格缩进 + -）是一条可直接执行的指令，只有两种：\n"
+        "  - 迁移｜从 [工作名](#<id>) 把 X（具体思想 / 工具 / 数据）用到本研究的 Y 环节：怎么做\n"
+        "  - 延续｜[工作名](#<id>) 留下 X（作者承认的局限 / 提出的后续方向 / 未解决的问题）：怎么研究（设置、对比对象、评价指标）\n"
+        "格式示例（虚构，不要照抄其工作名与 id）：「迁移｜从 [CoACT](#coact-coding-agent) 把“压缩后下一步动作不变”作为评价标准用到 token 利用率评测："
+        "对同一轨迹分别喂原始与压缩上下文，统计动作一致率」。X、Y 要替换成具体内容，不要输出尖括号或占位符。"
+        "每条一句话（≤80 字），写成拿到就能动手的实施指令，不要「可借鉴」「有启发」这种空话。"
+        "延续类优先取自条目的「局限与后续」，两类都要考虑，不要只写迁移。"
+        "只列今天条目确实能带来可操作启发的研究，无关研究不出现、不硬凑；每个研究最多 2 条，全节合计不超过 10 条，"
+        "宁可少而准。"
         "条目的研究标签是主要依据，也可指出未打标签条目与某研究的关联。\n\n"
         f"【二】从全部条目中挑出 {want_min}~{want_max} 条「重点条目」，按重要性降序给出 id 列表。"
         "重点条目会在日报中完整展开，其余条目折叠只显示标题，所以要挑真正值得通读的：\n"
-        "- 优先：相关性分为 3 或「手动录入」的、带研究标签的、概览中作为代表性工作点名的；\n"
+        "- 优先：相关性分为 3 或「手动录入」的、带研究标签的；\n"
         "- 优先：重大发布 / 改变方向判断的结果 / 对某研究项目有直接可用启发的工作；\n"
         "- 同一子主题下多篇相近论文只挑最强的 1~2 篇，其余留给折叠区；\n"
         "- 不要为了凑数把弱相关条目选进来，宁少勿滥；\n"
         "- 相关性分为 0 或 1 的条目是有意收录的「热点延伸」（当日热门但非主要研究方向），"
-        "一律不选入重点，日报会单独成栏展示；今日概览可用一个要点简述这些热点。\n\n"
+        "一律不选入重点，日报会单独成栏展示；今日概览只在「热点延伸」一行列出它们的锚点。\n\n"
         "输出格式：先输出两节 markdown（以「## 今日概览」开头），然后另起一行输出且仅输出一行\n"
         "<!-- featured: id1, id2, id3 -->\n"
         "（HTML 注释，id 用英文逗号分隔，只能取自输入条目的 id）。不要代码块、不要额外解释。"
@@ -1742,6 +1791,7 @@ def serialize_item_block(item: dict) -> str:
         "link": item.get("link", ""),
         "content": item.get("content", ""),
         "purpose": item.get("purpose", ""),
+        **_insight_field(item),
         "notes": item.get("notes", ""),
     }
     _attach_trends_fields(ordered, item)
@@ -1805,6 +1855,7 @@ def build_item_from_form(data: dict) -> dict:
         "link": (data.get("link") or "").strip(),
         "content": (data.get("content") or "").strip(),
         "purpose": (data.get("purpose") or "").strip(),
+        "insight": (data.get("insight") or "").strip(),
         "notes": data.get("notes", ""),
     }
     keywords = _norm_str_list(data.get("keywords"))
@@ -2293,7 +2344,8 @@ def llm_extract(raw: str, extra: str = "") -> dict:
         "从用户提供的原始文本中抽取【一条消息】的结构化字段，严格返回 JSON（不要代码块、不要额外解释）。"
         "若文本中包含「来自链接」「用户补充内容」等参考区块，请充分利用其中信息填充字段。"
         "字段定义：\n"
-        "- title: 标题，中文为主，可含英文术语，简洁。\n"
+        "- title: 标题，格式「工作名：核心创新短语」（短语 ≤15 字，点出关键做法，如"
+        "「CoACT：动作保持式上下文压缩」）；无专名时直接用核心创新短语。\n"
         "- subtopic: 子主题，单个短标签（2~6 字）。必须优先复用下面【已有子主题】中语义匹配的词；"
         "确实无匹配才可新建，新建必须是专用技术名词或公认的研究方向代名词，"
         "禁止口语化表述、含糊大词或自造缩写。\n"
@@ -2305,18 +2357,18 @@ def llm_extract(raw: str, extra: str = "") -> dict:
         "绝大多数情况应返回空数组 []。\n"
         f"- research: 归属的研究项目数组，只能从下面列表选取，无匹配返回空数组 []：{json.dumps(research, ensure_ascii=False)}\n"
         "- source: 来源（公众号名 / arxiv 分类 / 站点名），无法判断填 \"未知\"。\n"
-        "- summary: 一句话中文摘要。\n"
+        "- summary: 见下方解析字段规范。\n"
         "- paper: 论文链接（arxiv URL），无则 \"\"。\n"
         "- code: 代码链接（github URL），无则 \"\"。\n"
         "- dataset: 数据集链接，无则 \"\"。\n"
         "- link: 原文链接（非论文类消息，如微信文章），无则 \"\"。\n"
-        "- content: 正文，中文 3~5 句要点，可用 markdown。\n"
-        "- purpose: 用途与启示，markdown 无序列表（每条以 - 开头）。\n"
+        "- content / purpose / insight: 见下方解析字段规范。\n"
         "- keywords: 3~5 个规范技术术语数组（中文或公认英文缩写，如 \"强化学习\"、\"RLVR\"、"
         "\"工具调用\"、\"过程奖励模型\"），优先复用上面子主题/主题词表中的写法；"
         "禁止泛词（大模型、人工智能、方法、研究、模型、论文）。\n"
         "- orgs: 作者/发布方机构规范名数组（如 \"清华大学\"、\"OpenAI\"、\"Google DeepMind\"、"
         "\"上海人工智能实验室\"），仅当文本中确有依据时填写，否则返回空数组 []；不要猜测。\n"
+        "\n【解析字段规范】\n" + ITEM_FIELD_SPEC +
         "只输出 JSON 对象。"
     )
 
@@ -2376,6 +2428,9 @@ def llm_extract(raw: str, extra: str = "") -> dict:
     parsed["suggested_topics"] = suggested
     r = parsed.get("research", [])
     parsed["research"] = [str(x).strip() for x in ([r] if isinstance(r, str) else r) if str(x).strip()]
+    for f in ("summary", "content", "purpose", "insight"):  # 模型偶尔把列表式字段返回成数组
+        if isinstance(parsed.get(f), list):
+            parsed[f] = "\n".join(str(x) for x in parsed[f])
     parsed["keywords"] = _norm_str_list(parsed.get("keywords"))[:5]
     parsed["orgs"] = normalize_orgs(parsed.get("orgs"))
 
@@ -2576,7 +2631,7 @@ def submit_review_entry(batch_id: str, idx: int) -> dict:
         skipped_note = "候选新主题未自动采纳：" + "、".join(suggested)
     payload = {k: data.get(k) or "" for k in
                ("title", "subtopic", "source", "summary", "paper",
-                "code", "dataset", "link", "content", "purpose")}
+                "code", "dataset", "link", "content", "purpose", "insight")}
     meta = entry.get("meta") or {}
     research = list(data.get("research") or [])
     for r in meta.get("research") or []:
@@ -3464,7 +3519,9 @@ def _render_item_md(d: str, item: dict) -> str:
                      ("数据集", "dataset"), ("原文", "link")):
         if (item.get(f) or "").strip():
             lines.append(f"- {label}：{item[f].strip()}")
-    for label, f in (("摘要", "summary"), ("要点", "content"), ("用途与启示", "purpose")):
+    purpose_label = "用途" if (item.get("insight") or "").strip() else "用途与启示"
+    for label, f in (("摘要", "summary"), ("要点", "content"),
+                     (purpose_label, "purpose"), ("启示", "insight")):
         v = (item.get(f) or "").strip()
         if v:
             lines += ["", f"**{label}**", "", v]

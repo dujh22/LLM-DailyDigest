@@ -107,6 +107,7 @@ $single-link-hover-color-dark: $brand-accent !default;
   margin-top: .5rem; padding-left: .75rem;
   border-left: 3px solid var(--global-link-hover-color, #6366f1);
 }
+.daily-item-insight { border-left-color: #f59e0b; }
 .daily-item-content-fold { margin-top: .4rem; font-size: .9rem; }
 .daily-item-content-fold > summary { cursor: pointer; opacity: .8; }
 .daily-item-notes { margin-top: .5rem; font-size: .85rem; opacity: .82; }

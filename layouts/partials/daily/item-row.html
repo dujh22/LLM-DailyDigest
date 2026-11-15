@@ -16,6 +16,6 @@
     {{- with $it.summary }}<span class="daily-row-summary">{{ . }}</span>{{ end -}}
   </summary>
   <div class="daily-row-body">
-    {{- partial "daily/item-body.html" (dict "it" $it "page" .page "compact" false) -}}
+    {{- partial "daily/item-body.html" (dict "it" $it "page" .page "expand" true) -}}
   </div>
 </details>

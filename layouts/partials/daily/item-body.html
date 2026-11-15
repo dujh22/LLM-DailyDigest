@@ -1,11 +1,13 @@
 {{- /*
-  日报条目正文（元信息行 / 主题 / 资源卡 / 内容 / 用途与启示 / 原始笔记）。
-  完整卡片与折叠行共用。上下文：dict "it" 条目 "page" 页面 "compact" bool
-  compact=true 时正文（content）折叠进 details，只直接展示「用途与启示」。
+  日报条目正文（元信息行 / 主题 / 资源卡 / 用途 / 启示 / 内容 / 原始笔记）。
+  完整卡片与折叠行共用。上下文：dict "it" 条目 "page" 页面 "expand" bool
+  极简优先：默认只直接展示「用途」「启示」，结构化正文（content）折叠进 details；
+  expand=true（折叠行内部，外层已是 details）时正文直接展开。
+  旧条目没有 insight 字段，purpose 是「用途与启示」列表，按原标签展示。
 */ -}}
 {{- $it := .it -}}
 {{- $page := .page -}}
-{{- $compact := .compact | default false -}}
+{{- $expand := .expand | default false -}}
 <p class="post-meta-line daily-item-meta">
   {{- if isset $it "score" -}}<span class="daily-score daily-score-{{ $it.score }}" title="推荐判定相关性分（3 重点 / 2 相关 / 1 弱相关）">★ {{ $it.score }}</span>&nbsp;{{- end -}}
   {{- with $it.subtopic -}}<span>{{- dict "Class" "fa-solid fa-layer-group fa-fw me-1" | partial "plugin/icon.html" -}}子主题：{{ . }}</span>&nbsp;{{- end -}}
@@ -35,16 +37,17 @@
     {{- with $it.link -}}<div>{{- dict "Class" "fa-solid fa-link fa-fw" | partial "plugin/icon.html" -}} <strong>原文</strong>：<a href="{{ . | safeURL }}" target="_blank" rel="noopener">{{ . }}</a></div>{{- end -}}
   </div>
 {{- end -}}
+{{- with $it.purpose -}}<div class="daily-item-purpose"><strong>{{ if $it.insight }}用途{{ else }}用途与启示{{ end }}</strong>{{- . | $page.RenderString (dict "display" "block") -}}</div>{{- end -}}
+{{- with $it.insight -}}<div class="daily-item-purpose daily-item-insight"><strong>启示</strong>{{- . | $page.RenderString (dict "display" "block") -}}</div>{{- end -}}
 {{- with $it.content -}}
-  {{- if $compact -}}
+  {{- if $expand -}}
+    <div class="daily-item-content">{{- . | $page.RenderString (dict "display" "block") -}}</div>
+  {{- else -}}
     <details class="daily-item-content-fold"><summary>📄 详细内容</summary>
       <div class="daily-item-content">{{- . | $page.RenderString (dict "display" "block") -}}</div>
     </details>
-  {{- else -}}
-    <div class="daily-item-content">{{- . | $page.RenderString (dict "display" "block") -}}</div>
   {{- end -}}
 {{- end -}}
-{{- with $it.purpose -}}<div class="daily-item-purpose"><strong>用途与启示</strong>{{- . | $page.RenderString (dict "display" "block") -}}</div>{{- end -}}
 {{- with $it.notes -}}
   <details class="daily-item-notes">
     <summary>📝 原始笔记（逐字保留）</summary>
