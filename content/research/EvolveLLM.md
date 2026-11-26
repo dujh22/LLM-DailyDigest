@@ -81,6 +81,8 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
    - [跨任务耦合驱动无监督 RLVR 策略坍缩](../../updates/2026-10-29/#rlvr) · 2026-10-29
    - [CaLLM：基于非参数适配器路由的持续适应](../../updates/2026-10-29/#callm) · 2026-10-29
 5. **巩固与能力回放**：持续更新前后要用多接口区分读出错配与真实表征漂移；以行为门控、低曲率更新、历史预测或基础回放约束晋升，避免奖励外能力退化。
+   - [Shift Adapter：逐层恒定偏移适配](../../updates/2026-11-26/#shift-adapter) · 2026-11-26
+   - [增益保留联合调参](../../updates/2026-11-26/#item-34) · 2026-11-26
    - [三接口持续学习诊断](../../updates/2026-11-25/#item-109) · 2026-11-25
    - [InstructReplay：自答回放保留通用能力](../../updates/2026-11-25/#instructreplay) · 2026-11-25
    - [CurvDelta：低曲率约束式学习遗忘](../../updates/2026-11-20/#curvdelta) · 2026-11-20
@@ -131,6 +133,7 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
     - [强化学习激励大语言模型从长篇教材中自我学习](../../updates/2026-11-13/#item-7) · 2026-11-13
     - [强化学习激励大语言模型自主学习长篇教材](../../updates/2026-10-30/#item-61) · 2026-10-30
 11. **生产失败反馈闭环**：真实交互反馈应先判别任务是否真正成功，再做故障归因；每次在策略更新须受累积能力契约和分阶段验证约束，避免噪声与新需求破坏旧行为。
+    - [VFR：验证式失败驱动修复](../../updates/2026-11-26/#vfr) · 2026-11-26
     - [FinEvo：同模自博弈递归改进](../../updates/2026-11-24/#finevo) · 2026-11-24
     - [Learning through Discernment：辨别式反馈学习](../../updates/2026-11-19/#learning-through-discernment) · 2026-11-19
     - [G-CAST：治理式持续自训练](../../updates/2026-11-16/#g-cast) · 2026-11-16
@@ -142,6 +145,7 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
     - [Prism：统一多模态模型的双向自教学](../../updates/2026-11-06/#prism) · 2026-11-06
     - [Timbre：面向无标签多模态测试时强化学习的可靠性感知调和共识](../../updates/2026-10-30/#timbre) · 2026-10-30
 13. **权重编辑需可回滚**：直接改写少量权重可低成本固化外部能力或修复故障，但收益可能来自数值痕迹或偶然搜索；应报告数值格式、做舍入对照与独立验证，并保留回滚版本。
+    - [Scalpel and Brush：智能体稀疏权重编辑](../../updates/2026-11-26/#scalpel-and-brush) · 2026-11-26
     - [Weight Coding：智能体直接编辑模型权重](../../updates/2026-11-25/#weight-coding) · 2026-11-25
     - [SELFWRITE：无梯度自写权重编辑](../../updates/2026-11-25/#selfwrite) · 2026-11-25
     - [Self-WSP：权重空间自我编程](../../updates/2026-11-24/#self-wsp) · 2026-11-24
@@ -160,7 +164,7 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
     - [CoEvoBench：模型与脚手架协同演化](../../updates/2026-11-23/#coevobench) · 2026-11-23
     - [Piccolo：模型数据协同自进化](../../updates/2026-11-20/#piccolo) · 2026-11-20
     - [Evo²：权重与Harness协同进化](../../updates/2026-11-20/#evo-harness) · 2026-11-20
-<!-- experience-seen: 2026-11-18/item-59 2026-11-18/self-rewriting 2026-11-19/item-48 2026-11-19/learning-through-discernment 2026-11-19/rsi-prime 2026-11-19/toaster 2026-11-19/weight-space-programming 2026-11-20/automaster 2026-11-20/basersi 2026-11-20/curvdelta 2026-11-20/evo-harness 2026-11-20/item-65 2026-11-20/keel 2026-11-20/piccolo 2026-11-20/rlcdr 2026-11-20/self-replicating-language-models 2026-11-23/coevobench 2026-11-23/item-49 2026-11-23/openai-ai 2026-11-23/structure-over-scale 2026-11-23/weight-space-programming-icl 2026-11-24/dive 2026-11-24/finevo 2026-11-24/pbpt 2026-11-24/self-wsp 2026-11-24/sro 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/elgo 2026-11-25/glm-5-5-rsi 2026-11-25/instructreplay 2026-11-25/item-109 2026-11-25/item-90 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-25/weight-coding -->
+<!-- experience-seen: 2026-11-19/item-48 2026-11-19/learning-through-discernment 2026-11-19/rsi-prime 2026-11-19/toaster 2026-11-19/weight-space-programming 2026-11-20/automaster 2026-11-20/basersi 2026-11-20/curvdelta 2026-11-20/evo-harness 2026-11-20/item-65 2026-11-20/keel 2026-11-20/piccolo 2026-11-20/rlcdr 2026-11-20/self-replicating-language-models 2026-11-23/coevobench 2026-11-23/item-49 2026-11-23/openai-ai 2026-11-23/structure-over-scale 2026-11-23/weight-space-programming-icl 2026-11-24/dive 2026-11-24/finevo 2026-11-24/pbpt 2026-11-24/self-wsp 2026-11-24/sro 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/elgo 2026-11-25/glm-5-5-rsi 2026-11-25/instructreplay 2026-11-25/item-109 2026-11-25/item-90 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-25/weight-coding 2026-11-26/item-34 2026-11-26/scalpel-and-brush 2026-11-26/shift-adapter 2026-11-26/vfr -->
 <!-- research-experience:end -->
 
 ## 相关工作

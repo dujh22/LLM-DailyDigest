@@ -60,6 +60,9 @@ toc = true
    - [RSI-Master：受控实验驱动的自主模型改进](../../updates/2026-10-30/#rsi-master) · 2026-10-30
    - [The Trinity：能力驱动的多模态智能体递归自我改进](../../updates/2026-10-29/#the-trinity) · 2026-10-29
 2. **评判器必须隔离**：凡评估结果参与选模或训练，评判器都应按干预接受隔离审计；加入独立执行、人评、语义等价变换及证据匹配对照，排查迎合、方向偏差和定向误导。
+   - [SealedLoop：环外密封评判](../../updates/2026-11-26/#sealedloop) · 2026-11-26
+   - [HUB-J：人类偏好驱动偏差审计](../../updates/2026-11-26/#hub-j) · 2026-11-26
+   - [Agent-as-a-Verifier：证据证书式通用验证](../../updates/2026-11-26/#agent-as-a-verifier) · 2026-11-26
    - [GLM-5.5：多模型后训练汇流式RSI](../../updates/2026-11-25/#glm-5-5-rsi) · 2026-11-25
    - [DoppelVet：对照式更新安全验证](../../updates/2026-11-25/#doppelvet) · 2026-11-25
    - [量表反转探针：审计评判方向偏差](../../updates/2026-11-21/#item-21) · 2026-11-21
@@ -186,7 +189,8 @@ toc = true
     - [Recursa：递归自我改进的基础模型系统](../../updates/2026-11-06/#recursa) · 2026-11-06
     - [SwarmRSI：共享失败经验驱动科研智能体群递归自我改进](../../updates/2026-11-05/#swarmrsi) · 2026-11-05
     - [801-30B：将 RSI 引入前沿预训练](../../updates/2026-11-05/#801-30b-rsi) · 2026-11-05
-13. **权重空间更新**：权重编辑或门控增量模块适合低成本局部修复，且可隔离部分副作用；效果仍可能依赖规模或数值痕迹，须做舍入对照、跨任务测试、安全审计和回退。
+13. **权重空间更新**：权重编辑或门控增量模块适合低成本局部修复，且可隔离部分副作用；效果可能来自数值痕迹或常规更新，须做舍入对照、标准基线、跨任务测试、安全审计和回退。
+    - [Scalpel and Brush：智能体稀疏权重编辑](../../updates/2026-11-26/#scalpel-and-brush) · 2026-11-26
     - [SELFWRITE：无梯度自写权重编辑](../../updates/2026-11-25/#selfwrite) · 2026-11-25
     - [Self-Upgrading Embodied Agents：经验驱动权重自升级](../../updates/2026-11-25/#self-upgrading-embodied-agents) · 2026-11-25
     - [Self-WSP：权重空间自我编程](../../updates/2026-11-24/#self-wsp) · 2026-11-24
@@ -203,6 +207,7 @@ toc = true
     - [WeightLoop：基于实验反馈的权重空间编程](../../updates/2026-11-06/#weightloop) · 2026-11-06
     - [Astra 直接编程神经网络权重，显著提升 Qwen 数学能力](../../updates/2026-11-03/#astra-qwen) · 2026-11-03
 14. **持久更新治理**：持久更新应经独立审计、安全回归与非劣效检验，默认拒绝失败版本并保留回退；自生成内容、权重编辑及种群跨代变化均按不可信输入处理。
+    - [SED：单次注入毒化安全策略](../../updates/2026-11-26/#sed) · 2026-11-26
     - [Self-Upgrading Embodied Agents：经验驱动权重自升级](../../updates/2026-11-25/#self-upgrading-embodied-agents) · 2026-11-25
     - [Evolutionary AI Control：演化种群安全证明](../../updates/2026-11-25/#evolutionary-ai-control) · 2026-11-25
     - [DoppelVet：对照式更新安全验证](../../updates/2026-11-25/#doppelvet) · 2026-11-25
@@ -222,7 +227,7 @@ toc = true
     - [Sage-Evolve-Preview：自适应观测驱动持续改进](../../updates/2026-11-20/#sage-evolve-preview) · 2026-11-20
     - [Resolution Hypothesis：评测分辨率瓶颈](../../updates/2026-11-19/#resolution-hypothesis) · 2026-11-19
     - [EVA-RSI：代理考试驱动视频评估自改进](../../updates/2026-11-19/#eva-rsi) · 2026-11-19
-<!-- experience-seen: 2026-11-18/elite 2026-11-18/jevrsi 2026-11-18/self-rewriting 2026-11-19/aerorsi 2026-11-19/eva-rsi 2026-11-19/guard 2026-11-19/item-15 2026-11-19/item-48 2026-11-19/resolution-hypothesis 2026-11-19/rsi-prime 2026-11-19/rsibench-infra 2026-11-19/safe-personal-rsi 2026-11-19/weight-space-programming 2026-11-20/agnes-harness 2026-11-20/basersi 2026-11-20/cyber-physical-rsi 2026-11-20/keel 2026-11-20/openai-rsi 2026-11-20/piccolo 2026-11-20/sage-evolve-preview 2026-11-20/self-replicating-language-models 2026-11-20/system-one-rsi 2026-11-21/agi-asi 2026-11-21/item-21 2026-11-23/alps-lab 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/medicalrsi 2026-11-23/openai-ai 2026-11-23/search-rsi 2026-11-24/2026-ai-rsi 2026-11-24/dive 2026-11-24/don-t-train-it-write-it 2026-11-24/finevo 2026-11-24/metarsi-rsi 2026-11-24/rsi 2026-11-24/self-wsp 2026-11-24/semantic-pid-rsi-pid 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/fin-rsi 2026-11-25/glm-5-5-rsi 2026-11-25/habitats 2026-11-25/item-123 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/self-upgrading-embodied-agents 2026-11-25/selfwrite 2026-11-25/tt-rsi -->
+<!-- experience-seen: 2026-11-19/aerorsi 2026-11-19/eva-rsi 2026-11-19/guard 2026-11-19/item-15 2026-11-19/item-48 2026-11-19/resolution-hypothesis 2026-11-19/rsi-prime 2026-11-19/rsibench-infra 2026-11-19/safe-personal-rsi 2026-11-19/weight-space-programming 2026-11-20/agnes-harness 2026-11-20/basersi 2026-11-20/cyber-physical-rsi 2026-11-20/keel 2026-11-20/openai-rsi 2026-11-20/piccolo 2026-11-20/sage-evolve-preview 2026-11-20/self-replicating-language-models 2026-11-20/system-one-rsi 2026-11-21/agi-asi 2026-11-21/item-21 2026-11-23/alps-lab 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/medicalrsi 2026-11-23/openai-ai 2026-11-23/search-rsi 2026-11-24/2026-ai-rsi 2026-11-24/dive 2026-11-24/don-t-train-it-write-it 2026-11-24/finevo 2026-11-24/metarsi-rsi 2026-11-24/rsi 2026-11-24/self-wsp 2026-11-24/semantic-pid-rsi-pid 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/fin-rsi 2026-11-25/glm-5-5-rsi 2026-11-25/habitats 2026-11-25/item-123 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/self-upgrading-embodied-agents 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-26/agent-as-a-verifier 2026-11-26/hub-j 2026-11-26/scalpel-and-brush 2026-11-26/sealedloop 2026-11-26/sed -->
 <!-- research-experience:end -->
 
 ## 相关工作

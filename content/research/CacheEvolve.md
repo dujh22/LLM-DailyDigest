@@ -97,7 +97,9 @@ toc = true
    - [粗粒度语义块实现免训练稀疏注意力加速](../../updates/2026-11-06/#item-69) · 2026-11-06
    - [递归稀疏注意力：以对数成本外推至百万词元](../../updates/2026-11-06/#item-22) · 2026-11-06
    - [CISA：用分块索引稀疏注意力改造稠密注意力模型](../../updates/2026-11-06/#cisa) · 2026-11-06
-6. **自适应淘汰评分**：用早期代理查询预选、以中层统一评分，再以查询反馈纠错；评分还应结合置信度、内容新颖性与模型级时间衰减。
+6. **自适应淘汰评分**：用早期代理查询预选、以中层统一评分，再以查询反馈纠错；评分还应结合置信度、新颖性与时间衰减，保留决策联合条件化于新上下文和现有记忆。
+   - [SSA：上下文依赖记忆保留](../../updates/2026-11-26/#ssa) · 2026-11-26
+   - [FBQ：首词未来位置探针](../../updates/2026-11-26/#fbq) · 2026-11-26
    - [NoHairCache：单次校准幂律淘汰](../../updates/2026-11-24/#nohaircache) · 2026-11-24
    - [RoCoKV：置信冗余感知缓存压缩](../../updates/2026-11-20/#rocokv) · 2026-11-20
    - [中层网络最适合评判 KV Cache 淘汰](../../updates/2026-11-06/#kv-cache-2) · 2026-11-06
@@ -158,7 +160,7 @@ toc = true
     - [LoopCache：置信更新与循环KV缓存](../../updates/2026-11-19/#loopcache-kv) · 2026-11-19
     - [KV Replay：跨迭代缓存复用](../../updates/2026-11-17/#kv-replay) · 2026-11-17
     - [Looped CED：零轮次 KV 增长的递归深度架构](../../updates/2026-11-12/#looped-ced-kv) · 2026-11-12
-<!-- experience-seen: 2026-11-18/context-has-a-price 2026-11-18/kv-ltm-kv 2026-11-18/lost-in-a-few-heads 2026-11-18/mistiq 2026-11-18/movieroll 2026-11-19/gemma-4-k-v-cache 2026-11-19/kra 2026-11-19/loopcache-kv 2026-11-19/mbt 2026-11-19/moe-context 2026-11-19/sch 2026-11-19/toaster 2026-11-19/videonexus 2026-11-20/clover 2026-11-20/compact-bench 2026-11-20/frontierreplay 2026-11-20/grepmem 2026-11-20/laq 2026-11-20/raa 2026-11-20/rocokv 2026-11-23/contexture 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/turnout 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/markovian-reasoning-llm 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/hopper-4-bit-kv 2026-11-25/integral-deltanet 2026-11-25/item-150 2026-11-25/item-93 2026-11-25/loomkv-kv 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/swapcert 2026-11-25/trusuco -->
+<!-- experience-seen: 2026-11-19/gemma-4-k-v-cache 2026-11-19/kra 2026-11-19/loopcache-kv 2026-11-19/mbt 2026-11-19/moe-context 2026-11-19/sch 2026-11-19/toaster 2026-11-19/videonexus 2026-11-20/clover 2026-11-20/compact-bench 2026-11-20/frontierreplay 2026-11-20/grepmem 2026-11-20/laq 2026-11-20/raa 2026-11-20/rocokv 2026-11-23/contexture 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/turnout 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/markovian-reasoning-llm 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/hopper-4-bit-kv 2026-11-25/integral-deltanet 2026-11-25/item-150 2026-11-25/item-93 2026-11-25/loomkv-kv 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/swapcert 2026-11-25/trusuco 2026-11-26/fbq 2026-11-26/ssa -->
 <!-- research-experience:end -->
 
 ## 相关工作

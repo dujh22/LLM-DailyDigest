@@ -45,6 +45,7 @@ toc = true
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **执行验证共设计**：规模化合成任务时应同步保证环境可执行、结果可验证；只扩任务数量会放大坏环境与奖励噪声。
+   - [3DCodeFactory：实机验证式3D数据合成](../../updates/2026-11-26/#3dcodefactory-3d) · 2026-11-26
    - [RoboUniverse-10K：万级可验证具身环境](../../updates/2026-11-25/#robouniverse-10k) · 2026-11-25
    - [CrossEnv：跨环境可验证任务合成](../../updates/2026-11-19/#crossenv) · 2026-11-19
    - [ScenarioForge：资源锚定与执行验证](../../updates/2026-11-18/#scenarioforge) · 2026-11-18
@@ -118,7 +119,8 @@ toc = true
     - [CubeSandbox：状态化微虚拟机沙箱](../../updates/2026-11-18/#cubesandbox) · 2026-11-18
     - [WebHarbor：面向 GUI 智能体的真实网站环境套件](../../updates/2026-11-06/#webharbor-gui) · 2026-11-06
     - [RSIGym：面向递归自我改进的真实训练环境](../../updates/2026-11-05/#rsigym) · 2026-11-05
-13. **可验证奖励闭环**：长程任务应以客观结果或行为证据构造奖励，并把终局结果归因到回合。目标探索与奖励实现宜解耦，避免稀疏或可利用的模型裁判。
+13. **可验证奖励闭环**：长程任务应以客观结果或行为证据构造奖励，并把终局结果归因到回合。目标探索与奖励实现宜解耦；执行奖励还需经反事实实例复核，避免数据巧合或裁判漏洞。
+    - [CF Reward：反事实执行防奖励作弊](../../updates/2026-11-26/#cf-reward) · 2026-11-26
     - [多玩家社交游戏：可验证社会智能训练](../../updates/2026-11-25/#item-63) · 2026-11-25
     - [Habitats：开放式智能体目标演化](../../updates/2026-11-25/#habitats) · 2026-11-25
     - [WATERFALL：进化式奖励发现](../../updates/2026-11-19/#waterfall) · 2026-11-19
@@ -138,7 +140,7 @@ toc = true
     - [MobileGym-Lite：完整覆盖与功能裁剪](../../updates/2026-11-19/#mobilegym-lite) · 2026-11-19
     - [RISE：全图交互环境扩展](../../updates/2026-11-17/#rise) · 2026-11-17
     - [EnvOpt：自动优化智能体的固定环境](../../updates/2026-11-06/#envopt) · 2026-11-06
-<!-- experience-seen: 2026-11-18/cubesandbox 2026-11-18/embedgym 2026-11-18/repofactory 2026-11-18/scenarioforge 2026-11-19/crossenv 2026-11-19/gandalf 2026-11-19/mobilegym-lite 2026-11-19/waterfall 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/gemini-4-neon-genie-4 2026-11-20/item-73 2026-11-20/openhagen-worlds 2026-11-20/playcraft 2026-11-20/worldruler 2026-11-21/silicongym-eda 2026-11-21/turingspace 2026-11-23/search-rsi 2026-11-24/scape 2026-11-25/benchmint 2026-11-25/cua-see 2026-11-25/habitats 2026-11-25/item-63 2026-11-25/online-environment-repair 2026-11-25/robouniverse-10k 2026-11-25/vade -->
+<!-- experience-seen: 2026-11-19/crossenv 2026-11-19/gandalf 2026-11-19/mobilegym-lite 2026-11-19/waterfall 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/gemini-4-neon-genie-4 2026-11-20/item-73 2026-11-20/openhagen-worlds 2026-11-20/playcraft 2026-11-20/worldruler 2026-11-21/silicongym-eda 2026-11-21/turingspace 2026-11-23/search-rsi 2026-11-24/scape 2026-11-25/benchmint 2026-11-25/cua-see 2026-11-25/habitats 2026-11-25/item-63 2026-11-25/online-environment-repair 2026-11-25/robouniverse-10k 2026-11-25/vade 2026-11-26/3dcodefactory-3d 2026-11-26/cf-reward -->
 <!-- research-experience:end -->
 
 ## 相关工作

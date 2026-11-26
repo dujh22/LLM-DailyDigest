@@ -78,7 +78,8 @@ toc = true
    - [AgentFaultBench：状态验证式故障恢复评测](../../updates/2026-11-17/#agentfaultbench) · 2026-11-17
    - [长程智能体失败归因需执行反事实：迈向报告标准](../../updates/2026-11-06/#item-46) · 2026-11-06
    - [EnvOS：动态环境下计算机使用智能体的审计与证据评估](../../updates/2026-10-30/#envos) · 2026-10-30
-5. **前缀定位故障传播**：逐前缀检查可定位错误进入、传播、反证忽略和恢复节点，比仅审读整段轨迹更适合过程归因。
+5. **前缀定位故障传播**：逐前缀定位最早关键错误，再用其局部证据诊断传播、反证忽略与恢复，比整段轨迹审读更准确且少受无关信息干扰。
+   - [RecordRoute：定位引导的故障诊断](../../updates/2026-11-26/#recordroute) · 2026-11-26
    - [Instrumenting Failure：逐决策节点评测](../../updates/2026-11-17/#instrumenting-failure) · 2026-11-17
    - [长程 LLM 智能体的轨迹中心故障审计](../../updates/2026-11-12/#llm) · 2026-11-12
    - [基于闭合序列模式挖掘的网页导航智能体可解释早停](../../updates/2026-11-06/#item-153) · 2026-11-06
@@ -134,7 +135,7 @@ toc = true
     - [Transport-Safe Evaluation：轨迹感知的随时有效审计](../../updates/2026-11-25/#transport-safe-evaluation) · 2026-11-25
     - [Verification Transport：抽象边界验证迁移](../../updates/2026-11-16/#verification-transport) · 2026-11-16
     - [EnvOS：动态环境下计算机使用智能体的审计与证据评估](../../updates/2026-10-30/#envos) · 2026-10-30
-<!-- experience-seen: 2026-11-18/agent-trajectories 2026-11-18/context-has-a-price 2026-11-18/detourbench 2026-11-18/re-reading-is-not-free 2026-11-18/skillbuffbench 2026-11-19/done-but-still-working 2026-11-19/evidence-interpretation 2026-11-19/item-36 2026-11-19/item-47 2026-11-19/l2c 2026-11-19/ragharnessdebugger-jev 2026-11-19/score 2026-11-21/item-24 2026-11-24/item-67 2026-11-25/item-108 2026-11-25/item-133 2026-11-25/jevagentharness-jev 2026-11-25/transport-safe-evaluation -->
+<!-- experience-seen: 2026-11-19/done-but-still-working 2026-11-19/evidence-interpretation 2026-11-19/item-36 2026-11-19/item-47 2026-11-19/l2c 2026-11-19/ragharnessdebugger-jev 2026-11-19/score 2026-11-21/item-24 2026-11-24/item-67 2026-11-25/item-108 2026-11-25/item-133 2026-11-25/jevagentharness-jev 2026-11-25/transport-safe-evaluation 2026-11-26/recordroute -->
 <!-- research-experience:end -->
 
 ## 相关工作

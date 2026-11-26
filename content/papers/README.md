@@ -46,7 +46,14 @@ python3 tools/repro.py check   # 校验结构与 reused_by，打印全部进度
 | `cache/` | 运行时下载的数据与模型 | 任何需要长期保存的东西 |
 | `index.md` | 整体笔记：论文要点、可复用资源表、复现记录（环境 / 命令 / 论文 vs 复现结果对照 / 踩坑）、二次利用、进展日志 | — |
 
-网站不会复制这些文件（`[build] publishResources = false`），工作页上的 `paper/`、`resources/`、`repro/` 按钮跳转到 GitHub 对应目录。
+### 入库与网站展示
+
+- **GitHub**：`paper/`、`resources/`、`repro/` 全部正常入库（PDF、代码、数据 / 模型索引都会上传）；只有 `cache/` 被 `.gitignore` 忽略。单文件超过 100 MB 时 GitHub 会拒收，这类文件放外链或下载脚本。
+- **网站工作页**：进度卡下方按 `paper/`、`resources/`、`repro/` 分组列出全部文件：
+  - 点 **PDF** → 站内直接在浏览器打开（构建时只发布 PDF，`publishResources = false` 保证代码等不被复制到站点）；旁边的 GitHub 图标跳仓库原文件；
+  - 点 **代码 / md / 配置等** → 跳 GitHub 查看（带语法高亮、md 渲染）；
+  - `resources/README.md`（资源索引）直接渲染在列表下方，不用点开；
+  - 每个分组标题旁的 GitHub 图标跳对应目录。
 
 ## 四、进度口径
 

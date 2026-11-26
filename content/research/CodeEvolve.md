@@ -45,6 +45,7 @@ toc = true
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **可执行验证优先**：自进化优先用于可自动执行验证的任务；代码应在无密钥隔离环境运行。验证器须与生成器权限分离、不可由其篡改，并以强制约束门控搜索，对漏洞异步审计修补。
+   - [3DCodeFactory：实机验证式3D数据合成](../../updates/2026-11-26/#3dcodefactory-3d) · 2026-11-26
    - [Online Environment Repair：在线修复验证环境](../../updates/2026-11-25/#online-environment-repair) · 2026-11-25
    - [SplitBench：评测权限分离](../../updates/2026-11-23/#splitbench) · 2026-11-23
    - [Grok Bot：约束验证驱动开发](../../updates/2026-11-23/#grok-bot) · 2026-11-23
@@ -79,7 +80,8 @@ toc = true
    - [KernelSeek：问题驱动的 GPU 内核优化智能体](../../updates/2026-11-06/#kernelseek-gpu) · 2026-11-06
    - [ForgeKernel零样本自进化生成算子，性能超越DeepSeek FlashMLA 9.8%](../../updates/2026-10-31/#forgekernel-deepseek-flashmla-9-8) · 2026-10-31
    - [ForgeKernel 登顶华为与英伟达算子评测榜](../../updates/2026-10-29/#forgekernel) · 2026-10-29
-4. **脚手架共同演化**：不要只搜索最终代码；将工具、工作流和搜索策略纳入可修改脚手架，固定模型权重也能获得显著能力增益。
+4. **脚手架共同演化**：不要只搜索最终代码；将工具、工作流和干预策略纳入可修改脚手架，并用成败轨迹锚定修改、在留出任务检验迁移，固定权重也能获得能力增益。
+   - [TransHarness：可迁移脚手架演化](../../updates/2026-11-26/#transharness) · 2026-11-26
    - [Meta-RTL：演化式RTL优化脚手架](../../updates/2026-11-20/#meta-rtl-rtl) · 2026-11-20
    - [automodel：可移植模型发现技能](../../updates/2026-11-19/#automodel) · 2026-11-19
    - [VHarness：视觉推理工具化](../../updates/2026-11-16/#vharness) · 2026-11-16
@@ -88,6 +90,7 @@ toc = true
    - [VISTA：机器人通过自编程实现不动权重的具身自进化](../../updates/2026-11-08/#vista) · 2026-11-08
    - [HEMO：面向多目标组合优化的脚手架自演化](../../updates/2026-10-30/#hemo) · 2026-10-30
 5. **持久记忆复用**：开放式演化应保存结构化经验、轨迹与工具，并按任务检索；经验须经真实执行和留出任务持续证伪，及时回滚泄漏或无效规则。
+   - [PRECEPT：失误驱动的安全原则演化](../../updates/2026-11-26/#precept) · 2026-11-26
    - [Notary门控回顾环：规则准入效用验证](../../updates/2026-11-25/#notary) · 2026-11-25
    - [MOSAIC：记忆组织式反模仿搜索](../../updates/2026-11-25/#mosaic) · 2026-11-25
    - [AutoSECO：可迁移求解技能演化](../../updates/2026-11-25/#autoseco) · 2026-11-25
@@ -124,6 +127,7 @@ toc = true
    - [Multi-step SWE：编码智能体的长程持续开发评测](../../updates/2026-11-06/#multi-step-swe) · 2026-11-06
    - [编程智能体能否在持续演化中避免遗忘？](../../updates/2026-11-06/#item-94) · 2026-11-06
 10. **真实长程环境**：评测与自训练环境应覆盖状态化、多步骤、资源受限且上下文不完整的端到端任务；用真实记录或结构指标分级构建，并在未见实例检验可行性、质量与时延。
+    - [3DCodeFactory：实机验证式3D数据合成](../../updates/2026-11-26/#3dcodefactory-3d) · 2026-11-26
     - [模拟软件公司评测：端到端开发能力检验](../../updates/2026-11-23/#item-10) · 2026-11-23
     - [FrontierOR：智能体优化算法设计](../../updates/2026-11-20/#frontieror) · 2026-11-20
     - [BuggyMLE：可控注错扩展工程难度](../../updates/2026-11-20/#buggymle) · 2026-11-20
@@ -165,7 +169,8 @@ toc = true
     - [Context Has a Price：缓存感知上下文成本评测](../../updates/2026-11-18/#context-has-a-price) · 2026-11-18
     - [Thomson问题：智能体搜索与精确认证](../../updates/2026-11-16/#thomson) · 2026-11-16
     - [Pdb 还是 Bash：用 Pass_X@k 比较智能体调试接口](../../updates/2026-11-12/#pdb-bash-pass-x-k) · 2026-11-12
-14. **证明携带代码**：高风险或昂贵难执行的生成代码，应同时产出机器可复核的等价性证明、对偶证书或安全证明；困难实例可与候选算法协同设计，以强化认证。
+14. **证明携带代码**：高风险或昂贵难执行的生成代码，应携带机器可复核的等价性、安全或最优性证书，并明确形式化覆盖；部分验证不可外推整体可信，重大主张还须独立复核。
+    - [OpenAI Math：AI批量生成数学证明](../../updates/2026-11-26/#openai-math-ai) · 2026-11-26
     - [量子算法智能体：Lean验证式电路优化](../../updates/2026-11-24/#lean) · 2026-11-24
     - [SailSearch：双智能体辅助算法发现](../../updates/2026-11-21/#sailsearch) · 2026-11-21
     - [Thomson问题：智能体搜索与精确认证](../../updates/2026-11-16/#thomson) · 2026-11-16
@@ -178,7 +183,7 @@ toc = true
 15. **义务驱动终止**：补丁满足全部任务义务后应触发独立终止判定；无上限的继续探索会浪费预算，甚至撤销已正确的解。
     - [Evidence Interpretation：检查证据边界判定](../../updates/2026-11-19/#evidence-interpretation) · 2026-11-19
     - [终止滞后：编程智能体早已解题却迟迟不停](../../updates/2026-11-13/#item-32) · 2026-11-13
-<!-- experience-seen: 2026-11-19/3d-gamedev-arena 2026-11-19/automodel 2026-11-19/evidence-interpretation 2026-11-19/item-47 2026-11-19/makoborn 2026-11-19/metrics-in-the-loop 2026-11-19/option-grpo 2026-11-19/ppa 2026-11-19/tabdag 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/autorlbench-rl -->
+<!-- experience-seen: 2026-11-19/3d-gamedev-arena 2026-11-19/automodel 2026-11-19/evidence-interpretation 2026-11-19/item-47 2026-11-19/makoborn 2026-11-19/metrics-in-the-loop 2026-11-19/option-grpo 2026-11-19/ppa 2026-11-19/tabdag 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/openai-math-ai 2026-11-26/precept 2026-11-26/transharness -->
 <!-- research-experience:end -->
 
 ## 相关工作

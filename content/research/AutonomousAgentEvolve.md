@@ -70,7 +70,9 @@ toc = true
     - [Wactorz：自编写边缘智能体运行时](../../updates/2026-11-25/#wactorz) · 2026-11-25
 11. **任务状态即协作接口**：后台 Agent 应提供可快速恢复的任务表征，让用户间歇检查、调整和接管，而非要求持续监督执行过程。
     - [Calm Agent：间歇注意式交互](../../updates/2026-11-25/#calm-agent) · 2026-11-25
-<!-- experience-seen: 2026-11-19/item-1 2026-11-19/item-48 2026-11-20/clonact 2026-11-20/dots 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/monitor-api 2026-11-24/grok-bot 2026-11-24/hoh 2026-11-24/skill-state 2026-11-25/calm-agent 2026-11-25/wactorz -->
+12. **知识能力分层演化**：持久状态只保证连续性，不代表自我演化；应分别建模和评估知识更新与能力形成，并按任务流选择学习机制。
+    - [EvoLink-Bench：长程依赖任务流评测](../../updates/2026-11-26/#evolink-bench) · 2026-11-26
+<!-- experience-seen: 2026-11-19/item-1 2026-11-19/item-48 2026-11-20/clonact 2026-11-20/dots 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/monitor-api 2026-11-24/grok-bot 2026-11-24/hoh 2026-11-24/skill-state 2026-11-25/calm-agent 2026-11-25/wactorz 2026-11-26/evolink-bench -->
 <!-- research-experience:end -->
 
 ## 相关工作
