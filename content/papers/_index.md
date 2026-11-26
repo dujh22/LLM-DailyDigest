@@ -3,6 +3,8 @@ title = '论文'
 date = 2026-08-07T00:00:00+08:00
 draft = false
 toc = true
+# 复现树根页按此顺序展示「在研」研究（须为 content/research/ 下的文件名）
+active_research = ['EvolveLLM', 'Awesome-RSI', 'LogicEvolve', 'EvolveLRM', 'EvalEvolve', 'DataEvolve', 'Groom', 'HarnessEvolve', 'SwarmEvolve', 'CVTransformer', 'JevEvolve']
 +++
 
 # 论文
@@ -11,6 +13,10 @@ toc = true
 
 本栏目按方向归档论文速读与精读笔记，附 arXiv 链接、代码与数据集（如有）。
 点击下方列表浏览已收录条目，或前往「[资源 ‧ 论文](/resources/papers/)」查看通用检索渠道。
+
+## 相关工作复现
+
+每个尝试复现的相关工作都在本栏目注册为 `papers/<研究>/<data|method|eval|other>/<短语>/`，下方「复现工作」按研究展示其进度、已完成项与下一步。注册规范见仓库 [`content/papers/README.md`](https://github.com/dujh22/LLM-DailyDigest/blob/main/content/papers/README.md)。
 
 ## 阅读约定
 
