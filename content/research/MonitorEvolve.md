@@ -74,7 +74,8 @@ toc = true
 9. **疑点驱动稀疏审计**：审计预算有限或轨迹很长时，先定位最早关键疑点，再用局部证据追问、归因或人工审查；全轨迹上下文反而可能引入干扰。
    - [RecordRoute：定位引导的故障诊断](../../updates/2026-11-26/#recordroute) · 2026-11-26
    - [Interrogation Protocols：追问式智能体监控](../../updates/2026-11-25/#interrogation-protocols) · 2026-11-25
-10. **自修复检测闭环**：自改进评测应单测故障发现与上报，而非只看修复后得分；检测缺口常比修复能力更先限制闭环。
+10. **自修复检测闭环**：自改进评测应分开测故障识别、上报与修复；低摩擦只读上报可暴露被任务偏好压制的已识别异常。
+    - [report_inconsistency：零成本上下文漂移检测](../../updates/2026-11-26/#report-inconsistency) · 2026-11-26
     - [Detection Gap：自改进智能体失效盲区](../../updates/2026-11-25/#detection-gap) · 2026-11-25
 11. **跨代种群约束**：成员会繁殖、选择或变异时，个体合规不能推出群体安全；证书须约束种群动力学和规则跨代继承。
     - [Evolutionary AI Control：演化种群安全证明](../../updates/2026-11-25/#evolutionary-ai-control) · 2026-11-25
@@ -87,7 +88,7 @@ toc = true
     - [PROVE：证据驱动的协议强化](../../updates/2026-11-26/#prove) · 2026-11-26
 15. **环外密封验收**：自我改进的升级判定应交给改进环不可见的独立评判器，并在未见环境中顺序检验，避免环内误差和迁移落差制造虚假进步。
     - [SealedLoop：环外密封评判](../../updates/2026-11-26/#sealedloop) · 2026-11-26
-<!-- experience-seen: 2026-11-20/driftguard 2026-11-20/openai 2026-11-21/item-26 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-24/centry 2026-11-24/io-ai 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/clr 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/expguard 2026-11-25/interrogation-protocols 2026-11-25/item-123 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/item-69 2026-11-25/p-tap 2026-11-25/siren 2026-11-26/item-23 2026-11-26/prove 2026-11-26/recordroute 2026-11-26/sealedloop -->
+<!-- experience-seen: 2026-11-20/driftguard 2026-11-20/openai 2026-11-21/item-26 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-24/centry 2026-11-24/io-ai 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/clr 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/expguard 2026-11-25/interrogation-protocols 2026-11-25/item-123 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/item-69 2026-11-25/p-tap 2026-11-25/siren 2026-11-26/item-23 2026-11-26/prove 2026-11-26/recordroute 2026-11-26/report-inconsistency 2026-11-26/sealedloop -->
 <!-- research-experience:end -->
 
 ## 相关工作

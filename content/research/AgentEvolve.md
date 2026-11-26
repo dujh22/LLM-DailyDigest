@@ -235,7 +235,8 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
    - [Gym-Anything：用编程智能体规模化构建机器人仿真](../../updates/2026-10-30/#gym-anything) · 2026-10-30
    - [The Trinity：能力驱动的多模态智能体递归自我改进](../../updates/2026-10-29/#the-trinity) · 2026-10-29
    - [无问芯穹算子优化Agent斩获SOL-ExecBench 88项第一](../../updates/2026-10-29/#agent-sol-execbench-88) · 2026-10-29
-10. **长程上下文分段**：长程执行应分离可寻址的完整记录与面向决策的紧凑状态，并以检查点和重置控长；压缩须以维持任务能力为准，不得覆盖当前证据。
+10. **长程上下文分段**：长程执行应分离可寻址的完整记录与决策用紧凑状态，让模型按任务语义选择压缩时机和范围，并以检查点、缓存复用和重置控长；压缩不得覆盖当前证据。
+    - [模型自主上下文管理：按需压缩与缓存复用](../../updates/2026-11-26/#item-87) · 2026-11-26
     - [紧凑状态抽象：递归程序压缩历史](../../updates/2026-11-25/#item-64) · 2026-11-25
     - [DMC-5：双模型缓存感知压缩](../../updates/2026-11-25/#dmc-5) · 2026-11-25
     - [MLEvolver：上下文折叠与技能删汰](../../updates/2026-11-24/#mlevolver) · 2026-11-24
@@ -249,9 +250,10 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
     - [智能体自写交接摘要何时变成无依据指令？](../../updates/2026-11-06/#item-33) · 2026-11-06
     - [CoworkOS：面向真实世界自动化的长程智能体协作框架](../../updates/2026-11-04/#coworkos) · 2026-11-04
     - [CORAL：面向长程智能体的认知资源自分配](../../updates/2026-10-30/#coral) · 2026-10-30
-11. **增益归因控制噪声**：评估更新须用配对重复、置换对照与样本外验证校准方差，统一基线并计入成本；先诊断残余失败，再分解组件边际贡献，勿用低样本任务增益做门控。
+11. **增益归因控制噪声**：评估更新须用配对重复、置换对照与样本外验证校准方差，并分别测自主与引导执行；统一基线与成本，诊断残余失败并分解模型、技能和脚手架的边际贡献。
     - [SkillsBench：技能增益的噪声感知审计](../../updates/2026-11-26/#skillsbench) · 2026-11-26
     - [Scalpel and Brush：智能体稀疏权重编辑](../../updates/2026-11-26/#scalpel-and-brush) · 2026-11-26
+    - [MedSkill-E²：医疗技能评测与演化](../../updates/2026-11-26/#medskill-e) · 2026-11-26
     - [失效类型驱动的智能体干预](../../updates/2026-11-25/#item-136) · 2026-11-25
     - [Retriever–Perceiver–Reasoner：诊断反馈协同进化](../../updates/2026-11-19/#retriever-perceiver-reasoner) · 2026-11-19
     - [Resolution Hypothesis：评测分辨率瓶颈](../../updates/2026-11-19/#resolution-hypothesis) · 2026-11-19
@@ -304,7 +306,7 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
     - [智能体机器人自学习中的模型、技能、反馈与课程控制研究](../../updates/2026-11-12/#item-202) · 2026-11-12
     - [SARBLOH：空间感知主导 ARC-AGI-3 交互推理](../../updates/2026-11-06/#sarbloh-arc-agi-3) · 2026-11-06
     - [Reviso：面向视频字幕生成的优先级引导主动观察](../../updates/2026-11-04/#reviso) · 2026-11-04
-<!-- experience-seen: 2026-11-19/arise 2026-11-19/graft 2026-11-19/guard 2026-11-19/item-48 2026-11-19/openkage 2026-11-19/qda 2026-11-19/resolution-hypothesis 2026-11-19/retriever-perceiver-reasoner 2026-11-19/scaffold 2026-11-19/sch 2026-11-19/score 2026-11-20/agnes-harness 2026-11-20/brain 2026-11-20/cyber-physical-rsi 2026-11-20/driftguard 2026-11-20/grepmem 2026-11-20/item-34 2026-11-20/item-76 2026-11-20/sigame 2026-11-20/skilldiff 2026-11-20/skillplumber 2026-11-20/system-one-rsi 2026-11-21/space-x 2026-11-21/startv-agent 2026-11-23/alps-lab 2026-11-23/astronautbench 2026-11-23/bel 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/medicalrsi 2026-11-23/zhulong-se 2026-11-24/don-t-train-it-write-it 2026-11-24/engram 2026-11-24/evovim 2026-11-24/io-ai 2026-11-24/mlevolver 2026-11-24/scape 2026-11-24/semantic-pid-rsi-pid 2026-11-24/skilllens 2026-11-24/stride 2026-11-25/agl-skill 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/dmc-5 2026-11-25/doppelvet 2026-11-25/expguard 2026-11-25/fin-rsi 2026-11-25/habitats 2026-11-25/harness2 2026-11-25/harnessmm 2026-11-25/item-136 2026-11-25/item-64 2026-11-25/lce 2026-11-25/mmmem 2026-11-25/mxi-memicl 2026-11-25/notary 2026-11-25/reharness 2026-11-25/self-upgrading-embodied-agents 2026-11-25/sleep 2026-11-25/spatialcraft 2026-11-25/stun-bench 2026-11-25/toolsmith 2026-11-25/vise 2026-11-25/wactorz 2026-11-26/agnes-harness 2026-11-26/autorlbench-rl 2026-11-26/dualpm 2026-11-26/egse 2026-11-26/evolink-bench 2026-11-26/irtiqa 2026-11-26/item-39 2026-11-26/knowledge-base-gradient-descent 2026-11-26/leto 2026-11-26/metadecomp 2026-11-26/nightwatch 2026-11-26/p-fedskill 2026-11-26/partagent 2026-11-26/precept 2026-11-26/roboevo 2026-11-26/scalpel-and-brush 2026-11-26/sed 2026-11-26/sim 2026-11-26/skillsbench 2026-11-26/sports-agent 2026-11-26/vsft -->
+<!-- experience-seen: 2026-11-19/arise 2026-11-19/graft 2026-11-19/guard 2026-11-19/item-48 2026-11-19/openkage 2026-11-19/qda 2026-11-19/resolution-hypothesis 2026-11-19/retriever-perceiver-reasoner 2026-11-19/scaffold 2026-11-19/sch 2026-11-19/score 2026-11-20/agnes-harness 2026-11-20/brain 2026-11-20/cyber-physical-rsi 2026-11-20/driftguard 2026-11-20/grepmem 2026-11-20/item-34 2026-11-20/item-76 2026-11-20/sigame 2026-11-20/skilldiff 2026-11-20/skillplumber 2026-11-20/system-one-rsi 2026-11-21/space-x 2026-11-21/startv-agent 2026-11-23/alps-lab 2026-11-23/astronautbench 2026-11-23/bel 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/medicalrsi 2026-11-23/zhulong-se 2026-11-24/don-t-train-it-write-it 2026-11-24/engram 2026-11-24/evovim 2026-11-24/io-ai 2026-11-24/mlevolver 2026-11-24/scape 2026-11-24/semantic-pid-rsi-pid 2026-11-24/skilllens 2026-11-24/stride 2026-11-25/agl-skill 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/dmc-5 2026-11-25/doppelvet 2026-11-25/expguard 2026-11-25/fin-rsi 2026-11-25/habitats 2026-11-25/harness2 2026-11-25/harnessmm 2026-11-25/item-136 2026-11-25/item-64 2026-11-25/lce 2026-11-25/mmmem 2026-11-25/mxi-memicl 2026-11-25/notary 2026-11-25/reharness 2026-11-25/self-upgrading-embodied-agents 2026-11-25/sleep 2026-11-25/spatialcraft 2026-11-25/stun-bench 2026-11-25/toolsmith 2026-11-25/vise 2026-11-25/wactorz 2026-11-26/agnes-harness 2026-11-26/autorlbench-rl 2026-11-26/cogentic 2026-11-26/dualpm 2026-11-26/egse 2026-11-26/evolink-bench 2026-11-26/irtiqa 2026-11-26/item-39 2026-11-26/item-87 2026-11-26/knowledge-base-gradient-descent 2026-11-26/leto 2026-11-26/medskill-e 2026-11-26/metadecomp 2026-11-26/nightwatch 2026-11-26/p-fedskill 2026-11-26/partagent 2026-11-26/precept 2026-11-26/roboevo 2026-11-26/scalpel-and-brush 2026-11-26/sed 2026-11-26/sim 2026-11-26/skillsbench 2026-11-26/sports-agent 2026-11-26/vsft -->
 <!-- research-experience:end -->
 
 ## 相关工作

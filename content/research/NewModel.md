@@ -44,6 +44,7 @@ toc = true
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **混合长上下文架构**：长上下文不宜押注单一注意力；线性、递归或循环状态管全局，局部或稀疏注意力保精度，并用多时间尺度状态、分页索引或按需重建KV控成本。
+   - [SWGDN：滑窗增强键值更新](../../updates/2026-11-26/#swgdn) · 2026-11-26
    - [SSA：上下文依赖记忆保留](../../updates/2026-11-26/#ssa) · 2026-11-26
    - [Integral DeltaNet：双状态自适应记忆](../../updates/2026-11-25/#integral-deltanet) · 2026-11-25
    - [MemT-1.0-Pro：记忆原生模型](../../updates/2026-11-24/#memt-1-0-pro) · 2026-11-24
@@ -233,7 +234,7 @@ toc = true
     - [商汤开源循环架构模型 SenseNova Loop-9B-Preview](../../updates/2026-11-03/#sensenova-loop-9b-preview) · 2026-11-03
     - [LARC：统一多模态模型的连续空间潜在推理](../../updates/2026-11-03/#larc) · 2026-11-03
     - [Mistral发布万亿参数开放权重模型Large 4](../../updates/2026-10-31/#mistral-large-4) · 2026-10-31
-<!-- experience-seen: 2026-11-19/fastframes 2026-11-19/gemini-4-neon 2026-11-19/item-10 2026-11-19/kra 2026-11-19/mbt 2026-11-19/toaster 2026-11-19/transformer 2026-11-19/weight-space-programming 2026-11-20/alive 2026-11-20/beam-moe 2026-11-20/clover 2026-11-20/drift 2026-11-20/gemini-4-neon-genie-4 2026-11-20/glide 2026-11-20/hy4-moe 2026-11-20/jeveration 2026-11-21/depth-pro-2 2026-11-21/egocaptioner 2026-11-21/gemini-4-hydrogen-token 2026-11-21/hiuni 2026-11-21/hy4 2026-11-21/wemm-video 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/structure-over-scale 2026-11-24/cmhc 2026-11-24/don-t-train-it-write-it 2026-11-24/duopra 2026-11-24/glm-5-4 2026-11-24/gpt-6-2-sol 2026-11-24/hy-mt3 2026-11-24/inkling2mini 2026-11-24/markovian-reasoning-llm 2026-11-24/memt-1-0-pro 2026-11-25/deciform 2026-11-25/eeg-jev 2026-11-25/gemini-4-neon 2026-11-25/integral-deltanet 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/leannext 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/pmopd 2026-11-25/sleep 2026-11-25/wemm-ecom 2026-11-26/aliceai-foundation 2026-11-26/antom 2026-11-26/gemini-4-neon 2026-11-26/gpt-6-2-sol 2026-11-26/lingsante-medguard 2026-11-26/loomformer 2026-11-26/qwen-image-hd 2026-11-26/s-mind 2026-11-26/ssa -->
+<!-- experience-seen: 2026-11-19/fastframes 2026-11-19/gemini-4-neon 2026-11-19/item-10 2026-11-19/kra 2026-11-19/mbt 2026-11-19/toaster 2026-11-19/transformer 2026-11-19/weight-space-programming 2026-11-20/alive 2026-11-20/beam-moe 2026-11-20/clover 2026-11-20/drift 2026-11-20/gemini-4-neon-genie-4 2026-11-20/glide 2026-11-20/hy4-moe 2026-11-20/jeveration 2026-11-21/depth-pro-2 2026-11-21/egocaptioner 2026-11-21/gemini-4-hydrogen-token 2026-11-21/hiuni 2026-11-21/hy4 2026-11-21/wemm-video 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/structure-over-scale 2026-11-24/cmhc 2026-11-24/don-t-train-it-write-it 2026-11-24/duopra 2026-11-24/glm-5-4 2026-11-24/gpt-6-2-sol 2026-11-24/hy-mt3 2026-11-24/inkling2mini 2026-11-24/markovian-reasoning-llm 2026-11-24/memt-1-0-pro 2026-11-25/deciform 2026-11-25/eeg-jev 2026-11-25/gemini-4-neon 2026-11-25/integral-deltanet 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/leannext 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/pmopd 2026-11-25/sleep 2026-11-25/wemm-ecom 2026-11-26/aliceai-foundation 2026-11-26/antom 2026-11-26/gemini-4-neon 2026-11-26/gpt-6-2-sol 2026-11-26/lingsante-medguard 2026-11-26/loomformer 2026-11-26/qwen-image-hd 2026-11-26/s-mind 2026-11-26/ssa 2026-11-26/swgdn -->
 <!-- research-experience:end -->
 
 ## 相关工作

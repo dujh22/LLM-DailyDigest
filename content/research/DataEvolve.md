@@ -42,7 +42,8 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **覆盖优先于难度**：微调选数应先覆盖输入、组合依赖与解法多样性，再追求难度；难度筛选常不及覆盖式分配，示例解答还可能掩盖组合复用成本。
+1. **覆盖优先于难度**：微调选数应先覆盖输入、组合依赖、解法及可恢复行为，再追求难度；尤其要补齐能将困难状态重新连接到任务进展路径的行为。
+   - [Exploratory Midtraining：连接式行为覆盖](../../updates/2026-11-26/#exploratory-midtraining) · 2026-11-26
    - [智能体强化学习：三轴数据缩放定律](../../updates/2026-11-25/#item-20) · 2026-11-25
    - [重新审视“RL 泛化、SFT 记忆”：SFT 数据的关键作用](../../updates/2026-11-13/#rl-sft-sft) · 2026-11-13
    - [示例解答会掩盖自生成训练数据中的规则组合能力成本](../../updates/2026-11-12/#item-106) · 2026-11-12
@@ -136,13 +137,14 @@ toc = true
     - [SimpleLoRIF：沿梯度追溯安全性退化的训练数据](../../updates/2026-11-03/#simplelorif) · 2026-11-03
 15. **失败驱动反向供数**：把可诊断弱项或失败步骤转成定向分叉、扰动样本或修复轨迹；回灌前核验标签与捷径，回灌后用独立分布检查真实修复和跨任务退化。
     - [VFR：验证式失败驱动修复](../../updates/2026-11-26/#vfr) · 2026-11-26
+    - [失败驱动数据飞轮：失败图引导数据合成](../../updates/2026-11-26/#item-83) · 2026-11-26
     - [DART：不确定性引导轨迹改写](../../updates/2026-11-26/#dart) · 2026-11-26
     - [BuggyMLE：可控注错扩展工程难度](../../updates/2026-11-20/#buggymle) · 2026-11-20
     - [DeLoop：重复动作自监督脱环](../../updates/2026-11-17/#deloop) · 2026-11-17
     - [PhysLoop：以 LLM 物理认知驱动视频生成模型自我改进](../../updates/2026-11-14/#physloop-llm) · 2026-11-14
     - [EDGAR：以合成失败样本高效优化高斯化身](../../updates/2026-11-08/#edgar) · 2026-11-08
     - [PROVE：自博弈视觉-语言验证器的组合理解训练](../../updates/2026-11-06/#prove) · 2026-11-06
-<!-- experience-seen: 2026-11-19/rsi-prime 2026-11-19/tabdag 2026-11-19/tcp4d-tcp 2026-11-20/automaster 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/logt 2026-11-20/piccolo 2026-11-21/egocaptioner 2026-11-23/from-acting-to-learning 2026-11-23/item-49 2026-11-24/thrifty 2026-11-25/daisy 2026-11-25/e2l 2026-11-25/glm-5-5-rsi 2026-11-25/item-20 2026-11-25/item-90 2026-11-25/swe-gym-verified 2026-11-25/vade 2026-11-25/veritouch 2026-11-26/3dcodefactory-3d 2026-11-26/dart 2026-11-26/feast 2026-11-26/knowledge-base-gradient-descent 2026-11-26/thinkmorph-ssl 2026-11-26/vfr -->
+<!-- experience-seen: 2026-11-19/rsi-prime 2026-11-19/tabdag 2026-11-19/tcp4d-tcp 2026-11-20/automaster 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/logt 2026-11-20/piccolo 2026-11-21/egocaptioner 2026-11-23/from-acting-to-learning 2026-11-23/item-49 2026-11-24/thrifty 2026-11-25/daisy 2026-11-25/e2l 2026-11-25/glm-5-5-rsi 2026-11-25/item-20 2026-11-25/item-90 2026-11-25/swe-gym-verified 2026-11-25/vade 2026-11-25/veritouch 2026-11-26/3dcodefactory-3d 2026-11-26/dart 2026-11-26/exploratory-midtraining 2026-11-26/feast 2026-11-26/item-83 2026-11-26/knowledge-base-gradient-descent 2026-11-26/thinkmorph-ssl 2026-11-26/vfr -->
 <!-- research-experience:end -->
 
 ## 相关工作

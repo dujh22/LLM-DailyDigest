@@ -144,8 +144,9 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
     - [PROVE：自博弈视觉-语言验证器的组合理解训练](../../updates/2026-11-06/#prove) · 2026-11-06
     - [Prism：统一多模态模型的双向自教学](../../updates/2026-11-06/#prism) · 2026-11-06
     - [Timbre：面向无标签多模态测试时强化学习的可靠性感知调和共识](../../updates/2026-10-30/#timbre) · 2026-10-30
-13. **权重编辑需可回滚**：直接改写少量权重可低成本固化外部能力或修复故障，但收益可能来自数值痕迹或偶然搜索；应报告数值格式、做舍入对照与独立验证，并保留回滚版本。
+13. **权重编辑需可回滚**：直接改写少量权重可低成本修补能力，但受表示子空间可分性与冻结表征覆盖所限；应做数值对照、独立验证并保留回滚版本。
     - [Scalpel and Brush：智能体稀疏权重编辑](../../updates/2026-11-26/#scalpel-and-brush) · 2026-11-26
+    - [FWSP：确定性前向权重编辑](../../updates/2026-11-26/#fwsp) · 2026-11-26
     - [Weight Coding：智能体直接编辑模型权重](../../updates/2026-11-25/#weight-coding) · 2026-11-25
     - [SELFWRITE：无梯度自写权重编辑](../../updates/2026-11-25/#selfwrite) · 2026-11-25
     - [Self-WSP：权重空间自我编程](../../updates/2026-11-24/#self-wsp) · 2026-11-24
@@ -164,7 +165,7 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
     - [CoEvoBench：模型与脚手架协同演化](../../updates/2026-11-23/#coevobench) · 2026-11-23
     - [Piccolo：模型数据协同自进化](../../updates/2026-11-20/#piccolo) · 2026-11-20
     - [Evo²：权重与Harness协同进化](../../updates/2026-11-20/#evo-harness) · 2026-11-20
-<!-- experience-seen: 2026-11-19/item-48 2026-11-19/learning-through-discernment 2026-11-19/rsi-prime 2026-11-19/toaster 2026-11-19/weight-space-programming 2026-11-20/automaster 2026-11-20/basersi 2026-11-20/curvdelta 2026-11-20/evo-harness 2026-11-20/item-65 2026-11-20/keel 2026-11-20/piccolo 2026-11-20/rlcdr 2026-11-20/self-replicating-language-models 2026-11-23/coevobench 2026-11-23/item-49 2026-11-23/openai-ai 2026-11-23/structure-over-scale 2026-11-23/weight-space-programming-icl 2026-11-24/dive 2026-11-24/finevo 2026-11-24/pbpt 2026-11-24/self-wsp 2026-11-24/sro 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/elgo 2026-11-25/glm-5-5-rsi 2026-11-25/instructreplay 2026-11-25/item-109 2026-11-25/item-90 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-25/weight-coding 2026-11-26/item-34 2026-11-26/scalpel-and-brush 2026-11-26/shift-adapter 2026-11-26/vfr -->
+<!-- experience-seen: 2026-11-19/item-48 2026-11-19/learning-through-discernment 2026-11-19/rsi-prime 2026-11-19/toaster 2026-11-19/weight-space-programming 2026-11-20/automaster 2026-11-20/basersi 2026-11-20/curvdelta 2026-11-20/evo-harness 2026-11-20/item-65 2026-11-20/keel 2026-11-20/piccolo 2026-11-20/rlcdr 2026-11-20/self-replicating-language-models 2026-11-23/coevobench 2026-11-23/item-49 2026-11-23/openai-ai 2026-11-23/structure-over-scale 2026-11-23/weight-space-programming-icl 2026-11-24/dive 2026-11-24/finevo 2026-11-24/pbpt 2026-11-24/self-wsp 2026-11-24/sro 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/elgo 2026-11-25/glm-5-5-rsi 2026-11-25/instructreplay 2026-11-25/item-109 2026-11-25/item-90 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-25/weight-coding 2026-11-26/fwsp 2026-11-26/item-34 2026-11-26/scalpel-and-brush 2026-11-26/shift-adapter 2026-11-26/swgdn 2026-11-26/vfr -->
 <!-- research-experience:end -->
 
 ## 相关工作

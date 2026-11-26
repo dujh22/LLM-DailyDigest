@@ -82,6 +82,7 @@ toc = true
    - [ForgeKernel 登顶华为与英伟达算子评测榜](../../updates/2026-10-29/#forgekernel) · 2026-10-29
 4. **脚手架共同演化**：不要只搜索最终代码；将工具、工作流和干预策略纳入可修改脚手架，并用成败轨迹锚定修改、在留出任务检验迁移，固定权重也能获得能力增益。
    - [TransHarness：可迁移脚手架演化](../../updates/2026-11-26/#transharness) · 2026-11-26
+   - [Pax：插件化终端编码智能体](../../updates/2026-11-26/#pax) · 2026-11-26
    - [Meta-RTL：演化式RTL优化脚手架](../../updates/2026-11-20/#meta-rtl-rtl) · 2026-11-20
    - [automodel：可移植模型发现技能](../../updates/2026-11-19/#automodel) · 2026-11-19
    - [VHarness：视觉推理工具化](../../updates/2026-11-16/#vharness) · 2026-11-16
@@ -183,7 +184,7 @@ toc = true
 15. **义务驱动终止**：补丁满足全部任务义务后应触发独立终止判定；无上限的继续探索会浪费预算，甚至撤销已正确的解。
     - [Evidence Interpretation：检查证据边界判定](../../updates/2026-11-19/#evidence-interpretation) · 2026-11-19
     - [终止滞后：编程智能体早已解题却迟迟不停](../../updates/2026-11-13/#item-32) · 2026-11-13
-<!-- experience-seen: 2026-11-19/3d-gamedev-arena 2026-11-19/automodel 2026-11-19/evidence-interpretation 2026-11-19/item-47 2026-11-19/makoborn 2026-11-19/metrics-in-the-loop 2026-11-19/option-grpo 2026-11-19/ppa 2026-11-19/tabdag 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/openai-math-ai 2026-11-26/precept 2026-11-26/transharness -->
+<!-- experience-seen: 2026-11-19/3d-gamedev-arena 2026-11-19/automodel 2026-11-19/evidence-interpretation 2026-11-19/item-47 2026-11-19/makoborn 2026-11-19/metrics-in-the-loop 2026-11-19/option-grpo 2026-11-19/ppa 2026-11-19/tabdag 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/fwsp 2026-11-26/openai-math-ai 2026-11-26/pax 2026-11-26/precept 2026-11-26/transharness -->
 <!-- research-experience:end -->
 
 ## 相关工作

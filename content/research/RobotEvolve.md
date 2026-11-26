@@ -147,12 +147,14 @@ toc = true
     - [JustRUA：GPT-6 机器人操作智能体的受控研究](../../updates/2026-11-14/#justrua-gpt-6) · 2026-11-14
     - [REA：异步脑-小脑控制的路由式具身智能体运行时](../../updates/2026-11-03/#rea) · 2026-11-03
     - [OSWAM：单步动作生成的世界动作模型](../../updates/2026-11-03/#oswam) · 2026-11-03
-15. **策略强化协同**：机器人策略强化须联合设计价值估计、策略提取与数据分配；按进度分配交互、以局部价值排序并约束动作几何，才能稳定迁移到多任务。
+15. **策略强化协同**：后训练不应均匀扩数据；应按失败条件与任务进度定位瓶颈，优先合成稀缺场景及连接困难状态到进展路径的可恢复行为，再以价值与动作约束稳健更新。
+    - [失败驱动数据飞轮：失败图引导数据合成](../../updates/2026-11-26/#item-83) · 2026-11-26
+    - [Exploratory Midtraining：连接式行为覆盖](../../updates/2026-11-26/#exploratory-midtraining) · 2026-11-26
     - [ReFocus：进度引导式瓶颈加练](../../updates/2026-11-25/#refocus) · 2026-11-25
     - [OVOGO：离线价值引导生成优化](../../updates/2026-11-25/#ovogo) · 2026-11-25
     - [JKO-GRPO：Wasserstein近端更新](../../updates/2026-11-25/#jko-grpo-wasserstein) · 2026-11-25
     - [强化学习扩展通用机器人策略的多任务改进能力](../../updates/2026-11-06/#item-25) · 2026-11-06
-<!-- experience-seen: 2026-11-19/aerorsi 2026-11-19/heave-ho 2026-11-19/item-40 2026-11-19/robobuilder 2026-11-19/tcp4d-tcp 2026-11-20/coachsi 2026-11-20/drift 2026-11-20/hint-wam 2026-11-20/item-73 2026-11-20/laq 2026-11-21/mind2act-world 2026-11-21/zerovln 2026-11-23/embodied-harness 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/scape 2026-11-25/catway 2026-11-25/cgsi 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/item-117 2026-11-25/jko-grpo-wasserstein 2026-11-25/margin 2026-11-25/motion-mamba-2-0 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/roboharness-zero 2026-11-25/robolivemem 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/veritouch 2026-11-25/vla 2026-11-25/worldleague 2026-11-26/acap 2026-11-26/best-of-n-steering 2026-11-26/omniact 2026-11-26/robodojo-mirror 2026-11-26/roboevo 2026-11-26/sealedloop -->
+<!-- experience-seen: 2026-11-19/aerorsi 2026-11-19/heave-ho 2026-11-19/item-40 2026-11-19/robobuilder 2026-11-19/tcp4d-tcp 2026-11-20/coachsi 2026-11-20/drift 2026-11-20/hint-wam 2026-11-20/item-73 2026-11-20/laq 2026-11-21/mind2act-world 2026-11-21/zerovln 2026-11-23/embodied-harness 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/scape 2026-11-25/catway 2026-11-25/cgsi 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/item-117 2026-11-25/jko-grpo-wasserstein 2026-11-25/margin 2026-11-25/motion-mamba-2-0 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/roboharness-zero 2026-11-25/robolivemem 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/veritouch 2026-11-25/vla 2026-11-25/worldleague 2026-11-26/acap 2026-11-26/best-of-n-steering 2026-11-26/exploratory-midtraining 2026-11-26/item-83 2026-11-26/omniact 2026-11-26/robodojo-mirror 2026-11-26/roboevo 2026-11-26/sealedloop -->
 <!-- research-experience:end -->
 
 ## 相关工作

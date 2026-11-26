@@ -45,6 +45,7 @@ toc = true
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **生产级运行底座**：智能体落地应以可替换运行底座统一工具、沙箱、持久状态与评测，并支持回滚、分岔和迁移，避免业务逻辑绑定单一模型。
+   - [Pax：插件化终端编码智能体](../../updates/2026-11-26/#pax) · 2026-11-26
    - [Agnes Harness：双系统经验复用](../../updates/2026-11-26/#agnes-harness) · 2026-11-26
    - [Fin-RSI：统一金融技能与自改进](../../updates/2026-11-25/#fin-rsi) · 2026-11-25
    - [CubeSandbox：状态化微虚拟机沙箱](../../updates/2026-11-18/#cubesandbox) · 2026-11-18
@@ -159,7 +160,7 @@ toc = true
     - [Grok Bot：约束验证驱动开发](../../updates/2026-11-23/#grok-bot) · 2026-11-23
     - [编程基准高分不等于实际产出](../../updates/2026-11-19/#item-49) · 2026-11-19
     - [GPT-6.2 Astra：基准满分却实务失灵](../../updates/2026-11-18/#gpt-6-2-astra) · 2026-11-18
-<!-- experience-seen: 2026-11-19/data-to-valves 2026-11-19/item-49 2026-11-19/item-53 2026-11-19/item-54 2026-11-19/mle-agents 2026-11-19/optics-as-code 2026-11-19/ppa 2026-11-19/system-1 2026-11-20/code-world-model-2-0 2026-11-20/dots 2026-11-20/everydaybench 2026-11-20/performance-factory-codex 2026-11-20/playcraft 2026-11-20/prola 2026-11-21/coda-davinci 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/jevrisk 2026-11-23/medicalrsi 2026-11-23/minimax 2026-11-23/monitor-api 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/finevo 2026-11-24/grok-bot 2026-11-24/item-4 2026-11-24/item-47 2026-11-24/semantic-pid-rsi-pid 2026-11-25/3agamefactory-motion 2026-11-25/embo-harness 2026-11-25/fin-rsi 2026-11-25/gpt-6 2026-11-25/lumimax 2026-11-25/needwise 2026-11-25/voyag 2026-11-25/wemm-ecom 2026-11-26/acap 2026-11-26/agnes-harness 2026-11-26/anthropic-ai 2026-11-26/antom 2026-11-26/dots 2026-11-26/lingsante-medguard 2026-11-26/partagent 2026-11-26/powerfix -->
+<!-- experience-seen: 2026-11-19/data-to-valves 2026-11-19/item-49 2026-11-19/item-53 2026-11-19/item-54 2026-11-19/mle-agents 2026-11-19/optics-as-code 2026-11-19/ppa 2026-11-19/system-1 2026-11-20/code-world-model-2-0 2026-11-20/dots 2026-11-20/everydaybench 2026-11-20/performance-factory-codex 2026-11-20/playcraft 2026-11-20/prola 2026-11-21/coda-davinci 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/jevrisk 2026-11-23/medicalrsi 2026-11-23/minimax 2026-11-23/monitor-api 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/finevo 2026-11-24/grok-bot 2026-11-24/item-4 2026-11-24/item-47 2026-11-24/semantic-pid-rsi-pid 2026-11-25/3agamefactory-motion 2026-11-25/embo-harness 2026-11-25/fin-rsi 2026-11-25/gpt-6 2026-11-25/lumimax 2026-11-25/needwise 2026-11-25/voyag 2026-11-25/wemm-ecom 2026-11-26/acap 2026-11-26/agnes-harness 2026-11-26/anthropic-ai 2026-11-26/antom 2026-11-26/dots 2026-11-26/lingsante-medguard 2026-11-26/partagent 2026-11-26/pax 2026-11-26/powerfix -->
 <!-- research-experience:end -->
 
 ## 相关工作

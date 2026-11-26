@@ -52,6 +52,7 @@ Evolve 应用（evolve application watch）是本站的横向跟踪方向，与�
    - [Weight Coding：智能体直接编辑模型权重](../../updates/2026-11-25/#weight-coding) · 2026-11-25
 4. **数学证明可信链**：AI生成重大数学结论时，应把形式化覆盖、独立验算和同行评审设为发布门槛，不能以草稿产量代替可信度。
    - [OpenAI Math：AI批量生成数学证明](../../updates/2026-11-26/#openai-math-ai) · 2026-11-26
+   - [Cogentic：自主证明分解复杂度](../../updates/2026-11-26/#cogentic) · 2026-11-26
 5. **混合式科学发现**：开放式科学发现宜由LLM编排数据生成，以可解释窄模型和符号工具提出假设，再用反例与分区检验筛选。
    - [PatternMiner：小模型解释驱动数学发现](../../updates/2026-11-26/#patternminer) · 2026-11-26
    - [AI Buckingham：跨区间量纲标度发现](../../updates/2026-11-26/#ai-buckingham) · 2026-11-26
@@ -61,7 +62,9 @@ Evolve 应用（evolve application watch）是本站的横向跟踪方向，与�
    - [EGSE：证据溯源式技能演化](../../updates/2026-11-26/#egse) · 2026-11-26
 7. **常驻智能体治理**：常驻智能体接入多应用前，应建立最小授权、全程审计和人工兜底；单项任务能力不足以支撑长期自主运行。
    - [dots：常驻智能体自建系统](../../updates/2026-11-26/#dots) · 2026-11-26
-<!-- experience-seen: 2026-11-25/ai-assisted-programming 2026-11-25/fin-rsi 2026-11-25/hfm 2026-11-25/weight-coding 2026-11-25/wemm-ecom 2026-11-26/ai-assisted-programming-and-labor-demand 2026-11-26/ai-buckingham 2026-11-26/dots 2026-11-26/egse 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/powerfix 2026-11-26/sports-agent -->
+8. **技能调用诊断**：评测技能型智能体时应同时测自主与引导执行；两者差距可定位技能欠用，避免把脚手架缺陷误判为模型能力。
+   - [MedSkill-E²：医疗技能评测与演化](../../updates/2026-11-26/#medskill-e) · 2026-11-26
+<!-- experience-seen: 2026-11-25/ai-assisted-programming 2026-11-25/fin-rsi 2026-11-25/hfm 2026-11-25/weight-coding 2026-11-25/wemm-ecom 2026-11-26/ai-assisted-programming-and-labor-demand 2026-11-26/ai-buckingham 2026-11-26/cogentic 2026-11-26/dots 2026-11-26/egse 2026-11-26/medskill-e 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/powerfix 2026-11-26/sports-agent -->
 <!-- research-experience:end -->
 
 ## 相关工作

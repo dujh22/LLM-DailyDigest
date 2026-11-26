@@ -83,6 +83,7 @@ toc = true
    - [SpecPilot：面向投机解码的自主算法发现与系统优化](../../updates/2026-11-06/#specpilot) · 2026-11-06
    - [Formulaic：智能体驱动的 AI 基础设施软硬件协同设计](../../updates/2026-10-30/#formulaic-ai) · 2026-10-30
 5. **经验持久化**：把成功改写、失败轨迹及其来源和适用边界结构化沉淀；跨模型与后端检索并交叉不同机制，可减少从零试错和经验误用。
+   - [MetaFORGE：执行反馈式脚手架优化](../../updates/2026-11-26/#metaforge) · 2026-11-26
    - [NoeVera：证据演化式配置搜索](../../updates/2026-11-25/#noevera) · 2026-11-25
    - [MOSAIC：记忆组织式反模仿搜索](../../updates/2026-11-25/#mosaic) · 2026-11-25
    - [CompoundingKernel：谱系归档式内核进化](../../updates/2026-11-17/#compoundingkernel) · 2026-11-17
@@ -128,6 +129,7 @@ toc = true
     - [FOSCAR：通过仿射折叠加速 2/4-bit KV Cache 解码注意力](../../updates/2026-11-12/#foscar-2-4-bit-kv-cache) · 2026-11-12
     - [BitDecoding-FP4：原生 FP4 KV 缓存解码](../../updates/2026-11-12/#bitdecoding-fp4-fp4-kv) · 2026-11-12
 12. **算法系统共搜索**：对投机解码等部署敏感技术，应联合搜索算法参数、验证粒度与批处理策略，而非只调单个内核。
+    - [DFly2：共享目标稀疏性的推测解码](../../updates/2026-11-26/#dfly2) · 2026-11-26
     - [DisSparse：流水化Top-p稀疏注意力](../../updates/2026-11-24/#dissparse-top-p) · 2026-11-24
     - [LoopCache：置信更新与循环KV缓存](../../updates/2026-11-19/#loopcache-kv) · 2026-11-19
     - [Callo：失效KV投机解码](../../updates/2026-11-16/#callo-kv) · 2026-11-16
@@ -141,7 +143,7 @@ toc = true
 15. **安全有状态沙箱**：生产级编程智能体应以最小权限隔离不可信操作，并原生支持状态持久化、回滚、分岔和迁移；无状态执行不足以承载长程任务。
     - [Codex 沙箱：跨平台权限隔离](../../updates/2026-11-19/#codex) · 2026-11-19
     - [CubeSandbox：状态化微虚拟机沙箱](../../updates/2026-11-18/#cubesandbox) · 2026-11-18
-<!-- experience-seen: 2026-11-19/codex 2026-11-19/gemma-4-k-v-cache 2026-11-19/loopcache-kv 2026-11-19/ppa 2026-11-19/qda 2026-11-19/rsibench-infra 2026-11-20/performance-factory-codex 2026-11-20/singularity-bench-ai 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-24/dissparse-top-p 2026-11-24/shirudo-ebpf 2026-11-24/uni3sim 2026-11-25/glm-5-5-rsi 2026-11-25/hopper-4-bit-kv 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/noevera 2026-11-26/evolonai -->
+<!-- experience-seen: 2026-11-19/codex 2026-11-19/gemma-4-k-v-cache 2026-11-19/loopcache-kv 2026-11-19/ppa 2026-11-19/qda 2026-11-19/rsibench-infra 2026-11-20/performance-factory-codex 2026-11-20/singularity-bench-ai 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-24/dissparse-top-p 2026-11-24/shirudo-ebpf 2026-11-24/uni3sim 2026-11-25/glm-5-5-rsi 2026-11-25/hopper-4-bit-kv 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/noevera 2026-11-26/dfly2 2026-11-26/evolonai 2026-11-26/metaforge -->
 <!-- research-experience:end -->
 
 ## 相关工作

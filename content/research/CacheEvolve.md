@@ -44,7 +44,8 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **混合记忆分工**：长上下文中，用滑窗或块内注意保留局部细节，以快慢循环状态承载全局，再用锚点或内容记忆补检索，更能兼顾恒定内存与精度。
+1. **混合记忆分工**：长上下文中，用滑窗保留局部细节并重构循环更新样本，以快慢状态承载全局，再用锚点或内容记忆补检索，更能在恒定内存下维持关联与精度。
+   - [SWGDN：滑窗增强键值更新](../../updates/2026-11-26/#swgdn) · 2026-11-26
    - [Motion Mamba 2.0：持久记忆式长时控制](../../updates/2026-11-25/#motion-mamba-2-0) · 2026-11-25
    - [Integral DeltaNet：双状态自适应记忆](../../updates/2026-11-25/#integral-deltanet) · 2026-11-25
    - [Clover：循环记忆增强块扩散](../../updates/2026-11-20/#clover) · 2026-11-20
@@ -97,8 +98,9 @@ toc = true
    - [粗粒度语义块实现免训练稀疏注意力加速](../../updates/2026-11-06/#item-69) · 2026-11-06
    - [递归稀疏注意力：以对数成本外推至百万词元](../../updates/2026-11-06/#item-22) · 2026-11-06
    - [CISA：用分块索引稀疏注意力改造稠密注意力模型](../../updates/2026-11-06/#cisa) · 2026-11-06
-6. **自适应淘汰评分**：用早期代理查询预选、以中层统一评分，再以查询反馈纠错；评分还应结合置信度、新颖性与时间衰减，保留决策联合条件化于新上下文和现有记忆。
+6. **自适应压缩决策**：让模型按任务语义决定何时压缩、保留什么；用早期代理预选、中层评分和查询反馈纠错，并结合置信度、新颖性、时间衰减及现有记忆。
    - [SSA：上下文依赖记忆保留](../../updates/2026-11-26/#ssa) · 2026-11-26
+   - [模型自主上下文管理：按需压缩与缓存复用](../../updates/2026-11-26/#item-87) · 2026-11-26
    - [FBQ：首词未来位置探针](../../updates/2026-11-26/#fbq) · 2026-11-26
    - [NoHairCache：单次校准幂律淘汰](../../updates/2026-11-24/#nohaircache) · 2026-11-24
    - [RoCoKV：置信冗余感知缓存压缩](../../updates/2026-11-20/#rocokv) · 2026-11-20
@@ -109,7 +111,8 @@ toc = true
    - [TruSuCo：局部续写驱动的状态压缩](../../updates/2026-11-25/#trusuco) · 2026-11-25
    - [MaxIM：基于强化学习的最大信息增量摘要](../../updates/2026-11-12/#maxim) · 2026-11-12
    - [KV Cache 淘汰的门控机制](../../updates/2026-11-08/#kv-cache) · 2026-11-08
-8. **层头稀疏配置**：稀疏模式与检索偏差随层、头和生成阶段变化；应逐层动态配置，用覆盖率修复失效头，并复用相邻层候选隐藏索引开销。索引器训练需覆盖部署位置跨度。
+8. **层头稀疏配置**：稀疏模式随层、头和生成阶段变化；应动态配置并以覆盖率修复失效头。相邻层、连续词元及草稿模型可复用目标候选，索引训练需覆盖部署位置跨度。
+   - [DFly2：共享目标稀疏性的推测解码](../../updates/2026-11-26/#dfly2) · 2026-11-26
    - [位置跳跃蒸馏：短训长服稀疏索引](../../updates/2026-11-25/#item-150) · 2026-11-25
    - [Turnout：自适应注意力切换](../../updates/2026-11-23/#turnout) · 2026-11-23
    - [Lost in a Few Heads：盲头定点修复稀疏注意力](../../updates/2026-11-18/#lost-in-a-few-heads) · 2026-11-18
@@ -160,7 +163,7 @@ toc = true
     - [LoopCache：置信更新与循环KV缓存](../../updates/2026-11-19/#loopcache-kv) · 2026-11-19
     - [KV Replay：跨迭代缓存复用](../../updates/2026-11-17/#kv-replay) · 2026-11-17
     - [Looped CED：零轮次 KV 增长的递归深度架构](../../updates/2026-11-12/#looped-ced-kv) · 2026-11-12
-<!-- experience-seen: 2026-11-19/gemma-4-k-v-cache 2026-11-19/kra 2026-11-19/loopcache-kv 2026-11-19/mbt 2026-11-19/moe-context 2026-11-19/sch 2026-11-19/toaster 2026-11-19/videonexus 2026-11-20/clover 2026-11-20/compact-bench 2026-11-20/frontierreplay 2026-11-20/grepmem 2026-11-20/laq 2026-11-20/raa 2026-11-20/rocokv 2026-11-23/contexture 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/turnout 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/markovian-reasoning-llm 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/hopper-4-bit-kv 2026-11-25/integral-deltanet 2026-11-25/item-150 2026-11-25/item-93 2026-11-25/loomkv-kv 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/swapcert 2026-11-25/trusuco 2026-11-26/fbq 2026-11-26/ssa -->
+<!-- experience-seen: 2026-11-19/gemma-4-k-v-cache 2026-11-19/kra 2026-11-19/loopcache-kv 2026-11-19/mbt 2026-11-19/moe-context 2026-11-19/sch 2026-11-19/toaster 2026-11-19/videonexus 2026-11-20/clover 2026-11-20/compact-bench 2026-11-20/frontierreplay 2026-11-20/grepmem 2026-11-20/laq 2026-11-20/raa 2026-11-20/rocokv 2026-11-23/contexture 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/turnout 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/markovian-reasoning-llm 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/hopper-4-bit-kv 2026-11-25/integral-deltanet 2026-11-25/item-150 2026-11-25/item-93 2026-11-25/loomkv-kv 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/swapcert 2026-11-25/trusuco 2026-11-26/dfly2 2026-11-26/fbq 2026-11-26/item-87 2026-11-26/ssa 2026-11-26/swgdn -->
 <!-- research-experience:end -->
 
 ## 相关工作

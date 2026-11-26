@@ -65,6 +65,7 @@ toc = true
    - [RLVR 无免费午餐：pass@1 提升必付出 pass@k 代价](../../updates/2026-10-30/#rlvr-pass-1-pass-k) · 2026-10-30
    - [PSN-RLVR：参数空间噪声恢复强化学习模型探索能力](../../updates/2026-10-30/#psn-rlvr) · 2026-10-30
 3. **能力难度分离调度**：混合训练会优先强化已会题；结合完整解支持、原子技能覆盖、成功率与更新后风险，把rollout预算投向可学边界。
+   - [BRIAR：分岔引导的信念平滑](../../updates/2026-11-26/#briar) · 2026-11-26
    - [THRIFTY：预算约束推理数据合成](../../updates/2026-11-24/#thrifty) · 2026-11-24
    - [基础能力状态如何预测强化学习后训练效果](../../updates/2026-11-12/#item-140) · 2026-11-12
    - [GRPO 中稠密奖励值得其 Token 成本吗？](../../updates/2026-11-12/#grpo-token) · 2026-11-12
@@ -146,6 +147,7 @@ toc = true
     - [LARC：统一多模态模型的连续空间潜在推理](../../updates/2026-11-03/#larc) · 2026-11-03
     - [LatentWeave：面向多模态推理的测试时潜变量优化](../../updates/2026-10-30/#latentweave) · 2026-10-30
 13. **信用分配分层细化**：长链信用应与语义段、决策分叉、输出组件和责任模块对齐；用决策器或证据增益低成本稠密化，并让过程奖励随策略分布校准。
+    - [BRIAR：分岔引导的信念平滑](../../updates/2026-11-26/#briar) · 2026-11-26
     - [VOPD：验证器引导的稠密蒸馏](../../updates/2026-11-25/#vopd) · 2026-11-25
     - [MSPO：模块特定信用分配](../../updates/2026-11-25/#mspo) · 2026-11-25
     - [ELGO：循环外推自教师强化学习](../../updates/2026-11-25/#elgo) · 2026-11-25
@@ -171,7 +173,7 @@ toc = true
 15. **群体估计控偏稳方差**：奖励依赖同组答案时，GRPO基线会扭曲协作目标；应采用无偏组目标，并按悲观方差估计自适应调整组规模。
     - [U-Statistics-Powered LLM Reasoning：悲观估计自适应组规模](../../updates/2026-11-26/#u-statistics-powered-llm-reasoning) · 2026-11-26
     - [群体依赖奖励下，GRPO会演变为零和锦标赛](../../updates/2026-11-06/#grpo) · 2026-11-06
-<!-- experience-seen: 2026-11-19/ash 2026-11-19/eca 2026-11-19/option-grpo 2026-11-20/budget-internalization 2026-11-20/item-44 2026-11-20/item-65 2026-11-20/item-80 2026-11-20/multiagentbench 2026-11-20/openai-rsi 2026-11-20/rlcdr 2026-11-20/roam-grpo 2026-11-21/pair-med 2026-11-23/creditfilter 2026-11-23/ctrl-gpu 2026-11-23/dm-prm 2026-11-23/item-25 2026-11-23/item-49 2026-11-23/item-53 2026-11-23/sh-prm 2026-11-23/structure-over-scale 2026-11-24/pbpt 2026-11-24/thrifty 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/item-123 2026-11-25/item-56 2026-11-25/mspo 2026-11-25/pmopd 2026-11-25/tt-rsi 2026-11-25/vopd 2026-11-26/dart 2026-11-26/u-statistics-powered-llm-reasoning -->
+<!-- experience-seen: 2026-11-19/ash 2026-11-19/eca 2026-11-19/option-grpo 2026-11-20/budget-internalization 2026-11-20/item-44 2026-11-20/item-65 2026-11-20/item-80 2026-11-20/multiagentbench 2026-11-20/openai-rsi 2026-11-20/rlcdr 2026-11-20/roam-grpo 2026-11-21/pair-med 2026-11-23/creditfilter 2026-11-23/ctrl-gpu 2026-11-23/dm-prm 2026-11-23/item-25 2026-11-23/item-49 2026-11-23/item-53 2026-11-23/sh-prm 2026-11-23/structure-over-scale 2026-11-24/pbpt 2026-11-24/thrifty 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/item-123 2026-11-25/item-56 2026-11-25/mspo 2026-11-25/pmopd 2026-11-25/tt-rsi 2026-11-25/vopd 2026-11-26/briar 2026-11-26/dart 2026-11-26/u-statistics-powered-llm-reasoning -->
 <!-- research-experience:end -->
 
 ## 相关工作
