@@ -60,7 +60,8 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **无梯度能力写入**：前向激活可充当贡献估计与任务向量；在线适配可采用局部、门控的权重改写，减少反传开销和行为干扰。
+1. **无梯度能力写入**：前向激活可充当贡献估计与任务向量，自然语言反馈也可经学习的更新器转成低秩改写；在线适配宜局部、门控，以降低开销和行为干扰。
+   - [vSFT：语言监督式测试时调优](../../updates/2026-11-26/#vsft) · 2026-11-26
    - [Don't Train It, Write It：智能体直写模型能力](../../updates/2026-11-24/#don-t-train-it-write-it) · 2026-11-24
    - [Weight-Space Programming：无梯度写入ICL](../../updates/2026-11-23/#weight-space-programming-icl) · 2026-11-23
    - [Forward-Only Passes：角度集中度引导降秩](../../updates/2026-11-21/#forward-only-passes) · 2026-11-21
@@ -68,7 +69,8 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
    - [P-TAP：会话适配器渐进投毒](../../updates/2026-11-25/#p-tap) · 2026-11-25
    - [RoTTT：旋转监督式测试时训练](../../updates/2026-11-24/#rottt) · 2026-11-24
    - [LoCo-WAM：测试时训练延展长上下文](../../updates/2026-11-23/#loco-wam) · 2026-11-23
-3. **累积式自改进**：独立重采样不会形成自进化；应继承前次尝试的有效步骤，并将异质失败抽象为可迁移经验或写回权重。
+3. **累积式自改进**：独立重采样不会形成自进化；应以不确定性定位失败分叉，保留局部正确步骤，并将异质失败抽象为可迁移经验或写回权重。
+   - [DART：不确定性引导轨迹改写](../../updates/2026-11-26/#dart) · 2026-11-26
    - [TT-RSI：测试时递归自我改进](../../updates/2026-11-25/#tt-rsi) · 2026-11-25
    - [LCE：失败模式多样性诊断](../../updates/2026-11-25/#lce) · 2026-11-25
 4. **推理资源动态分配**：缓存、注意力和推理深度不宜静态配置；用不确定性、冗余度与中间状态按层按样本分配计算，更易兼顾精度和延迟。
@@ -82,7 +84,8 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
 6. **预算塑造停止策略**：固定长度上限会被内化为停止策略并限制测试时扩展；稳定控制多个推理档位需状态级、档位专属监督。
    - [推理强度训练：密集目标分离强度层级](../../updates/2026-11-25/#item-56) · 2026-11-25
    - [Budget Internalization：固定预算内化约束](../../updates/2026-11-20/#budget-internalization) · 2026-11-20
-7. **强化学习起飞条件**：SFT可只建立输出结构，再由强化学习发现推理功能；但采样须产生足够多成功事件，才能推翻预训练先验。
+7. **强化学习起飞条件**：SFT可只建立输出结构，再由强化学习发现推理功能；采样须有足够成功事件以推翻预训练先验，组规模宜按梯度估计不确定性调节。
+   - [U-Statistics-Powered LLM Reasoning：悲观估计自适应组规模](../../updates/2026-11-26/#u-statistics-powered-llm-reasoning) · 2026-11-26
    - [强化学习解耦推理形式与功能](../../updates/2026-11-23/#item-53) · 2026-11-23
    - [成功组数预测强化学习起飞](../../updates/2026-11-20/#item-44) · 2026-11-20
 8. **策略多样性维护**：对已会题目继续做离模探索并自蒸馏不同正确解，可将冗余正确奖励转成策略多样性，避免坍缩到单一路径。
@@ -96,7 +99,8 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
     - [EPRO：不完美预测下的鲁棒策略优化](../../updates/2026-11-25/#epro) · 2026-11-25
     - [ELGO：循环外推自教师强化学习](../../updates/2026-11-25/#elgo) · 2026-11-25
     - [PAIR-MED：策略奖励交替优化](../../updates/2026-11-21/#pair-med) · 2026-11-21
-11. **推理过程忠实性**：答案正确或思维链可读都不能证明过程忠实；评测与监督应结合预测依赖和内部表征，检查真实决策路径。
+11. **推理过程忠实性**：答案正确或思维链可读都不能证明过程忠实；评测应结合预测依赖、内部表征，并对可形式化结果使用独立语义解析与可弃权确定性检查。
+    - [FOL-Proof：确定性语义验证](../../updates/2026-11-26/#fol-proof) · 2026-11-26
     - [CLR：无痕隐藏目标推理](../../updates/2026-11-25/#clr) · 2026-11-25
     - [APRM：内部注意力过程奖励](../../updates/2026-11-25/#aprm) · 2026-11-25
     - [二维推理：语义图量化推理忠实与效率](../../updates/2026-11-24/#item-67) · 2026-11-24
@@ -108,12 +112,13 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
     - [ThinkMorph-SSL：前置任务扩展交错推理](../../updates/2026-11-26/#thinkmorph-ssl) · 2026-11-26
     - [科学论证迁移：显式脚手架训练](../../updates/2026-11-23/#item-25) · 2026-11-23
     - [Space-X：证据链驱动空间自进化](../../updates/2026-11-21/#space-x) · 2026-11-21
-14. **参数适配几何**：参数高效适配应优先设计可达更新流形，而非盲目增加参数量或名义秩；更新几何还需匹配预训练权重结构。
+14. **参数适配几何**：参数高效适配应优先设计可达更新流形并匹配预训练结构；持续合并知识时，宜在跨样本对齐的生成潜空间组合，而非直接叠加最终参数。
+    - [Latent Merger：潜空间LoRA合并](../../updates/2026-11-26/#latent-merger-lora) · 2026-11-26
     - [Structure Over Scale：结构化适配防秩坍缩](../../updates/2026-11-23/#structure-over-scale) · 2026-11-23
 15. **成本敏感评测**：高难推理基准接近饱和后，应同时报告准确率、推理Token和单位任务成本；等精度下的计算压缩更能区分系统价值。
     - [Gemini 4 Neon：低成本高分推理](../../updates/2026-11-25/#gemini-4-neon) · 2026-11-25
     - [Gemini 4 Hydrogen：半量Token高分推理](../../updates/2026-11-21/#gemini-4-hydrogen-token) · 2026-11-21
-<!-- experience-seen: 2026-11-20/budget-internalization 2026-11-20/glide 2026-11-20/item-44 2026-11-20/roam-grpo 2026-11-20/rocokv 2026-11-21/claude-lean 2026-11-21/forward-only-passes 2026-11-21/gemini-4-hydrogen-token 2026-11-21/pair-med 2026-11-21/space-x 2026-11-23/alps-lab 2026-11-23/bel 2026-11-23/creditfilter 2026-11-23/item-25 2026-11-23/item-53 2026-11-23/loco-wam 2026-11-23/orion 2026-11-23/structure-over-scale 2026-11-23/turnout 2026-11-23/weight-space-programming-icl 2026-11-24/don-t-train-it-write-it 2026-11-24/future-opsd 2026-11-24/item-67 2026-11-24/markovian-reasoning-llm 2026-11-24/rottt 2026-11-24/rtc 2026-11-24/tool-to-self 2026-11-25/9-4 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/gemini-4-neon 2026-11-25/item-128 2026-11-25/item-56 2026-11-25/lce 2026-11-25/mspo 2026-11-25/p-tap 2026-11-25/trusuco 2026-11-25/tt-rsi 2026-11-25/videcide 2026-11-25/vopd 2026-11-26/s-mind 2026-11-26/thinkmorph-ssl -->
+<!-- experience-seen: 2026-11-20/budget-internalization 2026-11-20/glide 2026-11-20/item-44 2026-11-20/roam-grpo 2026-11-20/rocokv 2026-11-21/claude-lean 2026-11-21/forward-only-passes 2026-11-21/gemini-4-hydrogen-token 2026-11-21/pair-med 2026-11-21/space-x 2026-11-23/alps-lab 2026-11-23/bel 2026-11-23/creditfilter 2026-11-23/item-25 2026-11-23/item-53 2026-11-23/loco-wam 2026-11-23/orion 2026-11-23/structure-over-scale 2026-11-23/turnout 2026-11-23/weight-space-programming-icl 2026-11-24/don-t-train-it-write-it 2026-11-24/future-opsd 2026-11-24/item-67 2026-11-24/markovian-reasoning-llm 2026-11-24/rottt 2026-11-24/rtc 2026-11-24/tool-to-self 2026-11-25/9-4 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/gemini-4-neon 2026-11-25/item-128 2026-11-25/item-56 2026-11-25/lce 2026-11-25/mspo 2026-11-25/p-tap 2026-11-25/trusuco 2026-11-25/tt-rsi 2026-11-25/videcide 2026-11-25/vopd 2026-11-26/dart 2026-11-26/fol-proof 2026-11-26/latent-merger-lora 2026-11-26/openai-math-ai 2026-11-26/s-mind 2026-11-26/thinkmorph-ssl 2026-11-26/u-statistics-powered-llm-reasoning 2026-11-26/vsft -->
 <!-- research-experience:end -->
 
 ## 相关工作

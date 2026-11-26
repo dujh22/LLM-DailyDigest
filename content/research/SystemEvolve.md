@@ -130,6 +130,7 @@ toc = true
    - [LLM 智能体脚手架演化中的评估预算分配](../../updates/2026-10-29/#llm-2) · 2026-10-29
    - [批处理反思优化循环：并行候选让 GEPA 更快更优](../../updates/2026-10-29/#gepa) · 2026-10-29
 6. **验证随搜索加严**：搜索预算越大，指标漏洞、偶然收益与遗忘越易放大；先监测可修复故障，再用候选冻结、重放、独立审计和旧任务回归设置晋升门。
+   - [Sports Agent：反馈驱动闭环自进化](../../updates/2026-11-26/#sports-agent) · 2026-11-26
    - [Detection Gap：自改进智能体失效盲区](../../updates/2026-11-25/#detection-gap) · 2026-11-25
    - [Semantic PID-RSI：语义PID控制自改进](../../updates/2026-11-24/#semantic-pid-rsi-pid) · 2026-11-24
    - [MASSys：服务基底敏感性评测](../../updates/2026-11-24/#massys) · 2026-11-24
@@ -173,6 +174,7 @@ toc = true
    - [RSI 系统优化 Agent 的 Reward Hacking 与验证边界](../../updates/2026-11-04/#rsi-agent-reward-hacking) · 2026-11-04
    - [RuHarness：评判准则与智能体脚手架协同演化](../../updates/2026-10-29/#ruharness) · 2026-10-29
 8. **证据归因式修复**：结合成败轨迹、工具实现与反事实检验，把反馈归因到首个偏离点或具体开发决策；局部修复比整段反思更易控制副作用。
+   - [TransHarness：可迁移脚手架演化](../../updates/2026-11-26/#transharness) · 2026-11-26
    - [VISE：工具实现反馈驱动技能演化](../../updates/2026-11-25/#vise) · 2026-11-25
    - [LeanNeXt：假设驱动架构发现](../../updates/2026-11-25/#leannext) · 2026-11-25
    - [AutoSECO：可迁移求解技能演化](../../updates/2026-11-25/#autoseco) · 2026-11-25
@@ -184,6 +186,8 @@ toc = true
    - [HarnessEvolve：基于参考轨迹的可靠智能体自我进化](../../updates/2026-11-02/#harnessevolve) · 2026-11-02
 9. **持久状态促进迁移**：跨轮次保存结构化状态、修改理由、来源与适用边界，并分离不可变全局记录和决策视图；避免完整历史造成成本与语义漂移。
    - [SIM：经验记忆驱动持续改进](../../updates/2026-11-26/#sim) · 2026-11-26
+   - [PRECEPT：失误驱动的安全原则演化](../../updates/2026-11-26/#precept) · 2026-11-26
+   - [HoMe：评测驱动的记忆脚手架优化](../../updates/2026-11-26/#home) · 2026-11-26
    - [NoeVera：证据演化式配置搜索](../../updates/2026-11-25/#noevera) · 2026-11-25
    - [Motion Mamba 2.0：持久记忆式长时控制](../../updates/2026-11-25/#motion-mamba-2-0) · 2026-11-25
    - [Harness2：跨任务框架优化经验库](../../updates/2026-11-25/#harness2) · 2026-11-25
@@ -217,6 +221,7 @@ toc = true
     - [R²Orch：通过技能内化与自博弈实现智能体编排的递归自我改进](../../updates/2026-11-03/#r-orch) · 2026-11-03
     - [The Trinity：能力驱动的多模态智能体递归自我改进](../../updates/2026-10-29/#the-trinity) · 2026-10-29
 11. **多层协同进化**：规划、执行、工作流、模型结构、关键权重与记忆相互耦合时，应联合优化多个层级；只改提示或单一模块易受系统瓶颈限制。
+    - [RoboEvo²：脚手架策略协同进化](../../updates/2026-11-26/#roboevo) · 2026-11-26
     - [Weight Coding：智能体直接编辑模型权重](../../updates/2026-11-25/#weight-coding) · 2026-11-25
     - [HookEvo：协同插件演化](../../updates/2026-11-23/#hookevo) · 2026-11-23
     - [CoEvoBench：模型与脚手架协同演化](../../updates/2026-11-23/#coevobench) · 2026-11-23
@@ -251,7 +256,8 @@ toc = true
     - [LIBRA：程序化归纳可执行工具库](../../updates/2026-11-06/#libra) · 2026-11-06
     - [SeaFlow：基于语义任务分解的自演化智能体工作流](../../updates/2026-11-03/#seaflow) · 2026-11-03
     - [LangChain 开源设计智能体 Content Studio 的 harness](../../updates/2026-10-29/#langchain-content-studio-harness) · 2026-10-29
-13. **长时运行系统基座**：持续在线的自进化智能体需要持久运行时、演员级故障隔离、状态保持迁移、变更审查、自动验收与看门狗自愈，不能依赖整系统重启。
+13. **长时运行系统基座**：持续在线的自进化智能体需要持久运行时、故障隔离、状态迁移、最小权限授权、变更审查、自动验收、看门狗自愈与人工兜底，不能依赖整系统重启。
+    - [dots：常驻智能体自建系统](../../updates/2026-11-26/#dots) · 2026-11-26
     - [Wactorz：自编写边缘智能体运行时](../../updates/2026-11-25/#wactorz) · 2026-11-25
     - [SKILL.state：结构化状态转移](../../updates/2026-11-24/#skill-state) · 2026-11-24
     - [ClonAct：无路由上下文虚拟化](../../updates/2026-11-20/#clonact) · 2026-11-20
@@ -310,7 +316,7 @@ toc = true
     - [MakoBORN：前瞻式量化程序合成](../../updates/2026-11-19/#makoborn) · 2026-11-19
     - [No Second Run：预训练RSI炼出801-30B-A3B模型](../../updates/2026-11-14/#no-second-run-rsi-801-30b-a3b) · 2026-11-14
     - [801-30B：将 RSI 引入前沿预训练](../../updates/2026-11-05/#801-30b-rsi) · 2026-11-05
-<!-- experience-seen: 2026-11-19/anys1 2026-11-19/data-to-valves 2026-11-19/fastframes 2026-11-19/gemma-4-k-v-cache 2026-11-19/graft 2026-11-19/guard 2026-11-19/item-47 2026-11-19/l2c 2026-11-19/loopcache-kv 2026-11-19/makoborn 2026-11-19/mbt 2026-11-19/moe-context 2026-11-19/qda 2026-11-19/resolution-hypothesis 2026-11-19/sch 2026-11-19/vanguard 2026-11-19/weight-space-programming 2026-11-20/agnes-harness 2026-11-20/ahe-beta 2026-11-20/appsci-bench 2026-11-20/basersi 2026-11-20/clonact 2026-11-20/evo-harness 2026-11-20/frontierreplay 2026-11-20/harness 2026-11-20/item-60 2026-11-20/laq 2026-11-20/meta-rtl-rtl 2026-11-20/openai-rsi 2026-11-20/performance-factory-codex 2026-11-20/rocokv 2026-11-20/sirius-tiamat 2026-11-23/coevobench 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-23/epistemic-guard 2026-11-23/hookevo 2026-11-23/lrsa 2026-11-23/medicalrsi 2026-11-23/memonce 2026-11-23/roha-sgg 2026-11-23/turnout 2026-11-24/cmhc 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/dive 2026-11-24/hyperharness 2026-11-24/item-60 2026-11-24/massys 2026-11-24/metarsi-rsi 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/semantic-pid-rsi-pid 2026-11-24/shirudo-ebpf 2026-11-24/skill-state 2026-11-25/agl-skill 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/dmc-5 2026-11-25/harness2 2026-11-25/harnesspro 2026-11-25/hopper-4-bit-kv 2026-11-25/item-128 2026-11-25/item-150 2026-11-25/leannext 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/noevera 2026-11-25/prefill1 2026-11-25/toolsmith 2026-11-25/vise 2026-11-25/wactorz 2026-11-25/weight-coding 2026-11-26/harness-learning 2026-11-26/qwen-image-hd 2026-11-26/sim -->
+<!-- experience-seen: 2026-11-19/anys1 2026-11-19/data-to-valves 2026-11-19/fastframes 2026-11-19/gemma-4-k-v-cache 2026-11-19/graft 2026-11-19/guard 2026-11-19/item-47 2026-11-19/l2c 2026-11-19/loopcache-kv 2026-11-19/makoborn 2026-11-19/mbt 2026-11-19/moe-context 2026-11-19/qda 2026-11-19/resolution-hypothesis 2026-11-19/sch 2026-11-19/vanguard 2026-11-19/weight-space-programming 2026-11-20/agnes-harness 2026-11-20/ahe-beta 2026-11-20/appsci-bench 2026-11-20/basersi 2026-11-20/clonact 2026-11-20/evo-harness 2026-11-20/frontierreplay 2026-11-20/harness 2026-11-20/item-60 2026-11-20/laq 2026-11-20/meta-rtl-rtl 2026-11-20/openai-rsi 2026-11-20/performance-factory-codex 2026-11-20/rocokv 2026-11-20/sirius-tiamat 2026-11-23/coevobench 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-23/epistemic-guard 2026-11-23/hookevo 2026-11-23/lrsa 2026-11-23/medicalrsi 2026-11-23/memonce 2026-11-23/roha-sgg 2026-11-23/turnout 2026-11-24/cmhc 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/dive 2026-11-24/hyperharness 2026-11-24/item-60 2026-11-24/massys 2026-11-24/metarsi-rsi 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/semantic-pid-rsi-pid 2026-11-24/shirudo-ebpf 2026-11-24/skill-state 2026-11-25/agl-skill 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/dmc-5 2026-11-25/harness2 2026-11-25/harnesspro 2026-11-25/hopper-4-bit-kv 2026-11-25/item-128 2026-11-25/item-150 2026-11-25/leannext 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/noevera 2026-11-25/prefill1 2026-11-25/toolsmith 2026-11-25/vise 2026-11-25/wactorz 2026-11-25/weight-coding 2026-11-26/dots 2026-11-26/harness-learning 2026-11-26/home 2026-11-26/precept 2026-11-26/qwen-image-hd 2026-11-26/roboevo 2026-11-26/sim 2026-11-26/sports-agent 2026-11-26/transharness -->
 <!-- research-experience:end -->
 
 ## 相关工作

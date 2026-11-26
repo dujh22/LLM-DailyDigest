@@ -50,7 +50,18 @@ Evolve 应用（evolve application watch）是本站的横向跟踪方向，与�
    - [Fin-RSI：统一金融技能与自改进](../../updates/2026-11-25/#fin-rsi) · 2026-11-25
 3. **稀疏权重搜索**：成熟模型可优先搜索少量关键权重实现低成本自改进，不必默认采用端到端反向传播。
    - [Weight Coding：智能体直接编辑模型权重](../../updates/2026-11-25/#weight-coding) · 2026-11-25
-<!-- experience-seen: 2026-11-25/ai-assisted-programming 2026-11-25/fin-rsi 2026-11-25/hfm 2026-11-25/weight-coding 2026-11-25/wemm-ecom -->
+4. **数学证明可信链**：AI生成重大数学结论时，应把形式化覆盖、独立验算和同行评审设为发布门槛，不能以草稿产量代替可信度。
+   - [OpenAI Math：AI批量生成数学证明](../../updates/2026-11-26/#openai-math-ai) · 2026-11-26
+5. **混合式科学发现**：开放式科学发现宜由LLM编排数据生成，以可解释窄模型和符号工具提出假设，再用反例与分区检验筛选。
+   - [PatternMiner：小模型解释驱动数学发现](../../updates/2026-11-26/#patternminer) · 2026-11-26
+   - [AI Buckingham：跨区间量纲标度发现](../../updates/2026-11-26/#ai-buckingham) · 2026-11-26
+6. **证据约束演化**：经验复用或系统演化应绑定适用条件、证据溯源和执行验证，并用受限编辑、回放审计与性能容差阻断错误累积。
+   - [Sports Agent：反馈驱动闭环自进化](../../updates/2026-11-26/#sports-agent) · 2026-11-26
+   - [PowerFix：物理引导迭代修复](../../updates/2026-11-26/#powerfix) · 2026-11-26
+   - [EGSE：证据溯源式技能演化](../../updates/2026-11-26/#egse) · 2026-11-26
+7. **常驻智能体治理**：常驻智能体接入多应用前，应建立最小授权、全程审计和人工兜底；单项任务能力不足以支撑长期自主运行。
+   - [dots：常驻智能体自建系统](../../updates/2026-11-26/#dots) · 2026-11-26
+<!-- experience-seen: 2026-11-25/ai-assisted-programming 2026-11-25/fin-rsi 2026-11-25/hfm 2026-11-25/weight-coding 2026-11-25/wemm-ecom 2026-11-26/ai-assisted-programming-and-labor-demand 2026-11-26/ai-buckingham 2026-11-26/dots 2026-11-26/egse 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/powerfix 2026-11-26/sports-agent -->
 <!-- research-experience:end -->
 
 ## 相关工作

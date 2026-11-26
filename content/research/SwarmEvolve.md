@@ -109,13 +109,16 @@ toc = true
     - [AutoRL：多智能体闭环强化学习](../../updates/2026-11-16/#autorl) · 2026-11-16
     - [openJiuwen发布RSI原生AgentOS，支持Agent持续自我扩展](../../updates/2026-11-14/#openjiuwen-rsi-agentos-agent) · 2026-11-14
     - [LobeHub 的 Super-agent 组织协作实验](../../updates/2026-11-02/#lobehub-super-agent) · 2026-11-02
-13. **客观群体反馈**：训练社会协作时，优先用规则或执行结果提供共享奖励，而非模型裁判；它可诱导分工与可迁移行为，但监督可靠性须单独优化。
+13. **证据约束群体反馈**：训练社会协作时，奖励应绑定可验证规则与过程证据，而非仅看结果或模型裁判；结果导向反馈会诱发合谋。
+    - [PROVE：证据驱动的协议强化](../../updates/2026-11-26/#prove) · 2026-11-26
     - [多玩家社交游戏：可验证社会智能训练](../../updates/2026-11-25/#item-63) · 2026-11-25
     - [Avalon-M1：集体奖励组织训练](../../updates/2026-11-25/#avalon-m1) · 2026-11-25
 14. **种群级安全约束**：成员会繁殖、选择或对抗共演化时，个体合规不能推出群体安全；约束应覆盖种群动力学、跨代继承和持续适应的对手。
     - [Evolutionary AI Control：演化种群安全证明](../../updates/2026-11-25/#evolutionary-ai-control) · 2026-11-25
     - [多准则攻防种群竞争共演化](../../updates/2026-11-17/#item-83) · 2026-11-17
-<!-- experience-seen: 2026-11-18/convrsi 2026-11-18/inventa 2026-11-18/item-69 2026-11-18/wevisforensics 2026-11-19/heave-ho 2026-11-19/l2c 2026-11-19/openkage 2026-11-20/item-73 2026-11-20/multiagentbench 2026-11-21/sailsearch 2026-11-23/item-23 2026-11-23/item-3 2026-11-24/lean 2026-11-24/massys 2026-11-25/avalon-m1 2026-11-25/evolutionary-ai-control 2026-11-25/item-63 2026-11-25/mimpa 2026-11-25/pde -->
+15. **异构能力分层委派**：保留强模型负责规划与验收，将低难度、可验证子任务委派给本地小模型；按难度路由可降成本而不损害质量。
+    - [Delegent：小模型子任务委派](../../updates/2026-11-26/#delegent) · 2026-11-26
+<!-- experience-seen: 2026-11-19/heave-ho 2026-11-19/l2c 2026-11-19/openkage 2026-11-20/item-73 2026-11-20/multiagentbench 2026-11-21/sailsearch 2026-11-23/item-23 2026-11-23/item-3 2026-11-24/lean 2026-11-24/massys 2026-11-25/avalon-m1 2026-11-25/evolutionary-ai-control 2026-11-25/item-63 2026-11-25/mimpa 2026-11-25/pde 2026-11-26/delegent 2026-11-26/prove -->
 <!-- research-experience:end -->
 
 ## 相关工作

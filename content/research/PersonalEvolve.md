@@ -62,6 +62,7 @@ toc = true
    - [WeFair：基于反馈保真度的短视频个性化查询改写](../../updates/2026-11-03/#wefair) · 2026-11-03
    - [HABIT-Bench：评估智能体从长期弱证据中归纳用户习惯](../../updates/2026-10-29/#habit-bench) · 2026-10-29
 4. **证据保真记忆**：长期记忆应保留原始证据，并按事件、情感、时间等视图组织；检索预算和语义轴需随查询动态分配。
+   - [Procedure Memory：情节驱动的程序记忆](../../updates/2026-11-26/#procedure-memory) · 2026-11-26
    - [STARK：事件作边的双图记忆](../../updates/2026-11-20/#stark) · 2026-11-20
    - [ChronoDossier：长档案式时序记忆评测](../../updates/2026-11-20/#chronodossier) · 2026-11-20
    - [KV-LTM：会话KV缓存长期记忆](../../updates/2026-11-18/#kv-ltm-kv) · 2026-11-18
@@ -70,7 +71,9 @@ toc = true
 5. **历史自监督**：无标注历史可转成带证据问答，终局反馈再拆为逐步、逐用户信用，先优化写入、检索和上下文而非立即改参。
    - [PMR：面向用户个性化记忆更新的细粒度信用分配](../../updates/2026-11-12/#pmr) · 2026-11-12
    - [MemSteer：从用户历史生成监督信号以优化智能体记忆](../../updates/2026-10-30/#memsteer) · 2026-10-30
-6. **纠错沉淀资产**：将纠正和工具失败提炼为带适用条件的规则、技能或工具，并在决策点注入和运行时验证，才能跨会话复用。
+6. **纠错沉淀资产**：将纠正、工具失败和反复选择提炼为带适用条件的程序或技能；在决策点按本地任务效用路由并运行时验证，才能跨会话或客户端复用。
+   - [Procedure Memory：情节驱动的程序记忆](../../updates/2026-11-26/#procedure-memory) · 2026-11-26
+   - [P-FedSkill：个性化联邦技能学习](../../updates/2026-11-26/#p-fedskill) · 2026-11-26
    - [Brain：会话驱动的个性化技能演化](../../updates/2026-11-20/#brain) · 2026-11-20
    - [DeepSeek Harness：可演化插件工作台](../../updates/2026-11-15/#deepseek-harness) · 2026-11-15
    - [Skill Adapter：通用技能的个性化适配与在线路由](../../updates/2026-11-14/#skill-adapter) · 2026-11-14
@@ -107,6 +110,7 @@ toc = true
     - [MPG-DPO：偏好锥引导在线对齐](../../updates/2026-11-18/#mpg-dpo) · 2026-11-18
     - [WeFair：基于反馈保真度的短视频个性化查询改写](../../updates/2026-11-03/#wefair) · 2026-11-03
 13. **谱系化隐私治理**：个人原始上下文优先端侧保留；跨用户只共享按范围分级提炼的经验，撤回时须沿谱系清除提示、技能与学习状态并验证不可再用。
+    - [P-FedSkill：个性化联邦技能学习](../../updates/2026-11-26/#p-fedskill) · 2026-11-26
     - [跨载体隐私记忆治理](../../updates/2026-11-23/#item-45) · 2026-11-23
     - [MixUA：面向多用户多智能体交互的多粒度记忆提取](../../updates/2026-11-12/#mixua) · 2026-11-12
     - [Deep Personalization：面向本地主动智能体的持续上下文观察](../../updates/2026-11-12/#deep-personalization) · 2026-11-12
@@ -114,7 +118,7 @@ toc = true
     - [EpiCoach：面向个体生理建模的智能体贝叶斯实验设计](../../updates/2026-10-30/#epicoach) · 2026-10-30
 15. **托管导向指标**：Personal Agent应以事务托管量、完成率、长期托管留存和人工接管率衡量进化收益，而非使用时长或活跃度。
     - [Personal Agent 的北极星指标：从活跃度转向事务托管](../../updates/2026-11-13/#personal-agent) · 2026-11-13
-<!-- experience-seen: 2026-11-18/kv-ltm-kv 2026-11-18/mpg-dpo 2026-11-18/regimecouncil 2026-11-18/remembered-as-brief 2026-11-18/train-after-you-measure 2026-11-19/item-1 2026-11-19/learning-through-discernment 2026-11-19/safe-personal-rsi 2026-11-20/brain 2026-11-20/chronodossier 2026-11-20/clonact 2026-11-20/habitusmem 2026-11-20/item-63 2026-11-20/stark 2026-11-23/item-45 2026-11-24/ai-twin 2026-11-24/hyperharness 2026-11-25/wasp -->
+<!-- experience-seen: 2026-11-19/item-1 2026-11-19/learning-through-discernment 2026-11-19/safe-personal-rsi 2026-11-20/brain 2026-11-20/chronodossier 2026-11-20/clonact 2026-11-20/habitusmem 2026-11-20/item-63 2026-11-20/stark 2026-11-23/item-45 2026-11-24/ai-twin 2026-11-24/hyperharness 2026-11-25/wasp 2026-11-26/p-fedskill 2026-11-26/procedure-memory -->
 <!-- research-experience:end -->
 
 ## 相关工作

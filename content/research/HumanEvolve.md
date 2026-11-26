@@ -70,11 +70,14 @@ AI 辅助的人类进化（AI-augmented human evolution）关注"人这一侧"�
 9. **纵向目标对齐**：短期满意度或偏好提升不代表能力、安全与长期福祉同步改善；持续协作系统应加入技能保持、依赖和安全的纵向指标。
    - [生成式 AI 的对齐短视问题](../../updates/2026-11-06/#item-28) · 2026-11-06
    - [RSI Arena：基于人类反馈的递归自我改进实验](../../updates/2026-10-30/#rsi-arena) · 2026-10-30
-10. **实践驱动共演**：专业AI应允许用户依据真实故障持续修改工具与流程；纵向共演比一次性部署更能吸收隐性情境知识。
+10. **组织流程共演**：专业AI的工时节省不会自动兑现；应让用户按真实故障持续改造工具、审校流程和激励机制。
+    - [Anthropic企业调研：组织流程制约AI价值](../../updates/2026-11-26/#anthropic-ai) · 2026-11-26
     - [实践生长型 AI 工具：用户与软件协同演化范式](../../updates/2026-11-08/#item-47) · 2026-11-08
 11. **间歇监督接口**：后台智能体应保存可快速恢复的任务状态、决策轨迹和边界，让人按检查点介入，而非被迫持续盯守。
     - [Calm Agent：间歇注意式交互](../../updates/2026-11-25/#calm-agent) · 2026-11-25
-12. **初级通道空心化**：AI编程的近期劳动冲击更可能是减少初级招聘而非立即裁员；人才体系应保留入门实践，并转向设计、验证和整合能力。
+12. **初级通道空心化**：AI编程的近期冲击主要压缩编码密集型初级招聘；复杂、依赖情境判断的任务更能保留岗位，培养应转向设计、验证和整合。
+    - [任务复杂性降低岗位替代意愿](../../updates/2026-11-26/#item-44) · 2026-11-26
+    - [AI-Assisted Programming and Labor Demand：合同审查自然实验](../../updates/2026-11-26/#ai-assisted-programming-and-labor-demand) · 2026-11-26
     - [AI-Assisted Programming：编程助手重塑技术招聘](../../updates/2026-11-25/#ai-assisted-programming) · 2026-11-25
     - [模型一代：AI重塑大学秩序](../../updates/2026-11-20/#item-5) · 2026-11-20
 13. **科研闭环瓶颈**：评估AI科研加速不能用平均成功率外推；最弱任务环节、实验闭环、研究品味与监督决定端到端收益。
@@ -84,7 +87,7 @@ AI 辅助的人类进化（AI-augmented human evolution）关注"人这一侧"�
     - [黎曼猜想形式化证明：多内核交叉验真](../../updates/2026-11-23/#item-7) · 2026-11-23
 15. **双目标任务分配**：人机分工要同时优化任务绩效与人的工作体验，显式建模对厌恶任务的规避，并随风险和决策主体调整权重。
     - [人机任务分配：绩效与体验协同权衡](../../updates/2026-11-25/#item-83) · 2026-11-25
-<!-- experience-seen: 2026-11-19/item-15 2026-11-20/item-5 2026-11-20/knowing-what-you-know 2026-11-23/item-7 2026-11-23/navier-stokes-claude-lean 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/ai-assisted-programming 2026-11-25/calm-agent 2026-11-25/chatwise 2026-11-25/item-83 -->
+<!-- experience-seen: 2026-11-19/item-15 2026-11-20/item-5 2026-11-20/knowing-what-you-know 2026-11-23/item-7 2026-11-23/navier-stokes-claude-lean 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/ai-assisted-programming 2026-11-25/calm-agent 2026-11-25/chatwise 2026-11-25/item-83 2026-11-26/ai-assisted-programming-and-labor-demand 2026-11-26/anthropic-ai 2026-11-26/item-44 -->
 <!-- research-experience:end -->
 
 ## 相关工作

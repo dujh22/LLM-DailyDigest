@@ -93,6 +93,7 @@ toc = true
 7. **主动观察**：长视频任务应先规划观察位置并补取关键证据，再生成或行动；均匀处理全部输入常浪费算力并遗漏重点。
    - [Reviso：面向视频字幕生成的优先级引导主动观察](../../updates/2026-11-04/#reviso) · 2026-11-04
 8. **可审计任务闭环**：高风险与工程智能体应把确定性计算同语义判断解耦，以可执行约束限定搜索，并内置溯源、动态验证、可证伪实验和权限控制。
+   - [PowerFix：物理引导迭代修复](../../updates/2026-11-26/#powerfix) · 2026-11-26
    - [PartAgent：专家集成与闭环分割](../../updates/2026-11-26/#partagent) · 2026-11-26
    - [LingSante MedGuard：多专家医疗安全护栏](../../updates/2026-11-26/#lingsante-medguard) · 2026-11-26
    - [lumimax：深度证据链知识网络](../../updates/2026-11-25/#lumimax) · 2026-11-25
@@ -117,7 +118,8 @@ toc = true
    - [El Agente Fármaco：可扩展药物发现科研智能体](../../updates/2026-11-06/#el-agente-f-rmaco) · 2026-11-06
    - [OpenAI 用 Cyber 模型自动挖掘并修补 948 个 Linux 内核提权漏洞](../../updates/2026-11-05/#openai-cyber-948-linux) · 2026-11-05
    - [EpiCoach：面向个体生理建模的智能体贝叶斯实验设计](../../updates/2026-10-30/#epicoach) · 2026-10-30
-9. **人机信任校准**：部署不能只看AI使用率或自动化占比；还应评估证据互补、客观认知负荷、信任校准与用户能力保留，并让领域使用者保有设计和接管权。
+9. **人机与组织校准**：部署不能只看使用率或自动化占比；还应校准信任与认知负荷，重构流程和激励，并让领域使用者保有设计、审校和接管权。
+   - [Anthropic企业调研：组织流程制约AI价值](../../updates/2026-11-26/#anthropic-ai) · 2026-11-26
    - [教师主导的课堂AI定制](../../updates/2026-11-17/#item-67) · 2026-11-17
    - [结果重于学习？学生使用 AI 编程助手编写单元测试的证据](../../updates/2026-11-13/#item-40) · 2026-11-13
    - [AI 辅助代码理解中的认知负荷：感觉更轻松，实际更费力](../../updates/2026-11-12/#item-113) · 2026-11-12
@@ -146,6 +148,7 @@ toc = true
     - [uni-robot-agent：面向开源机器人智能体的统一 Harness](../../updates/2026-11-04/#uni-robot-agent-harness) · 2026-11-04
     - [优必选发布Thinker-Sim具身智能仿真平台](../../updates/2026-11-03/#thinker-sim) · 2026-11-03
 14. **可信事务托管**：个人智能体需打通私有上下文、跨应用连接与细粒度授权；长程事务宜由定时或变化事件按需唤醒，并以托管完成率、留存和接管率评估。
+    - [dots：常驻智能体自建系统](../../updates/2026-11-26/#dots) · 2026-11-26
     - [Grok Bot：定时联网自动找折扣](../../updates/2026-11-24/#grok-bot) · 2026-11-24
     - [Monitor API：变化触发式网页监控](../../updates/2026-11-23/#monitor-api) · 2026-11-23
     - [dots：云电脑后台执行](../../updates/2026-11-20/#dots) · 2026-11-20
@@ -156,7 +159,7 @@ toc = true
     - [Grok Bot：约束验证驱动开发](../../updates/2026-11-23/#grok-bot) · 2026-11-23
     - [编程基准高分不等于实际产出](../../updates/2026-11-19/#item-49) · 2026-11-19
     - [GPT-6.2 Astra：基准满分却实务失灵](../../updates/2026-11-18/#gpt-6-2-astra) · 2026-11-18
-<!-- experience-seen: 2026-11-19/data-to-valves 2026-11-19/item-49 2026-11-19/item-53 2026-11-19/item-54 2026-11-19/mle-agents 2026-11-19/optics-as-code 2026-11-19/ppa 2026-11-19/system-1 2026-11-20/code-world-model-2-0 2026-11-20/dots 2026-11-20/everydaybench 2026-11-20/performance-factory-codex 2026-11-20/playcraft 2026-11-20/prola 2026-11-21/coda-davinci 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/jevrisk 2026-11-23/medicalrsi 2026-11-23/minimax 2026-11-23/monitor-api 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/finevo 2026-11-24/grok-bot 2026-11-24/item-4 2026-11-24/item-47 2026-11-24/semantic-pid-rsi-pid 2026-11-25/3agamefactory-motion 2026-11-25/embo-harness 2026-11-25/fin-rsi 2026-11-25/gpt-6 2026-11-25/lumimax 2026-11-25/needwise 2026-11-25/voyag 2026-11-25/wemm-ecom 2026-11-26/acap 2026-11-26/agnes-harness 2026-11-26/antom 2026-11-26/lingsante-medguard 2026-11-26/partagent -->
+<!-- experience-seen: 2026-11-19/data-to-valves 2026-11-19/item-49 2026-11-19/item-53 2026-11-19/item-54 2026-11-19/mle-agents 2026-11-19/optics-as-code 2026-11-19/ppa 2026-11-19/system-1 2026-11-20/code-world-model-2-0 2026-11-20/dots 2026-11-20/everydaybench 2026-11-20/performance-factory-codex 2026-11-20/playcraft 2026-11-20/prola 2026-11-21/coda-davinci 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/jevrisk 2026-11-23/medicalrsi 2026-11-23/minimax 2026-11-23/monitor-api 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/finevo 2026-11-24/grok-bot 2026-11-24/item-4 2026-11-24/item-47 2026-11-24/semantic-pid-rsi-pid 2026-11-25/3agamefactory-motion 2026-11-25/embo-harness 2026-11-25/fin-rsi 2026-11-25/gpt-6 2026-11-25/lumimax 2026-11-25/needwise 2026-11-25/voyag 2026-11-25/wemm-ecom 2026-11-26/acap 2026-11-26/agnes-harness 2026-11-26/anthropic-ai 2026-11-26/antom 2026-11-26/dots 2026-11-26/lingsante-medguard 2026-11-26/partagent 2026-11-26/powerfix -->
 <!-- research-experience:end -->
 
 ## 相关工作

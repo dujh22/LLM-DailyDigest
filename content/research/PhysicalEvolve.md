@@ -45,8 +45,10 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **偏差驱动模型修订**：面对偏差，应先归因机制、方程、边界、参数、几何或接口，再并行验证，优先修复最早高频断点。机制可编译为带边界与闭合条件的方程部件，以组合失败定位缺失物理项。
+1. **偏差驱动模型修订**：面对偏差，先按物理区间归因机制、方程、边界、参数、几何或接口，再沿可解释路径受限编辑并验证；候选方程除量纲合法外，还须解释区间内观测依赖。
+   - [PowerFix：物理引导迭代修复](../../updates/2026-11-26/#powerfix) · 2026-11-26
    - [PartAgent：专家集成与闭环分割](../../updates/2026-11-26/#partagent) · 2026-11-26
+   - [AI Buckingham：跨区间量纲标度发现](../../updates/2026-11-26/#ai-buckingham) · 2026-11-26
    - [RoboAda：计划保持式指令校正](../../updates/2026-11-25/#roboada) · 2026-11-25
    - [物理机制构造：方程原生跨学科编译](../../updates/2026-11-25/#item-151) · 2026-11-25
    - [Mind2Act World：心智动作组合诊断](../../updates/2026-11-21/#mind2act-world) · 2026-11-21
@@ -97,7 +99,9 @@ toc = true
    - [AISLE：全球首个真实湿实验 AI Scientist 评测基准](../../updates/2026-11-12/#aisle-ai-scientist) · 2026-11-12
    - [具身科学发现：从物理行动到科学证据](../../updates/2026-11-06/#item-150) · 2026-11-06
    - [EnzymeRSI：用于酶设计的双循环递归自我改进系统](../../updates/2026-11-05/#enzymersi) · 2026-11-05
-5. **验证器过拟合防控**：自改进时不要暴露可被投机的精确评分规则；验证器须绑定任务契约和后续闭环结果，并用未暴露任务检验迁移。
+5. **验证器过拟合防控**：自改进时不要暴露可投机的精确评分规则；验证器须绑定任务契约、闭环结果与未见任务，并警惕扩大候选池放大评判噪声和奖励作弊。
+   - [SealedLoop：环外密封评判](../../updates/2026-11-26/#sealedloop) · 2026-11-26
+   - [Best-of-N Steering：验证误差放大奖励作弊](../../updates/2026-11-26/#best-of-n-steering) · 2026-11-26
    - [RoboUniverse-10K：万级可验证具身环境](../../updates/2026-11-25/#robouniverse-10k) · 2026-11-25
    - [EviCraft：证据闭包式具身评测](../../updates/2026-11-25/#evicraft) · 2026-11-25
    - [AeroRSI：续飞验证式递归自改进](../../updates/2026-11-19/#aerorsi) · 2026-11-19
@@ -131,7 +135,8 @@ toc = true
    - [强化学习扩展通用机器人策略的多任务改进能力](../../updates/2026-11-06/#item-25) · 2026-11-06
    - [DRAP：面向物理 AI 持续学习的动力学风险自适应可塑性](../../updates/2026-11-06/#drap-ai) · 2026-11-06
    - [智元发布具身智能模型 GO-3 Preview](../../updates/2026-11-02/#go-3-preview) · 2026-11-02
-9. **人机经验联合预训**：用人类视频扩大语义与动作覆盖，再以异构机器人数据持续训练，可提升跨本体迁移，但需学习共享动作或空间表征。
+9. **人机经验联合预训**：用人类视频扩大语义与动作覆盖，再以异构机器人数据持续训练，可提升跨本体迁移；共享表征还应显式编码本体运动学及其与场景的关系。
+   - [OmniAct：运动学图驱动跨具身控制](../../updates/2026-11-26/#omniact) · 2026-11-26
    - [RynnVLA-Latent：几何潜动作预训练](../../updates/2026-11-25/#rynnvla-latent) · 2026-11-25
    - [Native LAM：世界模型提炼潜在动作](../../updates/2026-11-25/#native-lam) · 2026-11-25
    - [TCP4D：统一TCP跟踪与轨迹生成](../../updates/2026-11-19/#tcp4d-tcp) · 2026-11-19
@@ -188,7 +193,7 @@ toc = true
 15. **检索基线先行**：评估VLA学习或自进化前应先做近邻动作复用基线；高分可能来自演示检索，而非形成了可迁移的新策略。
     - [MXI-MemICL：自检索交互记忆](../../updates/2026-11-25/#mxi-memicl) · 2026-11-25
     - [VLA 有多少能力来自 kNN 检索？](../../updates/2026-11-12/#vla-knn) · 2026-11-12
-<!-- experience-seen: 2026-11-19/aerorsi 2026-11-19/data-to-valves 2026-11-19/forceharness 2026-11-19/heave-ho 2026-11-19/hypoloop 2026-11-19/item-40 2026-11-19/optics-as-code 2026-11-19/robobuilder 2026-11-19/tcp4d-tcp 2026-11-19/vanguard 2026-11-20/agnes-harness 2026-11-20/coachsi 2026-11-20/cyber-physical-rsi 2026-11-20/drift 2026-11-20/item-76 2026-11-20/laq 2026-11-21/depth-pro-2 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-21/voda 2026-11-21/zerovln 2026-11-23/bel 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/respacebench 2026-11-24/scape 2026-11-24/stereovlm 2026-11-25/catway 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/gpt-6 2026-11-25/item-117 2026-11-25/item-151 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/phyevo-mic-rsi 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/videcide 2026-11-25/vla 2026-11-25/worldleague 2026-11-25/xmind 2026-11-26/partagent 2026-11-26/robodojo-mirror 2026-11-26/s-mind -->
+<!-- experience-seen: 2026-11-19/aerorsi 2026-11-19/data-to-valves 2026-11-19/forceharness 2026-11-19/heave-ho 2026-11-19/hypoloop 2026-11-19/item-40 2026-11-19/optics-as-code 2026-11-19/robobuilder 2026-11-19/tcp4d-tcp 2026-11-19/vanguard 2026-11-20/agnes-harness 2026-11-20/coachsi 2026-11-20/cyber-physical-rsi 2026-11-20/drift 2026-11-20/item-76 2026-11-20/laq 2026-11-21/depth-pro-2 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-21/voda 2026-11-21/zerovln 2026-11-23/bel 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/respacebench 2026-11-24/scape 2026-11-24/stereovlm 2026-11-25/catway 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/gpt-6 2026-11-25/item-117 2026-11-25/item-151 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/phyevo-mic-rsi 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/videcide 2026-11-25/vla 2026-11-25/worldleague 2026-11-25/xmind 2026-11-26/ai-buckingham 2026-11-26/best-of-n-steering 2026-11-26/omniact 2026-11-26/partagent 2026-11-26/powerfix 2026-11-26/robodojo-mirror 2026-11-26/s-mind 2026-11-26/sealedloop -->
 <!-- research-experience:end -->
 
 ## 相关工作

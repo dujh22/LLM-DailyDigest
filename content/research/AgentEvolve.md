@@ -44,7 +44,10 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **持续学习多维评测**：连续任务流应同时测可塑性、稳定性、遗忘、故障发现—归因—修复与未见迁移；持久状态提效或答案正确，不等于形成可追溯的泛化能力。
+1. **持续学习多维评测**：连续任务流应分开评估知识更新与能力形成，并测可塑性、稳定性、遗忘、技能组合、故障诊修及跨语言等未见迁移；持久状态提效不等于可追溯泛化。
+   - [软提示技能的组合兼容与保持](../../updates/2026-11-26/#item-39) · 2026-11-26
+   - [IRTIQA：自进化跨语言迁移评测](../../updates/2026-11-26/#irtiqa) · 2026-11-26
+   - [EvoLink-Bench：长程依赖任务流评测](../../updates/2026-11-26/#evolink-bench) · 2026-11-26
    - [AutoRLBench：真实RL故障诊修评测](../../updates/2026-11-26/#autorlbench-rl) · 2026-11-26
    - [Detection Gap：自改进智能体失效盲区](../../updates/2026-11-25/#detection-gap) · 2026-11-25
    - [CoEvoBench：模型与脚手架协同演化](../../updates/2026-11-23/#coevobench) · 2026-11-23
@@ -82,6 +85,9 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
    - [TTME：测试时记忆演化以更低成本助力科学发现](../../updates/2026-10-29/#ttme) · 2026-10-29
 3. **经验验真再入库**：经验准入须经执行、溯源、留出证伪与对照行为核验；上线后按实际效用持续修正，并保留原轨迹和旧版以防污染与回退。
    - [SIM：经验记忆驱动持续改进](../../updates/2026-11-26/#sim) · 2026-11-26
+   - [SED：单次注入毒化安全策略](../../updates/2026-11-26/#sed) · 2026-11-26
+   - [Leto：效用导向智能体记忆](../../updates/2026-11-26/#leto) · 2026-11-26
+   - [EGSE：证据溯源式技能演化](../../updates/2026-11-26/#egse) · 2026-11-26
    - [ReHarness：结果驱动的经验反向修正](../../updates/2026-11-25/#reharness) · 2026-11-25
    - [Notary门控回顾环：规则准入效用验证](../../updates/2026-11-25/#notary) · 2026-11-25
    - [ExpGuard：经验风险预测与在线修复](../../updates/2026-11-25/#expguard) · 2026-11-25
@@ -133,6 +139,8 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
    - [CausGround：基于因果交互定位的自适应具身规划](../../updates/2026-10-30/#causground) · 2026-10-30
    - [TAM：以任务推进状态与监督增强 GUI 智能体能力](../../updates/2026-10-29/#tam-gui) · 2026-10-29
 5. **按状态路由资源**：按任务、进度、环境动力学和执行模型能力路由记忆、技能与模型，并控制注入量，可减少干扰与词元成本。
+   - [PRECEPT：失误驱动的安全原则演化](../../updates/2026-11-26/#precept) · 2026-11-26
+   - [MetaDecomp：程序记忆驱动自适应分解](../../updates/2026-11-26/#metadecomp) · 2026-11-26
    - [STUN-Bench：真未见工具路由评测](../../updates/2026-11-25/#stun-bench) · 2026-11-25
    - [STRIDE：策略战术分层技能披露](../../updates/2026-11-24/#stride) · 2026-11-24
    - [F³：形适融经验利用](../../updates/2026-11-20/#item-76) · 2026-11-20
@@ -152,7 +160,9 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
    - [Meta提出路由式持续学习架构Routed CL](../../updates/2026-11-03/#meta-routed-cl) · 2026-11-03
    - [JitSkill：基于长程状态追踪的即时技能检索](../../updates/2026-11-03/#jitskill) · 2026-11-03
    - [检索即遍历：面向有状态长上下文智能体的价值索引记忆](../../updates/2026-10-30/#item-68) · 2026-10-30
-6. **经验系统联合演化**：内容趋于饱和时，应联合搜索表示、写入、组织、检索、遗忘与变换策略；固定架构和更新算子会限制收益并放大错误。
+6. **经验系统联合演化**：内容趋于饱和时，应联合搜索表示、写入、组织、检索、遗忘与变换策略，并区分成败经验的维护目标；固定架构和统一更新算子会限制收益并放大错误。
+   - [Knowledge-Base Gradient Descent：问答驱动知识库重构](../../updates/2026-11-26/#knowledge-base-gradient-descent) · 2026-11-26
+   - [DualPM：双极性记忆定期维护](../../updates/2026-11-26/#dualpm) · 2026-11-26
    - [MLEvolver：上下文折叠与技能删汰](../../updates/2026-11-24/#mlevolver) · 2026-11-24
    - [EvoSkill-S1：遗传算子驱动技能演化](../../updates/2026-11-18/#evoskill-s1) · 2026-11-18
    - [EvoDisco：策略发现式记忆演化](../../updates/2026-11-18/#evodisco) · 2026-11-18
@@ -184,6 +194,7 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
    - [腾讯混元发布 Hyra 2.0：通用 Agent 研发可复用科学工具](../../updates/2026-11-03/#hyra-2-0-agent) · 2026-11-03
    - [SkillCompiler：以程序化编译降低自演化智能体技能的不确定性](../../updates/2026-10-30/#skillcompiler) · 2026-10-30
 8. **评判与脚手架共演**：固定评分或改进策略易固化盲点；应让评判、改进器与脚手架随残余错误协同演化，并用实例级执行证据约束改动。
+   - [RoboEvo²：脚手架策略协同进化](../../updates/2026-11-26/#roboevo) · 2026-11-26
    - [Semantic PID-RSI：语义PID控制自改进](../../updates/2026-11-24/#semantic-pid-rsi-pid) · 2026-11-24
    - [MedicalRSI：临床模型与脚手架协同演化](../../updates/2026-11-23/#medicalrsi) · 2026-11-23
    - [CoEvoBench：模型与脚手架协同演化](../../updates/2026-11-23/#coevobench) · 2026-11-23
@@ -238,7 +249,9 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
     - [智能体自写交接摘要何时变成无依据指令？](../../updates/2026-11-06/#item-33) · 2026-11-06
     - [CoworkOS：面向真实世界自动化的长程智能体协作框架](../../updates/2026-11-04/#coworkos) · 2026-11-04
     - [CORAL：面向长程智能体的认知资源自分配](../../updates/2026-10-30/#coral) · 2026-10-30
-11. **增益归因控制噪声**：评估更新须用配对重复实验校准方差、统一基线并计入成本；先诊断残余失败及其可观测性，再分解各组件的边际贡献。
+11. **增益归因控制噪声**：评估更新须用配对重复、置换对照与样本外验证校准方差，统一基线并计入成本；先诊断残余失败，再分解组件边际贡献，勿用低样本任务增益做门控。
+    - [SkillsBench：技能增益的噪声感知审计](../../updates/2026-11-26/#skillsbench) · 2026-11-26
+    - [Scalpel and Brush：智能体稀疏权重编辑](../../updates/2026-11-26/#scalpel-and-brush) · 2026-11-26
     - [失效类型驱动的智能体干预](../../updates/2026-11-25/#item-136) · 2026-11-25
     - [Retriever–Perceiver–Reasoner：诊断反馈协同进化](../../updates/2026-11-19/#retriever-perceiver-reasoner) · 2026-11-19
     - [Resolution Hypothesis：评测分辨率瓶颈](../../updates/2026-11-19/#resolution-hypothesis) · 2026-11-19
@@ -253,7 +266,8 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
     - [EvoGuard：缓解在线技能演化中的性能退化](../../updates/2026-11-05/#evoguard) · 2026-11-05
     - [下一轮部署前：诊断策略更新引发的技能效用变化](../../updates/2026-10-30/#item-72) · 2026-10-30
     - [BiPA：用二部归因重新评估智能体技能优化](../../updates/2026-10-29/#bipa) · 2026-10-29
-12. **群体共享演化资产**：多智能体应按用户与作用域区分抽象知识与可执行技能；共享会挤占未见候选，须限制检索边界并在经验隔离下评测。
+12. **群体共享演化资产**：多智能体应按用户与作用域区分抽象知识与可执行技能，并以对本地任务的实效而非表面相似度决定共享；限制检索边界并在经验隔离下评测。
+    - [P-FedSkill：个性化联邦技能学习](../../updates/2026-11-26/#p-fedskill) · 2026-11-26
     - [STUN-Bench：真未见工具路由评测](../../updates/2026-11-25/#stun-bench) · 2026-11-25
     - [OpenKAGE：知识共享式群体演化](../../updates/2026-11-19/#openkage) · 2026-11-19
     - [MixUA：面向多用户多智能体交互的多粒度记忆提取](../../updates/2026-11-12/#mixua) · 2026-11-12
@@ -262,6 +276,7 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
     - [Group-Evolving Agents：经验共享驱动的开放式群体自进化](../../updates/2026-11-04/#group-evolving-agents) · 2026-11-04
     - [EvoTeam：通过团队演化增强多智能体协作](../../updates/2026-10-30/#evoteam) · 2026-10-30
 13. **版本化原子更新**：生产系统应将经验改动拆成可回滚的局部编辑，绑定环境与接口版本及失效条件；每次更新须检查新增退化并保护先验外知识。
+    - [Sports Agent：反馈驱动闭环自进化](../../updates/2026-11-26/#sports-agent) · 2026-11-26
     - [SkillLens：人机协同技能诊断优化](../../updates/2026-11-24/#skilllens) · 2026-11-24
     - [Semantic PID-RSI：语义PID控制自改进](../../updates/2026-11-24/#semantic-pid-rsi-pid) · 2026-11-24
     - [SkillPlumber：覆盖引导技能进化](../../updates/2026-11-20/#skillplumber) · 2026-11-20
@@ -289,7 +304,7 @@ Agent 推理时自进化（inference-time / deployment-time agent self-evolution
     - [智能体机器人自学习中的模型、技能、反馈与课程控制研究](../../updates/2026-11-12/#item-202) · 2026-11-12
     - [SARBLOH：空间感知主导 ARC-AGI-3 交互推理](../../updates/2026-11-06/#sarbloh-arc-agi-3) · 2026-11-06
     - [Reviso：面向视频字幕生成的优先级引导主动观察](../../updates/2026-11-04/#reviso) · 2026-11-04
-<!-- experience-seen: 2026-11-19/arise 2026-11-19/graft 2026-11-19/guard 2026-11-19/item-48 2026-11-19/openkage 2026-11-19/qda 2026-11-19/resolution-hypothesis 2026-11-19/retriever-perceiver-reasoner 2026-11-19/scaffold 2026-11-19/sch 2026-11-19/score 2026-11-20/agnes-harness 2026-11-20/brain 2026-11-20/cyber-physical-rsi 2026-11-20/driftguard 2026-11-20/grepmem 2026-11-20/item-34 2026-11-20/item-76 2026-11-20/sigame 2026-11-20/skilldiff 2026-11-20/skillplumber 2026-11-20/system-one-rsi 2026-11-21/space-x 2026-11-21/startv-agent 2026-11-23/alps-lab 2026-11-23/astronautbench 2026-11-23/bel 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/medicalrsi 2026-11-23/zhulong-se 2026-11-24/don-t-train-it-write-it 2026-11-24/engram 2026-11-24/evovim 2026-11-24/io-ai 2026-11-24/mlevolver 2026-11-24/scape 2026-11-24/semantic-pid-rsi-pid 2026-11-24/skilllens 2026-11-24/stride 2026-11-25/agl-skill 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/dmc-5 2026-11-25/doppelvet 2026-11-25/expguard 2026-11-25/fin-rsi 2026-11-25/habitats 2026-11-25/harness2 2026-11-25/harnessmm 2026-11-25/item-136 2026-11-25/item-64 2026-11-25/lce 2026-11-25/mmmem 2026-11-25/mxi-memicl 2026-11-25/notary 2026-11-25/reharness 2026-11-25/self-upgrading-embodied-agents 2026-11-25/sleep 2026-11-25/spatialcraft 2026-11-25/stun-bench 2026-11-25/toolsmith 2026-11-25/vise 2026-11-25/wactorz 2026-11-26/agnes-harness 2026-11-26/autorlbench-rl 2026-11-26/nightwatch 2026-11-26/partagent 2026-11-26/sim -->
+<!-- experience-seen: 2026-11-19/arise 2026-11-19/graft 2026-11-19/guard 2026-11-19/item-48 2026-11-19/openkage 2026-11-19/qda 2026-11-19/resolution-hypothesis 2026-11-19/retriever-perceiver-reasoner 2026-11-19/scaffold 2026-11-19/sch 2026-11-19/score 2026-11-20/agnes-harness 2026-11-20/brain 2026-11-20/cyber-physical-rsi 2026-11-20/driftguard 2026-11-20/grepmem 2026-11-20/item-34 2026-11-20/item-76 2026-11-20/sigame 2026-11-20/skilldiff 2026-11-20/skillplumber 2026-11-20/system-one-rsi 2026-11-21/space-x 2026-11-21/startv-agent 2026-11-23/alps-lab 2026-11-23/astronautbench 2026-11-23/bel 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/medicalrsi 2026-11-23/zhulong-se 2026-11-24/don-t-train-it-write-it 2026-11-24/engram 2026-11-24/evovim 2026-11-24/io-ai 2026-11-24/mlevolver 2026-11-24/scape 2026-11-24/semantic-pid-rsi-pid 2026-11-24/skilllens 2026-11-24/stride 2026-11-25/agl-skill 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/dmc-5 2026-11-25/doppelvet 2026-11-25/expguard 2026-11-25/fin-rsi 2026-11-25/habitats 2026-11-25/harness2 2026-11-25/harnessmm 2026-11-25/item-136 2026-11-25/item-64 2026-11-25/lce 2026-11-25/mmmem 2026-11-25/mxi-memicl 2026-11-25/notary 2026-11-25/reharness 2026-11-25/self-upgrading-embodied-agents 2026-11-25/sleep 2026-11-25/spatialcraft 2026-11-25/stun-bench 2026-11-25/toolsmith 2026-11-25/vise 2026-11-25/wactorz 2026-11-26/agnes-harness 2026-11-26/autorlbench-rl 2026-11-26/dualpm 2026-11-26/egse 2026-11-26/evolink-bench 2026-11-26/irtiqa 2026-11-26/item-39 2026-11-26/knowledge-base-gradient-descent 2026-11-26/leto 2026-11-26/metadecomp 2026-11-26/nightwatch 2026-11-26/p-fedskill 2026-11-26/partagent 2026-11-26/precept 2026-11-26/roboevo 2026-11-26/scalpel-and-brush 2026-11-26/sed 2026-11-26/sim 2026-11-26/skillsbench 2026-11-26/sports-agent 2026-11-26/vsft -->
 <!-- research-experience:end -->
 
 ## 相关工作

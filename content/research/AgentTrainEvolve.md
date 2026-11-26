@@ -43,7 +43,8 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **可验证环境闭环**：扩展训练任务前，先保证环境可执行、结果可验证，并用执行反馈自动修复缺陷；否则规模只会放大噪声。
+1. **可验证环境闭环**：扩展训练任务前，先保证环境可执行，并用反事实实例或执行证据验证语义、自动修复缺陷；否则规模只会放大奖励巧合与噪声。
+   - [CF Reward：反事实执行防奖励作弊](../../updates/2026-11-26/#cf-reward) · 2026-11-26
    - [VADE：专业源可验证任务合成](../../updates/2026-11-25/#vade) · 2026-11-25
    - [SWE-Gym-Verified：执行证据式数据审计](../../updates/2026-11-25/#swe-gym-verified) · 2026-11-25
    - [Online Environment Repair：在线修复验证环境](../../updates/2026-11-25/#online-environment-repair) · 2026-11-25
@@ -75,7 +76,8 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
    - [终端长程任务的真实深度测量与合成](../../updates/2026-11-03/#item-30) · 2026-11-03
    - [Trajectory2Gym：面向工具使用智能体的决策驱动交互合成](../../updates/2026-10-29/#trajectory2gym) · 2026-10-29
    - [可控环境合成揭示工具使用智能体缩放定律](../../updates/2026-10-29/#item-58) · 2026-10-29
-3. **信息增益课程**：优先采样能力边界、低覆盖或仍可能改变结果的任务，并从关键状态分支；用中间进度定位瓶颈加练，同时监测价值排序与表征多样性退化。
+3. **信息增益课程**：优先采样能力边界、低覆盖或仍可能改变结果的任务，并为弱能力保留机会配额；从关键状态分支，用中间进度定位瓶颈，同时监测价值排序与表征多样性退化。
+   - [FEAST：公平高效自适应采样](../../updates/2026-11-26/#feast) · 2026-11-26
    - [ReFocus：进度引导式瓶颈加练](../../updates/2026-11-25/#refocus) · 2026-11-25
    - [WEIR：分水岭探索与前缀收缩](../../updates/2026-11-23/#weir) · 2026-11-23
    - [Depth Before Breadth：反向课程与优势分解](../../updates/2026-11-20/#depth-before-breadth) · 2026-11-20
@@ -95,7 +97,8 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
    - [SWE-Trail：历史引导的编码智能体轨迹收集](../../updates/2026-11-04/#swe-trail) · 2026-11-04
    - [GUI 智能体的高效自适应训练：学习位置与 rollout 范围联合优化](../../updates/2026-10-30/#gui-rollout) · 2026-10-30
    - [ConCal：通过续程共享校准长程智能体动作价值](../../updates/2026-10-29/#concal) · 2026-10-29
-5. **长程信用细化**：终局奖励应按证据增益、语义阶段或责任模块下沉到关键动作与词元，并用过程判断、回合验证或反事实结果校准，避免统一回传与隐式长度加权。
+5. **长程信用细化**：终局奖励应按证据增益、语义阶段或责任模块下沉到关键动作。全局失败时可用当前策略续跑估值局部选项，并以过程判断或反事实结果校准。
+   - [SPLICE：学习者条件选项拼接](../../updates/2026-11-26/#splice) · 2026-11-26
    - [RLVB：可验证信念奖励决策时机](../../updates/2026-11-25/#rlvb) · 2026-11-25
    - [MSPO：模块特定信用分配](../../updates/2026-11-25/#mspo) · 2026-11-25
    - [FGL：修复器似然引导代码定位](../../updates/2026-11-25/#fgl) · 2026-11-25
@@ -122,6 +125,7 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
    - [WorkRover：递归环境演化扩展长程协同智能体训练](../../updates/2026-10-30/#workrover) · 2026-10-30
    - [ConCal：通过续程共享校准长程智能体动作价值](../../updates/2026-10-29/#concal) · 2026-10-29
 6. **训练要素共演**：开放式任务中，观测、数据、奖励与脚手架应随策略能力共演；分解目标发现与奖励实现，并门控失活信号，避免固定结构耗尽优化空间。
+   - [Sports Agent：反馈驱动闭环自进化](../../updates/2026-11-26/#sports-agent) · 2026-11-26
    - [Habitats：开放式智能体目标演化](../../updates/2026-11-25/#habitats) · 2026-11-25
    - [Sage-Evolve-Preview：自适应观测驱动持续改进](../../updates/2026-11-20/#sage-evolve-preview) · 2026-11-20
    - [Piccolo：模型数据协同自进化](../../updates/2026-11-20/#piccolo) · 2026-11-20
@@ -132,7 +136,8 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
    - [ORSD：动态过程准则驱动的特权词元级信用分配](../../updates/2026-11-06/#orsd) · 2026-11-06
    - [Self-Evolving Rubrics：自进化准则驱动强化学习](../../updates/2026-11-02/#self-evolving-rubrics) · 2026-11-02
    - [RACE：策略与评分准则的奖励自适应协同演化](../../updates/2026-10-30/#race) · 2026-10-30
-7. **分工通信共演**：多智能体训练可用客观共享结果与时限让分工、通信和评审自主涌现；零数据时让异构角色共演并验证任务，但监督问责仍需单独奖励。
+7. **分工通信共演**：多智能体训练可用客观共享结果与时限让分工、通信和评审自主涌现；零数据可让异构角色共演，但长期互审须奖励验证证据，防止结果奖励诱发合谋。
+   - [PROVE：证据驱动的协议强化](../../updates/2026-11-26/#prove) · 2026-11-26
    - [多玩家社交游戏：可验证社会智能训练](../../updates/2026-11-25/#item-63) · 2026-11-25
    - [Avalon-M1：集体奖励组织训练](../../updates/2026-11-25/#avalon-m1) · 2026-11-25
    - [s³：通过协作式多智能体强化学习扩展智能体群体](../../updates/2026-11-12/#item-215) · 2026-11-12
@@ -140,6 +145,7 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
    - [ZEST-Search：零标签异构协同演化训练工具高效搜索智能体](../../updates/2026-10-30/#zest-search) · 2026-10-30
    - [The Trinity：能力驱动的多模态智能体递归自我改进](../../updates/2026-10-29/#the-trinity) · 2026-10-29
 8. **失败恢复训练**：多轮RL的主要增益常是错误恢复而非单步知识；应把失败现场、恢复示范和续跑结果显式纳入训练。
+   - [SPLICE：学习者条件选项拼接](../../updates/2026-11-26/#splice) · 2026-11-26
    - [DeLoop：重复动作自监督脱环](../../updates/2026-11-17/#deloop) · 2026-11-17
    - [SteerDistill：闭环教师引导的 LLM 智能体量化](../../updates/2026-11-13/#steerdistill-llm) · 2026-11-13
    - [TopoVerus：基于学习反例与课程奖励的形式化证明修复](../../updates/2026-11-12/#topoverus) · 2026-11-12
@@ -147,10 +153,13 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
    - [Harness-S：从同源脚手架学习实现可泛化智能体训练](../../updates/2026-11-06/#harness-s) · 2026-11-06
    - [多轮强化学习究竟提升了 LLM 智能体的什么能力？](../../updates/2026-11-05/#llm-3) · 2026-11-05
    - [ReTerm：让Code Agent从失败恢复中递归自我改进](../../updates/2026-11-04/#reterm-code-agent) · 2026-11-04
-9. **预算混合训练**：长程策略要在不同交互预算和渐进式rollout范围上混合训练，避免单一预算优化削弱部署约束变化时的稳健性。
+9. **预算混合训练**：长程或跨域策略要混合交互预算与渐进式rollout范围，并按领域和掌握程度配额梯度与探索样本；单一预算或强域主导会损害部署稳健性。
+   - [Maco-RL：配额调度与三缓冲采样](../../updates/2026-11-26/#maco-rl) · 2026-11-26
    - [多轮强化学习究竟提升了 LLM 智能体的什么能力？](../../updates/2026-11-05/#llm-3) · 2026-11-05
    - [GUI 智能体的高效自适应训练：学习位置与 rollout 范围联合优化](../../updates/2026-10-30/#gui-rollout) · 2026-10-30
-10. **在策略经验蒸馏**：蒸馏应在学生实际访问的状态上，用环境结果校准自然语言求助或渐撤工具提供的监督，并确保轨迹只依赖部署可见信息；仅拟合教师词元会掩盖退化。
+10. **在策略经验蒸馏**：蒸馏应在学生实际访问的状态上，以执行证据校准动作或自然语言监督，并确保轨迹只依赖部署可见信息；无需复制隐藏思维链，逐词拟合教师反而会掩盖退化。
+    - [CoT-Proxy：跨格式长程策略蒸馏](../../updates/2026-11-26/#cot-proxy) · 2026-11-26
+    - [CARE-OPD：覆盖采集与证据回放](../../updates/2026-11-26/#care-opd) · 2026-11-26
     - [CGSI：上下文对齐技能内化](../../updates/2026-11-25/#cgsi) · 2026-11-25
     - [Tool-to-Self：视觉工具能力内化](../../updates/2026-11-24/#tool-to-self) · 2026-11-24
     - [ADAPT：成本感知求助后训练](../../updates/2026-11-24/#adapt) · 2026-11-24
@@ -168,7 +177,8 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
     - [MDSKILL：多视图蒸馏实现技能记忆内化与智能体自进化](../../updates/2026-11-06/#mdskill) · 2026-11-06
     - [稳定智能体强化学习中的在策略定向引导](../../updates/2026-11-06/#item-53) · 2026-11-06
     - [ActionOPD：面向智能体决策的动作级在策略蒸馏](../../updates/2026-11-01/#actionopd) · 2026-11-01
-11. **轨迹预热强化**：先用可执行、技能塑形且覆盖部署接口的轨迹SFT建立行为先验，成功样本也须筛除坏习惯；再用执行奖励RL通常比直接长程RL更稳。
+11. **轨迹预热强化**：先用可执行、技能塑形且覆盖部署接口的轨迹SFT建立行为先验，工具样本须保留体现调用优势的调用前推理；筛除成功轨迹中的坏习惯后再做执行奖励RL。
+    - [PRIOR：调用前推理保留工具能力](../../updates/2026-11-26/#prior) · 2026-11-26
     - [Harness Rehearsal：任务与接口能力解耦](../../updates/2026-11-25/#harness-rehearsal) · 2026-11-25
     - [AutoMaster：技能引导式自主后训练](../../updates/2026-11-20/#automaster) · 2026-11-20
     - [RSI-Prime：决策级损失掩码训练](../../updates/2026-11-19/#rsi-prime) · 2026-11-19
@@ -177,7 +187,8 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
     - [HarnessSQL：面向真实数据库的长程交互 SQL Agent 训练框架](../../updates/2026-11-04/#harnesssql-sql-agent) · 2026-11-04
     - [Trajectory2Gym：面向工具智能体的决策接地交互合成](../../updates/2026-11-03/#trajectory2gym) · 2026-11-03
     - [WorkFactory：将职业意图转化为可执行任务以规模化训练智能体](../../updates/2026-10-29/#workfactory) · 2026-10-29
-12. **递归更新审计**：每轮更新前后应审计能力骤降、表征多样性、验证器盲区及训练—执行策略错位；执行策略不确定时收缩更新，并持续监控作弊与退化。
+12. **递归更新审计**：每轮更新前后应审计能力骤降、表征多样性、验证器盲区及训练—执行错位；按梯度方差等不确定性调组规模或收缩更新，并监控作弊与退化。
+    - [U-Statistics-Powered LLM Reasoning：悲观估计自适应组规模](../../updates/2026-11-26/#u-statistics-powered-llm-reasoning) · 2026-11-26
     - [Online Environment Repair：在线修复验证环境](../../updates/2026-11-25/#online-environment-repair) · 2026-11-25
     - [EPRO：不完美预测下的鲁棒策略优化](../../updates/2026-11-25/#epro) · 2026-11-25
     - [AgriManager：农业策略模式迁移评测](../../updates/2026-11-24/#agrimanager) · 2026-11-24
@@ -204,6 +215,7 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
     - [BuggyMLE：可控注错扩展工程难度](../../updates/2026-11-20/#buggymle) · 2026-11-20
     - [终端长程任务的真实深度测量与合成](../../updates/2026-11-03/#item-30) · 2026-11-03
 15. **部署经验飞轮**：将真实执行与用户反馈按后续轨迹增益及对当前优化的边际贡献策展，经技能验证、修复和分阶段再训练形成飞轮；仅内化验证通过且梯度方向有益的经验。
+    - [vSFT：语言监督式测试时调优](../../updates/2026-11-26/#vsft) · 2026-11-26
     - [E2L：梯度对齐经验演化](../../updates/2026-11-25/#e2l) · 2026-11-25
     - [From Acting to Learning：优化器感知梯度选样](../../updates/2026-11-23/#from-acting-to-learning) · 2026-11-23
     - [Terminal-RSI：递归改写与策略精炼](../../updates/2026-11-17/#terminal-rsi) · 2026-11-17
@@ -216,7 +228,7 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
     - [NorthCUA：以规模化经验加速计算机操作智能体](../../updates/2026-11-04/#northcua) · 2026-11-04
     - [CUA-Master：开放世界双循环递归改进计算机使用智能体](../../updates/2026-11-04/#cua-master) · 2026-11-04
     - [百度搜索通过在线反馈闭环实现递归自我进化](../../updates/2026-11-01/#item-1) · 2026-11-01
-<!-- experience-seen: 2026-11-18/axion-1-0-sft 2026-11-18/jev-as-a-reward 2026-11-18/nemotron-3-5-super 2026-11-18/optimistic-verifiers 2026-11-18/repofactory 2026-11-18/swe-opd 2026-11-18/xing-4 2026-11-19/ash 2026-11-19/copd 2026-11-19/crossenv 2026-11-19/eca 2026-11-19/rsi-prime 2026-11-19/seed 2026-11-19/waterfall 2026-11-20/automaster 2026-11-20/buggymle 2026-11-20/depth-before-breadth 2026-11-20/evo-harness 2026-11-20/game2player 2026-11-20/item-73 2026-11-20/piccolo 2026-11-20/sage-evolve-preview 2026-11-20/stability-gap 2026-11-21/silicongym-eda 2026-11-21/zerovln 2026-11-23/ctrl-gpu 2026-11-23/dm-prm 2026-11-23/from-acting-to-learning 2026-11-23/search-rsi 2026-11-23/sh-prm 2026-11-23/weir 2026-11-24/adapt 2026-11-24/agrimanager 2026-11-24/duopra 2026-11-24/stride 2026-11-24/tool-to-self 2026-11-25/avalon-m1 2026-11-25/cgsi 2026-11-25/co-graft 2026-11-25/e2l 2026-11-25/epro 2026-11-25/fgl 2026-11-25/habitats 2026-11-25/harness-rehearsal 2026-11-25/item-20 2026-11-25/item-63 2026-11-25/jko-grpo-wasserstein 2026-11-25/mspo 2026-11-25/online-environment-repair 2026-11-25/refocus 2026-11-25/rlvb 2026-11-25/swe-gym-verified 2026-11-25/vade -->
+<!-- experience-seen: 2026-11-19/ash 2026-11-19/copd 2026-11-19/crossenv 2026-11-19/eca 2026-11-19/rsi-prime 2026-11-19/seed 2026-11-19/waterfall 2026-11-20/automaster 2026-11-20/buggymle 2026-11-20/depth-before-breadth 2026-11-20/evo-harness 2026-11-20/game2player 2026-11-20/item-73 2026-11-20/piccolo 2026-11-20/sage-evolve-preview 2026-11-20/stability-gap 2026-11-21/silicongym-eda 2026-11-21/zerovln 2026-11-23/ctrl-gpu 2026-11-23/dm-prm 2026-11-23/from-acting-to-learning 2026-11-23/search-rsi 2026-11-23/sh-prm 2026-11-23/weir 2026-11-24/adapt 2026-11-24/agrimanager 2026-11-24/duopra 2026-11-24/stride 2026-11-24/tool-to-self 2026-11-25/avalon-m1 2026-11-25/cgsi 2026-11-25/co-graft 2026-11-25/e2l 2026-11-25/epro 2026-11-25/fgl 2026-11-25/habitats 2026-11-25/harness-rehearsal 2026-11-25/item-20 2026-11-25/item-63 2026-11-25/jko-grpo-wasserstein 2026-11-25/mspo 2026-11-25/online-environment-repair 2026-11-25/refocus 2026-11-25/rlvb 2026-11-25/swe-gym-verified 2026-11-25/vade 2026-11-26/care-opd 2026-11-26/cf-reward 2026-11-26/cot-proxy 2026-11-26/feast 2026-11-26/maco-rl 2026-11-26/prior 2026-11-26/prove 2026-11-26/splice 2026-11-26/sports-agent 2026-11-26/u-statistics-powered-llm-reasoning 2026-11-26/vsft -->
 <!-- research-experience:end -->
 
 ## 相关工作

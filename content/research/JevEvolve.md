@@ -86,6 +86,7 @@ toc = true
    - [Glance：生成器即重排器](../../updates/2026-10-30/#glance) · 2026-10-30
    - [GUI-JEPA：基于候选条件潜变量的移动端 GUI 智能体快速动作策略](../../updates/2026-10-29/#gui-jepa-gui) · 2026-10-29
 4. **逐域校准验证**：准确率与校准随任务和部署分布变化；阈值须在真实日志上按方言、字段和候选数分层重测，不能沿用平均指标或考试集结论。
+   - [Lost in Translation：多语言决策校准](../../updates/2026-11-26/#lost-in-translation) · 2026-11-26
    - [Jev分诊评测：概率式急诊早识别](../../updates/2026-11-25/#jev-2) · 2026-11-25
    - [OmniDecisionBench：多模态决策可靠性评测](../../updates/2026-11-24/#omnidecisionbench) · 2026-11-24
    - [多语言情绪分类：决策模型零样本评测](../../updates/2026-11-23/#item-26) · 2026-11-23
@@ -162,7 +163,8 @@ toc = true
     - [Microsoft-Decision-1.1：校准置信度与弃权](../../updates/2026-11-18/#microsoft-decision-1-1) · 2026-11-18
     - [ZeroPoint：轻量级能量决策模型](../../updates/2026-11-12/#zeropoint) · 2026-11-12
     - [决策模型充当编程智能体策略门：显式边界提升风险检测并减少误报](../../updates/2026-11-06/#item-131) · 2026-11-06
-12. **结构化语义输入**：记忆应按决策效用而非表面相似度检索；标签、原子问题与工具返回应显式表达语义，变长标识仍须联合建模长度和内容。
+12. **结构化语义输入**：记忆应按决策效用检索，长期任务按事件谱系保留时序证据并抽象程序；标签、原子问题、工具返回及变长标识须显式建模语义、长度与内容。
+    - [Procedure Memory：情节驱动的程序记忆](../../updates/2026-11-26/#procedure-memory) · 2026-11-26
     - [Needwise：免生成需求级决策](../../updates/2026-11-25/#needwise) · 2026-11-25
     - [DKnown-Jev-2：篇章级答案证据分类](../../updates/2026-11-25/#dknown-jev-2) · 2026-11-25
     - [Jetriever：效用驱动记忆检索](../../updates/2026-11-18/#jetriever) · 2026-11-18
@@ -198,7 +200,7 @@ toc = true
     - [RELOAD：通过层循环扩展类型化决策模型推理](../../updates/2026-11-08/#reload) · 2026-11-08
 15. **日志反馈校准**：只有已选动作反馈时，应采用适合日志化Bandit的评分规则训练决策头，避免把未观测候选当负例，并同步监控校准与选择性风险。
     - [基于日志化 Bandit 反馈学习校准决策头](../../updates/2026-11-13/#bandit) · 2026-11-13
-<!-- experience-seen: 2026-11-18/conserved-verdicts 2026-11-18/deciding-without-pointing 2026-11-18/jetriever 2026-11-18/jev-as-a-reward 2026-11-18/jevrsi 2026-11-18/karpo-decision 2026-11-18/mai 2026-11-18/microsoft-decision-1-1 2026-11-18/train-after-you-measure 2026-11-19/anys1 2026-11-19/flcva 2026-11-19/item-53 2026-11-19/item-54 2026-11-19/ragharnessdebugger-jev 2026-11-19/system-1 2026-11-19/vanguard 2026-11-20/agnes-harness 2026-11-20/drift 2026-11-20/glide 2026-11-20/item-80 2026-11-20/looproute 2026-11-20/mm-systemonebias 2026-11-20/piccolo 2026-11-20/rigel-ladon 2026-11-20/sirius-tiamat 2026-11-20/system-one-rsi 2026-11-23/altair-nidhogg 2026-11-23/dm-prm 2026-11-23/item-26 2026-11-23/jevrisk 2026-11-23/lever 2026-11-23/so-arena 2026-11-24/adapt 2026-11-24/molrejev 2026-11-24/omnidecisionbench 2026-11-25/antares-smaug 2026-11-25/catway 2026-11-25/deciform 2026-11-25/decision-models 2026-11-25/dknown-jev-2 2026-11-25/eeg-jev 2026-11-25/eegjev 2026-11-25/geodecisions 2026-11-25/item-128 2026-11-25/jev-2 2026-11-25/jevagentharness-jev 2026-11-25/jevbench 2026-11-25/needwise 2026-11-25/prefill1 2026-11-25/s1arena-mm 2026-11-25/tree-attention 2026-11-25/voyag -->
+<!-- experience-seen: 2026-11-19/anys1 2026-11-19/flcva 2026-11-19/item-53 2026-11-19/item-54 2026-11-19/ragharnessdebugger-jev 2026-11-19/system-1 2026-11-19/vanguard 2026-11-20/agnes-harness 2026-11-20/drift 2026-11-20/glide 2026-11-20/item-80 2026-11-20/looproute 2026-11-20/mm-systemonebias 2026-11-20/piccolo 2026-11-20/rigel-ladon 2026-11-20/sirius-tiamat 2026-11-20/system-one-rsi 2026-11-23/altair-nidhogg 2026-11-23/dm-prm 2026-11-23/item-26 2026-11-23/jevrisk 2026-11-23/lever 2026-11-23/so-arena 2026-11-24/adapt 2026-11-24/molrejev 2026-11-24/omnidecisionbench 2026-11-25/antares-smaug 2026-11-25/catway 2026-11-25/deciform 2026-11-25/decision-models 2026-11-25/dknown-jev-2 2026-11-25/eeg-jev 2026-11-25/eegjev 2026-11-25/geodecisions 2026-11-25/item-128 2026-11-25/jev-2 2026-11-25/jevagentharness-jev 2026-11-25/jevbench 2026-11-25/needwise 2026-11-25/prefill1 2026-11-25/s1arena-mm 2026-11-25/tree-attention 2026-11-25/voyag 2026-11-26/lost-in-translation 2026-11-26/procedure-memory -->
 <!-- research-experience:end -->
 
 ## 相关工作
