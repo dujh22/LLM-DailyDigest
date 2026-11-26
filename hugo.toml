@@ -301,6 +301,11 @@ enableEmoji = true
   [module.hugoVersion]
     extended = true
     min = '0.110.0'
+  # 论文复现：规范说明不渲染为页面；cache/ 为即用即下的数据 / 模型缓存，不参与构建（见 content/papers/README.md）
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
+    excludeFiles = ['papers/README.md', 'papers/**/cache/**']
 
 # -------------------------------------------------------------------------------------
 # Markup

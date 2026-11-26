@@ -1,0 +1,116 @@
+{{- define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end -}}
+
+{{- define "content" -}}
+  {{- $params := .Scratch.Get "params" -}}
+  {{- $toc := .Scratch.Get "toc" -}}
+  {{- $prog := partial "papers/progress.html" . -}}
+  {{- /* 路径 papers/<研究>/<类别>/<短语>/ */ -}}
+  {{- $parts := split (strings.TrimSuffix "/" .File.Dir) "/" -}}
+  {{- $research := index $parts 1 -}}
+  {{- $category := index $parts 2 -}}
+  {{- $tree := printf "%s/tree/main/content/%s" .Site.Params.gitRepo (strings.TrimSuffix "/" .File.Dir) -}}
+
+  <aside class="toc" id="toc-auto">
+    {{- $tocEmpty := eq .TableOfContents `<nav id="TableOfContents"></nav>` -}}
+    {{- if (ne $toc.enable false) | and (ne $tocEmpty true) -}}
+      <h2 class="toc-title">
+        {{- T "single.contents" -}}&nbsp;
+        {{- dict "Class" "toc-icon fa-solid fa-angle-down fa-fw" | partial "plugin/icon.html" -}}
+      </h2>
+      <div class="toc-content" id="toc-content-auto"></div>
+    {{- end -}}
+  </aside>
+
+  <aside class="aside-custom">
+    {{- partial (.Scratch.Get "customFilePath").aside . -}}
+  </aside>
+
+  <article class="page single">
+    <div class="header">
+      <h1 class="single-title animate__animated animate__flipInX"><span>{{- .Title -}}</span></h1>
+    </div>
+
+    <div class="post-meta">
+      <div class="post-meta-line">
+        <span title="所属研究">{{- dict "Class" "fa-solid fa-flask fa-fw me-1" | partial "plugin/icon.html" -}}<a href="{{ relURL (printf "research/%s/" (lower $research)) }}">{{ $research }}</a></span>&nbsp;
+        <span title="类别">{{- dict "Class" "fa-solid fa-layer-group fa-fw me-1" | partial "plugin/icon.html" -}}{{ $category }}</span>&nbsp;
+        <span title="笔记最后修改">{{- dict "Class" "fa-regular fa-clock fa-fw me-1" | partial "plugin/icon.html" -}}{{ .Lastmod.Format "2006-01-02" }}</span>
+      </div>
+    </div>
+
+    {{- /* 复现进度卡：进度 + 已完成 + 下一步 */ -}}
+    <div class="repro-card">
+      <div class="repro-card-head"><b>复现进度</b> {{ partial "papers/progress-bar.html" $prog }}</div>
+      <ul class="repro-steps">
+        {{- range $prog.steps -}}
+          <li class="{{ if .done }}done{{ end }}">{{ if .done }}✅{{ else }}⬜{{ end }} {{ .pct }}% · {{ .name }}</li>
+        {{- end -}}
+      </ul>
+      {{- with $prog.next -}}<p class="repro-next"><b>下一步：</b>{{ . }}</p>{{- else -}}<p class="repro-next"><b>已完成</b>：一次复现，终身复用。</p>{{- end -}}
+      <p class="repro-links">
+        {{- with .Params.paper -}}<a href="{{ . }}" target="_blank" rel="noopener">{{- dict "Class" "fa-solid fa-file-lines fa-fw" | partial "plugin/icon.html" -}}论文</a>{{- end -}}
+        {{- with .Params.code -}}<a href="{{ . }}" target="_blank" rel="noopener">{{- dict "Class" "fa-brands fa-github fa-fw" | partial "plugin/icon.html" -}}官方代码</a>{{- end -}}
+        {{- with .Params.paper_en -}}<a href="{{ . }}" target="_blank" rel="noopener">英文原文</a>{{- end -}}
+        {{- with .Params.paper_zh -}}<a href="{{ . }}" target="_blank" rel="noopener">中文译文</a>{{- end -}}
+      </p>
+      {{- with .Params.reused_by -}}
+        <p class="repro-links"><b>被研究二次利用：</b>
+          {{- range . -}}<a href="{{ relURL (printf "research/%s/" (lower .)) }}">{{ . }}</a>{{- end -}}
+        </p>
+      {{- end -}}
+    </div>
+
+    {{- /* 归档文件：按 paper / resources / repro 分组列出；PDF 直接在站内打开（只有被引用的资源才会发布），
+         其余（代码、md、配置）跳 GitHub 查看；resources/README.md 作为资源索引直接渲染 */ -}}
+    {{- $blob := replace $tree "/tree/main/" "/blob/main/" -}}
+    <div class="repro-files">
+      {{- range slice (slice "paper" "论文") (slice "resources" "可复用资源") (slice "repro" "个人复现") -}}
+        {{- $dir := index . 0 -}}{{- $label := index . 1 -}}
+        {{- $files := slice -}}
+        {{- range $.Resources.Match (printf "%s/**" $dir) -}}
+          {{- if not (hasPrefix (path.Base .Name) ".") -}}{{- $files = $files | append . -}}{{- end -}}
+        {{- end -}}
+        <details class="repro-dir"{{ if $files }} open{{ end }}>
+          <summary>{{- dict "Class" "fa-regular fa-folder-open fa-fw" | partial "plugin/icon.html" -}} {{ $dir }}/ · {{ $label }} <sup>{{ len $files }}</sup>
+            <a href="{{ $tree }}/{{ $dir }}" target="_blank" rel="noopener" class="repro-gh" title="在 GitHub 查看目录">{{- dict "Class" "fa-brands fa-github fa-fw" | partial "plugin/icon.html" -}}</a></summary>
+          {{- with $files -}}
+            <ul>
+              {{- range . -}}
+                {{- /* .md 资源的 .Name 会被 Hugo 转小写，用原始路径拼 GitHub 链接 */ -}}
+                {{- $name := .Name -}}
+                {{- if eq .ResourceType "page" -}}{{- $name = strings.TrimPrefix $.File.Dir .File.Path -}}{{- end -}}
+                {{- $rel := strings.TrimPrefix (printf "%s/" $dir) $name -}}
+                {{- if eq (lower (path.Ext .Name)) ".pdf" -}}
+                  <li>{{- dict "Class" "fa-regular fa-file-pdf fa-fw" | partial "plugin/icon.html" -}} <a href="{{ .RelPermalink }}" target="_blank" rel="noopener">{{ $rel }}</a>
+                    <a href="{{ $blob }}/{{ $name | replaceRE " " "%20" }}" target="_blank" rel="noopener" class="repro-gh" title="GitHub">{{- dict "Class" "fa-brands fa-github fa-fw" | partial "plugin/icon.html" -}}</a></li>
+                {{- else -}}
+                  <li>{{- dict "Class" "fa-regular fa-file-lines fa-fw" | partial "plugin/icon.html" -}} <a href="{{ $blob }}/{{ $name | replaceRE " " "%20" }}" target="_blank" rel="noopener">{{ $rel }}</a></li>
+                {{- end -}}
+              {{- end -}}
+            </ul>
+          {{- else -}}<p class="repro-empty">（空）</p>{{- end -}}
+          {{- if eq $dir "resources" -}}{{- with $.Resources.GetMatch "resources/README.md" -}}
+            <div class="repro-index content">{{ .Content }}</div>
+          {{- end -}}{{- end -}}
+        </details>
+      {{- end -}}
+    </div>
+
+    {{- /* Static TOC */ -}}
+    {{- if (ne $toc.enable false) | and (ne $tocEmpty true) -}}
+      <div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>{{- T "single.contents" -}}</span>
+          {{- dict "Class" "details-icon fa-solid fa-angle-right" | partial "plugin/icon.html" -}}
+        </div>
+        <div class="details-content toc-content" id="toc-content-static">{{- .TableOfContents -}}</div>
+      </div>
+    {{- end -}}
+
+    <div class="content" id="content">
+      {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+    </div>
+
+    {{- partial "single/comment.html" . -}}
+  </article>
+{{- end -}}

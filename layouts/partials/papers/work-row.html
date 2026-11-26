@@ -1,0 +1,7 @@
+{{- /* 复现工作一行：标题 + 进度条 + 下一步 */ -}}
+{{- $prog := partial "papers/progress.html" . -}}
+<article class="repro-row">
+  <a href="{{ .RelPermalink }}" class="archive-item-link">{{ .Title }}</a>
+  <span>{{ partial "papers/progress-bar.html" $prog }}</span>
+  <span class="repro-row-next">{{ with $prog.next }}下一步：{{ . }}{{ else }}已完成{{ end }}</span>
+</article>

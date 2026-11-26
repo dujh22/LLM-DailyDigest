@@ -1,0 +1,39 @@
+{{- /*
+  复现工作进度（content/papers/<研究>/<类别>/<短语>/index.md 的 leaf bundle）。
+  里程碑按顺序累计，前一档未达成则后续不计：
+    0%   已注册
+    20%  paper/ 下中英文论文齐全（文件名以 en / zh 结尾，如 en.pdf、zh.pdf；或 front matter paper_en / paper_zh 外链）
+    40%  resources/ 已整理（数据 / 代码 / 模型索引，非占位文件）
+    60%  repro/ 有个人复现新增内容
+    80%  front matter reused_by 记录了被哪些 content/research 研究二次利用
+    100% 已达 80% 且笔记超过 365 天无变化（以 index.md 的 git 最后修改时间为准）
+  返回 dict：percent / steps（每档 name、done）/ next（下一步说明，100% 时为空）
+*/ -}}
+{{- $p := . -}}
+{{- $real := slice -}}
+{{- range $p.Resources -}}
+  {{- $base := path.Base .Name -}}
+  {{- if not (or (hasPrefix $base ".") (eq $base "index.md")) -}}{{- $real = $real | append .Name -}}{{- end -}}
+{{- end -}}
+{{- $en := or $p.Params.paper_en (gt (len ($p.Resources.Match "paper/*en.*")) 0) -}}
+{{- $zh := or $p.Params.paper_zh (gt (len ($p.Resources.Match "paper/*zh.*")) 0) -}}
+{{- $res := false -}}{{- $rep := false -}}
+{{- range $real -}}
+  {{- if hasPrefix . "resources/" -}}{{- $res = true -}}{{- end -}}
+  {{- if hasPrefix . "repro/" -}}{{- $rep = true -}}{{- end -}}
+{{- end -}}
+{{- $reused := gt (len ($p.Params.reused_by | default slice)) 0 -}}
+{{- $days := div (sub now.Unix $p.Lastmod.Unix) 86400 -}}
+{{- $steps := slice
+  (dict "pct" 20 "name" "中英文论文归档" "done" (and $en $zh) "todo" "在 paper/ 放入英文原文 en.pdf 与中文译文 zh.pdf（或在 front matter 填 paper_en / paper_zh 链接）")
+  (dict "pct" 40 "name" "可复用资源整理" "done" $res "todo" "在 resources/ 整理数据 / 模型索引与代码（大文件只写下载脚本，即用即下）")
+  (dict "pct" 60 "name" "个人复现新增" "done" $rep "todo" "把自己复现时新增的代码 / 配置 / 结果放入 repro/，并在笔记「复现记录」写结果对照")
+  (dict "pct" 80 "name" "研究二次利用" "done" $reused "todo" "在 front matter reused_by 登记利用了本工作的研究（content/research 下的名字）")
+  (dict "pct" 100 "name" "稳定沉淀" "done" (and $reused (ge $days 365)) "todo" (printf "保持 365 天无变化即视为完成（当前已 %d 天）" $days))
+-}}
+{{- $percent := 0 -}}{{- $next := "" -}}{{- $broken := false -}}
+{{- range $steps -}}
+  {{- if and .done (not $broken) -}}{{- $percent = .pct -}}
+  {{- else if not $broken -}}{{- $broken = true -}}{{- $next = .todo -}}{{- end -}}
+{{- end -}}
+{{- return (dict "percent" $percent "steps" $steps "next" $next "days" $days) -}}

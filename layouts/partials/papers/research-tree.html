@@ -1,0 +1,20 @@
+{{- /* 某研究下的复现树：类别 → 具体工作。入参 dict name（研究名）、page（papers/<研究> 节页，可为 nil） */ -}}
+{{- $page := .page -}}
+{{- $works := cond (ne $page nil) (where $page.RegularPagesRecursive "Layout" "repro") slice -}}
+<details class="repro-tree"{{ if $works }} open{{ end }}>
+  <summary>
+    {{- dict "Class" "fa-solid fa-flask fa-fw" | partial "plugin/icon.html" -}}
+    {{ with $page }}<a href="{{ .RelPermalink }}">{{ $.name }}</a>{{ else }}{{ .name }}{{ end }}<sup>{{ len $works }}</sup>
+  </summary>
+  {{- if $works -}}
+    {{- range slice "data" "method" "eval" "other" -}}
+      {{- $cat := $page.GetPage . -}}
+      {{- with $cat -}}{{- with where .RegularPages "Layout" "repro" -}}
+        <h4 class="repro-cat"><a href="{{ $cat.RelPermalink }}">{{ path.Base $cat.File.Dir }}</a><sup>{{ len . }}</sup></h4>
+        {{- range . -}}{{- partial "papers/work-row.html" . -}}{{- end -}}
+      {{- end -}}{{- end -}}
+    {{- end -}}
+  {{- else -}}
+    <p class="repro-empty">暂无复现工作，用 <code>python3 tools/repro.py new {{ .name }} &lt;data|method|eval|other&gt; &lt;短语&gt;</code> 注册。</p>
+  {{- end -}}
+</details>

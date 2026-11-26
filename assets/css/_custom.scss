@@ -249,3 +249,29 @@ $single-link-hover-color-dark: $brand-accent !default;
 .exp-item[open] > summary::after { transform: rotate(90deg); }
 .exp-count { font-size: .8rem; opacity: .65; margin-left: .5rem; white-space: nowrap; }
 .exp-item > ul { margin-top: .35rem; font-size: .92rem; }
+
+/* 论文复现树与进度（见 layouts/papers/、layouts/partials/papers/） */
+.repro-bar { display: inline-block; width: 6rem; height: .5rem; border-radius: 999px; vertical-align: middle;
+  background: rgba(128, 128, 128, .2); overflow: hidden;
+  > span { display: block; height: 100%; background: linear-gradient(90deg, #6366f1, #a855f7); } }
+.repro-pct { font-size: .8rem; margin-left: .35rem; font-variant-numeric: tabular-nums; }
+.repro-card { border: 1px solid rgba(128, 128, 128, .25); border-radius: 10px; padding: .7rem 1rem; margin: 1rem 0;
+  .repro-bar { width: 12rem; }
+  p { margin: .4rem 0; }
+}
+.repro-steps { list-style: none; padding: 0; margin: .5rem 0; display: flex; flex-wrap: wrap; gap: .3rem 1rem;
+  font-size: .88rem; li { opacity: .55; } li.done { opacity: 1; } }
+.repro-links { font-size: .88rem; a { margin-right: .8rem; } }
+.repro-tree { margin: .4rem 0; > summary { cursor: pointer; font-weight: 600; } }
+.repro-cat { margin: .5rem 0 .2rem 1rem; font-size: .9rem; }
+.repro-row { padding: .25rem 0 .25rem 2rem; display: grid; grid-template-columns: minmax(8rem, 14rem) 9rem 1fr;
+  align-items: center; gap: .2rem 1rem;
+  @media (max-width: 680px) { grid-template-columns: 1fr auto; .repro-row-next { grid-column: 1 / -1; } } }
+.repro-row-next { font-size: .82rem; opacity: .7; }
+.repro-empty { padding-left: 2rem; font-size: .85rem; opacity: .65; }
+.repro-files { margin: 1rem 0; font-size: .9rem;
+  .repro-dir { margin: .3rem 0; > summary { cursor: pointer; font-weight: 600; } }
+  ul { margin: .3rem 0 .5rem; padding-left: 1.6rem; list-style: none; }
+  .repro-gh { opacity: .55; margin-left: .3rem; }
+  .repro-index { margin: .3rem 0 .6rem 1.6rem; padding: .3rem .8rem; border-left: 3px solid rgba(99, 102, 241, .5); }
+}

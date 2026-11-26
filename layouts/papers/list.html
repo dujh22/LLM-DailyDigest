@@ -1,0 +1,35 @@
+{{- define "title" -}}{{- .Title }} - {{ .Site.Title -}}{{- end -}}
+
+{{- /*
+  论文 / 复现树：papers/<研究>/<data|method|eval|other>/<短语>/index.md。
+  根页按 _index.md 的 active_research 顺序列出在研研究；研究 / 类别页列出其子树。
+  根目录下的独立 md（非复现 bundle）作为「论文笔记」照常列出。
+*/ -}}
+{{- define "content" -}}
+  {{- $params := .Scratch.Get "params" -}}
+  <div class="page archive">
+    {{- with .Content -}}<div class="content">{{ dict "Content" . "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML }}</div>
+    {{- else -}}<h2 class="single-title animate__animated animate__pulse animate__faster">{{ $.Title }}</h2>{{- end -}}
+
+    {{- $depth := len (split (strings.TrimSuffix "/" .File.Dir) "/") -}}
+    {{- if eq $depth 1 -}}
+      <h3 class="group-title">复现工作</h3>
+      {{- range .Params.active_research -}}
+        {{- partial "papers/research-tree.html" (dict "name" . "page" ($.GetPage .)) -}}
+      {{- end -}}
+      {{- with .RegularPages -}}
+        <h3 class="group-title">论文笔记</h3>
+        {{- range . -}}
+          <article class="archive-item">
+            <a href="{{ .RelPermalink }}" class="archive-item-link">{{ .Title }}</a>
+            <span class="archive-item-date">{{ .Date | dateFormat "2006-01-02" }}</span>
+          </article>
+        {{- end -}}
+      {{- end -}}
+    {{- else if eq $depth 2 -}}
+      {{- partial "papers/research-tree.html" (dict "name" (path.Base .File.Dir) "page" .) -}}
+    {{- else -}}
+      {{- range where .RegularPages "Layout" "repro" -}}{{- partial "papers/work-row.html" . -}}{{- end -}}
+    {{- end -}}
+  </div>
+{{- end -}}
