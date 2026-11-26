@@ -32,7 +32,7 @@
 
     <div class="post-meta">
       <div class="post-meta-line">
-        <span title="所属研究">{{- dict "Class" "fa-solid fa-flask fa-fw me-1" | partial "plugin/icon.html" -}}<a href="{{ relURL (printf "research/%s/" (lower $research)) }}">{{ $research }}</a></span>&nbsp;
+        <span title="所属研究">{{- dict "Class" "fa-solid fa-flask fa-fw me-1" | partial "plugin/icon.html" -}}{{ if eq $research "未归档" }}未归档{{ else }}<a href="{{ relURL (printf "research/%s/" (lower $research)) }}">{{ $research }}</a>{{ end }}</span>&nbsp;
         <span title="类别">{{- dict "Class" "fa-solid fa-layer-group fa-fw me-1" | partial "plugin/icon.html" -}}{{ $category }}</span>&nbsp;
         <span title="笔记最后修改">{{- dict "Class" "fa-regular fa-clock fa-fw me-1" | partial "plugin/icon.html" -}}{{ .Lastmod.Format "2006-01-02" }}</span>
       </div>

@@ -3,6 +3,16 @@ title = '无需训练的循环 Transformer'
 date = 2026-08-26T00:00:00+08:00
 draft = false
 toc = true
+layout = 'repro'
+aliases = ['/papers/training-free-looped-transformers/']   # 迁入复现树前的旧地址
+paper = 'https://arxiv.org/abs/2605.23872'
+code = ''
+paper_en = ''
+paper_zh = ''
+reused_by = []
+
+[build]
+  publishResources = false
 
 [extra]
 paper = 'https://arxiv.org/abs/2605.23872'

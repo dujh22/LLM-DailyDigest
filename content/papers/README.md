@@ -8,7 +8,7 @@
 ```
 content/papers/
 ├── _index.md                     # 栏目首页；active_research 决定根页展示哪些在研研究及顺序
-├── <研究>/                       # 第一层：content/research/ 下的文件名（区分大小写）
+├── <研究>/                       # 第一层：content/research/ 下的文件名（区分大小写）；或「未归档」
 │   ├── _index.md
 │   └── <data|method|eval|other>/ # 第二层：数据 / 方法 / 评测 / 其他
 │       ├── _index.md
@@ -18,10 +18,11 @@ content/papers/
 │           ├── resources/        # 可复用资源：数据 / 模型索引、官方代码、下载脚本
 │           ├── repro/            # 个人复现过程中新增的东西：代码、配置、环境锁定、结果、日志
 │           └── cache/            # 即用即下的数据 / 模型（git 与 Hugo 均忽略，可随时删）
-└── *.md                          # 历史的单篇论文笔记（非复现），照常作为「论文笔记」列出
 ```
 
 当前在研：EvolveLLM、Awesome-RSI、LogicEvolve、EvolveLRM、EvalEvolve、DataEvolve、Groom、HarnessEvolve、SwarmEvolve、CVTransformer、JevEvolve（改 `_index.md` 的 `active_research` 即可增删）。
+
+还没确定属于哪个研究的工作放 `未归档/`，确定后整个目录 `git mv` 到对应研究下（在 front matter `aliases` 留旧地址）。
 
 一个工作只注册一次，放在**最初引入它的研究**下；其他研究复用时登记到 `reused_by`，不要复制目录。
 

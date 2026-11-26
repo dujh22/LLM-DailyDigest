@@ -17,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PAPERS = ROOT / "content" / "papers"
 RESEARCH = ROOT / "content" / "research"
+UNFILED = "未归档"  # 第一层特例：尚未确定归属研究的工作，确定后整个目录 git mv 到对应研究下
 CATEGORIES = ("data", "method", "eval", "other")
 CATEGORY_DESC = {"data": "数据", "method": "方法", "eval": "评测", "other": "其他"}
 SUBDIRS = ("paper", "resources", "repro", "cache")
@@ -44,7 +45,7 @@ reused_by = []     # 被哪些 content/research 研究二次利用，如 ['Evolv
 - **论文**：{paper}
 - **代码**：{code}
 - **作者 / 机构 / 发表**：
-- **所属研究**：[{research}](/research/{research_lower}/) · {category}（{category_desc}）
+- **所属研究**：{research_link} · {category}（{category_desc}）
 
 ## 论文要点
 
@@ -113,8 +114,8 @@ def ensure_section(path: Path, title: str):
 
 
 def cmd_new(a):
-    if a.research not in research_names():
-        sys.exit(f"未知研究：{a.research}（须为 content/research/ 下的文件名，区分大小写）")
+    if a.research not in research_names() | {UNFILED}:
+        sys.exit(f"未知研究：{a.research}（须为 content/research/ 下的文件名，区分大小写；未定归属用 {UNFILED}）")
     if a.category not in CATEGORIES:
         sys.exit(f"类别须为 {'/'.join(CATEGORIES)}")
     if not SLUG_RE.match(a.slug):
@@ -129,7 +130,8 @@ def cmd_new(a):
         (work / d / ".gitkeep").touch()
     (work / "index.md").write_text(NOTE_TEMPLATE.format(
         title=(a.title or a.slug).replace("'", "’"), date=now_str(), paper=a.paper, code=a.code,
-        research=a.research, research_lower=a.research.lower(), category=a.category,
+        research=a.research, category=a.category,
+        research_link=a.research if a.research == UNFILED else f"[{a.research}](/research/{a.research.lower()}/)",
         category_desc=CATEGORY_DESC[a.category], today=dt.date.today().isoformat(),
     ), encoding="utf-8")
     print(f"已注册：{work.relative_to(ROOT)}")
@@ -173,7 +175,7 @@ def cmd_check(_):
         work = work.parent
         research, category = work.parts[-3], work.parts[-2]
         rel = work.relative_to(ROOT)
-        if research not in names:
+        if research not in names | {UNFILED}:
             errors.append(f"{rel}：研究名 {research} 不在 content/research/")
         if category not in CATEGORIES:
             errors.append(f"{rel}：类别 {category} 不合法")

@@ -3,8 +3,8 @@ title = '论文'
 date = 2026-08-07T00:00:00+08:00
 draft = false
 toc = true
-# 复现树根页按此顺序展示「在研」研究（须为 content/research/ 下的文件名）
-active_research = ['EvolveLLM', 'Awesome-RSI', 'LogicEvolve', 'EvolveLRM', 'EvalEvolve', 'DataEvolve', 'Groom', 'HarnessEvolve', 'SwarmEvolve', 'CVTransformer', 'JevEvolve']
+# 复现树根页按此顺序展示「在研」研究（须为 content/research/ 下的文件名；「未归档」放尚未确定归属的工作）
+active_research = ['EvolveLLM', 'Awesome-RSI', 'LogicEvolve', 'EvolveLRM', 'EvalEvolve', 'DataEvolve', 'Groom', 'HarnessEvolve', 'SwarmEvolve', 'CVTransformer', 'JevEvolve', '未归档']
 +++
 
 # 论文

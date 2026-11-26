@@ -3,6 +3,16 @@ title = 'RSIHub：一种用于智能体演进方法的可组合框架'
 date = 2026-10-23T00:00:00+08:00
 draft = false
 toc = true
+layout = 'repro'
+aliases = ['/papers/rsihub/']   # 迁入复现树前的旧地址
+paper = 'https://arxiv.org/abs/2610.32253'
+code = ''
+paper_en = ''
+paper_zh = ''
+reused_by = []
+
+[build]
+  publishResources = false
 
 [extra]
 paper = 'https://arxiv.org/abs/2610.32253'
