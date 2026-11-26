@@ -118,7 +118,8 @@ toc = true
 12. **推理数据去冗余**：从自生成轨迹中保留最短正确路径，或构造状态条件停止偏好，可在基本不降准确率时压缩推理开销。
     - [Concise-9B：去除推理轨迹中的冗余思考](../../updates/2026-11-06/#concise-9b) · 2026-11-06
     - [LoCo：基于本地偏好学习的推理压缩](../../updates/2026-11-05/#loco) · 2026-11-05
-13. **蒸馏先修分布失配**：自蒸馏应让监督处于学生可恢复或可校准的分布；可用可教前缀、相关易题共识、环境结果校准或自生成简报减轻教师信号失真。
+13. **先修监督分布失配**：稀缺或蒸馏监督应先落在学生可恢复的分布；可用相关易题、前置变换任务、可教前缀或环境校准，提高少样本学习效率。
+    - [ThinkMorph-SSL：前置任务扩展交错推理](../../updates/2026-11-26/#thinkmorph-ssl) · 2026-11-26
     - [STONE：踏脚石式无标签自蒸馏](../../updates/2026-11-17/#stone) · 2026-11-17
     - [B-OPSD：自生成简报蒸馏](../../updates/2026-11-17/#b-opsd) · 2026-11-17
     - [ECOS：环境校准的智能体在策略自蒸馏](../../updates/2026-11-12/#ecos) · 2026-11-12
@@ -136,7 +137,7 @@ toc = true
     - [PhysLoop：以 LLM 物理认知驱动视频生成模型自我改进](../../updates/2026-11-14/#physloop-llm) · 2026-11-14
     - [EDGAR：以合成失败样本高效优化高斯化身](../../updates/2026-11-08/#edgar) · 2026-11-08
     - [PROVE：自博弈视觉-语言验证器的组合理解训练](../../updates/2026-11-06/#prove) · 2026-11-06
-<!-- experience-seen: 2026-11-18/item-59 2026-11-19/rsi-prime 2026-11-19/tabdag 2026-11-19/tcp4d-tcp 2026-11-20/automaster 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/logt 2026-11-20/piccolo 2026-11-21/egocaptioner 2026-11-23/from-acting-to-learning 2026-11-23/item-49 2026-11-24/thrifty 2026-11-25/daisy 2026-11-25/e2l 2026-11-25/glm-5-5-rsi 2026-11-25/item-20 2026-11-25/item-90 2026-11-25/swe-gym-verified 2026-11-25/vade 2026-11-25/veritouch -->
+<!-- experience-seen: 2026-11-19/rsi-prime 2026-11-19/tabdag 2026-11-19/tcp4d-tcp 2026-11-20/automaster 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/logt 2026-11-20/piccolo 2026-11-21/egocaptioner 2026-11-23/from-acting-to-learning 2026-11-23/item-49 2026-11-24/thrifty 2026-11-25/daisy 2026-11-25/e2l 2026-11-25/glm-5-5-rsi 2026-11-25/item-20 2026-11-25/item-90 2026-11-25/swe-gym-verified 2026-11-25/vade 2026-11-25/veritouch 2026-11-26/thinkmorph-ssl -->
 <!-- research-experience:end -->
 
 ## 相关工作
