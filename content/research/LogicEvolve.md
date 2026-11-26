@@ -30,18 +30,24 @@ toc = true
 ## 自研洞察
 
 <!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+
 *（待人工补充）*
+
 <!-- human-only:end 自研洞察 -->
 
 ## 自研经验
 
-<!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
-*（待人工补充）*
+<!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -
+
+1. 面对一道几何铺砖问题时，系统把核心挑战归约为布尔可满足性（SAT）问题，然后用PySAT库求解
+2. 啥是Agent Team？其实就是团队分工，Mavis这有三个角色：Leader负责统筹全局，Worker负责具体执行，Verifier负责验收质量。
+
 <!-- human-only:end 自研经验 -->
 
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+
 1. **验证器反馈闭环**：可形式化任务宜采用“生成—局部验证—约束反馈—修复”闭环；确定性检查器比笼统自我反思更能阻断错误传播。
    - [FOL-Proof：确定性语义验证](../../updates/2026-11-26/#fol-proof) · 2026-11-26
    - [TopoVerus：基于学习反例与课程奖励的形式化证明修复](../../updates/2026-11-12/#topoverus) · 2026-11-12
@@ -106,12 +112,15 @@ toc = true
     - [RRE：以演化推理图推进累积式数学研究](../../updates/2026-11-06/#rre) · 2026-11-06
 13. **显式工具接口**：隐式思维链接入工具时，应插入少量可观测、可控制的显式状态标记，避免工具调用依赖不可审计的潜在推理。
     - [TAC-CoT：交错显式 Token 增强工具化隐式思维链](../../updates/2026-11-06/#tac-cot-token) · 2026-11-06
+
 <!-- experience-seen: 2026-11-19/colombo 2026-11-20/astra 2026-11-20/verifiable-logic 2026-11-21/claude-lean 2026-11-21/space-x 2026-11-23/claude 2026-11-23/item-7 2026-11-23/navier-stokes-claude-lean 2026-11-23/orion 2026-11-24/item-67 2026-11-24/lean 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/vp-vnp-ai-lean 2026-11-26/fol-proof 2026-11-26/merlin-bench 2026-11-26/openai-math-ai -->
+
 <!-- research-experience:end -->
 
 ## 相关工作
 
 **代码 / 框架**
+
 - [Logic-LLM](https://github.com/teacherpeterpan/Logic-LLM) — 用符号化求解器增强 LLM 逻辑推理
 - [mem-kk-logic](https://github.com/AlphaPav/mem-kk-logic) — LLM 逻辑推理中的记忆研究（本站已 fork）
 - [SE-Agent](https://github.com/JARVIS-Xs/SE-Agent) — LLM 代码智能体自进化框架
@@ -123,6 +132,7 @@ toc = true
 - [Neuro-Symbolic Large Models](https://llm-symbol.github.io/) — 符号引导 LLM 推理资源页
 
 **论文**
+
 - [LogicVista: Multimodal LLM Logical Reasoning Benchmark](https://arxiv.org/abs/2407.04973)
 - [Making Large Language Models Better Reasoners with Alignment](https://arxiv.org/abs/2309.02144)
 - [R-Zero: Self-Evolving Reasoning LLM from Zero Data](https://arxiv.org/abs/2508.05004) — 零数据自进化推理（被引 157）

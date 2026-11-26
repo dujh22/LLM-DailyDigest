@@ -30,18 +30,27 @@ toc = true
 ## 自研洞察
 
 <!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
-*（待人工补充）*
+
+1. 脚手架在建筑完工后会被拆除。随着模型改进，Harness的复杂性应该降低。Manus在六个月内重写了五次，每次重写都在去除复杂性。复杂的工具定义变成了通用的shell执行，「管理agent」变成了简单的结构化移交
+2. TerminalBench的证据很清楚：只改变Harness，就能让agent的排名移动20个以上的位次。
+
 <!-- human-only:end 自研洞察 -->
 
 ## 自研经验
 
 <!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
-*（待人工补充）*
+
+1. Deepseek Harness 的 Trajectory 分析页面
+2. 为了能与真实世界的反馈对齐，采用与 Terminal-Bench 同源的 Harbor 容器化隔离架构，将 Agent 代码沙箱与仿真/验证后端彻底隔开
+3. 在 LLM API 调用层插入代理网关，在 token 级别捕获完整的执行轨迹
+4. 理想的harness是完全不需要人工介入的
+
 <!-- human-only:end 自研经验 -->
 
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+
 1. **终局成功不等于有效**：成功率会掩盖中间失效、冗余动作和偶然恢复；应联合评估终态、步骤合法性与轨迹质量，并检验过程分数相对结果、成本和行为统计的增量信息。
    - [端点条件化过程增益评估](../../updates/2026-11-25/#item-133) · 2026-11-25
    - [二维推理：语义图量化推理忠实与效率](../../updates/2026-11-24/#item-67) · 2026-11-24
@@ -135,7 +144,9 @@ toc = true
     - [Transport-Safe Evaluation：轨迹感知的随时有效审计](../../updates/2026-11-25/#transport-safe-evaluation) · 2026-11-25
     - [Verification Transport：抽象边界验证迁移](../../updates/2026-11-16/#verification-transport) · 2026-11-16
     - [EnvOS：动态环境下计算机使用智能体的审计与证据评估](../../updates/2026-10-30/#envos) · 2026-10-30
+
 <!-- experience-seen: 2026-11-19/done-but-still-working 2026-11-19/evidence-interpretation 2026-11-19/item-36 2026-11-19/item-47 2026-11-19/l2c 2026-11-19/ragharnessdebugger-jev 2026-11-19/score 2026-11-21/item-24 2026-11-24/item-67 2026-11-25/item-108 2026-11-25/item-133 2026-11-25/jevagentharness-jev 2026-11-25/transport-safe-evaluation 2026-11-26/recordroute -->
+
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -29,18 +29,23 @@ toc = true
 ## 自研洞察
 
 <!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+
 *（待人工补充）*
+
 <!-- human-only:end 自研洞察 -->
 
 ## 自研经验
 
 <!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
-*（待人工补充）*
+
+1. 直接基于 Pi 或者 Claude 或者 OpenAI 的 Agent SDK 封装，甚至把一个已经跑的还不错的 Agent 拷贝下来去魔改，都不是困难的事情。
+
 <!-- human-only:end 自研经验 -->
 
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+
 1. **模型接口耦合**：固定模型跨Harness比较会混淆接口上限与策略适配；应报告同接口横比、跨接口迁移矩阵及模型—Harness联合升级曲线。
    - [RoboEvo²：脚手架策略协同进化](../../updates/2026-11-26/#roboevo) · 2026-11-26
    - [ShellBench：真实日常智能体评测](../../updates/2026-11-25/#shellbench) · 2026-11-25
@@ -85,7 +90,7 @@ toc = true
    - [STCG：检测过度规定测试](../../updates/2026-11-25/#stcg) · 2026-11-25
    - [EviCraft：证据闭包式具身评测](../../updates/2026-11-25/#evicraft) · 2026-11-25
    - [MASSys：服务基底敏感性评测](../../updates/2026-11-24/#massys) · 2026-11-24
-   - [Benchmarks' Last Exam：逐任务评测审计](../../updates/2026-11-23/#benchmarks-last-exam) · 2026-11-23
+   - [Benchmarks&#39; Last Exam：逐任务评测审计](../../updates/2026-11-23/#benchmarks-last-exam) · 2026-11-23
    - [MobileGym-Lite：完整覆盖与功能裁剪](../../updates/2026-11-19/#mobilegym-lite) · 2026-11-19
    - [ForecastGym：可回放证据控制评测](../../updates/2026-11-19/#forecastgym) · 2026-11-19
    - [智能体脚手架剖析：不变量驱动测试](../../updates/2026-11-17/#item-78) · 2026-11-17
@@ -288,12 +293,15 @@ toc = true
     - [智能体恢复审计：公开报告证据评估](../../updates/2026-11-24/#item-60) · 2026-11-24
     - [AgentFaultBench：状态验证式故障恢复评测](../../updates/2026-11-17/#agentfaultbench) · 2026-11-17
     - [ReTrace：以目标导向动作重放评测计算机操作智能体恢复能力](../../updates/2026-11-04/#retrace) · 2026-11-04
+
 <!-- experience-seen: 2026-11-19/codex 2026-11-19/evidence-interpretation 2026-11-19/forceharness 2026-11-19/forecastgym 2026-11-19/graft 2026-11-19/guard 2026-11-19/item-36 2026-11-19/item-49 2026-11-19/l2c 2026-11-19/mobilegym-lite 2026-11-19/ragharnessdebugger-jev 2026-11-19/scaffold 2026-11-19/videonexus 2026-11-20/agnes-harness 2026-11-20/ahe-beta 2026-11-20/basersi 2026-11-20/everydaybench 2026-11-20/evo-harness 2026-11-20/harness 2026-11-20/item-60 2026-11-20/meta-rtl-rtl 2026-11-20/sage-evolve-preview 2026-11-23/benchmarks-last-exam 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/hookevo 2026-11-23/item-10 2026-11-23/medicalrsi 2026-11-23/roha-sgg 2026-11-23/splitbench 2026-11-24/autopilot 2026-11-24/harnessdev 2026-11-24/hoh 2026-11-24/hyperharness 2026-11-24/item-60 2026-11-24/massys 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/rlm-27b 2026-11-25/agent 2026-11-25/agl-skill 2026-11-25/ai-harness 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/glm-5-5-rsi 2026-11-25/harness-rehearsal 2026-11-25/harness2 2026-11-25/harnessmm 2026-11-25/harnesspro 2026-11-25/item-108 2026-11-25/item-128 2026-11-25/item-136 2026-11-25/jevagentharness-jev 2026-11-25/mini-psych-agent 2026-11-25/online-environment-repair 2026-11-25/oo-harness 2026-11-25/reharness 2026-11-25/roboharness-zero 2026-11-25/rvlm-x 2026-11-25/shellbench 2026-11-25/siren 2026-11-25/stcg 2026-11-25/tare 2026-11-25/toolsmith 2026-11-25/transport-safe-evaluation 2026-11-25/video-relook 2026-11-26/agnes-harness 2026-11-26/autorlbench-rl 2026-11-26/delegent 2026-11-26/harness-learning 2026-11-26/home 2026-11-26/metaforge 2026-11-26/nightwatch 2026-11-26/pax 2026-11-26/report-inconsistency 2026-11-26/roboevo 2026-11-26/skillsbench 2026-11-26/transharness -->
+
 <!-- research-experience:end -->
 
 ## 相关工作
 
 **代码 / 框架**
+
 - [lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness) — LM 少样本评测框架（本站已 fork）
 - [SWELancer-Benchmark](https://github.com/openai/SWELancer-Benchmark) — 前沿模型软件工程评测
 - [SWE-bench_Pro-os](https://github.com/scaleapi/SWE-bench_Pro-os) — 长周期软件工程任务
@@ -309,6 +317,7 @@ toc = true
 - [CORE-Bench](https://github.com/princeton-nlp/CORE-Bench) — 计算可复现性 Agent 基准（270 任务）
 
 **论文**
+
 - [SWE-bench Goes Live!](https://arxiv.org/abs/2505.23419)
 - [SWE-agent: Agent-Computer Interfaces Enable Automated SE (NeurIPS 2024)](https://arxiv.org/abs/2405.15793) — ACI 设计将性能提升 3 倍
 - [SWE-Bench++: A Framework for Scalable Generation](https://arxiv.org/abs/2512.17419) — 可扩展多语言 SWE-bench 改进（被引 22）
@@ -327,4 +336,5 @@ toc = true
 - [Establishing Best Practices for Rigorous Agentic Benchmarks](https://arxiv.org/abs/2507.02825) — 10 个 Agent benchmark 方法论审计
 
 **博客**
+
 - [Harness Engineering: How Interface Design Quietly Tripled AI Coding Performance](https://pub.towardsai.net/harness-engineering-how-interface-design-quietly-tripled-ai-coding-performance-swe-8f08e80eba9b) — ACI 深度解析

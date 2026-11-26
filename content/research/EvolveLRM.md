@@ -29,18 +29,25 @@ toc = true
 ## 自研洞察
 
 <!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+
 *（待人工补充）*
+
 <!-- human-only:end 自研洞察 -->
 
 ## 自研经验
 
 <!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
-*（待人工补充）*
+
+1. 直接基于 Pi 或者 Claude 或者 OpenAI 的 Agent SDK 封装，甚至把一个已经跑的还不错的 Agent 拷贝下来去魔改，都不是困难的事情。
+2. 在Qwen3系列的四个参数规模（1.7B、4B、8B、14B），泛化并非SFT目标的固定属性，而是优化充分度、数据质量与结构、以及基模型能力共同作用的产物。
+3. 记忆是用 Markdown 存的；检索用的是 SQLite；结构通过 AX Tree 暴露出来；你可以读、可以改、可以迁移；LangGraph将状态建模为流经图节点的类型字典，用reducer合并更新。
+
 <!-- human-only:end 自研经验 -->
 
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+
 1. **稀疏奖励先破零**：困难题若整组采样全错，标准RLVR没有有效信号；先用相关易题、策略兼容引导或局部纠正制造足量成功事件，再逐步撤除辅助。
    - [DART：不确定性引导轨迹改写](../../updates/2026-11-26/#dart) · 2026-11-26
    - [成功组数预测强化学习起飞](../../updates/2026-11-20/#item-44) · 2026-11-20
@@ -173,12 +180,15 @@ toc = true
 15. **群体估计控偏稳方差**：奖励依赖同组答案时，GRPO基线会扭曲协作目标；应采用无偏组目标，并按悲观方差估计自适应调整组规模。
     - [U-Statistics-Powered LLM Reasoning：悲观估计自适应组规模](../../updates/2026-11-26/#u-statistics-powered-llm-reasoning) · 2026-11-26
     - [群体依赖奖励下，GRPO会演变为零和锦标赛](../../updates/2026-11-06/#grpo) · 2026-11-06
+
 <!-- experience-seen: 2026-11-19/ash 2026-11-19/eca 2026-11-19/option-grpo 2026-11-20/budget-internalization 2026-11-20/item-44 2026-11-20/item-65 2026-11-20/item-80 2026-11-20/multiagentbench 2026-11-20/openai-rsi 2026-11-20/rlcdr 2026-11-20/roam-grpo 2026-11-21/pair-med 2026-11-23/creditfilter 2026-11-23/ctrl-gpu 2026-11-23/dm-prm 2026-11-23/item-25 2026-11-23/item-49 2026-11-23/item-53 2026-11-23/sh-prm 2026-11-23/structure-over-scale 2026-11-24/pbpt 2026-11-24/thrifty 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/item-123 2026-11-25/item-56 2026-11-25/mspo 2026-11-25/pmopd 2026-11-25/tt-rsi 2026-11-25/vopd 2026-11-26/briar 2026-11-26/dart 2026-11-26/u-statistics-powered-llm-reasoning -->
+
 <!-- research-experience:end -->
 
 ## 相关工作
 
 **代码 / 框架**
+
 - [R-Zero](https://github.com/Chengsong-Huang/R-Zero) — 从零数据自进化的推理 LLM（ICLR 2026）
 - [SE-Agent](https://github.com/JARVIS-Xs/SE-Agent) — 智能体自进化框架
 - [DeepScaleR](https://github.com/agentica-project/deepscaler) — 小模型大推理 RL 训练框架，1.5B 模型在 AIME 超越 o1
@@ -187,6 +197,7 @@ toc = true
 - [self-improvement-llm](https://github.com/Zesearch/self-improvement-llm) — 系统级自我改进语言模型技术整理
 
 **论文**
+
 - [LLM Reasoning Abilities Under Non-Ideal Conditions After RL-Fine-Tuning](https://arxiv.org/abs/2508.04848)
 - [The Impact of Quantization on Large Reasoning Model RL](https://arxiv.org/abs/2511.15694)
 - [A Survey on Self-Evolution of Large Language Models](https://arxiv.org/abs/2404.14387) — LLM 自我进化方法综述
