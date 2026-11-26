@@ -46,6 +46,7 @@ toc = true
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **实机闭环搜索**：算子和引擎优化应以真实硬件上的正确性、吞吐与时延作保留门槛；自动迭代已能稳定超过人工精调。
+   - [EvolonAI：机器反馈驱动算力自进化](../../updates/2026-11-26/#evolonai) · 2026-11-26
    - [Performance Factory：Codex自动修复性能回归](../../updates/2026-11-20/#performance-factory-codex) · 2026-11-20
    - [Claude Mythos：三天自动适配AMD内核](../../updates/2026-11-18/#claude-mythos-amd) · 2026-11-18
    - [Mobile AI Factory：手机感知式模型定制](../../updates/2026-11-17/#mobile-ai-factory) · 2026-11-17
@@ -140,7 +141,7 @@ toc = true
 15. **安全有状态沙箱**：生产级编程智能体应以最小权限隔离不可信操作，并原生支持状态持久化、回滚、分岔和迁移；无状态执行不足以承载长程任务。
     - [Codex 沙箱：跨平台权限隔离](../../updates/2026-11-19/#codex) · 2026-11-19
     - [CubeSandbox：状态化微虚拟机沙箱](../../updates/2026-11-18/#cubesandbox) · 2026-11-18
-<!-- experience-seen: 2026-10-29/agent-sol-execbench-88 2026-10-29/clawsgo-science-lean 2026-10-29/evolving-agent-teams 2026-10-29/forgekernel 2026-10-30/dolphinrouting-pd 2026-10-30/formulaic-ai 2026-10-30/glance 2026-10-30/tao-llm 2026-10-31/forgekernel-deepseek-flashmla-9-8 2026-11-03/thinker-sim 2026-11-05/llm 2026-11-05/rsigym 2026-11-05/seed 2026-11-06/compressionbench-llm 2026-11-06/halley-ai 2026-11-06/iquestrt-3-agent 2026-11-06/kernelseek-gpu 2026-11-06/lark-lean-llm-gpu-kernel 2026-11-06/modelblaster 2026-11-06/serverbench-llm 2026-11-06/specpilot 2026-11-08/hst-llm 2026-11-12/autoqs 2026-11-12/bitdecoding-fp4-fp4-kv 2026-11-12/bunshinrl 2026-11-12/engineagent 2026-11-12/ernie-evolve-5-5-flash 2026-11-12/flide 2026-11-12/foscar-2-4-bit-kv-cache 2026-11-12/infrarsi 2026-11-12/infrathon-ai 2026-11-12/item-108 2026-11-12/item-19 2026-11-12/item-27 2026-11-12/nccl-bot-nccl 2026-11-12/ridgefill-prefill 2026-11-12/rtl 2026-11-12/worldfoundry 2026-11-13/autoassumption-ml 2026-11-13/evolving-infra-llm 2026-11-13/kernelmosaic-cuda-kernel 2026-11-13/npu-kv 2026-11-14/no-second-run-rsi-801-30b-a3b 2026-11-14/singularity-bench 2026-11-16/ascendgym 2026-11-16/callo-kv 2026-11-16/paged-state-gated-deltanet 2026-11-16/singularity-bench-ai 2026-11-17/compoundingkernel 2026-11-17/llms-for-ai-infrastructure 2026-11-17/mobile-ai-factory 2026-11-18/claude-mythos-amd 2026-11-18/cubesandbox 2026-11-18/re-reading-is-not-free 2026-11-18/xing-4 2026-11-19/codex 2026-11-19/gemma-4-k-v-cache 2026-11-19/loopcache-kv 2026-11-19/ppa 2026-11-19/qda 2026-11-19/rsibench-infra 2026-11-20/performance-factory-codex 2026-11-20/singularity-bench-ai 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-24/dissparse-top-p 2026-11-24/shirudo-ebpf 2026-11-24/uni3sim 2026-11-25/glm-5-5-rsi 2026-11-25/hopper-4-bit-kv 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/noevera -->
+<!-- experience-seen: 2026-11-19/codex 2026-11-19/gemma-4-k-v-cache 2026-11-19/loopcache-kv 2026-11-19/ppa 2026-11-19/qda 2026-11-19/rsibench-infra 2026-11-20/performance-factory-codex 2026-11-20/singularity-bench-ai 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-24/dissparse-top-p 2026-11-24/shirudo-ebpf 2026-11-24/uni3sim 2026-11-25/glm-5-5-rsi 2026-11-25/hopper-4-bit-kv 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/noevera 2026-11-26/evolonai -->
 <!-- research-experience:end -->
 
 ## 相关工作

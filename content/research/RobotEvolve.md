@@ -115,7 +115,8 @@ toc = true
     - [Auto-Robotist：用可复用经验驱动机器人协同设计](../../updates/2026-11-08/#auto-robotist) · 2026-11-08
     - [HTCE：受同胚启发的跨场景导航经验规范化与复用](../../updates/2026-11-06/#htce) · 2026-11-06
     - [CausGround：基于因果交互定位的自适应具身规划](../../updates/2026-10-30/#causground) · 2026-10-30
-11. **多维真实评测**：自进化系统应同时测轨迹目标进展、完成裕度、实时动态、跨本体、真机OOD与工程故障，并做逐动作首错归因；静态二元成功率会掩盖部署缺口。
+11. **多维真实评测**：评测应覆盖目标进展、完成裕度、实时动态、跨本体、真机OOD、工程故障与镜像反事实，并逐动作归因首错；二元成功率会掩盖部署缺口。
+    - [RoboDojo-Mirror：镜像反射鲁棒性评测](../../updates/2026-11-26/#robodojo-mirror) · 2026-11-26
     - [WorldLeague：物理能动性统一评测](../../updates/2026-11-25/#worldleague) · 2026-11-25
     - [RoboLiveMem：动静态配对记忆评测](../../updates/2026-11-25/#robolivemem) · 2026-11-25
     - [MARGIN：近失裕度驱动程序修复](../../updates/2026-11-25/#margin) · 2026-11-25
@@ -134,7 +135,8 @@ toc = true
 13. **离线代理筛选**：可用感觉—运动几何一致性或局部动作一致性预筛表征与检索器，降低训练成本，但仍须用真实成功率校准。
     - [VLA 有多少能力来自 kNN 检索？](../../updates/2026-11-12/#vla-knn) · 2026-11-12
     - [感觉运动对齐：具身策略成功的低成本代理指标](../../updates/2026-10-30/#item-18) · 2026-10-30
-14. **异步实时控制**：高层语义推理与低层控制应异步且可拆卸地解耦，以边界触发、提前停止和单步生成限制时延，避免同步等待破坏闭环。
+14. **异步实时控制**：高层推理、低层控制及可并行部件应异步且可拆卸，仅在物理依赖或技能边界处协调，并用提前停止和单步生成控制时延。
+    - [ACAP：异步多智能体机器人控制](../../updates/2026-11-26/#acap) · 2026-11-26
     - [RoboHarness-Zero：规划控制解耦脚手架](../../updates/2026-11-25/#roboharness-zero) · 2026-11-25
     - [ZeroVLN：语义工具调用免微调导航](../../updates/2026-11-21/#zerovln) · 2026-11-21
     - [DRIFT：可拆卸语言推理驾驶](../../updates/2026-11-20/#drift) · 2026-11-20
@@ -146,7 +148,7 @@ toc = true
     - [OVOGO：离线价值引导生成优化](../../updates/2026-11-25/#ovogo) · 2026-11-25
     - [JKO-GRPO：Wasserstein近端更新](../../updates/2026-11-25/#jko-grpo-wasserstein) · 2026-11-25
     - [强化学习扩展通用机器人策略的多任务改进能力](../../updates/2026-11-06/#item-25) · 2026-11-06
-<!-- experience-seen: 2026-10-29/dwell 2026-10-29/genie-master 2026-10-29/google-deepmind-genie-4 2026-10-29/gym-anything-rt 2026-10-29/pdrvla 2026-10-29/rollback 2026-10-30/causground 2026-10-30/cel 2026-10-30/gym-anything 2026-10-30/huge 2026-10-30/item-18 2026-10-30/item-41 2026-10-30/motubrain-2-0-physical-ai 2026-11-01/item-15 2026-11-01/physicalrsi-1-0-robodojo 2026-11-02/go-3-preview 2026-11-03/hifor 2026-11-03/oswam 2026-11-03/rea 2026-11-03/thinker-sim 2026-11-04/uni-robot-agent-harness 2026-11-05/dreamx 2026-11-05/robocolosseum 2026-11-06/cue 2026-11-06/htce 2026-11-06/item-150 2026-11-06/item-25 2026-11-06/neo-vla 2026-11-06/pyrua-datafarm-llm 2026-11-08/auto-robotist 2026-11-08/item-19 2026-11-08/item-32 2026-11-08/open-humanwam 2026-11-08/sla 2026-11-08/vista 2026-11-12/dexforesight 2026-11-12/embodied-first-exam 2026-11-12/goodhart 2026-11-12/gr00t-2 2026-11-12/himem-3d-vla 2026-11-12/holidayfactory-1-0 2026-11-12/item-202 2026-11-12/lingbot-touch 2026-11-12/llm-8 2026-11-12/simplevo 2026-11-12/vla-knn 2026-11-12/wicl 2026-11-13/spire 2026-11-14/egox 2026-11-14/justrua-gpt-6 2026-11-14/ropedia-xperience-2 2026-11-16/pear 2026-11-16/vla 2026-11-17/agentic-robotics 2026-11-17/item-85 2026-11-17/metaact 2026-11-17/r2a 2026-11-17/robofinals-rl-envs 2026-11-18/sala 2026-11-18/scalevla-vlm-dit 2026-11-19/aerorsi 2026-11-19/heave-ho 2026-11-19/item-40 2026-11-19/robobuilder 2026-11-19/tcp4d-tcp 2026-11-20/coachsi 2026-11-20/drift 2026-11-20/hint-wam 2026-11-20/item-73 2026-11-20/laq 2026-11-21/mind2act-world 2026-11-21/zerovln 2026-11-23/embodied-harness 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/scape 2026-11-25/catway 2026-11-25/cgsi 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/item-117 2026-11-25/jko-grpo-wasserstein 2026-11-25/margin 2026-11-25/motion-mamba-2-0 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/roboharness-zero 2026-11-25/robolivemem 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/veritouch 2026-11-25/vla 2026-11-25/worldleague -->
+<!-- experience-seen: 2026-11-19/aerorsi 2026-11-19/heave-ho 2026-11-19/item-40 2026-11-19/robobuilder 2026-11-19/tcp4d-tcp 2026-11-20/coachsi 2026-11-20/drift 2026-11-20/hint-wam 2026-11-20/item-73 2026-11-20/laq 2026-11-21/mind2act-world 2026-11-21/zerovln 2026-11-23/embodied-harness 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/scape 2026-11-25/catway 2026-11-25/cgsi 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/item-117 2026-11-25/jko-grpo-wasserstein 2026-11-25/margin 2026-11-25/motion-mamba-2-0 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/roboharness-zero 2026-11-25/robolivemem 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/veritouch 2026-11-25/vla 2026-11-25/worldleague 2026-11-26/acap 2026-11-26/robodojo-mirror -->
 <!-- research-experience:end -->
 
 ## 相关工作

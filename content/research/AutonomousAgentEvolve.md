@@ -70,7 +70,7 @@ toc = true
     - [Wactorz：自编写边缘智能体运行时](../../updates/2026-11-25/#wactorz) · 2026-11-25
 11. **任务状态即协作接口**：后台 Agent 应提供可快速恢复的任务表征，让用户间歇检查、调整和接管，而非要求持续监督执行过程。
     - [Calm Agent：间歇注意式交互](../../updates/2026-11-25/#calm-agent) · 2026-11-25
-<!-- experience-seen: 2026-11-17/always-on-agent 2026-11-17/item-1 2026-11-19/item-1 2026-11-19/item-48 2026-11-20/clonact 2026-11-20/dots 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/monitor-api 2026-11-24/grok-bot 2026-11-24/hoh 2026-11-24/skill-state 2026-11-25/calm-agent 2026-11-25/wactorz -->
+<!-- experience-seen: 2026-11-19/item-1 2026-11-19/item-48 2026-11-20/clonact 2026-11-20/dots 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/monitor-api 2026-11-24/grok-bot 2026-11-24/hoh 2026-11-24/skill-state 2026-11-25/calm-agent 2026-11-25/wactorz -->
 <!-- research-experience:end -->
 
 ## 相关工作

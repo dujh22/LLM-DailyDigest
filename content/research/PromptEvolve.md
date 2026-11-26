@@ -80,7 +80,7 @@ toc = true
     - [AutoScaffold：AI 自动生成自适应训练脚手架](../../updates/2026-11-12/#autoscaffold-ai) · 2026-11-12
 13. **专家提示模块化**：将专家能力蒸馏为可拼接软提示，可在不重训骨干的情况下增量扩展，并减少新专家对旧能力的干扰。
     - [CSPD：可组合软提示蒸馏](../../updates/2026-11-25/#cspd) · 2026-11-25
-<!-- experience-seen: 2026-10-29/bipa 2026-10-29/gepa 2026-10-29/gepa-curator 2026-11-03/rubricworld-llm 2026-11-05/legalevolver 2026-11-06/kernelseek-gpu 2026-11-06/promptops-llm 2026-11-08/item-53 2026-11-12/autorefine 2026-11-12/autoscaffold-ai 2026-11-12/finevolvekg 2026-11-14/item-30 2026-11-17/cps-crisp 2026-11-17/critfault 2026-11-17/efficientskill 2026-11-17/splice 2026-11-18/dcps 2026-11-19/resolution-hypothesis 2026-11-19/safe-personal-rsi 2026-11-20/item-60 2026-11-24/item-47 2026-11-25/cspd 2026-11-25/lce 2026-11-25/notary -->
+<!-- experience-seen: 2026-11-18/dcps 2026-11-19/resolution-hypothesis 2026-11-19/safe-personal-rsi 2026-11-20/item-60 2026-11-24/item-47 2026-11-25/cspd 2026-11-25/lce 2026-11-25/notary -->
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -87,7 +87,8 @@ toc = true
    - [Mistral 开放 1T 参数旗舰模型 Large 4 权重](../../updates/2026-10-30/#mistral-1t-large-4) · 2026-10-30
    - [扩散智能发布350亿参数Agent模型Clover-35B-A3B](../../updates/2026-10-30/#350-agent-clover-35b-a3b) · 2026-10-30
    - [蚂蚁百灵开源面向 Personal Agent 的 Ling-3.1-flash-1019](../../updates/2026-10-29/#personal-agent-ling-3-1-flash-1019) · 2026-10-29
-3. **动态分配推理计算**：低延迟模型应按输入、步骤或任务阶段分配计算；潜变量评分、视觉或模型路由、块并行、批量判别和少步蒸馏均优于全程等量计算。
+3. **动态分配推理计算**：低延迟模型应按输入、词元、步骤或任务阶段分配计算；潜变量评分、动态电路、模型路由、块并行和少步蒸馏均优于全程等量计算。
+   - [LoomFormer：逐词元动态重连电路](../../updates/2026-11-26/#loomformer) · 2026-11-26
    - [GLiDE：推理蒸馏单遍决策](../../updates/2026-11-20/#glide) · 2026-11-20
    - [StepRefine：步数感知潜变量精炼](../../updates/2026-11-17/#steprefine) · 2026-11-17
    - [Karpo Decision：单次前向并行决策](../../updates/2026-11-17/#karpo-decision) · 2026-11-17
@@ -130,6 +131,7 @@ toc = true
    - [Motubrain 2.0 开启 Physical AI 全流程训练直播](../../updates/2026-10-30/#motubrain-2-0-physical-ai) · 2026-10-30
    - [HuGe：基于自我中心经验的类人通用视觉-语言-动作模型](../../updates/2026-10-30/#huge) · 2026-10-30
 8. **视觉词元重在预算**：离散视觉表示的瓶颈不是离散化本身，而是有效比特与路由方式；因子化编码并解耦局部细节可逼近连续表示。
+   - [Qwen-Image-HD：分块自回归高清生成](../../updates/2026-11-26/#qwen-image-hd) · 2026-11-26
    - [G-STAR：组缩放 Token 容量实现深度压缩自回归图像生成](../../updates/2026-11-14/#g-star-token) · 2026-11-14
    - [dNaViT：离散编码作为通用视觉表征](../../updates/2026-11-12/#dnavit) · 2026-11-12
    - [SpecSlot：像素空间生成式 Transformer 的角色耦合分词](../../updates/2026-10-31/#specslot-transformer) · 2026-10-31
@@ -139,6 +141,7 @@ toc = true
    - [JEPA 证明并改进柏拉图式表征假说](../../updates/2026-10-31/#jepa) · 2026-10-31
    - [GUI-JEPA：基于候选条件潜变量的移动端 GUI 智能体快速动作策略](../../updates/2026-10-29/#gui-jepa-gui) · 2026-10-29
 10. **多模态统一共享接口**：统一多模态模型应共享骨干、潜空间或输出模式，并保留模态专用接口；仅把独立模块拼接难形成跨任务协同。
+    - [S-Mind：空间令牌内化多视图几何](../../updates/2026-11-26/#s-mind) · 2026-11-26
     - [WeMM-Video：全模态音视频联合推理](../../updates/2026-11-21/#wemm-video) · 2026-11-21
     - [HiUni：共享骨干统一视觉能力](../../updates/2026-11-21/#hiuni) · 2026-11-21
     - [Sage S2.1 Flash：科学感知与可验证执行](../../updates/2026-11-18/#sage-s2-1-flash) · 2026-11-18
@@ -175,7 +178,8 @@ toc = true
     - [OpenAI 发布 GPT-6.1 Terra：电脑操作能力比肩 Astra，成本降至十分之一](../../updates/2026-10-29/#openai-gpt-6-1-terra-astra) · 2026-10-29
     - [Liquid AI 发布 6 款 LFM3 端侧模型，2B 视觉模型追平 12B](../../updates/2026-10-29/#liquid-ai-6-lfm3-2b-12b) · 2026-10-29
     - [GUI-JEPA：基于候选条件潜变量的移动端 GUI 智能体快速动作策略](../../updates/2026-10-29/#gui-jepa-gui) · 2026-10-29
-13. **发布结论分级采信**：仅有厂商基准、限量开放或爆料时，不应据此判定能力边界；需等待可复现实测，并按成本与访问条件比较。
+13. **发布结论分级采信**：仅有厂商基准、限量开放或爆料时，不应据此判定能力边界；需等待可复现实测，并按任务类型、成功任务成本与访问条件比较。
+    - [Gemini 4 Neon：长流程智能体优化](../../updates/2026-11-26/#gemini-4-neon) · 2026-11-26
     - [前沿模型安全失控引发停发讨论](../../updates/2026-11-25/#item-29) · 2026-11-25
     - [Gemini 4 Neon：低成本高分推理](../../updates/2026-11-25/#gemini-4-neon) · 2026-11-25
     - [Hy4：百万上下文开放权重](../../updates/2026-11-21/#hy4) · 2026-11-21
@@ -227,7 +231,7 @@ toc = true
     - [商汤开源循环架构模型 SenseNova Loop-9B-Preview](../../updates/2026-11-03/#sensenova-loop-9b-preview) · 2026-11-03
     - [LARC：统一多模态模型的连续空间潜在推理](../../updates/2026-11-03/#larc) · 2026-11-03
     - [Mistral发布万亿参数开放权重模型Large 4](../../updates/2026-10-31/#mistral-large-4) · 2026-10-31
-<!-- experience-seen: 2026-10-29/ambit-transfusion 2026-10-29/gemini-4-carbon 2026-10-29/google-deepmind-genie-4 2026-10-29/gui-jepa-gui 2026-10-29/hy-nomas 2026-10-29/item-28 2026-10-29/liquid-ai-6-lfm3-2b-12b 2026-10-29/openai-gpt-6-1-terra-astra 2026-10-29/oxr-1-3b-rsi 2026-10-29/pdrvla 2026-10-29/personal-agent-ling-3-1-flash-1019 2026-10-29/unlimited-ocr-2-kv-96 2026-10-30/350-agent-clover-35b-a3b 2026-10-30/falcon 2026-10-30/google-deepmind-gemini-4-carbon 2026-10-30/huge 2026-10-30/mid-training 2026-10-30/minicpm-ocr 2026-10-30/mistral-1t-large-4 2026-10-30/motubrain-2-0-physical-ai 2026-10-31/idm 2026-10-31/jepa 2026-10-31/l3g-world-3d 2026-10-31/lown 2026-10-31/mistral-large-4 2026-10-31/mllm 2026-10-31/specslot-transformer 2026-10-31/youtu-parsing-omni 2026-11-01/item-11 2026-11-01/item-13 2026-11-02/falcon 2026-11-02/go-3-preview 2026-11-03/apriel-voice-27b-preview 2026-11-03/frameforge 2026-11-03/hifor 2026-11-03/larc 2026-11-03/longcat-2-5 2026-11-03/lores 2026-11-03/openai-gpt-6-2-astra-claude-5-5 2026-11-03/oswam 2026-11-03/relift 2026-11-03/sensenova-loop-9b-preview 2026-11-03/wizard 2026-11-04/longcat-2-5 2026-11-04/mistral-large-4 2026-11-04/northcua 2026-11-04/o-pd 2026-11-04/wave-forcing 2026-11-05/801-30b-rsi 2026-11-05/axion-1-0 2026-11-05/factembed-mllm 2026-11-05/hy4-agent 2026-11-05/kimi-k3-1-pro-agent-arena 2026-11-05/kling 2026-11-05/moviedit 2026-11-05/seed 2026-11-05/zuse 2026-11-06/5-5-flash-base-sota 2026-11-06/anchor 2026-11-06/concise-9b 2026-11-06/decision-models 2026-11-06/dory1-0-4b-gpt 2026-11-06/gamescaling 2026-11-06/google-gemini-omni-1-2-flash-15-30 2026-11-06/item-102 2026-11-06/item-22 2026-11-06/multimodal-flow 2026-11-06/neo-vla 2026-11-06/openai-gpt-6-cyber 2026-11-06/prism 2026-11-06/sarbloh-arc-agi-3 2026-11-06/solv3r-transformer 2026-11-06/thinking-machines-lab-inkling-2-small-ap 2026-11-08/drex 2026-11-08/e-gaborformer-gabor-delta 2026-11-08/ling-3-2-flash 2026-11-08/moe-ernie-5-5-flash-base 2026-11-08/muir 2026-11-08/open-humanwam 2026-11-08/pact 2026-11-08/reload 2026-11-08/welm-image 2026-11-12/apex 2026-11-12/claude-fable-5-2-mythos-5-2 2026-11-12/confucius4-r2t2 2026-11-12/dnavit 2026-11-12/drivefoundry 2026-11-12/evoworld 2026-11-12/google-deepmind-gemini-4-carbon 2026-11-12/google-gemini-decisions-api 2026-11-12/gr00t-2 2026-11-12/item-197 2026-11-12/jais-3 2026-11-12/lingbot-touch 2026-11-12/longcat-2-5 2026-11-12/looped-ced-kv 2026-11-12/macaq 2026-11-12/meta-muse-ember 2026-11-12/proteus 2026-11-12/qwen4-max-agentic 2026-11-12/splatanything-3dgs 2026-11-12/transformer 2026-11-12/tree-ising-ising 2026-11-12/wavegen 2026-11-12/zeropoint 2026-11-13/5-5-flash-preview-3d 2026-11-13/google-deepmind-gemini-4-hydrogen 2026-11-13/google-gemini-decision-1 2026-11-13/steerdistill-llm 2026-11-14/birddreams-bev 2026-11-14/duo-v1 2026-11-14/g-star-token 2026-11-14/looki-loom 2026-11-14/open-vision-banana 2026-11-14/simplehc 2026-11-14/unispark 2026-11-15/gemini-4-hydrogen 2026-11-16/hy4-flash 2026-11-16/luthorsql 2026-11-16/marimba-asr 2026-11-16/qwen4-max 2026-11-17/4-flash 2026-11-17/bilateral-log-linear-attention 2026-11-17/gamer 2026-11-17/item-56 2026-11-17/karpo-decision 2026-11-17/kv-replay 2026-11-17/loopback-transformer 2026-11-17/qwen4-max 2026-11-17/s2-1-flash 2026-11-17/steprefine 2026-11-17/v-jepa-lm 2026-11-18/gpt-6-2-astra 2026-11-18/k2-horizon 2026-11-18/mai 2026-11-18/microsoft-decision-1-1 2026-11-18/movieroll 2026-11-18/nemotron-3-5-super 2026-11-18/sage-s2-1-flash 2026-11-18/scalevla-vlm-dit 2026-11-18/voxmel 2026-11-18/xing-4 2026-11-19/fastframes 2026-11-19/gemini-4-neon 2026-11-19/item-10 2026-11-19/kra 2026-11-19/mbt 2026-11-19/toaster 2026-11-19/transformer 2026-11-19/weight-space-programming 2026-11-20/alive 2026-11-20/beam-moe 2026-11-20/clover 2026-11-20/drift 2026-11-20/gemini-4-neon-genie-4 2026-11-20/glide 2026-11-20/hy4-moe 2026-11-20/jeveration 2026-11-21/depth-pro-2 2026-11-21/egocaptioner 2026-11-21/gemini-4-hydrogen-token 2026-11-21/hiuni 2026-11-21/hy4 2026-11-21/wemm-video 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/structure-over-scale 2026-11-24/cmhc 2026-11-24/don-t-train-it-write-it 2026-11-24/duopra 2026-11-24/glm-5-4 2026-11-24/gpt-6-2-sol 2026-11-24/hy-mt3 2026-11-24/inkling2mini 2026-11-24/markovian-reasoning-llm 2026-11-24/memt-1-0-pro 2026-11-25/deciform 2026-11-25/eeg-jev 2026-11-25/gemini-4-neon 2026-11-25/integral-deltanet 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/leannext 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/pmopd 2026-11-25/sleep 2026-11-25/wemm-ecom -->
+<!-- experience-seen: 2026-11-19/fastframes 2026-11-19/gemini-4-neon 2026-11-19/item-10 2026-11-19/kra 2026-11-19/mbt 2026-11-19/toaster 2026-11-19/transformer 2026-11-19/weight-space-programming 2026-11-20/alive 2026-11-20/beam-moe 2026-11-20/clover 2026-11-20/drift 2026-11-20/gemini-4-neon-genie-4 2026-11-20/glide 2026-11-20/hy4-moe 2026-11-20/jeveration 2026-11-21/depth-pro-2 2026-11-21/egocaptioner 2026-11-21/gemini-4-hydrogen-token 2026-11-21/hiuni 2026-11-21/hy4 2026-11-21/wemm-video 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/structure-over-scale 2026-11-24/cmhc 2026-11-24/don-t-train-it-write-it 2026-11-24/duopra 2026-11-24/glm-5-4 2026-11-24/gpt-6-2-sol 2026-11-24/hy-mt3 2026-11-24/inkling2mini 2026-11-24/markovian-reasoning-llm 2026-11-24/memt-1-0-pro 2026-11-25/deciform 2026-11-25/eeg-jev 2026-11-25/gemini-4-neon 2026-11-25/integral-deltanet 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/leannext 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/pmopd 2026-11-25/sleep 2026-11-25/wemm-ecom 2026-11-26/antom 2026-11-26/gemini-4-neon 2026-11-26/lingsante-medguard 2026-11-26/loomformer 2026-11-26/qwen-image-hd 2026-11-26/s-mind -->
 <!-- research-experience:end -->
 
 ## 相关工作

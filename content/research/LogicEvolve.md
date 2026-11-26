@@ -102,7 +102,7 @@ toc = true
     - [RRE：以演化推理图推进累积式数学研究](../../updates/2026-11-06/#rre) · 2026-11-06
 13. **显式工具接口**：隐式思维链接入工具时，应插入少量可观测、可控制的显式状态标记，避免工具调用依赖不可审计的潜在推理。
     - [TAC-CoT：交错显式 Token 增强工具化隐式思维链](../../updates/2026-11-06/#tac-cot-token) · 2026-11-06
-<!-- experience-seen: 2026-10-29/ai-agent-24 2026-10-29/openai 2026-10-29/openai-anthropic 2026-10-29/openai-lean-ai 2026-10-29/psi-ai-5 2026-10-30/h-r 2026-10-31/axiomprover 2026-11-01/farms 2026-11-02/claude-code 2026-11-03/credo 2026-11-05/item-35 2026-11-06/albi-llm 2026-11-06/chain-of-faith 2026-11-06/conceptarc 2026-11-06/gamescaling 2026-11-06/item-32 2026-11-06/qplib-2096 2026-11-06/rre 2026-11-06/tac-cot-token 2026-11-12/ai-lean 2026-11-12/biverify 2026-11-12/item-165 2026-11-12/item-179 2026-11-12/item-80 2026-11-12/llm-2 2026-11-12/topoverus 2026-11-13/autoassumption-ml 2026-11-13/claude-code 2026-11-13/tome-math 2026-11-17/agpv 2026-11-18/gpt-6-2-astra 2026-11-18/turing-agent 2026-11-19/colombo 2026-11-20/astra 2026-11-20/verifiable-logic 2026-11-21/claude-lean 2026-11-21/space-x 2026-11-23/claude 2026-11-23/item-7 2026-11-23/navier-stokes-claude-lean 2026-11-23/orion 2026-11-24/item-67 2026-11-24/lean 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/vp-vnp-ai-lean -->
+<!-- experience-seen: 2026-11-18/gpt-6-2-astra 2026-11-18/turing-agent 2026-11-19/colombo 2026-11-20/astra 2026-11-20/verifiable-logic 2026-11-21/claude-lean 2026-11-21/space-x 2026-11-23/claude 2026-11-23/item-7 2026-11-23/navier-stokes-claude-lean 2026-11-23/orion 2026-11-24/item-67 2026-11-24/lean 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/vp-vnp-ai-lean -->
 <!-- research-experience:end -->
 
 ## 相关工作

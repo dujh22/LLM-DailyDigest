@@ -71,7 +71,7 @@ toc = true
    - [BadEvolve：通过失败感知任务优化投毒自进化智能体](../../updates/2026-11-12/#badevolve) · 2026-11-12
 10. **目标奖励解耦**：开放式探索中，应分别决定探索目标与奖励实现；职责解耦比直接改写奖励更易形成多样且可迁移的行为库。
     - [Habitats：开放式智能体目标演化](../../updates/2026-11-25/#habitats) · 2026-11-25
-<!-- experience-seen: 2026-10-29/workfactory 2026-10-30/zest-search 2026-10-31/a-rsi 2026-10-31/vibegame-ai 2026-11-03/care-300 2026-11-03/item-30 2026-11-04/cua-master 2026-11-06/multi-step-swe 2026-11-12/badevolve 2026-11-17/harness-of-harness 2026-11-18/scenarioforge 2026-11-19/3d-gamedev-arena 2026-11-19/crossenv 2026-11-20/playcraft 2026-11-20/sigame 2026-11-23/search-rsi 2026-11-25/habitats 2026-11-25/margin -->
+<!-- experience-seen: 2026-11-18/scenarioforge 2026-11-19/3d-gamedev-arena 2026-11-19/crossenv 2026-11-20/playcraft 2026-11-20/sigame 2026-11-23/search-rsi 2026-11-25/habitats 2026-11-25/margin -->
 <!-- research-experience:end -->
 
 ## 相关工作

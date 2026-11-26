@@ -45,6 +45,7 @@ toc = true
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **生产级运行底座**：智能体落地应以可替换运行底座统一工具、沙箱、持久状态与评测，并支持回滚、分岔和迁移，避免业务逻辑绑定单一模型。
+   - [Agnes Harness：双系统经验复用](../../updates/2026-11-26/#agnes-harness) · 2026-11-26
    - [Fin-RSI：统一金融技能与自改进](../../updates/2026-11-25/#fin-rsi) · 2026-11-25
    - [CubeSandbox：状态化微虚拟机沙箱](../../updates/2026-11-18/#cubesandbox) · 2026-11-18
    - [Code Mode：脚本化工具编排](../../updates/2026-11-18/#code-mode) · 2026-11-18
@@ -92,6 +93,8 @@ toc = true
 7. **主动观察**：长视频任务应先规划观察位置并补取关键证据，再生成或行动；均匀处理全部输入常浪费算力并遗漏重点。
    - [Reviso：面向视频字幕生成的优先级引导主动观察](../../updates/2026-11-04/#reviso) · 2026-11-04
 8. **可审计任务闭环**：高风险与工程智能体应把确定性计算同语义判断解耦，以可执行约束限定搜索，并内置溯源、动态验证、可证伪实验和权限控制。
+   - [PartAgent：专家集成与闭环分割](../../updates/2026-11-26/#partagent) · 2026-11-26
+   - [LingSante MedGuard：多专家医疗安全护栏](../../updates/2026-11-26/#lingsante-medguard) · 2026-11-26
    - [lumimax：深度证据链知识网络](../../updates/2026-11-25/#lumimax) · 2026-11-25
    - [GPT-6：通用推理设计蛋白质](../../updates/2026-11-25/#gpt-6) · 2026-11-25
    - [MiniMax密码分析：纸面攻击实战化](../../updates/2026-11-23/#minimax) · 2026-11-23
@@ -125,7 +128,8 @@ toc = true
     - [EverydayBench：活网交付质量评测](../../updates/2026-11-20/#everydaybench) · 2026-11-20
     - [FINCOSMOS：金融智能体的开放世界评测范式](../../updates/2026-11-08/#fincosmos) · 2026-11-08
     - [EnergyBench：欧洲电力市场日前预测实时评测基准](../../updates/2026-11-08/#energybench) · 2026-11-08
-11. **异构角色协作**：角色的工具、知识源或时间尺度不同时，可用专业智能体并行协作，并以共享状态汇合结果。
+11. **异构角色协作**：角色的工具、知识源、部件或时间尺度不同时，可让专业智能体异步并行，仅在依赖出现时协调，并以共享状态汇合结果。
+    - [ACAP：异步多智能体机器人控制](../../updates/2026-11-26/#acap) · 2026-11-26
     - [PharmAgents2：自主端到端药物发现系统](../../updates/2026-11-08/#pharmagents2) · 2026-11-08
     - [StreamDuo：面向未知游戏的实时解说与研究智能体](../../updates/2026-11-06/#streamduo) · 2026-11-06
     - [VibeGame：AI 原生引擎与自进化智能体团队实现提示词生成游戏](../../updates/2026-10-31/#vibegame-ai) · 2026-10-31
@@ -152,7 +156,7 @@ toc = true
     - [Grok Bot：约束验证驱动开发](../../updates/2026-11-23/#grok-bot) · 2026-11-23
     - [编程基准高分不等于实际产出](../../updates/2026-11-19/#item-49) · 2026-11-19
     - [GPT-6.2 Astra：基准满分却实务失灵](../../updates/2026-11-18/#gpt-6-2-astra) · 2026-11-18
-<!-- experience-seen: 2026-10-29/deepseek-harness-ai 2026-10-29/jevrec 2026-10-29/langchain-content-studio-harness 2026-10-29/microsoft-foundry-copilot-harness 2026-10-29/openai-gpt-6-1-terra-astra 2026-10-29/streamvibe 2026-10-29/worldcast 2026-10-30/anti-prompt 2026-10-30/epicoach 2026-10-30/proton-ai 2026-10-30/tao-llm 2026-10-30/taskframe 2026-10-31/vibegame-ai 2026-11-01/item-1 2026-11-03/epi2diff-llm 2026-11-03/spar-b2b 2026-11-03/system-1 2026-11-03/thinker-sim 2026-11-03/wefair 2026-11-03/wizard 2026-11-04/item-8 2026-11-04/northcua 2026-11-04/photoguider-360 2026-11-04/reviso 2026-11-04/uni-robot-agent-harness 2026-11-05/legalevolver 2026-11-05/openai-cyber-948-linux 2026-11-05/pandora 2026-11-06/decision-models 2026-11-06/el-agente-f-rmaco 2026-11-06/emoreward 2026-11-06/item-102 2026-11-06/item-147 2026-11-06/item-40 2026-11-06/openai-gpt-6-cyber 2026-11-06/streamduo 2026-11-08/edgar 2026-11-08/energybench 2026-11-08/fincosmos 2026-11-08/pharmagents2 2026-11-08/tailsteer 2026-11-12/finevolvekg 2026-11-12/item-113 2026-11-12/mrfoundry-mri 2026-11-12/pcbrouteagent-pcb 2026-11-12/slic 2026-11-12/trialjev 2026-11-12/video-coder 2026-11-13/google-deepmind-gemini-4-hydrogen 2026-11-13/item-40 2026-11-13/personal-agent 2026-11-14/3-0-rsi 2026-11-14/deepseek-api-chat-demo 2026-11-14/gpu 2026-11-15/deepseek-harness 2026-11-16/agent-written-heuristics 2026-11-17/item-67 2026-11-17/item-86 2026-11-17/s1mal 2026-11-18/allocflow 2026-11-18/claude-mythos-amd 2026-11-18/code-mode 2026-11-18/cubesandbox 2026-11-18/discoveryagent 2026-11-18/embedgym 2026-11-18/gemini 2026-11-18/gpt-6-2-astra 2026-11-18/matos 2026-11-19/data-to-valves 2026-11-19/item-49 2026-11-19/item-53 2026-11-19/item-54 2026-11-19/mle-agents 2026-11-19/optics-as-code 2026-11-19/ppa 2026-11-19/system-1 2026-11-20/code-world-model-2-0 2026-11-20/dots 2026-11-20/everydaybench 2026-11-20/performance-factory-codex 2026-11-20/playcraft 2026-11-20/prola 2026-11-21/coda-davinci 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/jevrisk 2026-11-23/medicalrsi 2026-11-23/minimax 2026-11-23/monitor-api 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/finevo 2026-11-24/grok-bot 2026-11-24/item-4 2026-11-24/item-47 2026-11-24/semantic-pid-rsi-pid 2026-11-25/3agamefactory-motion 2026-11-25/embo-harness 2026-11-25/fin-rsi 2026-11-25/gpt-6 2026-11-25/lumimax 2026-11-25/needwise 2026-11-25/voyag 2026-11-25/wemm-ecom -->
+<!-- experience-seen: 2026-11-19/data-to-valves 2026-11-19/item-49 2026-11-19/item-53 2026-11-19/item-54 2026-11-19/mle-agents 2026-11-19/optics-as-code 2026-11-19/ppa 2026-11-19/system-1 2026-11-20/code-world-model-2-0 2026-11-20/dots 2026-11-20/everydaybench 2026-11-20/performance-factory-codex 2026-11-20/playcraft 2026-11-20/prola 2026-11-21/coda-davinci 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/jevrisk 2026-11-23/medicalrsi 2026-11-23/minimax 2026-11-23/monitor-api 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/finevo 2026-11-24/grok-bot 2026-11-24/item-4 2026-11-24/item-47 2026-11-24/semantic-pid-rsi-pid 2026-11-25/3agamefactory-motion 2026-11-25/embo-harness 2026-11-25/fin-rsi 2026-11-25/gpt-6 2026-11-25/lumimax 2026-11-25/needwise 2026-11-25/voyag 2026-11-25/wemm-ecom 2026-11-26/acap 2026-11-26/agnes-harness 2026-11-26/antom 2026-11-26/lingsante-medguard 2026-11-26/partagent -->
 <!-- research-experience:end -->
 
 ## 相关工作

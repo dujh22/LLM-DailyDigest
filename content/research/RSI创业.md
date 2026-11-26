@@ -47,6 +47,7 @@ RSI 创业（RSI entrepreneurship）是本站的产业侧横向跟踪方向，�
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **先攻可验证窄域**：RSI更可能先在算子优化、推理研发和工业设计等可执行验证的窄域成立，再扩展到开放研究，以明确指标压低试错与交付风险。
+   - [EvolonAI：机器反馈驱动算力自进化](../../updates/2026-11-26/#evolonai) · 2026-11-26
    - [百度智能云伐谋 3.0 将 RSI 自进化闭环带入产业一线](../../updates/2026-11-14/#3-0-rsi) · 2026-11-14
    - [百度披露 ERNIE Evolve 递归自我改进进展，已用于文心 5.5 Flash 研发](../../updates/2026-11-12/#ernie-evolve-5-5-flash) · 2026-11-12
    - [ForgeKernel 登顶华为与英伟达算子评测榜](../../updates/2026-10-29/#forgekernel) · 2026-10-29
@@ -71,7 +72,7 @@ RSI 创业（RSI entrepreneurship）是本站的产业侧横向跟踪方向，�
    - [Anthropic招股书警示模型逼近RSI阈值](../../updates/2026-11-03/#anthropic-rsi) · 2026-11-03
    - [Anthropic 以约 8500 亿美元算力承诺押注递归自我改进](../../updates/2026-10-30/#anthropic-8500) · 2026-10-30
    - [超进化智能获数亿元天使轮融资，研发递归自我改进研究基础模型](../../updates/2026-10-29/#item-35) · 2026-10-29
-<!-- experience-seen: 2026-10-29/35b-apex-35b-v1-0 2026-10-29/forgekernel 2026-10-29/item-35 2026-10-30/anthropic-8500 2026-11-03/anthropic-rsi 2026-11-12/ernie-evolve-5-5-flash 2026-11-12/neohorse-1-5-flash-preview-agent-rsi 2026-11-12/psi-ai 2026-11-12/rsi 2026-11-14/3-0-rsi 2026-11-23/alps-lab 2026-11-24/2026-ai-rsi 2026-11-24/item-4 2026-11-25/glm-5-5-rsi -->
+<!-- experience-seen: 2026-11-23/alps-lab 2026-11-24/2026-ai-rsi 2026-11-24/item-4 2026-11-25/glm-5-5-rsi 2026-11-26/evolonai -->
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -84,7 +84,7 @@ AI 辅助的人类进化（AI-augmented human evolution）关注"人这一侧"�
     - [黎曼猜想形式化证明：多内核交叉验真](../../updates/2026-11-23/#item-7) · 2026-11-23
 15. **双目标任务分配**：人机分工要同时优化任务绩效与人的工作体验，显式建模对厌恶任务的规避，并随风险和决策主体调整权重。
     - [人机任务分配：绩效与体验协同权衡](../../updates/2026-11-25/#item-83) · 2026-11-25
-<!-- experience-seen: 2026-10-29/anthropic-ai 2026-10-30/anti-prompt 2026-10-30/proton-ai 2026-10-30/realcli-cli 2026-10-30/rsi-arena 2026-10-31/deepmind-ai 2026-11-04/addy-osmani-agent 2026-11-05/item-37 2026-11-06/cvd-llm 2026-11-06/item-147 2026-11-06/item-28 2026-11-06/item-40 2026-11-08/item-47 2026-11-12/item-113 2026-11-12/item-147 2026-11-13/item-35 2026-11-13/item-40 2026-11-17/item-67 2026-11-19/item-15 2026-11-20/item-5 2026-11-20/knowing-what-you-know 2026-11-23/item-7 2026-11-23/navier-stokes-claude-lean 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/ai-assisted-programming 2026-11-25/calm-agent 2026-11-25/chatwise 2026-11-25/item-83 -->
+<!-- experience-seen: 2026-11-19/item-15 2026-11-20/item-5 2026-11-20/knowing-what-you-know 2026-11-23/item-7 2026-11-23/navier-stokes-claude-lean 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/ai-assisted-programming 2026-11-25/calm-agent 2026-11-25/chatwise 2026-11-25/item-83 -->
 <!-- research-experience:end -->
 
 ## 相关工作
