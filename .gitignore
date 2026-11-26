@@ -27,3 +27,10 @@ backend/.trends_backfill_cache.json
 
 # 研究页跨进程写锁（运行时产物）
 .research_write.lock
+
+# 读后感数据集导出（派生产物，由 backend/build_reader_dataset.py 随时重建）
+data/reader_dataset/
+# 反馈提醒确认时间（每次确认都会变，不值得进 git）
+data/feedback/state.json
+data/feedback/.lock
+data/feedback/*.tmp

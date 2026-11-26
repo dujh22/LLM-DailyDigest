@@ -1,0 +1,14 @@
+{{- /* 页脚访问量：主题自带的不蒜子（busuanzi.ibruce.info）服务已不可用，改用兼容其元素 id 的 Vercount。
+     由 hugo.toml 的 params.visitorCount.enable 控制；order-5 让这一行排在页脚最下方。 */ -}}
+{{- if .Site.Params.visitorCount.enable -}}
+  {{- $loading := dict "Class" "fa-solid fa-spinner fa-spin fa-fw" | partial "plugin/icon.html" -}}
+  <div class="footer-line visitor order-5">
+    <span id="busuanzi_container_site_uv" title="总访客数">
+      {{- dict "Class" "fa-regular fa-user fa-fw" | partial "plugin/icon.html" -}}&nbsp;访客 <span id="busuanzi_value_site_uv">{{ $loading }}</span>
+    </span>
+    <span id="busuanzi_container_site_pv" class="footer-divider" title="总访问量">
+      {{- dict "Class" "fa-regular fa-eye fa-fw" | partial "plugin/icon.html" -}}&nbsp;访问 <span id="busuanzi_value_site_pv">{{ $loading }}</span>
+    </span>
+  </div>
+  <script defer src="{{ .Site.Params.visitorCount.source | default "https://events.vercount.one/js" }}"></script>
+{{- end -}}

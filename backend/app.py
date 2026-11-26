@@ -14,6 +14,7 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
                       → 增量更新各研究页「研究经验」栏目
                       （幂等，可重复执行）。批次自动提交完成后自动执行一次；
                       单条提交后防抖执行（FINALIZE_DEBOUNCE 秒，默认 600）
+  GET  /feedback      日报阅读反馈页（新认识 / 不满意 / 建议）；未修的不满意每周在启动、首页提醒一次
   GET  /merge         主题/子主题归并页；LLM 推荐为主题、子主题分开的全量分批遍历
   POST /api/merge/suggest/start  启动一种标签（topics/subtopics）的推荐后台任务
   GET  /api/merge/suggest/status 查询推荐任务进度与结果（人工采纳后才写盘）
@@ -57,6 +58,9 @@ except Exception:  # noqa: BLE001
 
 # 研究页特殊栏目（人类专属栏目守卫 + 研究经验解析/渲染），纯标准库，见 backend/research_sections.py
 import research_sections
+
+# 日报阅读反馈记录 + 每周提醒（纯标准库，与 .claude/hooks/feedback_reminder.py 共用），见 backend/feedback.py
+import feedback as feedback_mod
 
 # 当日推荐采集模块（见 backend/recommend.py）。导入失败时相关路由返回 503。
 try:
@@ -445,6 +449,29 @@ def _insight_field(item: dict) -> dict:
     return {"insight": v} if v else {}
 
 
+# 「读后感」：批处理录入时每条末尾「——【读后感】…」后的读者自述关键认识。
+# 录入时从原始信息中剥离成独立字段 reader_note（notes 只留正文），LLM 抽取时不可见，
+# 因此 (notes, reader_note) 天然构成「读者兴趣点抽取」数据集的 (query, ground truth)，
+# 见 backend/build_reader_dataset.py。
+_READER_NOTE_RE = re.compile(r"\s*(?:[—–\-]+\s*)?【读后感】\s*[:：]?\s*")
+
+
+def split_reader_note(text: str):
+    """把原始信息拆为 (正文, 读后感)：以首个「【读后感】」标记（可带前导破折号）为界，
+    标记之后全部算读后感；无标记时读后感为空串。"""
+    text = text or ""
+    m = _READER_NOTE_RE.search(text)
+    if not m:
+        return text, ""
+    return text[:m.start()].rstrip(), text[m.end():].strip()
+
+
+def _reader_note_field(item: dict) -> dict:
+    """「读后感」字段，紧随 notes 之后；仅非空时写入，旧条目序列化结果不变。"""
+    v = (item.get("reader_note") or "").strip()
+    return {"reader_note": v} if v else {}
+
+
 def _reserialize_item_block(item: dict) -> str:
     """按固定键顺序重写单个 item 块（与 serialize_item_block 一致，复用 tomli_w）。"""
     import tomli_w
@@ -464,6 +491,7 @@ def _reserialize_item_block(item: dict) -> str:
         "purpose": item.get("purpose", ""),
         **_insight_field(item),
         "notes": item.get("notes", ""),
+        **_reader_note_field(item),
     }
     _attach_trends_fields(ordered, item)
     _attach_score(ordered, item)
@@ -730,6 +758,9 @@ def absorb_items(kept: dict, dup: dict, dup_date: str) -> dict:
     an, bn = (merged.get("notes") or "").strip(), (dup.get("notes") or "").strip()
     if bn and bn != an:
         merged["notes"] = f"{an}\n\n{tag}\n{bn}" if an else bn
+    ar, br = (merged.get("reader_note") or "").strip(), (dup.get("reader_note") or "").strip()
+    if br and br != ar:
+        merged["reader_note"] = f"{ar}\n\n{tag}\n{br}" if ar else br
     scores = [x for x in (parse_score(kept.get("score")), parse_score(dup.get("score")))
               if x is not None]
     if scores:
@@ -798,7 +829,7 @@ def scan_duplicate_groups(days: int = 7, end_date=None):
         absorb = []
         for f in ("title", "subtopic", "source", "paper", "code", "dataset", "link",
                   "topics", "research", "keywords", "orgs", "summary", "content",
-                  "purpose", "insight", "notes"):
+                  "purpose", "insight", "notes", "reader_note"):
             old, new = keep["item"].get(f), merged.get(f)
             if old != new:
                 absorb.append({"field": f, "old": old, "new": new})
@@ -2004,6 +2035,7 @@ def serialize_item_block(item: dict) -> str:
         "purpose": item.get("purpose", ""),
         **_insight_field(item),
         "notes": item.get("notes", ""),
+        **_reader_note_field(item),
     }
     _attach_trends_fields(ordered, item)
     _attach_score(ordered, item)
@@ -2069,6 +2101,13 @@ def build_item_from_form(data: dict) -> dict:
         "insight": (data.get("insight") or "").strip(),
         "notes": data.get("notes", ""),
     }
+    # 读后感：表单显式字段优先；否则从 notes 末尾的「——【读后感】」标记剥离
+    body, note = split_reader_note(item["notes"])
+    item["notes"] = body
+    explicit = (data.get("reader_note") or "").strip()
+    reader_note = (f"{explicit}\n\n{note}" if note and note not in explicit else explicit) if explicit else note
+    if reader_note:
+        item["reader_note"] = reader_note
     keywords = _norm_str_list(data.get("keywords"))
     if keywords:
         item["keywords"] = keywords
@@ -2534,8 +2573,10 @@ def llm_extract(raw: str, extra: str = "") -> dict:
     成功：{"ok": True, "data": parsed, "resolved_links": [...], "unresolved_links": [...]}
     失败：{"ok": False, "errors": [...], (可选) "raw": ...}
     抓取内容与 extra 仅用于本次抽取，绝不写入 notes。
+    raw 末尾的「——【读后感】」读者自述不参与抽取（避免数据集 ground truth 泄漏进输入），
+    剥离后原样放在结果的 reader_note 中。
     """
-    raw = (raw or "").strip()
+    raw, reader_note = split_reader_note((raw or "").strip())
     if not raw:
         return {"ok": False, "errors": ["raw 不能为空"]}
     extra = (extra or "").strip()
@@ -2645,7 +2686,7 @@ def llm_extract(raw: str, extra: str = "") -> dict:
     parsed["keywords"] = _norm_str_list(parsed.get("keywords"))[:5]
     parsed["orgs"] = normalize_orgs(parsed.get("orgs"))
 
-    return {"ok": True, "data": parsed,
+    return {"ok": True, "data": parsed, "reader_note": reader_note,
             "resolved_links": resolved, "unresolved_links": unresolved}
 
 
@@ -2694,7 +2735,8 @@ def process_one_entry(batch_id: str, idx: int):
         return
     update_batch_entry(batch_id, idx, status="processing", error="")
     raw = entry.get("raw", "")
-    resolved, unresolved, _ = resolve_all(raw)
+    body, _ = split_reader_note(raw)  # 读后感不算可抽取的上下文，也不参与链接抓取
+    resolved, unresolved, _ = resolve_all(body)
 
     if unresolved:
         # 瞬时抖动（代理断连/反爬限流）重抓几轮再判死；成功结果会进缓存，
@@ -2714,7 +2756,7 @@ def process_one_entry(batch_id: str, idx: int):
                 break
     if unresolved:
         # 原文去掉 URL 后剩余内容太少 → 无从抽取，待介入（保存链接状态供前端展示）
-        context = _URL_RE.sub("", raw).strip()
+        context = _URL_RE.sub("", body).strip()
         if len(context) < 40:
             update_batch_entry(batch_id, idx,
                                status="intervention",
@@ -2957,7 +2999,8 @@ def index():
                     "meta": entry.get("meta") or {},
                 }
     return render_template("index.html", topics=valid_topics(),
-                           research=valid_research(), batch=batch_ctx)
+                           research=valid_research(), batch=batch_ctx,
+                           feedback_due=len(feedback_mod.reminder_due("app")))
 
 
 @app.route("/api/topics")
@@ -3057,6 +3100,7 @@ def api_resolve_links():
     raw = (data.get("raw") or "").strip()
     if not raw:
         return jsonify({"ok": False, "errors": ["raw 不能为空"]}), 400
+    raw, _ = split_reader_note(raw)  # 与抽取一致：读后感里的链接不抓取
     resolved, unresolved, _ = resolve_all(raw)
     status = []
     for u, k in detect_links(raw):
@@ -3740,6 +3784,9 @@ def _render_item_md(d: str, item: dict) -> str:
     if notes:
         quoted = "\n".join("> " + ln for ln in notes.split("\n"))
         lines += ["", "**原始笔记**", "", quoted]
+    reader_note = (item.get("reader_note") or "").strip()
+    if reader_note:
+        lines += ["", "**读后感**", "", reader_note]
     return "\n".join(lines)
 
 
@@ -3811,6 +3858,71 @@ def api_export_research():
     return jsonify(res), (200 if res.get("ok") else 400)
 
 
+# ============================================================
+# 日报阅读反馈（逻辑在 feedback.py）
+# ============================================================
+def default_feedback_date() -> str:
+    """反馈默认针对「昨天看的那期」：今天之前最近一期日报的日期，没有则今天。"""
+    today = date.today().isoformat()
+    days = sorted(p.stem for p in UPDATES_DIR.glob("????-??-??.md") if p.stem < today)
+    return days[-1] if days else today
+
+
+@app.route("/feedback")
+def feedback_page():
+    return render_template("feedback.html", kinds=feedback_mod.KINDS,
+                           default_date=default_feedback_date(),
+                           remind_days=feedback_mod.REMIND_DAYS)
+
+
+@app.route("/api/feedback")
+def api_feedback_list():
+    return jsonify({"ok": True, "items": feedback_mod.load_all(),
+                    "due": len(feedback_mod.reminder_due("app"))})
+
+
+@app.route("/api/feedback/day_items")
+def api_feedback_day_items():
+    """某期日报的条目 (id, title)，供反馈关联到具体条目。"""
+    try:
+        d = parse_target_date(request.args.get("date"))
+    except ValueError as e:
+        return jsonify({"ok": False, "errors": [str(e)]}), 400
+    items = [{"id": it.get("id", ""), "title": it.get("title", "")}
+             for _, it in parse_day_items(d)]
+    return jsonify({"ok": True, "items": items})
+
+
+@app.route("/api/feedback", methods=["POST"])
+def api_feedback_add():
+    data = request.get_json(force=True, silent=True) or {}
+    try:
+        rec = feedback_mod.add(data.get("kind"), data.get("text"), data.get("digest_date"),
+                               data.get("item_id"), data.get("item_title"))
+    except ValueError as e:
+        return jsonify({"ok": False, "errors": [str(e)]}), 400
+    return jsonify({"ok": True, "item": rec})
+
+
+@app.route("/api/feedback/<fid>", methods=["POST"])
+def api_feedback_update(fid):
+    data = request.get_json(force=True, silent=True) or {}
+    try:
+        rec = feedback_mod.update(fid, data.get("status"), data.get("resolution"))
+    except KeyError as e:
+        return jsonify({"ok": False, "errors": [str(e)]}), 404
+    except ValueError as e:
+        return jsonify({"ok": False, "errors": [str(e)]}), 400
+    return jsonify({"ok": True, "item": rec})
+
+
+@app.route("/api/feedback/ack", methods=["POST"])
+def api_feedback_ack():
+    """「本周已查看」：确认 app 通道提醒，REMIND_DAYS 天内不再提醒。"""
+    feedback_mod.ack("app")
+    return jsonify({"ok": True})
+
+
 if __name__ == "__main__":
     print("=" * 60)
     if load_api_key():
@@ -3819,5 +3931,12 @@ if __name__ == "__main__":
         print(f"✗ 未找到 {API_KEY_FILE.relative_to(REPO_ROOT)}：LLM 抽取不可用，")
         print("  请在仓库根目录创建该文件并填入 api_key（已被 git 忽略）。")
     print(f"✓ 合法主题 {len(valid_topics())} 个")
+    try:
+        due = feedback_mod.reminder_due("app")
+        if due:
+            print("-" * 60)
+            print(feedback_mod.format_reminder(due))
+    except Exception as e:  # noqa: BLE001  反馈文件损坏不应阻止启动
+        print(f"✗ 读取日报反馈失败：{e}")
     print("=" * 60)
     app.run(host="127.0.0.1", port=5050, debug=True)

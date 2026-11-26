@@ -56,7 +56,10 @@
 <body>
 <div class="wrap">
   <h1><span>LLM-DailyDigest</span> · 消息提交</h1>
-  <p class="sub">填写一条消息 → 自动追加到当日日报（<code>content/updates/&lt;date&gt;.md</code>）。原始信息可直接用 LLM 抽取。 · <a href="/batch/new">📦 批处理录入</a> · <a href="/recommend">🌟 当日推荐</a> · <a href="/merge">🧩 主题归并</a> · <a href="/dedup">🧹 条目去重</a></p>
+  <p class="sub">填写一条消息 → 自动追加到当日日报（<code>content/updates/&lt;date&gt;.md</code>）。原始信息可直接用 LLM 抽取。 · <a href="/batch/new">📦 批处理录入</a> · <a href="/recommend">🌟 当日推荐</a> · <a href="/merge">🧩 主题归并</a> · <a href="/dedup">🧹 条目去重</a> · <a href="/feedback">📮 阅读反馈</a></p>
+  {% if feedback_due %}
+  <div class="card" style="border-color:var(--warn,#f59e0b)">📮 有 <b>{{ feedback_due }}</b> 条日报反馈待修（每周提醒一次），建议先处理再录入新内容 → <a href="/feedback">去处理</a></div>
+  {% endif %}
 
   {% if batch %}
   <div class="card" style="border-color:var(--accent);background:rgba(168,85,247,.08)">
@@ -157,6 +160,8 @@
     <textarea id="insight"></textarea>
     <label>📝 原始笔记（逐字保留，支持纯文本换行）</label>
     <textarea id="notes" placeholder="粘贴原始信息全文，提交后将在日报页以折叠区块逐字保留"></textarea>
+    <label>💡 读后感（读后自己获得的关键信息；原始信息末尾的「——【读后感】…」会自动拆到这里，抽取时不给 LLM 看）</label>
+    <textarea id="reader_note" placeholder="可留空；提交后在日报页以「读后感」展示，并作为读者兴趣抽取数据集的标注"></textarea>
 
     <div class="actions">
       <button id="btnSubmit">➕ 提交（追加到当日日报）</button>
@@ -183,7 +188,7 @@
 <script>
 // 批次上下文（无批次时为 null）
 const BATCH = {{ batch | tojson }};
-const F = ["id","title","subtopic","source","summary","keywords","orgs","paper","code","dataset","link","content","purpose","insight","notes"];
+const F = ["id","title","subtopic","source","summary","keywords","orgs","paper","code","dataset","link","content","purpose","insight","notes","reader_note"];
 const $ = id => document.getElementById(id);
 
 // 批次模式：预填本条原始信息
@@ -191,6 +196,11 @@ if(BATCH && BATCH.raw){
   $('raw').value = BATCH.raw;
 }
 
+// 与后端 split_reader_note 同规则：首个「【读后感】」（可带前导破折号）之后为读后感
+function splitReaderNote(t){
+  const m = /\s*(?:[—–\-]+\s*)?【读后感】\s*[:：]?\s*/.exec(t||'');
+  return m ? [t.slice(0,m.index).trimEnd(), t.slice(m.index+m[0].length).trim()] : [t||'', ''];
+}
 function setVal(id,v){ if(Array.isArray(v)) v = v.join(', '); if(v!==undefined && v!==null && v!=="") $(id).value = v; }
 function getCheckedTopics(){
   return [...document.querySelectorAll('#topics input:checked')].map(c=>c.value);
@@ -281,7 +291,9 @@ function applyExtraction(d, resolvedLinks, unresolvedLinks){
   document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove());
   if(Array.isArray(d.suggested_topics)) d.suggested_topics.forEach(t=>addTopicChip(t, true, false));
   // notes 只回填用户原始信息（绝不写入抓取/补充内容）
-  setVal('notes', $('raw').value);
+  const [rawBody, readerNote] = splitReaderNote($('raw').value);
+  $('notes').value = rawBody;          // 直接覆盖：上一条的读后感不能残留到本条
+  $('reader_note').value = readerNote;
   const links = [...(resolvedLinks||[]).map(l=>({...l,ok:true})),
                  ...(unresolvedLinks||[]).map(l=>({...l,ok:false}))];
   renderLinkStatus(links);
@@ -380,7 +392,7 @@ $('btnSubmit').onclick = async (force)=>{
       }catch(e){ /* 标记失败不影响提交结果 */ }
     }
     // 提交成功后清空表单，保留以便连续录入
-    ['id','title','subtopic','summary','keywords','orgs','paper','code','dataset','link','content','purpose','insight','notes'].forEach(id=>$(id).value='');
+    ['id','title','subtopic','summary','keywords','orgs','paper','code','dataset','link','content','purpose','insight','notes','reader_note'].forEach(id=>$(id).value='');
     document.querySelectorAll('#topics label.is-new').forEach(e=>e.remove()); // 新建的主题已落库，移除候选 chip
     document.querySelectorAll('#topics input, #research input').forEach(c=>c.checked=false);
     $('raw').value='';

@@ -178,6 +178,12 @@ enableEmoji = true
       copyright = 0
       statistics = 0
 
+  # 页脚访问量（站点访客数 UV + 总访问量 PV，全站每页底部显示），见 layouts/partials/custom/footer.html。
+  # 主题自带的不蒜子 [params.ibruce] 服务已不可用，保持关闭，改用兼容的 Vercount。
+  [params.visitorCount]
+    enable = true
+    source = 'https://events.vercount.one/js'
+
   # Section 页（updates / topic 等列表）
   [params.section]
     paginate = 20

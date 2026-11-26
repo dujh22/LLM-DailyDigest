@@ -60,6 +60,25 @@ python app.py
 - 有抓取失败链接的条目**不消耗 LLM**，直接进入「待介入」等用户补充。
 - 「⚡ 一键自动处理并提交」：跳过人工核对——待处理条目先自动抽取，随后全部「待核对」条目直接按抽取结果提交（`notes` 逐字保留原文、候选新主题默认并入），适合信任抽取质量的整批快速录入。「待介入」条目不会被自动提交；自动提交失败的条目保持「待核对」并显示原因。
 
+### 读后感 → 读者兴趣抽取数据集
+
+批处理（或单条原始信息）每条末尾可追加 `——【读后感】读完后自己获得的关键信息`：
+
+- 录入时以首个 `【读后感】` 标记为界拆开：正文进 `notes`，读后感进条目新字段 `reader_note`，日报页在「启示」下方以「读后感」展示；
+- LLM 抽取**看不到**读后感（避免标签泄漏），因此每条日报条目天然是一个样本：`notes` = query，`reader_note` = ground truth，当时抽取写入的 `summary/content/purpose/insight` = 基线预测；
+- 导出：`./venv/bin/python build_reader_dataset.py [--since 日期] [--format records|sft] [--fetch]` → `data/reader_dataset/reader_notes.<format>.jsonl`（派生产物，已 gitignore）。`--fetch` 会补抓链接正文，还原抽取时模型的完整输入。
+
+### 阅读反馈 `/feedback`
+
+看完日报后记录「新认识 / 不满意 / 建议」，默认针对今天之前最近一期日报，可关联到具体条目。数据存于仓库根 `data/feedback/feedback.json`（纳入 git，自动部署只提交 `content/`，不会自动推送）。
+
+未处理的「不满意 / 建议」每 7 天提醒一次（`FEEDBACK_REMIND_DAYS` 可改）：
+
+- 启动 `python app.py` 时终端打印待修清单；录入首页顶部显示横幅，在 `/feedback` 点「本周已查看」后 7 天内不再提醒；
+- Claude Code 读/改 `backend/app.py` 时由 `.claude/hooks/feedback_reminder.py` 注入提醒，让 Claude 先询问是否修复这些反馈（每周最多一次）。
+
+修完后在 `/feedback` 标记「已修复」并写明怎么修的；也可 `POST /api/feedback/<id>` `{"status": "fixed", "resolution": "…"}`。
+
 ### 当日推荐 `/recommend`
 
 采集指定时间窗口内与你研究相关的内容，LLM 判定相关性后勾选导入批处理，形成「推荐 → 抽取 → 提交」的完整链路。页面打开时只读取状态，**不会自动采集**：确认时间窗口后点「采集」触发，避免自动采集与手动选窗口后二次启动重复。
