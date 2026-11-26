@@ -29,6 +29,24 @@ AI 辅助的人类进化（AI-augmented human evolution）关注"人这一侧"�
 - [EvolveLLM](https://github.com/dujh22/EvolveLLM) — 博士课题《Toward True ASI》承载仓库，"模型自进化 → 人机共同进化"是其中的研究延伸。
 - [LLM-DailyDigest](https://github.com/dujh22/LLM-DailyDigest) — 以 AI 过滤信息、由人反馈标注的日常科研信息流，是"AI 增强研究者认知带宽"的实践样本。
 
+## 自研洞察
+
+<!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研洞察 -->
+
+## 自研经验
+
+<!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研经验 -->
+
+## 研究经验
+
+<!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+*（暂无，随日报自动积累）*
+<!-- research-experience:end -->
+
 ## 相关工作
 
 **代码 / 框架**

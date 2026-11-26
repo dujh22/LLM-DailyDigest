@@ -27,6 +27,24 @@ toc = true
 - [CLUB-benchmark (LogicEvolve)](https://github.com/dujh22/CLUB-benchmark) — 复杂逻辑推理的智能体评测与自进化平台，含元数据驱动的数据合成（Sudoku/迷宫/数独/Knights&Knaves/Zebra/代码推理等）与多基准（CLUB/CLUBv2/ToolCLUB/ExCLUB/BBH/SynLogic/LogiQA2）数据管线。
 - [EvolveLLM](https://github.com/dujh22/EvolveLLM) — 博士课题《Toward True ASI》承载仓库，含自进化机制综述与方法论沉淀。
 
+## 自研洞察
+
+<!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研洞察 -->
+
+## 自研经验
+
+<!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研经验 -->
+
+## 研究经验
+
+<!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+*（暂无，随日报自动积累）*
+<!-- research-experience:end -->
+
 ## 相关工作
 
 **代码 / 框架**

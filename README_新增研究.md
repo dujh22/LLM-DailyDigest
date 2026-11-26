@@ -35,6 +35,24 @@ toc = true
 ## 自研项目
 ...
 
+## 自研洞察
+
+<!-- human-only:start 自研洞察｜…（标记原文见 backend/research_sections.py） -->
+*（待人工补充）*
+<!-- human-only:end 自研洞察 -->
+
+## 自研经验
+
+<!-- human-only:start 自研经验｜… -->
+*（待人工补充）*
+<!-- human-only:end 自研经验 -->
+
+## 研究经验
+
+<!-- research-experience:start｜… -->
+*（暂无，随日报自动积累）*
+<!-- research-experience:end -->
+
 ## 相关工作
 
 **代码 / 框架**
@@ -44,12 +62,17 @@ toc = true
 ...
 ```
 
-其中两处是**机器可读约定**，格式不能改：
+> 三个新栏目不必手写：首次整备时后端会自动补齐（`research_sections.ensure_sections`，只新增空栏目、不改已有内容），也可手动运行
+> `cd backend && ./venv/bin/python -c 'import app, research_sections as rs; [app.write_research_page(n, rs.ensure_sections) for n in app.valid_research()]'`。
+
+其中以下几处是**机器可读约定**，格式不能改：
 
 | 位置 | 消费方 | 说明 |
 |---|---|---|
 | `> 研究方向：...` 行 | `backend/recommend.py` 的 `build_research_profile()` | 正则 `^>\s*研究方向[：:]` 提取，作为推荐系统 LLM 判定的研究画像 |
 | `## 研究范畴` 小节 | 同上 | 提取该小节前 400 字作为画像补充；缺失则画像只剩一句方向，推荐召回质量下降 |
+| `## 自研洞察` / `## 自研经验` 整个小节（标题到下一个 `##`） | 后端写盘守卫 + `.claude/hooks/guard_research_human.py` | **人类专属**：只允许人类手动修改。后端改研究页前后逐字比对，被改动即拒写；Claude Code 中 AI 的编辑若会改动它们，hook 强制弹窗询问人类 |
+| `## 研究经验` 的 `research-experience` 标记对 | `backend/app.py` → `refresh_research_experiences()` | 随日报整备自动增量更新（见下文），标记对之间整块替换 |
 
 ### 2. 更新两处 README 的研究项目列表（手动）
 
@@ -73,14 +96,22 @@ toc = true
 | 网站研究列表页 | Hugo `/research/`（菜单见 `hugo.toml`） | 自动收录新页面 |
 | 网站研究详情页 | `layouts/research/single.html` | 渲染正文 + 页头 `proposer`/`since`，并自动聚合所有 `content/updates/*.md` 中 items 的 `research` 数组命中本项目名的条目为「相关工作」 |
 
-## 三、注意事项
+## 三、研究经验栏目（自动维护）
+
+- **内容**：经验列表，每条是面向整个研究社区的具体洞察或方法论，下挂支撑它的具体工作（链接到日报条目锚点，按日期倒序）。格式：
+  `1. **经验标题**：经验正文` + 子项 `   - [工作标题](../../updates/<日期>/#<条目id>) · <日期>`。
+- **自动更新**：每次当日整备（`/api/finalize`，见 `backend/README.md`）最后一步，按研究项目取当日打了该研究标签的新条目，交给 LLM 增量合并——修订已有经验、把新工作挂到已有经验、或新增经验；不会删除已有经验或已挂工作。每个研究上限 `EXPERIENCE_MAX`（默认 15）条。被去重删除的条目链接会自动清理。
+- **可人工修订**：直接改标记对之间的列表即可，下次自动更新以当前内容为基础继续合并。
+- **回填历史**：`cd backend && ./venv/bin/python backfill_research_experience.py --days 30 [研究名...]`（或 `--all`；默认不部署，加 `--deploy` 同步提交推送）。可重复执行，已判定条目自动跳过。
+
+## 四、注意事项
 
 1. **不要在 `content/research/` 放非研究项目的 md 文件**（如 README、草稿）——任何 `*.md` 都会被 `valid_research()` 当成研究项目，进入 LLM prompt 和标注复选框，同时被 Hugo 渲染成研究页。本指南因此放在仓库根目录。
 2. 日报 items 中 `research` 的取值必须与文件名 stem **完全一致**（含大小写），不一致会在保存 / 部署校验时被过滤掉。
 3. 研究页的「相关工作」是自动聚合的，新研究刚建立时为空属正常，等后续日报条目打上该研究标签后自动出现。
 4. 网站需要重新构建（Hugo）才会出现新页面；后端标注服务不需要重启。
 
-## 四、验证
+## 五、验证
 
 ```bash
 # 1. 后端能发现新研究（含推荐画像提取是否成功）

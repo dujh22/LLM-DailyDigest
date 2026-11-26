@@ -26,6 +26,24 @@ toc = true
 
 - [EvolveLRM](https://github.com/dujh22/EvolveLRM) — 面向逻辑推理的自我进化闭环框架，自动跑通"评测 → 数据选择 → 训练 → 再评测"；含 Evaluator / DataMaker / Trainer 三模块与 Planner / Adapter / Logger，支持 SFT 与 RL（PPO/GRPO/LoRA）及底层训练框架热插拔。
 
+## 自研洞察
+
+<!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研洞察 -->
+
+## 自研经验
+
+<!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研经验 -->
+
+## 研究经验
+
+<!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+*（暂无，随日报自动积累）*
+<!-- research-experience:end -->
+
 ## 相关工作
 
 **代码 / 框架**

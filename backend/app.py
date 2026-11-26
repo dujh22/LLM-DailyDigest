@@ -11,6 +11,7 @@ LLM-DailyDigest 单条消息提交后端（本地工具）
   GET  /dedup         条目去重归并页（URL 判重，预览 + 应用两步）
   POST /api/dedup/preview|apply  去重扫描 / 执行（days 默认 7，可指定 14、30 等更大窗口）
   POST /api/finalize  当日整备：URL+语义去重（LLM 判同一工作，自动应用）→ 重生成日报头部摘要
+                      → 增量更新各研究页「研究经验」栏目
                       （幂等，可重复执行）。批次自动提交完成后自动执行一次；
                       单条提交后防抖执行（FINALIZE_DEBOUNCE 秒，默认 600）
   GET  /merge         主题/子主题归并页；LLM 推荐为主题、子主题分开的全量分批遍历
@@ -53,6 +54,9 @@ except Exception:  # noqa: BLE001
 
     def deploy_now(*a, **k):
         return {"ok": False, "message": "deploy 模块未加载"}
+
+# 研究页特殊栏目（人类专属栏目守卫 + 研究经验解析/渲染），纯标准库，见 backend/research_sections.py
+import research_sections
 
 # 当日推荐采集模块（见 backend/recommend.py）。导入失败时相关路由返回 503。
 try:
@@ -1419,7 +1423,7 @@ def write_daily_summary(d: str, block_md: str, featured: list = None) -> bool:
 def finalize_day(d=None, use_llm=True) -> dict:
     """当日整备（幂等，可重复执行）：
     ① 当日 URL 去重（含 notes 内 arXiv/GitHub 链接提取）→ ② LLM 语义去重 →
-    ③ 重生成头部摘要。先去重后摘要，保证摘要不统计重复条目；
+    ③ 重生成头部摘要 → ④ 增量更新研究经验。先去重后摘要，保证摘要不统计重复条目；
     无 API Key 时仅做规则 URL 去重。"""
     d = d or date.today().isoformat()
     path = today_daily_path(d)
@@ -1455,6 +1459,14 @@ def finalize_day(d=None, use_llm=True) -> dict:
                         res["summary"] = "unchanged"
             except Exception as e:  # noqa: BLE001
                 res["errors"].append(f"摘要生成失败：{e}")
+            try:
+                r = refresh_research_experiences(d)
+                res["experience"] = r["updated"]
+                res["errors"] += r["errors"]
+                if r["updated"]:
+                    trigger_deploy(f"更新研究经验 {d}：{'、'.join(r['updated'])}")
+            except Exception as e:  # noqa: BLE001
+                res["errors"].append(f"研究经验更新失败：{e}")
         else:
             res["errors"].append("无 API Key 或已禁用 LLM：跳过语义去重与摘要生成")
     return res
@@ -1496,6 +1508,205 @@ def finalize_now(d=None) -> dict:
             _FINALIZE_STATE["timer"].cancel()
             _FINALIZE_STATE["timer"] = None
     return finalize_day(d)
+
+
+# ============================================================
+# 研究经验：随日报整备增量更新 content/research/*.md 的「## 研究经验」栏目
+# 每条经验 = 面向整个研究社区的洞察 / 方法论 + 支撑它的具体工作（链接日报条目锚点）。
+# 只改 research-experience 标记对之间的块；「自研洞察 / 自研经验」为人类专属，
+# 写盘前后逐字比对（research_sections.human_violations），被改动则拒绝写入。
+# ============================================================
+EXPERIENCE_MAX = int(os.environ.get("EXPERIENCE_MAX", "15"))  # 每个研究的经验条数上限
+EXPERIENCE_CHUNK = 40          # 单次 LLM 调用最多送入的新条目数（回填历史时分批）
+EXPERIENCE_SEEN_DAYS = 7       # experience-seen 水位只保留最近 N 天，防止无限增长
+_RESEARCH_WRITE_LOCK = threading.Lock()
+# 跨进程文件锁：回填脚本与服务端整备可能同时写同一研究页（已 gitignore）
+_RESEARCH_LOCK_FILE = REPO_ROOT / ".research_write.lock"
+
+
+class _StaleExperience(Exception):
+    """LLM 调用期间研究经验块被他人（人工 / 另一进程）改动，需基于新内容重做。"""
+
+
+def _research_profile(text: str) -> str:
+    """研究画像：「研究方向」一行 + 研究范畴前 300 字。"""
+    direction = ""
+    m = re.search(r"^>\s*研究方向[：:]\s*(.+)$", text, re.M)
+    if m:
+        direction = m.group(1).strip()
+    scope = ""
+    m = re.search(r"^## 研究范畴\s*\n(.*?)(?=^## |\Z)", text, re.M | re.S)
+    if m:
+        scope = re.sub(r"\s+", " ", m.group(1)).strip()[:300]
+    return f"{direction}\n{scope}".strip()
+
+
+def write_research_page(name: str, transform) -> bool:
+    """读-改-写研究页：new = transform(old)。人类专属栏目被改动时拒绝写入并上抛。"""
+    import fcntl
+    path = RESEARCH_DIR / f"{name}.md"
+    with _RESEARCH_WRITE_LOCK, open(_RESEARCH_LOCK_FILE, "a") as lf:
+        fcntl.flock(lf, fcntl.LOCK_EX)
+        old = path.read_text(encoding="utf-8")
+        new = transform(old)
+        bad = research_sections.human_violations(old, new)
+        if bad:
+            raise RuntimeError(f"研究页 {name} 拒绝写入：" + "；".join(bad))
+        if new == old:
+            return False
+        path.write_text(new, encoding="utf-8")
+        return True
+
+
+def llm_update_experiences(name: str, profile: str, exps: list, fresh: list) -> list:
+    """把一批新条目 fresh=[(日期, item), ...] 增量合并进经验列表 exps，返回新列表。
+    LLM 只能：修订已有经验措辞、把新工作挂到已有经验、新增经验；不能删除已有经验或已挂工作。"""
+    refs = {}
+    works = []
+    for i, (d, it) in enumerate(fresh, 1):
+        ref = f"w{i}"
+        refs[ref] = {"date": d, "id": it["id"], "title": it.get("title", "")}
+        w = {"ref": ref, "标题": it.get("title", ""), "摘要": it.get("summary", "") or "",
+             "启示": (it.get("insight", "") or "")[:160]}
+        lim = _LIMITS_RE.search(it.get("content", "") or "")
+        if lim:
+            w["局限与后续"] = lim.group(1).strip()[:160]
+        works.append(w)
+    current = [{"index": i, "标题": e["title"], "经验": e["insight"],
+                "已有工作": [w["title"] for w in e["works"][:6]]}
+               for i, e in enumerate(exps, 1)]
+    system_prompt = (
+        "你是大模型研究社区的观察者，为一个研究项目维护「研究经验」列表。"
+        "每条经验是对整个研究社区的一条具体洞察或方法论（社区普遍在用 / 被多项工作验证有效的做法、"
+        "反复出现的失败模式、正在形成共识或分歧的判断），后面挂着支撑它的具体工作。"
+        "输入：研究项目画像、现有经验列表（带编号）、一批新收录的相关工作（带 ref）。"
+        "请把新工作增量合并进经验列表：\n"
+        "1. 新工作能佐证 / 细化某条已有经验 → 挂到该经验下；只有新证据确实改变或细化了结论时才修订其措辞，"
+        "否则保持原文不动（稳定性优先）。\n"
+        "2. 新工作体现了已有经验未覆盖、且可推广的社区级洞察或方法论 → 新增经验。"
+        "单篇工作只有在其方法明显可迁移到同类问题时才单独成条，不要把某篇论文的摘要改写成一条「经验」。\n"
+        "3. 与本研究关系弱、或只是孤立结果的工作不必挂接，宁缺毋滥。\n"
+        f"4. 经验总数上限 {EXPERIENCE_MAX} 条；已达上限时只能挂接到已有经验或修订已有经验来吸收新证据。\n"
+        "写法：标题 ≤12 字的名词短语；经验正文 1~2 句（≤80 字），写成可指导研究决策的具体判断"
+        "（如「X 场景下用 Y 比 Z 更稳，因为 …」），禁止「越来越重要」「值得关注」「进一步」这类空话。\n"
+        "只输出 JSON：{\"update\": [{\"index\": 已有经验编号, \"title\": 可选修订后标题, "
+        "\"insight\": 可选修订后正文, \"works\": [新工作 ref, ...]}], "
+        "\"new\": [{\"title\": ..., \"insight\": ..., \"works\": [新工作 ref, ...]}]}。"
+        "update 中不修订的字段省略；works 只能取自输入的 ref；没有可做的就输出空数组。"
+    )
+    out = _llm_chat(system_prompt, {"研究项目": name, "画像": profile, "现有经验": current,
+                                    "新工作": works}, want_json=True)
+    if not isinstance(out, dict):
+        out = {}
+    exps = [dict(e, works=list(e["works"])) for e in exps]
+    txt = research_sections.clean_line
+
+    def ops(key):
+        v = out.get(key)
+        return [x for x in v if isinstance(x, dict)] if isinstance(v, list) else []
+
+    def attach(e, ids):
+        have = {(w["date"], w["id"]) for w in e["works"]}
+        for r in ids if isinstance(ids, list) else []:
+            w = refs.get(r) if isinstance(r, str) else None
+            if w and (w["date"], w["id"]) not in have:
+                have.add((w["date"], w["id"]))
+                e["works"].append(w)
+
+    for u in ops("update"):
+        try:
+            idx = int(u.get("index"))
+        except (TypeError, ValueError):
+            continue
+        if not 1 <= idx <= len(exps):
+            continue
+        e = exps[idx - 1]
+        if txt(u.get("title")):
+            e["title"] = txt(u["title"])
+        if txt(u.get("insight")):
+            e["insight"] = txt(u["insight"])
+        attach(e, u.get("works"))
+    for n in ops("new"):
+        e = {"title": txt(n.get("title")), "insight": txt(n.get("insight")), "works": []}
+        attach(e, n.get("works"))
+        if e["title"] and e["insight"] and e["works"] and len(exps) < EXPERIENCE_MAX:
+            exps.append(e)
+    return exps
+
+
+def update_research_experience(name: str, dated_items: list, live=None) -> dict:
+    """把 dated_items=[(日期, item), ...] 中尚未判定过的条目合并进研究 name 的经验列表。
+    live={日期: {当前存在的 id}} 时，顺带清理这些日期下已被去重删除的悬空工作链接。
+    LLM 在锁外调用；写盘时若经验块已被他人改动则基于新内容重做（最多 3 次）。"""
+    path = RESEARCH_DIR / f"{name}.md"
+    for _attempt in range(3):
+        text = research_sections.ensure_sections(path.read_text(encoding="utf-8"))
+        snapshot = research_sections.experience_block(text)
+        if snapshot is None:
+            # 有「## 研究经验」标题但缺标记（人工写法）：不自动维护，也不浪费 LLM 调用
+            return {"changed": False, "fresh": 0, "experiences": 0}
+        exps = research_sections.parse_experiences(text)
+        seen = research_sections.parse_seen(text)
+        seen |= {f"{w['date']}/{w['id']}" for e in exps for w in e["works"]}
+        if live:
+            for e in exps:
+                e["works"] = [w for w in e["works"]
+                              if w["date"] not in live or w["id"] in live[w["date"]]]
+        fresh = [(d, it) for d, it in dated_items
+                 if it.get("id") and f"{d}/{it['id']}" not in seen]
+        profile = _research_profile(text)
+        for i in range(0, len(fresh), EXPERIENCE_CHUNK):
+            chunk = fresh[i:i + EXPERIENCE_CHUNK]
+            exps = llm_update_experiences(name, profile, exps, chunk)
+            seen |= {f"{d}/{it['id']}" for d, it in chunk}
+        # 水位保留最近 EXPERIENCE_SEEN_DAYS 天，且至少覆盖本次输入的最早日期（回填重跑不重复判定）；
+        # 已挂接的条目也记入，人工删掉某条工作链接后不会被自动挂回
+        newest = max([s[:10] for s in seen] or [date.today().isoformat()])
+        cutoff = (date.fromisoformat(newest) - timedelta(days=EXPERIENCE_SEEN_DAYS)).isoformat()
+        cutoff = min([cutoff] + [d for d, _ in dated_items])
+        seen = {s for s in seen if s[:10] >= cutoff}
+
+        def transform(old):
+            if research_sections.experience_block(research_sections.ensure_sections(old)) != snapshot:
+                raise _StaleExperience()
+            return research_sections.replace_experiences(old, exps, seen)
+
+        try:
+            changed = write_research_page(name, transform)
+        except _StaleExperience:
+            continue
+        return {"changed": changed, "fresh": len(fresh), "experiences": len(exps)}
+    raise RuntimeError(f"研究页 {name} 的研究经验块持续被并发改动，本次放弃更新")
+
+
+def refresh_research_experiences(d: str) -> dict:
+    """日报整备的最后一步：对当日带研究标签的条目，按研究项目并发更新研究经验。"""
+    day = parse_day_items(d)
+    ids = {it.get("id") for _i, it in day if it.get("id")}
+    live = {d: ids} if ids else None   # 当日解析为空时不清理链接，防止误删
+    by_research = {}
+    names = valid_research()
+    canon = {n.lower(): n for n in names}   # 与 _collect_research_items 一致：标签不区分大小写
+    for _i, it in day:
+        for r in it.get("research", []) or []:
+            n = canon.get(str(r).strip().lower())
+            if n:
+                by_research.setdefault(n, []).append((d, it))
+    res = {"updated": [], "errors": []}
+
+    def run(n):
+        return n, update_research_experience(n, by_research.get(n, []), live)
+
+    with ThreadPoolExecutor(max_workers=8, thread_name_prefix="experience") as ex:
+        futs = [ex.submit(run, n) for n in names]
+        for f in futs:
+            try:
+                n, r = f.result()
+                if r["changed"]:
+                    res["updated"].append(n)
+            except Exception as e:  # noqa: BLE001
+                res["errors"].append(f"研究经验更新失败：{e}")
+    return res
 
 
 def merge_report_maps(topic_map: dict, sub_map: dict):

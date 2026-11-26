@@ -28,6 +28,24 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
 - [EvolveLLM](https://github.com/dujh22/EvolveLLM) — 博士课题《Toward True ASI》承载仓库，训练侧自进化是《大语言模型复杂推理的自我进化机制》综述的核心路线之一。
 - [CLUB-benchmark (LogicEvolve)](https://github.com/dujh22/CLUB-benchmark) — 复杂逻辑推理智能体评测与自进化平台，提供可程序化验证的任务族，可作为 Agent RL 训练环境。
 
+## 自研洞察
+
+<!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研洞察 -->
+
+## 自研经验
+
+<!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研经验 -->
+
+## 研究经验
+
+<!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+*（暂无，随日报自动积累）*
+<!-- research-experience:end -->
+
 ## 相关工作
 
 **代码 / 框架**

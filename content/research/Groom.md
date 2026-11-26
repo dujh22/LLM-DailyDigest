@@ -27,6 +27,24 @@ toc = true
 - [Groom](https://github.com/dujh22/Groom) — 面向 Agent Harness 的过程级 token 利用评测框架：`native + sidecar` 统一过程观测、token 8 阶段成本分解、`Injected / Referenced / Effective` 三态证据判据；V0 工具链仅用标准库、已跑通 golden trace 闭环。
 - [H-TokenBench](https://github.com/dujh22/H-TokenBench) — "Benchmarking How LLMs Harness Tokens for Reasoning"，评测 LLM 在推理中如何利用 token 的基准。
 
+## 自研洞察
+
+<!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研洞察 -->
+
+## 自研经验
+
+<!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+*（待人工补充）*
+<!-- human-only:end 自研经验 -->
+
+## 研究经验
+
+<!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+*（暂无，随日报自动积累）*
+<!-- research-experience:end -->
+
 ## 相关工作
 
 > 公开检索（GitHub / arXiv）暂未找到以 "Groom" 为名的同类公开项目或论文。相关公开工作可参考 [[HarnessEvolve]]（评测 harness 演进）与 [[EvalEvolve]]（进化式评测）方向下的资源。
