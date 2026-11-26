@@ -1,0 +1,8 @@
+{{- /* 主页资料卡底部：GitHub Star 按钮，由 hugo.toml 的 params.githubStar 控制。 */ -}}
+{{- with .Site.Params.githubStar -}}
+  {{- if and .enable .home -}}
+    <div class="home-github-star" style="margin-top: .75rem;" title="喜欢的话，去 GitHub 点个 Star 吧">
+      {{- partial "custom/github-star.html" (dict "repo" .repo "size" "large") -}}
+    </div>
+  {{- end -}}
+{{- end -}}

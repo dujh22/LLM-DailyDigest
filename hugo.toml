@@ -287,6 +287,14 @@ enableEmoji = true
     color = 'purple'
     theme = 'minimal'
 
+  # GitHub Star 按钮（buttons.github.io，显示实时星数，点击跳转仓库页 Star），见 layouts/partials/custom/github-star.html。
+  # home：主页资料卡底部；footer：全站页脚。
+  [params.githubStar]
+    enable = true
+    repo = 'dujh22/LLM-DailyDigest'
+    home = true
+    footer = true
+
   # 右上角 GitHub 角标
   [params.githubCorner]
     enable = true

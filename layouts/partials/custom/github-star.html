@@ -1,0 +1,9 @@
+{{- /* GitHub Star 按钮（官方 buttons.github.io，实时显示星数）。点击跳转到仓库页由读者自行 Star——
+     静态站无法代读者加星（需 OAuth + 后端）。传入 dict "repo" "owner/name" "size" "large"|""。
+     按钮脚本只在页脚加载一次（footer.html），同页多个按钮共用。 */ -}}
+{{- $repo := .repo -}}
+<a class="github-button" href="https://github.com/{{ $repo }}"
+  data-icon="octicon-star" data-show-count="true"
+  {{- with .size }} data-size="{{ . }}"{{ end }}
+  data-color-scheme="no-preference: light; light: light; dark: dark;"
+  aria-label="Star {{ $repo }} on GitHub">Star</a>

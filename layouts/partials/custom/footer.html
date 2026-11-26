@@ -12,3 +12,15 @@
   </div>
   <script defer src="{{ .Site.Params.visitorCount.source | default "https://events.vercount.one/js" }}"></script>
 {{- end -}}
+
+{{- /* 页脚 GitHub Star 按钮 + 按钮脚本（全站加载一次，主页资料卡里的按钮也靠它渲染）。由 params.githubStar 控制。 */ -}}
+{{- with .Site.Params.githubStar -}}
+  {{- if .enable -}}
+    {{- if .footer -}}
+      <div class="footer-line github-star order-4" title="喜欢的话，去 GitHub 点个 Star 吧">
+        {{- partial "custom/github-star.html" (dict "repo" .repo) -}}
+      </div>
+    {{- end -}}
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  {{- end -}}
+{{- end -}}
