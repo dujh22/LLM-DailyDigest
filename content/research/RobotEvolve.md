@@ -43,7 +43,110 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-*（暂无，随日报自动积累）*
+1. **双路径自进化**：部署后应按修复范围分层：记忆、Harness、接口适配与小规模权重编辑用于快速纠错，缺失能力再做完整策略更新；后者须额外评测分布外能力保持。
+   - [预训练VLA持续学习：分布外遗忘诊断](../../updates/2026-11-25/#vla) · 2026-11-25
+   - [Self-Upgrading Embodied Agents：经验驱动权重自升级](../../updates/2026-11-25/#self-upgrading-embodied-agents) · 2026-11-25
+   - [RoboAda：计划保持式指令校正](../../updates/2026-11-25/#roboada) · 2026-11-25
+   - [Embo-Harness：原生能力优先的机器人策略框架](../../updates/2026-11-25/#embo-harness) · 2026-11-25
+   - [LoCo-WAM：测试时训练延展长上下文](../../updates/2026-11-23/#loco-wam) · 2026-11-23
+   - [Embodied-Harness：经验驱动脚手架自改进](../../updates/2026-11-23/#embodied-harness) · 2026-11-23
+   - [CoachSI：语言教练驱动策略自改进](../../updates/2026-11-20/#coachsi) · 2026-11-20
+   - [WICL：面向智能体机器人操作的世界上下文学习](../../updates/2026-11-12/#wicl) · 2026-11-12
+   - [SimplEvo：通过文本记忆演化提升具身智能体](../../updates/2026-11-12/#simplevo) · 2026-11-12
+   - [LLM 通过权重编辑调试机器人策略](../../updates/2026-11-12/#llm-8) · 2026-11-12
+   - [VISTA：机器人通过自编程实现不动权重的具身自进化](../../updates/2026-11-08/#vista) · 2026-11-08
+   - [具身双脑协同：让机器人跨任务复用经验](../../updates/2026-11-08/#item-19) · 2026-11-08
+   - [uni-robot-agent：面向开源机器人智能体的统一 Harness](../../updates/2026-11-04/#uni-robot-agent-harness) · 2026-11-04
+   - [智元发布具身智能模型 GO-3 Preview](../../updates/2026-11-02/#go-3-preview) · 2026-11-02
+   - [PhysicalRSI 1.0通过具身递归自我改进登顶RoboDojo](../../updates/2026-11-01/#physicalrsi-1-0-robodojo) · 2026-11-01
+   - [智元 Genie Master 在便利店跑通具身递归自我改进](../../updates/2026-10-29/#genie-master) · 2026-10-29
+2. **潜在未来建模**：未来建模应按用途选形态：需显式规划时联合生成视觉与稠密4D几何；部署控制时将分层潜在未来对齐动作分块，避免生成完整视频。
+   - [Plan4D：生成式可规划4D世界](../../updates/2026-11-25/#plan4d-4d) · 2026-11-25
+   - [LS-MBPO：潜空间子块滚动强化](../../updates/2026-11-23/#ls-mbpo) · 2026-11-23
+   - [HINT-WAM：事后信息在策略自蒸馏](../../updates/2026-11-20/#hint-wam) · 2026-11-20
+   - [DexForesight：以隐式空间预见增强灵巧操作策略](../../updates/2026-11-12/#dexforesight) · 2026-11-12
+   - [HiFOR：动作引导世界锚定与分层前瞻的视觉-语言-动作模型](../../updates/2026-11-03/#hifor) · 2026-11-03
+   - [PDRVLA：融合物理动力学表征的视觉-语言-动作模型](../../updates/2026-10-29/#pdrvla) · 2026-10-29
+   - [视觉语言智能体在自身潜在世界中学习：Dwell框架](../../updates/2026-10-29/#dwell) · 2026-10-29
+3. **反事实经验回溯**：处理失败应先归因最早的关键决策点，比较替代动作，并以策略自身分布上的续跑结果验证，才能把稀疏成败信号转成动作级监督。
+   - [Mind2Act World：心智动作组合诊断](../../updates/2026-11-21/#mind2act-world) · 2026-11-21
+   - [AeroRSI：续飞验证式递归自改进](../../updates/2026-11-19/#aerorsi) · 2026-11-19
+   - [智能体机器人自学习中的模型、技能、反馈与课程控制研究](../../updates/2026-11-12/#item-202) · 2026-11-12
+   - [Rollback：世界模型中的经验回溯与策略改进](../../updates/2026-10-29/#rollback) · 2026-10-29
+4. **自动仿真审计**：自动生成环境与轨迹不能只扩规模；须审计去重、物理可执行性及跨模态接触时序，保持长程状态连续，并以真实重建校准、隔离评分逻辑。
+   - [VeriTouch：验证式视触觉轨迹合成](../../updates/2026-11-25/#veritouch) · 2026-11-25
+   - [RoboUniverse-10K：万级可验证具身环境](../../updates/2026-11-25/#robouniverse-10k) · 2026-11-25
+   - [γ-Scape：智能体中心具身世界](../../updates/2026-11-24/#scape) · 2026-11-24
+   - [RoboFinals RL Envs：物理可信长程仿真](../../updates/2026-11-17/#robofinals-rl-envs) · 2026-11-17
+   - [HolidayFactory 1.0：工业机器人任务仿真、生成与评测框架](../../updates/2026-11-12/#holidayfactory-1-0) · 2026-11-12
+   - [PyRUA-DataFarm：LLM 远程操作者驱动的真实场景机器人数据采集](../../updates/2026-11-06/#pyrua-datafarm-llm) · 2026-11-06
+   - [优必选发布Thinker-Sim具身智能仿真平台](../../updates/2026-11-03/#thinker-sim) · 2026-11-03
+   - [Gym-Anything：用编程智能体规模化构建机器人仿真](../../updates/2026-10-30/#gym-anything) · 2026-10-30
+5. **主动孪生校准**：sim-to-real应以高信息量、无重置交互和实机失败证据持续反校孪生及设计，优于固定随机化或单向仿真搜索。
+   - [RoboBuilder：实机视频闭环机器人共设计](../../updates/2026-11-19/#robobuilder) · 2026-11-19
+   - [CUE：通过自主机器人交互弥合动力学鸿沟](../../updates/2026-11-06/#cue) · 2026-11-06
+6. **课程基线优先**：固定训练预算下应先跑简单环境和低难度课程基线；复杂课程没有跨机器人与地形的稳定优势，须逐本体验证。
+   - [四足机器人无监督环境设计与课程学习基准](../../updates/2026-10-30/#item-41) · 2026-10-30
+7. **人机数据分阶段**：先用人类第一视角数据学习语义与空间先验，再以机器人数据分阶段对齐动作，比直接混合更利于可执行迁移。
+   - [SLA：通过持续预训练扩展空间-语言-动作模型](../../updates/2026-11-08/#sla) · 2026-11-08
+   - [Open-HumanWAM：扩展人类与机器人经验的开放具身基础模型方案](../../updates/2026-11-08/#open-humanwam) · 2026-11-08
+   - [HuGe：基于自我中心经验的类人通用视觉-语言-动作模型](../../updates/2026-10-30/#huge) · 2026-10-30
+8. **跨本体潜在空间**：跨本体迁移应统一语义对齐的潜在动作或工具中心空间，并显式处理形态、动作参数化和控制频率差异，避免直接共享原始动作。
+   - [RynnVLA-Latent：几何潜动作预训练](../../updates/2026-11-25/#rynnvla-latent) · 2026-11-25
+   - [Native LAM：世界模型提炼潜在动作](../../updates/2026-11-25/#native-lam) · 2026-11-25
+   - [TCP4D：统一TCP跟踪与轨迹生成](../../updates/2026-11-19/#tcp4d-tcp) · 2026-11-19
+   - [SALA：语义对齐潜在动作双轴扩展](../../updates/2026-11-18/#sala) · 2026-11-18
+   - [EgoX：基于具身梦境的第一视角跨具身操控](../../updates/2026-11-14/#egox) · 2026-11-14
+   - [DreamX：视频扩散模型驱动的通用潜在动作学习](../../updates/2026-11-05/#dreamx) · 2026-11-05
+   - [连续动作世界模型：跨具身时空动力学先验学习](../../updates/2026-11-01/#item-15) · 2026-11-01
+9. **群体经验共享**：多机器人持续学习应异步汇聚同伴经验，并用失败条件引导检索与微调；容错训练是规模化真机学习的前提。
+   - [清华联合无问芯穹、智元提出机器人群体经验学习范式 CEL](../../updates/2026-10-30/#cel) · 2026-10-30
+10. **结构化经验复用**：经验应按用途结构化：控制历史可压缩为可寻址状态，技能存为语义或因果动作块；会反复变化的惯例须保留原始观测，避免摘要丢失情境。
+    - [nanoAstra：语义动作建模与能力保持微调](../../updates/2026-11-25/#nanoastra) · 2026-11-25
+    - [MXI-MemICL：自检索交互记忆](../../updates/2026-11-25/#mxi-memicl) · 2026-11-25
+    - [Motion Mamba 2.0：持久记忆式长时控制](../../updates/2026-11-25/#motion-mamba-2-0) · 2026-11-25
+    - [保留观测历史应对惯例复现](../../updates/2026-11-25/#item-117) · 2026-11-25
+    - [NavTTT：导航条件式分层参数记忆](../../updates/2026-11-23/#navttt) · 2026-11-23
+    - [R2A：成败记忆驱动在线适应](../../updates/2026-11-17/#r2a) · 2026-11-17
+    - [MetaAct：可执行动作约束自演化](../../updates/2026-11-17/#metaact) · 2026-11-17
+    - [SPIRE：基于情境推断与因果运动基元复用的具身持续学习](../../updates/2026-11-13/#spire) · 2026-11-13
+    - [VLA 有多少能力来自 kNN 检索？](../../updates/2026-11-12/#vla-knn) · 2026-11-12
+    - [HiMEM：面向3D场景VLA模型的仿海马记忆管理](../../updates/2026-11-12/#himem-3d-vla) · 2026-11-12
+    - [Auto-Robotist：用可复用经验驱动机器人协同设计](../../updates/2026-11-08/#auto-robotist) · 2026-11-08
+    - [HTCE：受同胚启发的跨场景导航经验规范化与复用](../../updates/2026-11-06/#htce) · 2026-11-06
+    - [CausGround：基于因果交互定位的自适应具身规划](../../updates/2026-10-30/#causground) · 2026-10-30
+11. **多维真实评测**：自进化系统应同时测轨迹目标进展、完成裕度、实时动态、跨本体、真机OOD与工程故障，并做逐动作首错归因；静态二元成功率会掩盖部署缺口。
+    - [WorldLeague：物理能动性统一评测](../../updates/2026-11-25/#worldleague) · 2026-11-25
+    - [RoboLiveMem：动静态配对记忆评测](../../updates/2026-11-25/#robolivemem) · 2026-11-25
+    - [MARGIN：近失裕度驱动程序修复](../../updates/2026-11-25/#margin) · 2026-11-25
+    - [AgentRoboCritic：意图锚定动作级评测](../../updates/2026-11-24/#agentrobocritic) · 2026-11-24
+    - [Mind2Act World：心智动作组合诊断](../../updates/2026-11-21/#mind2act-world) · 2026-11-21
+    - [Embodied First Exam：编码智能体具身控制综合评测](../../updates/2026-11-12/#embodied-first-exam) · 2026-11-12
+    - [RoboColosseum：大规模真实场景物理智能评测框架](../../updates/2026-11-05/#robocolosseum) · 2026-11-05
+    - [Motubrain 2.0 开启 Physical AI 全流程训练直播](../../updates/2026-10-30/#motubrain-2-0-physical-ai) · 2026-10-30
+    - [Gym-Anything-RT：视觉语言智能体实时交互评测基准](../../updates/2026-10-29/#gym-anything-rt) · 2026-10-29
+12. **信息边界闭合**：评测、工具与训练轨迹都须只使用部署时可见信息，并隔离评分逻辑；偏好奖励强搜索需配独立标准与校准正则，防止泄漏和优化验证器。
+    - [RoboUniverse-10K：万级可验证具身环境](../../updates/2026-11-25/#robouniverse-10k) · 2026-11-25
+    - [EviCraft：证据闭包式具身评测](../../updates/2026-11-25/#evicraft) · 2026-11-25
+    - [CGSI：上下文对齐技能内化](../../updates/2026-11-25/#cgsi) · 2026-11-25
+    - [规划器中的 Goodhart：采样控制如何利用人类偏好奖励](../../updates/2026-11-12/#goodhart) · 2026-11-12
+    - [学习任务还是学习验证器？具身自我改进中的标准暴露](../../updates/2026-11-08/#item-32) · 2026-11-08
+13. **离线代理筛选**：可用感觉—运动几何一致性或局部动作一致性预筛表征与检索器，降低训练成本，但仍须用真实成功率校准。
+    - [VLA 有多少能力来自 kNN 检索？](../../updates/2026-11-12/#vla-knn) · 2026-11-12
+    - [感觉运动对齐：具身策略成功的低成本代理指标](../../updates/2026-10-30/#item-18) · 2026-10-30
+14. **异步实时控制**：高层语义推理与低层控制应异步且可拆卸地解耦，以边界触发、提前停止和单步生成限制时延，避免同步等待破坏闭环。
+    - [RoboHarness-Zero：规划控制解耦脚手架](../../updates/2026-11-25/#roboharness-zero) · 2026-11-25
+    - [ZeroVLN：语义工具调用免微调导航](../../updates/2026-11-21/#zerovln) · 2026-11-21
+    - [DRIFT：可拆卸语言推理驾驶](../../updates/2026-11-20/#drift) · 2026-11-20
+    - [JustRUA：GPT-6 机器人操作智能体的受控研究](../../updates/2026-11-14/#justrua-gpt-6) · 2026-11-14
+    - [REA：异步脑-小脑控制的路由式具身智能体运行时](../../updates/2026-11-03/#rea) · 2026-11-03
+    - [OSWAM：单步动作生成的世界动作模型](../../updates/2026-11-03/#oswam) · 2026-11-03
+15. **策略强化协同**：机器人策略强化须联合设计价值估计、策略提取与数据分配；按进度分配交互、以局部价值排序并约束动作几何，才能稳定迁移到多任务。
+    - [ReFocus：进度引导式瓶颈加练](../../updates/2026-11-25/#refocus) · 2026-11-25
+    - [OVOGO：离线价值引导生成优化](../../updates/2026-11-25/#ovogo) · 2026-11-25
+    - [JKO-GRPO：Wasserstein近端更新](../../updates/2026-11-25/#jko-grpo-wasserstein) · 2026-11-25
+    - [强化学习扩展通用机器人策略的多任务改进能力](../../updates/2026-11-06/#item-25) · 2026-11-06
+<!-- experience-seen: 2026-10-29/dwell 2026-10-29/genie-master 2026-10-29/google-deepmind-genie-4 2026-10-29/gym-anything-rt 2026-10-29/pdrvla 2026-10-29/rollback 2026-10-30/causground 2026-10-30/cel 2026-10-30/gym-anything 2026-10-30/huge 2026-10-30/item-18 2026-10-30/item-41 2026-10-30/motubrain-2-0-physical-ai 2026-11-01/item-15 2026-11-01/physicalrsi-1-0-robodojo 2026-11-02/go-3-preview 2026-11-03/hifor 2026-11-03/oswam 2026-11-03/rea 2026-11-03/thinker-sim 2026-11-04/uni-robot-agent-harness 2026-11-05/dreamx 2026-11-05/robocolosseum 2026-11-06/cue 2026-11-06/htce 2026-11-06/item-150 2026-11-06/item-25 2026-11-06/neo-vla 2026-11-06/pyrua-datafarm-llm 2026-11-08/auto-robotist 2026-11-08/item-19 2026-11-08/item-32 2026-11-08/open-humanwam 2026-11-08/sla 2026-11-08/vista 2026-11-12/dexforesight 2026-11-12/embodied-first-exam 2026-11-12/goodhart 2026-11-12/gr00t-2 2026-11-12/himem-3d-vla 2026-11-12/holidayfactory-1-0 2026-11-12/item-202 2026-11-12/lingbot-touch 2026-11-12/llm-8 2026-11-12/simplevo 2026-11-12/vla-knn 2026-11-12/wicl 2026-11-13/spire 2026-11-14/egox 2026-11-14/justrua-gpt-6 2026-11-14/ropedia-xperience-2 2026-11-16/pear 2026-11-16/vla 2026-11-17/agentic-robotics 2026-11-17/item-85 2026-11-17/metaact 2026-11-17/r2a 2026-11-17/robofinals-rl-envs 2026-11-18/sala 2026-11-18/scalevla-vlm-dit 2026-11-19/aerorsi 2026-11-19/heave-ho 2026-11-19/item-40 2026-11-19/robobuilder 2026-11-19/tcp4d-tcp 2026-11-20/coachsi 2026-11-20/drift 2026-11-20/hint-wam 2026-11-20/item-73 2026-11-20/laq 2026-11-21/mind2act-world 2026-11-21/zerovln 2026-11-23/embodied-harness 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/scape 2026-11-25/catway 2026-11-25/cgsi 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/item-117 2026-11-25/jko-grpo-wasserstein 2026-11-25/margin 2026-11-25/motion-mamba-2-0 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/roboharness-zero 2026-11-25/robolivemem 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/veritouch 2026-11-25/vla 2026-11-25/worldleague -->
 <!-- research-experience:end -->
 
 ## 相关工作

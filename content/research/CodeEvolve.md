@@ -44,7 +44,140 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-*（暂无，随日报自动积累）*
+1. **可执行验证优先**：自进化优先用于可自动执行验证的任务；代码应在无密钥隔离环境运行。验证器须与生成器权限分离、不可由其篡改，并以强制约束门控搜索，对漏洞异步审计修补。
+   - [Online Environment Repair：在线修复验证环境](../../updates/2026-11-25/#online-environment-repair) · 2026-11-25
+   - [SplitBench：评测权限分离](../../updates/2026-11-23/#splitbench) · 2026-11-23
+   - [Grok Bot：约束验证驱动开发](../../updates/2026-11-23/#grok-bot) · 2026-11-23
+   - [EDAGoat：EDA约束验证式GPU优化](../../updates/2026-11-23/#edagoat-eda-gpu) · 2026-11-23
+   - [SWE-OPD：仓库交互式在策略蒸馏](../../updates/2026-11-18/#swe-opd) · 2026-11-18
+   - [Let Execution Do the Teaching：执行反馈驱动代码训练](../../updates/2026-11-17/#let-execution-do-the-teaching) · 2026-11-17
+   - [外部沙箱模式：代码执行与密钥隔离](../../updates/2026-11-17/#item-28) · 2026-11-17
+   - [EvoTrias：智能体程序进化的权力分立架构](../../updates/2026-11-13/#evotrias) · 2026-11-13
+   - [AI 智能体自主优化原子模拟数值算法](../../updates/2026-11-12/#item-94) · 2026-11-12
+   - [ServerBench：编码智能体设计专用 LLM 服务系统的评测基准](../../updates/2026-11-06/#serverbench-llm) · 2026-11-06
+2. **证据边界校准**：代码评判不能依赖单一参考或模型打分；应校准规格、测试与实现的意图和证据边界，并检查错误通过、泄漏、越权、过度规定及成功余量。
+   - [SWE-Gym-Verified：执行证据式数据审计](../../updates/2026-11-25/#swe-gym-verified) · 2026-11-25
+   - [STCG：检测过度规定测试](../../updates/2026-11-25/#stcg) · 2026-11-25
+   - [MARGIN：近失裕度驱动程序修复](../../updates/2026-11-25/#margin) · 2026-11-25
+   - [FormalFixer：规格断言与RTL联合修复](../../updates/2026-11-21/#formalfixer-rtl) · 2026-11-21
+   - [Evidence Interpretation：检查证据边界判定](../../updates/2026-11-19/#evidence-interpretation) · 2026-11-19
+   - [VibePrevisBench：四维场景编程评测](../../updates/2026-11-17/#vibeprevisbench) · 2026-11-17
+   - [TestPrism揭示Coding Agent测试生成合格率被高估](../../updates/2026-11-13/#testprism-coding-agent) · 2026-11-13
+   - [前沿编程 LLM 是在编码还是作弊？](../../updates/2026-11-12/#llm-7) · 2026-11-12
+   - [AutoRefine：基于工作流结果自动校准代码评判器](../../updates/2026-11-12/#autorefine) · 2026-11-12
+   - [不可能代码，评分几乎不变：代码评判模型复现实验](../../updates/2026-11-03/#item-39) · 2026-11-03
+3. **目标硬件闭环**：系统性能搜索须闭环到目标硬件实测；跨后端迁移还需显式建模硬件能力、栈级依赖与成本。
+   - [芯片PPA优化：模型挖掘成熟设计余量](../../updates/2026-11-19/#ppa) · 2026-11-19
+   - [EmbedGym：虚拟硬件闭环调试](../../updates/2026-11-18/#embedgym) · 2026-11-18
+   - [Accelerate Bench：应用级程序优化评测](../../updates/2026-11-18/#accelerate-bench) · 2026-11-18
+   - [CompoundingKernel：谱系归档式内核进化](../../updates/2026-11-17/#compoundingkernel) · 2026-11-17
+   - [KernelMosaic：CUDA Kernel 生成数据集与智能体框架](../../updates/2026-11-13/#kernelmosaic-cuda-kernel) · 2026-11-13
+   - [面向自主 RTL 与综合优化的基准和自改进智能体](../../updates/2026-11-12/#rtl) · 2026-11-12
+   - [EngineAgent：感知推理栈层级与硬件能力的端侧推理引擎智能体](../../updates/2026-11-12/#engineagent) · 2026-11-12
+   - [SpecPilot：面向投机解码的自主算法发现与系统优化](../../updates/2026-11-06/#specpilot) · 2026-11-06
+   - [ModelBlaster：跨模型、内核与硬件后端的学习增强优化智能体](../../updates/2026-11-06/#modelblaster) · 2026-11-06
+   - [KernelSeek：问题驱动的 GPU 内核优化智能体](../../updates/2026-11-06/#kernelseek-gpu) · 2026-11-06
+   - [ForgeKernel零样本自进化生成算子，性能超越DeepSeek FlashMLA 9.8%](../../updates/2026-10-31/#forgekernel-deepseek-flashmla-9-8) · 2026-10-31
+   - [ForgeKernel 登顶华为与英伟达算子评测榜](../../updates/2026-10-29/#forgekernel) · 2026-10-29
+4. **脚手架共同演化**：不要只搜索最终代码；将工具、工作流和搜索策略纳入可修改脚手架，固定模型权重也能获得显著能力增益。
+   - [Meta-RTL：演化式RTL优化脚手架](../../updates/2026-11-20/#meta-rtl-rtl) · 2026-11-20
+   - [automodel：可移植模型发现技能](../../updates/2026-11-19/#automodel) · 2026-11-19
+   - [VHarness：视觉推理工具化](../../updates/2026-11-16/#vharness) · 2026-11-16
+   - [openJiuwen发布RSI原生AgentOS，支持Agent持续自我扩展](../../updates/2026-11-14/#openjiuwen-rsi-agentos-agent) · 2026-11-14
+   - [腾讯混元发布终端智能体递归自我改进框架 Terminal-RSI](../../updates/2026-11-12/#terminal-rsi) · 2026-11-12
+   - [VISTA：机器人通过自编程实现不动权重的具身自进化](../../updates/2026-11-08/#vista) · 2026-11-08
+   - [HEMO：面向多目标组合优化的脚手架自演化](../../updates/2026-10-30/#hemo) · 2026-10-30
+5. **持久记忆复用**：开放式演化应保存结构化经验、轨迹与工具，并按任务检索；经验须经真实执行和留出任务持续证伪，及时回滚泄漏或无效规则。
+   - [Notary门控回顾环：规则准入效用验证](../../updates/2026-11-25/#notary) · 2026-11-25
+   - [MOSAIC：记忆组织式反模仿搜索](../../updates/2026-11-25/#mosaic) · 2026-11-25
+   - [AutoSECO：可迁移求解技能演化](../../updates/2026-11-25/#autoseco) · 2026-11-25
+   - [ZhuLong-SE：执行轨迹驱动自进化](../../updates/2026-11-23/#zhulong-se) · 2026-11-23
+   - [TokenEconomizer：仓库经验驱动降本](../../updates/2026-11-17/#tokeneconomizer) · 2026-11-17
+   - [CompoundingKernel：谱系归档式内核进化](../../updates/2026-11-17/#compoundingkernel) · 2026-11-17
+   - [CoReMem：面向连续编程任务的成本内化记忆框架](../../updates/2026-11-14/#coremem) · 2026-11-14
+   - [CAMP-II：通过在策略蒸馏释放文件操作的长期记忆潜力](../../updates/2026-11-12/#camp-ii) · 2026-11-12
+   - [SpecPilot：面向投机解码的自主算法发现与系统优化](../../updates/2026-11-06/#specpilot) · 2026-11-06
+   - [ModelBlaster：跨模型、内核与硬件后端的学习增强优化智能体](../../updates/2026-11-06/#modelblaster) · 2026-11-06
+   - [Group-Evolving Agents：经验共享驱动的开放式群体自进化](../../updates/2026-11-04/#group-evolving-agents) · 2026-11-04
+   - [HEMO：面向多目标组合优化的脚手架自演化](../../updates/2026-10-30/#hemo) · 2026-10-30
+   - [Evolving Agent Teams：可演化智能体团队突破优化局部最优](../../updates/2026-10-29/#evolving-agent-teams) · 2026-10-29
+6. **群体保多样性**：固定单智能体容易陷入局部最优；并行群体、动态重组与经验共享可维持候选多样性并扩大搜索边界。
+   - [PDE元求解器：多智能体帕累托演化](../../updates/2026-11-25/#pde) · 2026-11-25
+   - [MOSAIC：记忆组织式反模仿搜索](../../updates/2026-11-25/#mosaic) · 2026-11-25
+   - [DiVE：小模型多样性递归改进](../../updates/2026-11-24/#dive) · 2026-11-24
+   - [CompoundingKernel：谱系归档式内核进化](../../updates/2026-11-17/#compoundingkernel) · 2026-11-17
+   - [SwarmEvolve：潜空间智能体群的进化发现与优化](../../updates/2026-11-08/#swarmevolve) · 2026-11-08
+   - [Group-Evolving Agents：经验共享驱动的开放式群体自进化](../../updates/2026-11-04/#group-evolving-agents) · 2026-11-04
+   - [Evolving Agent Teams：可演化智能体团队突破优化局部最优](../../updates/2026-10-29/#evolving-agent-teams) · 2026-10-29
+7. **代码化任务分解**：长程或实时任务可将慢速推理得到的策略分解为带适用条件的可执行子程序，再依运行反馈修订工作流，以降低延迟并保留审计路径。
+   - [SIGame：代码策略自我改进](../../updates/2026-11-20/#sigame) · 2026-11-20
+   - [Option-GRPO：代码选项分层强化学习](../../updates/2026-11-19/#option-grpo) · 2026-11-19
+   - [SeaFlow：基于语义任务分解的自演化智能体工作流](../../updates/2026-11-03/#seaflow) · 2026-11-03
+8. **分支轨迹自训练**：轨迹采集应从高价值检查点分支，而非只重复完整运行；失败现场和恢复示范可直接转化为训练信号。
+   - [SWE-Trail：历史引导的编码智能体轨迹收集](../../updates/2026-11-04/#swe-trail) · 2026-11-04
+   - [ReTerm：让Code Agent从失败恢复中递归自我改进](../../updates/2026-11-04/#reterm-code-agent) · 2026-11-04
+9. **持续演化防遗忘**：脚手架连续改写会遗忘并累积复杂度；应以独立监控发现故障，用工程指标、历史回归集和非退化档案约束更新。演员级隔离可兼顾局部修复与运行连续性。
+   - [Wactorz：自编写边缘智能体运行时](../../updates/2026-11-25/#wactorz) · 2026-11-25
+   - [Detection Gap：自改进智能体失效盲区](../../updates/2026-11-25/#detection-gap) · 2026-11-25
+   - [Metrics-in-the-Loop：指标闭环代码纠偏](../../updates/2026-11-19/#metrics-in-the-loop) · 2026-11-19
+   - [openJiuwen发布RSI原生AgentOS，支持Agent持续自我扩展](../../updates/2026-11-14/#openjiuwen-rsi-agentos-agent) · 2026-11-14
+   - [Multi-step SWE：编码智能体的长程持续开发评测](../../updates/2026-11-06/#multi-step-swe) · 2026-11-06
+   - [编程智能体能否在持续演化中避免遗忘？](../../updates/2026-11-06/#item-94) · 2026-11-06
+10. **真实长程环境**：评测与自训练环境应覆盖状态化、多步骤、资源受限且上下文不完整的端到端任务；用真实记录或结构指标分级构建，并在未见实例检验可行性、质量与时延。
+    - [模拟软件公司评测：端到端开发能力检验](../../updates/2026-11-23/#item-10) · 2026-11-23
+    - [FrontierOR：智能体优化算法设计](../../updates/2026-11-20/#frontieror) · 2026-11-20
+    - [BuggyMLE：可控注错扩展工程难度](../../updates/2026-11-20/#buggymle) · 2026-11-20
+    - [3D GameDev Arena：超长程游戏开发评测](../../updates/2026-11-19/#3d-gamedev-arena) · 2026-11-19
+    - [SWE-CoWork：数字员工式编程评测](../../updates/2026-11-18/#swe-cowork) · 2026-11-18
+    - [RepoFactory：代码训练环境演化](../../updates/2026-11-18/#repofactory) · 2026-11-18
+    - [EmbedGym：虚拟硬件闭环调试](../../updates/2026-11-18/#embedgym) · 2026-11-18
+    - [Accelerate Bench：应用级程序优化评测](../../updates/2026-11-18/#accelerate-bench) · 2026-11-18
+    - [VibePrevisBench：四维场景编程评测](../../updates/2026-11-17/#vibeprevisbench) · 2026-11-17
+    - [Singularity-Bench：智能体能否自主构建智能体？](../../updates/2026-11-14/#singularity-bench) · 2026-11-14
+    - [面向自主 RTL 与综合优化的基准和自改进智能体](../../updates/2026-11-12/#rtl) · 2026-11-12
+    - [Longtail-SWE：覆盖长尾编程语言的仓库级软件工程评测基准](../../updates/2026-11-12/#longtail-swe) · 2026-11-12
+    - [SessionFarmer：从真实 Vibe Coding 会话构建 SWE 评测基准](../../updates/2026-11-06/#sessionfarmer-vibe-coding-swe) · 2026-11-06
+    - [ServerBench：编码智能体设计专用 LLM 服务系统的评测基准](../../updates/2026-11-06/#serverbench-llm) · 2026-11-06
+    - [Multi-step SWE：编码智能体的长程持续开发评测](../../updates/2026-11-06/#multi-step-swe) · 2026-11-06
+    - [CompressionBench：编码智能体自主压缩 LLM 评测](../../updates/2026-11-06/#compressionbench-llm) · 2026-11-06
+11. **全链路可观测**：多智能体长程开发需分离记录代码事实与任务决策，并追踪事件、归属、证据和状态变更；用防篡改账本与溯源图核验轨迹和产物。
+    - [HoH：双状态长程编码代理](../../updates/2026-11-24/#hoh) · 2026-11-24
+    - [Claude Docs：混沌循环压测自修复](../../updates/2026-11-18/#claude-docs) · 2026-11-18
+    - [Agent Trajectories：轨迹证据化质量审查](../../updates/2026-11-18/#agent-trajectories) · 2026-11-18
+    - [Harness-of-Harness：证据驱动持续开发](../../updates/2026-11-17/#harness-of-harness) · 2026-11-17
+    - [Soei：面向多智能体软件工程的证据与意图结构化可观测性](../../updates/2026-10-30/#soei) · 2026-10-30
+12. **机制引导搜索**：用机制假设、可搜索领域语言、方向性问题、层级知识或结构化反例约束搜索，比任意代码空间试错更省预算且便于迁移。
+    - [LeanNeXt：假设驱动架构发现](../../updates/2026-11-25/#leannext) · 2026-11-25
+    - [量子纠错解码：DSL语法进化](../../updates/2026-11-20/#dsl) · 2026-11-20
+    - [TabDAG：图程序约束进化搜索](../../updates/2026-11-19/#tabdag) · 2026-11-19
+    - [Option-GRPO：代码选项分层强化学习](../../updates/2026-11-19/#option-grpo) · 2026-11-19
+    - [MakoBORN：前瞻式量化程序合成](../../updates/2026-11-19/#makoborn) · 2026-11-19
+    - [ELITE：无评估机制整合](../../updates/2026-11-18/#elite) · 2026-11-18
+    - [Craftax：续程反馈引导策略进化](../../updates/2026-11-17/#craftax) · 2026-11-17
+    - [TopoVerus：基于学习反例与课程奖励的形式化证明修复](../../updates/2026-11-12/#topoverus) · 2026-11-12
+    - [EngineAgent：感知推理栈层级与硬件能力的端侧推理引擎智能体](../../updates/2026-11-12/#engineagent) · 2026-11-12
+    - [RecRSI：机制引导的推荐算法自动发现框架](../../updates/2026-11-06/#recrsi) · 2026-11-06
+    - [KernelSeek：问题驱动的 GPU 内核优化智能体](../../updates/2026-11-06/#kernelseek-gpu) · 2026-11-06
+13. **端到端收益核算**：比较上下文或工具时，应固定脚手架与强基线、跨智能体重复运行，并按后续行为和有效状态变化核算成本与方差。
+    - [FGL：修复器似然引导代码定位](../../updates/2026-11-25/#fgl) · 2026-11-25
+    - [软件热力学：热功分解编码成本](../../updates/2026-11-19/#item-47) · 2026-11-19
+    - [Context Has a Price：缓存感知上下文成本评测](../../updates/2026-11-18/#context-has-a-price) · 2026-11-18
+    - [Thomson问题：智能体搜索与精确认证](../../updates/2026-11-16/#thomson) · 2026-11-16
+    - [Pdb 还是 Bash：用 Pass_X@k 比较智能体调试接口](../../updates/2026-11-12/#pdb-bash-pass-x-k) · 2026-11-12
+14. **证明携带代码**：高风险或昂贵难执行的生成代码，应同时产出机器可复核的等价性证明、对偶证书或安全证明；困难实例可与候选算法协同设计，以强化认证。
+    - [量子算法智能体：Lean验证式电路优化](../../updates/2026-11-24/#lean) · 2026-11-24
+    - [SailSearch：双智能体辅助算法发现](../../updates/2026-11-21/#sailsearch) · 2026-11-21
+    - [Thomson问题：智能体搜索与精确认证](../../updates/2026-11-16/#thomson) · 2026-11-16
+    - [Agent-written Heuristics：编码智能体生成调度启发式](../../updates/2026-11-16/#agent-written-heuristics) · 2026-11-16
+    - [Claude Code形式化三元哥德巴赫猜想并发现原证明错误](../../updates/2026-11-13/#claude-code) · 2026-11-13
+    - [TopoVerus：基于学习反例与课程奖励的形式化证明修复](../../updates/2026-11-12/#topoverus) · 2026-11-12
+    - [AI 自动发现形式化验证的量子程序](../../updates/2026-11-12/#item-179) · 2026-11-12
+    - [通过完整集合划分精确认证 QPLIB 2096 全局最优性](../../updates/2026-11-06/#qplib-2096) · 2026-11-06
+    - [LARK：用 Lean 形式化验证 LLM 生成的 GPU Kernel](../../updates/2026-11-06/#lark-lean-llm-gpu-kernel) · 2026-11-06
+15. **义务驱动终止**：补丁满足全部任务义务后应触发独立终止判定；无上限的继续探索会浪费预算，甚至撤销已正确的解。
+    - [Evidence Interpretation：检查证据边界判定](../../updates/2026-11-19/#evidence-interpretation) · 2026-11-19
+    - [终止滞后：编程智能体早已解题却迟迟不停](../../updates/2026-11-13/#item-32) · 2026-11-13
+<!-- experience-seen: 2026-10-29/evolving-agent-teams 2026-10-29/forgekernel 2026-10-30/hemo 2026-10-30/soei 2026-10-31/forgekernel-deepseek-flashmla-9-8 2026-11-03/item-39 2026-11-03/seaflow 2026-11-04/dgm-rsi 2026-11-04/group-evolving-agents 2026-11-04/reterm-code-agent 2026-11-04/swe-trail 2026-11-05/openai-cyber-948-linux 2026-11-06/compressionbench-llm 2026-11-06/iquestrt-3-agent 2026-11-06/item-94 2026-11-06/kernelseek-gpu 2026-11-06/lark-lean-llm-gpu-kernel 2026-11-06/modelblaster 2026-11-06/multi-step-swe 2026-11-06/qplib-2096 2026-11-06/recrsi 2026-11-06/serverbench-llm 2026-11-06/sessionfarmer-vibe-coding-swe 2026-11-06/specpilot 2026-11-08/swarmevolve 2026-11-08/vista 2026-11-12/ai-transformer 2026-11-12/autorefine 2026-11-12/camp-ii 2026-11-12/engineagent 2026-11-12/item-150 2026-11-12/item-179 2026-11-12/item-94 2026-11-12/llm-7 2026-11-12/longtail-swe 2026-11-12/pdb-bash-pass-x-k 2026-11-12/rtl 2026-11-12/terminal-rsi 2026-11-12/topoverus 2026-11-13/claude-code 2026-11-13/evotrias 2026-11-13/item-32 2026-11-13/kernelmosaic-cuda-kernel 2026-11-13/testprism-coding-agent 2026-11-14/ballad 2026-11-14/coremem 2026-11-14/openjiuwen-rsi-agentos-agent 2026-11-14/singularity-bench 2026-11-16/agent-written-heuristics 2026-11-16/thomson 2026-11-16/vharness 2026-11-17/compoundingkernel 2026-11-17/craftax 2026-11-17/harness-of-harness 2026-11-17/item-28 2026-11-17/let-execution-do-the-teaching 2026-11-17/program-distillation 2026-11-17/tokeneconomizer 2026-11-17/vibeprevisbench 2026-11-18/accelerate-bench 2026-11-18/agent-trajectories 2026-11-18/claude-docs 2026-11-18/context-has-a-price 2026-11-18/elite 2026-11-18/embedgym 2026-11-18/item-39 2026-11-18/repofactory 2026-11-18/swe-cowork 2026-11-18/swe-opd 2026-11-19/3d-gamedev-arena 2026-11-19/automodel 2026-11-19/evidence-interpretation 2026-11-19/item-47 2026-11-19/makoborn 2026-11-19/metrics-in-the-loop 2026-11-19/option-grpo 2026-11-19/ppa 2026-11-19/tabdag 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz -->
 <!-- research-experience:end -->
 
 ## 相关工作

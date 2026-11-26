@@ -166,9 +166,12 @@ def render_experiences(exps: list, seen=None) -> str:
         return EXP_EMPTY + tail
     lines = []
     for i, e in enumerate(exps, 1):
-        lines.append(f"{i}. **{clean_line(e['title'])}**：{clean_line(e['insight'])}")
+        head = f"{i}. "
+        lines.append(f"{head}**{clean_line(e['title'])}**：{clean_line(e['insight'])}")
+        # 子项缩进须与编号宽度一致（10. 起是 4 格），否则不再属于该经验、列表会被拆断
+        pad = " " * len(head)
         for w in sorted(e["works"], key=lambda w: (w["date"], w["id"]), reverse=True):
-            lines.append(f"   - [{_md_link_text(w['title'])}](../../updates/{w['date']}/#{w['id']})"
+            lines.append(f"{pad}- [{_md_link_text(w['title'])}](../../updates/{w['date']}/#{w['id']})"
                          f" · {w['date']}")
     return "\n".join(lines) + tail
 

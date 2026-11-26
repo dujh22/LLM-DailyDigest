@@ -57,6 +57,32 @@
       {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
     </div>
 
+    {{- /* 研究经验：每条经验的工作清单折叠为子清单，点击经验才展开（无 JS 时保持完整列表） */ -}}
+    <script>
+    (function(){
+      var h = document.getElementById('研究经验');
+      var items = [];
+      for(var el = h && h.nextElementSibling; el && el.tagName !== 'H2'; el = el.nextElementSibling){
+        if(el.tagName === 'OL') items = items.concat(Array.prototype.slice.call(el.children));
+      }
+      items.forEach(function(li){
+        var ul = li.querySelector(':scope > ul');
+        if(!ul) return;
+        var d = document.createElement('details');
+        d.className = 'exp-item';
+        var s = document.createElement('summary');
+        while(li.firstChild && li.firstChild !== ul) s.appendChild(li.firstChild);
+        var n = document.createElement('span');
+        n.className = 'exp-count';
+        n.textContent = ul.children.length + ' 项工作';
+        s.appendChild(n);
+        d.appendChild(s);
+        d.appendChild(ul);
+        li.appendChild(d);
+      });
+    })();
+    </script>
+
     {{- /* 相关工作：聚合 items 中 research 命中本项目者，按子主题分栏 */ -}}
     {{- $projKey := .File.TranslationBaseName -}}
     {{- $updates := where .Site.RegularPages "Section" "updates" -}}

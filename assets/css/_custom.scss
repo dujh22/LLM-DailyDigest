@@ -241,3 +241,11 @@ $single-link-hover-color-dark: $brand-accent !default;
 [data-theme='dark'] .trends-page {
   .trend-tag { background: rgba(129, 140, 248, .2); }
 }
+
+/* 研究页「研究经验」：经验可点击展开挂接的工作子清单（见 layouts/research/single.html） */
+.exp-item > summary { cursor: pointer; list-style: none; }
+.exp-item > summary::-webkit-details-marker { display: none; }
+.exp-item > summary::after { content: "▸"; display: inline-block; margin-left: .35rem; opacity: .6; transition: transform .15s; }
+.exp-item[open] > summary::after { transform: rotate(90deg); }
+.exp-count { font-size: .8rem; opacity: .65; margin-left: .5rem; white-space: nowrap; }
+.exp-item > ul { margin-top: .35rem; font-size: .92rem; }
