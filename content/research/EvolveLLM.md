@@ -36,18 +36,23 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
 ## 自研洞察
 
 <!-- human-only:start 自研洞察｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
-*（待人工补充）*
+
+1. 可衡量 + Looping = 持续进化
+
 <!-- human-only:end 自研洞察 -->
 
 ## 自研经验
 
 <!-- human-only:start 自研经验｜仅限人类手动编辑：AI 与自动化流程不得修改，确需修改必须先询问人类并获得同意 -->
+
 *（待人工补充）*
+
 <!-- human-only:end 自研经验 -->
 
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
+
 1. **可审计改进闭环**：递归改进应记录知识状态与失败归因，以受控单变量实验、独立复核和跨周期评估决定合并；即时收益不能代表后续更新后仍有效。
    - [GLM-5.5：多模型后训练汇流式RSI](../../updates/2026-11-25/#glm-5-5-rsi) · 2026-11-25
    - [E2L：梯度对齐经验演化](../../updates/2026-11-25/#e2l) · 2026-11-25
@@ -165,18 +170,22 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
     - [CoEvoBench：模型与脚手架协同演化](../../updates/2026-11-23/#coevobench) · 2026-11-23
     - [Piccolo：模型数据协同自进化](../../updates/2026-11-20/#piccolo) · 2026-11-20
     - [Evo²：权重与Harness协同进化](../../updates/2026-11-20/#evo-harness) · 2026-11-20
+
 <!-- experience-seen: 2026-11-19/item-48 2026-11-19/learning-through-discernment 2026-11-19/rsi-prime 2026-11-19/toaster 2026-11-19/weight-space-programming 2026-11-20/automaster 2026-11-20/basersi 2026-11-20/curvdelta 2026-11-20/evo-harness 2026-11-20/item-65 2026-11-20/keel 2026-11-20/piccolo 2026-11-20/rlcdr 2026-11-20/self-replicating-language-models 2026-11-23/coevobench 2026-11-23/item-49 2026-11-23/openai-ai 2026-11-23/structure-over-scale 2026-11-23/weight-space-programming-icl 2026-11-24/dive 2026-11-24/finevo 2026-11-24/pbpt 2026-11-24/self-wsp 2026-11-24/sro 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/elgo 2026-11-25/glm-5-5-rsi 2026-11-25/instructreplay 2026-11-25/item-109 2026-11-25/item-90 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-25/weight-coding 2026-11-26/fwsp 2026-11-26/item-34 2026-11-26/scalpel-and-brush 2026-11-26/shift-adapter 2026-11-26/swgdn 2026-11-26/vfr -->
+
 <!-- research-experience:end -->
 
 ## 相关工作
 
 **代码 / 框架 / 资源仓库**
+
 - [Awesome-Self-Improving-Agents](https://github.com/selfimproving-agent/Awesome-Self-Improving-Agents) — 基础模型智能体自我改进的精选清单（★347）
 - [Awesome-LLM-Self-Improvement](https://github.com/dongxiangjue/Awesome-LLM-Self-Improvement) — LLM 推理时自我改进（ITSI）论文与资源整理（★110）
 - [awesome-agent-evolution](https://github.com/Shiyao-Huang/awesome-agent-evolution) — 智能体进化 / 自进化 / 记忆系统的开放综述与证据图谱（★174）
 - [self-improvement-llm](https://github.com/Zesearch/self-improvement-llm) — 系统级自我改进语言模型技术整理
 
 **论文（经典与方法）**
+
 - [A Survey on Self-Evolution of Large Language Models](https://arxiv.org/abs/2404.14387) — LLM 自我进化方法综述（被引 996+）
 - [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020) — LLM 作为自身裁判生成偏好数据自我改进（ICML 2024）
 - [Self-Play Fine-Tuning (SPIN)](https://arxiv.org/abs/2401.01335) — 自我博弈微调，弱模型变强模型，无需额外人类标注（ICML 2024）
@@ -187,4 +196,5 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
 - [Constitutional AI: Harmlessness from AI Feedback](https://arxiv.org/abs/2212.08073) — 用 AI 反馈（RLAIF）实现无害化对齐
 
 **论文（前沿与边界）**
+
 - [On the Limits of Self-Improving in Large Language Models](https://arxiv.org/abs/2601.05280) — 自我改进的理论极限分析
