@@ -47,7 +47,6 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-
 1. **验证器反馈闭环**：可形式化任务宜采用“生成—局部验证—约束反馈—修复”闭环；确定性检查器比笼统自我反思更能阻断错误传播。
    - [FOL-Proof：确定性语义验证](../../updates/2026-11-26/#fol-proof) · 2026-11-26
    - [TopoVerus：基于学习反例与课程奖励的形式化证明修复](../../updates/2026-11-12/#topoverus) · 2026-11-12
@@ -112,9 +111,7 @@ toc = true
     - [RRE：以演化推理图推进累积式数学研究](../../updates/2026-11-06/#rre) · 2026-11-06
 13. **显式工具接口**：隐式思维链接入工具时，应插入少量可观测、可控制的显式状态标记，避免工具调用依赖不可审计的潜在推理。
     - [TAC-CoT：交错显式 Token 增强工具化隐式思维链](../../updates/2026-11-06/#tac-cot-token) · 2026-11-06
-
 <!-- experience-seen: 2026-11-19/colombo 2026-11-20/astra 2026-11-20/verifiable-logic 2026-11-21/claude-lean 2026-11-21/space-x 2026-11-23/claude 2026-11-23/item-7 2026-11-23/navier-stokes-claude-lean 2026-11-23/orion 2026-11-24/item-67 2026-11-24/lean 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/vp-vnp-ai-lean 2026-11-26/fol-proof 2026-11-26/merlin-bench 2026-11-26/openai-math-ai -->
-
 <!-- research-experience:end -->
 
 ## 相关工作

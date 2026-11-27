@@ -55,7 +55,8 @@ toc = true
 4. **跨轮证据积累**：持续开发应保存版本状态、测试证据与未决缺陷，并让独立验收约束后续规划；单轮通过不能代表长期可维护。
    - [Harness-of-Harness：证据驱动持续开发](../../updates/2026-11-17/#harness-of-harness) · 2026-11-17
    - [Multi-step SWE：编码智能体的长程持续开发评测](../../updates/2026-11-06/#multi-step-swe) · 2026-11-06
-5. **功能体验双验收**：游戏等开放作品应先用功能测试守住可运行底线，再以跨熟练度试玩和真人偏好评价技巧成长与交互乐趣。
+5. **功能体验双验收**：游戏等开放作品应先以功能测试守住可运行底线，再将趣味拆成可诊断维度，结合跨熟练度试玩与真人偏好持续迭代。
+   - [Play2Evolve：趣味反馈驱动游戏演化](../../updates/2026-11-27/#play2evolve) · 2026-11-27
    - [PlayCraft：基于游玩经验的游戏迭代](../../updates/2026-11-20/#playcraft) · 2026-11-20
    - [3D GameDev Arena：超长程游戏开发评测](../../updates/2026-11-19/#3d-gamedev-arena) · 2026-11-19
 6. **快慢执行解耦**：实时任务中应把慢速反思放在尝试之间，并将经验编译为可执行程序供快速运行，避免在线推理延迟阻塞行动。
@@ -71,7 +72,9 @@ toc = true
    - [BadEvolve：通过失败感知任务优化投毒自进化智能体](../../updates/2026-11-12/#badevolve) · 2026-11-12
 10. **目标奖励解耦**：开放式探索中，应分别决定探索目标与奖励实现；职责解耦比直接改写奖励更易形成多样且可迁移的行为库。
     - [Habitats：开放式智能体目标演化](../../updates/2026-11-25/#habitats) · 2026-11-25
-<!-- experience-seen: 2026-11-18/scenarioforge 2026-11-19/3d-gamedev-arena 2026-11-19/crossenv 2026-11-20/playcraft 2026-11-20/sigame 2026-11-23/search-rsi 2026-11-25/habitats 2026-11-25/margin -->
+11. **多时钟感知验收**：多媒体产物不能以代码无错代替感知正确；应在生成早期做局部隔离检查，并用多模态证据对齐画面、声音等时钟。
+    - [VibeVideoAgent：多时钟闭环感知](../../updates/2026-11-27/#vibevideoagent) · 2026-11-27
+<!-- experience-seen: 2026-11-20/playcraft 2026-11-20/sigame 2026-11-23/search-rsi 2026-11-25/habitats 2026-11-25/margin 2026-11-27/play2evolve 2026-11-27/vibevideoagent -->
 <!-- research-experience:end -->
 
 ## 相关工作

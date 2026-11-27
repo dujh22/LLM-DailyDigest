@@ -47,7 +47,6 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-
 1. **稀疏奖励先破零**：困难题若整组采样全错，标准RLVR没有有效信号；先用相关易题、策略兼容引导或局部纠正制造足量成功事件，再逐步撤除辅助。
    - [DART：不确定性引导轨迹改写](../../updates/2026-11-26/#dart) · 2026-11-26
    - [成功组数预测强化学习起飞](../../updates/2026-11-20/#item-44) · 2026-11-20
@@ -180,9 +179,7 @@ toc = true
 15. **群体估计控偏稳方差**：奖励依赖同组答案时，GRPO基线会扭曲协作目标；应采用无偏组目标，并按悲观方差估计自适应调整组规模。
     - [U-Statistics-Powered LLM Reasoning：悲观估计自适应组规模](../../updates/2026-11-26/#u-statistics-powered-llm-reasoning) · 2026-11-26
     - [群体依赖奖励下，GRPO会演变为零和锦标赛](../../updates/2026-11-06/#grpo) · 2026-11-06
-
 <!-- experience-seen: 2026-11-19/ash 2026-11-19/eca 2026-11-19/option-grpo 2026-11-20/budget-internalization 2026-11-20/item-44 2026-11-20/item-65 2026-11-20/item-80 2026-11-20/multiagentbench 2026-11-20/openai-rsi 2026-11-20/rlcdr 2026-11-20/roam-grpo 2026-11-21/pair-med 2026-11-23/creditfilter 2026-11-23/ctrl-gpu 2026-11-23/dm-prm 2026-11-23/item-25 2026-11-23/item-49 2026-11-23/item-53 2026-11-23/sh-prm 2026-11-23/structure-over-scale 2026-11-24/pbpt 2026-11-24/thrifty 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/item-123 2026-11-25/item-56 2026-11-25/mspo 2026-11-25/pmopd 2026-11-25/tt-rsi 2026-11-25/vopd 2026-11-26/briar 2026-11-26/dart 2026-11-26/u-statistics-powered-llm-reasoning -->
-
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -160,10 +160,11 @@ toc = true
     - [KRA：协方差引导选择性遗忘](../../updates/2026-11-19/#kra) · 2026-11-19
     - [Falcon快速权重注意力实现持续学习](../../updates/2026-11-02/#falcon) · 2026-11-02
 15. **递归深度共享缓存**：增加测试时计算深度时，可跨层、跨轮共享同组KV；训练应匹配共享拓扑并随机深度。推测解码的验证调度还应贴合缓存轮转，避免跨循环搬运。
+    - [MoLT：KV记忆式循环复用](../../updates/2026-11-27/#molt-kv) · 2026-11-27
     - [LoopCache：置信更新与循环KV缓存](../../updates/2026-11-19/#loopcache-kv) · 2026-11-19
     - [KV Replay：跨迭代缓存复用](../../updates/2026-11-17/#kv-replay) · 2026-11-17
     - [Looped CED：零轮次 KV 增长的递归深度架构](../../updates/2026-11-12/#looped-ced-kv) · 2026-11-12
-<!-- experience-seen: 2026-11-19/gemma-4-k-v-cache 2026-11-19/kra 2026-11-19/loopcache-kv 2026-11-19/mbt 2026-11-19/moe-context 2026-11-19/sch 2026-11-19/toaster 2026-11-19/videonexus 2026-11-20/clover 2026-11-20/compact-bench 2026-11-20/frontierreplay 2026-11-20/grepmem 2026-11-20/laq 2026-11-20/raa 2026-11-20/rocokv 2026-11-23/contexture 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/turnout 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/markovian-reasoning-llm 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/hopper-4-bit-kv 2026-11-25/integral-deltanet 2026-11-25/item-150 2026-11-25/item-93 2026-11-25/loomkv-kv 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/swapcert 2026-11-25/trusuco 2026-11-26/dfly2 2026-11-26/fbq 2026-11-26/item-87 2026-11-26/ssa 2026-11-26/swgdn -->
+<!-- experience-seen: 2026-11-20/clover 2026-11-20/compact-bench 2026-11-20/frontierreplay 2026-11-20/grepmem 2026-11-20/laq 2026-11-20/raa 2026-11-20/rocokv 2026-11-23/contexture 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/turnout 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/markovian-reasoning-llm 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/hopper-4-bit-kv 2026-11-25/integral-deltanet 2026-11-25/item-150 2026-11-25/item-93 2026-11-25/loomkv-kv 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/swapcert 2026-11-25/trusuco 2026-11-26/dfly2 2026-11-26/fbq 2026-11-26/item-87 2026-11-26/ssa 2026-11-26/swgdn 2026-11-27/molt-kv -->
 <!-- research-experience:end -->
 
 ## 相关工作

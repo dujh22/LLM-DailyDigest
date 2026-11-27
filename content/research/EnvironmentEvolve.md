@@ -88,7 +88,8 @@ toc = true
 7. **自适应课程防退化**：自适应环境课程不保证优于简单起点，还可能导致参数膨胀、价值排序退化与表征坍缩；需用稳定学习器和统一预算对照。
    - [自适应课程下的强化学习训练稳定性](../../updates/2026-11-12/#item-209) · 2026-11-12
    - [四足机器人无监督环境设计与课程学习基准](../../updates/2026-10-30/#item-41) · 2026-10-30
-8. **内在结构度量难度**：长程任务难度宜用必要工作量、依赖组合和最短顺序交互深度度量，避免采用随模型策略变化的轮数标签。
+8. **内在结构度量难度**：长程任务难度宜用必要工作量、实现范围、结构耦合和最短顺序交互深度等内在指标度量；这些即时代理可减少昂贵求解反馈。
+   - [RepoFactory：低成本代理指标驱动环境进化](../../updates/2026-11-27/#repofactory) · 2026-11-27
    - [BuggyMLE：可控注错扩展工程难度](../../updates/2026-11-20/#buggymle) · 2026-11-20
    - [RepoFactory：代码训练环境演化](../../updates/2026-11-18/#repofactory) · 2026-11-18
    - [终端长程任务的真实深度测量与合成](../../updates/2026-11-03/#item-30) · 2026-11-03
@@ -140,7 +141,7 @@ toc = true
     - [MobileGym-Lite：完整覆盖与功能裁剪](../../updates/2026-11-19/#mobilegym-lite) · 2026-11-19
     - [RISE：全图交互环境扩展](../../updates/2026-11-17/#rise) · 2026-11-17
     - [EnvOpt：自动优化智能体的固定环境](../../updates/2026-11-06/#envopt) · 2026-11-06
-<!-- experience-seen: 2026-11-19/crossenv 2026-11-19/gandalf 2026-11-19/mobilegym-lite 2026-11-19/waterfall 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/gemini-4-neon-genie-4 2026-11-20/item-73 2026-11-20/openhagen-worlds 2026-11-20/playcraft 2026-11-20/worldruler 2026-11-21/silicongym-eda 2026-11-21/turingspace 2026-11-23/search-rsi 2026-11-24/scape 2026-11-25/benchmint 2026-11-25/cua-see 2026-11-25/habitats 2026-11-25/item-63 2026-11-25/online-environment-repair 2026-11-25/robouniverse-10k 2026-11-25/vade 2026-11-26/3dcodefactory-3d 2026-11-26/cf-reward -->
+<!-- experience-seen: 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/gemini-4-neon-genie-4 2026-11-20/item-73 2026-11-20/openhagen-worlds 2026-11-20/playcraft 2026-11-20/worldruler 2026-11-21/silicongym-eda 2026-11-21/turingspace 2026-11-23/search-rsi 2026-11-24/scape 2026-11-25/benchmint 2026-11-25/cua-see 2026-11-25/habitats 2026-11-25/item-63 2026-11-25/online-environment-repair 2026-11-25/robouniverse-10k 2026-11-25/vade 2026-11-26/3dcodefactory-3d 2026-11-26/cf-reward 2026-11-27/repofactory -->
 <!-- research-experience:end -->
 
 ## 相关工作

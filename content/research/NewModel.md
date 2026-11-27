@@ -91,6 +91,7 @@ toc = true
    - [扩散智能发布350亿参数Agent模型Clover-35B-A3B](../../updates/2026-10-30/#350-agent-clover-35b-a3b) · 2026-10-30
    - [蚂蚁百灵开源面向 Personal Agent 的 Ling-3.1-flash-1019](../../updates/2026-10-29/#personal-agent-ling-3-1-flash-1019) · 2026-10-29
 3. **动态分配推理计算**：低延迟模型应按输入、词元、步骤或任务阶段分配计算；潜变量评分、动态电路、模型路由、块并行和少步蒸馏均优于全程等量计算。
+   - [DyLoMo-DiT：动态循环稀疏专家](../../updates/2026-11-27/#dylomo-dit) · 2026-11-27
    - [LoomFormer：逐词元动态重连电路](../../updates/2026-11-26/#loomformer) · 2026-11-26
    - [GLiDE：推理蒸馏单遍决策](../../updates/2026-11-20/#glide) · 2026-11-20
    - [StepRefine：步数感知潜变量精炼](../../updates/2026-11-17/#steprefine) · 2026-11-17
@@ -161,7 +162,8 @@ toc = true
     - [Apriel Voice 27B Preview：统一语音推理与工具调用的开放模型](../../updates/2026-11-03/#apriel-voice-27b-preview) · 2026-11-03
     - [Youtu-Parsing-Omni：统一编码器与模式的全模态解析器](../../updates/2026-10-31/#youtu-parsing-omni) · 2026-10-31
     - [AMBIT：基于可执行计划与自蒸馏 Transfusion 的空间音频生成编辑](../../updates/2026-10-29/#ambit-transfusion) · 2026-10-29
-11. **文档解析分层优化**：超长文档先用稀疏注意力和分块解码控内存，再优化少量检索头定位证据，并以判别器筛除不可信结果。
+11. **文档解析分层优化**：超长文档先在视觉编码阶段双向融合相邻页，再用稀疏注意力和分块解码控内存；优化少量检索头定位证据，并筛除不可信结果。
+    - [DocSEAM：双向跨页视觉编码](../../updates/2026-11-27/#docseam) · 2026-11-27
     - [MLLM 检索头的跨模态机制与优化](../../updates/2026-10-31/#mllm) · 2026-10-31
     - [面壁智能开源 MiniCPM-OCR 高效可信文档解析模型](../../updates/2026-10-30/#minicpm-ocr) · 2026-10-30
     - [文心 Unlimited OCR 2 开源：KV 缓存降低 96%](../../updates/2026-10-29/#unlimited-ocr-2-kv-96) · 2026-10-29
@@ -217,6 +219,7 @@ toc = true
     - [ReLift：将稠密三维跟踪转化为轨迹修复](../../updates/2026-11-03/#relift) · 2026-11-03
     - [FrameForge：借助视频基础模型先验统一图像生成](../../updates/2026-11-03/#frameforge) · 2026-11-03
 15. **推理预算应可调**：推理计算应与输出长度解耦并按输入调节循环深度；循环时只保留未来充分状态、复用跨轮缓存，并在训练中对齐共享KV拓扑。
+    - [MoLT：KV记忆式循环复用](../../updates/2026-11-27/#molt-kv) · 2026-11-27
     - [Sleep：循环前向提升上下文适应](../../updates/2026-11-25/#sleep) · 2026-11-25
     - [Markovian Reasoning LLM：结构化状态缓存压缩](../../updates/2026-11-24/#markovian-reasoning-llm) · 2026-11-24
     - [Inkling2Mini：循环计算延长隐式推理](../../updates/2026-11-24/#inkling2mini) · 2026-11-24
@@ -234,7 +237,7 @@ toc = true
     - [商汤开源循环架构模型 SenseNova Loop-9B-Preview](../../updates/2026-11-03/#sensenova-loop-9b-preview) · 2026-11-03
     - [LARC：统一多模态模型的连续空间潜在推理](../../updates/2026-11-03/#larc) · 2026-11-03
     - [Mistral发布万亿参数开放权重模型Large 4](../../updates/2026-10-31/#mistral-large-4) · 2026-10-31
-<!-- experience-seen: 2026-11-19/fastframes 2026-11-19/gemini-4-neon 2026-11-19/item-10 2026-11-19/kra 2026-11-19/mbt 2026-11-19/toaster 2026-11-19/transformer 2026-11-19/weight-space-programming 2026-11-20/alive 2026-11-20/beam-moe 2026-11-20/clover 2026-11-20/drift 2026-11-20/gemini-4-neon-genie-4 2026-11-20/glide 2026-11-20/hy4-moe 2026-11-20/jeveration 2026-11-21/depth-pro-2 2026-11-21/egocaptioner 2026-11-21/gemini-4-hydrogen-token 2026-11-21/hiuni 2026-11-21/hy4 2026-11-21/wemm-video 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/structure-over-scale 2026-11-24/cmhc 2026-11-24/don-t-train-it-write-it 2026-11-24/duopra 2026-11-24/glm-5-4 2026-11-24/gpt-6-2-sol 2026-11-24/hy-mt3 2026-11-24/inkling2mini 2026-11-24/markovian-reasoning-llm 2026-11-24/memt-1-0-pro 2026-11-25/deciform 2026-11-25/eeg-jev 2026-11-25/gemini-4-neon 2026-11-25/integral-deltanet 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/leannext 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/pmopd 2026-11-25/sleep 2026-11-25/wemm-ecom 2026-11-26/aliceai-foundation 2026-11-26/antom 2026-11-26/gemini-4-neon 2026-11-26/gpt-6-2-sol 2026-11-26/lingsante-medguard 2026-11-26/loomformer 2026-11-26/qwen-image-hd 2026-11-26/s-mind 2026-11-26/ssa 2026-11-26/swgdn -->
+<!-- experience-seen: 2026-11-20/alive 2026-11-20/beam-moe 2026-11-20/clover 2026-11-20/drift 2026-11-20/gemini-4-neon-genie-4 2026-11-20/glide 2026-11-20/hy4-moe 2026-11-20/jeveration 2026-11-21/depth-pro-2 2026-11-21/egocaptioner 2026-11-21/gemini-4-hydrogen-token 2026-11-21/hiuni 2026-11-21/hy4 2026-11-21/wemm-video 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/structure-over-scale 2026-11-24/cmhc 2026-11-24/don-t-train-it-write-it 2026-11-24/duopra 2026-11-24/glm-5-4 2026-11-24/gpt-6-2-sol 2026-11-24/hy-mt3 2026-11-24/inkling2mini 2026-11-24/markovian-reasoning-llm 2026-11-24/memt-1-0-pro 2026-11-25/deciform 2026-11-25/eeg-jev 2026-11-25/gemini-4-neon 2026-11-25/integral-deltanet 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/leannext 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/pmopd 2026-11-25/sleep 2026-11-25/wemm-ecom 2026-11-26/aliceai-foundation 2026-11-26/antom 2026-11-26/gemini-4-neon 2026-11-26/gpt-6-2-sol 2026-11-26/lingsante-medguard 2026-11-26/loomformer 2026-11-26/qwen-image-hd 2026-11-26/s-mind 2026-11-26/ssa 2026-11-26/swgdn 2026-11-27/docseam 2026-11-27/dylomo-dit 2026-11-27/molt-kv -->
 <!-- research-experience:end -->
 
 ## 相关工作

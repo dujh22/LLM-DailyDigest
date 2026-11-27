@@ -45,7 +45,6 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-
 1. **模型接口耦合**：固定模型跨Harness比较会混淆接口上限与策略适配；应报告同接口横比、跨接口迁移矩阵及模型—Harness联合升级曲线。
    - [RoboEvo²：脚手架策略协同进化](../../updates/2026-11-26/#roboevo) · 2026-11-26
    - [ShellBench：真实日常智能体评测](../../updates/2026-11-25/#shellbench) · 2026-11-25
@@ -293,9 +292,7 @@ toc = true
     - [智能体恢复审计：公开报告证据评估](../../updates/2026-11-24/#item-60) · 2026-11-24
     - [AgentFaultBench：状态验证式故障恢复评测](../../updates/2026-11-17/#agentfaultbench) · 2026-11-17
     - [ReTrace：以目标导向动作重放评测计算机操作智能体恢复能力](../../updates/2026-11-04/#retrace) · 2026-11-04
-
 <!-- experience-seen: 2026-11-19/codex 2026-11-19/evidence-interpretation 2026-11-19/forceharness 2026-11-19/forecastgym 2026-11-19/graft 2026-11-19/guard 2026-11-19/item-36 2026-11-19/item-49 2026-11-19/l2c 2026-11-19/mobilegym-lite 2026-11-19/ragharnessdebugger-jev 2026-11-19/scaffold 2026-11-19/videonexus 2026-11-20/agnes-harness 2026-11-20/ahe-beta 2026-11-20/basersi 2026-11-20/everydaybench 2026-11-20/evo-harness 2026-11-20/harness 2026-11-20/item-60 2026-11-20/meta-rtl-rtl 2026-11-20/sage-evolve-preview 2026-11-23/benchmarks-last-exam 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/hookevo 2026-11-23/item-10 2026-11-23/medicalrsi 2026-11-23/roha-sgg 2026-11-23/splitbench 2026-11-24/autopilot 2026-11-24/harnessdev 2026-11-24/hoh 2026-11-24/hyperharness 2026-11-24/item-60 2026-11-24/massys 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/rlm-27b 2026-11-25/agent 2026-11-25/agl-skill 2026-11-25/ai-harness 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/glm-5-5-rsi 2026-11-25/harness-rehearsal 2026-11-25/harness2 2026-11-25/harnessmm 2026-11-25/harnesspro 2026-11-25/item-108 2026-11-25/item-128 2026-11-25/item-136 2026-11-25/jevagentharness-jev 2026-11-25/mini-psych-agent 2026-11-25/online-environment-repair 2026-11-25/oo-harness 2026-11-25/reharness 2026-11-25/roboharness-zero 2026-11-25/rvlm-x 2026-11-25/shellbench 2026-11-25/siren 2026-11-25/stcg 2026-11-25/tare 2026-11-25/toolsmith 2026-11-25/transport-safe-evaluation 2026-11-25/video-relook 2026-11-26/agnes-harness 2026-11-26/autorlbench-rl 2026-11-26/delegent 2026-11-26/harness-learning 2026-11-26/home 2026-11-26/metaforge 2026-11-26/nightwatch 2026-11-26/pax 2026-11-26/report-inconsistency 2026-11-26/roboevo 2026-11-26/skillsbench 2026-11-26/transharness -->
-
 <!-- research-experience:end -->
 
 ## 相关工作

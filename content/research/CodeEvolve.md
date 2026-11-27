@@ -56,7 +56,8 @@ toc = true
    - [EvoTrias：智能体程序进化的权力分立架构](../../updates/2026-11-13/#evotrias) · 2026-11-13
    - [AI 智能体自主优化原子模拟数值算法](../../updates/2026-11-12/#item-94) · 2026-11-12
    - [ServerBench：编码智能体设计专用 LLM 服务系统的评测基准](../../updates/2026-11-06/#serverbench-llm) · 2026-11-06
-2. **证据边界校准**：代码评判不能依赖单一参考或模型打分；应校准规格、测试与实现的意图和证据边界，并检查错误通过、泄漏、越权、过度规定及成功余量。
+2. **证据边界校准**：代码评判不能只看单一参考、模型分或可执行性；应按任务校准规格、测试、实现与产品质量维度的证据边界，并检查错误通过、泄漏、越权和过度规定。
+   - [Play2Evolve：趣味反馈驱动游戏演化](../../updates/2026-11-27/#play2evolve) · 2026-11-27
    - [SWE-Gym-Verified：执行证据式数据审计](../../updates/2026-11-25/#swe-gym-verified) · 2026-11-25
    - [STCG：检测过度规定测试](../../updates/2026-11-25/#stcg) · 2026-11-25
    - [MARGIN：近失裕度驱动程序修复](../../updates/2026-11-25/#margin) · 2026-11-25
@@ -184,7 +185,7 @@ toc = true
 15. **义务驱动终止**：补丁满足全部任务义务后应触发独立终止判定；无上限的继续探索会浪费预算，甚至撤销已正确的解。
     - [Evidence Interpretation：检查证据边界判定](../../updates/2026-11-19/#evidence-interpretation) · 2026-11-19
     - [终止滞后：编程智能体早已解题却迟迟不停](../../updates/2026-11-13/#item-32) · 2026-11-13
-<!-- experience-seen: 2026-11-19/3d-gamedev-arena 2026-11-19/automodel 2026-11-19/evidence-interpretation 2026-11-19/item-47 2026-11-19/makoborn 2026-11-19/metrics-in-the-loop 2026-11-19/option-grpo 2026-11-19/ppa 2026-11-19/tabdag 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/fwsp 2026-11-26/openai-math-ai 2026-11-26/pax 2026-11-26/precept 2026-11-26/transharness -->
+<!-- experience-seen: 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/fwsp 2026-11-26/openai-math-ai 2026-11-26/pax 2026-11-26/precept 2026-11-26/transharness 2026-11-27/play2evolve -->
 <!-- research-experience:end -->
 
 ## 相关工作

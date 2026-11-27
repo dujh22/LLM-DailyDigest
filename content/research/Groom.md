@@ -50,7 +50,6 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-
 1. **终局成功不等于有效**：成功率会掩盖中间失效、冗余动作和偶然恢复；应联合评估终态、步骤合法性与轨迹质量，并检验过程分数相对结果、成本和行为统计的增量信息。
    - [端点条件化过程增益评估](../../updates/2026-11-25/#item-133) · 2026-11-25
    - [二维推理：语义图量化推理忠实与效率](../../updates/2026-11-24/#item-67) · 2026-11-24
@@ -144,9 +143,7 @@ toc = true
     - [Transport-Safe Evaluation：轨迹感知的随时有效审计](../../updates/2026-11-25/#transport-safe-evaluation) · 2026-11-25
     - [Verification Transport：抽象边界验证迁移](../../updates/2026-11-16/#verification-transport) · 2026-11-16
     - [EnvOS：动态环境下计算机使用智能体的审计与证据评估](../../updates/2026-10-30/#envos) · 2026-10-30
-
 <!-- experience-seen: 2026-11-19/done-but-still-working 2026-11-19/evidence-interpretation 2026-11-19/item-36 2026-11-19/item-47 2026-11-19/l2c 2026-11-19/ragharnessdebugger-jev 2026-11-19/score 2026-11-21/item-24 2026-11-24/item-67 2026-11-25/item-108 2026-11-25/item-133 2026-11-25/jevagentharness-jev 2026-11-25/transport-safe-evaluation 2026-11-26/recordroute -->
-
 <!-- research-experience:end -->
 
 ## 相关工作
