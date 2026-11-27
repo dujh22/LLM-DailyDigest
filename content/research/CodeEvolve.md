@@ -45,6 +45,7 @@ toc = true
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **可执行验证优先**：自进化优先用于可自动执行验证的任务；代码应在无密钥隔离环境运行。验证器须与生成器权限分离、不可由其篡改，并以强制约束门控搜索，对漏洞异步审计修补。
+   - [TabbyML多智能体团队：契约驱动系统优化](../../updates/2026-11-27/#tabbyml) · 2026-11-27
    - [3DCodeFactory：实机验证式3D数据合成](../../updates/2026-11-26/#3dcodefactory-3d) · 2026-11-26
    - [Online Environment Repair：在线修复验证环境](../../updates/2026-11-25/#online-environment-repair) · 2026-11-25
    - [SplitBench：评测权限分离](../../updates/2026-11-23/#splitbench) · 2026-11-23
@@ -92,6 +93,7 @@ toc = true
    - [VISTA：机器人通过自编程实现不动权重的具身自进化](../../updates/2026-11-08/#vista) · 2026-11-08
    - [HEMO：面向多目标组合优化的脚手架自演化](../../updates/2026-10-30/#hemo) · 2026-10-30
 5. **持久记忆复用**：开放式演化应保存结构化经验、轨迹与工具，并按任务检索；经验须经真实执行和留出任务持续证伪，及时回滚泄漏或无效规则。
+   - [TabbyML多智能体团队：契约驱动系统优化](../../updates/2026-11-27/#tabbyml) · 2026-11-27
    - [PRECEPT：失误驱动的安全原则演化](../../updates/2026-11-26/#precept) · 2026-11-26
    - [Notary门控回顾环：规则准入效用验证](../../updates/2026-11-25/#notary) · 2026-11-25
    - [MOSAIC：记忆组织式反模仿搜索](../../updates/2026-11-25/#mosaic) · 2026-11-25
@@ -107,6 +109,7 @@ toc = true
    - [HEMO：面向多目标组合优化的脚手架自演化](../../updates/2026-10-30/#hemo) · 2026-10-30
    - [Evolving Agent Teams：可演化智能体团队突破优化局部最优](../../updates/2026-10-29/#evolving-agent-teams) · 2026-10-29
 6. **群体保多样性**：固定单智能体容易陷入局部最优；并行群体、动态重组与经验共享可维持候选多样性并扩大搜索边界。
+   - [TabbyML多智能体团队：契约驱动系统优化](../../updates/2026-11-27/#tabbyml) · 2026-11-27
    - [PDE元求解器：多智能体帕累托演化](../../updates/2026-11-25/#pde) · 2026-11-25
    - [MOSAIC：记忆组织式反模仿搜索](../../updates/2026-11-25/#mosaic) · 2026-11-25
    - [DiVE：小模型多样性递归改进](../../updates/2026-11-24/#dive) · 2026-11-24
@@ -185,7 +188,7 @@ toc = true
 15. **义务驱动终止**：补丁满足全部任务义务后应触发独立终止判定；无上限的继续探索会浪费预算，甚至撤销已正确的解。
     - [Evidence Interpretation：检查证据边界判定](../../updates/2026-11-19/#evidence-interpretation) · 2026-11-19
     - [终止滞后：编程智能体早已解题却迟迟不停](../../updates/2026-11-13/#item-32) · 2026-11-13
-<!-- experience-seen: 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/fwsp 2026-11-26/openai-math-ai 2026-11-26/pax 2026-11-26/precept 2026-11-26/transharness 2026-11-27/play2evolve -->
+<!-- experience-seen: 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/fwsp 2026-11-26/openai-math-ai 2026-11-26/pax 2026-11-26/precept 2026-11-26/transharness 2026-11-27/play2evolve 2026-11-27/tabbyml -->
 <!-- research-experience:end -->
 
 ## 相关工作

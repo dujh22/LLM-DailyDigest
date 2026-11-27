@@ -151,6 +151,7 @@ toc = true
    - [验证器更强不等于发现质量更高：提议池构成才是关键](../../updates/2026-11-06/#item-66) · 2026-11-06
    - [rTaste：科研智能体是否具有研究品味？早期科研判断评测](../../updates/2026-10-30/#rtaste) · 2026-10-30
 8. **多智能体需协作机制**：增加智能体数量不会自动改善科研决策；应隔离候选演化，设置非对称审查角色，并以验证后共享、冲突解决和证据稳定度停止维持多样性与可信度。
+   - [TabbyML多智能体团队：契约驱动系统优化](../../updates/2026-11-27/#tabbyml) · 2026-11-27
    - [可追溯多智能体科研社区](../../updates/2026-11-23/#item-3) · 2026-11-23
    - [非对称角色与信念差控制](../../updates/2026-11-23/#item-23) · 2026-11-23
    - [Turing Agent：分工式端到端形式化验证](../../updates/2026-11-18/#turing-agent) · 2026-11-18
@@ -247,7 +248,7 @@ toc = true
     - [AI编码、拟合与迭代科学模型](../../updates/2026-11-08/#item-22) · 2026-11-08
     - [SAGE：LLM 智能体发现复杂网络的分层控制方程](../../updates/2026-11-06/#sage-llm) · 2026-11-06
     - [RecRSI：机制引导的推荐算法自动发现框架](../../updates/2026-11-06/#recrsi) · 2026-11-06
-<!-- experience-seen: 2026-11-19/automodel 2026-11-19/colombo 2026-11-19/hypoloop 2026-11-19/item-15 2026-11-19/item-36 2026-11-19/makoborn 2026-11-19/mle-agents 2026-11-19/retriever-perceiver-reasoner 2026-11-19/stembench 2026-11-20/astra 2026-11-20/auto-alpha 2026-11-20/buggymle 2026-11-20/car 2026-11-20/deepquest 2026-11-20/epicompass 2026-11-20/openai-rsi 2026-11-20/openhagen-worlds 2026-11-20/piccolo 2026-11-20/pro-agent 2026-11-20/theorizer 2026-11-20/twinlab-bench 2026-11-21/claude-lean 2026-11-21/item-26 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/item-23 2026-11-23/item-25 2026-11-23/item-3 2026-11-23/item-7 2026-11-23/minimax 2026-11-23/navier-stokes-claude-lean 2026-11-24/item-4 2026-11-24/lean 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/superintelligence-is-arriving-ai 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/beyond-accuracy 2026-11-25/gpt-6 2026-11-25/hfm 2026-11-25/item-151 2026-11-25/item-71 2026-11-25/leannext 2026-11-25/noevera 2026-11-25/pde 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/tea-leaves 2026-11-25/vp-vnp-ai-lean 2026-11-26/agent-as-a-verifier 2026-11-26/ai-buckingham 2026-11-26/cogentic 2026-11-26/item-86 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/ree -->
+<!-- experience-seen: 2026-11-20/astra 2026-11-20/auto-alpha 2026-11-20/buggymle 2026-11-20/car 2026-11-20/deepquest 2026-11-20/epicompass 2026-11-20/openai-rsi 2026-11-20/openhagen-worlds 2026-11-20/piccolo 2026-11-20/pro-agent 2026-11-20/theorizer 2026-11-20/twinlab-bench 2026-11-21/claude-lean 2026-11-21/item-26 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/item-23 2026-11-23/item-25 2026-11-23/item-3 2026-11-23/item-7 2026-11-23/minimax 2026-11-23/navier-stokes-claude-lean 2026-11-24/item-4 2026-11-24/lean 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/superintelligence-is-arriving-ai 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/beyond-accuracy 2026-11-25/gpt-6 2026-11-25/hfm 2026-11-25/item-151 2026-11-25/item-71 2026-11-25/leannext 2026-11-25/noevera 2026-11-25/pde 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/tea-leaves 2026-11-25/vp-vnp-ai-lean 2026-11-26/agent-as-a-verifier 2026-11-26/ai-buckingham 2026-11-26/cogentic 2026-11-26/item-86 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/ree 2026-11-27/tabbyml -->
 <!-- research-experience:end -->
 
 ## 相关工作
