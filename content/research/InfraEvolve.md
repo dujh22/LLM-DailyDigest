@@ -56,7 +56,8 @@ toc = true
    - [ForgeKernel零样本自进化生成算子，性能超越DeepSeek FlashMLA 9.8%](../../updates/2026-10-31/#forgekernel-deepseek-flashmla-9-8) · 2026-10-31
    - [ForgeKernel 登顶华为与英伟达算子评测榜](../../updates/2026-10-29/#forgekernel) · 2026-10-29
    - [无问芯穹算子优化Agent斩获SOL-ExecBench 88项第一](../../updates/2026-10-29/#agent-sol-execbench-88) · 2026-10-29
-2. **独立验证门控**：候选须经独立执行、数值及领域约束测试，评判器不得受修改者控制；高风险内核还需验证功能与内存行为等价。
+2. **独立验证门控**：候选须经独立执行、数值及领域约束测试，评判器不得受修改者控制；跨基准统一执行接口但保留原生评分，高风险内核另验功能与内存等价。
+   - [Real2SimLab：真实到仿真统一评测](../../updates/2026-11-27/#real2simlab) · 2026-11-27
    - [GLM-5.5：多模型后训练汇流式RSI](../../updates/2026-11-25/#glm-5-5-rsi) · 2026-11-25
    - [EDAGoat：EDA约束验证式GPU优化](../../updates/2026-11-23/#edagoat-eda-gpu) · 2026-11-23
    - [芯片PPA优化：模型挖掘成熟设计余量](../../updates/2026-11-19/#ppa) · 2026-11-19
@@ -143,7 +144,7 @@ toc = true
 15. **安全有状态沙箱**：生产级编程智能体应以最小权限隔离不可信操作，并原生支持状态持久化、回滚、分岔和迁移；无状态执行不足以承载长程任务。
     - [Codex 沙箱：跨平台权限隔离](../../updates/2026-11-19/#codex) · 2026-11-19
     - [CubeSandbox：状态化微虚拟机沙箱](../../updates/2026-11-18/#cubesandbox) · 2026-11-18
-<!-- experience-seen: 2026-11-19/codex 2026-11-19/gemma-4-k-v-cache 2026-11-19/loopcache-kv 2026-11-19/ppa 2026-11-19/qda 2026-11-19/rsibench-infra 2026-11-20/performance-factory-codex 2026-11-20/singularity-bench-ai 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-24/dissparse-top-p 2026-11-24/shirudo-ebpf 2026-11-24/uni3sim 2026-11-25/glm-5-5-rsi 2026-11-25/hopper-4-bit-kv 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/noevera 2026-11-26/dfly2 2026-11-26/evolonai 2026-11-26/metaforge -->
+<!-- experience-seen: 2026-11-20/performance-factory-codex 2026-11-20/singularity-bench-ai 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-24/dissparse-top-p 2026-11-24/shirudo-ebpf 2026-11-24/uni3sim 2026-11-25/glm-5-5-rsi 2026-11-25/hopper-4-bit-kv 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/noevera 2026-11-26/dfly2 2026-11-26/evolonai 2026-11-26/metaforge 2026-11-27/real2simlab -->
 <!-- research-experience:end -->
 
 ## 相关工作

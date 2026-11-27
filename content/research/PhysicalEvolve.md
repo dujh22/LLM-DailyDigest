@@ -111,6 +111,7 @@ toc = true
    - [DFT-Agent Bench：自主 DFT 的脚手架效应与执行溯源评测](../../updates/2026-11-12/#dft-agent-bench-dft) · 2026-11-12
    - [学习任务还是学习验证器？具身自我改进中的标准暴露](../../updates/2026-11-08/#item-32) · 2026-11-08
 6. **异质真机评测**：真机能力应在多本体、多任务、OOD环境及不改任务的镜像变换中统一评测，兼看动作—意图偏差、轨迹进展、部署故障与成本；单一终局分数不能证明物理泛化。
+   - [Real2SimLab：真实到仿真统一评测](../../updates/2026-11-27/#real2simlab) · 2026-11-27
    - [RoboDojo-Mirror：镜像反射鲁棒性评测](../../updates/2026-11-26/#robodojo-mirror) · 2026-11-26
    - [WorldLeague：物理能动性统一评测](../../updates/2026-11-25/#worldleague) · 2026-11-25
    - [AgentRoboCritic：意图锚定动作级评测](../../updates/2026-11-24/#agentrobocritic) · 2026-11-24
@@ -194,7 +195,7 @@ toc = true
 15. **检索基线先行**：评估VLA学习或自进化前应先做近邻动作复用基线；高分可能来自演示检索，而非形成了可迁移的新策略。
     - [MXI-MemICL：自检索交互记忆](../../updates/2026-11-25/#mxi-memicl) · 2026-11-25
     - [VLA 有多少能力来自 kNN 检索？](../../updates/2026-11-12/#vla-knn) · 2026-11-12
-<!-- experience-seen: 2026-11-19/aerorsi 2026-11-19/data-to-valves 2026-11-19/forceharness 2026-11-19/heave-ho 2026-11-19/hypoloop 2026-11-19/item-40 2026-11-19/optics-as-code 2026-11-19/robobuilder 2026-11-19/tcp4d-tcp 2026-11-19/vanguard 2026-11-20/agnes-harness 2026-11-20/coachsi 2026-11-20/cyber-physical-rsi 2026-11-20/drift 2026-11-20/item-76 2026-11-20/laq 2026-11-21/depth-pro-2 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-21/voda 2026-11-21/zerovln 2026-11-23/bel 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/respacebench 2026-11-24/scape 2026-11-24/stereovlm 2026-11-25/catway 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/gpt-6 2026-11-25/item-117 2026-11-25/item-151 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/phyevo-mic-rsi 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/videcide 2026-11-25/vla 2026-11-25/worldleague 2026-11-25/xmind 2026-11-26/ai-buckingham 2026-11-26/best-of-n-steering 2026-11-26/item-83 2026-11-26/omniact 2026-11-26/partagent 2026-11-26/powerfix 2026-11-26/robodojo-mirror 2026-11-26/s-mind 2026-11-26/sealedloop -->
+<!-- experience-seen: 2026-11-20/agnes-harness 2026-11-20/coachsi 2026-11-20/cyber-physical-rsi 2026-11-20/drift 2026-11-20/item-76 2026-11-20/laq 2026-11-21/depth-pro-2 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-21/voda 2026-11-21/zerovln 2026-11-23/bel 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/respacebench 2026-11-24/scape 2026-11-24/stereovlm 2026-11-25/catway 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/gpt-6 2026-11-25/item-117 2026-11-25/item-151 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/phyevo-mic-rsi 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/videcide 2026-11-25/vla 2026-11-25/worldleague 2026-11-25/xmind 2026-11-26/ai-buckingham 2026-11-26/best-of-n-steering 2026-11-26/item-83 2026-11-26/omniact 2026-11-26/partagent 2026-11-26/powerfix 2026-11-26/robodojo-mirror 2026-11-26/s-mind 2026-11-26/sealedloop 2026-11-27/real2simlab -->
 <!-- research-experience:end -->
 
 ## 相关工作
