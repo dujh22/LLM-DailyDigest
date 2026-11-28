@@ -81,7 +81,8 @@ toc = true
    - [WeightLoop：基于实验反馈的权重空间编程](../../updates/2026-11-06/#weightloop) · 2026-11-06
    - [EnzymeRSI：用于酶设计的双循环递归自我改进系统](../../updates/2026-11-05/#enzymersi) · 2026-11-05
    - [PhysicalRSI 1.0通过具身递归自我改进登顶RoboDojo](../../updates/2026-11-01/#physicalrsi-1-0-robodojo) · 2026-11-01
-3. **主动交互辨识**：模型或搜索空间失配时，应主动选择信息量高且近似有效的物理实验，辨识隐藏参数与操作规律，并在连续交互中校准。
+3. **主动交互辨识**：模型或搜索空间失配时，应主动选择信息量高且近似有效的实验，辨识隐藏参数与操作规律；面对不可微求解器，可用稳定、有界的前向扰动估计时序响应。
+   - [FORGE：仅前向黑箱仿真训练](../../updates/2026-11-28/#forge) · 2026-11-28
    - [Cyber-Physical RSI：物理反馈闭环自改进](../../updates/2026-11-20/#cyber-physical-rsi) · 2026-11-20
    - [Optics as Code：测量驱动光学训练](../../updates/2026-11-19/#optics-as-code) · 2026-11-19
    - [SciResearch-Eval：科学判断力交互评测](../../updates/2026-11-18/#sciresearch-eval) · 2026-11-18
@@ -199,7 +200,7 @@ toc = true
 15. **检索基线先行**：评估VLA学习或自进化前应先做近邻动作复用基线；高分可能来自演示检索，而非形成了可迁移的新策略。
     - [MXI-MemICL：自检索交互记忆](../../updates/2026-11-25/#mxi-memicl) · 2026-11-25
     - [VLA 有多少能力来自 kNN 检索？](../../updates/2026-11-12/#vla-knn) · 2026-11-12
-<!-- experience-seen: 2026-11-21/depth-pro-2 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-21/voda 2026-11-21/zerovln 2026-11-23/bel 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/respacebench 2026-11-24/scape 2026-11-24/stereovlm 2026-11-25/catway 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/gpt-6 2026-11-25/item-117 2026-11-25/item-151 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/phyevo-mic-rsi 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/videcide 2026-11-25/vla 2026-11-25/worldleague 2026-11-25/xmind 2026-11-26/ai-buckingham 2026-11-26/best-of-n-steering 2026-11-26/item-83 2026-11-26/omniact 2026-11-26/partagent 2026-11-26/powerfix 2026-11-26/robodojo-mirror 2026-11-26/s-mind 2026-11-26/sealedloop 2026-11-27/real2simlab 2026-11-28/motubrain-2-0 2026-11-28/ruibench 2026-11-28/sft-jepa -->
+<!-- experience-seen: 2026-11-21/depth-pro-2 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-21/voda 2026-11-21/zerovln 2026-11-23/bel 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/respacebench 2026-11-24/scape 2026-11-24/stereovlm 2026-11-25/catway 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/gpt-6 2026-11-25/item-117 2026-11-25/item-151 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/phyevo-mic-rsi 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/videcide 2026-11-25/vla 2026-11-25/worldleague 2026-11-25/xmind 2026-11-26/ai-buckingham 2026-11-26/best-of-n-steering 2026-11-26/item-83 2026-11-26/omniact 2026-11-26/partagent 2026-11-26/powerfix 2026-11-26/robodojo-mirror 2026-11-26/s-mind 2026-11-26/sealedloop 2026-11-27/real2simlab 2026-11-28/forge 2026-11-28/motubrain-2-0 2026-11-28/ruibench 2026-11-28/sft-jepa -->
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -68,6 +68,7 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
    - [The Frontier Must Grow：验证前沿扩展训练](../../updates/2026-11-17/#the-frontier-must-grow) · 2026-11-17
    - [A-RSI：零数据多模态递归自我改进的自适应任务刷新](../../updates/2026-10-31/#a-rsi) · 2026-10-31
 3. **奖励准则共演化**：开放任务中固定或仅看结果的奖励容易失真；应让准则随策略演化，用独立标签校准置信度，并审计类别盲点与中间错误固化。
+   - [STEP-GRM：监督生成式奖励评估过程](../../updates/2026-11-28/#step-grm) · 2026-11-28
    - [SRO：保真度诊断与投影解耦](../../updates/2026-11-24/#sro) · 2026-11-24
    - [自幻觉记忆：后训练固化错误事实](../../updates/2026-11-23/#item-49) · 2026-11-23
    - [RLCDR：校准式决策奖励](../../updates/2026-11-20/#rlcdr) · 2026-11-20
@@ -171,7 +172,7 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
     - [CoEvoBench：模型与脚手架协同演化](../../updates/2026-11-23/#coevobench) · 2026-11-23
     - [Piccolo：模型数据协同自进化](../../updates/2026-11-20/#piccolo) · 2026-11-20
     - [Evo²：权重与Harness协同进化](../../updates/2026-11-20/#evo-harness) · 2026-11-20
-<!-- experience-seen: 2026-11-23/coevobench 2026-11-23/item-49 2026-11-23/openai-ai 2026-11-23/structure-over-scale 2026-11-23/weight-space-programming-icl 2026-11-24/dive 2026-11-24/finevo 2026-11-24/pbpt 2026-11-24/self-wsp 2026-11-24/sro 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/elgo 2026-11-25/glm-5-5-rsi 2026-11-25/instructreplay 2026-11-25/item-109 2026-11-25/item-90 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-25/weight-coding 2026-11-26/fwsp 2026-11-26/item-34 2026-11-26/scalpel-and-brush 2026-11-26/shift-adapter 2026-11-26/swgdn 2026-11-26/vfr 2026-11-28/item-21 2026-11-28/item-28 -->
+<!-- experience-seen: 2026-11-23/coevobench 2026-11-23/item-49 2026-11-23/openai-ai 2026-11-23/structure-over-scale 2026-11-23/weight-space-programming-icl 2026-11-24/dive 2026-11-24/finevo 2026-11-24/pbpt 2026-11-24/self-wsp 2026-11-24/sro 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/elgo 2026-11-25/glm-5-5-rsi 2026-11-25/instructreplay 2026-11-25/item-109 2026-11-25/item-90 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-25/weight-coding 2026-11-26/fwsp 2026-11-26/item-34 2026-11-26/scalpel-and-brush 2026-11-26/shift-adapter 2026-11-26/swgdn 2026-11-26/vfr 2026-11-28/item-21 2026-11-28/item-28 2026-11-28/step-grm -->
 <!-- research-experience:end -->
 
 ## 相关工作

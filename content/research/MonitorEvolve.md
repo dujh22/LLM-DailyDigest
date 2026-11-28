@@ -87,12 +87,13 @@ toc = true
 13. **快慢风险分层**：持续风险估计可分解短期交互波动与组件级长期风险，以稀疏标签统一检测、归因和调节。
     - [CENTRY：快慢潜状态持续风险估计](../../updates/2026-11-24/#centry) · 2026-11-24
 14. **证据导向监督**：监督应以可验证、符合协议的证据而非结果为依据，将人类可验证性设为独立风险约束，并让干预随证据强度升级；否则会诱发隐蔽错误、过拒或合谋。
+    - [STEP-GRM：监督生成式奖励评估过程](../../updates/2026-11-28/#step-grm) · 2026-11-28
     - [JudiAct：证据驱动的分级干预](../../updates/2026-11-28/#judiact) · 2026-11-28
     - [DAPO-V：可验证风险约束强化学习](../../updates/2026-11-28/#dapo-v) · 2026-11-28
     - [PROVE：证据驱动的协议强化](../../updates/2026-11-26/#prove) · 2026-11-26
 15. **环外密封验收**：自我改进的升级判定应交给改进环不可见的独立评判器，并在未见环境中顺序检验，避免环内误差和迁移落差制造虚假进步。
     - [SealedLoop：环外密封评判](../../updates/2026-11-26/#sealedloop) · 2026-11-26
-<!-- experience-seen: 2026-11-21/item-26 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-24/centry 2026-11-24/io-ai 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/clr 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/expguard 2026-11-25/interrogation-protocols 2026-11-25/item-123 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/item-69 2026-11-25/p-tap 2026-11-25/siren 2026-11-26/item-23 2026-11-26/prove 2026-11-26/recordroute 2026-11-26/report-inconsistency 2026-11-26/sealedloop 2026-11-28/dapo-v 2026-11-28/fork 2026-11-28/item-28 2026-11-28/judiact -->
+<!-- experience-seen: 2026-11-21/item-26 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-24/centry 2026-11-24/io-ai 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/clr 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/expguard 2026-11-25/interrogation-protocols 2026-11-25/item-123 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/item-69 2026-11-25/p-tap 2026-11-25/siren 2026-11-26/item-23 2026-11-26/prove 2026-11-26/recordroute 2026-11-26/report-inconsistency 2026-11-26/sealedloop 2026-11-28/dapo-v 2026-11-28/fork 2026-11-28/item-28 2026-11-28/judiact 2026-11-28/step-grm -->
 <!-- research-experience:end -->
 
 ## 相关工作

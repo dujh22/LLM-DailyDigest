@@ -44,6 +44,7 @@ toc = true
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **闭集直接评分**：输出可结构化时优先单次前向直接评分；候选空间过大则按查询证据收缩菜单，高频判断可显著降低延迟和成本。
+   - [SOARS：系统一辅助检索重排](../../updates/2026-11-28/#soars) · 2026-11-28
    - [Prefill1：固定前缀单词元判决](../../updates/2026-11-25/#prefill1) · 2026-11-25
    - [EEG-Jev：单次前向统一脑电决策](../../updates/2026-11-25/#eeg-jev) · 2026-11-25
    - [Decision Models：类型化决策能力评测](../../updates/2026-11-25/#decision-models) · 2026-11-25
@@ -203,7 +204,7 @@ toc = true
     - [RELOAD：通过层循环扩展类型化决策模型推理](../../updates/2026-11-08/#reload) · 2026-11-08
 15. **日志反馈校准**：只有已选动作反馈时，应采用适合日志化Bandit的评分规则训练决策头，避免把未观测候选当负例，并同步监控校准与选择性风险。
     - [基于日志化 Bandit 反馈学习校准决策头](../../updates/2026-11-13/#bandit) · 2026-11-13
-<!-- experience-seen: 2026-11-23/altair-nidhogg 2026-11-23/dm-prm 2026-11-23/item-26 2026-11-23/jevrisk 2026-11-23/lever 2026-11-23/so-arena 2026-11-24/adapt 2026-11-24/molrejev 2026-11-24/omnidecisionbench 2026-11-25/antares-smaug 2026-11-25/catway 2026-11-25/deciform 2026-11-25/decision-models 2026-11-25/dknown-jev-2 2026-11-25/eeg-jev 2026-11-25/eegjev 2026-11-25/geodecisions 2026-11-25/item-128 2026-11-25/jev-2 2026-11-25/jevagentharness-jev 2026-11-25/jevbench 2026-11-25/needwise 2026-11-25/prefill1 2026-11-25/s1arena-mm 2026-11-25/tree-attention 2026-11-25/voyag 2026-11-26/lost-in-translation 2026-11-26/procedure-memory 2026-11-28/adaptrouter 2026-11-28/pixelone 2026-11-28/rap -->
+<!-- experience-seen: 2026-11-23/altair-nidhogg 2026-11-23/dm-prm 2026-11-23/item-26 2026-11-23/jevrisk 2026-11-23/lever 2026-11-23/so-arena 2026-11-24/adapt 2026-11-24/molrejev 2026-11-24/omnidecisionbench 2026-11-25/antares-smaug 2026-11-25/catway 2026-11-25/deciform 2026-11-25/decision-models 2026-11-25/dknown-jev-2 2026-11-25/eeg-jev 2026-11-25/eegjev 2026-11-25/geodecisions 2026-11-25/item-128 2026-11-25/jev-2 2026-11-25/jevagentharness-jev 2026-11-25/jevbench 2026-11-25/needwise 2026-11-25/prefill1 2026-11-25/s1arena-mm 2026-11-25/tree-attention 2026-11-25/voyag 2026-11-26/lost-in-translation 2026-11-26/procedure-memory 2026-11-28/adaptrouter 2026-11-28/pixelone 2026-11-28/rap 2026-11-28/soars -->
 <!-- research-experience:end -->
 
 ## 相关工作
