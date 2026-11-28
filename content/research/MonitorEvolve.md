@@ -82,6 +82,7 @@ toc = true
     - [Evolutionary AI Control：演化种群安全证明](../../updates/2026-11-25/#evolutionary-ai-control) · 2026-11-25
 12. **攻防共演监控器**：监控器应与具部署代表性的自适应攻击策略交替训练，并联合评测拦截决策与反馈披露；弱攻击代理或泄露线索的拒绝会制造虚假安全感。
     - [FORK：决策披露技能协同演化](../../updates/2026-11-28/#fork) · 2026-11-28
+    - [Conartist：级联自适应提示注入](../../updates/2026-11-28/#conartist) · 2026-11-28
     - [攻击策略选择：代理策略误导监控评测](../../updates/2026-11-26/#item-23) · 2026-11-26
     - [IO-AI：信息战攻防协同演化](../../updates/2026-11-24/#io-ai) · 2026-11-24
 13. **快慢风险分层**：持续风险估计可分解短期交互波动与组件级长期风险，以稀疏标签统一检测、归因和调节。
@@ -93,7 +94,7 @@ toc = true
     - [PROVE：证据驱动的协议强化](../../updates/2026-11-26/#prove) · 2026-11-26
 15. **环外密封验收**：自我改进的升级判定应交给改进环不可见的独立评判器，并在未见环境中顺序检验，避免环内误差和迁移落差制造虚假进步。
     - [SealedLoop：环外密封评判](../../updates/2026-11-26/#sealedloop) · 2026-11-26
-<!-- experience-seen: 2026-11-21/item-26 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-24/centry 2026-11-24/io-ai 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/clr 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/expguard 2026-11-25/interrogation-protocols 2026-11-25/item-123 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/item-69 2026-11-25/p-tap 2026-11-25/siren 2026-11-26/item-23 2026-11-26/prove 2026-11-26/recordroute 2026-11-26/report-inconsistency 2026-11-26/sealedloop 2026-11-28/dapo-v 2026-11-28/fork 2026-11-28/item-28 2026-11-28/judiact 2026-11-28/step-grm -->
+<!-- experience-seen: 2026-11-21/item-26 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-24/centry 2026-11-24/io-ai 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/clr 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/expguard 2026-11-25/interrogation-protocols 2026-11-25/item-123 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/item-69 2026-11-25/p-tap 2026-11-25/siren 2026-11-26/item-23 2026-11-26/prove 2026-11-26/recordroute 2026-11-26/report-inconsistency 2026-11-26/sealedloop 2026-11-28/conartist 2026-11-28/dapo-v 2026-11-28/fork 2026-11-28/item-28 2026-11-28/judiact 2026-11-28/step-grm -->
 <!-- research-experience:end -->
 
 ## 相关工作

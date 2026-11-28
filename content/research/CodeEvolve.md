@@ -58,6 +58,7 @@ toc = true
    - [AI 智能体自主优化原子模拟数值算法](../../updates/2026-11-12/#item-94) · 2026-11-12
    - [ServerBench：编码智能体设计专用 LLM 服务系统的评测基准](../../updates/2026-11-06/#serverbench-llm) · 2026-11-06
 2. **证据边界校准**：代码评判不能只看单一参考、模型分或可执行性；应按任务校准规格、测试、实现与产品质量维度的证据边界，并检查错误通过、泄漏、越权和过度规定。
+   - [GameAnything：灵感驱动可玩世界生成](../../updates/2026-11-28/#gameanything) · 2026-11-28
    - [Play2Evolve：趣味反馈驱动游戏演化](../../updates/2026-11-27/#play2evolve) · 2026-11-27
    - [SWE-Gym-Verified：执行证据式数据审计](../../updates/2026-11-25/#swe-gym-verified) · 2026-11-25
    - [STCG：检测过度规定测试](../../updates/2026-11-25/#stcg) · 2026-11-25
@@ -93,6 +94,7 @@ toc = true
    - [VISTA：机器人通过自编程实现不动权重的具身自进化](../../updates/2026-11-08/#vista) · 2026-11-08
    - [HEMO：面向多目标组合优化的脚手架自演化](../../updates/2026-10-30/#hemo) · 2026-10-30
 5. **持久记忆复用**：开放式演化应保存结构化经验、轨迹与工具，并按任务检索；经验须经真实执行和留出任务持续证伪，及时回滚泄漏或无效规则。
+   - [GameAnything：灵感驱动可玩世界生成](../../updates/2026-11-28/#gameanything) · 2026-11-28
    - [TabbyML多智能体团队：契约驱动系统优化](../../updates/2026-11-27/#tabbyml) · 2026-11-27
    - [PRECEPT：失误驱动的安全原则演化](../../updates/2026-11-26/#precept) · 2026-11-26
    - [Notary门控回顾环：规则准入效用验证](../../updates/2026-11-25/#notary) · 2026-11-25
@@ -134,6 +136,7 @@ toc = true
    - [Multi-step SWE：编码智能体的长程持续开发评测](../../updates/2026-11-06/#multi-step-swe) · 2026-11-06
    - [编程智能体能否在持续演化中避免遗忘？](../../updates/2026-11-06/#item-94) · 2026-11-06
 10. **真实长程环境**：评测与自训练环境应覆盖状态化、多步骤、资源受限且上下文不完整的端到端任务；用真实记录或结构指标分级构建，并在未见实例检验可行性、质量与时延。
+    - [GameAnything：灵感驱动可玩世界生成](../../updates/2026-11-28/#gameanything) · 2026-11-28
     - [3DCodeFactory：实机验证式3D数据合成](../../updates/2026-11-26/#3dcodefactory-3d) · 2026-11-26
     - [模拟软件公司评测：端到端开发能力检验](../../updates/2026-11-23/#item-10) · 2026-11-23
     - [FrontierOR：智能体优化算法设计](../../updates/2026-11-20/#frontieror) · 2026-11-20
@@ -191,7 +194,7 @@ toc = true
 15. **义务驱动终止**：补丁满足全部任务义务后应触发独立终止判定；无上限的继续探索会浪费预算，甚至撤销已正确的解。
     - [Evidence Interpretation：检查证据边界判定](../../updates/2026-11-19/#evidence-interpretation) · 2026-11-19
     - [终止滞后：编程智能体早已解题却迟迟不停](../../updates/2026-11-13/#item-32) · 2026-11-13
-<!-- experience-seen: 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/fwsp 2026-11-26/openai-math-ai 2026-11-26/pax 2026-11-26/precept 2026-11-26/transharness 2026-11-27/play2evolve 2026-11-27/tabbyml 2026-11-28/dfpo 2026-11-28/kolpona 2026-11-28/ooas -->
+<!-- experience-seen: 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/fwsp 2026-11-26/openai-math-ai 2026-11-26/pax 2026-11-26/precept 2026-11-26/transharness 2026-11-27/play2evolve 2026-11-27/tabbyml 2026-11-28/dfpo 2026-11-28/gameanything 2026-11-28/kolpona 2026-11-28/ooas -->
 <!-- research-experience:end -->
 
 ## 相关工作

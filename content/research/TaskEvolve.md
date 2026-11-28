@@ -75,7 +75,9 @@ toc = true
     - [Habitats：开放式智能体目标演化](../../updates/2026-11-25/#habitats) · 2026-11-25
 11. **多时钟感知验收**：多媒体产物不能以代码无错代替感知正确；应在生成早期做局部隔离检查，并用多模态证据对齐画面、声音等时钟。
     - [VibeVideoAgent：多时钟闭环感知](../../updates/2026-11-27/#vibevideoagent) · 2026-11-27
-<!-- experience-seen: 2026-11-23/search-rsi 2026-11-25/habitats 2026-11-25/margin 2026-11-27/play2evolve 2026-11-27/vibevideoagent 2026-11-28/gameanything -->
+12. **真实轨迹锚定**：仿真评测应从真实执行与失败轨迹构造任务，并保留关键决策瓶颈；扩大纯合成题库不能替代现实有效性。
+    - [Memphis：真实尝试播种仿真评测](../../updates/2026-11-28/#memphis) · 2026-11-28
+<!-- experience-seen: 2026-11-23/search-rsi 2026-11-25/habitats 2026-11-25/margin 2026-11-27/play2evolve 2026-11-27/vibevideoagent 2026-11-28/gameanything 2026-11-28/memphis -->
 <!-- research-experience:end -->
 
 ## 相关工作
