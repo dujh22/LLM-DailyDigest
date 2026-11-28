@@ -126,6 +126,7 @@ FILTER_WORKERS = 8         # 判定并发数
 # 相关性分级（0~3）：3 重点必读 / 2 相关值得了解 / 1 弱相关仅领域相近 / 0 不相关。
 # 推荐页默认只勾选 score >= IMPORT_SCORE_MIN 的候选，并按分数、研究标签、来源排序后
 # 截断到 DAILY_IMPORT_CAP 条，从源头控制每日日报篇幅（可用环境变量覆盖）。
+# 例外：score == 3（重点必读）的候选始终全部勾选，不受上限截断；上限只约束低分候选的补位。
 IMPORT_SCORE_MIN = max(0, min(3, int(os.environ.get("RECOMMEND_IMPORT_SCORE_MIN", "2"))))
 DAILY_IMPORT_CAP = max(1, int(os.environ.get("RECOMMEND_DAILY_CAP", "40")))
 
@@ -1006,7 +1007,8 @@ def parse_int_arg(v, default: int, lo: int, hi: int) -> int:
 
 
 def default_import_keys(items: list, score_min: int = None, cap: int = None) -> list:
-    """按分数阈值 + 每日上限计算默认勾选导入的候选 key 列表（前端初始勾选依据）。"""
+    """按分数阈值 + 每日上限计算默认勾选导入的候选 key 列表（前端初始勾选依据）。
+    3 分候选始终全部入选（即使超过上限），剩余名额再按排序由低分候选补齐。"""
     score_min = IMPORT_SCORE_MIN if score_min is None else score_min
     cap = DAILY_IMPORT_CAP if cap is None else cap
     picked = [it for it in items
@@ -1014,7 +1016,9 @@ def default_import_keys(items: list, score_min: int = None, cap: int = None) -> 
     # 稳定排序：先按发布时间降序，再按主键排序，保证同分同类时新内容靠前
     picked.sort(key=lambda it: it.get("published") or "", reverse=True)
     picked.sort(key=import_rank_key)
-    return [it["key"] for it in picked[:cap]]
+    top = [it for it in picked if effective_score(it) == 3]
+    rest = [it for it in picked if effective_score(it) != 3]
+    return [it["key"] for it in top + rest[:max(0, cap - len(top))]]
 
 
 def _safe_filter_chunk(profile, chunk, api_key):

@@ -132,7 +132,7 @@
       <label>每日导入上限 <input type="number" id="ruleCap" min="1" max="500" step="1"></label>
       <button class="ghost" id="btnApplyRule">☑ 按规则勾选</button>
       <button class="ghost" id="btnUncheckAll">☐ 全部取消</button>
-      <span class="hint">相关性分：<b>3</b> 重点必读 · <b>2</b> 相关 · <b>1</b> 弱相关（默认不导入）· <b>0</b> 不相关。超出上限的候选按「分数 → 有研究标签 → 精选信源 → 时间」排序后截断。</span>
+      <span class="hint">相关性分：<b>3</b> 重点必读 · <b>2</b> 相关 · <b>1</b> 弱相关（默认不导入）· <b>0</b> 不相关。3 分候选始终全部勾选、不受上限限制；其余候选按「分数 → 有研究标签 → 精选信源 → 时间」排序后补足到上限。</span>
     </div>
     <div id="groups"></div>
   </div>
