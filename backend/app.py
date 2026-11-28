@@ -1077,6 +1077,24 @@ def parse_day_items(d: str):
     return out
 
 
+def recommend_published_checker(days: int):
+    """供当日推荐在 LLM 判定前剔除已收录候选：汇总近 days 天日报全部条目的 URL key，
+    返回 判定函数(candidate) -> bool。候选只用 link 匹配（摘要里引用的他人论文不算）。"""
+    keys = set()
+    for ds, _ in daily_files_in_window(days):
+        for _, it in parse_day_items(ds):
+            keys |= item_url_keys(it)
+
+    def is_published(cand: dict) -> bool:
+        k = normalize_url(cand.get("link", "") or "")
+        return bool(k) and k in keys
+    return is_published
+
+
+if recommend_mod is not None:
+    recommend_mod.published_checker = recommend_published_checker
+
+
 def _llm_chat(system_prompt: str, user_payload, want_json=False, retries: int = 2):
     """调用 LLM 返回文本（want_json=True 时解析为 JSON）。去代码块围栏；
     调用失败或 JSON 解析失败均退避重试，仍失败上抛。"""

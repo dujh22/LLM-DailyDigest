@@ -1069,6 +1069,12 @@ def date_str() -> str:
 
 
 CACHE_KEEP_DAYS = 8  # 需覆盖 ARXIV_MAX_LOOKBACK_HOURS，供 arXiv 水位线与去重使用
+# LLM 判定前剔除近 N 天日报已收录的候选（需覆盖 ARXIV_MAX_LOOKBACK_HOURS：水位线落后时
+# arXiv 会回溯采集到往日已入日报的论文，导入时也只会被归并回旧日报，打分纯属浪费）
+PUBLISHED_LOOKBACK_DAYS = 8
+# 由 app.py 启动时注入：published_checker(days) -> 判定函数(candidate) -> bool，
+# 复用 app.py 导入查重同一套 URL 规范化规则（recommend 不能反向 import app，会循环导入）
+published_checker = None
 _CACHE_NAME_RE = re.compile(r"^recommend-(\d{4}-\d{2}-\d{2})\.json$")
 
 
@@ -1301,9 +1307,9 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
         all_items.extend(arxiv_items)
         source_errors.extend(arxiv_errors)
 
-        # 3) LLM 相关性判定
+        # 3) LLM 相关性判定（先剔除往日日报已收录、复用已有判定，见 _prefilter_and_score）
         _set_state("filter", counts=_count_by_source(all_items))
-        filter_relevance(all_items)
+        all_items = _prefilter_and_score(all_items, source_errors)
 
         # 4) 写缓存
         save_cache({"sources": _count_by_source(all_items),
@@ -1321,6 +1327,62 @@ def run_collection(since_dt: datetime = None, until_dt: datetime = None):
     finally:
         with _STATE_LOCK:
             _RECOMMEND_RUNNING = False
+
+
+def _drop_published(items: list):
+    """剔除近 PUBLISHED_LOOKBACK_DAYS 天日报已收录的候选（按规范化 URL 匹配）。
+    返回 (保留的候选, 剔除条数)；未注入 published_checker 或扫描失败时原样返回。"""
+    if published_checker is None or not items:
+        return items, 0
+    try:
+        is_published = published_checker(PUBLISHED_LOOKBACK_DAYS)
+    except Exception:  # noqa: BLE001
+        return items, 0
+    kept = [it for it in items if not is_published(it)]
+    return kept, len(items) - len(kept)
+
+
+def _reuse_verdicts(items: list) -> list:
+    """用往日（含今日）推荐缓存中同 key 候选的已有判定填充 items，避免重复送 LLM 打分。
+    就地写入 score/relevant/research/reason；返回仍需 LLM 判定的候选列表。
+    未判定（score=None）的旧结果不复用，留待重新判定。"""
+    verdicts = {}
+    if RECOMMEND_DIR.exists():
+        for p in sorted(RECOMMEND_DIR.iterdir()):  # 按日期旧→新，同 key 以最新判定为准
+            if not _CACHE_NAME_RE.match(p.name):
+                continue
+            try:
+                cache = json.loads(p.read_text(encoding="utf-8"))
+            except Exception:  # noqa: BLE001
+                continue
+            for it in cache.get("items", []):
+                if it.get("key") and it.get("score") is not None:
+                    verdicts[it["key"]] = it
+    todo = []
+    for it in items:
+        v = verdicts.get(it.get("key"))
+        if v is None:
+            todo.append(it)
+            continue
+        it["score"] = v["score"]
+        it["relevant"] = v.get("relevant", v["score"] >= IMPORT_SCORE_MIN)
+        it["research"] = list(v.get("research") or [])
+        it["reason"] = v.get("reason", "")
+    return todo
+
+
+def _prefilter_and_score(items: list, errors: list) -> list:
+    """LLM 判定前置：剔除往日日报已收录 → 复用已有判定 → 只对剩余候选调用 LLM。
+    返回保留的候选；剔除/复用情况作为提示追加到 errors。"""
+    kept, n_pub = _drop_published(items)
+    todo = _reuse_verdicts(kept)
+    n_reused = len(kept) - len(todo)
+    if n_pub or n_reused:
+        errors.append({"source": "去重",
+                       "error": f"LLM 判定前剔除近 {PUBLISHED_LOOKBACK_DAYS} 天日报已收录的 {n_pub} 条，"
+                                f"复用往日判定 {n_reused} 条，实际送 LLM 判定 {len(todo)} 条"})
+    filter_relevance(todo)
+    return kept
 
 
 def _arxiv_history(include_today: bool = False):
@@ -1425,6 +1487,10 @@ def run_arxiv_recollect(cache: dict):
         fetched, arxiv_errors = _arxiv_stage(since_dt, until_dt, seen_titles, window_desc)
         # 只追加缓存里没有的论文：原有条目及其判定保留（避免 RSS 降级的单批次覆盖掉更全的 API 结果）
         arxiv_items = [x for x in fetched if x["key"] not in old_keys]
+        arxiv_items, n_pub = _drop_published(arxiv_items)
+        if n_pub:
+            arxiv_errors.append({"source": "去重",
+                                 "error": f"剔除近 {PUBLISHED_LOOKBACK_DAYS} 天日报已收录的 {n_pub} 篇"})
         if not arxiv_items:
             # 本次没取到新论文（限流等）：缓存原样保留，只在状态里报告本次错误
             _set_state("done", counts=_count_by_source(cache.get("items", [])),
@@ -1434,7 +1500,8 @@ def run_arxiv_recollect(cache: dict):
         source_errors = kept_errors + arxiv_errors
 
         _set_state("filter", counts=_count_by_source(all_items))
-        filter_relevance(arxiv_items)  # 其他源及原有 arXiv 条目沿用缓存中的判定结果
+        # 其他源及原有 arXiv 条目沿用缓存中的判定结果；新增条目也先复用往日判定
+        filter_relevance(_reuse_verdicts(arxiv_items))
 
         cache.update({"sources": _count_by_source(all_items),
                       "errors": source_errors,
