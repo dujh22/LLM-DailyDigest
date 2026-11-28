@@ -60,13 +60,15 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **无梯度能力写入**：前向激活与可解析表示代数可直接驱动局部、门控的低秩改写；其上限取决于目标子空间可分性及冻结表征覆盖度。
+1. **无梯度能力写入**：无梯度写入不应盲搜：前向激活、可解析表示代数或任务不变性可约束局部改写与搜索方向；上限取决于目标子空间可分性及冻结表征覆盖度。
+   - [ARS-VLM：视觉对齐增强随机搜索](../../updates/2026-11-28/#ars-vlm) · 2026-11-28
    - [vSFT：语言监督式测试时调优](../../updates/2026-11-26/#vsft) · 2026-11-26
    - [FWSP：确定性前向权重编辑](../../updates/2026-11-26/#fwsp) · 2026-11-26
    - [Don't Train It, Write It：智能体直写模型能力](../../updates/2026-11-24/#don-t-train-it-write-it) · 2026-11-24
    - [Weight-Space Programming：无梯度写入ICL](../../updates/2026-11-23/#weight-space-programming-icl) · 2026-11-23
    - [Forward-Only Passes：角度集中度引导降秩](../../updates/2026-11-21/#forward-only-passes) · 2026-11-21
-2. **测试时更新安全**：测试时参数可作为离窗记忆，但监督宜来自可控变换等确定标签；用户交互驱动更新时，必须隔离并审计更新通道。
+2. **测试时更新安全**：测试时参数可作离窗记忆；更新持久性应按误差的跨回合复现性分层，监督优先用确定标签，用户驱动通道须隔离审计。
+   - [sft-JEPA：快慢分治测试时训练](../../updates/2026-11-28/#sft-jepa) · 2026-11-28
    - [P-TAP：会话适配器渐进投毒](../../updates/2026-11-25/#p-tap) · 2026-11-25
    - [RoTTT：旋转监督式测试时训练](../../updates/2026-11-24/#rottt) · 2026-11-24
    - [LoCo-WAM：测试时训练延展长上下文](../../updates/2026-11-23/#loco-wam) · 2026-11-23
@@ -93,6 +95,8 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
 8. **策略多样性维护**：对已会题目继续做离模探索并自蒸馏不同正确解，可将冗余正确奖励转成策略多样性，避免坍缩到单一路径。
    - [ROAM-GRPO：离模策略挖掘](../../updates/2026-11-20/#roam-grpo) · 2026-11-20
 9. **局部信用分配**：奖励应归因到造成结果的决策分叉、输出片段或模型模块，而非整段响应平均传播；熵排名和输出锚点可低成本定位。
+   - [VeriLogic：可验证逻辑轨迹强化学习](../../updates/2026-11-28/#verilogic) · 2026-11-28
+   - [SAEPO：稀疏自编码器引导信用分配](../../updates/2026-11-28/#saepo) · 2026-11-28
    - [BRIAR：分岔引导的信念平滑](../../updates/2026-11-26/#briar) · 2026-11-26
    - [MSPO：模块特定信用分配](../../updates/2026-11-25/#mspo) · 2026-11-25
    - [AnchorCredit：输出锚定式信用分配](../../updates/2026-11-25/#anchorcredit) · 2026-11-25
@@ -102,7 +106,9 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
     - [EPRO：不完美预测下的鲁棒策略优化](../../updates/2026-11-25/#epro) · 2026-11-25
     - [ELGO：循环外推自教师强化学习](../../updates/2026-11-25/#elgo) · 2026-11-25
     - [PAIR-MED：策略奖励交替优化](../../updates/2026-11-21/#pair-med) · 2026-11-21
-11. **推理过程忠实性**：答案正确或思维链可读都不能证明过程忠实；评测应结合预测依赖、内部表征，并对可形式化结果使用独立语义解析与可弃权确定性检查。
+11. **推理过程忠实性**：答案正确、思维链可读或口述置信度都不能证明过程忠实；应结合预测依赖、内部表征，并对可形式化中间状态作独立语义验证与可弃权检查。
+    - [VeriLogic：可验证逻辑轨迹强化学习](../../updates/2026-11-28/#verilogic) · 2026-11-28
+    - [置信度注入揭示自监控失效](../../updates/2026-11-28/#item-28) · 2026-11-28
     - [FOL-Proof：确定性语义验证](../../updates/2026-11-26/#fol-proof) · 2026-11-26
     - [CLR：无痕隐藏目标推理](../../updates/2026-11-25/#clr) · 2026-11-25
     - [APRM：内部注意力过程奖励](../../updates/2026-11-25/#aprm) · 2026-11-25
@@ -122,7 +128,7 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
 15. **成本敏感评测**：高难推理基准接近饱和后，应同时报告准确率、推理Token和单位任务成本；等精度下的计算压缩更能区分系统价值。
     - [Gemini 4 Neon：低成本高分推理](../../updates/2026-11-25/#gemini-4-neon) · 2026-11-25
     - [Gemini 4 Hydrogen：半量Token高分推理](../../updates/2026-11-21/#gemini-4-hydrogen-token) · 2026-11-21
-<!-- experience-seen: 2026-11-21/claude-lean 2026-11-21/forward-only-passes 2026-11-21/gemini-4-hydrogen-token 2026-11-21/pair-med 2026-11-21/space-x 2026-11-23/alps-lab 2026-11-23/bel 2026-11-23/creditfilter 2026-11-23/item-25 2026-11-23/item-53 2026-11-23/loco-wam 2026-11-23/orion 2026-11-23/structure-over-scale 2026-11-23/turnout 2026-11-23/weight-space-programming-icl 2026-11-24/don-t-train-it-write-it 2026-11-24/future-opsd 2026-11-24/item-67 2026-11-24/markovian-reasoning-llm 2026-11-24/rottt 2026-11-24/rtc 2026-11-24/tool-to-self 2026-11-25/9-4 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/gemini-4-neon 2026-11-25/item-128 2026-11-25/item-56 2026-11-25/lce 2026-11-25/mspo 2026-11-25/p-tap 2026-11-25/trusuco 2026-11-25/tt-rsi 2026-11-25/videcide 2026-11-25/vopd 2026-11-26/briar 2026-11-26/cogentic 2026-11-26/dart 2026-11-26/dfly2 2026-11-26/fol-proof 2026-11-26/fwsp 2026-11-26/latent-merger-lora 2026-11-26/openai-math-ai 2026-11-26/s-mind 2026-11-26/thinkmorph-ssl 2026-11-26/u-statistics-powered-llm-reasoning 2026-11-26/vsft 2026-11-27/docseam 2026-11-28/solve-vision-with-code -->
+<!-- experience-seen: 2026-11-21/claude-lean 2026-11-21/forward-only-passes 2026-11-21/gemini-4-hydrogen-token 2026-11-21/pair-med 2026-11-21/space-x 2026-11-23/alps-lab 2026-11-23/bel 2026-11-23/creditfilter 2026-11-23/item-25 2026-11-23/item-53 2026-11-23/loco-wam 2026-11-23/orion 2026-11-23/structure-over-scale 2026-11-23/turnout 2026-11-23/weight-space-programming-icl 2026-11-24/don-t-train-it-write-it 2026-11-24/future-opsd 2026-11-24/item-67 2026-11-24/markovian-reasoning-llm 2026-11-24/rottt 2026-11-24/rtc 2026-11-24/tool-to-self 2026-11-25/9-4 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/gemini-4-neon 2026-11-25/item-128 2026-11-25/item-56 2026-11-25/lce 2026-11-25/mspo 2026-11-25/p-tap 2026-11-25/trusuco 2026-11-25/tt-rsi 2026-11-25/videcide 2026-11-25/vopd 2026-11-26/briar 2026-11-26/cogentic 2026-11-26/dart 2026-11-26/dfly2 2026-11-26/fol-proof 2026-11-26/fwsp 2026-11-26/latent-merger-lora 2026-11-26/openai-math-ai 2026-11-26/s-mind 2026-11-26/thinkmorph-ssl 2026-11-26/u-statistics-powered-llm-reasoning 2026-11-26/vsft 2026-11-27/docseam 2026-11-28/ars-vlm 2026-11-28/item-28 2026-11-28/saepo 2026-11-28/sft-jepa 2026-11-28/solve-vision-with-code 2026-11-28/verilogic -->
 <!-- research-experience:end -->
 
 ## 相关工作
