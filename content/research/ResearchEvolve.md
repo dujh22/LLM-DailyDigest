@@ -115,6 +115,7 @@ toc = true
    - [MEMIG：面向抗体优化的自演化结构化记忆](../../updates/2026-11-02/#memig) · 2026-11-02
    - [TTME：测试时记忆演化以更低成本助力科学发现](../../updates/2026-10-29/#ttme) · 2026-10-29
 5. **闭环必须可证伪**：实验闭环应包含竞争假设、未知空隙探查、反驳性实验和质量受控反馈，并允许否决初步结论；仅循环生成与分析容易固化错误。
+   - [CASPER：自主多参考量子化学](../../updates/2026-11-28/#casper) · 2026-11-28
    - [SailSearch：双智能体辅助算法发现](../../updates/2026-11-21/#sailsearch) · 2026-11-21
    - [Theorizer：文献证据驱动理论生成](../../updates/2026-11-20/#theorizer) · 2026-11-20
    - [EpiCompass：审计式认知探索](../../updates/2026-11-20/#epicompass) · 2026-11-20
@@ -249,7 +250,7 @@ toc = true
     - [AI编码、拟合与迭代科学模型](../../updates/2026-11-08/#item-22) · 2026-11-08
     - [SAGE：LLM 智能体发现复杂网络的分层控制方程](../../updates/2026-11-06/#sage-llm) · 2026-11-06
     - [RecRSI：机制引导的推荐算法自动发现框架](../../updates/2026-11-06/#recrsi) · 2026-11-06
-<!-- experience-seen: 2026-11-21/claude-lean 2026-11-21/item-26 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/item-23 2026-11-23/item-25 2026-11-23/item-3 2026-11-23/item-7 2026-11-23/minimax 2026-11-23/navier-stokes-claude-lean 2026-11-24/item-4 2026-11-24/lean 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/superintelligence-is-arriving-ai 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/beyond-accuracy 2026-11-25/gpt-6 2026-11-25/hfm 2026-11-25/item-151 2026-11-25/item-71 2026-11-25/leannext 2026-11-25/noevera 2026-11-25/pde 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/tea-leaves 2026-11-25/vp-vnp-ai-lean 2026-11-26/agent-as-a-verifier 2026-11-26/ai-buckingham 2026-11-26/cogentic 2026-11-26/item-86 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/ree 2026-11-27/tabbyml 2026-11-28/drbench-pro -->
+<!-- experience-seen: 2026-11-21/claude-lean 2026-11-21/item-26 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/item-23 2026-11-23/item-25 2026-11-23/item-3 2026-11-23/item-7 2026-11-23/minimax 2026-11-23/navier-stokes-claude-lean 2026-11-24/item-4 2026-11-24/lean 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/superintelligence-is-arriving-ai 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/beyond-accuracy 2026-11-25/gpt-6 2026-11-25/hfm 2026-11-25/item-151 2026-11-25/item-71 2026-11-25/leannext 2026-11-25/noevera 2026-11-25/pde 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/tea-leaves 2026-11-25/vp-vnp-ai-lean 2026-11-26/agent-as-a-verifier 2026-11-26/ai-buckingham 2026-11-26/cogentic 2026-11-26/item-86 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/ree 2026-11-27/tabbyml 2026-11-28/casper 2026-11-28/drbench-pro -->
 <!-- research-experience:end -->
 
 ## 相关工作

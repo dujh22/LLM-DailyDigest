@@ -44,7 +44,8 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **混合记忆分工**：长上下文中，用滑窗保留局部细节并重构循环更新样本，以快慢状态承载全局，再用锚点或内容记忆补检索，更能在恒定内存下维持关联与精度。
+1. **混合记忆分工**：长上下文用滑窗保留局部、快慢循环状态承载全局，并以锚点或内容记忆补检索；大容量循环模型可用树路由专家解耦容量与逐步延迟，由跨层状态控制重置。
+   - [Yggdrasil：树路由循环专家](../../updates/2026-11-28/#yggdrasil) · 2026-11-28
    - [SWGDN：滑窗增强键值更新](../../updates/2026-11-26/#swgdn) · 2026-11-26
    - [Motion Mamba 2.0：持久记忆式长时控制](../../updates/2026-11-25/#motion-mamba-2-0) · 2026-11-25
    - [Integral DeltaNet：双状态自适应记忆](../../updates/2026-11-25/#integral-deltanet) · 2026-11-25
@@ -155,7 +156,9 @@ toc = true
 13. **混合状态移交**：混合架构的前缀复用或跨模型移交需联合处理全注意力KV、循环状态和卷积历史；在可预测交互边界生成检查点，可避免提示重放与预填充切分。
     - [FrontierReplay：无切分精确前缀缓存](../../updates/2026-11-20/#frontierreplay) · 2026-11-20
     - [HST：混合线性注意力 LLM 的跨模型状态移交](../../updates/2026-11-08/#hst-llm) · 2026-11-08
-14. **快速权重在线学习**：将循环快速权重视为在线学习器时，更新规则需做前缀对齐、归一化与选择性遗忘；分层线性写入可兼顾非线性表达和高效分块训练。
+14. **快速权重在线学习**：将循环快速权重视为在线学习器时，更新与传播需前缀对齐、归一化、选择性遗忘及非扩张约束；长距召回还需重复样本与上下文敏感损失定向激活。
+    - [Stable Gated DeltaNet-2：对称擦除稳定循环状态](../../updates/2026-11-28/#stable-gated-deltanet-2) · 2026-11-28
+    - [定向监督激活线性注意力召回](../../updates/2026-11-28/#item-23) · 2026-11-28
     - [Toaster：目标传播式非线性记忆](../../updates/2026-11-19/#toaster) · 2026-11-19
     - [KRA：协方差引导选择性遗忘](../../updates/2026-11-19/#kra) · 2026-11-19
     - [Falcon快速权重注意力实现持续学习](../../updates/2026-11-02/#falcon) · 2026-11-02
@@ -164,7 +167,7 @@ toc = true
     - [LoopCache：置信更新与循环KV缓存](../../updates/2026-11-19/#loopcache-kv) · 2026-11-19
     - [KV Replay：跨迭代缓存复用](../../updates/2026-11-17/#kv-replay) · 2026-11-17
     - [Looped CED：零轮次 KV 增长的递归深度架构](../../updates/2026-11-12/#looped-ced-kv) · 2026-11-12
-<!-- experience-seen: 2026-11-20/clover 2026-11-20/compact-bench 2026-11-20/frontierreplay 2026-11-20/grepmem 2026-11-20/laq 2026-11-20/raa 2026-11-20/rocokv 2026-11-23/contexture 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/turnout 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/markovian-reasoning-llm 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/hopper-4-bit-kv 2026-11-25/integral-deltanet 2026-11-25/item-150 2026-11-25/item-93 2026-11-25/loomkv-kv 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/swapcert 2026-11-25/trusuco 2026-11-26/dfly2 2026-11-26/fbq 2026-11-26/item-87 2026-11-26/ssa 2026-11-26/swgdn 2026-11-27/molt-kv -->
+<!-- experience-seen: 2026-11-23/contexture 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/turnout 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/markovian-reasoning-llm 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/hopper-4-bit-kv 2026-11-25/integral-deltanet 2026-11-25/item-150 2026-11-25/item-93 2026-11-25/loomkv-kv 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/swapcert 2026-11-25/trusuco 2026-11-26/dfly2 2026-11-26/fbq 2026-11-26/item-87 2026-11-26/ssa 2026-11-26/swgdn 2026-11-27/molt-kv 2026-11-28/item-23 2026-11-28/stable-gated-deltanet-2 2026-11-28/yggdrasil -->
 <!-- research-experience:end -->
 
 ## 相关工作

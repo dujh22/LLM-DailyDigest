@@ -59,7 +59,8 @@ toc = true
    - [A-RSI：零数据多模态递归自我改进的自适应任务刷新](../../updates/2026-10-31/#a-rsi) · 2026-10-31
    - [RSI-Master：受控实验驱动的自主模型改进](../../updates/2026-10-30/#rsi-master) · 2026-10-30
    - [The Trinity：能力驱动的多模态智能体递归自我改进](../../updates/2026-10-29/#the-trinity) · 2026-10-29
-2. **评判器必须隔离**：凡评估结果参与选模或训练，评判器都应按干预接受隔离审计；加入独立执行、人评、语义等价变换及证据匹配对照，排查迎合、方向偏差和定向误导。
+2. **评判器必须隔离**：凡自评结果参与纠错、选模或训练，都应按干预接受隔离审计；口述置信度不能充当错误检测证据，须用独立执行、人评及反事实控制验证。
+   - [置信度注入揭示自监控失效](../../updates/2026-11-28/#item-28) · 2026-11-28
    - [SealedLoop：环外密封评判](../../updates/2026-11-26/#sealedloop) · 2026-11-26
    - [HUB-J：人类偏好驱动偏差审计](../../updates/2026-11-26/#hub-j) · 2026-11-26
    - [Agent-as-a-Verifier：证据证书式通用验证](../../updates/2026-11-26/#agent-as-a-verifier) · 2026-11-26
@@ -119,8 +120,9 @@ toc = true
    - [递归自我改进（RSI）：2026 年论文趋势盘点](../../updates/2026-11-01/#rsi-2026) · 2026-11-01
    - [RISE：交错 RLVR 与在策略蒸馏实现递归自我改进](../../updates/2026-10-31/#rise-rlvr) · 2026-10-31
    - [跨任务耦合驱动无监督 RLVR 策略坍缩](../../updates/2026-10-29/#rlvr) · 2026-10-29
-8. **多维轨迹评估**：即时分数或偏好上升不等于持续进步；应沿版本轨迹报告未见任务、安全、故障发现率、局部退化、历史峰值、更新保持度及端到端成本。
+8. **多维轨迹评估**：即时分数或准确率上升不等于持续进步；应报告未见任务、安全、故障发现率与成本，并将人类可验证性设为独立风险约束。
    - [RSI 2026：自我进化效果验证](../../updates/2026-11-28/#rsi-2026) · 2026-11-28
+   - [DAPO-V：可验证风险约束强化学习](../../updates/2026-11-28/#dapo-v) · 2026-11-28
    - [RecurSciBench：科学RSI迁移评测](../../updates/2026-11-25/#recurscibench-rsi) · 2026-11-25
    - [Detection Gap：自改进智能体失效盲区](../../updates/2026-11-25/#detection-gap) · 2026-11-25
    - [CoEvoBench：模型与脚手架协同演化](../../updates/2026-11-23/#coevobench) · 2026-11-23
@@ -228,7 +230,7 @@ toc = true
     - [Sage-Evolve-Preview：自适应观测驱动持续改进](../../updates/2026-11-20/#sage-evolve-preview) · 2026-11-20
     - [Resolution Hypothesis：评测分辨率瓶颈](../../updates/2026-11-19/#resolution-hypothesis) · 2026-11-19
     - [EVA-RSI：代理考试驱动视频评估自改进](../../updates/2026-11-19/#eva-rsi) · 2026-11-19
-<!-- experience-seen: 2026-11-21/agi-asi 2026-11-21/item-21 2026-11-23/alps-lab 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/medicalrsi 2026-11-23/openai-ai 2026-11-23/search-rsi 2026-11-24/2026-ai-rsi 2026-11-24/dive 2026-11-24/don-t-train-it-write-it 2026-11-24/finevo 2026-11-24/metarsi-rsi 2026-11-24/rsi 2026-11-24/self-wsp 2026-11-24/semantic-pid-rsi-pid 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/fin-rsi 2026-11-25/glm-5-5-rsi 2026-11-25/habitats 2026-11-25/item-123 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/self-upgrading-embodied-agents 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-26/agent-as-a-verifier 2026-11-26/hub-j 2026-11-26/scalpel-and-brush 2026-11-26/sealedloop 2026-11-26/sed 2026-11-28/rsi-2026 -->
+<!-- experience-seen: 2026-11-21/agi-asi 2026-11-21/item-21 2026-11-23/alps-lab 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/medicalrsi 2026-11-23/openai-ai 2026-11-23/search-rsi 2026-11-24/2026-ai-rsi 2026-11-24/dive 2026-11-24/don-t-train-it-write-it 2026-11-24/finevo 2026-11-24/metarsi-rsi 2026-11-24/rsi 2026-11-24/self-wsp 2026-11-24/semantic-pid-rsi-pid 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/fin-rsi 2026-11-25/glm-5-5-rsi 2026-11-25/habitats 2026-11-25/item-123 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/self-upgrading-embodied-agents 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-26/agent-as-a-verifier 2026-11-26/hub-j 2026-11-26/scalpel-and-brush 2026-11-26/sealedloop 2026-11-26/sed 2026-11-28/dapo-v 2026-11-28/item-28 2026-11-28/rsi-2026 -->
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -43,8 +43,9 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **混合长上下文架构**：长上下文不宜押注单一注意力；线性或循环状态管全局，局部或稀疏注意力保精度。循环更新需约束方向增益，用对称擦除和受控写入防爆炸；分页索引或按需重建KV控成本。
+1. **混合长上下文架构**：长上下文宜用线性或循环状态管全局、局部或稀疏注意力保精度；线性注意力需定向监督激活远距召回，循环更新需约束增益并受控写入，KV用分页索引或按需重建控成本。
    - [Stable Gated DeltaNet-2：对称擦除稳定循环状态](../../updates/2026-11-28/#stable-gated-deltanet-2) · 2026-11-28
+   - [定向监督激活线性注意力召回](../../updates/2026-11-28/#item-23) · 2026-11-28
    - [SWGDN：滑窗增强键值更新](../../updates/2026-11-26/#swgdn) · 2026-11-26
    - [SSA：上下文依赖记忆保留](../../updates/2026-11-26/#ssa) · 2026-11-26
    - [Integral DeltaNet：双状态自适应记忆](../../updates/2026-11-25/#integral-deltanet) · 2026-11-25
@@ -92,6 +93,7 @@ toc = true
    - [扩散智能发布350亿参数Agent模型Clover-35B-A3B](../../updates/2026-10-30/#350-agent-clover-35b-a3b) · 2026-10-30
    - [蚂蚁百灵开源面向 Personal Agent 的 Ling-3.1-flash-1019](../../updates/2026-10-29/#personal-agent-ling-3-1-flash-1019) · 2026-10-29
 3. **动态分配推理计算**：低延迟模型应按输入、词元、步骤或任务阶段分配计算；潜变量评分、动态电路、模型路由、块并行和少步蒸馏均优于全程等量计算。
+   - [Yggdrasil：树路由循环专家](../../updates/2026-11-28/#yggdrasil) · 2026-11-28
    - [DyLoMo-DiT：动态循环稀疏专家](../../updates/2026-11-27/#dylomo-dit) · 2026-11-27
    - [LoomFormer：逐词元动态重连电路](../../updates/2026-11-26/#loomformer) · 2026-11-26
    - [GLiDE：推理蒸馏单遍决策](../../updates/2026-11-20/#glide) · 2026-11-20
@@ -130,6 +132,7 @@ toc = true
    - [HiFOR：动作引导世界锚定与分层前瞻的视觉-语言-动作模型](../../updates/2026-11-03/#hifor) · 2026-11-03
    - [PDRVLA：融合物理动力学表征的视觉-语言-动作模型](../../updates/2026-10-29/#pdrvla) · 2026-10-29
 7. **具身训练需要闭环**：具身泛化应串联人类视频预训练、跨具身或虚实后训练、真机评测与部署反馈，单一机器人数据难覆盖长尾。
+   - [Motubrain 2.0：世界动作模型协同编排](../../updates/2026-11-28/#motubrain-2-0) · 2026-11-28
    - [英伟达开源 GR00T 2 机器人模型、硬件与十万小时数据](../../updates/2026-11-12/#gr00t-2) · 2026-11-12
    - [DriveFoundry：数据与模型协同演化的自动驾驶闭环框架](../../updates/2026-11-12/#drivefoundry) · 2026-11-12
    - [Open-HumanWAM：扩展人类与机器人经验的开放具身基础模型方案](../../updates/2026-11-08/#open-humanwam) · 2026-11-08
@@ -170,6 +173,7 @@ toc = true
     - [面壁智能开源 MiniCPM-OCR 高效可信文档解析模型](../../updates/2026-10-30/#minicpm-ocr) · 2026-10-30
     - [文心 Unlimited OCR 2 开源：KV 缓存降低 96%](../../updates/2026-10-29/#unlimited-ocr-2-kv-96) · 2026-10-29
 12. **小模型靠任务化补偿**：在端侧、文档、GUI和高频决策等边界明确任务上，专用数据、非生成式评分、置信校准与主动弃权可让小模型接近大模型并显著降本。
+    - [PixelOne：搜索教师空间蒸馏](../../updates/2026-11-28/#pixelone) · 2026-11-28
     - [GLiDE：推理蒸馏单遍决策](../../updates/2026-11-20/#glide) · 2026-11-20
     - [Microsoft-Decision-1.1：校准置信度与弃权](../../updates/2026-11-18/#microsoft-decision-1-1) · 2026-11-18
     - [Karpo Decision：单次前向并行决策](../../updates/2026-11-17/#karpo-decision) · 2026-11-17
@@ -207,6 +211,7 @@ toc = true
     - [Google DeepMind 发布旗舰模型 Gemini 4 Carbon](../../updates/2026-10-30/#google-deepmind-gemini-4-carbon) · 2026-10-30
     - [Gemini 4 Carbon发布：强化长程编程、安全防御与成本效率](../../updates/2026-10-29/#gemini-4-carbon) · 2026-10-29
 14. **结构化复用模型先验**：新任务应优先复用成熟基座；轻量适配需按结构差异设计更新子空间或可门控模块，避免只加秩或混合损失导致能力冲突。
+    - [ARS-VLM：视觉对齐增强随机搜索](../../updates/2026-11-28/#ars-vlm) · 2026-11-28
     - [PMOPD：子空间保护式多教师蒸馏](../../updates/2026-11-25/#pmopd) · 2026-11-25
     - [Native LAM：世界模型提炼潜在动作](../../updates/2026-11-25/#native-lam) · 2026-11-25
     - [nanoAstra：语义动作建模与能力保持微调](../../updates/2026-11-25/#nanoastra) · 2026-11-25
@@ -239,7 +244,7 @@ toc = true
     - [商汤开源循环架构模型 SenseNova Loop-9B-Preview](../../updates/2026-11-03/#sensenova-loop-9b-preview) · 2026-11-03
     - [LARC：统一多模态模型的连续空间潜在推理](../../updates/2026-11-03/#larc) · 2026-11-03
     - [Mistral发布万亿参数开放权重模型Large 4](../../updates/2026-10-31/#mistral-large-4) · 2026-10-31
-<!-- experience-seen: 2026-11-21/depth-pro-2 2026-11-21/egocaptioner 2026-11-21/gemini-4-hydrogen-token 2026-11-21/hiuni 2026-11-21/hy4 2026-11-21/wemm-video 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/structure-over-scale 2026-11-24/cmhc 2026-11-24/don-t-train-it-write-it 2026-11-24/duopra 2026-11-24/glm-5-4 2026-11-24/gpt-6-2-sol 2026-11-24/hy-mt3 2026-11-24/inkling2mini 2026-11-24/markovian-reasoning-llm 2026-11-24/memt-1-0-pro 2026-11-25/deciform 2026-11-25/eeg-jev 2026-11-25/gemini-4-neon 2026-11-25/integral-deltanet 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/leannext 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/pmopd 2026-11-25/sleep 2026-11-25/wemm-ecom 2026-11-26/aliceai-foundation 2026-11-26/antom 2026-11-26/gemini-4-neon 2026-11-26/gpt-6-2-sol 2026-11-26/lingsante-medguard 2026-11-26/loomformer 2026-11-26/qwen-image-hd 2026-11-26/s-mind 2026-11-26/ssa 2026-11-26/swgdn 2026-11-27/docseam 2026-11-27/dylomo-dit 2026-11-27/molt-kv 2026-11-27/sage-med 2026-11-28/stable-gated-deltanet-2 -->
+<!-- experience-seen: 2026-11-21/depth-pro-2 2026-11-21/egocaptioner 2026-11-21/gemini-4-hydrogen-token 2026-11-21/hiuni 2026-11-21/hy4 2026-11-21/wemm-video 2026-11-23/lrsa 2026-11-23/memonce 2026-11-23/structure-over-scale 2026-11-24/cmhc 2026-11-24/don-t-train-it-write-it 2026-11-24/duopra 2026-11-24/glm-5-4 2026-11-24/gpt-6-2-sol 2026-11-24/hy-mt3 2026-11-24/inkling2mini 2026-11-24/markovian-reasoning-llm 2026-11-24/memt-1-0-pro 2026-11-25/deciform 2026-11-25/eeg-jev 2026-11-25/gemini-4-neon 2026-11-25/integral-deltanet 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/leannext 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/pmopd 2026-11-25/sleep 2026-11-25/wemm-ecom 2026-11-26/aliceai-foundation 2026-11-26/antom 2026-11-26/gemini-4-neon 2026-11-26/gpt-6-2-sol 2026-11-26/lingsante-medguard 2026-11-26/loomformer 2026-11-26/qwen-image-hd 2026-11-26/s-mind 2026-11-26/ssa 2026-11-26/swgdn 2026-11-27/docseam 2026-11-27/dylomo-dit 2026-11-27/molt-kv 2026-11-27/sage-med 2026-11-28/ars-vlm 2026-11-28/item-23 2026-11-28/motubrain-2-0 2026-11-28/pixelone 2026-11-28/stable-gated-deltanet-2 2026-11-28/yggdrasil -->
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -43,6 +43,7 @@ toc = true
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
 1. **决策效用选忆**：固定预算下应按记忆对具体任务决策的边际贡献筛选，而非语义相似度；Top-k日志不足以归因，需用反事实或可识别估计校准信用。
+   - [BiDE-Mem：类型化需求引导证据组织](../../updates/2026-11-28/#bide-mem) · 2026-11-28
    - [Leto：效用导向智能体记忆](../../updates/2026-11-26/#leto) · 2026-11-26
    - [XMind：跨记忆反事实复核](../../updates/2026-11-25/#xmind) · 2026-11-25
    - [ReHarness：结果驱动的经验反向修正](../../updates/2026-11-25/#reharness) · 2026-11-25
@@ -68,6 +69,7 @@ toc = true
    - [检索即遍历：面向有状态长上下文智能体的价值索引记忆](../../updates/2026-10-30/#item-68) · 2026-10-30
    - [Select-TTT：查询条件化的选择性快速权重更新](../../updates/2026-10-29/#select-ttt) · 2026-10-29
 2. **写入期结构化**：写入时完成事件绑定、层级切分与跨模态对齐更易复用；同时保留原文，表面失配时沿已发现证据扩展检索，避免预摘要丢失细节。
+   - [ContextFact：事实上下文记忆](../../updates/2026-11-28/#contextfact) · 2026-11-28
    - [SAG-Mem：证据引导词法扩展](../../updates/2026-11-26/#sag-mem) · 2026-11-26
    - [MXI-MemICL：自检索交互记忆](../../updates/2026-11-25/#mxi-memicl) · 2026-11-25
    - [ReSpaceBench：跨重访空间记忆评测](../../updates/2026-11-24/#respacebench) · 2026-11-24
@@ -129,6 +131,7 @@ toc = true
    - [Anchor：跨层循环状态增强长上下文检索](../../updates/2026-11-06/#anchor) · 2026-11-06
    - [Falcon快速权重注意力实现持续学习](../../updates/2026-11-02/#falcon) · 2026-11-02
 5. **版本感知更新**：记忆更新须管理版本、适用边界、强度与期限；上游事实变化时应沿依赖图选择性失效下游状态，并重验局部修复，避免整体重写。
+   - [MERIT：经验引导的个性化说服记忆](../../updates/2026-11-28/#merit) · 2026-11-28
    - [TASK Memory：激活引导与知识编辑记忆](../../updates/2026-11-26/#task-memory) · 2026-11-26
    - [RoboLiveMem：动静态配对记忆评测](../../updates/2026-11-25/#robolivemem) · 2026-11-25
    - [MemMend：选择性记忆答案修订](../../updates/2026-11-20/#memmend) · 2026-11-20
@@ -214,6 +217,7 @@ toc = true
    - [TTME：测试时记忆演化以更低成本助力科学发现](../../updates/2026-10-29/#ttme) · 2026-10-29
    - [Select-TTT：查询条件化的选择性快速权重更新](../../updates/2026-10-29/#select-ttt) · 2026-10-29
 9. **记忆策略自动优化**：写入、组织、反思、压缩和检索策略可按任务增益联合学习、程序搜索或分别蒸馏；训练问题须具代表性。分训模块组合前须验证接口兼容性与跨分布泛化。
+   - [定向监督激活线性注意力召回](../../updates/2026-11-28/#item-23) · 2026-11-28
    - [Knowledge-Base Gradient Descent：问答驱动知识库重构](../../updates/2026-11-26/#knowledge-base-gradient-descent) · 2026-11-26
    - [HoMe：评测驱动的记忆脚手架优化](../../updates/2026-11-26/#home) · 2026-11-26
    - [独立蒸馏记忆检索策略](../../updates/2026-11-25/#item-105) · 2026-11-25
@@ -353,7 +357,7 @@ toc = true
     - [智能体需要睡眠吗？睡眠启发的记忆巩固](../../updates/2026-11-06/#item-129) · 2026-11-06
     - [Reglos：递归自我改进的自演化个人记忆智能体](../../updates/2026-11-05/#reglos) · 2026-11-05
     - [EvoGuard：缓解在线技能演化中的性能退化](../../updates/2026-11-05/#evoguard) · 2026-11-05
-<!-- experience-seen: 2026-11-19/arise 2026-11-19/item-1 2026-11-19/kra 2026-11-19/moe-context 2026-11-19/openkage 2026-11-19/sch 2026-11-19/toaster 2026-11-20/bispace 2026-11-20/brain 2026-11-20/chronodossier 2026-11-20/clonact 2026-11-20/compact-bench 2026-11-20/driftguard 2026-11-20/grepmem 2026-11-20/habitusmem 2026-11-20/item-34 2026-11-20/item-63 2026-11-20/item-76 2026-11-20/memfolder 2026-11-20/memmend 2026-11-20/raa 2026-11-20/stark 2026-11-21/startv-agent 2026-11-23/embodied-harness 2026-11-23/epistemic-guard 2026-11-23/groupassistbench 2026-11-23/item-45 2026-11-23/memonce 2026-11-23/memory-tax 2026-11-23/navttt 2026-11-23/zhulong-se 2026-11-24/engram 2026-11-24/evovim 2026-11-24/hoh 2026-11-24/hyperharness 2026-11-24/memanto 2026-11-24/memt-1-0-pro 2026-11-24/respacebench 2026-11-24/skill-state 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/expguard 2026-11-25/integral-deltanet 2026-11-25/item-105 2026-11-25/item-117 2026-11-25/item-64 2026-11-25/lumimax 2026-11-25/mimpa 2026-11-25/mmmem 2026-11-25/motion-mamba-2-0 2026-11-25/mxi-memicl 2026-11-25/notary 2026-11-25/reharness 2026-11-25/robolivemem 2026-11-25/sleep 2026-11-25/spatialcraft 2026-11-25/xmind 2026-11-26/dualpm 2026-11-26/egse 2026-11-26/home 2026-11-26/item-87 2026-11-26/knowledge-base-gradient-descent 2026-11-26/leto 2026-11-26/memru 2026-11-26/metadecomp 2026-11-26/procedure-memory 2026-11-26/sag-mem 2026-11-26/sim 2026-11-26/ssa 2026-11-26/task-memory -->
+<!-- experience-seen: 2026-11-21/startv-agent 2026-11-23/embodied-harness 2026-11-23/epistemic-guard 2026-11-23/groupassistbench 2026-11-23/item-45 2026-11-23/memonce 2026-11-23/memory-tax 2026-11-23/navttt 2026-11-23/zhulong-se 2026-11-24/engram 2026-11-24/evovim 2026-11-24/hoh 2026-11-24/hyperharness 2026-11-24/memanto 2026-11-24/memt-1-0-pro 2026-11-24/respacebench 2026-11-24/skill-state 2026-11-24/vaw 2026-11-25/dmc-5 2026-11-25/expguard 2026-11-25/integral-deltanet 2026-11-25/item-105 2026-11-25/item-117 2026-11-25/item-64 2026-11-25/lumimax 2026-11-25/mimpa 2026-11-25/mmmem 2026-11-25/motion-mamba-2-0 2026-11-25/mxi-memicl 2026-11-25/notary 2026-11-25/reharness 2026-11-25/robolivemem 2026-11-25/sleep 2026-11-25/spatialcraft 2026-11-25/xmind 2026-11-26/dualpm 2026-11-26/egse 2026-11-26/home 2026-11-26/item-87 2026-11-26/knowledge-base-gradient-descent 2026-11-26/leto 2026-11-26/memru 2026-11-26/metadecomp 2026-11-26/procedure-memory 2026-11-26/sag-mem 2026-11-26/sim 2026-11-26/ssa 2026-11-26/task-memory 2026-11-28/bide-mem 2026-11-28/contextfact 2026-11-28/item-23 2026-11-28/merit -->
 <!-- research-experience:end -->
 
 ## 相关工作

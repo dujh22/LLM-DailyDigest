@@ -57,6 +57,7 @@ Evolve 应用（evolve application watch）是本站的横向跟踪方向，与�
    - [PatternMiner：小模型解释驱动数学发现](../../updates/2026-11-26/#patternminer) · 2026-11-26
    - [AI Buckingham：跨区间量纲标度发现](../../updates/2026-11-26/#ai-buckingham) · 2026-11-26
 6. **证据约束演化**：经验复用或系统演化应绑定适用条件、证据溯源和执行验证，并用受限编辑、回放审计与性能容差阻断错误累积。
+   - [CASPER：自主多参考量子化学](../../updates/2026-11-28/#casper) · 2026-11-28
    - [Sports Agent：反馈驱动闭环自进化](../../updates/2026-11-26/#sports-agent) · 2026-11-26
    - [PowerFix：物理引导迭代修复](../../updates/2026-11-26/#powerfix) · 2026-11-26
    - [EGSE：证据溯源式技能演化](../../updates/2026-11-26/#egse) · 2026-11-26
@@ -65,10 +66,11 @@ Evolve 应用（evolve application watch）是本站的横向跟踪方向，与�
 8. **技能调用诊断**：评测技能型智能体时应同时测自主与引导执行；两者差距可定位技能欠用，避免把脚手架缺陷误判为模型能力。
    - [MedSkill-E²：医疗技能评测与演化](../../updates/2026-11-26/#medskill-e) · 2026-11-26
 9. **主观反馈分解**：演化交互产品时，不能以可执行性替代体验质量；应把趣味等主观目标拆成可诊断维度，驱动试玩、诊断与改写闭环。
+   - [GameAnything：灵感驱动可玩世界生成](../../updates/2026-11-28/#gameanything) · 2026-11-28
    - [Play2Evolve：趣味反馈驱动游戏演化](../../updates/2026-11-27/#play2evolve) · 2026-11-27
 10. **状态资产化**：长程生成应将跨阶段差异编码为可验证、可复用、带版本的主动状态，并由层级智能体协同更新，而非无限扩充全局上下文。
     - [StateWeaver：故事状态转换协同](../../updates/2026-11-28/#stateweaver) · 2026-11-28
-<!-- experience-seen: 2026-11-25/ai-assisted-programming 2026-11-25/fin-rsi 2026-11-25/hfm 2026-11-25/weight-coding 2026-11-25/wemm-ecom 2026-11-26/ai-assisted-programming-and-labor-demand 2026-11-26/ai-buckingham 2026-11-26/cogentic 2026-11-26/dots 2026-11-26/egse 2026-11-26/medskill-e 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/powerfix 2026-11-26/sports-agent 2026-11-27/i2vt 2026-11-27/play2evolve 2026-11-28/stateweaver -->
+<!-- experience-seen: 2026-11-25/ai-assisted-programming 2026-11-25/fin-rsi 2026-11-25/hfm 2026-11-25/weight-coding 2026-11-25/wemm-ecom 2026-11-26/ai-assisted-programming-and-labor-demand 2026-11-26/ai-buckingham 2026-11-26/cogentic 2026-11-26/dots 2026-11-26/egse 2026-11-26/medskill-e 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/powerfix 2026-11-26/sports-agent 2026-11-27/i2vt 2026-11-27/play2evolve 2026-11-28/casper 2026-11-28/gameanything 2026-11-28/stateweaver -->
 <!-- research-experience:end -->
 
 ## 相关工作

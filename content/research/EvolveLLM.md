@@ -84,7 +84,8 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
    - [Recursa：递归自我改进的基础模型系统](../../updates/2026-11-06/#recursa) · 2026-11-06
    - [跨任务耦合驱动无监督 RLVR 策略坍缩](../../updates/2026-10-29/#rlvr) · 2026-10-29
    - [CaLLM：基于非参数适配器路由的持续适应](../../updates/2026-10-29/#callm) · 2026-10-29
-5. **巩固与能力回放**：持续更新前后要用多接口区分读出错配与真实表征漂移；以行为门控、低曲率更新、历史预测或基础回放约束晋升，避免奖励外能力退化。
+5. **巩固与能力回放**：持续更新前后要用多接口区分读出错配与真实遗忘：行为可快速受抑，表征往往缓慢漂移；以低曲率更新、历史预测或基础回放约束晋升。
+   - [双时间尺度遗忘：行为快抑制、表征慢漂移](../../updates/2026-11-28/#item-21) · 2026-11-28
    - [Shift Adapter：逐层恒定偏移适配](../../updates/2026-11-26/#shift-adapter) · 2026-11-26
    - [增益保留联合调参](../../updates/2026-11-26/#item-34) · 2026-11-26
    - [三接口持续学习诊断](../../updates/2026-11-25/#item-109) · 2026-11-25
@@ -124,7 +125,8 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
    - [NCP：验证器引导的权重空间控制策略优化](../../updates/2026-11-12/#ncp) · 2026-11-12
    - [LatentWeave：面向多模态推理的测试时潜变量优化](../../updates/2026-10-30/#latentweave) · 2026-10-30
    - [Select-TTT：查询条件化的选择性快速权重更新](../../updates/2026-10-29/#select-ttt) · 2026-10-29
-9. **验证驱动测试扩展**：测试时扩展不能把多数共识等同正确性；优先用独立检查器、校正奖励或易验证任务，并让后续尝试继承已验证推理，避免独立采样锁定早期错误。
+9. **验证驱动测试扩展**：测试时扩展不能把多数共识或口述置信度等同正确性；错误检测常比修复更受限，应优先用独立检查器或校正奖励，并继承已验证推理。
+   - [置信度注入揭示自监控失效](../../updates/2026-11-28/#item-28) · 2026-11-28
    - [TT-RSI：测试时递归自我改进](../../updates/2026-11-25/#tt-rsi) · 2026-11-25
    - [STONE：踏脚石式无标签自蒸馏](../../updates/2026-11-17/#stone) · 2026-11-17
    - [TRUER：面向测试时强化学习的错误感知奖励校正](../../updates/2026-11-12/#truer) · 2026-11-12
@@ -169,7 +171,7 @@ EvolveLLM 是关于**大语言模型自我进化 / 自我改进**的通用研究
     - [CoEvoBench：模型与脚手架协同演化](../../updates/2026-11-23/#coevobench) · 2026-11-23
     - [Piccolo：模型数据协同自进化](../../updates/2026-11-20/#piccolo) · 2026-11-20
     - [Evo²：权重与Harness协同进化](../../updates/2026-11-20/#evo-harness) · 2026-11-20
-<!-- experience-seen: 2026-11-19/item-48 2026-11-19/learning-through-discernment 2026-11-19/rsi-prime 2026-11-19/toaster 2026-11-19/weight-space-programming 2026-11-20/automaster 2026-11-20/basersi 2026-11-20/curvdelta 2026-11-20/evo-harness 2026-11-20/item-65 2026-11-20/keel 2026-11-20/piccolo 2026-11-20/rlcdr 2026-11-20/self-replicating-language-models 2026-11-23/coevobench 2026-11-23/item-49 2026-11-23/openai-ai 2026-11-23/structure-over-scale 2026-11-23/weight-space-programming-icl 2026-11-24/dive 2026-11-24/finevo 2026-11-24/pbpt 2026-11-24/self-wsp 2026-11-24/sro 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/elgo 2026-11-25/glm-5-5-rsi 2026-11-25/instructreplay 2026-11-25/item-109 2026-11-25/item-90 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-25/weight-coding 2026-11-26/fwsp 2026-11-26/item-34 2026-11-26/scalpel-and-brush 2026-11-26/shift-adapter 2026-11-26/swgdn 2026-11-26/vfr -->
+<!-- experience-seen: 2026-11-23/coevobench 2026-11-23/item-49 2026-11-23/openai-ai 2026-11-23/structure-over-scale 2026-11-23/weight-space-programming-icl 2026-11-24/dive 2026-11-24/finevo 2026-11-24/pbpt 2026-11-24/self-wsp 2026-11-24/sro 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/elgo 2026-11-25/glm-5-5-rsi 2026-11-25/instructreplay 2026-11-25/item-109 2026-11-25/item-90 2026-11-25/selfwrite 2026-11-25/tt-rsi 2026-11-25/weight-coding 2026-11-26/fwsp 2026-11-26/item-34 2026-11-26/scalpel-and-brush 2026-11-26/shift-adapter 2026-11-26/swgdn 2026-11-26/vfr 2026-11-28/item-21 2026-11-28/item-28 -->
 <!-- research-experience:end -->
 
 ## 相关工作

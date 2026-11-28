@@ -121,10 +121,12 @@ toc = true
    - [SIGame：代码策略自我改进](../../updates/2026-11-20/#sigame) · 2026-11-20
    - [Option-GRPO：代码选项分层强化学习](../../updates/2026-11-19/#option-grpo) · 2026-11-19
    - [SeaFlow：基于语义任务分解的自演化智能体工作流](../../updates/2026-11-03/#seaflow) · 2026-11-03
-8. **分支轨迹自训练**：轨迹采集应从高价值检查点分支，而非只重复完整运行；失败现场和恢复示范可直接转化为训练信号。
+8. **执行轨迹自训练**：轨迹自训练不必依赖同题群组比较；可从高价值检查点分支，或提取单条执行轨迹的直接反馈，将失败现场和恢复示范转为训练信号。
+   - [DFPO：单轨迹直接反馈优化](../../updates/2026-11-28/#dfpo) · 2026-11-28
    - [SWE-Trail：历史引导的编码智能体轨迹收集](../../updates/2026-11-04/#swe-trail) · 2026-11-04
    - [ReTerm：让Code Agent从失败恢复中递归自我改进](../../updates/2026-11-04/#reterm-code-agent) · 2026-11-04
-9. **持续演化防遗忘**：脚手架连续改写会遗忘并累积复杂度；应以独立监控发现故障，用工程指标、历史回归集和非退化档案约束更新。演员级隔离可兼顾局部修复与运行连续性。
+9. **持续演化防漂移**：长程执行与脚手架连续改写都会漂移或遗忘；应以独立监控和可靠中间提示纠偏，并用工程指标、历史回归集和非退化档案约束更新。
+   - [OOAS：聚合反馈驱动的动态转向](../../updates/2026-11-28/#ooas) · 2026-11-28
    - [Wactorz：自编写边缘智能体运行时](../../updates/2026-11-25/#wactorz) · 2026-11-25
    - [Detection Gap：自改进智能体失效盲区](../../updates/2026-11-25/#detection-gap) · 2026-11-25
    - [Metrics-in-the-Loop：指标闭环代码纠偏](../../updates/2026-11-19/#metrics-in-the-loop) · 2026-11-19
@@ -156,7 +158,8 @@ toc = true
     - [Agent Trajectories：轨迹证据化质量审查](../../updates/2026-11-18/#agent-trajectories) · 2026-11-18
     - [Harness-of-Harness：证据驱动持续开发](../../updates/2026-11-17/#harness-of-harness) · 2026-11-17
     - [Soei：面向多智能体软件工程的证据与意图结构化可观测性](../../updates/2026-10-30/#soei) · 2026-10-30
-12. **机制引导搜索**：用机制假设、可搜索领域语言、方向性问题、层级知识或结构化反例约束搜索，比任意代码空间试错更省预算且便于迁移。
+12. **机制引导搜索**：用机制假设定位少量可干预结构，并以领域语言、方向性问题、层级知识或结构化反例约束搜索，比在任意代码或权重空间试错更省预算且便于迁移。
+    - [Kolpona：无梯度神经元编程](../../updates/2026-11-28/#kolpona) · 2026-11-28
     - [LeanNeXt：假设驱动架构发现](../../updates/2026-11-25/#leannext) · 2026-11-25
     - [量子纠错解码：DSL语法进化](../../updates/2026-11-20/#dsl) · 2026-11-20
     - [TabDAG：图程序约束进化搜索](../../updates/2026-11-19/#tabdag) · 2026-11-19
@@ -188,7 +191,7 @@ toc = true
 15. **义务驱动终止**：补丁满足全部任务义务后应触发独立终止判定；无上限的继续探索会浪费预算，甚至撤销已正确的解。
     - [Evidence Interpretation：检查证据边界判定](../../updates/2026-11-19/#evidence-interpretation) · 2026-11-19
     - [终止滞后：编程智能体早已解题却迟迟不停](../../updates/2026-11-13/#item-32) · 2026-11-13
-<!-- experience-seen: 2026-11-20/buggymle 2026-11-20/dsl 2026-11-20/frontieror 2026-11-20/meta-rtl-rtl 2026-11-20/performance-factory-codex 2026-11-20/sigame 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/fwsp 2026-11-26/openai-math-ai 2026-11-26/pax 2026-11-26/precept 2026-11-26/transharness 2026-11-27/play2evolve 2026-11-27/tabbyml -->
+<!-- experience-seen: 2026-11-21/formalfixer-rtl 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/item-10 2026-11-23/splitbench 2026-11-23/zhulong-se 2026-11-24/dive 2026-11-24/hoh 2026-11-24/lean 2026-11-24/shirudo-ebpf 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/fgl 2026-11-25/leannext 2026-11-25/margin 2026-11-25/mosaic 2026-11-25/notary 2026-11-25/online-environment-repair 2026-11-25/pde 2026-11-25/stcg 2026-11-25/swe-gym-verified 2026-11-25/wactorz 2026-11-26/3dcodefactory-3d 2026-11-26/autorlbench-rl 2026-11-26/dots 2026-11-26/fwsp 2026-11-26/openai-math-ai 2026-11-26/pax 2026-11-26/precept 2026-11-26/transharness 2026-11-27/play2evolve 2026-11-27/tabbyml 2026-11-28/dfpo 2026-11-28/kolpona 2026-11-28/ooas -->
 <!-- research-experience:end -->
 
 ## 相关工作

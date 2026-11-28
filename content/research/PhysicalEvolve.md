@@ -66,7 +66,9 @@ toc = true
    - [LLM 智能体改进地球系统模型参数化](../../updates/2026-11-06/#llm-4) · 2026-11-06
    - [自递归软硬件脚手架驱动自主光学实验](../../updates/2026-11-06/#item-64) · 2026-11-06
    - [EvoSim：自进化多物理场建模系统](../../updates/2026-11-01/#evosim) · 2026-11-01
-2. **双层递归改进**：将任务策略与工作流、记忆、验证器等脚手架分层演化；权重更新昂贵时，先改可审计的外部程序也能获得大幅提升。
+2. **双层递归改进**：将任务策略与工作流、记忆、验证器等脚手架分层演化，并按误差跨回合复现性决定更新快慢与持久化；权重更新昂贵时，先改可审计外部程序。
+   - [sft-JEPA：快慢分治测试时训练](../../updates/2026-11-28/#sft-jepa) · 2026-11-28
+   - [Motubrain 2.0：世界动作模型协同编排](../../updates/2026-11-28/#motubrain-2-0) · 2026-11-28
    - [Self-Upgrading Embodied Agents：经验驱动权重自升级](../../updates/2026-11-25/#self-upgrading-embodied-agents) · 2026-11-25
    - [PhyEvo-Mic-RSI：物理引导显微分析自进化](../../updates/2026-11-25/#phyevo-mic-rsi) · 2026-11-25
    - [Agnes Harness：双系统决策与双层自进化](../../updates/2026-11-20/#agnes-harness) · 2026-11-20
@@ -100,6 +102,7 @@ toc = true
    - [具身科学发现：从物理行动到科学证据](../../updates/2026-11-06/#item-150) · 2026-11-06
    - [EnzymeRSI：用于酶设计的双循环递归自我改进系统](../../updates/2026-11-05/#enzymersi) · 2026-11-05
 5. **验证器过拟合防控**：自改进时不要暴露可投机的精确评分规则；验证器须绑定任务契约、闭环结果与未见任务，并警惕扩大候选池放大评判噪声和奖励作弊。
+   - [RUIBench：机器人接口可靠性评测](../../updates/2026-11-28/#ruibench) · 2026-11-28
    - [SealedLoop：环外密封评判](../../updates/2026-11-26/#sealedloop) · 2026-11-26
    - [Best-of-N Steering：验证误差放大奖励作弊](../../updates/2026-11-26/#best-of-n-steering) · 2026-11-26
    - [RoboUniverse-10K：万级可验证具身环境](../../updates/2026-11-25/#robouniverse-10k) · 2026-11-25
@@ -153,7 +156,8 @@ toc = true
     - [RoboBuilder：实机视频闭环机器人共设计](../../updates/2026-11-19/#robobuilder) · 2026-11-19
     - [PyRUA-DataFarm：LLM 远程操作者驱动的真实场景机器人数据采集](../../updates/2026-11-06/#pyrua-datafarm-llm) · 2026-11-06
     - [CUE：通过自主机器人交互弥合动力学鸿沟](../../updates/2026-11-06/#cue) · 2026-11-06
-11. **分层异步实时控制**：把慢速语言推理与快速控制解耦，按事件或算力预算启用高层；低层用蒸馏、并行化或决策敏感量化满足时限。
+11. **分层异步实时控制**：把慢速语言推理与快速控制解耦，按事件或算力预算启用高层；低层接口应约束无效动作、保留关键反馈，并用蒸馏、并行化或量化满足时限。
+    - [RUIBench：机器人接口可靠性评测](../../updates/2026-11-28/#ruibench) · 2026-11-28
     - [LAQ：潜变量感知四比特量化](../../updates/2026-11-20/#laq) · 2026-11-20
     - [DRIFT：可拆卸语言推理驾驶](../../updates/2026-11-20/#drift) · 2026-11-20
     - [Vanguard：截图感知式草稿判别](../../updates/2026-11-19/#vanguard) · 2026-11-19
@@ -195,7 +199,7 @@ toc = true
 15. **检索基线先行**：评估VLA学习或自进化前应先做近邻动作复用基线；高分可能来自演示检索，而非形成了可迁移的新策略。
     - [MXI-MemICL：自检索交互记忆](../../updates/2026-11-25/#mxi-memicl) · 2026-11-25
     - [VLA 有多少能力来自 kNN 检索？](../../updates/2026-11-12/#vla-knn) · 2026-11-12
-<!-- experience-seen: 2026-11-20/agnes-harness 2026-11-20/coachsi 2026-11-20/cyber-physical-rsi 2026-11-20/drift 2026-11-20/item-76 2026-11-20/laq 2026-11-21/depth-pro-2 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-21/voda 2026-11-21/zerovln 2026-11-23/bel 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/respacebench 2026-11-24/scape 2026-11-24/stereovlm 2026-11-25/catway 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/gpt-6 2026-11-25/item-117 2026-11-25/item-151 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/phyevo-mic-rsi 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/videcide 2026-11-25/vla 2026-11-25/worldleague 2026-11-25/xmind 2026-11-26/ai-buckingham 2026-11-26/best-of-n-steering 2026-11-26/item-83 2026-11-26/omniact 2026-11-26/partagent 2026-11-26/powerfix 2026-11-26/robodojo-mirror 2026-11-26/s-mind 2026-11-26/sealedloop 2026-11-27/real2simlab -->
+<!-- experience-seen: 2026-11-21/depth-pro-2 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-21/voda 2026-11-21/zerovln 2026-11-23/bel 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/respacebench 2026-11-24/scape 2026-11-24/stereovlm 2026-11-25/catway 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/gpt-6 2026-11-25/item-117 2026-11-25/item-151 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/phyevo-mic-rsi 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/videcide 2026-11-25/vla 2026-11-25/worldleague 2026-11-25/xmind 2026-11-26/ai-buckingham 2026-11-26/best-of-n-steering 2026-11-26/item-83 2026-11-26/omniact 2026-11-26/partagent 2026-11-26/powerfix 2026-11-26/robodojo-mirror 2026-11-26/s-mind 2026-11-26/sealedloop 2026-11-27/real2simlab 2026-11-28/motubrain-2-0 2026-11-28/ruibench 2026-11-28/sft-jepa -->
 <!-- research-experience:end -->
 
 ## 相关工作

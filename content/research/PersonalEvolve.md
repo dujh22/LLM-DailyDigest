@@ -45,7 +45,8 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **可迁移演化画像**：长期画像不要压成静态事实或绑定某代模型；应由用户掌控关系层，显式记录关系、时间与偏好转变，并分离变更检测和内容修复。
+1. **可迁移演化画像**：长期画像不要压成静态事实或绑定某代模型；应由用户掌控关系层，显式记录关系、时间、偏好转变及策略效果，并分离变更检测和内容修复。
+   - [MERIT：经验引导的个性化说服记忆](../../updates/2026-11-28/#merit) · 2026-11-28
    - [HabitusMem：信念式动态偏好记忆](../../updates/2026-11-20/#habitusmem) · 2026-11-20
    - [认知共生体：关系可迁移的终身增强](../../updates/2026-11-19/#item-1) · 2026-11-19
    - [TRACE：关系感知持续个性化](../../updates/2026-11-17/#trace) · 2026-11-17
@@ -61,7 +62,8 @@ toc = true
    - [UAPM：从未来交互学习的不确定性感知动态用户画像](../../updates/2026-11-12/#uapm) · 2026-11-12
    - [WeFair：基于反馈保真度的短视频个性化查询改写](../../updates/2026-11-03/#wefair) · 2026-11-03
    - [HABIT-Bench：评估智能体从长期弱证据中归纳用户习惯](../../updates/2026-10-29/#habit-bench) · 2026-10-29
-4. **证据保真记忆**：长期记忆应保留原始证据，并按事件、情感、时间等视图组织；检索预算和语义轴需随查询动态分配。
+4. **证据保真记忆**：长期记忆应保留事实的局部语境与原始证据，并按实体、事件、情感、时间等视图组织；先优化记忆构建边界，再按查询动态分配检索预算与语义轴。
+   - [ContextFact：事实上下文记忆](../../updates/2026-11-28/#contextfact) · 2026-11-28
    - [Procedure Memory：情节驱动的程序记忆](../../updates/2026-11-26/#procedure-memory) · 2026-11-26
    - [STARK：事件作边的双图记忆](../../updates/2026-11-20/#stark) · 2026-11-20
    - [ChronoDossier：长档案式时序记忆评测](../../updates/2026-11-20/#chronodossier) · 2026-11-20
@@ -118,7 +120,7 @@ toc = true
     - [EpiCoach：面向个体生理建模的智能体贝叶斯实验设计](../../updates/2026-10-30/#epicoach) · 2026-10-30
 15. **托管导向指标**：Personal Agent应以事务托管量、完成率、长期托管留存和人工接管率衡量进化收益，而非使用时长或活跃度。
     - [Personal Agent 的北极星指标：从活跃度转向事务托管](../../updates/2026-11-13/#personal-agent) · 2026-11-13
-<!-- experience-seen: 2026-11-19/item-1 2026-11-19/learning-through-discernment 2026-11-19/safe-personal-rsi 2026-11-20/brain 2026-11-20/chronodossier 2026-11-20/clonact 2026-11-20/habitusmem 2026-11-20/item-63 2026-11-20/stark 2026-11-23/item-45 2026-11-24/ai-twin 2026-11-24/hyperharness 2026-11-25/wasp 2026-11-26/p-fedskill 2026-11-26/procedure-memory -->
+<!-- experience-seen: 2026-11-23/item-45 2026-11-24/ai-twin 2026-11-24/hyperharness 2026-11-25/wasp 2026-11-26/p-fedskill 2026-11-26/procedure-memory 2026-11-28/contextfact 2026-11-28/merit -->
 <!-- research-experience:end -->
 
 ## 相关工作

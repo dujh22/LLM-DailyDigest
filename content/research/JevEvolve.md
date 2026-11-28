@@ -76,6 +76,7 @@ toc = true
    - [Q64：共享上下文候选评分与联合适配读出网络](../../updates/2026-11-06/#q64) · 2026-11-06
    - [Glance：生成器即重排器](../../updates/2026-10-30/#glance) · 2026-10-30
 3. **轻量读出与蒸馏**：冻结或复用生成骨干，再训练轻量读出或蒸馏多教师软分布，可把推理收益压入单遍评分并减少模型驻留。
+   - [PixelOne：搜索教师空间蒸馏](../../updates/2026-11-28/#pixelone) · 2026-11-28
    - [GLiDE：推理蒸馏单遍决策](../../updates/2026-11-20/#glide) · 2026-11-20
    - [System 1决策模型：冻结编码器对比答题](../../updates/2026-11-19/#system-1) · 2026-11-19
    - [Marimba：冻结ASR特征的语音决策](../../updates/2026-11-16/#marimba-asr) · 2026-11-16
@@ -104,7 +105,9 @@ toc = true
    - [开放视觉语言模型在放射学任务中的零样本 System 1 决策评测](../../updates/2026-11-03/#system-1) · 2026-11-03
    - [Decision 与 System One 模型的风湿病学准确率和校准评测](../../updates/2026-10-30/#decision-system-one) · 2026-10-30
    - [决策模型作为幻觉检测评判器](../../updates/2026-10-29/#item-65) · 2026-10-29
-5. **按需快慢路由**：快慢路由不应固定：用校准置信度、停滞行为、中间状态与续推净收益决定升级，并按任务成功、轨迹长度、成本和延迟联合优化。
+5. **按需快慢路由**：训练路由器前先审计候选互补性、评分粒度和按题路由上限。确认有增益空间后，再按置信度、中间状态、续推净收益与专家成本持续更新边界。
+   - [RAP：可路由性前置审计](../../updates/2026-11-28/#rap) · 2026-11-28
+   - [AdaptRouter：演化任务自适应路由](../../updates/2026-11-28/#adaptrouter) · 2026-11-28
    - [JevAgentHarness：Jev嵌入式快速决策](../../updates/2026-11-25/#jevagentharness-jev) · 2026-11-25
    - [层级执行控制：中间状态驱动计算分配](../../updates/2026-11-25/#item-128) · 2026-11-25
    - [ADAPT：成本感知求助后训练](../../updates/2026-11-24/#adapt) · 2026-11-24
@@ -200,7 +203,7 @@ toc = true
     - [RELOAD：通过层循环扩展类型化决策模型推理](../../updates/2026-11-08/#reload) · 2026-11-08
 15. **日志反馈校准**：只有已选动作反馈时，应采用适合日志化Bandit的评分规则训练决策头，避免把未观测候选当负例，并同步监控校准与选择性风险。
     - [基于日志化 Bandit 反馈学习校准决策头](../../updates/2026-11-13/#bandit) · 2026-11-13
-<!-- experience-seen: 2026-11-19/anys1 2026-11-19/flcva 2026-11-19/item-53 2026-11-19/item-54 2026-11-19/ragharnessdebugger-jev 2026-11-19/system-1 2026-11-19/vanguard 2026-11-20/agnes-harness 2026-11-20/drift 2026-11-20/glide 2026-11-20/item-80 2026-11-20/looproute 2026-11-20/mm-systemonebias 2026-11-20/piccolo 2026-11-20/rigel-ladon 2026-11-20/sirius-tiamat 2026-11-20/system-one-rsi 2026-11-23/altair-nidhogg 2026-11-23/dm-prm 2026-11-23/item-26 2026-11-23/jevrisk 2026-11-23/lever 2026-11-23/so-arena 2026-11-24/adapt 2026-11-24/molrejev 2026-11-24/omnidecisionbench 2026-11-25/antares-smaug 2026-11-25/catway 2026-11-25/deciform 2026-11-25/decision-models 2026-11-25/dknown-jev-2 2026-11-25/eeg-jev 2026-11-25/eegjev 2026-11-25/geodecisions 2026-11-25/item-128 2026-11-25/jev-2 2026-11-25/jevagentharness-jev 2026-11-25/jevbench 2026-11-25/needwise 2026-11-25/prefill1 2026-11-25/s1arena-mm 2026-11-25/tree-attention 2026-11-25/voyag 2026-11-26/lost-in-translation 2026-11-26/procedure-memory -->
+<!-- experience-seen: 2026-11-23/altair-nidhogg 2026-11-23/dm-prm 2026-11-23/item-26 2026-11-23/jevrisk 2026-11-23/lever 2026-11-23/so-arena 2026-11-24/adapt 2026-11-24/molrejev 2026-11-24/omnidecisionbench 2026-11-25/antares-smaug 2026-11-25/catway 2026-11-25/deciform 2026-11-25/decision-models 2026-11-25/dknown-jev-2 2026-11-25/eeg-jev 2026-11-25/eegjev 2026-11-25/geodecisions 2026-11-25/item-128 2026-11-25/jev-2 2026-11-25/jevagentharness-jev 2026-11-25/jevbench 2026-11-25/needwise 2026-11-25/prefill1 2026-11-25/s1arena-mm 2026-11-25/tree-attention 2026-11-25/voyag 2026-11-26/lost-in-translation 2026-11-26/procedure-memory 2026-11-28/adaptrouter 2026-11-28/pixelone 2026-11-28/rap -->
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -59,6 +59,7 @@ toc = true
    - [WorkRover：递归环境演化扩展长程协同智能体训练](../../updates/2026-10-30/#workrover) · 2026-10-30
    - [WorkFactory：将职业意图转化为可执行任务以规模化训练智能体](../../updates/2026-10-29/#workfactory) · 2026-10-29
 2. **先探索后生成**：先执行 API、轨迹或工具图以识别真实依赖，再反向生成任务，比从文本意图直接出题更易获得长程接地交互。
+   - [Memphis：真实尝试播种仿真评测](../../updates/2026-11-28/#memphis) · 2026-11-28
    - [Firefly：先探索后出题的可验证工具调用数据合成](../../updates/2026-11-08/#firefly) · 2026-11-08
    - [ToolSpace：面向长程智能体的工具中心环境合成](../../updates/2026-11-05/#toolspace) · 2026-11-05
    - [Trajectory2Gym：面向工具智能体的决策接地交互合成](../../updates/2026-11-03/#trajectory2gym) · 2026-11-03
@@ -106,6 +107,7 @@ toc = true
     - [VeriCUA：以智能体探索验证计算机操作智能体](../../updates/2026-10-30/#vericua) · 2026-10-30
     - [EnvOS：动态环境下计算机使用智能体的审计与证据评估](../../updates/2026-10-30/#envos) · 2026-10-30
 11. **真实来源合成**：从真实服务轨迹、职业工作流和多格式文件抽取结构再合成，可兼顾规模与真实性，并支持合成训练向分布外任务迁移。
+    - [Memphis：真实尝试播种仿真评测](../../updates/2026-11-28/#memphis) · 2026-11-28
     - [VADE：专业源可验证任务合成](../../updates/2026-11-25/#vade) · 2026-11-25
     - [RoboUniverse-10K：万级可验证具身环境](../../updates/2026-11-25/#robouniverse-10k) · 2026-11-25
     - [BenchMint：任务与评分联合构建](../../updates/2026-11-25/#benchmint) · 2026-11-25
@@ -141,7 +143,7 @@ toc = true
     - [MobileGym-Lite：完整覆盖与功能裁剪](../../updates/2026-11-19/#mobilegym-lite) · 2026-11-19
     - [RISE：全图交互环境扩展](../../updates/2026-11-17/#rise) · 2026-11-17
     - [EnvOpt：自动优化智能体的固定环境](../../updates/2026-11-06/#envopt) · 2026-11-06
-<!-- experience-seen: 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/gemini-4-neon-genie-4 2026-11-20/item-73 2026-11-20/openhagen-worlds 2026-11-20/playcraft 2026-11-20/worldruler 2026-11-21/silicongym-eda 2026-11-21/turingspace 2026-11-23/search-rsi 2026-11-24/scape 2026-11-25/benchmint 2026-11-25/cua-see 2026-11-25/habitats 2026-11-25/item-63 2026-11-25/online-environment-repair 2026-11-25/robouniverse-10k 2026-11-25/vade 2026-11-26/3dcodefactory-3d 2026-11-26/cf-reward 2026-11-27/repofactory -->
+<!-- experience-seen: 2026-11-21/silicongym-eda 2026-11-21/turingspace 2026-11-23/search-rsi 2026-11-24/scape 2026-11-25/benchmint 2026-11-25/cua-see 2026-11-25/habitats 2026-11-25/item-63 2026-11-25/online-environment-repair 2026-11-25/robouniverse-10k 2026-11-25/vade 2026-11-26/3dcodefactory-3d 2026-11-26/cf-reward 2026-11-27/repofactory 2026-11-28/gremlin 2026-11-28/memphis -->
 <!-- research-experience:end -->
 
 ## 相关工作
