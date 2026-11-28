@@ -113,6 +113,7 @@ toc = true
     - [百度搜索通过在线反馈闭环实现递归自我进化](../../updates/2026-11-01/#item-1) · 2026-11-01
     - [MemSteer：从用户历史生成监督信号以优化智能体记忆](../../updates/2026-10-30/#memsteer) · 2026-10-30
 11. **自动闭环编排数据**：数据选择、配比与训练配方不宜静态全量重训；可用评测闭环重编排并在线校准代理，同时设机会配额，防止弱能力被效率反馈循环持续饿死。
+    - [AutoSFT：多角色自动研究微调数据](../../updates/2026-11-28/#autosft) · 2026-11-28
     - [FEAST：公平高效自适应采样](../../updates/2026-11-26/#feast) · 2026-11-26
     - [DAiSy：自适应效用估计选数](../../updates/2026-11-25/#daisy) · 2026-11-25
     - [Piccolo：模型数据协同自进化](../../updates/2026-11-20/#piccolo) · 2026-11-20
@@ -144,7 +145,7 @@ toc = true
     - [PhysLoop：以 LLM 物理认知驱动视频生成模型自我改进](../../updates/2026-11-14/#physloop-llm) · 2026-11-14
     - [EDGAR：以合成失败样本高效优化高斯化身](../../updates/2026-11-08/#edgar) · 2026-11-08
     - [PROVE：自博弈视觉-语言验证器的组合理解训练](../../updates/2026-11-06/#prove) · 2026-11-06
-<!-- experience-seen: 2026-11-19/rsi-prime 2026-11-19/tabdag 2026-11-19/tcp4d-tcp 2026-11-20/automaster 2026-11-20/buggymle 2026-11-20/game2player 2026-11-20/logt 2026-11-20/piccolo 2026-11-21/egocaptioner 2026-11-23/from-acting-to-learning 2026-11-23/item-49 2026-11-24/thrifty 2026-11-25/daisy 2026-11-25/e2l 2026-11-25/glm-5-5-rsi 2026-11-25/item-20 2026-11-25/item-90 2026-11-25/swe-gym-verified 2026-11-25/vade 2026-11-25/veritouch 2026-11-26/3dcodefactory-3d 2026-11-26/dart 2026-11-26/exploratory-midtraining 2026-11-26/feast 2026-11-26/item-83 2026-11-26/knowledge-base-gradient-descent 2026-11-26/thinkmorph-ssl 2026-11-26/vfr -->
+<!-- experience-seen: 2026-11-21/egocaptioner 2026-11-23/from-acting-to-learning 2026-11-23/item-49 2026-11-24/thrifty 2026-11-25/daisy 2026-11-25/e2l 2026-11-25/glm-5-5-rsi 2026-11-25/item-20 2026-11-25/item-90 2026-11-25/swe-gym-verified 2026-11-25/vade 2026-11-25/veritouch 2026-11-26/3dcodefactory-3d 2026-11-26/dart 2026-11-26/exploratory-midtraining 2026-11-26/feast 2026-11-26/item-83 2026-11-26/knowledge-base-gradient-descent 2026-11-26/thinkmorph-ssl 2026-11-26/vfr 2026-11-28/autosft -->
 <!-- research-experience:end -->
 
 ## 相关工作

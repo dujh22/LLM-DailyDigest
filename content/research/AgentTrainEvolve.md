@@ -187,7 +187,8 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
     - [HarnessSQL：面向真实数据库的长程交互 SQL Agent 训练框架](../../updates/2026-11-04/#harnesssql-sql-agent) · 2026-11-04
     - [Trajectory2Gym：面向工具智能体的决策接地交互合成](../../updates/2026-11-03/#trajectory2gym) · 2026-11-03
     - [WorkFactory：将职业意图转化为可执行任务以规模化训练智能体](../../updates/2026-10-29/#workfactory) · 2026-10-29
-12. **递归更新审计**：每轮更新前后应审计能力骤降、表征多样性、验证器盲区及训练—执行错位；按梯度方差等不确定性调组规模或收缩更新，并监控作弊与退化。
+12. **递归更新审计**：每轮更新前后应审计能力骤降、表征多样性、验证器盲区及训练—执行错位；异常时由专门化监督验证并回滚或收缩更新，按不确定性调组规模。
+    - [AutoRL：多智能体自治强化学习](../../updates/2026-11-28/#autorl) · 2026-11-28
     - [U-Statistics-Powered LLM Reasoning：悲观估计自适应组规模](../../updates/2026-11-26/#u-statistics-powered-llm-reasoning) · 2026-11-26
     - [Online Environment Repair：在线修复验证环境](../../updates/2026-11-25/#online-environment-repair) · 2026-11-25
     - [EPRO：不完美预测下的鲁棒策略优化](../../updates/2026-11-25/#epro) · 2026-11-25
@@ -228,7 +229,7 @@ Agent 训练侧自进化（training-time agent self-evolution）关注如何把 
     - [NorthCUA：以规模化经验加速计算机操作智能体](../../updates/2026-11-04/#northcua) · 2026-11-04
     - [CUA-Master：开放世界双循环递归改进计算机使用智能体](../../updates/2026-11-04/#cua-master) · 2026-11-04
     - [百度搜索通过在线反馈闭环实现递归自我进化](../../updates/2026-11-01/#item-1) · 2026-11-01
-<!-- experience-seen: 2026-11-19/ash 2026-11-19/copd 2026-11-19/crossenv 2026-11-19/eca 2026-11-19/rsi-prime 2026-11-19/seed 2026-11-19/waterfall 2026-11-20/automaster 2026-11-20/buggymle 2026-11-20/depth-before-breadth 2026-11-20/evo-harness 2026-11-20/game2player 2026-11-20/item-73 2026-11-20/piccolo 2026-11-20/sage-evolve-preview 2026-11-20/stability-gap 2026-11-21/silicongym-eda 2026-11-21/zerovln 2026-11-23/ctrl-gpu 2026-11-23/dm-prm 2026-11-23/from-acting-to-learning 2026-11-23/search-rsi 2026-11-23/sh-prm 2026-11-23/weir 2026-11-24/adapt 2026-11-24/agrimanager 2026-11-24/duopra 2026-11-24/stride 2026-11-24/tool-to-self 2026-11-25/avalon-m1 2026-11-25/cgsi 2026-11-25/co-graft 2026-11-25/e2l 2026-11-25/epro 2026-11-25/fgl 2026-11-25/habitats 2026-11-25/harness-rehearsal 2026-11-25/item-20 2026-11-25/item-63 2026-11-25/jko-grpo-wasserstein 2026-11-25/mspo 2026-11-25/online-environment-repair 2026-11-25/refocus 2026-11-25/rlvb 2026-11-25/swe-gym-verified 2026-11-25/vade 2026-11-26/care-opd 2026-11-26/cf-reward 2026-11-26/cot-proxy 2026-11-26/feast 2026-11-26/maco-rl 2026-11-26/prior 2026-11-26/prove 2026-11-26/splice 2026-11-26/sports-agent 2026-11-26/u-statistics-powered-llm-reasoning 2026-11-26/vsft -->
+<!-- experience-seen: 2026-11-21/silicongym-eda 2026-11-21/zerovln 2026-11-23/ctrl-gpu 2026-11-23/dm-prm 2026-11-23/from-acting-to-learning 2026-11-23/search-rsi 2026-11-23/sh-prm 2026-11-23/weir 2026-11-24/adapt 2026-11-24/agrimanager 2026-11-24/duopra 2026-11-24/stride 2026-11-24/tool-to-self 2026-11-25/avalon-m1 2026-11-25/cgsi 2026-11-25/co-graft 2026-11-25/e2l 2026-11-25/epro 2026-11-25/fgl 2026-11-25/habitats 2026-11-25/harness-rehearsal 2026-11-25/item-20 2026-11-25/item-63 2026-11-25/jko-grpo-wasserstein 2026-11-25/mspo 2026-11-25/online-environment-repair 2026-11-25/refocus 2026-11-25/rlvb 2026-11-25/swe-gym-verified 2026-11-25/vade 2026-11-26/care-opd 2026-11-26/cf-reward 2026-11-26/cot-proxy 2026-11-26/feast 2026-11-26/maco-rl 2026-11-26/prior 2026-11-26/prove 2026-11-26/splice 2026-11-26/sports-agent 2026-11-26/u-statistics-powered-llm-reasoning 2026-11-26/vsft 2026-11-28/autorl -->
 <!-- research-experience:end -->
 
 ## 相关工作

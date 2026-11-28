@@ -145,6 +145,7 @@ toc = true
    - [EnvOS：动态环境下计算机使用智能体的审计与证据评估](../../updates/2026-10-30/#envos) · 2026-10-30
    - [TraceTrial-Bench：智能体运行框架可靠性与故障归因基准](../../updates/2026-10-29/#tracetrial-bench) · 2026-10-29
 4. **难度与覆盖维护**：题集应维护模型无关难度、场景与语言条件、真实行为足迹的缺陷覆盖，并逐单元监测区分度和参考答案上限；跨语言须分别校准迁移与置信度。总分会掩盖短板与混杂。
+   - [ProxyGenBench：代理引导视频生成评测](../../updates/2026-11-28/#proxygenbench) · 2026-11-28
    - [RoboDojo-Mirror：镜像反射鲁棒性评测](../../updates/2026-11-26/#robodojo-mirror) · 2026-11-26
    - [Lost in Translation：多语言决策校准](../../updates/2026-11-26/#lost-in-translation) · 2026-11-26
    - [IRTIQA：自进化跨语言迁移评测](../../updates/2026-11-26/#irtiqa) · 2026-11-26
@@ -261,7 +262,9 @@ toc = true
    - [Co-Design Bench：智能体多模态协作编码评测](../../updates/2026-10-31/#co-design-bench) · 2026-10-31
    - [决策模型作为幻觉检测评判器](../../updates/2026-10-29/#item-65) · 2026-10-29
    - [Ai2 发布新颖性评判基准，揭示 LLM 裁判高度不稳定](../../updates/2026-10-29/#ai2-llm) · 2026-10-29
-8. **搜索确认分配预算**：演化搜索应先保证评测能分辨并累积真实增益，再以匹配计算的基线、历史峰值和未见任务判断收益；低成本扩展候选后独立验证，且不向搜索暴露标准。
+8. **搜索确认分配预算**：演化搜索应先估计最小可辨差异，只有超过统计分辨率的增益才解释排序；再以匹配计算的基线、历史峰值和未见任务独立验证，且不向搜索暴露标准。
+   - [Vernier：预测榜单分辨率审计](../../updates/2026-11-28/#vernier) · 2026-11-28
+   - [RSI 2026：自我进化效果验证](../../updates/2026-11-28/#rsi-2026) · 2026-11-28
    - [SkillsBench：技能增益的噪声感知审计](../../updates/2026-11-26/#skillsbench) · 2026-11-26
    - [SealedLoop：环外密封评判](../../updates/2026-11-26/#sealedloop) · 2026-11-26
    - [Tea Leaves：早期曲线预测训练走势](../../updates/2026-11-25/#tea-leaves) · 2026-11-25
@@ -338,7 +341,8 @@ toc = true
     - [AI 智能体如何浪费 Token 成本？](../../updates/2026-11-06/#ai-token) · 2026-11-06
     - [RLVR 无免费午餐：pass@1 提升必付出 pass@k 代价](../../updates/2026-10-30/#rlvr-pass-1-pass-k) · 2026-10-30
     - [指令容量：受控负载下语言模型的行为与退化](../../updates/2026-10-30/#item-15) · 2026-10-30
-11. **科研流程实证化**：科研智能体应分开评测创意、方向选择、判别性实验设计、审稿与执行，并以领域公认指标、可复现实验、原始证据复算或形式证明计分；自报结论不算证据。
+11. **科研流程实证化**：科研智能体应分测创意、方向选择、探索覆盖、知识链深度、实验设计、审稿与执行，并以公认指标、可复现实验、原始证据复算或形式证明计分。
+    - [DRBench Pro：知识树驱动的深研评测](../../updates/2026-11-28/#drbench-pro) · 2026-11-28
     - [REE：开放科研能力评测](../../updates/2026-11-26/#ree) · 2026-11-26
     - [RecurSciBench：科学RSI迁移评测](../../updates/2026-11-25/#recurscibench-rsi) · 2026-11-25
     - [Beyond Accuracy：实验规划诊断评测](../../updates/2026-11-25/#beyond-accuracy) · 2026-11-25
@@ -373,7 +377,8 @@ toc = true
     - [rTaste：科研智能体是否具有研究品味？早期科研判断评测](../../updates/2026-10-30/#rtaste) · 2026-10-30
     - [PAPERBENCHX：跨学科科学复现实验基准](../../updates/2026-10-30/#paperbenchx) · 2026-10-30
     - [OpenAI 邀外部专家与 Lean 核查 AI 科学证明](../../updates/2026-10-29/#openai-lean-ai) · 2026-10-29
-12. **人机协作单列**：面向真实用户的智能体除任务成功外，还应单列可操控性、信任校准、审批边界、需求变更响应与交付体验；拒绝必停和批准必达都要验证。
+12. **人机协作单列**：面向真实用户的智能体除成功率外，还应单列可操控性、信任校准、审批边界与变更响应；干预强度须随可核验证据分级，并验证拒绝必停、批准必达。
+    - [JudiAct：证据驱动的分级干预](../../updates/2026-11-28/#judiact) · 2026-11-28
     - [Knowing What You Know：结果门控的审查者校准](../../updates/2026-11-20/#knowing-what-you-know) · 2026-11-20
     - [3D GameDev Arena：超长程游戏开发评测](../../updates/2026-11-19/#3d-gamedev-arena) · 2026-11-19
     - [SWE-CoWork：数字员工式编程评测](../../updates/2026-11-18/#swe-cowork) · 2026-11-18
@@ -424,7 +429,9 @@ toc = true
     - [MemUse：在使用点评估智能体记忆](../../updates/2026-11-03/#memuse) · 2026-11-03
     - [感觉运动对齐：具身策略成功的低成本代理指标](../../updates/2026-10-30/#item-18) · 2026-10-30
     - [Decision 与 System One 模型的风湿病学准确率和校准评测](../../updates/2026-10-30/#decision-system-one) · 2026-10-30
-14. **真实约束端到端**：长程智能体应在真实规模系统中交付可执行产物，并纳入时间、存储、成本和回归约束；小型孤立题会漏掉跨模块瓶颈。
+14. **真实约束端到端**：长程智能体应在真实规模、跨平台系统中交付可执行产物，并纳入时间、成本、权限、恢复与回归约束；小型孤立题会漏掉状态跟踪和跨模块瓶颈。
+    - [OS-Omni：跨平台长程操作评测](../../updates/2026-11-28/#os-omni) · 2026-11-28
+    - [数据库智能体错误损失分层评测](../../updates/2026-11-28/#item-13) · 2026-11-28
     - [WorldLeague：物理能动性统一评测](../../updates/2026-11-25/#worldleague) · 2026-11-25
     - [ShellBench：真实日常智能体评测](../../updates/2026-11-25/#shellbench) · 2026-11-25
     - [RoboUniverse-10K：万级可验证具身环境](../../updates/2026-11-25/#robouniverse-10k) · 2026-11-25
@@ -497,7 +504,7 @@ toc = true
     - [相同输出，不同得分：多模态基准评分器审计](../../updates/2026-11-06/#item-88) · 2026-11-06
     - [静默评测工具错误导致智能体排行榜重排](../../updates/2026-11-06/#item-67) · 2026-11-06
     - [Storage Agent Family：可追溯的持续评测与改进实践](../../updates/2026-11-04/#storage-agent-family) · 2026-11-04
-<!-- experience-seen: 2026-11-20/appsci-bench 2026-11-20/buggymle 2026-11-20/chronodossier 2026-11-20/compact-bench 2026-11-20/everydaybench 2026-11-20/frontieror 2026-11-20/item-65 2026-11-20/knowing-what-you-know 2026-11-20/openhagen-worlds 2026-11-20/rigel-ladon 2026-11-20/sage-evolve-preview 2026-11-20/singularity-bench-ai 2026-11-20/sirius-tiamat 2026-11-20/stability-gap 2026-11-20/strideworld 2026-11-20/twinlab-bench 2026-11-21/gemini-4-hydrogen-token 2026-11-21/item-21 2026-11-21/item-24 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-23/altair-nidhogg 2026-11-23/astronautbench 2026-11-23/benchmarks-last-exam 2026-11-23/coevobench 2026-11-23/groupassistbench 2026-11-23/item-10 2026-11-23/item-23 2026-11-23/memory-tax 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-23/so-arena 2026-11-23/splitbench 2026-11-24/agentrobocritic 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/harnessdev 2026-11-24/item-60 2026-11-24/item-67 2026-11-24/massys 2026-11-24/memanto 2026-11-24/nopeworld 2026-11-24/omnidecisionbench 2026-11-24/pure 2026-11-24/rdqa 2026-11-24/respacebench 2026-11-24/schedule-rank-profile 2026-11-25/antares-smaug 2026-11-25/asterism 2026-11-25/benchmint 2026-11-25/beyond-accuracy 2026-11-25/co-graft 2026-11-25/cua-see 2026-11-25/decision-models 2026-11-25/detection-gap 2026-11-25/evicraft 2026-11-25/gemini-4-neon 2026-11-25/geodecisions 2026-11-25/iclr-2026 2026-11-25/item-108 2026-11-25/item-109 2026-11-25/item-117 2026-11-25/item-123 2026-11-25/item-133 2026-11-25/item-136 2026-11-25/item-69 2026-11-25/item-71 2026-11-25/item-93 2026-11-25/lce 2026-11-25/mini-psych-agent 2026-11-25/prefill1 2026-11-25/recurscibench-rsi 2026-11-25/robolivemem 2026-11-25/robouniverse-10k 2026-11-25/s1arena-mm 2026-11-25/shellbench 2026-11-25/siren 2026-11-25/stcg 2026-11-25/stun-bench 2026-11-25/swapcert 2026-11-25/tare 2026-11-25/tea-leaves 2026-11-25/tgb 2026-11-25/transport-safe-evaluation 2026-11-25/vla 2026-11-25/worldleague 2026-11-26/agent-as-a-verifier 2026-11-26/autorlbench-rl 2026-11-26/best-of-n-steering 2026-11-26/cf-reward 2026-11-26/evolink-bench 2026-11-26/hub-j 2026-11-26/irtiqa 2026-11-26/item-23 2026-11-26/item-39 2026-11-26/item-86 2026-11-26/lingsante-medguard 2026-11-26/lost-in-translation 2026-11-26/medskill-e 2026-11-26/merlin-bench 2026-11-26/recordroute 2026-11-26/ree 2026-11-26/robodojo-mirror 2026-11-26/sealedloop 2026-11-26/skillsbench 2026-11-26/vfr 2026-11-27/egousebench 2026-11-27/real2simlab -->
+<!-- experience-seen: 2026-11-21/gemini-4-hydrogen-token 2026-11-21/item-21 2026-11-21/item-24 2026-11-21/mind2act-world 2026-11-21/turingspace 2026-11-23/altair-nidhogg 2026-11-23/astronautbench 2026-11-23/benchmarks-last-exam 2026-11-23/coevobench 2026-11-23/groupassistbench 2026-11-23/item-10 2026-11-23/item-23 2026-11-23/memory-tax 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-23/so-arena 2026-11-23/splitbench 2026-11-24/agentrobocritic 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/harnessdev 2026-11-24/item-60 2026-11-24/item-67 2026-11-24/massys 2026-11-24/memanto 2026-11-24/nopeworld 2026-11-24/omnidecisionbench 2026-11-24/pure 2026-11-24/rdqa 2026-11-24/respacebench 2026-11-24/schedule-rank-profile 2026-11-25/antares-smaug 2026-11-25/asterism 2026-11-25/benchmint 2026-11-25/beyond-accuracy 2026-11-25/co-graft 2026-11-25/cua-see 2026-11-25/decision-models 2026-11-25/detection-gap 2026-11-25/evicraft 2026-11-25/gemini-4-neon 2026-11-25/geodecisions 2026-11-25/iclr-2026 2026-11-25/item-108 2026-11-25/item-109 2026-11-25/item-117 2026-11-25/item-123 2026-11-25/item-133 2026-11-25/item-136 2026-11-25/item-69 2026-11-25/item-71 2026-11-25/item-93 2026-11-25/lce 2026-11-25/mini-psych-agent 2026-11-25/prefill1 2026-11-25/recurscibench-rsi 2026-11-25/robolivemem 2026-11-25/robouniverse-10k 2026-11-25/s1arena-mm 2026-11-25/shellbench 2026-11-25/siren 2026-11-25/stcg 2026-11-25/stun-bench 2026-11-25/swapcert 2026-11-25/tare 2026-11-25/tea-leaves 2026-11-25/tgb 2026-11-25/transport-safe-evaluation 2026-11-25/vla 2026-11-25/worldleague 2026-11-26/agent-as-a-verifier 2026-11-26/autorlbench-rl 2026-11-26/best-of-n-steering 2026-11-26/cf-reward 2026-11-26/evolink-bench 2026-11-26/hub-j 2026-11-26/irtiqa 2026-11-26/item-23 2026-11-26/item-39 2026-11-26/item-86 2026-11-26/lingsante-medguard 2026-11-26/lost-in-translation 2026-11-26/medskill-e 2026-11-26/merlin-bench 2026-11-26/recordroute 2026-11-26/ree 2026-11-26/robodojo-mirror 2026-11-26/sealedloop 2026-11-26/skillsbench 2026-11-26/vfr 2026-11-27/egousebench 2026-11-27/real2simlab 2026-11-28/drbench-pro 2026-11-28/item-13 2026-11-28/judiact 2026-11-28/os-omni 2026-11-28/proxygenbench 2026-11-28/rsi-2026 2026-11-28/vernier -->
 <!-- research-experience:end -->
 
 ## 相关工作

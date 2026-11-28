@@ -93,7 +93,8 @@ toc = true
    - [百度搜索通过在线反馈闭环实现递归自我进化](../../updates/2026-11-01/#item-1) · 2026-11-01
 7. **主动观察**：长视频任务应先规划观察位置并补取关键证据，再生成或行动；均匀处理全部输入常浪费算力并遗漏重点。
    - [Reviso：面向视频字幕生成的优先级引导主动观察](../../updates/2026-11-04/#reviso) · 2026-11-04
-8. **可审计任务闭环**：高风险、工程与多模态生成智能体应把执行正确性同语义或感知判断解耦，以可执行约束限定搜索，并内置局部证据、多时钟动态验证、溯源和权限控制。
+8. **可审计任务闭环**：高风险智能体应以可执行约束、局部证据、动态验证和权限控制限定搜索，并保留溯源；风险评测须分离模型失误、护栏与恢复能力，优先保证操作可撤销。
+   - [数据库智能体错误损失分层评测](../../updates/2026-11-28/#item-13) · 2026-11-28
    - [VibeVideoAgent：多时钟闭环感知](../../updates/2026-11-27/#vibevideoagent) · 2026-11-27
    - [PowerFix：物理引导迭代修复](../../updates/2026-11-26/#powerfix) · 2026-11-26
    - [PartAgent：专家集成与闭环分割](../../updates/2026-11-26/#partagent) · 2026-11-26
@@ -161,7 +162,7 @@ toc = true
     - [Grok Bot：约束验证驱动开发](../../updates/2026-11-23/#grok-bot) · 2026-11-23
     - [编程基准高分不等于实际产出](../../updates/2026-11-19/#item-49) · 2026-11-19
     - [GPT-6.2 Astra：基准满分却实务失灵](../../updates/2026-11-18/#gpt-6-2-astra) · 2026-11-18
-<!-- experience-seen: 2026-11-20/code-world-model-2-0 2026-11-20/dots 2026-11-20/everydaybench 2026-11-20/performance-factory-codex 2026-11-20/playcraft 2026-11-20/prola 2026-11-21/coda-davinci 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/jevrisk 2026-11-23/medicalrsi 2026-11-23/minimax 2026-11-23/monitor-api 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/finevo 2026-11-24/grok-bot 2026-11-24/item-4 2026-11-24/item-47 2026-11-24/semantic-pid-rsi-pid 2026-11-25/3agamefactory-motion 2026-11-25/embo-harness 2026-11-25/fin-rsi 2026-11-25/gpt-6 2026-11-25/lumimax 2026-11-25/needwise 2026-11-25/voyag 2026-11-25/wemm-ecom 2026-11-26/acap 2026-11-26/agnes-harness 2026-11-26/anthropic-ai 2026-11-26/antom 2026-11-26/dots 2026-11-26/lingsante-medguard 2026-11-26/partagent 2026-11-26/pax 2026-11-26/powerfix 2026-11-27/pixelmatte 2026-11-27/vibevideoagent -->
+<!-- experience-seen: 2026-11-21/coda-davinci 2026-11-23/edagoat-eda-gpu 2026-11-23/grok-bot 2026-11-23/jevrisk 2026-11-23/medicalrsi 2026-11-23/minimax 2026-11-23/monitor-api 2026-11-24/agrimanager 2026-11-24/autopilot 2026-11-24/finevo 2026-11-24/grok-bot 2026-11-24/item-4 2026-11-24/item-47 2026-11-24/semantic-pid-rsi-pid 2026-11-25/3agamefactory-motion 2026-11-25/embo-harness 2026-11-25/fin-rsi 2026-11-25/gpt-6 2026-11-25/lumimax 2026-11-25/needwise 2026-11-25/voyag 2026-11-25/wemm-ecom 2026-11-26/acap 2026-11-26/agnes-harness 2026-11-26/anthropic-ai 2026-11-26/antom 2026-11-26/dots 2026-11-26/lingsante-medguard 2026-11-26/partagent 2026-11-26/pax 2026-11-26/powerfix 2026-11-27/pixelmatte 2026-11-27/vibevideoagent 2026-11-28/item-13 -->
 <!-- research-experience:end -->
 
 ## 相关工作

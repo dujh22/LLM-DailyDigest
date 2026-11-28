@@ -81,7 +81,8 @@ toc = true
    - [RSI综述：四组件七步自进化框架](../../updates/2026-11-16/#rsi) · 2026-11-16
    - [HEMO：面向多目标组合优化的脚手架自演化](../../updates/2026-10-30/#hemo) · 2026-10-30
    - [Evo²：冻结执行器权重，协同进化工作流与演化策略](../../updates/2026-10-29/#evo) · 2026-10-29
-3. **任务条件化编排**：同质企业SOP优先单智能体；异构或开放任务再按任务动态合成工作流与团队，并用失败轨迹更新组织规则。
+3. **任务条件化编排**：同质企业SOP优先单智能体；异构任务再动态合成团队，并以失败轨迹更新组织规则。组件交接须落在接管方可控边界内，避免错误状态切换。
+   - [Boundary-Aware Policy Learning：策略交接边界塑形](../../updates/2026-11-28/#boundary-aware-policy-learning) · 2026-11-28
    - [L2C：反馈驱动的工作流演化](../../updates/2026-11-19/#l2c) · 2026-11-19
    - [企业级 SOP 中智能体架构的成本—成功率权衡评测](../../updates/2026-11-12/#sop) · 2026-11-12
    - [SciMARS：面向闭环科学发现的多智能体递归自我改进](../../updates/2026-11-12/#scimars) · 2026-11-12
@@ -273,7 +274,8 @@ toc = true
     - [CoworkOS：面向真实世界自动化的长程智能体协作框架](../../updates/2026-11-04/#coworkos) · 2026-11-04
     - [LobeHub 的 Super-agent 组织协作实验](../../updates/2026-11-02/#lobehub-super-agent) · 2026-11-02
     - [DeepSeek提出下一代 Super-agent Harness 架构](../../updates/2026-11-02/#deepseek-super-agent-harness) · 2026-11-02
-14. **条件化资源路由**：按任务阶段、不确定性、中间状态、上下文距离与所需输出粒度，门控模型、推理深度、注意力、工具和服务资源；切换时复用缓存。
+14. **条件化资源路由**：按任务阶段、不确定性、中间状态与上下文距离门控模型、推理、工具和服务资源；低延迟交互可预计算候选动作并缩小提交粒度，但须限制分支成本。
+    - [ShowNow：细粒度推测式流生成](../../updates/2026-11-28/#shownow) · 2026-11-28
     - [MoLT：KV记忆式循环复用](../../updates/2026-11-27/#molt-kv) · 2026-11-27
     - [模型自主上下文管理：按需压缩与缓存复用](../../updates/2026-11-26/#item-87) · 2026-11-26
     - [DFly2：共享目标稀疏性的推测解码](../../updates/2026-11-26/#dfly2) · 2026-11-26
@@ -321,7 +323,7 @@ toc = true
     - [MakoBORN：前瞻式量化程序合成](../../updates/2026-11-19/#makoborn) · 2026-11-19
     - [No Second Run：预训练RSI炼出801-30B-A3B模型](../../updates/2026-11-14/#no-second-run-rsi-801-30b-a3b) · 2026-11-14
     - [801-30B：将 RSI 引入前沿预训练](../../updates/2026-11-05/#801-30b-rsi) · 2026-11-05
-<!-- experience-seen: 2026-11-20/agnes-harness 2026-11-20/ahe-beta 2026-11-20/appsci-bench 2026-11-20/basersi 2026-11-20/clonact 2026-11-20/evo-harness 2026-11-20/frontierreplay 2026-11-20/harness 2026-11-20/item-60 2026-11-20/laq 2026-11-20/meta-rtl-rtl 2026-11-20/openai-rsi 2026-11-20/performance-factory-codex 2026-11-20/rocokv 2026-11-20/sirius-tiamat 2026-11-23/coevobench 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-23/epistemic-guard 2026-11-23/hookevo 2026-11-23/lrsa 2026-11-23/medicalrsi 2026-11-23/memonce 2026-11-23/roha-sgg 2026-11-23/turnout 2026-11-24/cmhc 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/dive 2026-11-24/hyperharness 2026-11-24/item-60 2026-11-24/massys 2026-11-24/metarsi-rsi 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/semantic-pid-rsi-pid 2026-11-24/shirudo-ebpf 2026-11-24/skill-state 2026-11-25/agl-skill 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/dmc-5 2026-11-25/harness2 2026-11-25/harnesspro 2026-11-25/hopper-4-bit-kv 2026-11-25/item-128 2026-11-25/item-150 2026-11-25/leannext 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/noevera 2026-11-25/prefill1 2026-11-25/toolsmith 2026-11-25/vise 2026-11-25/wactorz 2026-11-25/weight-coding 2026-11-26/dfly2 2026-11-26/dots 2026-11-26/harness-learning 2026-11-26/home 2026-11-26/item-87 2026-11-26/precept 2026-11-26/qwen-image-hd 2026-11-26/roboevo 2026-11-26/sim 2026-11-26/sports-agent 2026-11-26/transharness 2026-11-27/molt-kv 2026-11-27/tabbyml -->
+<!-- experience-seen: 2026-11-23/coevobench 2026-11-23/contexture 2026-11-23/ctrl-gpu 2026-11-23/edagoat-eda-gpu 2026-11-23/epistemic-guard 2026-11-23/hookevo 2026-11-23/lrsa 2026-11-23/medicalrsi 2026-11-23/memonce 2026-11-23/roha-sgg 2026-11-23/turnout 2026-11-24/cmhc 2026-11-24/declarative-attention 2026-11-24/dissparse-top-p 2026-11-24/dive 2026-11-24/hyperharness 2026-11-24/item-60 2026-11-24/massys 2026-11-24/metarsi-rsi 2026-11-24/nohaircache 2026-11-24/refinekv-kv 2026-11-24/semantic-pid-rsi-pid 2026-11-24/shirudo-ebpf 2026-11-24/skill-state 2026-11-25/agl-skill 2026-11-25/autoseco 2026-11-25/detection-gap 2026-11-25/dmc-5 2026-11-25/harness2 2026-11-25/harnesspro 2026-11-25/hopper-4-bit-kv 2026-11-25/item-128 2026-11-25/item-150 2026-11-25/leannext 2026-11-25/loomkv-kv 2026-11-25/mosaic 2026-11-25/motion-mamba-2-0 2026-11-25/nfa 2026-11-25/noevera 2026-11-25/prefill1 2026-11-25/toolsmith 2026-11-25/vise 2026-11-25/wactorz 2026-11-25/weight-coding 2026-11-26/dfly2 2026-11-26/dots 2026-11-26/harness-learning 2026-11-26/home 2026-11-26/item-87 2026-11-26/precept 2026-11-26/qwen-image-hd 2026-11-26/roboevo 2026-11-26/sim 2026-11-26/sports-agent 2026-11-26/transharness 2026-11-27/molt-kv 2026-11-27/tabbyml 2026-11-28/boundary-aware-policy-learning 2026-11-28/shownow -->
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -71,6 +71,7 @@ toc = true
    - [CaRE：扩展至300+任务的持续学习架构](../../updates/2026-11-03/#care-300) · 2026-11-03
    - [CaLLM：基于非参数适配器路由的持续适应](../../updates/2026-10-29/#callm) · 2026-10-29
 4. **更新前控险后巩固**：持续更新前先界定行为变化及覆盖风险，更新中以增益—保留联合选参并约束参数几何，更新后用教师或回放巩固；晋升须验收域外累积能力。
+   - [RSI 2026：自我进化效果验证](../../updates/2026-11-28/#rsi-2026) · 2026-11-28
    - [增益保留联合调参](../../updates/2026-11-26/#item-34) · 2026-11-26
    - [InstructReplay：自答回放保留通用能力](../../updates/2026-11-25/#instructreplay) · 2026-11-25
    - [CurvDelta：低曲率约束式学习遗忘](../../updates/2026-11-20/#curvdelta) · 2026-11-20
@@ -173,7 +174,7 @@ toc = true
     - [SelfImprove-Bench：自改进智能体泛化能力评测](../../updates/2026-11-06/#selfimprove-bench) · 2026-11-06
     - [SARBLOH：空间感知主导 ARC-AGI-3 交互推理](../../updates/2026-11-06/#sarbloh-arc-agi-3) · 2026-11-06
     - [规模化 ConceptARC：评估推理模型的概念理解](../../updates/2026-11-06/#conceptarc) · 2026-11-06
-<!-- experience-seen: 2026-11-20/agnes-harness 2026-11-20/bispace 2026-11-20/curvdelta 2026-11-20/item-44 2026-11-20/item-63 2026-11-20/item-65 2026-11-20/item-76 2026-11-20/rigel-ladon 2026-11-20/stability-gap 2026-11-21/gemini-4-hydrogen-token 2026-11-23/from-acting-to-learning 2026-11-23/item-25 2026-11-23/item-53 2026-11-23/loco-wam 2026-11-23/navttt 2026-11-23/orion 2026-11-23/structure-over-scale 2026-11-24/agrimanager 2026-11-24/rdqa 2026-11-24/rlm-27b 2026-11-24/rottt 2026-11-25/autoseco 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/gemini-4-neon 2026-11-25/grokking 2026-11-25/instructreplay 2026-11-25/item-105 2026-11-25/item-109 2026-11-25/item-63 2026-11-25/p-tap 2026-11-25/sleep 2026-11-25/stun-bench 2026-11-25/vla 2026-11-25/wasp 2026-11-25/xmind 2026-11-26/grokking 2026-11-26/irtiqa 2026-11-26/item-34 2026-11-26/omniact 2026-11-26/prior 2026-11-26/shift-adapter 2026-11-26/transharness 2026-11-26/vfr 2026-11-27/i2vt -->
+<!-- experience-seen: 2026-11-21/gemini-4-hydrogen-token 2026-11-23/from-acting-to-learning 2026-11-23/item-25 2026-11-23/item-53 2026-11-23/loco-wam 2026-11-23/navttt 2026-11-23/orion 2026-11-23/structure-over-scale 2026-11-24/agrimanager 2026-11-24/rdqa 2026-11-24/rlm-27b 2026-11-24/rottt 2026-11-25/autoseco 2026-11-25/cspd 2026-11-25/e2l 2026-11-25/gemini-4-neon 2026-11-25/grokking 2026-11-25/instructreplay 2026-11-25/item-105 2026-11-25/item-109 2026-11-25/item-63 2026-11-25/p-tap 2026-11-25/sleep 2026-11-25/stun-bench 2026-11-25/vla 2026-11-25/wasp 2026-11-25/xmind 2026-11-26/grokking 2026-11-26/irtiqa 2026-11-26/item-34 2026-11-26/omniact 2026-11-26/prior 2026-11-26/shift-adapter 2026-11-26/transharness 2026-11-26/vfr 2026-11-27/i2vt 2026-11-28/rsi-2026 -->
 <!-- research-experience:end -->
 
 ## 相关工作

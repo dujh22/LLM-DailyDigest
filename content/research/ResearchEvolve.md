@@ -72,6 +72,7 @@ toc = true
    - [CLAIMNOV：基于原子主张的科研创意新颖性评估](../../updates/2026-11-06/#claimnov) · 2026-11-06
    - [Ai2 发布新颖性评判基准，揭示 LLM 裁判高度不稳定](../../updates/2026-10-29/#ai2-llm) · 2026-10-29
 3. **执行与控制评测**：评测应采用真实任务、领域指标并执行产物，标明搜索与评价控制权；预测任务按决策时点隔离证据，验证拆成可追溯义务，无逐步真值时用统计证据，并以捷径基线排除泄漏与投机。
+   - [DRBench Pro：知识树驱动的深研评测](../../updates/2026-11-28/#drbench-pro) · 2026-11-28
    - [REE：开放科研能力评测](../../updates/2026-11-26/#ree) · 2026-11-26
    - [时序知识图谱预言机：区分药靶预测与记忆](../../updates/2026-11-26/#item-86) · 2026-11-26
    - [Agent-as-a-Verifier：证据证书式通用验证](../../updates/2026-11-26/#agent-as-a-verifier) · 2026-11-26
@@ -248,7 +249,7 @@ toc = true
     - [AI编码、拟合与迭代科学模型](../../updates/2026-11-08/#item-22) · 2026-11-08
     - [SAGE：LLM 智能体发现复杂网络的分层控制方程](../../updates/2026-11-06/#sage-llm) · 2026-11-06
     - [RecRSI：机制引导的推荐算法自动发现框架](../../updates/2026-11-06/#recrsi) · 2026-11-06
-<!-- experience-seen: 2026-11-20/astra 2026-11-20/auto-alpha 2026-11-20/buggymle 2026-11-20/car 2026-11-20/deepquest 2026-11-20/epicompass 2026-11-20/openai-rsi 2026-11-20/openhagen-worlds 2026-11-20/piccolo 2026-11-20/pro-agent 2026-11-20/theorizer 2026-11-20/twinlab-bench 2026-11-21/claude-lean 2026-11-21/item-26 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/item-23 2026-11-23/item-25 2026-11-23/item-3 2026-11-23/item-7 2026-11-23/minimax 2026-11-23/navier-stokes-claude-lean 2026-11-24/item-4 2026-11-24/lean 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/superintelligence-is-arriving-ai 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/beyond-accuracy 2026-11-25/gpt-6 2026-11-25/hfm 2026-11-25/item-151 2026-11-25/item-71 2026-11-25/leannext 2026-11-25/noevera 2026-11-25/pde 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/tea-leaves 2026-11-25/vp-vnp-ai-lean 2026-11-26/agent-as-a-verifier 2026-11-26/ai-buckingham 2026-11-26/cogentic 2026-11-26/item-86 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/ree 2026-11-27/tabbyml -->
+<!-- experience-seen: 2026-11-21/claude-lean 2026-11-21/item-26 2026-11-21/sailsearch 2026-11-23/claude 2026-11-23/item-23 2026-11-23/item-25 2026-11-23/item-3 2026-11-23/item-7 2026-11-23/minimax 2026-11-23/navier-stokes-claude-lean 2026-11-24/item-4 2026-11-24/lean 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/superintelligence-is-arriving-ai 2026-11-24/vp-vnp 2026-11-25/9-4 2026-11-25/beyond-accuracy 2026-11-25/gpt-6 2026-11-25/hfm 2026-11-25/item-151 2026-11-25/item-71 2026-11-25/leannext 2026-11-25/noevera 2026-11-25/pde 2026-11-25/phyevo-mic-rsi 2026-11-25/recurscibench-rsi 2026-11-25/tea-leaves 2026-11-25/vp-vnp-ai-lean 2026-11-26/agent-as-a-verifier 2026-11-26/ai-buckingham 2026-11-26/cogentic 2026-11-26/item-86 2026-11-26/openai-math-ai 2026-11-26/patternminer 2026-11-26/ree 2026-11-27/tabbyml 2026-11-28/drbench-pro -->
 <!-- research-experience:end -->
 
 ## 相关工作

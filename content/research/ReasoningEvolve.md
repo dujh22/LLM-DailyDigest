@@ -111,7 +111,8 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
     - [S-Mind：空间令牌内化多视图几何](../../updates/2026-11-26/#s-mind) · 2026-11-26
     - [Tool-to-Self：视觉工具能力内化](../../updates/2026-11-24/#tool-to-self) · 2026-11-24
     - [GLiDE：推理蒸馏单遍决策](../../updates/2026-11-20/#glide) · 2026-11-20
-13. **领域推理脚手架**：领域推理不会仅靠规模自动迁移；可先用自动生成的前置任务培养通用变换能力，再以显式分解、证据需求或工具反馈维持跨步语义。
+13. **领域推理脚手架**：领域推理不会仅靠规模自动迁移；宜用前置任务、显式分解或工具反馈维持跨步语义。对有符号真值的视觉任务，程序合成比直接像素生成更可靠且可检查。
+    - [Solve Vision with Code：程序合成式视觉推理](../../updates/2026-11-28/#solve-vision-with-code) · 2026-11-28
     - [ThinkMorph-SSL：前置任务扩展交错推理](../../updates/2026-11-26/#thinkmorph-ssl) · 2026-11-26
     - [科学论证迁移：显式脚手架训练](../../updates/2026-11-23/#item-25) · 2026-11-23
     - [Space-X：证据链驱动空间自进化](../../updates/2026-11-21/#space-x) · 2026-11-21
@@ -121,7 +122,7 @@ ReasoningEvolve 把"推理"从一次性消耗算力的环节，变成模型持�
 15. **成本敏感评测**：高难推理基准接近饱和后，应同时报告准确率、推理Token和单位任务成本；等精度下的计算压缩更能区分系统价值。
     - [Gemini 4 Neon：低成本高分推理](../../updates/2026-11-25/#gemini-4-neon) · 2026-11-25
     - [Gemini 4 Hydrogen：半量Token高分推理](../../updates/2026-11-21/#gemini-4-hydrogen-token) · 2026-11-21
-<!-- experience-seen: 2026-11-20/budget-internalization 2026-11-20/glide 2026-11-20/item-44 2026-11-20/roam-grpo 2026-11-20/rocokv 2026-11-21/claude-lean 2026-11-21/forward-only-passes 2026-11-21/gemini-4-hydrogen-token 2026-11-21/pair-med 2026-11-21/space-x 2026-11-23/alps-lab 2026-11-23/bel 2026-11-23/creditfilter 2026-11-23/item-25 2026-11-23/item-53 2026-11-23/loco-wam 2026-11-23/orion 2026-11-23/structure-over-scale 2026-11-23/turnout 2026-11-23/weight-space-programming-icl 2026-11-24/don-t-train-it-write-it 2026-11-24/future-opsd 2026-11-24/item-67 2026-11-24/markovian-reasoning-llm 2026-11-24/rottt 2026-11-24/rtc 2026-11-24/tool-to-self 2026-11-25/9-4 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/gemini-4-neon 2026-11-25/item-128 2026-11-25/item-56 2026-11-25/lce 2026-11-25/mspo 2026-11-25/p-tap 2026-11-25/trusuco 2026-11-25/tt-rsi 2026-11-25/videcide 2026-11-25/vopd 2026-11-26/briar 2026-11-26/cogentic 2026-11-26/dart 2026-11-26/dfly2 2026-11-26/fol-proof 2026-11-26/fwsp 2026-11-26/latent-merger-lora 2026-11-26/openai-math-ai 2026-11-26/s-mind 2026-11-26/thinkmorph-ssl 2026-11-26/u-statistics-powered-llm-reasoning 2026-11-26/vsft 2026-11-27/docseam -->
+<!-- experience-seen: 2026-11-21/claude-lean 2026-11-21/forward-only-passes 2026-11-21/gemini-4-hydrogen-token 2026-11-21/pair-med 2026-11-21/space-x 2026-11-23/alps-lab 2026-11-23/bel 2026-11-23/creditfilter 2026-11-23/item-25 2026-11-23/item-53 2026-11-23/loco-wam 2026-11-23/orion 2026-11-23/structure-over-scale 2026-11-23/turnout 2026-11-23/weight-space-programming-icl 2026-11-24/don-t-train-it-write-it 2026-11-24/future-opsd 2026-11-24/item-67 2026-11-24/markovian-reasoning-llm 2026-11-24/rottt 2026-11-24/rtc 2026-11-24/tool-to-self 2026-11-25/9-4 2026-11-25/anchorcredit 2026-11-25/aprm 2026-11-25/clr 2026-11-25/elgo 2026-11-25/epro 2026-11-25/gemini-4-neon 2026-11-25/item-128 2026-11-25/item-56 2026-11-25/lce 2026-11-25/mspo 2026-11-25/p-tap 2026-11-25/trusuco 2026-11-25/tt-rsi 2026-11-25/videcide 2026-11-25/vopd 2026-11-26/briar 2026-11-26/cogentic 2026-11-26/dart 2026-11-26/dfly2 2026-11-26/fol-proof 2026-11-26/fwsp 2026-11-26/latent-merger-lora 2026-11-26/openai-math-ai 2026-11-26/s-mind 2026-11-26/thinkmorph-ssl 2026-11-26/u-statistics-powered-llm-reasoning 2026-11-26/vsft 2026-11-27/docseam 2026-11-28/solve-vision-with-code -->
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -45,7 +45,8 @@ toc = true
 ## 研究经验
 
 <!-- research-experience:start｜随日报整备自动更新：每条经验是面向整个研究社区的洞察或方法论，后附支撑它的具体工作。可人工修订，下次自动更新会在此基础上增量合并 -->
-1. **模型接口耦合**：固定模型跨Harness比较会混淆接口上限与策略适配；应报告同接口横比、跨接口迁移矩阵及模型—Harness联合升级曲线。
+1. **模型接口耦合**：固定模型跨Harness比较会混淆接口上限与策略适配；应报告同接口横比、跨接口迁移矩阵及模型—Harness历代配对，而非只看同步升级。
+   - [CoEvo-RSI：模型与脚手架协同演化](../../updates/2026-11-28/#coevo-rsi) · 2026-11-28
    - [RoboEvo²：脚手架策略协同进化](../../updates/2026-11-26/#roboevo) · 2026-11-26
    - [ShellBench：真实日常智能体评测](../../updates/2026-11-25/#shellbench) · 2026-11-25
    - [Harness Rehearsal：任务与接口能力解耦](../../updates/2026-11-25/#harness-rehearsal) · 2026-11-25
@@ -121,6 +122,7 @@ toc = true
    - [VeriCUA：以智能体探索验证计算机操作智能体](../../updates/2026-10-30/#vericua) · 2026-10-30
    - [TauIndianBankBench：银行工具智能体的流程感知评测](../../updates/2026-10-30/#tauindianbankbench) · 2026-10-30
 5. **自演化质量门**：Harness自动改写应定位首个偏离点，观测与改进策略须随剩余错误更新。用因果回放、置换对照、旧能力回归、成本、留出集和序贯检验拒绝噪声获益与退化。
+   - [RSI 2026：自我进化效果验证](../../updates/2026-11-28/#rsi-2026) · 2026-11-28
    - [TransHarness：可迁移脚手架演化](../../updates/2026-11-26/#transharness) · 2026-11-26
    - [SkillsBench：技能增益的噪声感知审计](../../updates/2026-11-26/#skillsbench) · 2026-11-26
    - [失效类型驱动的智能体干预](../../updates/2026-11-25/#item-136) · 2026-11-25
@@ -260,6 +262,7 @@ toc = true
     - [OpenRouter 实测 MCP、CLI 与 Skills 的上下文 Token 成本](../../updates/2026-11-12/#openrouter-mcp-cli-skills-token) · 2026-11-12
     - [RECEIPT：测量并修复智能体工具调用的返回假设](../../updates/2026-11-03/#receipt) · 2026-11-03
 13. **长程运行时架构**：长程多任务Harness应分离路由与执行，分别持久化环境事实、决策与制品并支持恢复；压缩须单测下一步动作、权限和规则遵循。
+    - [OS-Omni：跨平台长程操作评测](../../updates/2026-11-28/#os-omni) · 2026-11-28
     - [RoboHarness-Zero：规划控制解耦脚手架](../../updates/2026-11-25/#roboharness-zero) · 2026-11-25
     - [RLM-27B：脚手架组合泛化](../../updates/2026-11-24/#rlm-27b) · 2026-11-24
     - [MatHarness：长程开放式科研编排](../../updates/2026-11-24/#matharness) · 2026-11-24
@@ -289,11 +292,12 @@ toc = true
     - [Interactive Visual Gym：模拟用户驱动的视觉交互闭环评测](../../updates/2026-11-13/#interactive-visual-gym) · 2026-11-13
     - [LiveAsset：从纠正性交互学习意图资产以控制智能体运行](../../updates/2026-11-12/#liveasset) · 2026-11-12
     - [RealCLI：统一评估 CLI 智能体的人机协作](../../updates/2026-10-30/#realcli-cli) · 2026-10-30
-15. **故障恢复评测**：受控注入故障并设置中性对照后，应以最终状态与关键过程而非动作逐字一致判定恢复，避免把无效建议误记为韧性。
+15. **故障恢复评测**：受控注入故障并设置中性对照后，应以最终状态、残余损失与关键过程判定恢复，重点衡量错误可撤销性，避免把无效建议误记为韧性。
+    - [数据库智能体错误损失分层评测](../../updates/2026-11-28/#item-13) · 2026-11-28
     - [智能体恢复审计：公开报告证据评估](../../updates/2026-11-24/#item-60) · 2026-11-24
     - [AgentFaultBench：状态验证式故障恢复评测](../../updates/2026-11-17/#agentfaultbench) · 2026-11-17
     - [ReTrace：以目标导向动作重放评测计算机操作智能体恢复能力](../../updates/2026-11-04/#retrace) · 2026-11-04
-<!-- experience-seen: 2026-11-20/agnes-harness 2026-11-20/ahe-beta 2026-11-20/basersi 2026-11-20/everydaybench 2026-11-20/evo-harness 2026-11-20/harness 2026-11-20/item-60 2026-11-20/meta-rtl-rtl 2026-11-20/sage-evolve-preview 2026-11-23/benchmarks-last-exam 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/hookevo 2026-11-23/item-10 2026-11-23/medicalrsi 2026-11-23/roha-sgg 2026-11-23/splitbench 2026-11-24/autopilot 2026-11-24/harnessdev 2026-11-24/hoh 2026-11-24/hyperharness 2026-11-24/item-60 2026-11-24/massys 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/rlm-27b 2026-11-25/agent 2026-11-25/agl-skill 2026-11-25/ai-harness 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/glm-5-5-rsi 2026-11-25/harness-rehearsal 2026-11-25/harness2 2026-11-25/harnessmm 2026-11-25/harnesspro 2026-11-25/item-108 2026-11-25/item-128 2026-11-25/item-136 2026-11-25/jevagentharness-jev 2026-11-25/mini-psych-agent 2026-11-25/online-environment-repair 2026-11-25/oo-harness 2026-11-25/reharness 2026-11-25/roboharness-zero 2026-11-25/rvlm-x 2026-11-25/shellbench 2026-11-25/siren 2026-11-25/stcg 2026-11-25/tare 2026-11-25/toolsmith 2026-11-25/transport-safe-evaluation 2026-11-25/video-relook 2026-11-26/agnes-harness 2026-11-26/autorlbench-rl 2026-11-26/delegent 2026-11-26/harness-learning 2026-11-26/home 2026-11-26/metaforge 2026-11-26/nightwatch 2026-11-26/pax 2026-11-26/report-inconsistency 2026-11-26/roboevo 2026-11-26/skillsbench 2026-11-26/transharness 2026-11-27/real2simlab -->
+<!-- experience-seen: 2026-11-23/benchmarks-last-exam 2026-11-23/coevobench 2026-11-23/embodied-harness 2026-11-23/hookevo 2026-11-23/item-10 2026-11-23/medicalrsi 2026-11-23/roha-sgg 2026-11-23/splitbench 2026-11-24/autopilot 2026-11-24/harnessdev 2026-11-24/hoh 2026-11-24/hyperharness 2026-11-24/item-60 2026-11-24/massys 2026-11-24/matharness 2026-11-24/mlevolver 2026-11-24/rlm-27b 2026-11-25/agent 2026-11-25/agl-skill 2026-11-25/ai-harness 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/glm-5-5-rsi 2026-11-25/harness-rehearsal 2026-11-25/harness2 2026-11-25/harnessmm 2026-11-25/harnesspro 2026-11-25/item-108 2026-11-25/item-128 2026-11-25/item-136 2026-11-25/jevagentharness-jev 2026-11-25/mini-psych-agent 2026-11-25/online-environment-repair 2026-11-25/oo-harness 2026-11-25/reharness 2026-11-25/roboharness-zero 2026-11-25/rvlm-x 2026-11-25/shellbench 2026-11-25/siren 2026-11-25/stcg 2026-11-25/tare 2026-11-25/toolsmith 2026-11-25/transport-safe-evaluation 2026-11-25/video-relook 2026-11-26/agnes-harness 2026-11-26/autorlbench-rl 2026-11-26/delegent 2026-11-26/harness-learning 2026-11-26/home 2026-11-26/metaforge 2026-11-26/nightwatch 2026-11-26/pax 2026-11-26/report-inconsistency 2026-11-26/roboevo 2026-11-26/skillsbench 2026-11-26/transharness 2026-11-27/real2simlab 2026-11-28/coevo-rsi 2026-11-28/item-13 2026-11-28/os-omni 2026-11-28/rsi-2026 -->
 <!-- research-experience:end -->
 
 ## 相关工作

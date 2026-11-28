@@ -84,11 +84,12 @@ toc = true
     - [IO-AI：信息战攻防协同演化](../../updates/2026-11-24/#io-ai) · 2026-11-24
 13. **快慢风险分层**：持续风险估计可分解短期交互波动与组件级长期风险，以稀疏标签统一检测、归因和调节。
     - [CENTRY：快慢潜状态持续风险估计](../../updates/2026-11-24/#centry) · 2026-11-24
-14. **证据导向监督**：长期互审应奖励可验证、符合协议的证据，而非仅奖励结果；否则结果反馈会使合谋成为最优策略。
+14. **证据导向监督**：监督应以可验证、符合协议的证据而非结果为依据，并让允许、警告、复核、拒绝随证据强度升级；否则易诱发过度拒绝或合谋。
+    - [JudiAct：证据驱动的分级干预](../../updates/2026-11-28/#judiact) · 2026-11-28
     - [PROVE：证据驱动的协议强化](../../updates/2026-11-26/#prove) · 2026-11-26
 15. **环外密封验收**：自我改进的升级判定应交给改进环不可见的独立评判器，并在未见环境中顺序检验，避免环内误差和迁移落差制造虚假进步。
     - [SealedLoop：环外密封评判](../../updates/2026-11-26/#sealedloop) · 2026-11-26
-<!-- experience-seen: 2026-11-20/driftguard 2026-11-20/openai 2026-11-21/item-26 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-24/centry 2026-11-24/io-ai 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/clr 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/expguard 2026-11-25/interrogation-protocols 2026-11-25/item-123 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/item-69 2026-11-25/p-tap 2026-11-25/siren 2026-11-26/item-23 2026-11-26/prove 2026-11-26/recordroute 2026-11-26/report-inconsistency 2026-11-26/sealedloop -->
+<!-- experience-seen: 2026-11-21/item-26 2026-11-21/tether 2026-11-23/epistemic-guard 2026-11-23/metr-3-6 2026-11-23/openai-ai 2026-11-24/centry 2026-11-24/io-ai 2026-11-24/sro 2026-11-24/superintelligence-is-arriving-ai 2026-11-25/clr 2026-11-25/detection-gap 2026-11-25/doppelvet 2026-11-25/evolutionary-ai-control 2026-11-25/expguard 2026-11-25/interrogation-protocols 2026-11-25/item-123 2026-11-25/item-152 2026-11-25/item-29 2026-11-25/item-69 2026-11-25/p-tap 2026-11-25/siren 2026-11-26/item-23 2026-11-26/prove 2026-11-26/recordroute 2026-11-26/report-inconsistency 2026-11-26/sealedloop 2026-11-28/judiact -->
 <!-- research-experience:end -->
 
 ## 相关工作

@@ -141,7 +141,8 @@ toc = true
 13. **离线代理筛选**：可用感觉—运动几何一致性或局部动作一致性预筛表征与检索器，降低训练成本，但仍须用真实成功率校准。
     - [VLA 有多少能力来自 kNN 检索？](../../updates/2026-11-12/#vla-knn) · 2026-11-12
     - [感觉运动对齐：具身策略成功的低成本代理指标](../../updates/2026-10-30/#item-18) · 2026-10-30
-14. **异步实时控制**：高层推理、低层控制及可并行部件应异步且可拆卸，仅在物理依赖或技能边界处协调，并用提前停止和单步生成控制时延。
+14. **异步实时控制**：高层推理、低层控制及可并行部件应异步可拆卸；仅在物理依赖、技能或能力边界处协调，并显式塑造可接管范围，避免错误状态交接。
+    - [Boundary-Aware Policy Learning：策略交接边界塑形](../../updates/2026-11-28/#boundary-aware-policy-learning) · 2026-11-28
     - [ACAP：异步多智能体机器人控制](../../updates/2026-11-26/#acap) · 2026-11-26
     - [RoboHarness-Zero：规划控制解耦脚手架](../../updates/2026-11-25/#roboharness-zero) · 2026-11-25
     - [ZeroVLN：语义工具调用免微调导航](../../updates/2026-11-21/#zerovln) · 2026-11-21
@@ -156,7 +157,7 @@ toc = true
     - [OVOGO：离线价值引导生成优化](../../updates/2026-11-25/#ovogo) · 2026-11-25
     - [JKO-GRPO：Wasserstein近端更新](../../updates/2026-11-25/#jko-grpo-wasserstein) · 2026-11-25
     - [强化学习扩展通用机器人策略的多任务改进能力](../../updates/2026-11-06/#item-25) · 2026-11-06
-<!-- experience-seen: 2026-11-20/coachsi 2026-11-20/drift 2026-11-20/hint-wam 2026-11-20/item-73 2026-11-20/laq 2026-11-21/mind2act-world 2026-11-21/zerovln 2026-11-23/embodied-harness 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/scape 2026-11-25/catway 2026-11-25/cgsi 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/item-117 2026-11-25/jko-grpo-wasserstein 2026-11-25/margin 2026-11-25/motion-mamba-2-0 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/roboharness-zero 2026-11-25/robolivemem 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/veritouch 2026-11-25/vla 2026-11-25/worldleague 2026-11-26/acap 2026-11-26/best-of-n-steering 2026-11-26/exploratory-midtraining 2026-11-26/item-83 2026-11-26/omniact 2026-11-26/robodojo-mirror 2026-11-26/roboevo 2026-11-26/sealedloop 2026-11-27/hog-wam 2026-11-27/pyrua-dex -->
+<!-- experience-seen: 2026-11-21/mind2act-world 2026-11-21/zerovln 2026-11-23/embodied-harness 2026-11-23/loco-wam 2026-11-23/ls-mbpo 2026-11-23/navttt 2026-11-24/agentrobocritic 2026-11-24/nopeworld 2026-11-24/scape 2026-11-25/catway 2026-11-25/cgsi 2026-11-25/embo-harness 2026-11-25/evicraft 2026-11-25/item-117 2026-11-25/jko-grpo-wasserstein 2026-11-25/margin 2026-11-25/motion-mamba-2-0 2026-11-25/mxi-memicl 2026-11-25/nanoastra 2026-11-25/native-lam 2026-11-25/ovogo 2026-11-25/plan4d-4d 2026-11-25/refocus 2026-11-25/roboada 2026-11-25/roboharness-zero 2026-11-25/robolivemem 2026-11-25/robouniverse-10k 2026-11-25/rynnvla-latent 2026-11-25/self-upgrading-embodied-agents 2026-11-25/veritouch 2026-11-25/vla 2026-11-25/worldleague 2026-11-26/acap 2026-11-26/best-of-n-steering 2026-11-26/exploratory-midtraining 2026-11-26/item-83 2026-11-26/omniact 2026-11-26/robodojo-mirror 2026-11-26/roboevo 2026-11-26/sealedloop 2026-11-27/hog-wam 2026-11-27/pyrua-dex 2026-11-28/boundary-aware-policy-learning -->
 <!-- research-experience:end -->
 
 ## 相关工作

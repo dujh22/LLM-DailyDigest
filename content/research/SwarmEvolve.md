@@ -108,6 +108,7 @@ toc = true
     - [可审计人机团队自主开展同步辐射 X 射线实验](../../updates/2026-11-12/#item-199) · 2026-11-12
     - [OpenAI多智能体生成纳维－斯托克斯证明，人类启动解读与核查](../../updates/2026-10-29/#openai) · 2026-10-29
 12. **可回退持续演化**：允许智能体自改训练、工具和流程时，应持续监控并按状态触发可验证干预；扩展须版本化、沙箱验收和可回退。
+    - [AutoRL：多智能体自治强化学习](../../updates/2026-11-28/#autorl) · 2026-11-28
     - [AutoRL：多智能体闭环强化学习](../../updates/2026-11-16/#autorl) · 2026-11-16
     - [openJiuwen发布RSI原生AgentOS，支持Agent持续自我扩展](../../updates/2026-11-14/#openjiuwen-rsi-agentos-agent) · 2026-11-14
     - [LobeHub 的 Super-agent 组织协作实验](../../updates/2026-11-02/#lobehub-super-agent) · 2026-11-02
@@ -120,7 +121,7 @@ toc = true
     - [多准则攻防种群竞争共演化](../../updates/2026-11-17/#item-83) · 2026-11-17
 15. **异构能力分层委派**：保留强模型负责规划与验收，将低难度、可验证子任务委派给本地小模型；按难度路由可降成本而不损害质量。
     - [Delegent：小模型子任务委派](../../updates/2026-11-26/#delegent) · 2026-11-26
-<!-- experience-seen: 2026-11-20/item-73 2026-11-20/multiagentbench 2026-11-21/sailsearch 2026-11-23/item-23 2026-11-23/item-3 2026-11-24/lean 2026-11-24/massys 2026-11-25/avalon-m1 2026-11-25/evolutionary-ai-control 2026-11-25/item-63 2026-11-25/mimpa 2026-11-25/pde 2026-11-26/delegent 2026-11-26/prove 2026-11-27/tabbyml -->
+<!-- experience-seen: 2026-11-21/sailsearch 2026-11-23/item-23 2026-11-23/item-3 2026-11-24/lean 2026-11-24/massys 2026-11-25/avalon-m1 2026-11-25/evolutionary-ai-control 2026-11-25/item-63 2026-11-25/mimpa 2026-11-25/pde 2026-11-26/delegent 2026-11-26/prove 2026-11-27/tabbyml 2026-11-28/autorl 2026-11-28/stateweaver -->
 <!-- research-experience:end -->
 
 ## 相关工作
